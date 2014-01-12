@@ -10,7 +10,7 @@ You know I'm a programmer
 
 I'm a language designer
 
-so my, my main taks should be designing language
+so my, my main tasks should be designing language
 
 a great language
 
@@ -174,7 +174,33 @@ so I design a building like this hotel
 
 so we need to think about, for example
 
-about weather, or strengths of the concrete
+about weather, or the strengths of the concrete,
+
+or iron, or something, the building materials
+
+then the strength of the building itself can be
+
+calculated by physically, easily simulated
+
+but you know
+
+when we starting developing software it is easy, like
+
+"hello world"
+
+thats quite easy
+
+there is no room for bug
+
+but the software is getting bigger and bigger
+
+so its quit difficult to understand say 10,000 lines of code
+
+but now days software is so huge
+
+like if I had a Prius here, it is an automobile,
+
+it has 100's
 
 
 
