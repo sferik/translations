@@ -1,8 +1,10 @@
-# Garden City Ruby Conference 2014
+# Garden City Ruby Conference 2014 - Bangalore, India
 
 day1:
   d1-01-keynote
+
   d1-02-lessons-learnt-building-indias-largest-ecommerce-supply-chain-in-ruby
+
   d1-03-native-extensions-served-3-ways
   d1-04-a-bit-of-history
   d1-05-the-rails-girls-summer-of-code-journey
