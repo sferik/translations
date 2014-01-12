@@ -18,4 +18,11 @@ http://www.i18nguy.com/unicode/language-identifiers.html
 Under the langauge folder we want to add a file for each presentation.
   - check the conference directories readme for file format names.
 
+Conferences Under Translation:
+------------------------------
+gcrc14 - Garden City Ruby Conference 2014, Bangalore, India
+  primary language: en
+rubyconf2013 - Ruby Conference 2013, Miami Beach, Florida
+  primary language: en
+
 
