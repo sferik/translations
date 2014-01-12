@@ -1,0 +1,182 @@
+Transcription of Keynote - Living in a Fantasy Land by Yukihiro "Matz" Matsumoto
+
+Thank you for coming
+
+and Ruby Conf is always great
+
+and a keynote make me depressed
+
+You know I'm a programmer
+
+I'm a language designer
+
+so my, my main taks should be designing language
+
+a great language
+
+I admit that I did great things
+
+you know
+
+that influenced
+
+so many people all around the world
+
+including you guys
+
+so I'm pretty happy with it
+
+but still
+
+you know
+
+I'm not really a great presenter
+
+nor 
+
+I'm very 
+
+I'm not really good at english
+
+that always makes me nervous
+
+today I'm going to talk about the fantasy land
+
+ok
+
+this way
+
+fantasy land
+
+that is a place being away from reality
+
+the where the unicorn lives
+
+in japanese it is called
+
+genjitsu-tohi
+
+which is escaping from reality
+
+my dictionary says that is escapism
+
+is that correct word or something
+
+so for example
+
+so da starting cleanup right before the deadline
+
+is kinda like escapism
+
+starting debuging mruby right before the keynote
+
+is escapism
+
+that is what I did
+
+so today
+
+I'm going to talk about
+
+oh excuse me
+
+two fantasy lands
+
+the first one is kinda like a distopia
+
+in 1990
+
+I gratuated from univesrity
+
+I feel old
+
+I was hired by a software development company
+
+which does, which did some kind of enterprise software
+
+in that, that age
+
+the software development is totally different from now
+
+so we had some kind of three year project or something
+
+from the huge company or huge government department
+
+we had some kind of analysis for months or even years
+
+then we wrote some kind of very detailed documentation
+
+this abstract documentation
+
+the detailed documentation
+
+then we code
+
+which is the translation from natural language to computer language
+
+so the process was driven by waterfall process
+
+so the companys decision was very very very conservative
+
+so at that time I felt something was wrong
+
+but I couldn't explain why
+
+just because it was so natural
+
+eveyrone was doing it that way in software development
+
+back then
+
+so I couldn't explain why
+
+eveyrone was doing that
+
+it is quit difficult to tell what is wrong
+
+when everyone is doing bad things
+
+right
+
+so yea I couldn't imagine what was right and what was wrong
+
+so after more than 20 years of experience
+
+I was a pretty experienced programmer
+
+ah maybe
+
+now I understand I now understand what was wrong
+
+we were wrong in software development
+
+that depends on some false assumptions
+
+we were depending on such false assumptions
+
+assumption #1
+
+we know what we make
+
+back then we believed we are knowing what we are going to make
+
+in reality we don't know what software is
+
+so software does not have any physical entity
+
+so it is not limited by physical law
+
+so it can be very very easily complex
+
+so for example if I were a building architect
+
+so I design a building like this hotel
+
+so we need to think about, for example
+
+about weather, or strengths of the concrete
+
+
+
+
+
