@@ -1,6 +1,6 @@
 Transcription of Keynote - Living in a Fantasy Land by Yukihiro "Matz" Matsumoto
 
-Thank you for coming
+Thank you for coming.
 
 and Ruby Conf is always great
 
