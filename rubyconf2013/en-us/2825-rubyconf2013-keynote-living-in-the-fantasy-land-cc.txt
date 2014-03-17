@@ -32,9 +32,9 @@ you know
 
 I'm not really a great presenter
 
-nor 
+nor
 
-I'm very 
+I'm very
 
 I'm not really good at english
 
@@ -200,7 +200,7 @@ but now days software is so huge
 
 like if I had a Prius here, it is an automobile,
 
-it has tons of lines of code, maybe hundreds of lines of code, tons of hundreds 
+it has tons of lines of code, maybe hundreds of lines of code, tons of hundreds
 
 maybe millions of code
 
@@ -464,7 +464,7 @@ everyone has imagination
 
 even in this room
 
-software development is cheaper 
+software development is cheaper
 
 comparing to twenty-something years ago
 
@@ -520,7 +520,7 @@ I was prohibit to write email abroad, outside Japan
 
 only 20 years ago - not two hundred years ago
 
-so, yeah, I, when I was a university student 
+so, yeah, I, when I was a university student
 
 I wrote some kind of software, free software
 
@@ -596,7 +596,7 @@ we can have more joy in software
 
 so I remember that the, working on the enterprises software was not fun
 
-so, it's quite boring, so translating human sophistication 
+so, it's quite boring, so translating human sophistication
 
 in human language into the computer language was so boring
 
@@ -774,7 +774,7 @@ you know, have a presentation in the conference, you can
 
 or, write a small piece of software, write a part in the, submit a ?? (00:31:05.62)
 
-so, so many things you can do, but in any way create 
+so, so many things you can do, but in any way create
 
 and try to keep a great fantasy land that we enjoy
 
