@@ -1,6 +1,6 @@
 Transcription of Keynote - Living in a Fantasy Land by Yukihiro "Matz" Matsumoto
 
-Thank you for coming. 
+Thank you for coming.
 
 Ruby Conf is always great, and a keynote make[s] me depressed. You know I'm a programmer. I'm a language designer. My main tasks should be [sic] designing language: a great language.
 
@@ -10,7 +10,7 @@ Anyway, today I'm going to talk about the fantasy land. That is a place being aw
 
 Today I'm going to talk about two fantasy lands. The first one is kinda like a dystopia.
 
-In 1990, I graduated from university. I feel old. 
+In 1990, I graduated from university. I feel old.
 
 I was hired by a software development company which did some kind of enterprise software. In that age, the software development [was] totally different from now.
 
@@ -22,9 +22,9 @@ I couldn't imagine what was right and what was wrong. After more than twenty yea
 
 False assumption number one: we know what we make.
 
-Back then we believed we [knew] what we [were] going to make. In reality we don't know what software is. Software does not have any physical entity. It is not limited by physical law, so it can be very, very easily complex. 
+Back then we believed we [knew] what we [were] going to make. In reality we don't know what software is. Software does not have any physical entity. It is not limited by physical law, so it can be very, very easily complex.
 
-For example, if I were a building architect, I design a building like this hotel. We need to think about weather, or the strength of the concrete or iron or something, the building materials. Then the strength of the building itself can be calculated physically [and is] easily simulated. 
+For example, if I were a building architect, I design a building like this hotel. We need to think about weather, or the strength of the concrete or iron or something, the building materials. Then the strength of the building itself can be calculated physically [and is] easily simulated.
 
 When we start developing software it is easy, like "hello world." That's quite easy. There is no room for bug. But the software is getting bigger and bigger. It's quite difficult to understand, say, 10,000 lines of code. Now days software is so huge.
 
@@ -46,7 +46,7 @@ Yeah, I complained a lot. I happened to complain so often, back then, but one da
 
 Stupid me.
 
-I said I don't know [what] we should make to maximize business value. We couldn't understand what is going to bring you success, so we are stupid too. 
+I said I don't know [what] we should make to maximize business value. We couldn't understand what is going to bring you success, so we are stupid too.
 
 False assumption number three: the situation will not be changed.
 
@@ -60,7 +60,7 @@ Unfortunately, [sic] in the IT industry, we change a lot. The situation will cha
 
 "Now, here, you see, it takes all the running you can do to keep in the same place. If you want to get somewhere else, you must run at least twice as fast as that!"
 
-It's our situation - we have to run as fast as we can to be in the same place. 
+It's our situation - we have to run as fast as we can to be in the same place.
 
 Strategy number two is the ostrich algorithm. When the sandstorm comes, [the] ostrich dig[s] [its] head into sand and wait[s] until the sandstorm ends. The ostrich strategy is: ignore everything and wait. It is a good strategy only when situations will recover. Sandstorms will end. We will have the clear skies and we can enjoy our climate again.
 
@@ -72,11 +72,11 @@ Going forward with false assumptions is kind of like living in the fantasy land.
 
 Neither of them are good.
 
-Twenty years ago, our goal was to create software somehow, having computerized this power. It is so powerful, the computer itself is so powerful comparing to the human creation. It has great power, so software development was pretty expensive back then. 
+Twenty years ago, our goal was to create software somehow, having computerized this power. It is so powerful, the computer itself is so powerful comparing to the human creation. It has great power, so software development was pretty expensive back then.
 
-The computers were expensive. The network connection was expensive. Failure [would] never be allowed in that age. They needed to optimize, not to fail, at the cost of satisfaction. I don't care if you are satisfied [with] our software or not, I can re-ruse some kind of the power of computers with that system. 
+The computers were expensive. The network connection was expensive. Failure [would] never be allowed in that age. They needed to optimize, not to fail, at the cost of satisfaction. I don't care if you are satisfied [with] our software or not, I can re-ruse some kind of the power of computers with that system.
 
-Everyone was dreaming. We believed that [to be] the only way to create software. We tried hard to believe that was the only way. But now, twenty years later, our goal is not really [just to] create software. Our goal is to create the great software. 
+Everyone was dreaming. We believed that [to be] the only way to create software. We tried hard to believe that was the only way. But now, twenty years later, our goal is not really [just to] create software. Our goal is to create the great software.
 
 Now days everyone has [a] computer, everyone uses software. Mere possession is no longer the power - everyone has computer, everyone has software. We're saved. To differentiate, to have the power over others, we need to create great software. But how?
 
@@ -84,7 +84,7 @@ We have made false assumptions. Admit our ignorance.
 
 But there's good news. The computers are cheaper, cloud computing is even cheaper, a network connection is cheaper now, and ubiquitous. Everyone has imagination - even in this room. Software development is cheaper comparing to twenty-something years ago.
 
-We can be more productive, more abstract, and we now have better tools and a better language. Like Ruby. We have a lot of open source software, so we can rely on that kind of software. We can learn from that software. 
+We can be more productive, more abstract, and we now have better tools and a better language. Like Ruby. We have a lot of open source software, so we can rely on that kind of software. We can learn from that software.
 
 [In the] old days, it [was] quite difficult to study from the real source code if you would like to learn about the operating system. You cannot access the source code of, say, Microsoft Windows or some other operating system. You can access through Unix, or the very old version of Unix, but not the real software. Now days you can access the Unix - a whole bunch of Unix code, and you have tons of operating systems, and that is used in reality.
 
@@ -92,11 +92,11 @@ You can use some software in your system [and] you can learn from that source co
 
 Twenty years ago, soon after I graduated the university, I was at the point I was working as a professional programmer in enterprise software. I was prohibited to write email abroad, outside Japan. Only twenty years ago - not two hundred years ago.
 
-When I was a university student, I wrote some kind of software, free software. It was quite minor, and I got mail from some guys, probably in the States - I don't remember quite. I tried to reply, and soon after that I got error mail. Your company did not pay money to the internet connection - the international internet connection, I mean. 
+When I was a university student, I wrote some kind of software, free software. It was quite minor, and I got mail from some guys, probably in the States - I don't remember quite. I tried to reply, and soon after that I got error mail. Your company did not pay money to the internet connection - the international internet connection, I mean.
 
 I forwarded that reply to my friend in the university. The university paid that kind of bill so that he could receive the mail. It was quite awkward corresponding. He wrote to me then I did not respond. Now we can connect to everyone all over the world. We can access through Japan, China, Moscow - everywhere. We can now collaborate over the internet.
 
-That allows us to do some kind of social coding, so GitHub changed everything. These good things bring up the new fantasy land. The new perspective. We can ignore the gory details of the hardware and the new operating system. We can stand on the shoulders of giants, we can use the great huge software of the operating system, framework, language, the tools, editors. 
+That allows us to do some kind of social coding, so GitHub changed everything. These good things bring up the new fantasy land. The new perspective. We can ignore the gory details of the hardware and the new operating system. We can stand on the shoulders of giants, we can use the great huge software of the operating system, framework, language, the tools, editors.
 
 We can do great things with very little effort, comparing to the past, we can do greater work than our real ability, real power. I think the genius of twenty years ago does not occur enough, is not strong enough. Now, we can collaborate over the internet. We can collaborate on top of open source software, free software. We can do greater works than our past.
 
@@ -112,7 +112,7 @@ The reality is as conflicted as the past.
 
 Who maintains this fantasy land? In reality, we cannot just ignore mess. We don't need something, so we can just ignore or forget, but something's got to maintain this kind of mess. Somebody's got to work on that kind of mess.
 
-Garbage collectors. That's not the garbage that you imagine - for that kind of topic you can go to the Koichi talk. 
+Garbage collectors. That's not the garbage that you imagine - for that kind of topic you can go to the Koichi talk.
 
 http://www.confreaks.com/videos/2866-rubyconf2013-object-management-on-ruby-2-1
 
@@ -122,23 +122,23 @@ We rely on a lot of garbage collectors who keep the fantasy land.
 
 Who created your favorite language? The garbage collector.
 
-Who created your favorite gems? The garbage collector. 
+Who created your favorite gems? The garbage collector.
 
 Gem collectors - raise your hands. You have to appreciate them. Thank you.
 
-Who created your favorite frameworks? Who wrote your favorite books? Book writers, raise your hands. 
+Who created your favorite frameworks? Who wrote your favorite books? Book writers, raise your hands.
 
-Who created your open source software? We have tons of open source software, in and our of our Ruby community. So we have to appreciate them. 
+Who created your open source software? We have tons of open source software, in and our of our Ruby community. So we have to appreciate them.
 
-Appreciation and respect is the key to the open source community, the key to moving forward. So the open source community is kind of like a shark - we need to keep moving forward or die. 
+Appreciation and respect is the key to the open source community, the key to moving forward. So the open source community is kind of like a shark - we need to keep moving forward or die.
 
 So we have to, and I would advice you to, keep moving forward. You have to run as fast as you can to stay in the same place. You have to run twice as fast as that to move forward. So run fast, try often, fail early. Keep moving forward, yes, that is my message.
 
-In addition, appreciation is not enough. We are not creative to the gem writers. We are not creative to the language designer. We are not creative to the open source software programmers. So we became one. 
+In addition, appreciation is not enough. We are not creative to the gem writers. We are not creative to the language designer. We are not creative to the open source software programmers. So we became one.
 
-Take the red pill. You can come join us. 
+Take the red pill. You can come join us.
 
-If you are a programmer, that's fine, that's fine you're a programmer. You take a great step to create something. The programmer is a creator - you create software, then by your creation the world will be better. I hope. I really will hope. The world will be better by your creation. 
+If you are a programmer, that's fine, that's fine you're a programmer. You take a great step to create something. The programmer is a creator - you create software, then by your creation the world will be better. I hope. I really will hope. The world will be better by your creation.
 
 You programmers, you create software and you make the world better. But you might still [be] living in the fantasy land, which is kept by the garbage collectors. If you're willing, I'm not forcing you - if you're willing, you can be one of them. You can be a garbage collector.
 
@@ -146,17 +146,17 @@ You don't want?
 
 But this garbage collector is much cleaner. So, be a garbage collector, take part in keeping the fantasy land. This fantasy land, unlike the first one, which ignores everything. This fantasy land, [which] we currently enjoy, is our result of the effort of a long time. Maybe twenty, forty, fifty years of the great effort of the garbage collectors.
 
-I invite you guys to take part in keeping the fantasy land. For example, you can join the CRuby, even in writing [and] reporting some issues [with] bug trackers or something like that. Once you know what we garbage collectors [are] doing behind the CRuby - you can see this session. 
+I invite you guys to take part in keeping the fantasy land. For example, you can join the CRuby, even in writing [and] reporting some issues [with] bug trackers or something like that. Once you know what we garbage collectors [are] doing behind the CRuby - you can see this session.
 
 http://www.confreaks.com/videos/2866-rubyconf2013-object-management-on-ruby-2-1
 
-Again, I ask you to create a great fantasy land [that] currently we enjoy, and it can be even greater with your effort. 
+Again, I ask you to create a great fantasy land [that] currently we enjoy, and it can be even greater with your effort.
 
-You can do as much, many things. Writing software on top of Ruby on Rails or something like that, that will enrich the community. Communicate with blogs, twitter and social net, social coding. Participate in the community - GitHub is our friend. Have a presentation in the conference or write a small piece of software. 
+You can do as much, many things. Writing software on top of Ruby on Rails or something like that, that will enrich the community. Communicate with blogs, twitter and social net, social coding. Participate in the community - GitHub is our friend. Have a presentation in the conference or write a small piece of software.
 
 So many things you can do, but in any way, create and try to keep a great fantasy land that we enjoy. Change the world. I believe we've changed the world in better ways in the past, say, ten years. A lot of people in this conference, in the past Ruby conferences, presented the great things, so now I expect even more great work will be introduced in this conference.
 
-Do not be just a listener. 
+Do not be just a listener.
 
 Do not be a passive receiver of information.
 
@@ -164,7 +164,7 @@ You hear something in this conference, you learn something, take action.
 
 Change the world.
 
-This is the key to the open source community, this is the key of the Ruby community. 
+This is the key to the open source community, this is the key of the Ruby community.
 
 I know myself; I'm not a great programmer. Especially the Ruby commuters in the league knows I'm not a great programmer - I create so many bugs. But stil, I did [a] great job that influenced the world, and I respect myself by changing the world [for the] better. I believe you can do that too in some ways.
 
