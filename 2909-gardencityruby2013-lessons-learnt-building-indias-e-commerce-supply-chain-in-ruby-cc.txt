@@ -1,0 +1,325 @@
+This talk is about a specific project that we did at Flipkart
+
+so just to give people, foreigners here, a bit of context of Flipkart 
+
+it's sort of like the Amazon of India
+
+and they are the largest e-commerce store in India
+
+we, so yeah, let me keep the numbers for later
+
+so, in 2011 around about in December
+
+there was the, we had a kind of a moment where 
+
+we realized that our supply chain was not going to be able to scale
+
+we were having very, very serious problems
+
+with actually having things, with things, 
+
+actually building new features
+
+it was going very slow
+
+the number of requests hitting our website
+
+were just going through the roof and
+
+and we were not able to keep up
+
+so at that point there was a
+
+so let me just actually talk about what the system looked like
+
+so, this was Version 2 of the supply chain at Flipkart
+
+Version 1 which was kind of written in 2007
+
+was written by our founder, Sachin and Binny themselves in PHP
+
+so this was Version 2, which was written in about 2010
+
+it was Open Source ERP system called Opentaps
+
+which we had extended extensively
+
+it was basically a single monolithic application
+
+it had all these modules for the management, warehousing, so on and so forth
+
+and they all came out of a single JVM
+
+connected to a single database
+
+and that was just horrible
+
+right
+
+the problem was that
+
+each module as we were extending it
+
+the developers didn't actually bother
+
+to kind of think about
+
+should we be accessing this data
+
+this table, should we be crediting it or not
+
+they would just go and make joins across tables
+
+just to solve the problem, get the feature out
+
+right
+
+you're probably familiar with that
+
+so horrible coupling
+
+and we spent about a month trying to see if we can
+
+call up (?? 00:02:22,40)
+
+each piece from the system
+
+and kind of start picking out services
+
+and we couldn't do it
+
+it was just impossible
+
+so, at that point we took a hard, hard decision that
+
+you know, let's actually rewrite
+
+and this was something which was completely against
+
+my past works OR Flipkart works (?? 00:02:35,74)
+
+philosophy of, you know, let's re-factor incrementally
+
+and go slowly and let's have the system running and then
+
+kind of migrate, but
+
+we took the score
+
+and in two-thousand-and, I think it was 2011, in December
+
+we started the project
+
+where, so this was
+
+sort of a 
+
+bed OR bet (?? 00:02:54,30)
+
+the company project for Flipkart
+
+it was so critical at that point that
+
+Sachin, he was the founder, actually came and sat with the team
+
+so we basically 
+
+called up (?? 00:03:02,75)
+
+a team of initially ten people and then
+
+that increased to about thirty developers
+
+and he moved us, moved that team out
+
+to a separate office
+
+which was basically a house
+
+in Banglore, which was the place where
+
+Flipkart was born
+
+and that was, got turned into a 
+
+skunk (?? 00:03:17,65)
+
+works start-up project within Flipkart
+
+where this team worked
+
+and complete isolation
+
+no interviews, no meetings, nothing
+
+this team was only here to build out this system in seven months
+
+because the next milestone was the Diwali
+
+so the Diwali is the time when
+
+we do the most sales in the year
+
+and that was in October of 2012
+
+so we had about seven months to replace
+
+an entire supply chain system
+
+with a new system built from grounds up
+
+get it in production, make sure it's working
+
+and it's scaling right
+
+so get to, probably do it by August
+
+and give ourselves time till August to kind of do that
+
+so yeah, we start up on this project and
+
+the idea was to 
+
+break up each of these modules into
+
+services and I think Chad's talk
+
+really set up the context beautifully for the start
+
+because a lot of the ideas and processes
+
+that he mentioned is stuff that 
+
+we tried to kind of
+
+work on and kind of implement in the system
+
+so, some of the things he wanted to do was
+
+I think it was nice because
+
+it's all small pieces loosely joined
+
+which I came across around that time
+
+I think that beautifully summarizes what
+
+we want to get to
+
+right
+
+each service doing one small thing
+
+so you break down
+
+the warehouse module into a separate service
+
+order management into a separate service
+
+accounting and so on and so forth
+
+we didn't want to go down
+
+micro-services architecture way
+
+I'd worked with Fred George earlier and
+
+I'd gone down, I'd seen of the down sides
+
+of it and I didn't actually have a clear idea of
+
+how to work around those downsides at that point in time
+
+so I was kind of wary about micro-services at that point
+
+and I would love to actually hear other peoples' thoughts
+
+on how that's working out
+
+but anyway, so we all took on our separate services
+
+each doing one thing and doing one thing well
+
+and each service would have its own database
+
+and nobody could access it except the servers
+
+right
+
+you could just access it through an HTTP JSON API
+
+and you will never touch my data
+
+right
+
+my private parts are private
+
+so this is what we ended up with
+
+probably not going to read the thing so I'm gonna read it out to you
+
+so we end up with about twenty-five services
+
+this is a sub-set of the services we actually built
+
+you have all the management service
+
+then the fulfillment orchestration service
+
+which talks to warehousing service
+
+and fulfillment, which in turn talks to supplier
+
+and the whole logistics subsystems 
+
+and you have accounting services
+
+document services
+
+and then you have a bunch of
+
+infrastructure services including this piece at the bottom
+
+which was a messaging system that we ended up building
+
+called Resbus, which I talk a little bit about
+
+which kind of addressed the problem of cross-service transaction integrity
+
+so in this picture the Ruby services were basic- so
+
+each service, for example, the order management service
+
+the blue pieces were written in Padrino or Sinatra
+
+[mumbling]
+
+so these are in Padrino and
+
+00:06:38.12
+
+and added
+
+OR
+
+and also
+
+OR
+
+the add-on
+
+00:06:37.61
+
+JRuby when we went live
+
+we eventually migrated those to MRI
+
+but, and I'm going to be clear about why
+
+so these were the Padrino services
+
+and then the UI pieces where required were written in Ruby on Rails
+
+running on MRI
+
+UNFINISHED
