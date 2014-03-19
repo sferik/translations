@@ -1,3 +1,5 @@
+Garden City Ruby 2014 - Yogi Kulkarni - Lessons Learnt Building India's E-Commerce Supply Chain in Ruby
+
 This talk is about a specific project that we did at Flipkart
 
 so just to give people, foreigners here, a bit of context of Flipkart 
@@ -321,5 +323,8 @@ so these were the Padrino services
 and then the UI pieces where required were written in Ruby on Rails
 
 running on MRI
+
+
+00:06:51 
 
 UNFINISHED
