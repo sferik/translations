@@ -324,7 +324,270 @@ and then the UI pieces where required were written in Ruby on Rails
 
 running on MRI
 
+we also had some infrastructure services running on Ruby
 
-00:06:51 
+for example the single sign-on service was
 
-UNFINISHED
+and used (?? 00:06:57,7) CAS and used RubyCAS
+
+we built our rule-based access system again in Ruby
+
+and a bunch of other pieces
+
+right
+
+so essentially we went from monolithic single system
+
+to twenty-five services
+
+right
+
+and this was a massive change
+
+and this, so each, there were total about seven teams
+
+which worked on this project
+
+owning one or two services
+
+each team had between four and six developers
+
+yeah, so that's to just set the context
+
+about where we were
+
+so, when we started the project in two thousand and, early
+
+2011, we were doing about
+
+the old system was doing, the system was doing about
+
+20,000 orders a day
+
+30,000 shipments a day
+
+roughly around that order
+
+and this new system has now survived 
+
+two Diwali workloads
+
+which includes the latest Diwali which was in 2013
+
+we did, I think 100,000 orders and 150,000 shipments
+
+and it's working pretty well
+
+so, at the time when we were making this decision
+
+we were kind of selecting the technology stack
+
+and we, the big question was, you know, what tech stack to use
+
+so Flipkart traditionally had a lot
+
+so we, Opentabs given the Java stack
+
+so most developers were very, very comfortable with Java
+
+so the thought of actually introducing a new language
+
+a new ecosystem
+
+was, people were kind of wary about that
+
+also there were concerns about performance
+
+but, I knew from my experience in the past that
+
+performance is not a language issue
+
+it's an architecture design issue fundamentally
+
+right
+
+and there  are differences in technologies and languages
+
+and I talk a little bit more about that in detail
+
+but performance I'm not too worried about
+
+so why Ruby then?
+
+so there's a, the obvious reason is
+
+speed of development
+
+right
+
+we had a short, a very, very tight deadline
+
+to detail the
+
+?? (00:09:13,5)
+
+system in seven months
+
+we wanted to move fast
+
+right 
+
+so that's obviously one benefit
+
+the other reason was
+
+I think this idea of small pieces loosely joined
+
+is really powerful
+
+small code pieces are inherently easier to debug
+
+right
+
+like even if you have the best tools and you have a large Jar system
+
+it's hard to work even if things are great for filers
+
+great modeling tools
+
+it's still hard when you are dealing
+
+with 100,000 line code base
+
+you, it's just far more complex than dealing with
+
+something that is maybe 10,000 lines
+
+or maybe 5,000 lines of code right
+
+and that code compression that Ruby allows
+
+is actually really powerful
+
+also I think in the Ruby world
+
+Ruby's secret weapon is not Rails
+
+I think to me, Ruby's secret weapon is activerecord
+
+especially for business applications
+
+there's, I just love it as a new item tool
+
+and it has its problems
+
+especially in the enterprise space when
+
+you are dealing with fairly complex logic
+
+a lot of cases where
+
+so because it lacks what's called an identity map
+
+you can have situations where if you're not traversing from
+
+parent to object, to a child object, and back
+
+to the parent object, you end up with two references to the
+
+two instances of the parent object
+
+right
+
+and that's kind of bad
+
+tools like Hibernate in the Java world actually solve this beautifully
+
+so yeah, so it has its glitches
+
+but still, as a tool to write business applications
+
+I think there's, it's fairly amazing
+
+so we want to use the power of activerecord
+
+we want to have small systems
+
+which is why we built our services
+
+back-end services which were the HTTP JSON ones
+
+only in Sinatra
+
+so Padrino was just a pin wrapped around it
+
+so it's Sinatra talking to its own database
+
+OK, so I'm gonna kind of try and focus a lot more on the lessons learned
+
+so I'm kind of going to be jumping topics a bit 
+
+and it might be a bit of discontinuity so
+
+you'll excuse that
+
+but I want to kind of get the real key insights that we had on the project out
+
+than worry about a kind of a consistent flow
+
+so JRuby
+
+right
+
+let me start it off good
+
+so JRuby is incredible
+
+it's an amazing piece of technology, great community
+
+you get the power of the JVM which is just amazing
+
+and specifically within the JVM what you want is
+
+it's garbage collector
+
+and the just-in-time compilation
+
+very cohesive (?? 00:11:46,7)
+
+those two are just amazing
+
+I'll share some numbers about how those two things actually make a difference
+
+but that's a good part of JRuby
+
+right
+
+amazing ecosystem
+
+you get all the tools that are in the Jar would just work
+
+not just work, but they work OK with, in JRuby context
+
+but still you get a lot of tools like this that can be used, et cetera
+
+the bad
+
+so what's bad about JRuby?
+
+one thing that gets talked about a lot is its slow start-up time
+
+and it is a massive, massive issue
+
+typically, when you're kind of coding
+
+particularly when you're testing, you want
+
+to have a very quick cycle of going from test to code to test
+
+and back and forth
+
+but that's hard to do with JRuby
+
+and there are other things you can do
+
+you can use things like ?? (00:12:43,4)
+
+is almost like using Nailgun, for example, or Spork
+
+UNFINISHED 00:12:46
