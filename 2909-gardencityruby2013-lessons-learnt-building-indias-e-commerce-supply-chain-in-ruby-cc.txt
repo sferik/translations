@@ -590,4 +590,96 @@ you can use things like ?? (00:12:43,4)
 
 is almost like using Nailgun, for example, or Spork
 
-UNFINISHED 00:12:46
+(00:12:46,2) ?? (00:12:47,8)
+
+and then connect to it and run tests against it
+
+so all that is fine but
+
+it's still very sluggish to work with
+
+right
+
+so you end up having to do a
+
+to kind of jump through hoops to work good on that problem
+
+for example
+
+we ended up writing
+
+so all our development was in CRuby
+
+so tests run very fast, specs run fast, scripts run fast
+
+but you deploy to JRuby
+
+but even then, even for CI
+
+and for deployment, you end up isolating
+
+kind of scripts which were launched in CRuby
+
+but they were in turn just launched JRuby just for the pieces which actually required JRuby
+
+so you had to kind of do a bunch of these things
+
+just kind of, not great
+
+so but all this you could kind of live with, right
+
+there's one thing about JRuby which surprisingly isn't talked about so much
+
+which I think is fundamentally a deal breaker
+
+and that's its test suite
+
+it's actually 
+
+it's not actually a JRuby problem
+
+I just think the Ruby world is just not ready to work on truly multi-threaded Ruby interpreter
+
+right, which is without a global interpreter lock
+
+and this manifested in horrible, horrible bugs for us
+
+so when you start working at scale
+
+you know you're getting tons of requests
+
+in the system
+
+so these problems typically don't manifest when you're running a small service
+
+and you know JRuby works fine for that
+
+all good
+
+but you will run into cases where
+
+some library was not written with thread safety in mind
+
+and that will just kill you
+
+and it is virtually impossible to debug
+
+so the beefiest problems with Padrino
+
+where the actual app wouldn't get initialized
+
+and it was just horrible bring it out
+
+and the problem turned out to be something
+
+in HTTP router, which is a Gem used for actual route of creation
+
+and there's no fix for that
+
+it's been over a year and a half
+
+and it's still not been fixed
+
+we actually put in a patch to Padrino to actually work 
+
+(00:14:53)
