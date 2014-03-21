@@ -954,4 +954,186 @@ and the push to the message cue
 
 and the right database has to happen as one transaction
 
-00:20:15
+right
+
+so that's another option
+
+but again you need a distributed transaction coordinator
+
+to kind of manage the two face commit coming between
+
+the message cue and the database
+
+so what we end up doing is views
+
+are you serious? ten minutes? all right
+
+so yeah
+
+so we end up creating a service called Resbus which kind of
+
+it actually does local transactions
+
+and asyncronous relayer of messages
+
+to actually call upon and I can talk offline about that
+
+in more detail if anybody's interested
+
+so what we learned there though was
+
+this, the power of HTTP as integration glue
+
+was just understated right
+
+we end up creating, using, messaging systems
+
+and use databases and
+
+why do you need that
+
+why can't messaging be exposed as a HTTP inquiry?
+
+we did that and actually that had amazing side-effects
+
+to viewer architecture 
+
+yeah I can't spend the (00:21:22,9) on that
+
+so performance
+
+so Ruby's performance is often talked about as being sluggish
+
+so let's kind of get an intuition for how good or bad that is
+
+let me ask you question
+
+if you had a hello world Sinatra route
+
+right
+
+and you were to pound it with requests
+
+say using a patching bench or something
+
+what kind of response sends can you expect
+
+it's just a hello world
+
+so just a get slash hello world
+
+and just says hello world and returns
+
+that's it right
+
+some guesses of how long that would take
+
+5 milliseconds
+
+yeah
+
+so, that's roughly, 
+
+it takes about a millisecond
+
+at the 95th percentile
+
+but it takes nine to twelve milliseconds at the 99th percentile
+
+and the max is around fourteen, right
+
+if you run the same thing in JRuby
+
+it will take about 2 milliseconds at the 95th percentile
+
+and 99 would be about 5 milliseconds
+
+and max also is actually about 5 milliseconds
+
+so it's actually very very tightly bound
+
+that's the beauty of JRuby right
+
+because it's GC is so good
+
+and the zip compilation is so good
+
+that it's able to clearly optimize pieces of code
+
+to give you very very stable response times
+
+but there actually worse than MRI
+
+so the bench marks that talk about JRuby being faster
+
+I've never been able to reproduce those
+
+so anyway that's the, an intuition about
+
+so we actually end up getting much higher support
+
+so, that same hello world server
+
+will do about seven hundred requests per second
+
+versus the JRuby one will take about five hundred fifty to five hundred and eighty
+
+however
+
+if you had a tomcat servlet doing hello world
+
+how long do you think that would take
+
+thirty?
+
+yeah, it would be roughly in the 50 microseconds, it's about twenty times, twenty to forty times faster
+
+so that is one of the big arguments that was made against you know using Ruby
+
+why should you use Ruby it's so slow
+
+but the point is this
+
+it's still fine
+
+perfectly fine
+
+and that is because
+
+most business applications are not CQ-boned, they're IO-boned
+
+they're basically all just waiting for some horribly slow query to return
+
+right
+
+and it takes the same time waiting in Java or in Ruby
+
+so that's why actually IO in managing, IO is the most important thing
+
+that includes things like database calls
+
+calls to external services
+
+yeah
+
+kind of optimizing that is the first priority of, for tuning Ruby apps
+
+so given this we wanted to make sure that
+
+all our services were kind of behaving welll
+
+so we actually built a tool called drac metrics
+
+which basically is a rack filter which will send the request cycle
+
+and you can actually add plug-ins to monitor different parts of
+
+the application so we had plug-ins for
+
+Sinatra's routes so you can get into it and request time
+
+we had plug-ins which can go to activerecord
+
+and calculated the time for each query
+
+00:24:40
