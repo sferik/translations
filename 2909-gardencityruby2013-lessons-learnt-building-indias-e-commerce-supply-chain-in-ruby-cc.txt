@@ -1136,4 +1136,384 @@ we had plug-ins which can go to activerecord
 
 and calculated the time for each query
 
-00:24:40
+and we, it hooked into desk client
+
+and thrift clients
+
+to basically instrument the time taken for all our outgoing calls
+
+so the result was it would
+
+oh look, you can't read it very well
+
+essentially you'd see
+
+you could go to any service
+
+and ask for its metrics
+
+I'll tell you all the routes that were defined
+
+all the routes and how much total time was spent in them
+
+the total count, we have average time and max, et cetera
+
+and within each route, if you expanded it
+
+it would tell you the
+
+the five slowest requests for that route
+
+so for example, for this inventory post, inventory call
+
+there's the caller tells you how much DB time was spent
+
+how many rest calls, how much rest calls
+
+was split between different parts of the code
+
+and it'll give you a list of all the external calls
+
+and database queries made, right
+
+so with this, you could immediately find out
+
+that you're doing something stupid like
+
+like an N plus 1 query, or the call to external system
+
+to actually slow, and that kind of optimized 
+
+you have a check list for kind of figuring out what
+
+you want to attack first, right
+
+so we'd use this, figure out the slow points
+
+optimize that first
+
+so, we also had an extensive monitoring through
+
+StatsD and Graphite
+
+so, Graphite allows you to kind of just push points to it
+
+and it gives you a time series
+
+you of the data, and we've got
+
+again as Chad was saying
+
+like metrics from business down to
+
+tech metrics including CPU
+
+and capacity and request response times
+
+number of requests
+
+so with this we also built a loading framework
+
+which basically models Graphite
+
+and you can define, OK, if this
+
+threshold is breached for this metric
+
+then send me a mailer SNS
+
+so with these three pieces, we had the modeling in place
+
+to kind of keep a check on our systems
+
+right so, how do you tune that
+
+once you kind of figure out the problems that
+
+are typically there
+
+it's actually fairly straighforward
+
+if it's IO, fix the IO problem
+
+if it's N plus 1 query, remove it
+
+do an eager join, simple stuff
+
+if it's a bad query, run MySQL Explain
+
+or whatever query plan or tool you have for a database
+
+you get the query plan, figure out what the optimal join struct-
+
+join sequence, and actually fix the query
+
+for external cause, we actually end up putting in very aggressive time-outs
+
+so that, you don't have a thread or a process just waiting forever
+
+for somebody else to respond, right
+
+it, because that has very bad effects on capacity
+
+of the entire cluster
+
+because, for example, if you have a slow
+
+if you have a service that is calling another service
+
+and that service is running slow
+
+you can end up completely freezing this calling service
+
+because all the processes are just waiting for this guy to respond
+
+right
+
+so once these two are, these two kind of things are fixed
+
+then it's important to look at GC itself
+
+now, Ruby's default GC settings are actually very conservative
+
+and you typically see initial just after restart
+
+response kinds are kind of slow and they kind of get faster
+
+they can work pretty fast but
+
+there's still a lag, so
+
+there are ways to kind of improve the default heap size
+
+and the allocation rate and percentage and all that stuff
+
+I've got a reference to that in the, at the end
+
+but, I think that, that's something which we did
+
+and that immediately improved our response times
+
+so, this still doesn't address all problems, right
+
+there are still cases where GC is still a problem
+
+for example, there will be queries which just load a ton of data
+
+say for example reporting queries
+
+and those are tricky
+
+so for those what we end up doing
+
+is just carving out a separate cluster
+
+this ear-mark tool, two loads in a cluster
+
+for the recording queries
+
+build a separate virtual IP, a separate rip
+
+and point all those requests to those to those servers
+
+even if that doesn't fix the problem with GC
+
+then you've got to go down to profiling
+
+so for profiling we end up using both tools
+
+again a url link to it at the end
+
+which is a great, great tool
+
+it's, there are rack filters which can kind of mod the request
+
+of, hook into the request cycle
+
+and actually give you a grasp of the call-chains
+
+along with how much time was being spent in each section
+
+that's great
+
+and that'll tell you how much time is spent in GC
+
+or some section of code
+
+so that's your final, final kind of hammer
+
+you can kind of use to address performance issues
+
+we also ended up clinging on quite a bit
+
+with changing app source
+
+so we moved from Trinidad in the JRuby world, time
+
+to an MRI views, passenger first
+
+and now we have been on Unicorn
+
+and Unicorn particularly has a plug-in called the
+
+Out-of-band GC which basically runs GC
+
+on that, it basically disabled GC for that particular interpretator
+
+and runs GC after the request cycle ends
+
+right, so all your response, none of your requests actually see
+
+bad response times due to GC
+
+so that works beautifully actually
+
+so really nice plug-in
+
+there's also a plug-in called workerkiller
+
+which can kind of get a look at the process of the memory threshold
+
+so we use all these 
+
+OK
+
+so another problem that we faced, which was
+
+we now have twenty-four, twenty-five services running
+
+on Sinatra and Padrino apps
+
+and there was a bunch of Ruby gems that we were using
+
+which were the core platform gems which had to be shared
+
+and each team worked independelty
+
+so it ended up becoming a problem for the platform team
+
+to kind of go and chanse around people
+
+say OK create this gem, otherwise there's gonna be problems
+
+and that was a big issue
+
+so what we ended up doing was
+
+creating a patch version of Bundler
+
+which essentially allows you to annotate
+
+each new Gem file, each Gem line with a auto-updated coded true flag
+
+and then Bundlerbasically will
+
+when you run Bundle install
+
+it will basically check if there's a new version of that
+
+same Gem in the repo, and actually
+
+resolves dependencies and actually install that
+
+so the nice thing with this was
+
+it works in the Debs environment
+
+it's not something that happens automatically in the background
+
+you're weighing it, kind of messing around platform Gems
+
+and it happens frequently enough that you know
+
+everybody, the entire ecosystem kind of moves together
+
+and upgrades the services quickly
+
+ok, so - can I take five minutes? no?
+
+all right, I'm... OK, I'll rush through, so OK
+
+team-dynamics
+
+so, we saw with the java team
+
+and we kind of just threw them to the deep end into Ruby
+
+and we just had to work three Ruby debs so
+
+it took, on average I think, people about three to four months
+
+to start writing idiomatic Ruby
+
+and that was a big challenge so
+
+we did a bunch of things to kind of address those problems
+
+including kind of having consultants to
+
+bear with the people on the time
+
+having one expert per team et cetera
+
+OK, I'll skip to... all right
+
+so one of the things that we noticed, or
+
+happened was that because Ruby's such a dynamic language
+
+you can write such, such code so quickly
+
+and so compactly 
+
+sometimes it tends to, design tends to be taken for granted
+
+I don't know if it's automatic or not
+
+it will, it tends to be taken for granted
+
+like people don't, just don't think, like OK there's a feature
+
+then we decided quickly, it was not, yeah, let's not try to set it on them then
+
+but I think this is a really big problem
+
+because you end up, or rather you need to actually ask
+
+very deep questions about the domain
+
+and we actually got caught in this problem
+
+a couple of times where we actually ended up creating
+
+small custom solutions to specific problems 
+
+instead of asking deep questions about it
+
+what is this domain, what is this problem really about
+
+what is warehousing, for example, really about
+
+it's not about check lists and foot lists
+
+it's about goods movement and material movement
+
+and how do we model that as a first class concept right
+
+and, I wonder if Ruby being a dynamic powerful language
+
+actually cultivated that
+
+that's more of, a question for me
+
+OK, yeah, questions
+
+the slides, the ones of references at the end
+
+BACKGROUND: sorry you will get no questions
+
+all right no questions
+
+thank you guys
+
+BACKGROUND: thanks for the insights Yogi
