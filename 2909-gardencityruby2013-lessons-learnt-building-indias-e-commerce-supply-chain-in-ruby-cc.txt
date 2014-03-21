@@ -682,4 +682,276 @@ and it's still not been fixed
 
 we actually put in a patch to Padrino to actually work 
 
-(00:14:53)
+so we cleared the rack filter
+
+which kind of hand-holds the initializing process
+
+and initializes each BM correctly
+
+it was just horrible, horrible, horrible code
+
+so that's one
+
+HTR is one example
+
+there was sadly we were activerecord right
+
+we were on 3.1.x
+
+so activerecord has got concurrency, has got concept issues 
+
+and they don't show up again on, in normal situations
+
+they show up at scale, at high load
+
+the connection pool is actually not thread safe
+
+so we had situations where the same connection was being returned to two different 
+
+to two different threads and
+
+they would end up just messing up the data base
+
+or the transaction
+
+so essentially what would happen was
+
+the transaction would commit
+
+the, but, the service would say OK
+
+200, all OK, committed
+
+and you would go back and see there's no data in the data base
+
+because the transaction never committed
+
+the connection was basically rolled back at some point
+
+and nobody knew anything about it
+
+no framework user at activerecord didn't know anything about it
+
+Padrino didn't know anything about it
+
+so this was horrible and we couldn't figure out
+
+we tried patching, we've actually patched activerecord quite a bit
+
+but we couldn't get that to work
+
+so we actually went live with the JRuby
+
+in September of 2012
+
+and I think in three months after kind of struggling with these issues
+
+we kind of threw a call to move back to CRuby
+
+and that was
+
+a kind of sad moment because I really, really loved JRuby
+
+and the great joys of people using it in production
+
+not too many, but yes there are
+
+and its potential is there but the problem is the libraries
+
+and developers are still not in that Java mindset
+
+surprisingly Java does this very well
+
+they're kind of constantly thinking about thread safety
+
+but the Ruby world is still not part of that
+
+they'll probably get there soon
+
+yeah
+
+so we moved to CRuby and
+
+that sorted out a lot of performance issues
+
+rather thread safety issues
+
+I'll talk about the performance parts actually
+
+I'm gonna comparison
+
+yeah also besides performance  I'm guessing you're saying
+
+but that wasn't too much of an issue
+
+OK so I mentioned this briefly
+
+I'll just touch on it
+
+so what's a problem here
+
+right
+
+so when you have a bunch of services like this
+
+right
+
+when you have a single monollithic application
+
+you can start at, you have a request which comes and kind of
+
+touches multiple databases or the management warehouse
+
+and you can run that, all those database changes in a single transacation
+
+right
+
+it commits or doesn't commit
+
+everyone's happy
+
+all beautiful
+
+the moment you go to something like this
+
+that doesn't work right
+
+supposing how a transaction which say
+
+called create order
+
+which kind of enters the create order request which comes
+
+through the order management system
+
+it basically makes the call to approve that order
+
+the fulfillment of strata
+
+and the, as part of the fulfillment orchestrated basically tells the warehouse service
+
+that they're all, they don't have the stuff in stock
+
+so I'm gonna actually order it for you
+
+so he tells the procurement service to go on order this item
+
+but he also has to tell warehouse that OK
+
+expect this item I'm ordering it for you
+
+expect it, right
+
+now those two things which is
+
+placing the order with the supplier and
+
+expect the order
+
+has to happen as kind of automatically
+
+right
+
+has to happen automatically along with the commit of the approval
+
+ok, it got approave and I've told this guy to procure it
+
+and I've told warehouse to expect it
+
+I have these two things that happen
+
+at one time
+
+now this is a really, really hard problem to solve
+
+and it's
+
+so, the way you solve that typically
+
+is to, in the enterprise world
+
+is to use the stored transaction call data
+
+so, most of the (00:18:46,7) ?? service
+
+for example do that
+
+they actually have, they kind of implement the two face commit
+
+and you can actually have a database
+
+two databases
+
+take part in a single transaction or two phases, right
+
+that's one way to do it
+
+the problem with that is that
+
+completely breaks service isolation 
+
+like now I've got a distributed transaction coordinator
+
+which is going to be sitting ?? (00:19:09,1)
+
+and coordinating transactions between this database and
+
+this guy
+
+and if you remember the original principle right
+
+I don't want to expose my database
+
+right
+
+I want to expose my service
+
+so it kind of breaks service and translation very badly
+
+and that's the least of the problems, right
+
+the bigger problem is that it degrades 
+
+it's basically a way to ensure system doesn't scale
+
+because, sorry
+
+when you have a transaction spanning multiple systems
+
+it essentially is what's happening is happening under the hood
+
+for each database
+
+the resource packages requiring some locks on some rows in the table
+
+and those are now held for a much longer time
+
+because you're going to go through two passes through it
+
+right
+
+so essentially you end up holding locks
+
+on database rows for much longer
+
+which increases contention and reduces book problems
+
+right
+
+so then how do you solve this problem
+
+right
+
+so the way you solve it 
+
+so then the other option is to actually go in for something like
+
+use messaging
+
+you actually send messages to other services
+
+and the push to the message cue
+
+and the right database has to happen as one transaction
+
+00:20:15
