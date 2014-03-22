@@ -1,0 +1,1939 @@
+yes, hello, thank you
+
+audience member: hello!
+
+chad: hello!
+
+I am Chad, as he said
+
+he said I need no introduction
+
+so I won't introduce myself any further
+
+I may be the biggest non-Indian fan of India
+
+[Hindi]
+
+I'll now switch back, sorry
+
+if you don't understand Hindi, I said nothing of value
+
+and it was all wrong
+
+but I was saying that my Hindi was bad
+
+and it's because now I'm learning German
+
+so I mixed them together, but I know not everyone 
+
+speaks Hindi here
+
+I just had to show off, you know
+
+so, I am currently working on 6Wunderkinder
+
+and I'm working on a product called Wunderlist
+
+it is a productivity application
+
+it runs on every client you can think of
+
+we have native clients, we have a back-end 
+
+we have millions of active users
+
+and I'm telling you this not so that you'll go download it
+
+you can do that too
+
+but I want to tell you about the challenges that I have
+
+and the way I'm starting to think about system's architecture and design
+
+that's what I'm gonna talk about today
+
+I'm going to show you some things that are real
+
+and that we're really doing
+
+I'm going to show you some things that are 
+
+just a fantasy that maybe don't make any sense at all
+
+but hopefully I'll get you think about
+
+how we think about system architecture
+
+and how we build things that can last for a long time
+
+so the first thing that I want to mention
+
+this is a graph from the Standish Chaos report
+
+and I've taken the years out
+
+and I've taken some of the raw data out
+
+because it doesn't matter
+
+if you look at these, this graph
+
+each one of these bars is a year
+
+and each bar represents successful projects in green
+
+software projects
+
+challenged projects are in silver or white in the middle
+
+and then failed ones are in red
+
+but challenged means significantly over time or budget
+
+which to me means failed too
+
+so basically we're terrible
+
+all of us here, we're terrible
+
+we call ourselves engineers but it's a disgrace
+
+we very rarely actually launch things that work
+
+kind of sad
+
+and I am here to bring you down
+
+then once you launch software, anecdotal-y
+
+and you probably would see this in your own work lives, too
+
+anecdotal-y, software gets killed after about five years
+
+business software
+
+so you barely ever get to launch it, because
+
+or at least successfully, in a way that you're proud of
+
+and then in about five years
+
+you end up in that situation where you're doing a big rewrite
+
+and throwing everything away and replacing it
+
+you know there's always that project to get rid of the junk
+
+old Java code or whatever that you wrote five years ago
+
+replace it with Ruby now
+
+five years from now you'll be replacing your old junk Ruby code
+
+that didn't work with something else
+
+we create this thing, probably all of you know the term legacy software
+
+right, am I right? you know what legacy software is
+
+and you probably think of it as a negative thing
+
+you think of it as that ugly code that doesn't work
+
+that's brittle, that you can't change, that you're all afraid of
+
+but there's actually also a positive connotation of the word legacy
+
+it's leaving behind something that future generations can benefit from
+
+but if we're rarely ever launching successful projects
+
+and then the ones we do launch tend to die within five years
+
+none of us are actually creating a legacy in our work
+
+we're just creating stuff that gets thrown away
+
+kind of sad
+
+so we create this stuff that's a legacy software
+
+it's hard to change, that's why it ends up getting thrown away
+
+right, that's, if the software worked
+
+and you could keep changing it to meet the needs of the business
+
+you wouldn't need to do a big rewrite and throw it away
+
+we create these huge tightly-coupled systems
+
+and I don't just mean one application
+
+but like many applications are all tightly coupled
+
+you've got this thing over here talking to the database of this system over here
+
+so if you change the columns to update the view of a webpage
+
+you ruin your billing system, that kind of thing
+
+this is what makes it so hard to change
+
+and the sad thing about this is the way we work
+
+the way we develop software, this is the default setting
+
+and, what I mean is, if we were robots churning out software
+
+and we had a preferences panel
+
+the default preferences would lead to us creating terrible software that gets thrown away in five years
+
+that's just how we all work
+
+as human beings when we sit down to write code
+
+our default instincts lead to us to create systems that are tightly coupled
+
+and hard to change and ultimately get thrown away and can't scale
+
+we create, we try doing tests, we try doing TDD
+
+but we create test suites that take forty-five minutes to run
+
+every team has had to deal with this I'm sure
+
+if you've written any kind of meaningful application
+
+and it gets to where you have like a project
+
+to speed up the test suite
+
+like you start focusing your company's resources
+
+on making the test suite faster
+
+or making it like only fail ninety percent of the time
+
+and then you say well if it only fails ninety percent that's OK
+
+right, and right now it's taking forty-five minutes
+
+we want to get it to where it only takes ten minutes to run
+
+so the test suite ends up being a liability instead of a benefit
+
+because of the way you do it
+
+because you have this architect where everything is so coupled
+
+you can't change anything without spending hours working on the stupid test suite
+
+and your terrified to deploy
+
+I know like the last big Java project I was working on
+
+it would take, once a week we did a deploy
+
+it would take fifteen people all night to deploy the thing
+
+and usually it was like copying class files around
+
+and restarting servers
+
+it's much better today but it's still terrifying
+
+you deploy code, you change it in production
+
+you're not sure what might break
+
+cause it's really hard to test these big integrated things together
+
+and actually upgrading the technology component is terrifying
+
+so, how many of you have been doing Rails for more than three years?
+
+do you have, like a Rails 2 app in production, anyone? Yeah?
+
+that's a lot of people, wow, that's terrifying
+
+and I've been in situations, recently, where we had Rails 2 apps in production
+
+security patches are coming out, we were applying our own versions
+
+of those security patches
+
+because we were afraid to upgrade Rails
+
+we would rather hack it than upgrade the thing
+
+because you just don't know what's gonna happen
+
+and then you end up, as you're re-implimenting all this stuff yourself
+
+you end up burning yourself out, wasting your time
+
+because you're hacking on stupid Rails 2
+
+or some old struts version
+
+when you should be just taking advantage of the new patches
+
+but you can't because you're afraid to upgrade the software
+
+because you don't know what's going to happen
+
+because the system is too big and too scary
+
+then, and this is really bad, I think this is something
+
+Ruby messes up for all of us
+
+I say this as someone who's been using Ruby for thirteen years now
+
+happily
+
+we create these mountains of abstractions
+
+and the logic ends up being buried inside them
+
+I mean in Java it was like static, or, you know, factories
+
+and design pattern soup
+
+in Ruby its modules and mixends and you know
+
+we have all these crazy ways of hiding what's actually happening from us
+
+but when you go look at the code
+
+it's completely opaque
+
+you have no idea where the stuff actually gets done
+
+because it's in some magic library somewhere
+
+and we do all that because we're trying to save ourselves from the complexity of these big nasty systems
+
+but like if you look at the rest of the world
+
+this is a software specific problem
+
+these cars are old, they're older than any software that you would ever run
+
+and they're still driving down the street
+
+they're older than software itself, right
+
+but these things still function, they still work
+
+how? why? why do they work?
+
+bodies! my body should not work
+
+I have abused it
+
+I should not be standing here today
+
+I shouldn't have been able to come from Berlin here
+
+without dying somehow by being in the air
+
+you know, by the air pressure changes
+
+but our bodies somehow can survive even when 
+
+we don't take care of them
+
+and like it's just the system that works, right
+
+so how do our bodies work?
+
+how do we stay alive
+
+despite this fact
+
+even though we haven't done like some
+
+great design, we don't have any design patterns 
+
+like mixed up into our bodies
+
+in biology there is a term called homeostasis
+
+and I literally don't know what this means
+
+other than this definition
+
+so you won't learn about this from me
+
+there's probably at least one biologist in the room
+
+so you can correct me later
+
+but basically the idea of homeostasis is
+
+that an organism has all these different components
+
+that serve different purposes
+
+that regulate it
+
+so they're all kind of in balance
+
+and they work together to regulate the system
+
+if one component, like a liver, does too much
+
+or does the wrong thing
+
+another component kicks in and fixes it
+
+and so our bodies are this well designed system
+
+for staying alive
+
+because we have almost like autonomous agents
+
+internally that take care of the many things that can and do go wrong
+
+on a regular basis
+
+so you have, you know, your brain, your liver
+
+your liver, of course, metabolizes toxic substances
+
+your kidney deals with blood, water level, et cetera
+
+you know all these things work in concert to make you live
+
+the inability to continue to do that is known as homeostatic imbalance
+
+so I was saying, homeostasis is balancing
+
+not being able to do that is when you're out of balance
+
+and that will actually lead to really bad health problems
+
+or probably death, if you fall into homeostatic imbalance
+
+so the good news is you're already dying
+
+like we're all dying all the time
+
+this is the beautiful thing about death
+
+there is, there is an estimate that fifty trillion cells
+
+are in your body, and three million die per second
+
+it's an estimate because it's actually impossible to count
+
+but scientists have figured out somehow that this is probably the right number
+
+so your cells, you've probably heard this all your life
+
+like physically, after some amount of time, you aren't the same human being that you were, physically
+
+you know, I don't know, you some period of time ago
+
+you're literally not the same organism anymore
+
+but you're the same system
+
+kind of interesting, isn't it
+
+so in a way you can think about software this
+
+you can think about software as a system
+
+if the components could be replaced like these cells
+
+like, if you focus on making death, constant death OK
+
+on a small level
+
+then the system can live on a large level
+
+that's what this talk is about
+
+solution, the solution being to mimic living organisms
+
+and as an aside, I will say many times the word small or tiny in this talk
+
+because I think I'm learning, as I age
+
+that small is good
+
+its, small projects are good
+
+you know how to estimate them
+
+small commitments are good
+
+because you know you can make them
+
+small methods are good
+
+small classes are good
+
+small applications are good
+
+small teams are good
+
+so I don't know, this is sort of a non-sequitor
+
+so if we're going to think about software 
+
+as like an organism
+
+what is a cell in that context?
+
+this is sort of the key question that you have to ask yourself
+
+and I say that a cell is a tiny component
+
+now, tiny and component are both subjective words
+
+so you can kind of do what what you want with that
+
+but it's a good frame of thinking
+
+if you make your software system of tiny components
+
+each one can be like a cell
+
+each one can die and the system is a collection of those tiny components
+
+and what you want is not for your code to live forever
+
+you don't care that each line of code lives forever, right
+
+like if you're trying to develop a legacy in software
+
+it's not important to you that your system dot out dot printline statement
+
+lives for ten years
+
+it's important to you that the function of the system lives for ten years
+
+so like, about exactly ten years ago
+
+we created Ruby gems at the RubyConf 2003
+
+in Austin, Texas
+
+I haven't touched Ruby gems myself in like four or five years
+
+but people are still using it
+
+they hate it because it's software
+
+everybody hates software right
+
+so if you can create software that people hate
+
+you've succeeded
+
+but it still exists
+
+I have no idea if any of the code is the same
+
+I would assume not
+
+you know I think, I'm sure that my name is still in it in a copyright notice
+
+but that's about it
+
+and that's a beautiful thing
+
+people are still using it to install Ruby libraries
+
+and software
+
+and I don't care if any of my existing, or my initial code is still in the system
+
+because the system still lives
+
+so, quite a long time ago now I was researching this kind of question
+
+about Legacy software
+
+and I asked a question on Twitter as I often do at conferences
+
+when I'm preparing
+
+what are some of the old surviving software systems you regularly use
+
+and if you look at this, I mean, one thing is obviously
+
+everyone who answered gave some sort of Unix related answer
+
+but basically all of these things on this list
+
+are either systems that are collections of really well-known split-up components
+
+or they're tiny, tiny programs
+
+so, like, grep is a tiny program, make
+
+it only does one thing
+
+well make is actually also arguably an operating system
+
+but I won't get into that
+
+emacs is obviously an operating system, right
+
+but it's well designed of these tiny little pieces
+
+so a lot of the old systems I know about follow this pattern
+
+this metaphor that I'm proposing
+
+and from my own career 
+
+when I was here before in Banflore
+
+I worked for GE and some of the people
+
+we hired even worked on the system there
+
+we had a system called the Bull
+
+and it was a honeywell Bull mainframe
+
+I doubt any of you have worked on that
+
+but this one I know you didn't work on
+
+because it had a custom operating system
+
+with our own RDVMS
+
+we had created a PCP stack for it
+
+using like custom hardware that we plugged into a Windows MT computer
+
+with some sort of MT queuing system back in the day
+
+it was this terrifying thing
+
+when I started working there the system was already something like twenty-five years old
+
+and I believe even though there have been many, many projects
+
+to try to kill it, like we had a team called the Bull exit team
+
+I believe the system is still in production
+
+not as much as it used to be, there are less and less functions in production
+
+but I believe the system is still in production
+
+the reason for this is that the system was actually made up of these tiny little components
+
+and like really queer interfaces between them
+
+and we kept the system live because every time we tried to replace it
+
+with some fancy new gem, web thing or gooey app
+
+it wasn't as good, and the users hated it
+
+it just didn't work
+
+so we had to use this old, crazy, modified mainframe
+
+for a long time as a result
+
+so, the question I ask myself is now
+
+how do I, how do I approach a problem like this
+
+and build a system that can survive for a long time
+
+I would encourage you
+
+how many of you know of Fred George
+
+this is Fred George
+
+he was at ThoughtWorks for awhile
+
+so he may have, I think he lived in Banglore
+
+for some time with ThoughtWorks, in fact
+
+he is now running a start-up in Silicon Valley
+
+but he has this talk that you can watch online 
+
+from the Barcelona Ruby Conference the year before last
+
+called Microservice Architectures
+
+and he talks in great detail about he, 
+
+how he implemented a concept at forward
+
+that's very much like what I'm talking about
+
+tiny components that only do one thing and can be thrown away
+
+so Microservice Architecture is kind of the core of what I'm gonna talk about
+
+now I've put together some rules for 6WunderKinder 
+
+which I am going to share with you
+
+6WunderKinder is the company I work for
+
+when we're working on Wunderlist
+
+and the rules of the, the goals of these rules
+
+are to reduce coupling, to make it where we can do fear-free deployments
+
+we reduce the chance of "cruft" in our code
+
+like nasty stuff that you're afraid of
+
+that you leave there, kind of broken window problems
+
+we make it literally trivial to change code
+
+so you just never have to ask how do I do that
+
+you just find it easy
+
+and most importantly we give ourselves the freedom to go fast
+
+because I think no developer ever wants to be slow
+
+that's one of the worst things
+
+just toiling away and not actually accomplishing anything
+
+but we go slow because we're constrained by the system
+
+and we're constrained by, sometimes projects
+
+and other, you know, management related things
+
+but often times its the mess of the system that we've created
+
+so some of the rules
+
+I think one thing, and maybe, maybe I'm going to get some push back from this crowd
+
+one rule that is less controversial than it used to be
+
+is that comments are a design smell
+
+does anyone strongly disagree with that?
+
+no?
+
+does anyone strongly agree with that?
+
+OK, so the rest of you have no idea what I'm talking about
+
+so a design smell, I want to define this really quickly
+
+a design smell is something you see in your code or your system
+
+where it doesn't necessarily mean it's bad
+
+but you look at it and you think
+
+hmm, I should look into this a little bit
+
+and ask myself, why are there so many comments in this code?
+
+you know, especially the bottom one
+
+inline comments?
+
+definitely bad, definitely a sign that you should have another method, right
+
+so it's pretty easy to convince people
+
+that comments are a design smell
+
+and I think a lot of people in the industry 
+
+are starting to agree
+
+maybe not for like a public library
+
+where you really need to tell someone
+
+here's how you use this class and this is what it's for
+
+but you shouldn't have to document every method
+
+and every argument because the method name and the argument name
+
+should speek for themselves, right
+
+so here's one that you probably won't agree with
+
+tests are a design smell
+
+so this one is probably a little more controversial
+
+especially in an environment where you're maybe still struggling people
+
+struggling with people to actually get them to write tests to begin with, right
+
+you know I went through this period in, like, 2000 and 2001 
+
+where I was really heavily into evangelizing TDD
+
+and it was really stressful that you couldn't get anyone to do it
+
+I think you do have to go through that period
+
+and I'm not saying you shouldn't write any tests
+
+but that picture I showed you earlier of the slow, brittle test suite
+
+that's bad, right
+
+that is a bad state to be in
+
+and you're in that state because your tests suck
+
+that's why you get in that state
+
+your tests suck because you're writing bad tests
+
+that don't exercise the right things in your system
+
+and what I've found is whenever I look into one of these
+
+big slow brittle test suites
+
+the tests themselves are indications 
+
+and the sheer proliferation of tests
+
+are indications that the system is bad
+
+and the developers are like desperately
+
+fearfully trying to run the code 
+
+in every way they can
+
+because it's the only way they can manage
+
+to even think about the complexity
+
+but if you think about it, if you had a tiny trivial system
+
+you wouldn't need to have hundreds of test files
+
+that take ten minutes to run, ever
+
+if you did, you're doing something stupid
+
+you're wasting your time working on tests
+
+and we as software developers obsess about this kind of thing
+
+because we have to fight so hard to get our peers to do it in the first place
+
+and to understand it
+
+we obsess to the point where we focus on the wrong thing
+
+none of us are in the business of writing tests for customers
+
+like we're not launching our tests on the web
+
+and hoping people will buy them, right
+
+it doesn't provide value, it's just a side-effect
+
+that we have focused too heavily on
+
+ and we've lost sight of what the actual goal is
+
+so, this one actually requires a visual
+
+I tell the people on my team now
+
+you can write code in any language you want
+
+any framework you want, anything you want to do
+
+as long as the code is this big
+
+so if you want to write the new service in Hascal 
+
+and it's this big in a normal size font
+
+you can do it
+
+if you want to do it in Closure or Elixir or Scarla or Ruby
+
+or whatever you want to do
+
+even Python for god's sake
+
+you can do it if it's this big and no bigger
+
+why? because it means I can look at it
+
+and I can understand it
+
+or if I don't I'll just throw it away
+
+because if it's this big it doesn't do very much, right
+
+so the risk is really low
+
+and I really mean the system is that
+
+there are the, the component is that big
+
+and in my world a component means a service
+
+that's running and probably listening on an HTTP board
+
+or some sort of rift or RPC protocol 
+
+so it's a standalone thing
+
+it's its own application
+
+it's probably in its own git repository
+
+people do poll requests against it
+
+but it's just tiny
+
+so this big
+
+at the top of this, by the way 
+
+is some code by Constantine Hozzah
+
+who also lives in Berlin, where I live
+
+this is a rewrite of Sinatra
+
+the web framework
+
+and Constantine is actually the maintainer of Sinatra
+
+it's not fully compatible, but it's amazingly close
+
+and it all fits right in that
+
+but the font size is kind of small, so I cheated
+
+another rule, our systems are heterogenous by default
+
+so I say you can write in any language you want
+
+that's not just because I want the developers to be excited
+
+although I think, most of you, if you worked 
+
+in an environment where your boss told you
+
+you can use any programming language or tool you want
+
+you would be pretty happy about that, right
+
+anyone unhappy about that? I don't think so
+
+unless it's one of the bosses here
+
+that's like don't tell people that
+
+so that's one thing
+
+the other one is, it leads to a good system design
+
+because think about this
+
+if I write one program in Erling, one component in Erling
+
+one program in Ruby
+
+I have to work really, really hard to make tight coupling
+
+between those things
+
+like I have to basically use computer science to do that
+
+I don't even know what I would do
+
+you know it's hard
+
+like I would have to maybe implement Ruby in Erling
+
+so that it can run in the same BM or vice versa
+
+it's just silly, I wouldn't do it
+
+so if my system is Heterogenuous by default
+
+my coupling is very low, at least at a certain level by default
+
+because it's the path of least resistence 
+
+is to make the system decoupled
+
+it's easier to make things decoupled than coupled
+
+if they're all running in different languages
+
+so in the past three months, I'll say
+
+I have written production code in objective CRuby, Scala, Closure, Node
+
+I don't know, more stuff, Java
+
+all these different languages
+
+real code for work
+
+and yes, they are not tightly coupled
+
+like I haven't installed JRuby so that I could reach into the internals of my Scala code
+
+because that would be a pain
+
+I don't want to do that
+
+another very important one is
+
+server nodes are disposable
+
+so, back when I was at GE, for example
+
+I remember being really proud when I looked at the up time of one of my servers
+
+and it was like four hundred days or something
+
+it's like, wow, this is awesome
+
+I have this big server, it had all these apps on it
+
+we kept it running for four hundred days
+
+the problem with that is I was afraid to ever touch it
+
+I was really happy it was alive
+
+but I didn't want to do anything to it
+
+I was afraid to update the operating system
+
+in fact you could not upgrade Solaris then without restarting it
+
+so that meant I had not upgrading the operating system
+
+I probably shouldn't have been too proud about it
+
+Nodes that are alive for a long time lead to fear
+
+and what I want is less fear
+
+so I throw them away
+
+and this means I don't have physical servers that I throw away
+
+that would be fun but I'm not that rich yet
+
+we use AWS right now, you could do it with any kind of cloud service
+
+or even internal cloud divider
+
+but every node is disposable
+
+so, we never upgrade software on an existing server
+
+whenever you want to deploy a new version of a service
+
+you create new servers
+
+and you deploy that version
+
+and then you replace them in the load balance or somewhere
+
+that's it
+
+so, you never have to wonder what's on a server
+
+because it was deployed through an automated process
+
+and there's no fear there
+
+you know exactly what it is
+
+you know exactly how to recreate it
+
+because you have a golden master image
+
+and in our case it's actually an Amazon image
+
+that you can just boot more of
+
+scaling is a problem
+
+you just boot ten more servers
+
+boom, done, no problem
+
+so yeah I tell the team, you know, pick your technology
+
+everything must be automated, that's another piece
+
+if you're going to deploy a closure service for the first time
+
+you have to be responsible for figuring out how it fits into our deployment system
+
+so that you have immutable deployments and disposable nodes
+
+if you can do that and you're willing to also maintain it and teach someone else
+
+about the little piece of code that you wrote, then cool
+
+you can do it, any level you want
+
+and then once you deploy stuff
+
+like a lot of us like to just SFH in the machines
+
+and then twiddle with things and replace files 
+
+and like try like fixing bugs live on production
+
+why no just throw away the actual keys
+
+because you're going to throw away the system eventually
+
+you don't even need route access to it
+
+you don't need to be able to get to it
+
+except through the port that your service is listening on
+
+so you can't screw it up
+
+you can't introduce entropy and mess things up
+
+if you throw away the keys
+
+so this is actually a practice that you can do
+
+deploy the servers, remove all the credentials
+
+for logging in and the only option you have
+
+is to destroy them when you're done with them
+
+provisioning new services in our world
+
+must also be trivial
+
+so we have actually now thrown away our chef repository
+
+because chef is obsolete and
+
+we have replaced it with shell scripts
+
+and that sounds like I'm an idiot
+
+I know, but when I say chef is obsolete
+
+I don't really mean that
+
+I like to say that so that people will think 
+
+because a lot of you are probably thinking
+
+we should move to chef
+
+that would be great
+
+because what you have is a bunch of servers
+
+that are running for a long time
+
+and you need to be able to continue to keep them up to date
+
+chef is really great at that
+
+chef is also good at booting a new server
+
+but really it's just overkill for that
+
+yeah
+
+so if you're always throwing stuff away
+
+I don't think you need chef
+
+do something really, really simple
+
+and that's what we've done
+
+so like whenever we deploy a new type of service
+
+I set up ZooKepper recently, which is a complete change from the other stuff we're deploying
+
+I think it was a five line shell script to do that
+
+I just added it to a get repo and run a command
+
+I've got a cluster of ZooKeeper servers running
+
+you want to always be deploying your software
+
+this is something I learned from Kent Beck early on in the agile extreme programming world
+
+that if something is hard 
+
+or you perceive it to be hard or difficult
+
+the best thing you can do 
+
+if you have to do that thing all the time
+
+is to just do it constantly
+
+non-stop all the time
+
+so like deploying in our old world
+
+where it would take all night once a week
+
+if we instituted a new policy
+
+in that team that said 
+
+any change that goes to master must be deployed within five minutes
+
+I guarantee you we would have fixed that process, right
+
+and if you're deploying constantly
+
+all day every day 
+
+you're never going to be afraid of deployments
+
+because it's always a small change
+
+so always be deploying
+
+every new deploy means you're throwing away old servers
+
+and replacing them with new ones
+
+in our world I would say that the average uptime
+
+of one of our servers is probably something like
+
+seventeen hours and that's because we don't tend to work on the weekend very much
+
+you also, when you have these sorts of systems
+
+that are distributed like this
+
+and you're trying to reduce the fear of change
+
+the big thing that you're afraid of is failure
+
+you're afraid that the service is going to fail
+
+the system is going to go down
+
+one component won't be reachable, that sort of thing
+
+so you just to have assume that that's going to happen
+
+you are not going to build a system that never fails, ever
+
+I hope you don't, because you will have wasted much of your life
+
+trying to get that to happen
+
+instead, assume that the thing, the components are going to fail
+
+and build resiliency in
+
+I have a picture here of Joe Armstrong 
+
+who is one of the inventors of Erling
+
+if you have not studied Erling's philosophy around failure and recovery
+
+you should
+
+and it won't take you long
+
+so I'm just going to leave that as homework for you
+
+and then, you know, I said, the tests are a design pattern
+
+I don't mean don't write any tests
+
+but I also want to be further responsible here
+
+and say you should monitor everything
+
+you want to favor measurement over testing
+
+so I use measurement as a surrogate for testing
+
+or as an enhancement
+
+and the reason I say this is
+
+you can either focus on one of two things
+
+I said assume failure right, so
+
+mean time between failures or mean time to resolution
+
+those are kind of two metrics in the ops world
+
+that people talk about
+
+for measuring their success and their effectiveness
+
+mean time between failures means
+
+you're trying to increase the time between failures
+
+of the system, so basically you're trying to make failures never happen, right
+
+mean time to resolution means 
+
+when they happen, I'm gonna focus on bringing them back
+
+as fast as I possibly can
+
+so a perfect example would be a system fails
+
+and another one is already up and just takes over its work
+
+mean time to resolution is essentially zero, right
+
+if you're always assuming that every component can will fail
+
+then mean time to resolution is going to be really good
+
+because you're going to bake it into the process
+
+if you do that, you don't care about when things fail
+
+and back to this idea of favoring measurement over testing
+
+if you're monitoring everything, everything with intelligence
+
+then you're actually focusing on mean time to resolution
+
+and acknowledging that the software is going to be broken sometimes, right
+
+and when I say monitor everything, I mean everything
+
+I don't mean, like your disk space and your memory and stuff there
+
+I'm talking about business metrics
+
+so, at living social we created this thing called rearview
+
+which is now opensource
+
+which allows you do to aboration detection
+
+and aboration means strange behavior, strange change in behavior
+
+so rearview can do aboration detection
+
+on data sets, arbitrary data sets
+
+which means, like in the living social world
+
+we had user sign ups
+
+constantly streaming in
+
+it was a very high volume site
+
+if user sign-ups were weird
+
+we would get an alert
+
+why might they be weird?
+
+one thing could be like the user service is down, right
+
+so then we would get two alerts
+
+user sign ups have gone down
+
+and so has the service
+
+so obviously the problem is the service is down
+
+let's bring it back up
+
+but it could be something like
+
+a front-end developer or a designer
+
+made a change that was intentional
+
+but it just didn't work and no one liked it
+
+so they didn't sign up to the site anymore
+
+that's more important than just knowing that the service is down
+
+right, because what you care about
+
+isn't that the service is up or down
+
+if you could crash the entire system and still be making money
+
+you don't care, right, that's better
+
+throw it away and stop paying for the servers
+
+but if your system is up 100% of the time and performs excellently
+
+but no one's using it, that's bad
+
+so monitoring business metrics gives you a lot more than unit test could ever give you
+
+and then in our world
+
+we focused on experiencing
+
+no, you have to come up to front and say ten!
+
+ok, ten minutes left
+
+when I got to 6WunderKinder in Berlin
+
+everyone was terrified to touch the system
+
+because they hadn't created a really well-designed 
+
+but traditional monolithic API
+
+so they had layers of abstractions
+
+it was all kind of in one big thing
+
+they had a huge database
+
+and they were really, really scared to do anything
+
+so there's like one person who would deploy anything
+
+and everyone else was trying to work on other projects
+
+and not touch it
+
+but it was like the production system
+
+you know so it wasn't really an option
+
+so the first thing I did in my first week
+
+is I got these graphs going
+
+and this was, yeah, response time
+
+and the first thing I did is I started turning off servers
+
+and just watching the graphs
+
+and then, as I was turning off the servers
+
+I went to the production database
+
+and I did select, count, star from tasks
+
+and we're a task management app
+
+so we have hundreds of millions of tasks
+
+and the whole thing crashed
+
+and all the people were like AAAAH what's going on
+
+you know, and I said, it's no problem
+
+I did this on purpose, I'll just make it come back
+
+which I did
+
+and from that point on
+
+like, really every day I would do something
+
+which basically crash the system for just a moment
+
+and really, like, we had way too many servers in production
+
+we were spending tens of thousands more euros per month
+
+than we should have on the infrastructure
+
+and I just started taking things away
+
+and I would usually do it
+
+instead of the responsible way
+
+like one server at a time
+
+I would just remove all of them and start adding them back
+
+so for a moment everything was down
+
+but after that we go to a point where
+
+everyone on the team was absolutely comfortable
+
+with the worst case scenario 
+
+of the system being completely down
+
+so that we could, in a panic free way
+
+just focus on bringing it up when it was bad
+
+so now when you do a deployment
+
+and you have your business metrics being measured
+
+you know the important stuff is happening
+
+and you know what to do when everything is down
+
+you've experienced the worst thing that can happen
+
+well the worst thing is like someone breaks in
+
+and steals all your stuff, steals all your users' phone numbers
+
+and posts them online like snapchat or something
+
+but you've experienced all these potentially horrible things
+
+and realized, eh, it's not so bad, I can deal with this
+
+I know what do to
+
+it allows you to start making bold moves
+
+and that's what we all want right
+
+we all want to be able to bravely go into our systems
+
+and do anything we think is right
+
+so that's what I've been focusing on
+
+we also do this thing called Canary in the Coal Mine deployments
+
+which removes the fear, also
+
+canary in the coalmine refers to a kind of sad thing
+
+about coal miners in the US
+
+where they would send canaries into the mines
+
+at various levels 
+
+and if the canary died they knew there was a problem
+
+with the air
+
+but in the software world
+
+what this means is you have bunch of servers running
+
+or a bunch of, I don't know, clients running a certain version
+
+and you start introducing new version incrementally
+
+and watching the effects
+
+so once you're measuring everything
+
+and monitoring everything
+
+you can also start doing these canary in the coalmine things
+
+where you say OK I have a new version of this service
+
+that I'm going to deploy
+
+and I've got thirty servers running for it
+
+but I'm going to change only five of them now
+
+and see, like, does my error rate increase
+
+or does my performance drop on those servers
+
+or do people actually not successfully complete the task they're trying to do
+
+on those servers
+
+so, this also allows us the combination of monitoring everything
+
+and these immutable deployments and everything
+
+gives us the ability to gradually affect change and not be afraid
+
+so we roll out changes all day every day
+
+because we don't fear that we're just going to destroy the entire system all at once
+
+so I think I have like five minutes left
+
+uh, these are some things we're not necessarily doing yet
+
+but they're some ideas that I have 
+
+that given some free time I will work on
+
+and, they're probably more exciting
+
+one is I talked about homeostatic regulation
+
+and homeostasis
+
+so I think we all understand the idea of you know homeostasis
+
+and the fact that systems have different parts that do different roles 
+
+and can protect each other from each other
+
+but, so this diagram is actually just some random diagram
+
+I copied and pasted off the AWS website
+
+so it's not necessarily all that meaningful
+
+except to show that every architecture
+
+especially server based architectures
+
+has a collection of services that play different roles
+
+and it almost looks like a person
+
+you've got a brain and a heart and a liver
+
+and all these things, right
+
+what would it mean to actually implement
+
+homeostatic regulation in a web service?
+
+so that you have some controlling system
+
+where the database will actually kill an app server
+
+that is hurting it, for example
+
+just kill it
+
+I don't know yet, I don't know what that is
+
+but some ideas about this stuff
+
+I don't know if you've heard of these 
+
+NetFlix, do you have NetFlix in India yet?
+
+probably not, unless you have a VPN, right
+
+NetFlix has a really great cloud based architecture
+
+they have this thing called Chaos Monkey they've created
+
+which goes through their system and randomly destroys Nodes
+
+just crashes servers
+
+and they did this because, when they were, they were early users of AWS
+
+and when they went out initially with AWS, servers were crashing
+
+like it was still immature
+
+so they said OK we still want to use this
+
+and we'll build in stuff so that we can deal with the crashes
+
+but we have to know it's gonna work when it crashes
+
+so let's make crashing be part of production
+
+so they actually have gotten really sophisticated now
+
+and they will crash entire regions
+
+cause they're in multiple data centers
+
+so they'll say like, what would happen if this
+
+data center went down, does the site still stay up?
+
+and they do this in production all the time
+
+like they're crashing servers right now
+
+it's really neat
+
+another one that is inspirational in this way
+
+is Pinterest, they use AWS as well
+
+and they have, AWS has this thing called Spot Instances
+
+and I won't go into too much detail 
+
+because I don't have time
+
+but Spot Instances allow you to effectively
+
+bid on servers at a price that you are willing to pay
+
+so like if a usual server costs $0.20 per minute
+
+you can say, I'll give $0.15 per minute
+
+and when excess capacity comes open
+
+it's almost like a stock market
+
+if $0.15 is the going price, you'll get a server
+
+and it starts up and it runs what you want
+
+but here's the cool thing
+
+if the stock market goes and the price goes higher than you're willing to pay
+
+Amazon will just turn off those servers
+
+they're just dead, you don't have any warning
+
+they're just dead
+
+so Pinterest uses this for their production servers
+
+which means they save a lot of money
+
+they're paying way under the average Amazon cost for hosting
+
+but the really cool thing in my opinion
+
+is not the money they save but the fact that
+
+like, what would you have to do to build a full system
+
+where any node can and will die at any moment
+
+and it's not even under your control
+
+that's really exciting
+
+so a simple thing you can do for homeostasis though
+
+is you can just adjust
+
+so in our world we have multiple nodes
+
+and all these little services
+
+we can scale each one independently
+
+we're measuring everything
+
+so Amazon has a thing called Auto Scaling
+
+we don't use it, we do our own scaling
+
+and we just do it based on volume and performance
+
+now when you have a bunch of services like this
+
+like, I don't know, maybe we have fifty different services now
+
+that each play tiny little roles
+
+it becomes difficult to figure out, like, where things are
+
+so we've started implementing zookeeper for service resolution
+
+which means a service can come online and say
+
+I'm the reminder service version 2.3
+
+and then tell a central guardian
+
+and the zookeeper can then route traffic to it
+
+probably too detailed for now
+
+I'm gonna skip over some stuff real quick
+
+but I want to talk about this one
+
+if, did the Nordic Ruby, no, Nordic Ruby talks never go online
+
+so you can never see this talk
+
+sorry
+
+at Nordic Ruby Reginald Brithway did a really cool talk
+
+on like challenges of the Ruby language
+
+and he made this statement
+
+Ruby has beautiful but static coupling
+
+which was really strange
+
+but basically he was making the same point that
+
+I was talking about earlier
+
+that, like Ruby creates a bunch of ways that you can couple
+
+your system together
+
+that kind of screw you in the end
+
+but they're really beautiful to use
+
+but, like, Ruby can really lead to some deep crazy coupling
+
+and so he presented this idea of bind by contract
+
+and bing by contract, in a Ruby sense
+
+would be, like, I have a class that has a method
+
+that takes these perameters under these conditions
+
+and I can kind of put it into my VM
+
+and whenever someone needs to have a functionality like that
+
+it will be automatically bound together 
+
+by the fact that it can do that thing
+
+and instead of how we tend to use Ruby and Java and other languages
+
+I have a class with a method name I'm going to call it
+
+right, that's coupling
+
+but he proposed this idea of this decoupled system
+
+where you just say I need a functionality like this
+
+that works under the conditions that I have present
+
+so this lead me to this idea
+
+and this may be like way too weird, I don't know
+
+what if in your web application your routes file
+
+for your services read like a functional pattern matching syntax
+
+so like if you've ever used Erling or Hascal or Scala
+
+any of these things that have functional pattern matching
+
+what if you could then route to different services
+
+across a bunch of different services
+
+based on contract
+
+now I have zero time left
+
+but I'm just gonna keep talking, cause I'm mean
+
+oh wait I'm not allowed to be mean
+
+because of the code of contact
+
+so I'll wrap up
+
+so this is an idea that I've started working on as well
+
+where I would actually write an Erling service
+
+with this sort of functional pattern matching
+
+but have it be routing in really fast real time
+
+through back end services that support it
+
+one more thing I just want to show you real quick
+
+that I am working on and I want to show you
+
+because I want you to help me
+
+has anyone used JSON schema?
+
+OK, you people are my friends for the rest of the conference
+
+in a system where you have all these things talking to each other
+
+you do need a way to validate the inputs and outputs
+
+but I don't want to generate code that parses and creates JSON
+
+I don't want to do something in real time that intersepts my 
+
+kind of traffic, so there's this thing called JSON schema
+
+that allows you to, in a completely decoupled way
+
+specify JSON documents and how they should interact
+
+and I am working on a new thing that's called Klagen
+
+which is the German word for complain
+
+it's written in Scala, so if anyone wants to pair up on some Scala stuff
+
+what it will be is a high performance asyncronous JSON schema validation middleware
+
+so if that's interesting to anyone, even if you don't know Scala or JSON schema
+
+please let me know
+
+and I believe I'm out of time so I'm just gonna end there
+
+am I right? I'm right, yes
+
+so thank you very much, and let's talk during the conference
