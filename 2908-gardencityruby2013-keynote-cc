@@ -1,72 +1,72 @@
-yes, hello, thank you
+Chad: Yes, hello, thank you.
 
-audience member: hello!
+Audience member: Hello!
 
-chad: hello!
+Chad: Hello!
 
-I am Chad, as he said
+I am Chad, as he said.
 
-he said I need no introduction
+He said I need no introduction
 
-so I won't introduce myself any further
+so I won't introduce myself any further.
 
-I may be the biggest non-Indian fan of India
+I may be the biggest non-Indian fan of India.
 
-[Hindi]
+[Hindi speech]
 
-I'll now switch back, sorry
+I'll now switch back, sorry.
 
-if you don't understand Hindi, I said nothing of value
+If you don't understand Hindi, I said nothing of value
 
-and it was all wrong
+and it was all wrong.
 
-but I was saying that my Hindi was bad
+But I was saying that my Hindi was bad
 
 and it's because now I'm learning German
 
 so I mixed them together, but I know not everyone 
 
-speaks Hindi here
+speaks Hindi here.
 
 I just had to show off, you know
 
-so, I am currently working on 6Wunderkinder
+So, I am currently working on 6WunderKinder,
 
-and I'm working on a product called Wunderlist
+and I'm working on a product called Wunderlist.
 
-it is a productivity application
+It is a productivity application.
 
-it runs on every client you can think of
+It runs on every client you can think of.
 
-we have native clients, we have a back-end 
+We have native clients, we have a back-end,
 
-we have millions of active users
+we have millions of active users,
 
-and I'm telling you this not so that you'll go download it
+and I'm telling you this not so that you'll go download it -
 
-you can do that too
+you can do that too -
 
 but I want to tell you about the challenges that I have
 
-and the way I'm starting to think about system's architecture and design
+and the way I'm starting to think about system's architecture and design.
 
-that's what I'm gonna talk about today
+That's what I'm gonna talk about today
 
 I'm going to show you some things that are real
 
-and that we're really doing
+and that we're really doing.
 
 I'm going to show you some things that are 
 
-just a fantasy that maybe don't make any sense at all
+just a fantasy that maybe don't make any sense at all.
 
-but hopefully I'll get you think about
+But hopefully I'll get you think about
 
 how we think about system architecture
 
-and how we build things that can last for a long time
+and how we build things that can last for a long time.
 
-so the first thing that I want to mention
+So the first thing that I want to mention:
 
 this is a graph from the Standish Chaos report
 
@@ -74,105 +74,105 @@ and I've taken the years out
 
 and I've taken some of the raw data out
 
-because it doesn't matter
+because it doesn't matter.
 
-if you look at these, this graph
+If you look at these, this graph,
 
-each one of these bars is a year
+each one of these bars is a year,
 
-and each bar represents successful projects in green
+and each bar represents successful projects in green -
 
-software projects
+software projects.
 
-challenged projects are in silver or white in the middle
+Challenged projects are in silver or white in the middle
 
-and then failed ones are in red
+and then failed ones are in red.
 
-but challenged means significantly over time or budget
+But challenged means significantly over time or budget
 
-which to me means failed too
+which to me means failed too.
 
-so basically we're terrible
+So basically we're terrible,
 
-all of us here, we're terrible
+all of us here, we're terrible.
 
-we call ourselves engineers but it's a disgrace
+We call ourselves engineers but it's a disgrace.
 
-we very rarely actually launch things that work
+We very rarely actually launch things that work.
 
-kind of sad
+Kind of sad,
 
-and I am here to bring you down
+and I am here to bring you down.
 
-then once you launch software, anecdotal-y
+Then once you launch software, anecdotal-y,
 
-and you probably would see this in your own work lives, too
+and you probably would see this in your own work lives, too,
 
-anecdotal-y, software gets killed after about five years
+anecdotal-y, software gets killed after about five years -
 
-business software
+business software.
 
-so you barely ever get to launch it, because
+So you barely ever get to launch it, because,
 
-or at least successfully, in a way that you're proud of
+or at least successfully, in a way that you're proud of,
 
 and then in about five years
 
 you end up in that situation where you're doing a big rewrite
 
-and throwing everything away and replacing it
+and throwing everything away and replacing it.
 
-you know there's always that project to get rid of the junk
+You know there's always that project to get rid of the junk,
 
-old Java code or whatever that you wrote five years ago
+old Java code or whatever that you wrote five years ago,
 
-replace it with Ruby now
+replace it with Ruby now,
 
 five years from now you'll be replacing your old junk Ruby code
 
-that didn't work with something else
+that didn't work with something else.
 
-we create this thing, probably all of you know the term legacy software
+We create this thing, probably all of you know the term legacy software -
 
-right, am I right? you know what legacy software is
+Right, am I right? You know what legacy software is,
 
-and you probably think of it as a negative thing
+and you probably think of it as a negative thing.
 
-you think of it as that ugly code that doesn't work
+You think of it as that ugly code that doesn't work,
 
-that's brittle, that you can't change, that you're all afraid of
+that's brittle, that you can't change, that you're all afraid of.
 
-but there's actually also a positive connotation of the word legacy
+But there's actually also a positive connotation of the word legacy:
 
-it's leaving behind something that future generations can benefit from
+it's leaving behind something that future generations can benefit from.
 
-but if we're rarely ever launching successful projects
+But if we're rarely ever launching successful projects
 
 and then the ones we do launch tend to die within five years
 
-none of us are actually creating a legacy in our work
+none of us are actually creating a legacy in our work.
 
-we're just creating stuff that gets thrown away
+We're just creating stuff that gets thrown away.
 
-kind of sad
+Kind of sad.
 
-so we create this stuff that's a legacy software
+So we create this stuff that's a legacy software.
 
-it's hard to change, that's why it ends up getting thrown away
+It's hard to change, that's why it ends up getting thrown away
 
 right, that's, if the software worked
 
 and you could keep changing it to meet the needs of the business
 
-you wouldn't need to do a big rewrite and throw it away
+you wouldn't need to do a big rewrite and throw it away.
 
-we create these huge tightly-coupled systems
+We create these huge tightly-coupled systems,
 
-and I don't just mean one application
+and I don't just mean one application,
 
-but like many applications are all tightly coupled
+but like many applications are all tightly coupled.
 
-you've got this thing over here talking to the database of this system over here
+You've got this thing over here talking to the database of this system over here
 
 so if you change the columns to update the view of a webpage
 
@@ -270,7 +270,7 @@ we would rather hack it than upgrade the thing
 
 because you just don't know what's gonna happen
 
-and then you end up, as you're re-implimenting all this stuff yourself
+and then you end up, as you're re-implementing all this stuff yourself
 
 you end up burning yourself out, wasting your time
 
@@ -302,7 +302,7 @@ I mean in Java it was like static, or, you know, factories
 
 and design pattern soup
 
-in Ruby its modules and mixends and you know
+in Ruby its modules and mixins and you know
 
 we have all these crazy ways of hiding what's actually happening from us
 
@@ -434,7 +434,9 @@ but scientists have figured out somehow that this is probably the right number
 
 so your cells, you've probably heard this all your life
 
-like physically, after some amount of time, you aren't the same human being that you were, physically
+like physically, after some amount of time, 
+
+you aren't the same human being that you were, physically
 
 you know, I don't know, you some period of time ago
 
@@ -482,7 +484,7 @@ small applications are good
 
 small teams are good
 
-so I don't know, this is sort of a non-sequitor
+so I don't know, this is sort of a non sequitur
 
 so if we're going to think about software 
 
@@ -496,7 +498,7 @@ and I say that a cell is a tiny component
 
 now, tiny and component are both subjective words
 
-so you can kind of do what what you want with that
+so you can kind of do what you want with that
 
 but it's a good frame of thinking
 
@@ -520,9 +522,7 @@ it's important to you that the function of the system lives for ten years
 
 so like, about exactly ten years ago
 
-we created Ruby gems at the RubyConf 2003
-
-in Austin, Texas
+we created Ruby gems at the RubyConf 2003 in Austin, Texas
 
 I haven't touched Ruby gems myself in like four or five years
 
@@ -594,7 +594,7 @@ this metaphor that I'm proposing
 
 and from my own career 
 
-when I was here before in Banflore
+when I was here before in Banglore
 
 I worked for GE and some of the people
 
@@ -602,7 +602,7 @@ we hired even worked on the system there
 
 we had a system called the Bull
 
-and it was a honeywell Bull mainframe
+and it was a Honeywell Bull mainframe
 
 I doubt any of you have worked on that
 
@@ -776,7 +776,7 @@ but you shouldn't have to document every method
 
 and every argument because the method name and the argument name
 
-should speek for themselves, right
+should speak for themselves, right
 
 so here's one that you probably won't agree with
 
@@ -872,7 +872,7 @@ any framework you want, anything you want to do
 
 as long as the code is this big
 
-so if you want to write the new service in Hascal 
+so if you want to write the new service in Haskell 
 
 and it's this big in a normal size font
 
@@ -920,7 +920,7 @@ so this big
 
 at the top of this, by the way 
 
-is some code by Constantine Hozzah
+is some code by Konstantin Haase
 
 who also lives in Berlin, where I live
 
@@ -928,7 +928,7 @@ this is a rewrite of Sinatra
 
 the web framework
 
-and Constantine is actually the maintainer of Sinatra
+and Konstantin is actually the maintainer of Sinatra
 
 it's not fully compatible, but it's amazingly close
 
@@ -936,7 +936,7 @@ and it all fits right in that
 
 but the font size is kind of small, so I cheated
 
-another rule, our systems are heterogenous by default
+another rule, our systems are heterogeneous by default
 
 so I say you can write in any language you want
 
@@ -962,7 +962,7 @@ the other one is, it leads to a good system design
 
 because think about this
 
-if I write one program in Erling, one component in Erling
+if I write one program in Erlang, one component in Erlang
 
 one program in Ruby
 
@@ -976,17 +976,17 @@ I don't even know what I would do
 
 you know it's hard
 
-like I would have to maybe implement Ruby in Erling
+like I would have to maybe implement Ruby in Erlang
 
 so that it can run in the same BM or vice versa
 
 it's just silly, I wouldn't do it
 
-so if my system is Heterogenuous by default
+so if my system is heterogeneous by default
 
 my coupling is very low, at least at a certain level by default
 
-because it's the path of least resistence 
+because it's the path of least resistance 
 
 is to make the system decoupled
 
@@ -1272,9 +1272,9 @@ and build resiliency in
 
 I have a picture here of Joe Armstrong 
 
-who is one of the inventors of Erling
+who is one of the inventors of Erlang
 
-if you have not studied Erling's philosophy around failure and recovery
+if you have not studied Erlang philosophy around failure and recovery
 
 you should
 
@@ -1354,11 +1354,11 @@ so, at living social we created this thing called rearview
 
 which is now opensource
 
-which allows you do to aboration detection
+which allows you do to aberration detection
 
-and aboration means strange behavior, strange change in behavior
+and aberration means strange behavior, strange change in behavior
 
-so rearview can do aboration detection
+so rearview can do aberration detection
 
 on data sets, arbitrary data sets
 
@@ -1488,7 +1488,7 @@ which basically crash the system for just a moment
 
 and really, like, we had way too many servers in production
 
-we were spending tens of thousands more euros per month
+we were spending tens of thousands more Euros per month
 
 than we should have on the infrastructure
 
@@ -1496,7 +1496,7 @@ and I just started taking things away
 
 and I would usually do it
 
-instead of the responsible way
+instead of the responsible way, 
 
 like one server at a time
 
@@ -1530,7 +1530,7 @@ well the worst thing is like someone breaks in
 
 and steals all your stuff, steals all your users' phone numbers
 
-and posts them online like snapchat or something
+and posts them online like SnapChat or something
 
 but you've experienced all these potentially horrible things
 
@@ -1806,7 +1806,7 @@ so you can never see this talk
 
 sorry
 
-at Nordic Ruby Reginald Brithway did a really cool talk
+at Nordic Ruby Reginald Braithwaite did a really cool talk
 
 on like challenges of the Ruby language
 
@@ -1832,11 +1832,11 @@ but, like, Ruby can really lead to some deep crazy coupling
 
 and so he presented this idea of bind by contract
 
-and bing by contract, in a Ruby sense
+and bind by contract, in a Ruby sense
 
 would be, like, I have a class that has a method
 
-that takes these perameters under these conditions
+that takes these parameters under these conditions
 
 and I can kind of put it into my VM
 
@@ -1866,7 +1866,7 @@ what if in your web application your routes file
 
 for your services read like a functional pattern matching syntax
 
-so like if you've ever used Erling or Hascal or Scala
+so like if you've ever used Erlang or Haskell or Scala
 
 any of these things that have functional pattern matching
 
@@ -1888,7 +1888,7 @@ so I'll wrap up
 
 so this is an idea that I've started working on as well
 
-where I would actually write an Erling service
+where I would actually write an Erlang service
 
 with this sort of functional pattern matching
 
@@ -1912,7 +1912,7 @@ you do need a way to validate the inputs and outputs
 
 but I don't want to generate code that parses and creates JSON
 
-I don't want to do something in real time that intersepts my 
+I don't want to do something in real time that intercepts my 
 
 kind of traffic, so there's this thing called JSON schema
 
@@ -1926,7 +1926,7 @@ which is the German word for complain
 
 it's written in Scala, so if anyone wants to pair up on some Scala stuff
 
-what it will be is a high performance asyncronous JSON schema validation middleware
+what it will be is a high performance asynchronous JSON schema validation middleware
 
 so if that's interesting to anyone, even if you don't know Scala or JSON schema
 
