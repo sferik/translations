@@ -1,0 +1,1285 @@
+Garden City Ruby 2014 - A Bit of History - Coby Randquist
+
+SPEAKER: We have Mister Coby Randquist on stage.
+
+C.R.: Thank you. Sorry about that.
+
+Like he said, I do organize a couple conferences,
+
+so the in-between time is the time
+
+I'm used to getting up here and talking.
+
+Doing more of the introductions and not so much the presentations.
+
+This is actually my second non-lightning talk presentation at a Ruby conference.
+
+So I guess we'll start here, if I can figure out the clicker.
+
+I wanted to thank the organizers for inviting me.
+
+Like I said, I operate behind the scenes
+
+a whole lot more than I do on stage,
+
+so I appreciate the invitation to come out.
+
+Prakash had mentioned that the community here in India
+
+had benefited particularly from the
+
+accessibility that Confreaks has been able to make available
+
+to all the various conferences around mostly the United States.
+
+A large part of that is due in part to Chad Fowler's support.
+
+When we first started Confreaks and approached him in 2007
+
+about recording the events, he was open to it and
+
+actually worked with Microsoft to get sponsorship.
+
+Microsoft was the primary video sponsor
+
+in 2007 and helped make this whole thing happen.
+
+Let me junp back to my slides for a minute.
+
+So who am I?
+
+My name's Coby Randquist.
+
+I've been doing software development
+
+and managing teams and building teams for
+
+about twenty-five years or so now.
+
+I started off back working with Basic in business Basic
+
+in a language called Thoroughbred Basic on Unix,
+
+originally writing in software to run
+
+construction account- or, construction companies.
+
+I migrated to Visual Basic, did a lot of work with Microsoft tools.
+
+I was a Microsoft guy for a good sixteen,
+
+seventeen years, migrated to C sharp
+
+and then I discovered Ruby.
+
+One of the other things is I like doing community building.
+
+I like getting groups of people like this together
+
+and finding the things that you care about
+
+and then finding ways to make it more realistic for you to pursue those passions.
+
+I do that with Ruby.
+
+In the last year and a half I've started getting involved
+
+with the OpenStack community.
+
+If you're not familiar with OpenStack,
+
+it is a platform for building cloud computering meet-ups, user groups.
+
+You know I'm very excited.
+
+This is the first regional conference in India.
+
+It's been, you know at first when I got involved
+
+with the Ruby community it was like,
+
+oh this is really neat.
+
+We've got these regional conferences.
+
+All communities should have this and they don't.
+
+If you look at Python, Python has PyCon,
+
+which is their big national conference,
+
+or their big conference,
+
+but there's not a Python conference every time you turn around.
+
+There is a Ruby conference just about every weekend.
+
+Somewhere in the world there is a Ruby conference going on.
+
+Let's see, oh so you'll notice the picture of the truck.
+
+One of my other passions is rock crawling.
+
+That's just a really beefed up truck that you go out
+
+and you go really slow over really nasty obstacles.
+
+Another community.
+
+So in this talk, if you looked at the abstract is says
+
+nothing because I didn't actually provide one to your organizers.
+
+So what I wanted to kind of do was go back
+
+and talk a little bit about my beginnings in the Ruby community,
+
+how Confreaks got started,
+
+and then a little bit about the different conferences that I do,
+
+and then we'll spend a couple minutes just on
+
+the topic about Open Source software and why we do,
+
+or why we should care about this,
+
+and how we could help spread really the passion for what we do.
+
+Because, well and I will get to that part a few slides down the road.
+
+So, how did I get started?
+
+Like I said, I was working in a Microsoft shop.
+
+I worked for a company called Vehix dot com.
+
+We did consumer automatic research. It was a dot net shop.
+
+And I'd found Ruby, I don't honestly remember why I found it,
+
+but I looked at it, played around with it,
+
+really liked it, but decided there was no way I was
+
+gonna be able to convince our management to make the talent switch,
+
+and there was no way I was gonna be able
+
+to convince all the people on the team that we should be changing,
+
+because we had just gone through a switch from
+
+Visual Basic to the dot net framework in C sharp.
+
+So we'd just gone through that,
+
+there was no way we were getting another switch through management,
+
+so I kind of put Ruby away.
+
+And then about six or eight months later
+
+I got to the point where I wanted to teach my kids
+
+a little more about programming,
+
+and if you open up a Windows machine today
+
+it doesn't come with a programming language,
+
+or if it does it's very varied.
+
+When I got into computers I started out on a Commodore 64
+
+for a Vic 20, the basic language was there.
+
+In fact that was the interface to the computer.
+
+You didn't have an operating system.
+
+You booted right into the language,
+
+which provided everything.
+
+So lacking that I went looking for a language.
+
+I found Ruby, I found Chris Pine's book Learn to Program.
+
+You can't really tell from this photo here,
+
+but the computer there is actually a Sun Sparkstation 10
+
+because I have a lot of kids.
+
+I've got six girls, now they range from-
+
+my youngest set of twins are seventeen,
+
+my oldest set of twins just turned twenty-one,
+
+and my oldest daughter is twenty-three,
+
+and there's one in the middle.
+
+I wanted a way to teach them so I actually built a little lab,
+
+and the cheapest way to do it at the time
+
+was I picked up a bunch of used Sparkstations,
+
+got them running Linux, got Ruby installed on it,
+
+and sat down and away we went.
+
+Ultimately it got me involved with Ruby.
+
+None of my kids really got into software development, but.
+
+Can't win all the battles.
+
+All right, so that was in early 2006
+
+when I was trying to teach my kids how to do Ruby,
+
+and about that time I started to evaluate
+
+what I was doing with my professional life and at Vehix dot com,
+
+and it really got to the point where I wanted to try to do Ruby.
+
+I wanted to figure out how I could utilize it.
+
+So at that point my options, you know,
+
+in 2006 I basically decided to quit my job
+
+to open up a consulting shop and build software solutions
+
+for people who didn't care about the technology I implemented it in,
+
+which gave me the ability to code in Ruby and in Rails
+
+without having to justify the technology choices I was making.
+
+I just had to provide a solution.
+
+So after doing that,
+
+I'd been on my own for about two months or so
+
+and heard about RubyConf through the local users group in Utah at the time.
+
+So heard about RubyConf. I was in Salt Lake City, Utah.
+
+Denver is literally a jump over the mountains,
+
+so you hop on a plane, forty-five minutes you're there.
+
+So I went to RubyConf in 2006 and Chad presented,
+
+and all these guys are presenting and they're just blowing my mind.
+
+And at the end, I think the format was a little bit different
+
+cause I think Matz actually did his keynotes at the end of one of the days.
+
+So he did his keynote speech,
+
+but he went through 400 slides and talked about a topic.
+
+One of the topics was bike shedding.
+
+But he went through so many slides,
+
+and I was already so brain fried at that point
+
+from all this new material that
+
+I wanted to go back and watch it again and it wasn't an option.
+
+You know I think there were some,
+
+somebody who had a their Mac Pro turned around
+
+and aimed at the stage, so there were bits and pieces
+
+of the talk available, but there wasn't a whole lot available,
+
+so that kind of set the seed for Confreaks.
+
+So we went home from the conference,
+
+started talking about a little bit-
+
+I don't know if you know, there's a guy named Mike Moore.
+
+He runs the MountWest Ruby Conference in Salt Lake City.
+
+So he started, he actually had a number of co-organizers
+
+the first couple of years.
+
+In 2007, he felt, I don't know if it was...
+
+Were there regional conferences before '06?
+
+So, OK.
+
+So Mike started organizing Mountain West RubyConf in 2007
+
+and he said, we should record this,
+
+and I got together with my partner at the time,
+
+a guy named Carl Youngblood, and we figured,
+
+you know, Mike was organizing the conference.
+
+The two of us said all right, we'll go figure out how to record it.
+
+So we borrowed some cameras and got a frame grabber and set up,
+
+and we recorded to tape,
+
+because at the time cameras weren't what they are today.
+
+So we recorded everything to tape.
+
+We recorded the event,
+
+we did post-production on it, we came up with-
+
+Oh, yes, we basically said, how hard can this be?
+
+After recording the tape and then spending like,
+
+I think it took us like sixty hours to take the data
+
+from tape and get it converted into a digital format
+
+to where we could then do post-production on it,
+
+and it was horrible, but we got it done.
+
+Later that year we talked with-
+
+Ruby Ho-Down was another regional conference
+
+that happened that year, and they signed up
+
+and said yeah, let's record is.
+
+So we started to make that one happen.
+
+Carl and I went out and bought
+
+all new equipment and basically
+
+created Confreaks at that point.
+
+So the company, we set up a company,
+
+we went out and bought these cameras
+
+and they set up on tripods
+
+and we had all this wiring in place.
+
+And we'd run all the wires to the back of the room,
+
+and one guy sitting at the back of the room
+
+can remote-control three cameras and do all the switching.
+
+And it was great, and it was hard,
+
+and in 2007 we recorded Mountain West.
+
+We recorded Ruby Hoedown. We recorded RubyConf.
+
+And then through these connections we recorded
+
+a conference called SmigDig which is a Agile developer conference.
+
+It's held every year in Oslo, Norway.
+
+So we did our first international conference
+
+our first year and that was an adventure.
+
+But the set-up that we were using at the time,
+
+if you can see at the bottom of the slide here,
+
+we'd used a double-wide format.
+
+So we recorded the video
+
+and we recorded the slides
+
+and we put them together.
+
+And they were in the incredible high definition
+
+of 960 pixels wide, because both frames were standard definition.
+
+So that was the first year.
+
+One of the things I learned out of the year-
+
+Actually this quote came about between my wife
+
+and I as we were raising five kids under five-
+
+"No matter how hard you think it is going to be-"
+
+and this applies to just about any endeavor-
+
+"you end up wishing it was that easy."
+
+And part of that falls into the OpenSource
+
+and the passion and the,
+
+all of the efforts that we undertake
+
+or all of the things that you look at in life.
+
+Yes, they're hard, but they're worth it.
+
+All right, so 2008, we recorded seven conferences.
+
+I won't go through them individually.
+
+The O'Reilly's Tools for Change for Publishers
+
+was interesting because it was our first deviation
+
+from software development and Ruby Conferences.
+
+But if you notice, we haven't done a lot of those.
+
+There's reasons for that.
+
+We like, I like the community and the spirit that we have here.
+
+So that was 2008. But, so that year was seven.
+
+Also in 2008 I'd been doing the independent contractor stuff
+
+for about two years, and in the United States,
+
+at the end of 2008, the economy was getting a little...
+
+a little wonky, and I'd wrapped up a major contract
+
+that had been a large part of keeping my business going.
+
+And I'd gotten to the stage where I was going around and doing-
+
+A lot of the work that we were doing at that point
+
+was smaller project work and constantly dealing with,
+
+where's the next check coming from,
+
+and started having some checks bounce here and there
+
+and decided that really wasn't where I wanted to go.
+
+So I wanted a regular income rather than
+
+the feast and famine that you get in consulting work.
+
+So I ended up joining yellowpages dot com.
+
+Yellowpages at the time was a wholly-owned subsidiary of AT&T.
+
+They are no longer owned by AT&T.
+
+So that was also a transition in 2008,
+
+where I went from running my own company, joined yellowpages,
+
+moved to southern California,
+
+and started running a development team there.
+
+But when I got there, there was no meet-up.
+
+There was no regional meet-up and that just
+
+blew my mind because I came from Salt Lake City, Utah,
+
+which has a population probably one-third
+
+or less of what the LA area has,
+
+and yet we had Ruby meet-ups about every thirty or forty miles
+
+along the major interstate,
+
+cause people didn't want to drive more than 30 or 40 miles.
+
+So they just set up their own meet-up.
+
+So when I got to LA there wasn't one,
+
+so we created a local meet-up and got that going.
+
+And, I'll tell you, the biggest thing about running a meet-up
+
+and having them work is pick a date, pick a time, and be there.
+
+Be there consistently, whether you have presentations or you just hack.
+
+Make it a staple that people can count on and it will grow.
+
+Just getting the ability to get people together on a regular basis
+
+and something predictable that they can put on their calendars
+
+and know that this is gonna be there and it's gonna be at that time and place.
+
+All right, so that takes us into 2009. Our big change in 2009-
+
+And this generally came-
+
+A lot of the progress that we've had with Confreaks dot com
+
+over the years has actually came from MountWest RubyConf,
+
+when Mike Moore says, hey, I really liked what you did last year,
+
+but let's try this.
+
+So we switched to doing high-definition slides.
+
+So instead of capturing them and scaling the slides
+
+from your poor resolution output to TV quality output -
+
+which is a lot worse, or at least was at the time -
+
+we started capturing them at full resolution and just,
+
+we continued that year in 2009 to capture
+
+the speakers with standard definition cameras.
+
+Let's see, new conferences that year...
+
+Acts as Conference.
+
+There's not actually too many regional events
+
+in this community that have started and then stopped.
+
+There's been a couple. Acts as Conference happened once.
+
+Parallels and Convergences is actually not a Ruby conference.
+
+And then we also did a Agile conference that year.
+
+In 2010, Mike say, hey, this stuff's really nice,
+
+but can't we get high definition cameras now?
+
+The other thing that happened at the end of 2009 that had
+
+a major impact on Confreaks is, in both '07 and '08
+
+we recorded the conference SmigDig in Oslo, and Carl,
+
+who is my partner in Confreaks, had been talking with a company in Norway,
+
+and we met up with them both years we were there.
+
+And at the end of 2009 they offered him a job,
+
+so Carl moved to Oslo, Norway, at which point I bought him out of Confreaks.
+
+So 2010 started my first solo year running Confreaks,
+
+and in that year, Mike pushed me,
+
+wanted high definition cameras,
+
+so I changed from these robotic-controlled cameras
+
+that we had to something very similar to what
+
+we're using today, as far as the cameras go.
+
+But in 2010 we recorded LA, MountainWest.
+
+Oh, 2009 was the year I launched
+
+the Los Angeles Ruby Conferences.
+
+I'm gonna back-res there for just a second
+
+because I launched the LA Ruby Conference
+
+for a very specific reason,
+
+and I think it's one of the very similar reasons
+
+that Prakash has helped launch Garden City Ruby, which was-
+
+At the time in Los Angeles, I had an engineering team, we had a lot-
+
+I actually had thirty or forty people working in Ruby
+
+and I knew there was no way I would ever get the budget approved
+
+to send thirty people over the period of a year traveling
+
+to different conferences, to get them to have the experience
+
+that you all get to have by being here today,
+
+and as much as people can benefit from the content
+
+that we record at these events,
+
+that's half or less of what you get out of a conference.
+
+The benefit of attending a conference is not just your relationship
+
+listening to speakers up here broadcasting at you,
+
+but it's the value you get out of talking to people next to you.
+
+It's the hallway track. It's the time that you spend actually discussing
+
+your coding issues, your office issues with other people in similar environments
+
+that can help influence your culture,
+
+and there's where a lot of the benefit of all this comes from.
+
+So I started LA RubyConf in 2009 because
+
+it was the best way to A) get all of my people to have
+
+that experience and B) we were looking for a way to
+
+introduce Ruby to more developers
+
+because we needed more people who could work in Ruby,
+
+and in the LA area, there's a huge amount of software development going on,
+
+but a lot of it's dot net, a lot of it is Java.
+
+So we needed a way to introduce those people-
+
+To this day almost every year at the Los Angeles Ruby Conference,
+
+when I ask how many people get paid to work in Ruby today,
+
+only about sixty percent of the audience gets paid to do Ruby.
+
+The other forty percent are there to learn about Ruby.
+
+All right, so 2010, I just got through talking
+
+about changes with Los Angeles and now I'm leaving.
+
+So in the end of 2010, I decided that it was time for a change.
+
+Yellowpages was a fantasy company and a really great opportunity for me,
+
+and working for AT&T was an interesting set of dynamics,
+
+but I wanted to move some place where-
+
+My wife has two daughters,
+
+and one of her daughters lives on the Oregon coast,
+
+and we have grandkids up there,
+
+so we wanted to be closer to them
+
+so it wasn't a sixteen hour trip to go visit them.
+
+SO I looked for a job doing Ruby,
+
+running a Ruby shop, found one, and that's all it took.
+
+So I went to work for a company called G5.
+
+When I moved to Bend, Oregon, I figured small company,
+
+seven executive te- or seven members on the executive team.
+
+We're gonna have less dysfunction and more ability
+
+to get things done than dealing with the hundreds of people
+
+involved with the bureaucracy,
+
+or thousands of people in the bureaucracy at AT&T.
+
+Lesson learned.
+
+You can be just as function- dysfunctional
+
+with five or seven people as you can with hundreds.
+
+So in 2011, we did more conferences,
+
+more conferences started showing up.
+
+The list of conferences that you see up here
+
+are events we actually went to and recorded.
+
+It's by no means a list of all the conferences
+
+that were going on in the Ruby community,
+
+because there are a lot of events that happen every year
+
+that we don't record, and if you go to our site we actually
+
+do a lot of work now to aggregate videos from other conferences
+
+and not just stuff that we produce.
+
+So 2011, Mike came to me and said, hey,
+
+loved the way the high definition stuff worked out last year -
+
+let's live stream.
+
+So we started live streaming.
+
+Also in 2011, after moving up to Bend-
+
+Bend, Oregon is a community of about 85,000 people,
+
+so I now have a small development shop working for G5 in Bend.
+
+I want to hire Ruby talent.
+
+How do I get people to come to work for me?
+
+So, we decided that-
+
+The Bend area is known for a couple of things.
+
+One: there are several ski resorts;
+
+and two: we have twelve micro breweries.
+
+With a population of 85,000 people.
+
+So the community is known for good beer.
+
+So we decided that we wanted to do a Ruby conference,
+
+and in this case, the focus was a little different.
+
+The, so we started Ruby on Ales.
+
+The focus for Ruby on Ales wasn't so much about
+
+getting all the local developers to learn about Ruby,
+
+because quite frankly there weren't any, or,
+
+the local developers we knew of.
+
+It's a small community.
+
+We pretty much knew everybody that was writing code.
+
+What we wanted to do was put our city on the map
+
+in the Ruby community, so that when we talked to people
+
+we were trying to hire, trying to get people to work with us,
+
+that they would know where we were at,
+
+and having a conference did that.
+
+That was the primary reason that started Ruby on Ales in 2011.
+
+2012, so 2010 and '11,
+
+I was basically running Confreaks solo.
+
+That got a bit arduous and a bit time-stretching,
+
+because I still had a day job as well.
+
+So in 2010, or 2012,
+
+I had my first full-time person come on that I trained,
+
+and she now actually goes out and records conferences solo,
+
+and I've got a second person that'll start
+
+recording conferences solo in 2014.
+
+Mike didn't have actually any technology changes in 2012,
+
+so adding staff and getting our response times-
+
+One thing that some of the community experienced
+
+in 2010 and a bit in '11, is I'd go record a conference
+
+and then it would take six, eight,
+
+and in some cases twelve weeks before you saw the videos.
+
+Adding staff has fixed that. All of the-
+
+we recorded RubyConf this year in November, 8th through the 10th,
+
+and all of the videos were online by
+
+December 4th or 5th I believe, and that was,
+
+you know, that's sixty some-odd videos.
+
+2013. Now that I had full-time staff
+
+and other people working on it
+
+and wasn't marred with doing all of the production,
+
+post-production work myself, we expanded.
+
+So we actually recorded twenty- looks like I missed one,
+
+we recorded twenty-three events in 2013.
+
+Got out of the country again
+
+and recorded Arrr Camp and Git Belgiam this year in 2013.
+
+The exciting thing is,
+
+I've now been doing the conferences
+
+and recording them, producing them for you know six years,
+
+and in 2013 we saw a ton of new regional conferences occur in the community.
+
+Berlington Ruby, which is probably the- actually,
+
+it wasn't their first year,
+
+they'd been doing it for a couple of years,
+
+but Berlington, Vermont is a city of about 45,000 people.
+
+Berlington holds a lot of statistical records for things -
+
+like they have the biggest shortest building in the country,
+
+things of that nature, where, you know, they have the tallest,
+
+tallest building in the state of Vermont,
+
+is the shortest building of all the other states that have tall buildings.
+
+So Vermont's a very small community,
+
+and Berlington was the, is the capitol of Vermont,
+
+it's the largest city and it has a population base of 45,000.
+
+So it's fun to see even small communities,
+
+out in the middle of- I won't say out in the middle of nowhere,
+
+but smaller communities can do this too.
+
+Conferences are something that can be done
+
+and can be done by a group of committed people.
+
+One of the other things that we did in 2013 is,
+
+in addition to Ruby on Ales, which is our Ruby Conference-
+
+Oh, also in 2012, yeah, in 2012,
+
+I left G5 and went back to work for the Deathstar at AT&T,
+
+only now I'm working at AT&T corporate,
+
+and we build cloud computing stuff,
+
+and that's where the OpenStack influence comes in.
+
+But the OpenStack community is very,
+
+it's different than the Ruby community,
+
+because if you look in the Ruby community,
+
+if you look at our list of sponsors,
+
+our sponsors are generally small to medium-sized companies
+
+that are working on creating products
+
+and creating themselves
+
+and building a marketplace and making things happen with technology.
+
+In the OpenStack community,
+
+the sponsors are folks like AT&T, IBM, CISCO, Hewlett Packard.
+
+They're huge corporations who are involved
+
+with being able to build and utilize cloud platforms,
+
+and OpenStack itself is a project that came out of
+
+a joint effort between NASA, which is the
+
+National Aeronautics and Space Association
+
+in the United States and another company
+
+that built OpenStack together,
+
+and then they released it.
+
+I wanted to bring this feel of community to OpenStack,
+
+so we started OpenStack on Ales,
+
+and the small tech there is we had thirty-five attendees.
+
+It's a new concept.
+
+But even with thirty-five people are the conference,
+
+and I think that's about what you had at RubyConf in 2001,
+
+isn't it Chad? Thirty-four people at RubyConf in 2001-
+
+So we're spreading the idea of
+
+small intimate gatherings and meet-ups in conferences.
+
+So that was 2013.
+
+2014, this is where we stand now.
+
+The first even we're recording this year is Garden City RubyConf.
+
+Thank you for having us.
+
+We will be, the conferences that are listed,
+
+there are ones that we are relatively
+
+confident we will be recording and/or producing this year.
+
+So with that, I've got three or four minutes left.
+
+I want to get real quick, OpenSource and the enterprise.
+
+I worked for AT&T today
+
+and I've been there for about two years,
+
+and in my previous stints-
+
+So we're doing things, we're using OpenStack,
+
+we're using Python, we're using Ruby, the way-
+
+I just have a couple points I want to sum up here.
+
+The important thing is, if you work for large companies
+
+that are starting to utilize OpenSource,
+
+one of the things is, at least within AT&T which is
+
+where most of my experience with this is,
+
+they want to know who's the vendor that's going
+
+to be responsible for this.
+
+If we use Rails, who are we going to call when there's a problem?
+
+My solution to that was we hired four developers.
+
+So part of my pitch that I've done within AT&T
+
+for using OpenSource software is, we may not get a vendor,
+
+but the problem as a company, even if we're your biggest purchases,
+
+we can't dictate what there,
+
+how you respond to this problem that we have.
+
+We can put pressure on you
+
+and we can put pressure on vendors to do things, but we can't control it as concisely.
+
+With OpenSource, if I have an issue on Rails,
+
+if we have an issue on any of our applications,
+
+with Activerecord or whatever,
+
+I can get a person who is a core contributor to
+
+Activerecord to fix the problem,
+
+because we've been able to convince management that,
+
+ok, so we don't have a vendor,
+
+so we need to put money into OpenSource.
+
+We need to hire people
+
+and we need to pay them to work on OpenSource full time.
+
+You're not gonna be able to do this
+
+with smaller companies because it just doesn't work out.
+
+With larger companies,
+
+where you'd normally be spending hundreds of thousands of dollars
+
+a year with an organization to support you otherwise,
+
+you can make the argument to spend the money on staff,
+
+and we've done that.
+
+And, so Erin Patterson works for me at AT&T,
+
+so if I have an Activerecord issue,
+
+I've got the Activerecord guy that we can,
+
+that I can have him fix it.
+
+Now luckily I don't have to do that very often,
+
+because it's a pretty solid platform.
+
+So in the, if you're in bigger companies
+
+and they're utilizing OpenSource,
+
+don't be afraid to make that argument,
+
+that instead of paying for support to a vendor,
+
+we should be investing in our own people to make the product better,
+
+and we go through that with OpenStack as well as Ruby and Python.
+
+OK, OpenSource and you.
+
+One of the reasons I started Confreaks
+
+back when I did is I'm what I call a glue coder.
+
+I take disparate systems, I put them together.
+
+I write code that gets them to talk to each other
+
+and make things work, and that's what I do,
+
+and that creates a lot of code that generally needs better tests,
+
+a lot of code that doesn't have any tests at all,
+
+or a lot of code that runs inefficiently,
+
+because I don't have the patience to optimize code.
+
+So, when I, as I got involved with Ruby,
+
+I looked at Confreaks, I looked at what was available
+
+and I said, one of the ways that I can give back to the community
+
+is by taking this non-obvious route of creating these videos
+
+and making this content available to help build the community,
+
+and that's the way I'm gonna give back,
+
+because that's what I'm good at,
+
+is organization and community and people.
+
+I'm not as good at code,
+
+but I love what we create here, so that's where I focus.
+
+So as you think about what you're doing with OpenSource,
+
+think about what, how you can contribute
+
+and what you can do that takes advantage of your unique skill set,
+
+not about making the next project that everybody's gonna use,
+
+because there's so many supporting roles that need to be done,
+
+so keep that in mind as you're looking at it.
+
+And in the next section, real quick,
+
+I'm gonna go through it a little bit quicker, is just,
+
+it's a couple things to think about in both your professional and personal lives.
+
+So my first question for you to ponder is,
+
+why are you doing what you're doing today?
+
+And when I wrote that I was looking not so much as you,
+
+as why you are at this conference as I was,
+
+why are you doing what you spend forty plus hours a week on?
+
+Understand why you're doing it. What are you trying to accomplish by doing it?
+
+So, like I said, I've got six kids.
+
+So one of the reasons I work every day
+
+and do what it is I do is to generate the money
+
+to give me a certain lifestyle
+
+and allow my kids to have a certain lifestyle
+
+and to be able to go to college
+
+and to be able to learn and do things.
+
+That's one of the reasons I do what it is that I do.
+
+Is what you're doing today what
+
+you would be doing if you knew you could not fail?
+
+So if you knew you couldn't fail at what you're gonna be doing,
+
+would you do something differently than what you're doing today?
+
+And it's OK if what you're doing facilitates your passions,
+
+meaning, sometimes you work a job that is not
+
+the thing that you care the most about,
+
+but if gives you the resources
+
+and the liberty to pursue the things that you care about,
+
+and there is absolutely nothing wrong with that.
+
+I mean that's crucial.
+
+It also makes it so that you can care more about your day job,
+
+or that thing you're doing that's not your passion.
+
+You can care a whole lot more about it
+
+and be a whole lot more excited about it if you understand
+
+why you're doing it and that you're doing it
+
+to drive something else in your life.
+
+It makes it much less monotonous
+
+or much less tedious if you know that,
+
+because I do X, I may be able to do Y.
+
+So the last slide.
+
+You owe it to yourself to understand
+
+why you're doing it and what you expect out of it.
+
+Yeah, another, just see where my slide is,
+
+I'm almost done. Yup, lost that thought.
+
+OK, last quote, this is one of my favorite quotes.
+
+It says, "In the information age, the barriers just aren't there.
+
+The barriers are self-imposed.
+
+If you want to set off and go develop some grand new thing,
+
+you don't need millions of dollars of capitalization.
+
+You need enough pizza and Diet Coke to stick in your refrigerator,
+
+a cheap PC to work on,
+
+and the dedication to go through with it."
+
+This is a quote from John Carmack,
+
+who is the- one of the founders of id,
+
+created many of the first-person shooter games
+
+and the graphic engines that were behind them.
+
+The key to this, though, in my opinion,
+
+is not the - I can't see my capitalization, anyway -
+
+the key to it is this:
+
+"...and the dedication to go through with it."
+
+So the effort that it takes to put on a conference,
+
+the effort it takes to attend, not even organization,
+
+but to attend a meet-up is just
+
+the dedication to go through with it.
+
+The commitment to say hey,
+
+I'm gonna take one evening a month,
+
+or one evening every other month,
+
+and go to this meet-up
+
+and participate and work on building my own skills.
+
+It's all about the dedication to go through with it.
+
+And with that, thank you.
