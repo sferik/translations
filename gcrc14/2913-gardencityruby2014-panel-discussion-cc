@@ -1,0 +1,431 @@
+Garden City Ruby 2014 - Panel Discussion - Chad Fowler, Baishampayan Ghose, Yogi Kulkarni, Venkat Subramaniyan, & Hemant Kumar
+
+So I would ask our panelists to come forward and chat.
+
+So Chad is, Chad Fowler is the author of
+
+The Passionate Programmer and he is gonna like-
+
+CHAD FOWLER: Yes?
+
+PREVIOUS: He's been like, he's one of the oldest,
+
+one of the oldest Ruby guys around. He's embarrassing me.
+
+C.F.: I'm one of the oldest people here. Thank you Kumar. 
+
+Hemant Kumar: Uh, let's, Yogi.
+
+Yogi is principal architect of Flipkart
+
+and he has obviously worked in
+
+one of the largest deployment serve and supply chain in Ruby, and yeah.
+
+Next person I'm gonna ask is Baishampayan Ghose, uh, BG.
+
+Is he outside? Can you, can anyone? So. You guys can sit.
+
+C.F.: Yes, what?
+
+H.K.: You guys can sit actually.
+
+C.F.: He wants us to sit down. Sorry, I'll sit.
+
+H.K.: So, yeah, our next panelist is Baishampayan Ghose.
+
+He is a polyglot programmer and he is CTO of Helpshift,
+
+a start-up running from run in California.
+
+And last I would like to call on Venkat Subramaniyan.
+
+He is CEO of Mahaswami Software.
+
+He has been programming in Ruby for like ten years,
+
+and for a real long time, so.
+
+OK, so we'll start the panel description by asking the panelists like,
+
+what is your current language of choice primarily, and why? Swami, Venkat.
+
+Venkat Subramaniyan: OK, we use primarily Ruby.
+
+We've been using Ruby for the past, I mean,
+
+writing bigger-sized products in since six, seven years.
+
+But we use quite a bit of Java along with it.
+
+H.K.: Why? Like, why do you use it?
+
+V.S.: Well, see there is some very, like, well-established libraries,
+
+like reporting GINs, and several stuff that you don't want to really,
+
+you know, try to match from the Ruby side.
+
+So we just bring the best of both worlds
+
+by cutting forward all the good libraries.
+
+Jewels we have used quite a bit. Jasper reports.
+
+These are all stuff for which there isn't an equivalent exist,
+
+and we just want to use the knowledge and,
+
+you know, the well-established software there,
+
+for their purpose. So that's one of the main reasons.
+
+Baishampayan Ghose: So we use multiple languages,
+
+but, Closure is our main programming language of choice.
+
+We have been using it since I think late 2008.
+
+We're one of the first companies to put Closure into production.
+
+We use Closure because a variety of reasons, but,
+
+I guess if I have to say name a few reasons, that would be,
+
+Closer lets me focus on the problem,
+
+and it pretty much gets out of the way.
+
+And there is a lot of focus on awesome things like immutability,
+
+data as a main construct for doing competition.
+
+And of course it's a lisp so I get all the power,
+
+and it's also something that runs in the JVM,
+
+so I can also leverage the awesome Java ecosystem.
+
+So yeah, but, at the same time, we do use different languages for different needs.
+
+We have used Erlang in the past, we use Go as well,
+
+and of course there is JavaScript and a bunch of other languages.
+
+H.K.: So do you think like, let's say,
+
+Closure doesn't seem to be right language
+
+for how to write utility to you know like
+
+do something on my OS X, for example.
+
+If I auto-install something or manage processes or anything.
+
+Do you think like it's a right tool for that sort of thing?
+
+B.G.: So, to build your, if you want to build a small utility,
+
+you'd need a faster start-up time, and that problem is inherent in JVM.
+
+It has nothing to do with Closure, per se.
+
+But Closure also has something called Closure Script,
+
+which lets you write whatever code that you want to write in Closure,
+
+but then the compiler compiles it down to JavaScript,
+
+and basically you can create a node.js application out of Closure code.
+
+You get all the flexibility and constructs
+
+to build abstractions that Closure provides,
+
+but you can target, you know, different run-times.
+
+So you can run, you can build a shell utility as well.
+
+C.F.: Do you actually do that? Do you like write 
+
+B.G.: We've done it a few times. We've done it a few times.
+
+It's not something that we ?? do, but yeah,
+
+Nailgun is another upload that you talked about in your talk, right.
+
+And, so yeah, so that's what we do.
+
+But there are other hacks, like tweaking the boot class paths in JVM
+
+to make the start up times faster.
+
+That's what something ?? is in Closure.
+
+There are ways of getting it, but yeah, you are,
+
+in a way, right that, by default, it's, Closure is probably not a,
+
+not the right run time for building shell utilities.
+
+H.K.: OK, so, before we move to Chad, like, you said like,
+
+all the power of lisp actually, so, can you elaborate on that?
+
+What do you mean by all the power of lisp?
+
+B.G.: Sure. So, how many people use Emacs here?
+
+Twenty percent maybe. You do?
+
+Yogi Kulkarni: No, I don't personally.
+
+C.F.: Never.
+
+B.G.: Never? But you talked about Emacs as well as good software systems.
+
+C.F.: Not to use, just as an example.
+
+B.G.: Just to talk a lot. Anyway, so Emacs as a software is
+
+thirty-five years old today, and still is in production,
+
+so to speak, you can still use it.
+
+So, what can we learn from Emacs?
+
+Well, the language is always available to use, right,
+
+so if you compare it with, let's say, Python or Java,
+
+there is a difference between compile time and run time.
+
+When you are running, the language is not available to you.
+
+You cannot, you know, manipulate the code itself while it is running,
+
+or generate new code, dynamically.
+
+So that is one thing that lisp ?? by design,
+
+because they have something,
+
+a property called homoiconicity,
+
+which basically means that the code and data are pretty much the same.
+
+Even though they may not be identical,
+
+but, for all practical purposes they are the same.
+
+That means when a Closure code is running,
+
+it can manipulate itself while it's running,
+
+and it can maybe generate new code, optimize something away.
+
+So basically it lets you write code which writes more code,
+
+so, and that is something which is always preferable.
+
+It is better to write a code that writes more code
+
+than to just write code.
+
+So, and there are many other features that lisp has,
+
+for example, the language itself is so simple,
+
+like there are just few primitives to understand and learn about.
+
+Syntax is pretty much non-existent,
+
+and very simple to understand and learn.
+
+And that really reduces a lot of cognitive overload
+
+that some languages might introduce.
+
+So yeah, these are probably a few superficial advantages.
+
+I can go deep into it, but maybe we can talk about it after.
+
+H.K.: Yeah, so, Chad, like, what is your poison of choice?
+
+C.F.: My poison of choice?
+
+H.K.: Yeah.
+
+C.F.: I guess, it's hard to answer that question.
+
+I don't have an answer, right?
+
+The one single answer I could give you is anything except for Ruby.
+
+H.K.: OK.
+
+C.F.: And I mean that very seriously.
+
+I remember in 2007, I was at MountainWest Ruby Conference,
+
+the first one, that Coby was talking about earlier,
+
+and I did a keynote, my first- no, it wasn't my first keynote,
+
+it was my first Ruby Conference keynote. It was about, like, what do we do next, after Ruby?
+
+And I was already deep in the like toil
+
+and stress of being worried that I identified
+
+too heavily with Ruby, in 2007.
+
+So I wanted to like get out of the Ruby thing
+
+and not be the Ruby guy, and I'm still desperately trying to do that.
+
+But, no, I mean, like, I said,
+
+when I was speaking earlier,
+
+I'm using Closure, Scala, Node, Java, Objective C,
+
+Ruby, Erlang, everything, at work right now.
+
+I think probably what I'll learn next
+
+really seriously is Objective C.
+
+But I'm going to try to use it,
+
+even on the server, as like a language to develop services in,
+
+just as an experiment so I can learn it better and do better job on the clients.
+
+H.K.: So like not Ruby?
+
+Is it because you already had kind of a Ruby like,
+
+you obviously work with Ruby as like with the,
+
+along with Dave Thomas, and all of these guys,
+
+you were one of the earlier adopters of Ruby.
+
+C.F.: Yeah, because I will never learn anything else about Ruby,
+
+cause I know everything. No, it's- I'm always suspicious of myself
+
+when I identify too heavily with anything extrinsic to me.
+
+Like for me to say I am a Ruby programmer-
+
+if I say that, I feel bad, and I know that I've made a mistake.
+
+I know that I'm creating some rigidity of value
+
+that is ultimately counter productive to
+
+my success and to the success of people around me.
+
+So like I've been doing more Java in the past month than Ruby,
+
+which I used to do full time in 1999.
+
+And it's been a really good freeing thing,
+
+like I am not a Ruby programmer, I am a programmer,
+
+and even that is kind of limiting,
+
+because I'm more and less than that at the same time.
+
+So it's not so much that I'm worried about Ruby itself,
+
+it's that I'm worried about putting myself
+
+into a bucket that I can't get out of,
+
+even if it's a subconscious problem.
+
+H.K.: OK, Yogi. Yeah, so what do you-
+
+Yogi Kulkarni: So, if you're asking about personal choice then,
+
+sure, you know I like coding in Ruby.
+
+I just love it because it's compact.
+
+I feel the translation from my thoughts to code
+
+is shortest in Ruby, so it just feels very natural.
+
+But that said, I think I've moved the last seven years
+
+from being a kind of a language geek, of sorts, not really,
+
+but, I used to love program language theory
+
+and getting into stuff like that,
+
+but to actually not caring too much about it.
+
+I think programming languages are good,
+
+and they kind of get you excited,
+
+but when it comes to actually solving hard problems,
+
+it's the ecosystem that matters around that language.
+
+Things like the tools, the profilers, the monitoring tools, debuggers,
+
+you know that's the stuff which no language is gonna save you
+
+when you're in production, right.
+
+But you just need to have that,
+
+the maturity of an ecosystem is really important there.
+
+Which is why we keep going back to the JVM over and over,
+
+and even the new languages are being built on the JVM as,
+
+it's for exactly that reason.
+
+But among the newer languages on the JVM,
+
+I'm actually surprised that I've- so,
+
+I'm kind of intrigued by Closure and Scala.
+
+We actually looked at Scala very carefully
+
+for the system I spoke about.
+
+But I didn't think it gave the kind of jump.
+
+I felt was kind of marginal,
+
+the improvement over just doing good Java,
+
+that Scala gave, that's arguable.
+
+There's a lot of language features there,
+
+possibly too many language features,
+
+which is one of my concerns.
+
+But Closure, we looked at that also,
+
+but we didn't look, we didn't actually take it that seriously,
+
+because of basically the prefix notation being too alien.
+
+We wanted something block structured for people moving from Java to Ruby.
+
+So I think, yeah, those are the kind of things that are on my mind.
+
+00:08:13,11 - UNFINISHED
