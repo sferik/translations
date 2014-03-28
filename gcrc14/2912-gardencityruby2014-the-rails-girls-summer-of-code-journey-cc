@@ -1,0 +1,715 @@
+Garden City Ruby 2014 - The Rails Girls Summer of Code Journey - Sakshi Jain & Pallavi Shastry
+
+Pallavi Shastry: We're here to share an amazing
+
+Rails Girls Summer of Code experience.
+
+It was an internship of about three months,
+
+and we were the team Diasbits.
+
+So Dias is the short form of the Open Source project
+
+we picked up called Diaspora and 'bits,'
+
+we were trying to be the tiny, teeny tiny bits of Diaspora
+
+by contributing to Diaspora,
+
+and that's how we picked up the name Diaspora.
+
+So we are- I'm Pallavi.
+
+I'm working as a developer in Bang the Table
+
+and this is my coding partner Sakshi Jain.
+
+She's a final year engineering student from Rajasthan.
+
+And let's say more about Rails Girls.
+
+Sakshi Jain: So we're here to share about the fun
+
+we had during Rails Girls summer of code,
+
+and so we'll be talking less technical and more,
+
+sharing more of the fun.
+
+So, Rails Girls- the aim of Rails Girls is to give
+
+tools to women and a community so that they
+
+understand technology and build it ideas.
+
+So this they do by providing them
+
+a great experience and making technology more approachable.
+
+So let's see more about Rails Girls, here.
+
+[VIDEO]
+
+Girl: We want to give the girls a chance to build a web application from concept to code.
+
+Boy: And we think it's important that the girls learn to see the web as a platform for their ideas.
+
+[indecipherable lecture & chatting]
+
+Voice Over: It's really awesome to see you all here,
+
+because I hope that you're actually going to start building web apps and services.
+
+Boy: So we want to get the girls to destroy the world!
+
+Girl: Internet! [Indecipherable trailing off]
+
+P.S.: So after connecting in a number of workshops and meet-ups,
+
+so the Rails Girls organizers decided to take it to the next step
+
+and that's how the Rails Girls Summer of Code was born.
+
+So Rails Girls Summer of Code-
+
+the main idea was to get women and girls into Open Source.
+
+And it works very similar to Google Summer of Code
+
+and Ruby Summer of Code, where students will be paid,
+
+and the students are free to pick up any Open Source project work on.
+
+And like the Google Summer of Code and the Ruby Summer of Code,
+
+the idea of Rails Girls Summer of Code was to expand
+
+the knowledge and skills by contributing to great Open Source Projects.
+
+So you don't have to come up with a sophisticated code
+
+by the end of your internship.
+
+So there were about forty applications from about
+
+one forty students from all over the world.
+
+And few of them were outstandingly prepared,
+
+few of them had their own support networks
+
+from local community and coaches,
+
+and few of them had their own personal stories.
+
+And this
+
+00:04:10.26 ??
+
+was the teams that got selected from
+
+different parts of the world, and we were the team from India.
+
+So we were a team. So team consisted of participants,
+
+coaches and mentors. So the participants were me and Sakshi.
+
+It was a paired event. And coaches-
+
+coaches are the people who you used to help us with all our doubts,
+
+you know, help us whenever we get stuck with anything.
+
+And mentors are the people who know in and out about the project we picked up.
+
+So we picked up Diaspora and we had Diaspora developers as our mentors.
+
+And these people were our coaches.
+
+Arihant Godha, Neha, and Tejas Dinkar,
+
+the guy who spoke about native extensions.
+
+It was not only coding, the whole three months.
+
+We had a lot of fun activities,
+
+not only reporting or blogging about the work
+
+we did or the coding we did.
+
+We did have regular interactions,
+
+hang-outs with our mentors, other teams,
+
+and we met a lot of awesome people.
+
+And we got a lot of goodies from all the sponsors.
+
+And Sakshi will tell us more about the project.
+
+S.J.: Yeah, so let's see about what projects did we actually work for.
+
+We chose to work for Rails Girls App generator and Diaspora.
+
+Initially we thought that we'd be working for Diaspora
+
+for the whole three months, but Diaspora is a huge project,
+
+and it was really difficult for us,
+
+for us beginners to understand what actually Diaspora is,
+
+and how we should contribute to it.
+
+And it requires a lot of knowledge of Rails and other things.
+
+So we chose, we started off with Rails Girls App generator.
+
+This project also included our visits to Rails Girls events in Bangalore and 
+
+00:06:09.90??  .
+
+So, what do we actually do in the Rails Girls events
+
+is that we learn more about Rails,
+
+and we get to meet a lot of people and we can meet our coaches,
+
+we can ask any doubt we have in our mind.
+
+And also there's a lot of chance to have nice pictures of Friday hug.
+
+So during this project, what we did is-
+
+Rails Girls App generator is about adding comments
+
+targeted at Rails Girls students
+
+and it removes more complicated stuff
+
+like respond-to blocks and JSON stuff in controllers, et cetera.
+
+So this project also includes a 
+
+JQ 00:06:58.37 ??
+
+based website hosted on GitHub pages,
+
+which gives pointers to the guides and other resources -
+
+beginners, intermediate, et cetera.
+
+So after finishing off with Rails Girls App generator,
+
+which took us about a month to figure out what exactly has to be done,
+
+and we learnt more about Rails, et cetera, then we switched on to Diaspora.
+
+Diaspora is a legacy-aware decentralized social network,
+
+which gives the user whole control of their data.
+
+And it was touted by the media as a Facebook-killer.
+
+So, why is it called as a Facebook-killer?
+
+Because it is completely different
+
+and it gives the user complete freedom and privacy.
+
+So I should not speak much about Diaspora because I haven't contributed to it much.
+
+Let's see- next slide.
+
+Yeah. So before contributing to Diaspora,
+
+we had some doubt in our mind as to what exactly
+
+should we know about Diaspora,
+
+and how should we even contribute to it?
+
+So how- should we start reading
+
+?? 00:08:16.29
+
+books from starting to end,
+
+or should we start learning all the languages:
+
+Ruby, Javascript, et cetera.
+
+So, this was the answer which was given to us by the Diaspora developer.
+
+He said that, "Never try to learn everything up front,
+
+that doesn't work. Better pick upa little task and learn what you need to solve it."
+
+So this, we formed as a principle
+
+and so now we use this concept whenever
+
+we start contributing to any Open Source project.
+
+Also, one important thing that what prior knowledge
+
+should we have before making any contributions.
+
+He said that git workflow is the most important thing,
+
+and learn everything else as you go.
+
+So this is a concept which helps you to save your time.
+
+Just pick up one task and research about it and try to solve it.
+
+If you have less time, that means you should not start
+
+the reading whole of the languages.
+
+It is good if you know everything, but,
+
+if you have less time that means you set about a particular bug,
+
+which you want to fix.
+
+So we picked up some issues from Diaspora issue list,
+
+and these were the few issues from the beginner's category,
+
+and these are some of the issues:
+
+Blocking people from the profile page, fix commenting,
+
+comment still displayed after a fail posting, et cetera.
+
+So let me explain to you about the blocking feature,
+
+which we introduced into Diaspora.
+
+So as you can see in the image,
+
+first we had to design what,
+
+where should the block icon be placed on the profile page in Diaspora.
+
+So we went through a series of design steps.
+
+As you can see, we had the block in the drop-down,
+
+and then a little finishing was required.
+
+Finally we came down to one design, which was accepted by most of the people.
+
+So through all this we learned about how to communicate
+
+in Open Source projects, what,
+
+how to ask Diaspora developers how do they review, et cetera.
+
+After fixing our design, then we,
+
+what we did was, we had to figure out what exactly,
+
+where exactly the code should be placed.
+
+So we had to figure out which files will be effected.
+
+So all this we could do with the help of Diaspora developers.
+
+So, Pallavi, what did we learn?
+
+P.S.: Rails, of course, and the Git workflow,
+
+and we had this oh-my-god situations when we had much conflicts.
+
+So, how do we branch out? How do we fix it?
+
+And then how do we send a poll-request?
+
+And how do developers review it? And how they comment?
+
+The whole Git workflow basically, and working remotely.
+
+So Sakshi's from Ajmer. I'm from Banglore.
+
+So for the first few days, in the beginning,
+
+it was difficult for us to communicate.
+
+And also the developers are from Berlin,
+
+and coach is luckily a developer from Banglore.
+
+And most of the time it was through pinging
+
+or email or IRC we could communicate with each other.
+
+And not only fixing the bugs, we also,
+
+it was a test in development.
+
+So we learned a lot about RSPEC or 00:11:53.15?? and all that.
+
+S.J.: The impact.
+
+The impact is that we are standing here and speaking in front of you.
+
+So the whole Rails Girls Summer of Code journey
+
+had a great impact on our life and career.
+
+So we know, like, what exactly we want to do now, and what is our destination.
+
+Though we still have to learn a lot and,
+
+it made us realize that we too have the capability
+
+to implement our ideas and we got to meet a lot of
+
+people from all over the world.
+
+We understood the learning strategy of different people
+
+from different countries. We realized that we too have the,
+
+fortunately we too have the chance to make things,
+
+to change the world and make things better, and happen.
+
+Thank you!
+
+Thank you to the coaches, to the mentors,
+
+to the organizers of Rails Girls Summer of Code journey,
+
+to the Garden City Ruby Conference organizers
+
+for giving us this opportunity to speak here.
+
+Thank you all.
+
+P.S.: Any questions?
+
+V.O.: We do have time for questions, yeah.
+
+QUERANT: Just wanted to say, good job and all the rest.
+
+P.S.: Thank you.
+
+Anyone, any questions?
+
+QUERANT: I just want to ask like, what are the
+
+00:13:42.7 ??
+
+challenges that you faced with this? I see a lot of-
+
+I'm not engend- I'm gonna not engender women,
+
+or something like that, but I see a lot of fresher sort you know,
+
+people who are just doing their college
+
+and are finding a real tough time basically
+
+to learn technology and things.
+
+Like how do you break that ice, how did you guys do it in specific?
+
+P.S.: So, we do have that feeling, like,
+
+we felt timid sometimes because we don't have
+
+the required technical skills, but then once we got into it,
+
+we eventually picked up. We slowly picked up.
+
+And I think the best thing would be to just,
+
+just don't feel timid, just pick up,
+
+eventually you'll pick up everything.
+
+S.J.: And yeah, the Rails Girls Summer of Code
+
+organizers were so welcoming.
+
+Anything you can ask them on IRC just ping them,
+
+they'll give you an answer, you can research,
+
+you can talk to your coaches.
+
+So that's how we got to learn a lot of things.
+
+QUERANT: OK, so I wanted to ask you,
+
+have you followed up in your college
+
+and have you told them about it?
+
+What steps did you take to make people aware?
+
+Because I did my GSub this summer and I've been trying to do stuff.
+
+So what are you guys doing in college?
+
+P.S.: Yes, we did have a similar talk in college,
+
+we introduced the rest of the girls to this.
+
+And I'm not very sure when it's gonna happen again,
+
+but I make sure some of my juniors will take part.
+
+QUERANT: All right, that's great.
+
+P.S.: OK
+
+QUERANT: Again, I love your confidence.
+
+This was a great talk. So my question is,
+
+the learnings that you've had in college,
+
+how much was it applicable in this experience?
+
+The useful stuff?
+
+P.S.: Yeah, we got to know that we didn't learn anything,
+
+and we have to start learning.
+
+S.J.: Exactly.
+
+QUERANT: So, finally, Emacs or Vin??
+
+P.S.: Yeah, not so much. OK, he has a question.
+
+QUERANT: What is the answer by the way?
+
+QUERANT: So that was a good talk. Part of- slightly different question.
+
+What are you personal plans to take this forward,
+
+Rails Girls initiatives and the Rails Girls Summer of Code initiatives?
+
+How you gonna take it forward, because I've seen in the past,
+
+people come up here on stage, get there visibility,
+
+get the limelight, get into the corporate bubble,
+
+and disappear out of this.
+
+S.J.: So we are standing here, that means we're inspiring students.
+
+QUERANT: Right now. What are you all going to do?
+
+S.J.: Yeah.
+
+P.S.: OK, we're still contributing to Diaspora,
+
+there are few peers left under review, and now we know,
+
+we have a fair idea of how to contribute to Open Source,
+
+so we'll pick up some other Open Source project.
+
+I tried my hands on
+
+00:16:56.77 ??
+
+Yeah. Pretty much take it forward that way.
+
+QUERANT: And one request.
+
+Inspire others, please,
+
+other girls especially to get onto the same boat here.
+
+Well done, thanks.
+
+P.S.: Thank you.
+
+So we have a lot of time for questions.
+
+QUERANT: I have a sister, who is going to 
+
+00:17:18.20?? 
+
+this year. So do you have any statements for
+
+what should I tell her to do or ask her to follow?
+
+P.S.: So basically when we applied, they asked us to show sample codes.
+
+So I think, this was not only specific to Ruby on Rails,
+
+any web framework, anything that is related to web.
+
+I mean, there were other teams who were working on JavaScript.
+
+So if she's interesting, ask her to have some sample codes,
+
+so that'll help her to get into.
+
+And compared to Google Summer of Code and Ruby Summer of Code,
+
+this wasn't so competitive.
+
+I mean, I think it was the first time.
+
+S.J.: Yeah, it was.
+
+P.S.: And only a few of them knew it.
+
+So it should be easy to get into it.
+
+V.O.: We do have time for more questions.
+
+QUERENT: I don't actually have a question,
+
+but I have a piece of advice. In India, right now,
+
+we have a good amount of Ruby developers male
+
+to which we look forward and we plan to be more helpful,
+
+we get some inspiration from them, but there's no female developers,
+
+as such, where the new community which is coming in to,
+
+they look forward to any female that can inspire them.
+
+So I advise you guys to equally be active in social media,
+
+so that it creates a word out of it, and it takes that,
+
+it takes forward from there, onwards.
+
+P.S.: OK.
+
+QUERANT: I like your introduction, but then, you know,
+
+I like the confidence with which you guys are standing there,
+
+not that you're girls or guys standing there,
+
+but even two guys standing there,
+
+I would have been really happy to see two people
+
+come up there and do the things they're doing.
+
+I think there enough female developers that are kicking ass,
+
+I think, you don't have to look beyond a girl who can kick ass.
+
+But, good job because, it's just the confidence,
+
+keep the confidence going, and all the rest.
+
+P.S.: OK, thank you.
+
+He has a question.
+
+QUERANT: So a lot of people, including myself,
+
+have a issue with confidence?
+
+But did you did mention that you went through a period of feeling timid.
+
+And I've actually worked with some juniors as well,
+
+and I do see that as a problem.
+
+Could you explain a little bit more of how
+
+personally you can overcome your timidness,
+
+or any stress level of learning so many things?
+
+S.J.: So I should thank my parents, I think,
+
+for introducing me into a school which was a kind of a great development...
+
+so, should I name my school? It is Sophia Senior secondary school from Madrid,
+
+and I'm really thankful to my teachers, you know,
+
+their encouragement and their support, so I am here today.
+
+QUERANT: Hello. My question is how did you come across Rails Girls
+
+in the first place? As in how did you know it was there?
+
+P.S.: OK, so, that's a nice question.
+
+I was a part of an organization called Free Software ??
+
+So they help students to get into Open Source pro-
+
+I mean, you know, introduce them to Open Source and all that.
+
+So I subscribed to their mailing list
+
+and I happened to see this and I thought OK,
+
+let me try, and then started coding in Ruby
+
+and all that, and then applied for Rails Girls Summer of Code.
+
+And it's the same thing with her, even she came,
+
+she found out about Rails Girls Summer of Code through some mailing list.
+
+S.J.: In my career of engineering I,
+
+actually I was searching for some new language to learn about,
+
+so I asked one coach, ??, he told me to start learning Ruby.
+
+So I found it easy to understand at first. But though,
+
+when you go in depth of Ruby, it is more complicated.
+
+So it requires a lot of practice in implementation.
+
+QUERANT: K, I've got one question for you.
+
+So if you had one message to pass on to other women in technology
+
+or other girls who are looking to get into technology, what would that be?
+
+S.J.: That would be that if you want to apply for any program,
+
+just go for it, don't think that
+
+you don't have that much of technical background,
+
+or you don't know these things, that you can't apply.
+
+So it's better to just push yourself and you'll eventually learn.
+
+P.S.: And also like just look for any of these women-centric programs.
+
+You know they pay you money.
+
+QUERANT: By the way there's also the normal ?? program. 
+
+P.S.: List of women-centric programs would be,
+
+of course the Google Summer of Code is there,
+
+the twenty-four students, and there's ?? for women and uh,
+
+Ruby Summer of Code, and Rails Girls Summer of Code.
+
+S.J.: And the Next Foundation.
+
+P.S.: Yeah, the Next Foundation. Oh, yeah ?? 
+
+Thank you all.
