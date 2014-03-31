@@ -8,7 +8,7 @@ H.K.: He's been like, he's one of the oldest, one of the oldest Ruby guys around
 
 C.F.: I'm one of the oldest people here. Thank you Colby (00:01:00). 
 
-H.K.: Uh, let's, Yogi. Yogi is principal architect of Flipkart and he has obviously worked in one of the largest deployment serve and supply chain in Ruby, and yeah.
+H.K.: And next, Yogi. Yogi is principal architect of Flipkart and he has obviously worked in one of the largest deployment serve and supply chain in Ruby, and yeah.
 
 Next person I'm gonna ask is Baishampayan Ghose, uh, BG. Is he outside? Can you, can anyone? So. You guys can sit.
 
@@ -22,11 +22,11 @@ H.K.: So, yeah, our next panelist is Baishampayan Ghose. He is a polyglot progra
 
 And last I would like to call on Venkat Subramaniyan. He is CEO of Mahaswami Software. He has been programming in Ruby for like ten years, and for a real long time, so.
 
-OK, so we'll start the panel description by asking the panelists like, what is your current language of choice primarily, and why? Swami, Venkat.
+OK, so we'll start the panel discussion by asking the panelists like, what is your current language of choice primarily, and why? Swami, Venkat.
 
 Venkat Subramaniyan: OK, we use primarily Ruby. We've been using Ruby for the past, I mean, writing bigger-sized products since six, seven years. But we use quite a bit of Java along with it.
 
-H.K.: Why? Like, why do you use it?
+H.K.: Why? Like, why do you use it? (00:02:51)
 
 V.S.: Well, see there is some very, like, well-established libraries, like reporting GINs, and several stuff that you don't want to really, you know, try to match from the Ruby side. So we just bring the best of both worlds by cutting forward all the good libraries. Jewels we have used quite a bit. Jasper reports. These are all stuff for which there isn't an equivalent exist, and we just want to use the knowledge and, you know, the well-established software there, for their purpose. So that's one of the main reasons.
 
@@ -46,7 +46,7 @@ B.G.: We've done it a few times. We've done it a few times. It's not something t
 
 But there are other hacks, like tweaking the boot class paths in JVM to make the start up times faster. That's what something learning new is in Closure. There are ways of getting it, but yeah, you are, in a way, right that, by default, it's, Closure is probably not a, not the right run time for building shell utilities.
 
-H.K.: OK, so, before we move to Chad, like, you said like, all the power of lisp actually, so, can you elaborate on that? What do you mean by all the power of lisp?
+H.K.: OK, so, before we move to Chad, like, you said like, all the power of lisp actually, so, can you elaborate on that? What do you mean by all the power of Lisp?
 
 B.G.: Sure. So, how many people use Emacs here? Twenty percent maybe. You do?
 
@@ -124,7 +124,7 @@ B.G.: Or DFM, yeah.
 
 H.K.: So. Which language you think like does the whole active pattern problem programming properly?
 
-B.G.: So Actors are well implemented in Erlang, and Echo, if you are using Scala, so take a look at it. And again this is not a simple bullet, again go back to your own basics, Fred Brooks told you guys many years back, go back to your basics. (00:16:28 - ??)
+B.G.: So Actors are well implemented in Erlang, and Echo, if you are using Scala, so take a look at it. And again this is not a single bullet, again go back to your own basics, Fred Brooks told you guys many years back, go back to your basics. (00:16:28 - ??)
 
 So Actors will not solve all kinds of problems for you but you should be aware that there is another abstraction that I could probably leverage to solve whatever problem that I have and can.
 
@@ -334,7 +334,9 @@ So by the time you simplify the concepts to the primitives that the child can un
 
 QUERANT: I have a question. At what point do you feel comfortable or something like a threshold level for new languages to be used in production, you know, like, there are some languages which are coming up now but you still you know that it's not something that you use. As for me I would probably look at an example, if I would say OK, there are quite a few systems, big huge systems based on Ruby, I could recommend it to someone people who are comfortable say if they say it is OK if I use Ruby yeah say because there are people who use it. But at production level when that new language is- at what point do you feel comfortable to say that, OK, this is viable to use in production?
 
-B.G.: Fantastic question. I would say that this is a case that you need to develop over time, and I think it comes with experience. The more you learn of different programming languages, the better you get at evaluating them, but having said that, community support does matter, based on (00:44:36 - audio cuts out)
+B.G.: Fantastic question. I would say that this is a case that you need to develop over time, and I think it comes with experience. The more you learn of different programming languages, the better you get at evaluating them, but having said that, community support does matter, based on- 
+
+(00:44:36 - dead audio - 00:44:37)
 
 OK, you can have a language which can have a huge community around it. That does not necessarily equate to the language being awesome, OK.
 
@@ -346,7 +348,7 @@ QUERANT: (indecipherable - 00:45:37)
 
 Y.K.: Yup. Yeah, so I think it's, there are quite a few kind of milestones for a language to go through, but I think the most critical, so again, it depends on the kind of client that you're kind of suggesting this to, right, like if it's a small start up then sure, you have a lot more flexibility. If it's a larger system, it has to scale, you got different constraints. But I think by and large the existence of a very low latency production profiler or on-time run system is probably that milestone. The moment that it is in place, a profiler which can actually run in production, for that language, I think that marks a very critical milestone when the language starts evolving at a very different pace. Because you start kind of finding issues which you never had been able to find before, right.
 
-So for example, with both tools, we've been able to do amazing things in production with Ruby, which was just not possible before we knew, even the commercial ordinative, like ?? (00:45:35) for that matter, right, so either a commercial or opensource production profiling tool I think is a pretty significant milestone. 
+So for example, with both tools, we've been able to do amazing things in production with Ruby, which was just not possible before we knew, even the commercial ordinative, like ?? (00:46:35) for that matter, right, so either a commercial or opensource production profiling tool I think is a pretty significant milestone. 
 
 QUERANT: I have a couple of questions here.
 
@@ -356,13 +358,11 @@ Y.K.: I don't know. Haven't you seen production?
 
 B.G.: The production level compiler which you can plug into a running system?
 
-Y.K.: So there are
+Y.K.: So there are-
 
-(00:46:58)
-audio cut-out
-(00:47:29)
+(00:46:58 - dead audio - 00:47:29)
 
-B.G.: Yeah, but those are (00:47:06) ?? but, which is not probably-
+B.G.: Yeah, but those are Valgrind but, which is not probably-
 
 Y.K.: Sure.
 
@@ -374,7 +374,11 @@ H.K.: Just ask one question. Please ask one question.
 
 QUERANT: Yeah. The question is asked.
 
-Y.K.: So, OK again this is, as Baishampayan said, it's kind of a black art. But roughly the euristics that I used were, is primarily driven by is the system gonna be CPU-bound or IO-bound? What kind of latencies do you need? Do you want (00:48:27 - audio cut out to 00:48:42) I'd probably go straight away to Java or any other static-type language, which gives those kind of performance.
+Y.K.: So, OK again this is, as Baishampayan said, it's kind of a black art. But roughly the euristics that I used were, is primarily driven by is the system gonna be CPU-bound or IO-bound? What kind of latencies do you need? Do you want
+
+(00:48:27 - dead audio - 00:48:42)
+
+I'd probably go straight away to Java or any other static-type language, which gives those kind of performance.
 
 So I think latency is one. I don't know - you might-
 
@@ -386,7 +390,7 @@ C.F.: Yeah, but in, it is a blurring not only of that boundary, but a blurring o
 
 And what all of these things do is the answer, effectively just compile it for you, anyway.
 
-QUERANT: My question is for all members?? (00:50:31) From invention of a competitive we're seeing that there are so many languages came and gone, and each language right on the veil, are serving out their time. I would say that today Ruby is one of those languages riding on the veil. C is the only language which is there for a long time, and it is from the starting of the computer still it is there. So my question is, how long do you think that the Ruby will be last, and what is going to be the next veil? Will it be Closure, or Scala, Go or any other language, because the moment is coming to the market and total paradigm of programming is changing.
+QUERANT: My question is for all panel members. From invention of a competitive we're seeing that there are so many languages came and gone, and each language right on the veil, are serving out their time. I would say that today Ruby is one of those languages riding on the veil. C is the only language which is there for a long time, and it is from the starting of the computer still it is there. So my question is, how long do you think that the Ruby will be last, and what is going to be the next veil? Will it be Closure, or Scala, Go or any other language, because the moment is coming to the market and total paradigm of programming is changing.
 
 B.G.: Great question. I will just, in my recollection, the oldest language that is still in existence is Lisp, and not C. It predates Unix and C by twenty years. And anyway-
 
@@ -422,7 +426,7 @@ V.K.: But remember, you know, we were doing all this web XML business till Ruby 
 
 H.K.: Are you saying that the whole rest thing was because of Rails? Venkat?
 
-V.K.: Certainly the moment was more simplication, convection over configuration, so that's what the Ruby on Rails was inspiring. So you could just say that, you know, people who were doing Ruby on Rails were doing more rest than people who were doing dot net and doing the sub-business. But by the way, sub seems to be effectively dead, right.
+V.K.: Certainly the moment was more simplification, convection over configuration, so that's what the Ruby on Rails was inspiring. So you could just say that, you know, people who were doing Ruby on Rails were doing more rest than people who were doing dot net and doing the sub-business. But by the way, sub seems to be effectively dead, right.
 
 C.F.: But unfortunately it's dead in the same way that PHP is dead. It still exists.
 
@@ -450,7 +454,7 @@ So you need a way to actually have one language talk to another in somewhat stan
 
 Y.K.: So you're saying that at like binary level, actually like a foreign function interface and. I think the simplest way to do that is still over the network. Like when it's rest or it's zero MQO or whatever, right, it's like independent processes interacting with each other, isolated, not messing with each other. It just works well. Not convince the RJB or-
 
-V.S.: You're talking about it from an architecting a bigger system standpoint, but I'm just talking about simply, I'm running this web application, but certain part has to be paralyzed. I should be able to do it with less overhead, less new layers, if a simpler problem exists where that's applicable, right. What you were just talking about, it's applicable, has certain complexity and certain layer, but generally encouraging people to apply multiple languages to a single solution, right now, has so much overhead. I mean, today colleges are teach kids, people about different languages, but it's as if, like if you don't get a job in Java then go and look for a dot net job.
+V.K.: You're talking about it from an architecting a bigger system standpoint, but I'm just talking about simply, I'm running this web application, but certain part has to be paralyzed. I should be able to do it with less overhead, less new layers, if a simpler problem exists where that's applicable, right. What you were just talking about, it's applicable, has certain complexity and certain layer, but generally encouraging people to apply multiple languages to a single solution, right now, has so much overhead. I mean, today colleges are teach kids, people about different languages, but it's as if, like if you don't get a job in Java then go and look for a dot net job.
 
 That's really how we are learning multiple languages, so but we are not learning, it's not that we are not learning multiple languages, but we are not polyglots by default or by simplicity of the system. That is I believe, if you want to be, if you want to encourage polyglotism, you just have to go to the next level where languages will have to coexist with each other.
 
@@ -460,7 +464,7 @@ V.K.: That is what we built with that notion.
 
 B.G.: Fair enough. So I think co-existence can be looked at from different angles. I think what you're talking about is run-time co-existence, you know, inside one run-time you have multiple languages running. I don't know that that's technically feasible-
 
-V.K.: It may not be running, it may not be a single process going- it would be a multi-process.
+V.K.: It may not be run time, it may not be a single process co-existence- it would be a multi-process.
 
 B.G.: But it would have to be over some network, right.
 
@@ -474,7 +478,7 @@ B.G.: But how does it really work?
 
 V.K.: It could even be-
 
-C.F.: It's still one process, right-
+C.F.: It's still one process, right, RGB.
 
 B.G.: Yeah it's still one process.
 
@@ -484,27 +488,27 @@ B.G.: It's still one process, right.
 
 V.K.: JVM does its own thing, right. In a way JVM has its own layer-
 
-B.G.: But ultimately it's all JVM by code-
+B.G.: But ultimately it's all JVM bite code-
 
 V.K.: True.
 
-B.G.: So I think we are all building, or have to build distributor systems at the end of the day today, and we're also trying to build abstractions. Right, that is the whole goal of building a software architecture that lets, let me find out which part I can abstract and how. So what Yogi talked about, and totally agree with him, I think the best approach is to abstract away the optimal concerns and constructs of the system and tie them together using one language that is spoken on the system.
+B.G.: So I think we are all building, or have to build distributor systems at the end of the day today, and we're also trying to build abstractions. Right, that is the whole goal of building a software architecture that lets, let me find out which parts I can abstract and how. So what Yogi talked about, and totally agree with him, I think the best approach is to abstract away the optimal concerns and constructs of the system and tie them together using one language that is spoken on the system.
 
 So I think they used JSON in JSON Schema for the-
 
 Y.K.: It was in HTTP.
 
-B.G.: It was in HTTP, OK, yeah. So what you could use- you guys use it- you could use a message queu or maybe use something like zero in cue sockets?? to come indicate over and maybe use Thrift or even JSON data for communication, but-
+B.G.: It was in HTTP, OK, yeah. So what you could use- you guys use it- you could use a message queue or maybe use something like zero in cue sockets to communicate over and maybe use Thrift or even JSON data for communication, but-
 
 H.K.: So-
 
-B.G.: The idea is to basically build a system of internal components tied together but using one system, but then for the message buzz you can either use a socket or a message queue.
+B.G.: The idea is to basically build a system of optimal components tied together but using one system, but then for the message buzz you can either use a socket or a message queue.
 
-H.K.: So, there's definitely a lot of tools which are, like run-times which exist which allow run-time re-use of languages, for example like, either on top of the ?? or on top of JVM, you know like how you have Closure connections you can use from JRuby actually, there are projects that allow that.
+H.K.: So, there's definitely a lot of tools which are, like run-times that exist which allow run-time re-use of languages, for example like, either on top of the LLVM or on top of JVM, you know like how you have Closure collections you can use from JRuby actually, there are projects that allow that.
 
 Do you think that all those are basically toys and shouldn't be used in any seriousness?
 
-B.G.: Closure connections are not toys. But what I would say that, I think that this idea, it can be applied to the JVM languages, but many times you have to use some language which is not available on the JVM, right. And you cannot use ? for it, because it's something which is much lower level than the JVM. So you'll have to use the network to communicate over each other.
+B.G.: Closure collections are not toys. But what I would say that, I think that this idea, it can be applied to the JVM languages, but many times you have to use some language which is not available on the JVM, right. And you cannot use LLVM for it, because it's something which is much lower level than the JVM. So you'll have to use the network to communicate over each other.
 
 But as far as JVM languages are concerned, yeah, why not. At a theoretical level, inter-opt between languages is something that we should shoot for. Absolutely.
 
@@ -516,21 +520,25 @@ So
 
 B.G.: Agreeing too each other.
 
-C.F.: Closure collections are a toy then- I actually, when he was saying are these things a toy, I don't mean Closure collections, but I do think that, the whole idea of interrupt in a VM or in a process is overrated. And I think it's overrated, like, I remember being at Fu Camp talking to the parrot guys and LLVM guys in a workshop, and they were all complaining because they had tried to do like JavaScript on all these different VMs. They realized that like an array in JavaScript has different semantics then like an array in Java and an array in Ruby. You know if you add something way off in the distance, past the end of the array, in some languages it's an error and in some languages it nil fills, in some languages it's you know, so like, that's a really stupid example, and you can all imagine there's some way to solve that.
+C.F.: Closure collections are a toy then- I actually, when he was saying are these things a toy, I don't mean Closure collections, but I do think that, the whole idea of interrupt in a VM or in a process is overrated. And I think it's overrated, like, I remember being at Fu Camp talking to the parrot guys and LLVM guys awhile back in a workshop, and they were all complaining because they had tried to do like JavaScript on all these different VMs.
 
-But with the more interesting features of the language, that lead us to want to be polyglots, like I don't really think it makes sense to instangiate a Ruby class from Java, for example. Because the Ruby class does different things than the Java class. And vice versa. 
+They realized that like an array in JavaScript has different semantics then like an array in Java and an array in Ruby. You know if you add something way off in the distance, past the end of the array, in some languages it's an error and in some languages it nil fills, in some languages it's you know, so like, that's a really stupid example, and you can all imagine there's some way to solve that.
+
+But with the more interesting features of the language, that lead us to want to be polyglots, like I don't really think it makes sense to instantiate a Ruby class from Java, for example. Because the Ruby class does different things than the Java class and vice versa. 
 
 Yes it can sometimes be nice. So like when you're in Closure and you want to use someone's ancient Java library that has been working for years, you just do it. When you do it, though, it's hideous, and it like, the Java interrupt is really not nice. And you know you're doing - it works fine. But it's uglier than Closure code. Right, so then you want to write something so it looks like Closure and feels like Closure.
 
-So personally I think an operating system is also like one process, you can think of it that way these days. It didn't use to be the case. But I can spin one up and start running it, and then have language interrupt with multiple processes in there talking via sockets, and it's conceptually not very different. Like if I describe it to my mom she won't know the difference between that and a virutal machine, so.
+So personally I think an operating system is also like one process, you can think of it that way these days. It didn't use to be the case. But I can spin one up and start running it, and then have language interrupt with multiple processes in there talking via sockets, and it's conceptually not very different. Like if I describe it to my mom she won't know the difference between that and a virtual machine, so.
 
-B.G.: There's domain sockets in the mix, right.
+B.G.: There's domain sockets in Unix, right.
 
 C.F.: Oh yeah domain sockets in Unix. Of course. This might be the solution, then.
 
 QUERANT: Quick question to all the panelists. As we stand today, what is the minimum number of languages, minimum set-up languages you would recommend to all the programmers.
 
-C.F.: Did you tell him his question is invalid, is that it? I disagree.
+H.K.: 01:02:30 - dead audio
+
+C.F.: Did you tell him his question was invalid, is that it? I disagree.
 
 H.K.: So what I was trying to-
 
@@ -548,7 +556,7 @@ H.K.: What do you mean by that?
 
 V.K.: It's more of- I'm just looking for a standardized Ruby where I should be able to switch between the Java world and the MRA world, without lots of friction and you know, and better performing Ruby generally speaking. When as much as we just talked about low-level you know you talk low-latency stuff. I think we can't keep saying that Ruby's, you know, it's really slow for a reason, right.
 
-And Ruby can run in a hot spot. I want- Java was slow because of hot- before hotspot. But Java became very, very fast ?? and lots of new work has put in there. So there has to be some research into performance in Ruby I think. I'm just looking for better Ruby essentially. For my investment of time and language. But certainly, I mean I would like to learn Scala and stuff that like, something.
+And Ruby can run in a hot spot. I want- Java was slow because of hot- before hotspot. But Java became very, very fast through that time and lots of new work has put in there. So there has to be some research into performance in Ruby I think or something. I'm just looking for better Ruby essentially. For my investment of time and language. But certainly, I mean I would like to learn Scala and stuff that like, something.
 
 B.G.: So for me learning a new programming language is more like a cognitive exercise to expand my own thought processes, not specifically to you know apply in production. So the new language that I will be learning in 2014 is Factor, and you should check it out.
 
@@ -556,23 +564,23 @@ C.F.: I was gonna say Factor. We should not sit next to each other. We're too si
 
 H.K.: Why, but why, can you just like say why exactly Factor?
 
-C.F.: I would say Factor because it really hurts to, it hurts in a non-stupid way. LIke if you learn ?? it hurts in a stupid way. LIke there's no reason to learn Befunge? except for fun. Factor, though, there's something clearly there, right. It's concatinative? programming. It's a different way of having to think. And it's a different way that to me feels like it's deeper than it is stupid. It, so, actually I wouldn't probably learn it now, but I almost said that though. It was on my list.
+C.F.: I would say Factor because it really hurts to, it hurts in a non-stupid way. Like if you learn Befunge it hurts in a stupid way. Like there's no reason to learn Befunge except for fun. Factor, though, there's something clearly there, right. It's concatenative programming. It's a different way of having to think. And it's a different way that to me feels like it's deeper than it is stupid. It, so, actually I wouldn't probably learn it now, but I almost said that though. It was on my list.
 
-B.G.: I already know APL and a little bit of J maybe. But APL is, again another concatinative language, which inspired Factor. APL is some language which I can read but cannot type, because to type APL code you need a separate keyboard. That's why I'm learning Factor this year.
+B.G.: I already know APL and a little bit of J maybe. But APL is, again another concatenative language, which inspired Factor. APL is some language which I can read but cannot type, because to type APL code you need a separate keyboard. That's why I'm learning Factor this year.
 
 H.K.: Yogi?
 
-Y.K.: I don't know, Sanskrit, maybe ??
+Y.K.: I don't know, Sanskrit, maybe. (01:04:41 ??)
 
-BUt yeah, I think Go or Haskel. I think there the most differences from what I already know, so.
+But yeah, I think Go or Haskel. I think there the most differences from what I already know, so.
 
 H.K.: Fair enough. So I think a lot of first - learn programming languages and then the Dave Thomas like his book Pragmatic Programmer recommends like learn a programming language a year actually. And so one of the things that I've been wondering is like, how do you exactly like go about learning a language? You cannot, so like you cannot go to Flipkart and deploy a production system in Hascal, that, I don't know if you allow, but we talked about that already, actually.
 
 So but like how do, how does a person like when picking up a language go about learning a programming language, and like so-
 
-V.K.: So I think I've probably got the - so yeah like. I actually read the manual. Yeah, I'm so boring. And so I just read the manual just to get a flavor of what it's about and what's possible. Without going deeply into it it usually takes like a few hours, because it's really superficial. But once I get a sense of what the language is about, what the code constructs are, then do a second pass to kind of just decide really what's it about and then play around with some code.
+V.K.: So I think I've probably got the - so yeah like. I actually read the manual. Yeah, I'm so boring. And so I just read the manual just to get a flavor of what it's about and what's possible. Without going deeply into it it usually takes like a few hours, because it's really superficial. But once I get a sense of what the language is about, what the code constructs are, then do a second pass to kind of just decide really what's it about and then play around with some code. But as-
 
-But as -(01:07:03 - dead audio space 01:07:47)
+(01:07:03 - dead audio space 01:07:47)
 
 C.F.: I would try to do some simple services and you know stuff with Actors running in the background. And whenever I saw something I didn't understand I would just go look in the source code for play. Then I would look at this crazy Scala type stuff and have to then read the manual for a few hours to figure out what's happening. But now I will never forget, because I encountered it through a painful situation, so I have like the emotional trigger to never let go of that knowledge.
 
@@ -590,7 +598,7 @@ C.F.: Well yeah what I was telling you about is Dave Thomas, who is one of the a
 
 V.K.: Absolutely.
 
-H.K.: So the pretty much like, you learn programming languages like a lot of persons, but really our day jobs still requires to programming Ruby or Java or whatever, so, one of the key things like, you write Lisp, you become a better Java programmer. That's the wisdom so, like, how do you exactly go about adopting features, you know like, for example, like Closure or Scala or, Haskel or Go, you know like the language the you program in day to day maybe for the dayjob. So like,
+H.K.: So the pretty much like, you learn programming languages like a lot of persons, but really our day jobs still requires to programm in Ruby or Java or whatever, so, one of the key things like, you write Lisp, you become a better Java programmer. That's the wisdom so, like, how do you exactly go about adopting features, you know like, for example, like Closure or Scala or Haskel or Go, and you know like the language the you program in day to day, maybe for the dayjob. So like,
 
 B.G.: How do you adopt a new language?
 
@@ -606,41 +614,43 @@ I know people who are actual provisional Python programmers, who learned Closure
 
 But at least if you have an appreciation for it, maybe who knows tomorrow you might be able to use a third party library to use it.
 
-C.F.: There's actually a problem that can happen, though. So you can take good things, like the data orientation or the ideas of immutability by default in Closure and then just try to make your Ruby code be like that, because you understand the benefits. Or you could do just like try to (01:12:23 - dead audio space - 01:12:36)
+C.F.: There's actually a problem that can happen, though. So you can take good things, like the data orientation or the ideas of immutability by default in Closure and then just try to make your Ruby code be like that, because you understand the benefits. Or you could do stuff like try
 
-it's even possible to then simulate the features of one of these languages that you're learning from, but you emulate them in an environment that's not friendly to them, and it's a bad idea. So I would say don't go too crazy trying to make Ruby be functional more than it is, or to be Acter-oriented or whatever.
+(01:12:23 - dead audio space - 01:12:36)
 
-B.G.: There will always be ?? in practice, right. You'll figure it out if you try to -
+it's even possible to then simulate the features of one of these languages that you're learning from, but you emulate them in an environment that's not friendly to them, and it's a bad idea. So I would say don't go too crazy trying to make Ruby be functional more than it is, or to be Actor-oriented or whatever.
+
+B.G.: There will always be incidents (01:12:53) in practice, right. You'll figure it out if you try to apply it.
 
 Y.K.: I'm gonna agree with Chad, so.
 
-V.K. Yeah, ok, I'm not into this functional side or you know the Lisp side of Closure set of things yet. So my experience is essentially trying to play more ideas from Ruby into Java, and there was a- you know probably Java at level that we just talked about. It's such a, what is it called, a restrictive language. THere is a lot that I could actually learn and apply to Java and Ruby which was really exciting. There  were libraries, I think there were coming up for like calling anonymous functions or proc like things that I could actually use them.
+V.K. Yeah, OK, I'm not into this functional side or you know the Lisp side of Closure set of things yet. So my experience is essentially trying to play more ideas from Ruby into Java, and there was a- you know probably Java at level that we just talked about. It's such a, what is it called, a restrictive language. There is a lot that I could actually learn and apply to Java and Ruby which was really exciting. There  were libraries, I think there were coming up for like calling anonymous functions or proc like things that I could actually use them.
 
 So those are, it was not really really tangible at specific example I could give. My Java programming extensively improved. Or readability of the code improved by having written Ruby code. Some of it will actually happen naturally I believe.
 
-B.G.: I don't think that - For example I was doing a lot of Python before I started doing some real Lisp programming. Python always had the map and filter and reduce functions. I was never able to appreciate those functions when I was just a Python programmer, OK. For example, Closure has something called protocols, OK. How many people here have heard about refinements in Ruby to?? 
+B.G.: I don't think that - For example I was doing a lot of Python before I started doing some real Lisp programming. Python always had the map and filter and reduce functions. I was never able to appreciate those functions when I was just a Python programmer, OK. For example, Closure has something called protocols, OK. How many people here have heard about refinements in Ruby 2.0.
 
-C.F.: ?? yeah.
+C.F.: Refinements, yeah.
 
 B.G.: Yeah. It's a new feature. So, see, minority. OK, it's a really good feature, and it lets you do code monkey patching but restricted to a specific module, OK. So I think that, Ruby guys don't, are often are don't understand benefits then it's kind of like a shame, right.
 
-V.K.: Yeah but that's a point right, that's something which has to happen at the language level. Like as a application developer who's not working on the language itself, adoption of features from other languages, will run into bottle necks. So that's definitely one area where, for example in the Java world, right, when you move back from a lot of the ex-Ruby programmers move back to Java, and they created some beautiful libraries. Like for example I know ex-? worker who's done a library called enumeralizing, which allows you to kind of mimic Closure's in Java, and it works through actually hooking up a Java agent that runs time.
+Y.K.: Yeah but that's a point right, that's something which has to happen at the language level. Like as a application developer who's not working on the language itself, adoption of features from other languages will run into bottle necks. So that's definitely one area where, for example in the Java world, right, when you move back from a lot of the ex-Ruby programmers move back to Java, and they created some beautiful libraries. Like for example I know an ex-thoughtworker who's done a library called (01:15:03), which allows you to kind of mimic Closures in Java, and it works through actually hooking up a Java agent at run time.
 
-So the point is it's a beautiful experiment, but you can't really use that in production because you're IDs not going to recognize it, you know simple things like that which might seem like trivial but they actually hurt, because another the code syntax highlighting is kind of gone for a toss. The ?? obviously doesn't work, you can't-
+So the point is it's a beautiful experiment, but you can't really use that in production because your IDs not going to recognize it, you know simple things like that which might seem like trivial but they actually hurt, because another the code syntax highlighting is kind of gone for a toss. The debug obviously doesn't work, you can't-
 
-So you got to hook up the agent while running the app. So it becomes tricky, so I think a lot of the language features which get adopted do get ?? framework. For example, Actor systems, even though we don't have it in Java. Kind of analogies of that have been funnily enough systems like Newl?? right, which is again enterprising and boring, but essentially it solves the same problem. LIke not at the language level but it allows you to coordinate independent Actors and construct ?? of flows which kind of do something productive and allow you to scale out in a very simple way, right. So frameworks end up kind of taking their place in a certain way.
+So you got to hook up the agent while running the app. So it becomes tricky, so I think a lot of the language features which get adopted do get a lot of those frameworks. For example, Actor systems, even though we don't have it in Java, kind of analogies of that have been funnily enough systems like Mule (01:15:40) right, which is again enterprising and boring, but essentially it solves the same problem. Like not at the language level but it allows you to coordinate independent Actors and construct bulges (01:16:01) of flows which kind of do something productive and allow you to scale out in a very simple way, right. So frameworks end up kind of taking their place in a certain way.
 
 I think it's difficult to bring it down to a language very well.
 
-H.K.: I?? like using play framework in Java, right. It actually brings a lot of Rails goodness and Rails inspiration into Java, so you don't, it's not necessarily about the language weights. It's also things like dimension or configuration, which can be learned and applied into other languages.
+V.K.: That kind of introduced like using play framework in Java, right. It actually brings a lot of Rails goodness and Rails inspiration into Java, so you don't, it's not necessarily about the language weights. It's also things like dimension or configuration, which can be learned and applied into other languages.
 
-V.K. So just ideas are behind a specific paradigm, the simplicity or the philosophy behind it can be applied into other languages, like Java from Ruby. So I think the framework side of it plays I think a big role.
+So just ideas are behind a specific paradigm, the simplicity or the philosophy behind it can be applied into other languages, like Java from Ruby. So I think the framework side of it plays I think a big role.
 
 Y.K.: Yeah that's a great point because there's funnily enough right like a framework like Rails or Sinatra was invented in Java. Why is that? Because the thought process that's behind Java is just not tooled to the kind of thinking and such lightweight simplistic services. And it only took somebody to kind of look at Ruby, see its simplicity and be able to kind of build something so simple as Sinatra, like it's beautiful. And now that thought process has come out. So yeah play's a great example actually.
 
-V.K.: Yeah I think there's two things in Ruby?? the discussion kind of weighed towards more towards the paradigms, more. But I think there is an things like simplicity, conventional configuration or concepts, which is another side that languages have, which are not specific to how to make ?? better which are not specific to ?? programming, but still something which was not done before or easy ?? in your language, which you could have applied. You know the language is easier.
+V.K.: Yeah I think there's two things you know, the discussion kind of weighed towards more towards the paradigms, more. But I think there is an things like simplicity, conventional configuration or concepts, which is another side that languages have, which are not specific to how to make parallelism better which are not specific to how to do functional programming, but still something which was not done before or easy enough in your language, which you could have applied. You know the language is easier.
 
-But those are not new libraries or nothing ? really specific functions. But you could get better in other languages by looking at this other philosophy behind the language just beyond a specific paradigm of the strength of the language. 
+But those are not new libraries or nothing to do with really specific functions. But you could get better in other languages by looking at this other philosophy behind the language just beyond a specific paradigm of the strength of the language. 
 
 H.K.: So we are about to close the panel discussion. Any questions? We have time for questions.
 
@@ -648,22 +658,18 @@ Actually.
 
 C.F.: Or how about you just raise your hand if you want to ask a question and otherwise we'll all get tea. You have a question.
 
-B.G.: Or we can just move the discussion to the break room. WE could do that. SO let's just you know - OK
+B.G.: Or we can just move the discussion to the break room. We could do that. So let's just you know - OK.
 
-QUERANT: So I worked in different programming languages. So about four to five, so I think programming languages rose to such heights because either because the programming language itself or through its supporting libraries. For example, Ruby was not in so much mainstream until Rails came into existence. And Python for scientific ?? --
+QUERANT: So I worked in different programming languages. So about four to five, so I think programming languages rose to such heights because either because the programming language itself or through its supporting libraries. For example, Ruby was not in so much mainstream until Rails came into existence. And Python for scientific calculation. C for internal system, you know Linux kind of stuff. C++ for games and other stuff.
 
-C++ for games and other stuff.
-
-So what all, I mean do these programming languages have and uh, example like Scala, Closure, Go, Erlang. So these are upcoming, like ?? also. So what do these programming languages have that ??? I mean what do these libraries, I mean what are the bigger libraries that they have, so that people like me can use them for certain ?? So what all they are useful for?
+So what all, I mean do these programming languages have and uh, example like Scala, Closure, Go, Erlang. So these are upcoming, like dot also. So what do these programming languages have that they'll come on call. I mean what do these libraries, I mean what are the bigger libraries that they have, so that people like me can use them for certain purpose. So what all they are useful for?
 
 C.F.: That'll take awhile.
 
-B.G.: That's a very long-winded question. I'll very quickly answer that. Every language probably has a killer app, right, to champion it or maybe make it famous or popular. Not every, not all languages have one specific killer app, for example, while, what did you say the killer app for JavaScript is, right? Or what about Objective C? Right, just that you don't have any other choice in those cases, right. If you want to program for the browser, JavaScript is your only choice, Objective C if you are doing Apple programming, right.
+B.G.: That's a very long-winded question. I'll very quickly answer that. Every language probably has a killer app, right, to champion it or maybe make it famous or popular. Not every, not all languages have one specific killer app, for example, while, what would you say the killer app for JavaScript is, right? Or what about Objective C? Right, just that you don't have any other choice in those cases, right. If you want to program for the browser, JavaScript is your only choice, Objective C if you are doing Apple programming, right.
 
 So yeah, I mean, every once in awhile there are projects or libraries or products which do come and make something very famous. But it may not be true for everything.
 
-H.K.: If anybody has any other questions then I can -??
-
-(applause)
+H.K.: If anybody has any other questions then I can (drowned out by applause - 01:20:05)
 
 Thank you.
