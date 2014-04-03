@@ -1,0 +1,1443 @@
+Garden City Ruby 2014 - Closing Keynote - Prateek Dayal
+
+So hi. Alright, so welcome to my keynote.
+
+All right. Apologies for that.
+
+I've been a Rails programmer for too long,
+
+and I used Scaffold to generate this presentation,
+
+and I kind of, I kind of kept this towards the end.
+
+You know, I'll fix it in the end,
+
+and I forgot.
+
+So yeah I'm really sorry about that. But, anyway.
+
+So my name is Prateek Dayal.
+
+Unlike Chad, you know, I do need an introduction,
+
+so I'll introduce myself as I go along.
+
+So yeah, I'm currently the CEO of SupportBee,
+
+and I started working with Ruby in 2007,
+
+when I co-founded Muziboo.
+
+And Muziboo is a music sharing website
+
+and we had this idea,
+
+how cool it would be if you know people had
+
+a place like Flickr for music,
+
+where they would go and upload music and discuss it,
+
+not just share with their friends.
+
+And we launched Muziboo,
+
+we worked on it for a few years,
+
+we grew it to about,
+
+you know about half a million users. 200,000 uploads.
+
+And as I said, I started working on this in 2007,
+
+and it was a great time.
+
+It just felt like heaven.
+
+So I did electronics engineering in my college days,
+
+and this was my first real programming project,
+
+and unlike the unfortunate people like you,
+
+you know I never did any PHP or Java.
+
+So I came to the programming world straight into Ruby,
+
+and it was so awesome,
+
+and I could sit and code all day.
+
+That was the part that appealed to me the most about doing a start up.
+
+Actually we didn't even call it a start up back then.
+
+So we just did something,
+
+and I was sitting and coding all day.
+
+And the community was still there actually,
+
+surprisingly even in 2007 in India.
+
+We didn't have a Ruby meet up but we had Open Coffee clubs,
+
+and we had some start up meet ups
+
+and actually all the people talk about
+
+is programming pretty much, all the bar caps??.
+
+So I remember meeting Sidoo??
+
+and I remember meeting a few other people,
+
+later I met Hemant. And we would sit
+
+and chat about Ruby and you know,
+
+they would give me all these cool ideas,
+
+I would be like, I would be like hey dude, you know,
+
+how do I deploy?
+
+And they would tell me there's this cool thing
+
+called Mongrel, you should look at it.
+
+And I would go back and check out Mongrel
+
+and I would deploy. So that was a really fun time.
+
+I was having a great time.
+
+But as you would guess it didn't last.
+
+It wasn't as bright and sunny anymore eventually,
+
+because I had to start worrying about making money.
+
+And I, you know I would just a couple of years out of college,
+
+not much cash, so I had to really start worrying about,
+
+OK, how am I gonna make money?
+
+This is all fun, but you know let's get serious
+
+about this start up thing now.
+
+And I had never done a business
+
+and so I did what you know any sensible programmer would do, right.
+
+I went to a business guy,
+
+I went to a few business people to get their advice.
+
+And all the advice that I got was about SEO,
+
+about partnerships, people said oh you're a music company
+
+you should go partner with the music labels,
+
+you should hire a few sales people, sell music listings.
+
+Like if, I don't know how long, if you guys remember,
+
+but in 2007, India was sort of moving from
+
+the offline world into the online world,
+
+and the models were just sort of being adapted to the online models.
+
+And everybody was sort of like,
+
+everything was a listing site essentially,
+
+and you could just put ads on it.
+
+So I, you know I didn't like this obviously.
+
+I hated doing this work.
+
+Because I loved doing programming.
+
+But I still persisted with it,
+
+I still persisted with it for a few years.
+
+So I did some SEO, you know I tried doing some sales -
+
+it didn't work. And, you know, I really felt like this guy.
+
+I felt like I had all these super powers,
+
+like metaprogramming and you know all the cool stuff
+
+that Ruby had to offer, but I would just sit and, you know,
+
+tweak page titles all day long.
+
+To get myself ranking. You know I felt really bad.
+
+And I really felt disillusioned.
+
+I felt really disillusioned with start ups because,
+
+I said this is not what start ups should be about, right.
+
+I should be able to do what I enjoy doing.
+
+And that's when I kind of started asking myself,
+
+can I leverage my strengths as a developer to build a great business?
+
+Can I do what I enjoy doing already
+
+and somehow build a great business
+
+and build a company that I'm really proud of?
+
+And I started sort of looking around to get ideas,
+
+and that's what my talk is about.
+
+So my talk is about coding your business.
+
+And I just want to share some experiences I've had,
+
+some learnings I've had.
+
+Some ideas we are even now working on.
+
+And just get your thoughts, maybe, you know,
+
+it would be nice if you guys could tell me, like,
+
+what do you think, what if you tried something similar.
+
+Or even if later you try something
+
+and you know just tweet to me. That'd be cool.
+
+So when I was doing Muziboo, about a year into Muziboo,
+
+SoundCloud launched.
+
+And you know they launched in a public data or something.
+
+And they are a nice product.
+
+And they started getting some traction.
+
+But other than working on the core product,
+
+one thing I noticed was that they had this thing called the API.
+
+And somehow people were slowly starting to use that API
+
+and people started writing apps on top of the API.
+
+And if you go to their app listing now they've got dozens of apps.
+
+And you know they have apps which help them get new musicians on board.
+
+These are apps which will allow people to upload directly
+
+from let's say a music recording program.
+
+All these are apps that get some new listeners.
+
+So people have used API to build charts
+
+that are hip-hop charts, specific charts.
+
+So I think the API really, really helped them grow their user base.
+
+And that was a great learning for me.
+
+In some ways it was you know it was the hard way that
+
+I was learning, because they were taking off,
+
+but I mean there was definitely something to learn from them.
+
+And then I sort of started looking around
+
+and I realized that API is definitely
+
+the new business development.
+
+You know today if you want to grow a product,
+
+APIs are a great way to do that.
+
+And it's like, if you look at a lot of other products,
+
+so GitHub, Twitter, Facebook, Google -
+
+there are so many examples that wouldn't be the same product
+
+if they didn't have the API ecosystem.
+
+And especially most in the last few years,
+
+a lot of products are actually just APIs.
+
+A lot of products around are simply APIs.
+
+So for example, Firebase - I should use a clicker probably, sorry.
+
+So Firebase is a tool that gives you a back
+
+and forth mobile of web apps.
+
+Swifttype for Surge, mailgun for delivering emails.
+
+Plivo from the streets of Bangalore is computing with
+
+?? (00:06:31:06) head on.
+
+And they both provide APIs for telephoning. 
+
+So there are a lot of products which are simply APIs.
+
+And I think as developers we are really,
+
+really well-suited to do these kind of start ups.
+
+We already understand our target audience.
+
+We are the target audience.
+
+We, all of us have been to hack-a-thons,
+
+we have worked with different APIs,
+
+we know what it feels like when the documentation is shitty,
+
+what makes good code examples,
+
+what kind of libraries do you need to kick start the environment.
+
+We really understand this stuff really well already,
+
+and I think if you were to start a company like this,
+
+you're definitely at an advantage.
+
+And so you can build a product
+
+and you know you can get maybe some users
+
+but what about marketing?
+
+That's typically the question that I get asked most often from programmers.
+
+Like how do you market your product?
+
+How do you get customers?
+
+And there are several ways to market a product.
+
+Most of them don't work.
+
+And are frustrating actually to execute on.
+
+And what I - personally at least for us
+
+and our company I've realized that writing
+
+has turned out to be the best form of marketing actually.
+
+And what I mean by that is if you look at developer docs
+
+or marketing copy site or newsletters,
+
+or even delegating great customer support,
+
+it all boils down to being good at writing.
+
+And, I mean that's just how it is.
+
+For example, this is Mailgun's documentation.
+
+If you go through it, it talks about setting up SPF records,
+
+you know how to get to deployability,
+
+why do you need dedicated IPs,
+
+it's stuff that all of us already understand and can write.
+
+We just need to be really good at communicating this to our customers.
+
+So we already understand this stuff.
+
+We just need to get better
+
+at being able to communicate it in writing.
+
+The same way if you look at Firebase's landing page,
+
+any of us could sit down and write this
+
+and we could build this and we could write this
+
+and you just need to be good at writing again.
+
+So fortunately there is good news, right.
+
+I mean it's, as developers,
+
+I think it's very easy to improve at writing.
+
+And I'm just going to show you a few examples of how to do that.
+
+So GitHub. I think one of the coolest things
+
+that GitHub does is that every time you create a new depository,
+
+it says add a readme file.
+
+And that's a great starting point to start learning
+
+how to write or communicate our ideas.
+
+How many of you guys have opensource projects.
+
+Even, or just some bit of code online?
+
+And have you written a readme for it?
+
+Oh, quite a few of you have, and quite a few have not. Good.
+
+One hand stood up very long actually.
+
+So, there you are, yeah.
+
+So if you haven't,
+
+just go back and write a readme for that,
+
+and if you already have, maybe try to improve it.
+
+Get some, maybe more feedback.
+
+It's a great starting point to start writing
+
+and learning how to write.
+
+The other cool thing, at least in today's world,
+
+is that product development involves a lot of writing,
+
+and this obviously depends on company to company
+
+but you can become a company like this
+
+so you can choose to work for a company like this.
+
+So for example, I'll give you an example from SupportBee.
+
+So most of our feature requests are enhancement requests
+
+typically originate in our subcode desk ?? (00:09:41:07),
+
+so some customer, for example in this case somebody emailed saying,
+
+can we have search word for word trash tickets?
+
+And my colleague I asked who is here,
+
+I asked him you know, do we support this?
+
+So it turns out we support this in the API
+
+but we don't support it in the front-end.
+
+And so what we do is we write this ticket into -
+
+we have a GitHub app - so the code,
+
+we would write that into GitHub,
+
+and we create an issue.
+
+And other than create,
+
+other than using the issue to actually
+
+just review code or attach code,
+
+what we do is we try to flesh out the feature completely in issues.
+
+So we are encourage, not only encourage,
+
+sort of we enforce everybody to just discuss 
+
+ompletely in issues. We don't even encourage
+
+face to face or voice calls early on.
+
+If you're not able to communicate something
+
+in issues then you should probably go to a call,
+
+and then also sum it up and put it back in the issue.
+
+What this does it just forces you to
+
+try to explain to your peers what you're trying to do.
+
+Sometimes in terms of code,
+
+sometimes in terms of the marketing copy
+
+that you think should be there,
+
+or the subject line of the email.
+
+It forces you to communicate your ideas.
+
+And acquiring that skill also helps you
+
+in communicating those ideas to your customer.
+
+So it's really the same sort of skills.
+
+And once we know what we want to work on,
+
+what we do, we obviously attach code
+
+and then we go through maybe a sprint or two with that code.
+
+And then finally once we are almost getting done,
+
+we post screen shots in the same issue of the finished feature.
+
+And what that does is, it -
+
+one thing is that it really helps us review faster,
+
+so we can, you know, know that this feature is done
+
+and can be deployed.
+
+But more than that,
+
+it's also a starting point for writing a blog post about the feature.
+
+And we have taken the same GitHub issues process
+
+and turned it into user for our blog as well,
+
+you know we power our blogs by JQL.
+
+We create issues for each new feature that we have,
+
+or if you want to put out a def post about how we did the feature.
+
+And we use these assets and we write the block post.
+
+And because we are already comfortable
+
+with this GitHub issues process,
+
+very easy to get feedback.
+
+So just like code we can comment in-line,
+
+we can help people if they're feeling a writer's block
+
+or if they want some feedback.
+
+It's very easy to give out feedback
+
+and push out this block post.
+
+So we really tried to make this process work for us,
+
+and it has ended up, it has ended in a lot of our developers,
+
+or people who've worked with us getting better at writing,
+
+and in fact for the first time even realizing that they enjoy writing.
+
+And it's worked really well for us
+
+and I encourage you guys to go and try it out.
+
+Because the cool thing about this process
+
+if that you can start tomorrow.
+
+You don't have to wait to start a company
+
+to become good at writing.
+
+You know you can do it in your current job.
+
+So next time you have a feature release post,
+
+go out and propose to do it yourself.
+
+Maybe you have a job opening
+
+and you're putting up a job on Haskee
+
+(00:12:23:02 ??). You know, tell your founders
+
+or tell your CEO that you want to write that.
+
+And just practice.
+
+So there's so many opportunities around us
+
+to practice writing in development.
+
+If you build a company like this,
+
+one of the other cool things that happens is,
+
+it's very easy to recruit a developer.
+
+Because developers love hanging out with other developers, right.
+
+That's why we are all here today
+
+and will be here tomorrow.
+
+And so it is a very natural fit there.
+
+And I've been talking to a few developers
+
+in the last couple of months
+
+and I realize that most developers hate these block,
+
+you know, job posts written with the words ninja,
+
+or, like how many of you are ninjas here? No one?
+
+What about programming rock stars? No one?
+
+So yeah, I mean, people kind of hate that
+
+and if you are a company like this that is developer friendly,
+
+it will show through.
+
+You won't have to put an effort to look like that.
+
+And, so it really does help if you hire better people.
+
+So what I'm saying is that,
+
+we figured out that in the end it just falls under two things.
+
+Doing great work on the product,
+
+on the ecosystem, and then talking about it.
+
+I think especially in India,
+
+where we are really good at doing great work,
+
+I think we are very, incredibly talented set of developers here.
+
+But we are not so savvy about talking about it,
+
+and it's not as much of a skill thing
+
+I think as much as it's a mindset thing.
+
+So it's about doing great work and talking about it.
+
+But obviously, I mean, this is not easy.
+
+You know building a company like this
+
+is not going to be easy,
+
+because it's all about good teams.
+
+It's all about hiring the best people
+
+that you can and after you hire them,
+
+spending a lot of time helping them get even better.
+
+And empowering them, so they can make decisions on your behalf.
+
+And obviously this is a,
+
+this is a very hard thing to achieve,
+
+and it's very easy to get it wrong.
+
+And you have to just keep trying.
+
+And it takes a bit longer.
+
+So if you are definitely trying to flip a start up soon,
+
+don't try this. Don't do this. It'll take awhile,
+
+but I think you'll get a much nicer company in the end.
+
+And one of the side effects of working like this
+
+or creating a company like this is that
+
+you can actually work from the beach,
+
+because now everything happens on the, online.
+
+Everything happens in tools.
+
+Everything is written, everything is documented.
+
+And you become really comfortable.
+
+It's like testing, right.
+
+Before we started testing,
+
+how many of you felt testing is gonna slow you down?
+
+And how many of you now feel that,
+
+oh I can't write something serious without tests.
+
+Yeah, well same number of people.
+
+Yeah. Good. Yeah, so it's the same thing.
+
+It feels like writing is gonna slow your product development down.
+
+It's gonna take, make decisions longer,
+
+but it actually helps you get way more structure.
+
+And you'll definitely see that in a few weeks or maybe a few months.
+
+And - by the way that is a real picture
+
+of us sitting and working from the beach,
+
+so. That's one not-stock image.
+
+And what's incredible to me personally
+
+is that I was working on Musiboo for about three years,
+
+about two of those were miserable.
+
+Right, there was, I was just banging my head against a wall,
+
+and I could have figured this out
+
+and I could have changed my direction,
+
+but I didn't. And I literally felt like I was stuck
+
+in a Groundhog Day.
+
+Right, it's very easy to get stuck in a Groundhog day.
+
+And what you have to do is obviously
+
+you have to step back,
+
+and then you have to get a better perspective.
+
+And I think the thing that prevented me from doing that
+
+was that I had no semblance of a work-life balance.
+
+Nothing. I was just working all the time.
+
+I was under this assumption that if I am failing
+
+it's only because I'm not working hard enough.
+
+How many of you believe that actually?
+
+That if you are not succeeding at something
+
+then you just got to try harder? Yeah.
+
+Quite a few people, right.
+
+And I think this is kind of true
+
+but I think it's not about the number of hours.
+
+So definitely having some work-life balance
+
+is very important in getting this perspective.
+
+And the other thing I give thought a lot about
+
+as a company is that there is simply no way we can outwork our competitors.
+
+So for example our competitors are companies like FreshDesk,
+
+which have thirty million dollars, two hundred people team.
+
+Even if like all of us work two days in a day,
+
+we would still not out-hour them.
+
+So it's simply not going to work like that
+
+and technology companies are not built like that.
+
+They're built one team member
+
+and one great decision taken at a time.
+
+And that happens when you have a fresh perspective
+
+and a clear vision.
+
+And it's amazing to me that being in the knowledge industry
+
+or industry driven so much by knowledge and by creative energy,
+
+how little at least I did, and when I talked to other people,
+
+people understand about how our brain itself works.
+
+And that's I think probably where a lot
+
+of these misconceptions come from.
+
+So I highly recognize that you guys
+
+take a look at this book called Your Brain at Work.
+
+It's a very quick read. It's gonna take you a few hours to read.
+
+How many of you have read this book? OK, only two people. Cool.
+
+So. And both of them have (00:17:26:08) ??, so yeah.
+
+So yeah, please go ahead and read this book.
+
+What this book shows you is how to get more out of your work life.
+
+How sometimes just trying harder is not the solution.
+
+And it's a very enjoyable read
+
+and it gives you a very nice perspective.
+
+Apart from this, I've also lately started using RescueTime.
+
+So I did a quick survey before the RubyConf
+
+and I asked people how much they worked,
+
+and so about twenty people I asked,
+
+actually about twenty people filled out that survey,
+
+and I think seventy percent of them said
+
+that they work about sixty hours a week.
+
+And I encourage everyone to go back
+
+and set up this application.
+
+It's free for about a week.
+
+And you'll be surprised by the results.
+
+You'll be surprised by how much time you just lose
+
+in a YouTube video that somebody sent you
+
+and you had no idea that you opened
+
+and watched for thirty minutes.
+
+So your time is definitely finite.
+
+So there's no denying that.
+
+But it's amazing that with that finite time
+
+how much of it we lose without even knowing.
+
+So try to use this application
+
+and free up more of your time
+
+and enjoy your life as well while you're building a start up.
+
+I think that's really the key.
+
+So Bangalore. When Prakash invited me to do the keynote,
+
+he pushed out block which it said
+
+I'm gonna bring a unique Indian perspective.
+
+And I wasn't sure what that was gonna be entirely,
+
+but one thing I do feel very passionate about
+
+is being in this city actually.
+
+So in the last couple of years I've traveled a lot.
+
+I've been to Chile,
+
+I've spent a lot of time in Vietnam
+
+and some other southeast Asian countries.
+
+And I've traveled a lot
+
+and I really enjoy living in some of these places.
+
+But I always come back to Bangalore,
+
+and I really like spending time here simply for one reason.
+
+I think this place is full of incredible developers.
+
+It's just so amazing.
+
+I haven't been to U.S.  Yeah, thanks.
+
+Thank you.
+
+I haven't been to U.S.
+
+But I've been to some of the other hubs.
+
+I've been to Syngapore.
+
+But seriously the development activity here is just amazing.
+
+People are so passionate, they really like the code,
+
+they like trying out new stuff.
+
+And in general if you see our English ability,
+
+everything is really good.
+
+And I really think that we,
+
+and especially today if you look around you,
+
+there's enough money, there's enough resources,
+
+enough accelerators,
+
+some may even say too many accelerators
+
+or incubators around us, to help you launch companies.
+
+And I really hope that in 2014 a lot more
+
+such companies get launched from Bangalore.
+
+I'm totally rooting for you guys.
+
+If I can help you guys in any way,
+
+or anybody else, I'm totally up for it.
+
+Let's build more such amazing companies.
+
+So yeah. Happy New Year, and thank you so much.
+
+So I wanted to keep the talk a bit short,
+
+so you can either use the time for Q&A
+
+or reclaim your fifteen minutes of life
+
+and go back home early. It's your choice.
+
+V.O.: Questions, anybody.
+
+QUESTION: Regarding the writing of,
+
+I mean encouraging your team to start writing.
+
+When you started up, how big was your team?
+
+P.D.: Sorry?
+
+QUESTION: When you started off with Muziboo,
+
+how big was your team when you
+
+started actually writing in the code and solving issues?
+
+P.D.: No, no, not really.
+
+So none of this happened in Muziboo actually.
+
+And that's why I kind of moved away from Muziboo.
+
+I realized I'd gone too long, far too long,
+
+to like, totally change
+
+and the product had taken like a lot of fundamental decisions.
+
+QUESTION: OK, one more connecting question.
+
+So when was the point that,
+
+how many team members were there
+
+when you actually started encouraging your
+
+team members to start doing this?
+
+P.D.: Right. So that's a cool question actually,
+
+and you have to start doing this
+
+when you are just one person actually.
+
+And you have to start from day one.
+
+So it's funny but even when I started doing SupportBee,
+
+I would actually, you know I was the sole developer
+
+but I used pivotal tracker
+
+and I would try to document everything,
+
+and not as much but still.
+
+Because I think that's the biggest challenge
+
+in setting any kind of culture,
+
+that you have to start really early on.
+
+And when you say early,
+
+you have to basically start with yourself.
+
+So the best time to start is
+
+when you're starting the company.
+
+And some companies have done a good job of explaining this,
+
+so recently you know we've been reading the walf??
+
+(00:21:54:23) handbook.
+
+I don't know how many of you guys know about it.
+
+But there's a company called walf,
+
+which makes a lot of cool games like Counterstrike I believe, right.
+
+And, sorry, I'm not a gamer, so, yeah.
+
+And, so Walf has a good handbook,
+
+and that's what they said.
+
+To build a company like this,
+
+you need a very strong commitment from day one.
+
+And one of the things I didn't mention
+
+is that one reason we can do this
+
+in a lot of companies can do this
+
+and take longer to build better companies
+
+is the fact that they don't take any investment.
+
+So you know you might have to worry about that as well, sometimes.
+
+QUESTION: Hey, um, Prateek.
+
+Something that always fascinates me
+
+with entrepreneurs who have started product-
+
+moved to a different product is,
+
+at what time did you decide that, OK,
+
+this product sucks.
+
+Or it's not gonna work,
+
+I need to move on.
+
+When do you take that decision?
+
+It could be a lot of factors -
+
+finance, team, motivation.
+
+P.D.: Right, right.
+
+QUESTION: What was your move?
+
+P.D.: Right. So I definitely had a moment
+
+where I clearly knew I had to move on.
+
+And so for awhile obviously I thought
+
+that you know I should keep trying,
+
+and I talked to a few more entrepreneurs,
+
+and given. So we had a lot of traction,
+
+we had about a million visits at one point.
+
+And we did have a good amount of traction,
+
+but the thing that frustrated me the most
+
+was that over the three years that I did Muziboo,
+
+I learned a lot of new stuff. And not just in terms of programming,
+
+in terms of how to go about product design and things like that.
+
+And in the case of Muziboo it had already become
+
+too big to sort of start over or to completely change,
+
+especially with, and we didn't have a big team as well,
+
+so it was just me and my co-founder
+
+and I was pretty much the only programmer anyway.
+
+So it just felt like, with the new experiences
+
+that we had and the new knowledge that we had,
+
+it just makes more sense to start something fresh.
+
+Because one of the things that also happens is
+
+when you are just starting out, sometimes you
+
+pick an idea that's close to your heart, or looks cool,
+
+but may not necessarily make business sense.
+
+So with all those factors put in it
+
+just felt that it's better to start over again
+
+in a domain that I can relate to more.
+
+One of the other problems in Muziboo
+
+was I'm not a musician myself.
+
+So after awhile I couldn't relate to their problems actually.
+
+And it's, in Support it's been incredible
+
+because we use SupportBee ourselves.
+
+And I wanted to get into a domain where
+
+at least I could relate to the target customers a lot more.
+
+So even though I wasn't from customer support,
+
+I could relate to business owners and small
+
+and medium companies,
+
+and so it made sense to just switch over.
+
+QUESTION: OK, so your story is very close to,
+
+you might like this, (00:24:19:22), he's a (00:24:20:24).
+
+P.D.: OK.
+
+QUESTION: But he started with his own service company.
+
+No, he- yeah. First service company,
+
+and then he expanded his product (00:24:27:19)
+
+and then he learned this concept of ??, so. ??
+
+P.D.: Right. Yeah I think a lot of entrepreneurs do that.
+
+I think visual website optimizer are another one.
+
+Paris ?? (00:24:37:10) tried a couple of ideas.
+
+In fact he had a music service as well.
+
+I don't remember the name but it was there for awhile.
+
+And, so I think even India there are a lot of entrepreneurs
+
+who have done that actually.
+
+And I think they've had pretty good success that way.
+
+QUESTION: Do you think it's important
+
+for someone who wants to start a start up
+
+to first work in a desk job, you know,
+
+with an MNC and then start the start up?
+
+I mean do you need the experience or can you just,
+
+you know, finish college and then go straight into a start up?
+
+This is because I'm a college grad,
+
+almost, so I want to know.
+
+P.D.: Right, so obviously this answer
+
+will come with a disclaimer that, yeah,
+
+you know, there are always exceptions to the rule,
+
+and so there are, like for example,
+
+I think Fractor (00:25:22:27) is one company
+
+that came right out of college and did really well in India.
+
+I don't know if you know about them.
+
+But typically what I've seen is,
+
+it does help to have a few years of experience.
+
+But at least today you don't need to get that experience in an MNC,
+
+necessarily.
+
+You can actually get it in a well-run start up.
+
+A start up with a certain amount of validation.
+
+So probably you don't want to join a start up
+
+that has no validation,
+
+and you're not sure where the start up is headed.
+
+But as soon as you think there's enough validation
+
+or you like the product story or you like the founders,
+
+you can definitely work with start ups.
+
+And they can teach you a lot more.
+
+Similarly because in starts ups you work,
+
+you have to do what work,
+
+and your work is always going to be used.
+
+Big companies have the luxury of just sitting
+
+on your work or just wasting your time.
+
+But in a start up that luxury isn't there,
+
+thankfully. So you're always going to gain a lot more exposure.
+
+So yes, to answer your question,
+
+I think it's good to get some experience.
+
+QUESTION: So hi Prateek,
+
+I'm going to add a comment,
+
+and then you can probably add more to it.
+
+To start up, there's no right time.
+
+But what I believe is the research that goes into starting up.
+
+So whether you're out of college or you work for MNC,
+
+whatever that means, but all your work for any company,
+
+as long as you do good work and you find a problem you can solve,
+
+and you validate it, by going, asking, talking to people.
+
+Then you can start up.
+
+And then the rest of the start up stuff
+
+like finances and team and stuff comes through.
+
+So Prateek it'd be pretty interesting
+
+to see how you started about the idea about SupportBee.
+
+Why you thought there was a gap.
+
+When did you realize that this could actually potentially take off?
+
+And finally, you know, competition.
+
+P.D.: Right. Can these lights be a little bit dimmer?
+
+It's, if it's OK.
+
+So sorry, so your question was when did I,
+
+when did I start and why did I think it was a good idea?
+
+QUESTION: So you, there must have been a time
+
+when you found there's a pain point,
+
+and was like hey, man, this is a cool idea,
+
+then you did your research.
+
+Then you actually said,
+
+all right I think there is some app to be found.
+
+And finally competition.
+
+P.D.: Right, right.
+
+So when I was coming out of Muziboo-
+
+actually in some ways that's the other lesson
+
+I have learned. It's always easy to learn in hindsight,
+
+right. You can look back and it's much easier to come up with lessons,
+
+life lessons. So take it with a pinch of salt.
+
+But one thing I realized was that after Muziboo,
+
+I was pretty, like, not really desperate,
+
+but I was like, in a rush. I was like,
+
+oh my god man, you know, I've been sitting
+
+for a whole twenty days without doing anything.
+
+You know, three weeks. And, so I was like,
+
+actively looking for ideas, and we've had,
+
+we had this idea about having a customer support tool before.
+
+Because we tried to find form use (00:28:01:17)
+
+where we ended up using something,
+
+but it wasn't that great.
+
+So it was around that time that I came up with the idea,
+
+all right. And so, one of the first things I did was,
+
+and we had a few other ideas before that,
+
+so we tried validating those, and those didn't work with customers.
+
+So we would just put about,
+
+put up a landing page and then try talking to people.
+
+And the one of the first things I did about,
+
+when I came up with the SupportBee idea was,
+
+I talked to Valerie from Balsamiq.
+
+So Balsamiq is a very popular company
+
+I think most of you guys would know.
+
+And they were very, very well-known for their customer support.
+
+So I reached out to Valerie
+
+and she was kind enough to come on a Skype call
+
+and talk to me about the idea,
+
+and we did this with a few other companies like BooFoo ??
+
+and Discuss, and actually a lot of those interviews are now online,
+
+on our blog. And we have also written more about this process,
+
+it's still on our blog if you guys are interested in checking it out.
+
+And so with, in a month,
+
+a month and a half even then we thought,
+
+OK, we could do this. I think what Coby said in the morning that,
+
+you basically found it at least as hard
+
+as you thought it was going to be,
+
+in my case it was definitely true.
+
+So I thought OK, so I just need to
+
+pass an email and then I can get started.
+
+And that's it. Passing the email too me a night,
+
+and then ?? (00:29:12:21) a little bit later,
+
+it took us a whole year or something, pretty much.
+
+And so we started coding,
+
+but getting the product out it took us
+
+about a good eight months or something.
+
+And in private ... ?? (00:29:27)
+
+V.O.: Anymore questions? All right,
+
+thank you Prateek.
+
+P.D.: All right, thank you so much.
