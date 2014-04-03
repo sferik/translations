@@ -1,0 +1,243 @@
+Garden City Ruby 2014 - Simple Ruby DSL Techniques: Big Project Impact - Aman King
+
+OK, Simple Ruby DSL Techniques. Let's focus on that. Ruby is in bold. So apologies - this talk will bore you. It's actually a pure Ruby talk. I won't be referencing C, won't be comparing to Java or Closure. And there'll also be no references to architecture.
+
+OK, that said, I myself am a ployglot programmer, but still ended up spending a lot of time with Ruby projects. Ruby is not my favorite language. If you want to know my favorite language, ask me offline, yeah. That said, I still like Ruby a lot. It's helped me think differently.
+
+OK, let's get started. So when I registered and my talk got selected, organizers - who are doing a wonderful job, by the way - reached out to me and gave me a set of guidelines for speakers. It said, one of the guidelines was, start with a joke, or at least end with a joke. So here's my obligated humor, just to get things started. But there's another star disclaimer, jokes can offend people, was the most funny jokes are usually the ones that are offensive to someone. So this joke may also be a little offensive to some communities, but the offense is not intended. It's accidental. ?? (00:01:55:28)
+
+It's also not an original joke. You may have heard it multiple times. So please do make an effort to laugh at the end of it. It'll just make me feel good. OK, so here's the joke, yeah.
+
+What is common between beggars and developers?
+
+Don't answer. I know you know the answer. It's a very poor joke, which has been going around for a long time. It's a very old joke, yes. ?? he's older. Older than Chad even.
+
+I'll tell you the answer, OK. So, am I moving too much? Sorry, I'll pose here.
+
+When two developers, sorry I mean, two beggars meet at a railway station - that part is not a common part - OK so beggars are meeting at a railway station. Or when two developers meet at a tech conference, they introduce with the question, "What platform do you work on?"
+
+Thanks, thanks, some laughter also here, I really appreciate it. This is like satire too, though, that we can have philosophical talks about later.
+
+There's a difference between beggars and developers also though. Developers continue their conversation with another question, "What domain do you work on?"
+
+This is very, very typical. In fact this is a good opportunity to get some more examples of domains. What domain are you working on? What project is your domain for? Right now. Just shout out the answers. Could be finance, could be retail, could be anything else.
+
+Social. Entertainment. Education. Sorry? Health, yeah, health. OK, good. Warehousing - another domain. OK, interesting. Logistics, good.
+
+No one mentioned these. Maybe because we think of them as implementation concerns, right. They don't really solve any, they're not really relevant to any business domain that you work in. These are still very relevant, we know all of it, but they are implementation concerns.
+
+I still like to think of them as a domain, though. Perhaps as a technical domain. Maybe you would also describe these things to, or as a technical domain.
+
+But what are these things? Technical domain, business domain - what is a domain? There are obviously answers out there. I'll share my perspective of it.
+
+For me a domain is about a specialized field, right. It is about common context which is shared by specialists - people who work in that specialized field. And it's about common vocabulary used by those specialists, to communicate with each other.
+
+This talk is kind of focused on the last point, which is common vocabulary among specialists. And here are some examples to make it clear what I'm talking about.
+
+How many of you are saying that there grandmother - again, I may be offensive to a few people - but your grandmothers will understand what these sentences are? No raise- no one's raising their hand. How many of you guys understand these sentences?
+
+Are you all being shy? Because I was hoping for a full house here. OK, so a few hands did rise, right.
+
+We clearly know what these things mean, and Ruby also understands these right. We do not need to explain to anyone what a private method is. We do not need to explain to someone what delegation is. And Ruby kind of represents these words as is.
+
+This is actually a DSL in core Ruby. I am sure you guys have used these methods before actually. They're a Ruby method. But when you talk about DSL, these do not necessarily come out as clear examples.
+
+More common examples include our favorite ActiveRecord. It's been mentioned multiple times today. That is a DSL. A controller in Rails, they have DSLs. And libraries have them. One of my favorite libraries is Sunspot, cause they make working with Solr so easy.
+
+I remember on a Java project, I was working with Lucene in Java. I don't want to go back to it ever again. That was difficult.
+
+And all these examples are Ruby DSLs for the technical domain, right. So the question is where are the DSLs for the business domains we were all mentioning out there in the room. We've mentioned health, education, retail, finance, logistics, right. Where are the DSLs for those domains?
+
+Well framework writers don't write them. The reason they don't write them is they cannot guess what you need as consumers as those frameworks, right. They can guess that any domain will need some sort of authentication, caching will be important, you need to persist all the data that you are dealing with. They can guess about those things. They cannot guess what your business problem is. That's what your client knows.
+
+So who has to write those DSLs? Obviously it can't be those framework writers. It has to be you for your business domain.
+
+And why write them? A simple answer could be, why not?
+
+But if you have got experiences working with Rails all these years, we have experiences working with ActiveRecord and loving it. And what we love about them is how clean they look, how easy they make things to implement. Most of it is because of what I cited as DSL examples.
+
+So there are definitely productivity gains there. Why don't we want to harness those gains for our business domain as well?
+
+OK so that ends part one of my talk, which was about fluff. Now I'll focus more on the stuff of it. I like a balance of fluff and stuff. Some people are more of, no fluff just stuff.
+
+If we were to write a DSL, what is the first step?
+
+First you need to understand what DSLs are about, right. And that understanding comes from recognizing the DSL. It's like refactoring. Refactoring is a good thing, but you can't really do refactoring unless you first recognize code smells, and then relate them to what refactoring techniques can help you remove those code smells.
+
+So this is my attempt at trying to classify DSLs, so that you can recognize them a little better. I'll repeat the same examples. Look at them carefully.
+
+This sort of DSL I would like to classify as a fluent interface. It's not a kind of term coined by me. I think Martin Fowler blogged about it many years back. He's recently rewritten a DSL book as well. He relates fluent interface to implementing DSLs.
+
+We'll take another look at this sort of DSL, and this I like to call single-line declaration. Nothing very unintuitive about it. It is a single line of Ruby, right, and it is a declaration.
+
+I ought to spend some time talking about declarations code though. I think a lot of DSLs are declarative in nature and not imperative. I hope you understand these concepts. If not, go and read about it. It'll help you figure out ways of looking at code. A SQL is a good example of a declarative language. You say select star from this table. You don't tell the database how to go and fetch the records from the database, right.
+
+Just like this guy. around_action :wrap_in_transaction, only: :update-
+
+So you're telling Rails that for the update action method, just call this method before and after, right. So that's a declaration. Not necessarily exposing the implementation.
+
+Moving on, though, you can also declare stuff using blocks. So not just single lines. You can turn them into multiple lines by passing in a block. So block declaration.
+
+And these are the three simple categories that you can actually classify most DSLs into. Most other DSLs that you'll encounter in code, you can use these three classifications.
+
+Now I'm talking about implementing them yourself. Which takes us to the next stage. You need to recognize the secret sauce, the ingredients which can help you implement such DSLs.
+
+So let's take a lot at fluent interface. What you'll need is basically just method chaining and possibly the builder pattern. Or a variation of the builder pattern.
+
+I'll get into more detail later maybe.
+
+For single-line declarations, what you'll need is class methods. These are typically class methods. And some bit of meta-programming behind them. Typically the meta-programming will be very basic in nature. Nothing that you guys can't handle.
+
+And moving on to block declaration. It can be class methods like this one, or instance methods like this one. And again meta-programming behind it. This can sometimes become tricky and can go into what some may think is advanced meta-programming. But again, not something that we can't handle.
+
+So let's look at some examples. I'll be sharing some inspirations, basically code which emulates the kind of concepts you've dealt with in real-client projects. And I've put this up, some of these examples on GitHub as well so you can take a closer look later.
+
+So we'll tackle fluid interface first.
+
+That's the DSL we'll be implementing. The domain is production support, a ticketing system maybe. You are definitely dealing with incidents, right. And let me read it out:
+
+IncidentReport for app, severity critical, major. Priority: high, medium. From this date to that date, retrieve incidents.
+
+Maybe something that business users may understand. It's still a possibility because they, these symbols may confuse them, and the code line and the dots. But still, something that a business person may understand. What is important is that, again from a implementational perspective, you can probably get that there's nothing special in it.
+
+And you should be asking right now, OK, what's so special about it. Why, what makes it a DSL, right?
+
+ActiveRecord of inci- incident report is in ActiveRecord. You can simply use there and just do these things in one line. Why do you need so many dots in between, right.
+
+The question is the API. What makes it different is that the API embraces the domain. The API represents the domain, concepts from the domain. It's not generic persistence of a domain that you are trying to implement with a var, right.
+
+So let's take a look at what's happening behind the scenes.
+
+Is this readable? Yeah, people in the back? No? OK. So what I'll do is probably switch this out. This can always be risky. But let's see if this works. Yeah (00:14:30:19). Lots of ?? not Emacs. Sometimes ??.
+
+OK we were looking at an example of fluent interface. OK, see what I can do here.
+
+Oops, too big. Better? People at the back, no? Yeah? OK.
+
+So ignore this. Let's just assume there is a class called incident, which wrapped the data in DSL.
+
+This is the interesting piece. This was the class that was featuring in the DSL.
+
+We have a simple class method. Look at it. There is nothing interesting. It delegates to another class level method called new, which we know does what? Involves the instance method, called initialize, right.
+
+So basically we start off with a list of system in the class that we capture in our instance variable. And then there's a series of methods which are very similar in nature. Taken arguments stored in a instance variable, and this bit is important.
+
+It returns the object itself.
+
+This ?? (00:16:00:28) here method chaining.
+
+Cause you can do instant- incident report dot far, which will eventually just return you an instance report object. You do a dot on at see severity, that'll return you the incident report object again. Now you can do a dot priority, and so on and so forth.
+
+Straight-forward, yes?
+
+You guys following me, right? OK.
+
+So nothing special there. Somewhat related to a simplified version of builder pattern. And then this piece is in here. Once you've collected all the options that you want, you now want to use those options to do something interesting, something useful.
+
+It'll probably have a method call in the end, which does the heavy-weight lifting.
+
+For example, in ActiveRecord, which actually this implements ActiveRelations, right. There is a method which finally takes all your where arguments and does something about it. Makes a database query. No?
+
+You can do a dot activecard class name dot where dot join dot order dot limit. What (00:17:15:27) ?? files a query?
+
+To A. Yes. It is to A. Even when you're doing the each and stuff like that, internally to A is the one which makes a database query.
+
+My reference may be a little dated. This may not be necessarily the case in the latest version. This is like an equivalent of that. It takes all of your information and then finally does something with it. As you saw, this is the project which I've checked in on GitHub. It doesn't really have ActiveRecord as a gem dependency, nor do I have tables.
+
+So I'm just stimulating that there's something which'll give you all the data that you need. But too much data and you have to do filtering after. That is my simple interpretation here.
+
+It could actually be incident if it was in ActiveRecord. It could actually be incident dot var, and the var is generated based on all the options you have taken from your line code, right.
+
+Now let's get to the next interesting piece, that how to use the data that you've captured from your DSL. Always make a reasonable judgment called default data, right.
+
+For example, here we are seeing that nil is actually a valid default, cause there's always a chance that someone will not call this method at all, right. So just make sure that your builder methods, don't make an assumption that everyone will call those builder methods for each and every data attribute I have.
+
+And then you finally use it for your filtering and stuff like that, and then you return to incident, which is (00:19:01:22).
+
+Any questions about this so far? Nope? All clear, right? OK, I'll move back to the presentation.
+
+Some more examples, that was a simple one. These are again slightly tweaked versions from actual code bases. That's where we - oops, sorry - had something similar where there were worker jobs in production that would work in the background. But they could end up with errors, so we - this is a combination of ActiveRecord plus the builder pattern DSL. This object returns you a new object, and then you have these methods on it.
+
+Another project we were using Neo4j, a graph database, and we wanted to generate cipher queries, which are basically strings that you send across the restful API. But to generate that string, we are gonna have  DSL on it, OK.
+
+Coming to single-line declarations. Another example, maybe from a community forum. You have posts which have attributes like title, description, author. But people are bad. Sometimes they use swear words in their comments. So we would like to sanitize_profanity_in title and description.
+
+And that's all that you write in your class declaration, right. And then this is how it'll be used. So you can create a post with a swear word, but when you actually get back to the value it'll be asterisked. But for simple purposes you still want the original value, just cause it's lost, it's sort of like it's lost. So you have this method, title_without_sanitation, which returns you the original value.
+
+We know that struct will give you this method title. But it's not doing the same thing that a struct implementation title will do. And we see this new method, which has suddenly come up from somewhere. It's not there in the class definition. Clearly there is metaprogramming involved, and this is what it looks like.
+
+Hopefully this is clear enough. This here's a module which we just included, right. And then there's a class method. So that's our class method, and then we just do our thing there, you have to generate new methods. We need names for those new methods. The names will be dependent on the attributes that you've declared, right.
+
+So here we are creating a new method name called title_with_sanitization, and title_without_sanitization. You do a define method for the sanitize method. You use the original method which you've called, let's say, unsanitized_method, yeah, as a variable. And you just gsub out all the profane words, right.
+
+This could get complex. You could have a profanity list and stuff like that. And then you use alias_method. You say that this method name, title_without_sanitization is the same as the original method definition with this tidier title (00:22:31:09??). And then you say alias_method but now title, method name title, will actually be your sanitized version, right.
+
+These two lines are actually simplified in Rails. They expose something called alias_method chain, which you may have used in your Rails products.
+
+Most, more examples of single-line declaration. Maybe here you see a usage of something similar in the controller, where we get more options. We say filter_for_profanity for the create action, but only for these parameters, which come into that action. We also have something authentication related, has_user_specific_actions :create and :destroy.
+
+Will check that the user is logged in and it will check that the user is allowed to create a post or destroy a post. For comments we are dealing with IsFlaggable, you just say is_flaggable, which means people can say report abuse or something like that.
+
+And this is interesting. We were also dealing with an activity feed, a wall, like a friend wall, on Facebook.  And you say when there were a comment creator, right, let's just read this out.
+
+Generates, so it reads like this, generates_feed_item :content_feed_item, :for_addition_of_comment, :after_create
+
+And I don't have to explain things further than that.
+
+Again dealing with some background workers, here we see, and these are AWS SQS-based. SQS is the message queue implementation provided by AWS. We just say ImageWorker reads_queue_to_perform :rescaling, resizing of images, and the queue name is image, and there's also an error queue called image_error, right.
+
+And those are only the pieces of code that you actually need in this slide. Dealing with at least these behaviors.
+
+Block declaration. A little more complex. Here we actually dealing with social networking. Someone mentioned social as a domain. We are seeing fan has a SocialGraph where there are relationships called fan_followings, where the fan participates in the relationship as a fan towards a celebrity, and the relationship is outgoing, as in a fan initiates a relationship to a celebrity.
+
+On the celebrity end we have something similar. We say relationship fan_followings, as :celebrity towards a fan, but this relationship is incoming, right.
+
+And then we suddenly get methods like these.
+
+madhuri can have a fan name husain, husain's celebrity list will now have madhuri in it, and madhuri's fan list will have husain.
+
+How do we implement this?
+
+This is, this we've already seen. There's a class method, but a block can get complex. So you want another object to handle that complexity. That object is specification. Specification is very similar to the builder pattern we saw. It collects your relationship declarations. The sample we just had one relationship. You could have a fan community of fans connected to fans. So you collect all those rules and then you finally do something with it. So you say apply those relationships on the class, which user. 
+
+And that's where a lot of metaprogramming happens. This is the relationship class which introduces those methods like add_fan, add_celebrity, celebrity_list, fan_list. Again these details you can look at on the GitHub project. But I'll move on.
+
+Some more examples, a little more complex, in a real-world project. And this is an interesting one where class, this guy, this classical method, is actually delegating to this, another classical method. And then doing something on top of it. We can have those kind of DSLs as well. And it's something very simple. It's another simple one. Nothing complex there.
+
+So quick recap:
+
+Fluent interface is the simplest of all. You can just start there. Single-line declarations, (00:26:50:17) ??, modules, mixins, classical methods, basic metaprogramming, easy enough.
+
+Block declaration - very simple. Similar to single-line declarations, except that you may end up doing some advance metaprogramming, like instance_eval or something.
+
+You win some, you lose some.
+
+So some things to be careful about: don't go overboard with the builder pattern. Not everything needs it. Keep the builder classes particularly separate from the class you're building. And again, create default values with care, because you can't expect your consumer to always use the method.
+
+Metaprogramming - don't shy away. I see a lot of suspicion in programmers from a company. Don't shy away, just be vigilant. Structure metaprogramming code clearly. Focus on readability, cause metaprogramming ?? (00:27:38:24) code can be difficult to understand. Control your options explosion. We saw that our single-line declaration took multiple options. You may gain the habit of adding more and more as your project evolves. Just be careful of that.
+
+Use tests and use metaprogramming as a way to remove duplication. But duplication not the way we typically understand it, but duplication even in the code structure. So keep a watch out for duplication in code structure, which you can remove using metaprogramming.
+
+Pains in general: debugging can be difficult, yes, it can be difficult. Unit tests help, but not always. Writing DSL implementation can become easier with practice. Reading it is still difficult.
+
+Dealing with variations, we talked about, I think Chad mentioned abstractions can be dangerous sometimes. And here we are talking about abstraction. And as soon as you have variations you need to control it.
+
+And you may think you're making the most elegant DSL, so beautiful that you will understand it, everyone else will understand. The risk is then it's only you understand that DSL. It's not really capturing what you need to capture.
+
+There's still benefits, though.
+
+Productivity - I mean, these are examples that we've seen full cycle of user stories. So quick analysis with the queue and developers of what needs to be done. Implementation and then testing all happens in half a day. Why? Because you have a lot of reusable code.
+
+And the example we saw has user-specific actions. You can just implement it so many controllers in one shot.
+
+Maintenance gets improved because of improved readability and consistency. There is just one way of implementing something. You don't have too much inheritance going on, too much module-mixing going on. There's a consistent way of implementing a business concept, which leads to lesser defects and quick fixes.
+
+Your Ruby know-how increases in your team members because you're kind of forced to like look into metaprogramming a little bit more, and some of the patterns which help. Your understanding of the business domain increases a lot, because you are modeling business domain in your DSL. And quick ramp-up for team members. A team member could join and you've seen this, and from the second day onwards they're just using existing DSLs.
+
+They don't even need to go and look into it, what's happening under the hood, all that metaprogramming, because the DSL is so clear.
+
+And final words: custom DSLs for business domains. Just try it.
+
+You may fail. Team members may not like it. You can always undo it. But give it a shot, cause you are using it every day if you are using Rails, SunSpot, a lot of library out there. I mean, just rSpec, right. You are using it every day. Just give it a shot for your business domain.
+
+And I'm done. So. Thanks.
