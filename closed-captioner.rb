@@ -11,5 +11,5 @@ end
 =begin
 want it to do a lot more
 but this is the only code I managed which actually does some semblance of what I want it to do.
-though I'd share, though.
+thought I'd share, though.
 =end
