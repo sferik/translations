@@ -1,0 +1,559 @@
+Garden City Ruby 2014 - The Dark Side of Ruby - Gautam Rege.
+
+All right, good morning people.
+
+After a bright talk this morning by Ajey, it's time to get dark and dirty, OK.
+
+So I'm from Josh Software, and it started in 2007.
+
+ These are my Twitter handles.
+
+ And I'm also an author.
+
+ I have a couple of books which are out.
+
+ Well it doesn't look so dark anymore, does it? So what is my talk gonna be about? Don't worry.
+
+ It's not gonna be anything scary.
+
+ I love Ruby.
+
+ But as with every marriage, and I hope there's no Ruby in the crowd - OK.
+
+ As with every marriage you also need to know the other side.
+
+ You know the side you were - you didn't know when you were just going around.
+
+ But it's the same thing with Ruby.
+
+ You have to know what you're looking at.
+
+ And my talk is going to be about the weirdness and the gotcha moments.
+
+ In short, in my talk, if you find 'Ah-ha!' moments, it's working.
+
+ Oh, we have a varied audience today.
+
+ So to ensure sanity, I have tagged my slides.
+
+ My slides are tagged with my good friend bumblebee to keep it neutral, that these are for beginners.
+
+ So  you must pay attention.
+
+ And the experts, try to give the beginners a chance to give the answer.
+
+ And the experts, you know, take your inspiration from Optimus Prime.
+
+ And the beginners can choose to tune out, but whatever you learn, the better.
+
+ So let's get started with the infamous infinity.
+
+ Now, we all know what infinity is, right? And since we are all programmers,
+ 
+ obviously we should know the answer to this one.
+
+ What's the answer? There are no surprises here.
+
+ No surprises there.
+
+ No division by zero.
+
+ We know this.
+
+ What about, what about this? Oops.
+
+ This actually works.
+
+ So we know that everything in Ruby is an object.
+
+ So that looks like a, that looks like a class.
+
+ So let's see what the hell that is anyway.
+
+ If you type this out, what do you think I get? So.
+
+ what's going on here? So infinity is a constant define in the float class.
+
+ Where do you see it, you don't see it there.
+
+ I can use this constant to form range comparisons.
+
+ I can use it with equality operators and stuff like that.
+
+ Imagine three equal to equal to infinity.
+
+ But it works.
+
+ Oh well.
+
+ So.
+
+ This is the way I get people warmed up.
+
+ Let's do something with more of an adrenaline rush.
+
+ Base conversions.
+
+ It's a lot of fun.
+
+ So what do you think is the output of this particular thing?
+ 
+ Now, I don't want all the math geeks going to their calculators,
+ 
+ but essence is converting a number to a string in the octal format.
+
+ So again, no surprises.
+
+ Should be fine.
+
+ But let's push the tempo.
+
+ Now what? That, actually works.
+
+ The next time you are reading about, and you hear a name like getafix, ?? (00:03:57:07).
+
+ You know oblix, asterix.
+
+ It need not be a name, it could be a number.
+
+ Well, now what? Push the limits.
+
+ Oops.
+
+ So now if you look at it a little logically, the radix as a portion
+ 
+ ?? (00:04:15:18) is supported only in thirty-six,
+ 
+ because you have twenty-six alphabets and ten digits.
+
+ So it can go only up to a radix of thirty-six.
+
+ So if there are some innovators out there,
+ 
+ who want to actually get a new alphabet into the English dictionary,
+ 
+ we could probably have a radix of thirty-seven.
+
+ OK.
+
+ Let's move on to the star.
+
+ Not the rock star, but the star operator.
+
+ And to start with, let's see what it has to do with Splat Expander.
+
+ Oh boy, we see more and more of Ruby code right now.
+
+ So what do you think is name and occupation here?
+ 
+ As we can see we have a struct which takes,
+ 
+ which has two somethings, name and occupation,
+ 
+ and I create an object off the struct.
+
+ Now what do we see?Nothing fancy.
+
+ We're still good.
+
+ Right? So the Splat Expander is actually taking
+ 
+ my arguments and given me the right name and the right occupation.
+
+ But we don't do things like this, do we? We usually - we are Rails programmers.
+
+ We work in Rails, so we usually have stuff like this.
+
+ We use keyword arguments.
+
+ We all have keyword arguments to initiate a class like this and stuff.
+
+ What is the output now? It's Optimus Prime, so, the experts?
+ 
+ What is name and occupation? Here it's changed.
+
+ That's because the struct always has an array of arguments.
+
+ It does not differentiate between this.
+
+ This will not work on a class.
+
+ Well, let's get to something more funny.
+
+ What about this? How many here have used this before?
+ 
+ We know how to convert an array into hash.
+
+ How many of you have used this notation before?
+ 
+ All right-y, I have two people in the audience.
+
+ Excellent.
+
+ What happens now? What does this do? It actually converts to a hash.
+
+ And out of curiosity what if I add a seventh element in the array? Error.
+
+ No like, dude, I don't know what to do, what should I do with the last one?
+ 
+ Well, let's try some more stars.
+
+ Who all thinks that the output of this is gonna be three, six, and nine?
+ 
+ Who all think otherwise? What's the output? Awesome.
+
+ And now? That was easy wasn't it? Now what? String ?? (00:07:04:24).
+
+ That's all actually works.
+
+ And let's take it to the next level.
+
+ How many here know about Stabby, Stabby proc? Here is a sample.
+
+ So this is a Stabby proc that we have which takes - note we are still working with star.
+
+ So if I make an invocation ?? (00:07:23:07) to the block like this,
+ 
+ what is the output? Mumbling, mumbling, mumbling.
+
+ It's five.
+
+ And now you say, I knew that.
+
+Right.
+
+ So basically the short form for the first, second last, last,
+ 
+ and the rest of the stuff is in the middle.
+
+ Pretty helpful thing to know.
+
+This works on all.
+
+ It not, it's just not worked with the Stabby proc,
+ 
+ it'll work with Lambda, it'll work with a method, too.
+
+But, as with Ruby, and, if I'm supposed to be standing here
+
+and I'm supposed to be lecturing you on all this,
+
+I'm supposed to know my stuff.
+
+ Lo and behold, when I was trying these experiments,
+ 
+ I learned something new.
+
+What do you think is the output of that?That actually works,
+
+and I have freaking no idea how.
+
+So, well let's put in the slide, and if I have somebody looking explain
+
+to me how does that dot notation just work? And it works only on this.
+
+ It will not work on a method obviously, right.
+
+ But it works!So, welcome to the weirdness of Ruby.
+
+Well.
+
+ Getting onto really complex stuff.
+
+ Case statements.
+
+How many of you have - you all have used cases, right?
+
+Case when and stuff like that.
+
+ Why do you think this works?
+ 
+ And I've tried to make the example as complex as possible.
+
+ All right.
+
+ If Optimus Prime doesn't do this who the hell else would, right?
+ 
+ So what is the output.
+
+It's pretty obvious that we have a multiple of three,
+
+because nine is a multiple of three, and yeah,
+
+because we can all read in English and Ruby gives us readable code.
+
+ We know the output here, right? Well it's true.
+
+ You're absolutely right.
+
+ Ruby's not that weird.
+
+ It'll give you the right answers.
+
+But my question is: multiple_of is a method, right?
+
+It takes one parameter, which I have passed.
+
+ How was it compared with nine?
+ 
+ Where did nine come into the picture?
+ 
+ Behind every case, behind every successful case, is a case equality operator.
+
+ So what actually happens is that that number nine is used with a case equality operator.
+
+ And that case equality operator is an alias to the proc call, which actually gets us our output.
+
+Well.
+
+ Though this seems pretty straightforward, it has just given me immense power.
+
+ I can now manipulate any way that I want a case equality operator to work.
+
+ Simply by over riding the equal to equal to equal to method - the case equality operator.
+
+ And I am good to have any sort of case comparisons that I want to make.
+
+I don't care what happens, but it's my call anymore, right.
+
+ Speaking of case equality operator, let's go to equality.
+
+How many of you all know these symbols?There are operators,
+
+an eql question mark, and equal question mark.
+
+ Let's have some fun.
+
+Any takers?Who all think the output is true?
+
+Who all think the output is false?What happened to the rest of the people?
+
+Don't care.
+
+ Don't care.
+
+ That's bad for a conference.
+
+ You know we just got a huge lecture about participation!
+ 
+ Again, who all thinks it's true? Who all think it's false?
+ 
+ Why?
+ 
+ Oh, come on man, Ruby's gonna be really neat.
+
+ Of course it's true.
+
+Well, what do you think now?
+
+Anybody think it's true?All right man.
+
+ Stand up dude.
+
+ Please give him a welcome, because he's got it absolutely right.
+
+What the hell happened to the rest?
+
+Dude, we just saw the slide before about case equality.
+
+ Are you telling me if you use that in a when statement
+ 
+ it's not gonna work? Of course it's gonna work.
+
+ You're just comparing to one.
+
+ And.
+
+ now what?
+ 
+ True? How many people think it's true?
+ 
+ How many people think it's false?
+ 
+ Why? So people called false
+ 
+ but thought it was true but didn't want to answer.
+
+ Well it's false,
+ 
+ and I've got you guys so motivated you don't want to answer, right.
+
+Damn it.
+
+But this is actually equality by value.
+
+ So the value returned by the object is one,
+ 
+ the value returned by the float is a floating point one.
+
+ It's completely different.
+
+Now what?Now it's interesting.
+
+ Why is it false? Somebody said very confidently,
+ 
+ why is it false? Absolutely.
+
+ Now here's the weirdness.
+
+ This stuff actually compares the object ID of the two,
+ 
+ and a integer and a float would have two different object IDs.
+
+It's obvious, right fellas?So.
+
+ Aiy aiy aiy, true false, what's it guys?There string 'a'
+ 
+ and string 'a' are two different ruby objects.
+
+ If I switch that two a symbol - thank you that's where you go.
+
+So with that, let's hit the jackpot.
+
+How many of you all know what curry is?
+
+It's a lot of fun, a lot of fun.
+
+ But to make it funnier, I actually decided let's have the slot machine get three pulls.
+
+ And I wrote code for it on my flight here,
+ 
+ so I have no idea whether that's correct or wrong,
+ 
+ but like, we know it seems a little weird though.
+
+I've tried to compare if all the three pulls are equal
+
+and then I'm preparing some recipe with curry,
+
+and do you think it would work?
+
+It just looks a little bit of weird code, but I shall explain.
+
+So curry is a method in the proc class which actually returns a lambda if all the parameters are not fulfilled.
+
+ So in this particular case, I needed three parameters,
+ 
+ X, Y, and Z, and in the first statement, I passed only one.
+
+ Note, the invocation is in square brackets.
+
+It's different.
+
+ And it returns me a lambda,
+ 
+ but other times when all the parameters are actually
+ 
+ fulfilled in the second statement, it actually evaluates the proc.
+
+Now if you had to write the same code you would
+
+have taken different types of input,
+
+weighted for the user with (00:14:18:29)
+
+?? one, two, three, and evaluated it.
+
+ You don't need to do that.
+
+And these things can actually be very helpful.
+
+ So curry away.
+
+So! So you think you can tell protected from private.
+
+OK, I am not a - I'm a better programmer than a singer.
+
+Right.
+
+ Private methods.
+
+ All of us have been taught since school, unfortunately,
+ 
+ that private methods are not inherited.
+
+ Are they inherited? As you can see, foo is a private method.
+
+ And I ran out of creativity,
+ 
+ so I just went to the standard base type foo, blah blah blah here.
+
+ Is this going to work?All of us take a lot of things for granted.
+
+ How many of you all knew this already,
+ 
+ that private methods are inherited in Ruby?All right, OK, now I'm scared.
+
+ How many of you all didn't know this?
+ 
+ Don't be shy, don't be shy.
+
+OK, so this is actually one of the basic principles of where Ruby
+
+actually breaks traditional object oriented concepts.
+
+ All private methods are inherited.
+
+What?How many of you all have seen this code before?
+
+Forget the Mongoid::Document but include?Wait, come on.
+
+ Everybody knows it! What is include?Is it a keyword?
+ 
+ How many thought it was a keyword?Oh it's like that,
+ 
+ require or that import in Java.
+
+ Include is a private instance method defined in the class module.
+
+So while that is sinking in, it raises a basic question.
+
+ All private methods are inherited.
+
+So what are protected methods?So what about protected methods?
+
+So what's the difference between private methods and protected methods now?
+
+We were told in our school that protected methods are inherited but not publicly accessible, right.
+
+ Now private methods are inherited but not publicly accessible, right?
+ 
+ So what are private metho- protected methods?
+ 
+ Contrary to popular belief,
+ 
+ in Ruby protected methods actually work with objects and not classes.
+
+ And you can invoke a protected method on another object within the same lineage.
+
+And I say, what the.
+
+ what?
+ 
+ Better explained with an example.
+
+ Simple example, for the sake of brevity I put the initializer in one line.
+
+What is the output, people?Don't be shy.
+
+ You have bumblebee to help you out.
+
+No takers.
+
+ Come on man, that's like pretty obvious right.
+
+ You can't call a protected method on an object, right?Simple stuff.
+
+ However.
+
+ Now beginners, so-called beginners can tune out.
+
+This is fun.
+
+ I added a method called fights.
+
+ Same piece of code.
+
+ What is the output?Take a wild guess, man.
+
+ Go for it.
