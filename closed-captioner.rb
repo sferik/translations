@@ -40,7 +40,8 @@ I'm one of the oldest people here. Thank you
 
 Colby. Colby: Uh, let's, Yogi. Yogi is principal architect
 
-Not so pretty.
+Not so pretty. (The above is an older draft of the Panel Discussion
+transcript, when for some reason I thought Hemant's name was Colby... meh.)
 
 Also this program does not differentiate between spoken lines
 and the headline at the top - so the headline is broken down
