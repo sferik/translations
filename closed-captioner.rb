@@ -44,7 +44,7 @@ Not so pretty.
 
 Also this program does not differentiate between spoken lines
 and the headline at the top - so the headline is broken down
-and I have to manuall reformat it
+and I have to manually reformat it
 
 There are things I would like to figure out.
 Also, figuring out how to have the program post the finished cc.txt to
