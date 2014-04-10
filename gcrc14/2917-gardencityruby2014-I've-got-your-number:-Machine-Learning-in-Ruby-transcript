@@ -44,4 +44,53 @@ And that's going to give, come back and say hey I'm 85% accuracy and I didn't tr
 
 And the, all these things that you see, like for example this guy, we got two images that are actually 9, but are reported as zero. Right, so those are bad. Everything that you see along the diagonal are good, everything else is bad. And I didn't tune the algorithm at all because I wanted to keep it simplistic and all that, but you could do a lot more stuff and as VM I think it has been shown that it can get about 93% accuracy with this.
 
--00:05:07
+All right, so. Another thing is, so I wrote down some of these numbers on a sticky note. That's probably not visible because it's all white. I'll see here. Right. So.
+
+Something like this, right. They wrote it on sticky, and then scanned it in gray scale. Then I'm kind of going to read it from my own handwriting.
+
+So I did, some of this Rails Magick stuff. Who's familiar with Rails Magick? Right, so I did some of that stuff to get the raw gray scale intensity on all that and so I made my picture look a little bit like normal gray scale. Right.
+
+So yeah, I'm going to use this kind of - say zero is pretty easy for an example because not many shapes are like that. So let's see if it knows what's written. It says the answer is zero. That's good.
+
+And I'm going to open this so I know which ones are written and which ones not.
+[^ 00:06:09-00:06:12 - ??]
+
+The one is working. And some of these are not working. For example I'll show you a 3. Look at it on the tables. That's 9. And then we'll get the 9. The way I write 9 is very similar to 3, except this part, right. So I'm going to try 9 and it's gonna tell me that it's a 3, right.
+
+So that's when you need more accuracy to train your algorithm, right.
+
+Anyway, I hope you sort of understand some what you can do with machine learning. So what we're doing here is, we're not explicitly programming the learning algorithm. We're just giving it a lot of data, and it automatically figures out how to solve a problem. Given unknown data.
+
+Which is, I thought, amazing when I learned it. And it's basically statistics-driven algorithms to find patterns in data.
+
+So there are two types of machine learning algorithms. The more widely-known ones are probably [00"07:12] house?? like supervised learning, where it has lots of data. For example, let's say you were doing house pricing, right. You have to have the area in square feet, you know the location of the house, you know how many bedrooms it has. Is it an apartment, does it have a swimming pool - things like that.
+
+These are all attributes of our problem. When you know these attributes, you can basically, and without some set of data where you know the prices, you can now feed it to an algorithm, and when you have, I don't know, like, I just made up a two bedroom apartment, throw that in , what should be the price?
+
+And it can give you the price, right. Of course it'll need a lot of work, but that's essentially what supervised learning is.
+
+You are given some known data, and then you predict unknown data.
+
+Unsupervised is, on the other hand, there's no, like, classified data or something like that. You just give it a lot of data, and you're trying to find patterns in that. And for example, recommendation engines, like Amazon or Flipkart - everybody - recommendation engines, right, they go do something like that.
+
+Now Flipkart does do something like that [00:08:15]?? I'm guessing.
+
+And they do finding groups or certain groups within your social network, things like that can be learned.
+
+So today we'll just talk about classification. And, so that example I talked about house pricing. Let's say that we'll need one attribute, we're gonna, we can barely sample here. And can everybody see this side, or should I be talking on the other side of this room? This side is fine? This - that side?
+
+All right. OK, so, just one attribute we are focusing on, and I'm plotting all these houses. So this much area, this is the price, this much area, this is the price, or something like that, right. And this is not exactly linear because there are other attributes. We are just considering one attribute.
+
+And we have this red dot here that we want to predict the right price on. What do you think is the best way to do that?
+
+AUDIENCE MEMBER: Extrapolation.
+
+A.D.: Right, extrapolation. So this is a linear extrapolation, and it's finding a linear thing, the progression will give linear data. The dots will be here, there, and there, and in that case you look it up on the other [00:09:24]?? fitting curve. In this case it's a linear curve.
+
+And then once it drew that, you figure out the dot will probably lie somewhere here. So it's running a price over here.
+
+Which is not bad. [00:09:32]?? So how do you actually solve this problem? How do you find these dots that are away from the line? The thing you do - before I show you the math, for every one of these points, you say that if I knew what this quote was, how do I compare it to this?
+
+So that's the lead hypothesis, right. 
+
+00:09:58
