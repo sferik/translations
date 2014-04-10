@@ -1,0 +1,47 @@
+Garden City Ruby 2014 - I've Got Your Number: Machine Learning in Ruby - Arnab Deka
+
+Hey guys. Good morning? Yeah.
+
+So I'll talk about machine learning. The promise and all that was just to get the CFE expected, so - accepted, so. Don't expect too much.
+
+Anyway, so I started with machine learning about six months to a year back, and this world like amazes me with how much stuff you can do and awesome it is. So at the end of this talk I just want you to get excited about that too and go and try it out.
+
+You can read more about me there. Don't want to talk about that. The slides and the code that I'll show are up on GitHub and slides and all that.
+
+Yeah, so I was preparing this thing and then Dejas, yesterday - everybody knows Dejas here, right? He had a couple of jokes that were exactly what I had, and I was like oh god I have to prepare new jokes now. But at night I couldn't so, it was too late anyway. So I didn't, so my jokes are still lame, but still laugh like you did for his talk, all right.
+
+First of all, happy new year. Has anybody ever had two hundred people shout happy new year to you at the same time? No? Want to try that? All right, so, on a count of three, right.
+
+One, two, three. Happy new year!
+
+That was actually much better than what I expected. Cause I had two more steps after this. I'll just do one of them anyway. Let's try even better, right. Let the hotel know that we are doing something awesome in here.
+
+So shout happy new year and stomp your feet. Don't worry, the floor is pretty strong, except probably this part. So, all right, like this. Three times, all right.
+
+So one, two, three.
+
+Happy new year!
+
+All right. You guys are already awake I know but, anyway. So we'll take a very brief look at machine learning. And there are many awesome talks that tell you what machine learning can do. This is not what this talk will do.
+
+I'll specifically focus on classification, which is one type of machine learning, and an algorithm that you can use to do that, which is SVM.
+
+And then at the end we'll see how you can do this in Ruby.
+
+So yeah. This is my first talk, and I thought I should do a live demo. Right? Before we actually go- so, what we are trying to do today is, we have all these large data set of about 60,000 images that look like that 6 and 5 and 7.
+
+Each one is 28 by 28 pixels, and what we have is raw gray scale intensity. So you have zero to 255. And the, there's this data set available that you can use to practice your algorithm on, or train your algorithm on.
+
+So it's hard to read, it's all binary and I don't understand binary. So I put it out in CSP like this, and as you can see most of the pixels here at the top, bottom, sides, they're all going to be zero, and in the middle you'll see some numbers that's going to range between zero and 255.
+
+So what we're trying to do is, take these 60,000 images, basically create, have a algorithm learn those images, and then when we give it a new input, like another image, that sort of looks like one of these, or maybe a little dissimilar, it should be able to tell us what it is, right.
+
+So that, the MNIST set also comes with 10,000 things for testing. So first we'll run it through that and see what our accuracy is, and then I'll show you some of my bad, bad handwriting. All right, so.
+
+I will talk about most of these things later, but I'm basically - you don't need to know what linear is, I'm just showing that I'm doing it on 60,000 samples, and I won't do the all 10,000 right now I'll just do 500 of them.
+
+And that's going to give, come back and say hey I'm 85% accuracy and I didn't train the algorithm right now because that takes a lot of time. I already have it saved. And you can see the code and all that, the saved models in GitHub, but for now the main important parts are this algorithm, it says it's 85% accurate, on the 500 samples that we tested.
+
+And the, all these things that you see, like for example this guy, we got two images that are actually 9, but are reported as zero. Right, so those are bad. Everything that you see along the diagonal are good, everything else is bad. And I didn't tune the algorithm at all because I wanted to keep it simplistic and all that, but you could do a lot more stuff and as VM I think it has been shown that it can get about 93% accuracy with this.
+
+-00:05:07
