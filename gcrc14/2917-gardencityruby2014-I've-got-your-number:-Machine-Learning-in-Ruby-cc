@@ -374,6 +374,188 @@ these points, you say that if I knew what
 
 this quote was, how do I compare it to
 
-this? So that's the lead hypothesis, right.
+this? So that's the lead hypothesis, right. Hypothesis on
 
-00:09:58
+every dot is going to be this line equation
+
+here. You probably know this as V and this
+
+as M, right. V plus Mx. But I'm probably
+
+[00:10:11]?? not going to take that one, because you
+
+can have more than one attribute. You actually missed
+
+one. So how do we rotate out, concentrate and
+
+filter one, blah blah blah [00:10:20]??. So you can't
+
+believe the hypothesis. Well right now you don't know
+
+the answer on data alone, right. So you know
+
+that Y there means is the actual price. So
+
+you take the Y and you find the difference
+
+between the hypothesis and the Y, while not moving
+
+the hypothesis, right? So you're just forming the formula.
+
+And then you try to minimize that part of
+
+the whole picture, right. So what you do is
+
+a declaration for every point. You take the Y
+
+out, square it, because, and then it's absolute, and
+
+then you find the sum of it. And this
+
+is your minimization problem. How many of you have
+
+heard about linear programming, or optimization minimization. Yeah, so
+
+this is basically a minimization problem, and I know
+
+this, we'll figure out what equals zero and we
+
+can go on [00:11:10]??. And this was a linear
+
+thing, so linear, but [00:11:14]?? Next up is, that
+
+was linear, so the price is a real number,
+
+so you're trying to predict the exact ones, whereas
+
+this kind is saying is my- is this email
+
+spam or not spam? And this is a very
+
+famous machine learning thing that Gmail?? [00:11:33]. So I'm
+
+going to keep it simple, just considering two attributes
+
+of email. Length of the email, and does it
+
+have a dollar symbol, right. So based on those
+
+two attributes, I have plotted out, let's say something
+
+like - the red stars are spam emails. The
+
+blue ones are non-spam emails. Now how do you
+
+get an unknown email, how do you classify whether
+
+it's a red star? It's very similar with the
+
+previous problem. You are again going to find the
+
+curve that's sort of a different, there's a difference
+
+between the red stars and not, and this one
+
+thing you do by computing some of these here
+
+[00:12:12]?? which both will show that this is probably
+
+not exactly a linear solution. You'll need better than
+
+one attribute. So unlike the previous one, this time
+
+we need the hypothesis to be between zero and
+
+1. So zero means it's not spam, and it
+
+doesn't matter what it means as long as they're
+
+consistent. So the Y then will be either zero
+
+or one, so the hypothesis is also zero or
+
+one. And this is a very famous sigma function
+
+that I will deliver to you after you figure
+
+it out, but this for me ?? [00:12:46]. And
+
+here, like the previous one, we're just using equals
+
+zero plus either 1 [00:12:53] right. This side, that
+
+whole thing, is Z and Z here. And then
+
+you solve that minimizer equation I guarantee you'll find
+
+equals either zero or 1, and then you find
+
+that you are right where you should be. So
+
+it will come somewhere between zero and 1, and
+
+you take that from. That's how you classify it.
+
+Right. And how you exactly minimize those problems is,
+
+SVM is a powerful way to do that. Along
+
+with numeric constants and [00:13:21] to be used, machine
+
+learning and [00:13:23]. It's called a large margin classifier,
+
+and the SVM stands for Support Vector Machines. We'll
+
+see what [00:13:30] means. When I started, I thought,
+
+why are these things formed the way they are
+
+here? So again, red stars and green stars, and
+
+we want to segregate them. We want to find
+
+the line that divides them. We can think of
+
+many lines. There's a pink line here, there's a
+
+light blue line there, then there's a deep blue
+
+line. So, what it does [00:13:52] is it finds
+
+all the lines that it potentially can use, finds
+
+the critical points that matters as the distance between
+
+the [00:13:58] line and the blue??, right. So in
+
+the case of the pink one, this is the
+
+closest one for this side, and that's probably, let
+
+me identify it, so one of these points is
+
+the closest - so this, the closest one, is
+
+called the support vector for that group, right. All
+
+these other points, the difference between the pink line,
+
+and all these other points around the blue line
+
+[00:14:25] are the minimal distance from the group. So
+
+it finds out the line that best segregates these
+
+things. And this is the support vector, and this
+
+is the margin, the length of that is the
+
+margin, hence, large margin classifier, right. So that's SVM,
+
+the big one, will get exactly the algorithm [00:14:45],
+
+right. So, and if you're feeling that, like that,
+
+it's OK, because this is about six times the
+
+[00:14:54]??
