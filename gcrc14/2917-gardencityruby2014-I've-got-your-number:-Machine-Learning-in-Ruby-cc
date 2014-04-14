@@ -1,6 +1,6 @@
-Garden City Ruby 2014 - I've Got Your Number: Machine Learning in Ruby - Arnab Deka
+Garden City Ruby 2014 - I've Got Your Number: Machine Learning in Ruby - Arnab Deka 
 
-ARNAB DEKA: Hey guys.
+ARNAD DEKA: Hey guys.
 
 Good morning? Yeah. So I'll talk about machine learning.
 
@@ -14,217 +14,219 @@ about six months to a year back, and this
 
 world like amazes me with how much stuff you
 
-can do and awesome it is. So at the
+can do and how awesome it is. So at
 
-end of this talk I just want you to
+the end of this talk I just want you
 
-get excited about that too and go and try
+to get excited about that too and go and
 
-it out. You can read more about me there.
+try it out. You can read more about me
 
-Don't want to talk about that. The slides and
+there. Don't want to talk about that. The slides
 
-the code that I'll show are up on GitHub
+and the code that I'll show are up on
 
-and slides and all that. Yeah, so I was
+GitHub and slides and all that. Yeah, so I
 
-preparing this thing and then Dejas, yesterday - everybody
+was preparing this thing and then Dejas, yesterday -
 
-knows Dejas here, right? He had a couple of
+everybody knows Dejas here, right? He had a couple
 
-jokes that were exactly what I had, and I
+of jokes that were exactly what I had, and
 
-was like oh god I have to prepare new
+I was like oh god I have to prepare
 
-jokes now. But at night I couldn't so, it
+new jokes now. But at night I couldn't so,
 
-was too late anyway. So I didn't, so my
+it was too late anyway. So I didn't, so
 
-jokes are still lame, but still laugh like you
+my jokes are still lame, but still laugh like
 
-did for his talk, all right. First of all,
+you did for his talk, all right. First of
 
-happy new year. Has anybody ever had two hundred
+all, happy new year. Has anybody ever had two
 
-people shout happy new year to you at the
+hundred people shout happy new year to you at
 
-same time? No? Want to try that? All right,
+the same time? No? Want to try that? All
 
-so, on a count of three, right. One, two,
+right, so, on a count of three, right. One,
 
-three. Happy new year! That was actually much better
+two, three. AUDIENCE & A.D.: Happy new year! That
 
-than what I expected. Cause I had two more
+was actually much better than what I expected. Cause
 
-steps after this. I'll just do one of them
+I had two more steps after this. I'll just
 
-anyway. Let's try even better, right. Let the hotel
+do one of them anyway. Let's try even better,
 
-know that we are doing something awesome in here.
+right. Let the hotel know that we are doing
 
-So shout happy new year and stomp your feet.
+something awesome in here. So shout happy new year
 
-Don't worry, the floor is pretty strong, except probably
+and stomp your feet. Don't worry, the floor is
 
-this part. So, all right, like this. Three times,
+pretty strong, except probably this part. So, all right,
 
-all right. So one, two, three. Happy new year!
+like this. Three times, all right. So one, two,
 
-All right. You guys are already awake I know
+three. AUDIENCE & A.D.: Happy new year! All right.
 
-but, anyway. So we'll take a very brief look
+You guys are already awake I know but, anyway.
 
-at machine learning. And there are many awesome talks
+So we'll take a very brief look at machine
 
-that tell you what machine learning can do. This
+learning. And there are many awesome talks that tell
 
-is not what this talk will do. I'll specifically
+you what machine learning can do. This is not
 
-focus on classification, which is one type of machine
+what this talk will do. I'll specifically focus on
 
-learning, and an algorithm that you can use to
+classification, which is one type of machine learning, and
 
-do that, which is SVM. And then at the
+an algorithm that you can use to do that,
 
-end we'll see how you can do this in
+which is SVM. And then at the end we'll
 
-Ruby. So yeah. This is my first talk, and
+see how you can do this in Ruby. So
 
-I thought I should do a live demo. Right?
+yeah. This is my first talk, and I thought
 
-Before we actually go- so, what we are trying
+I should do a live demo. Right? Before we
 
-to do today is, we have all these large
+actually go- so, what we are trying to do
 
-data set of about 60,000 images that look like
+today is, we have all these large data set
 
-that 6 and 5 and 7. Each one is
+of about 60,000 images that look like that 6
 
-28 by 28 pixels, and what we have is
+and 5 and 7. Each one is 28 by
 
-raw gray scale intensity. So you have zero to
+28 pixels, and what we have is raw gray
 
-255. And the, there's this data set available that
+scale intensity. So you have zero to 255. And
 
-you can use to practice your algorithm on, or
+the, there's this data set available that you can
 
-train your algorithm on. So it's hard to read,
+use to practice your algorithm on, or train your
 
-it's all binary and I don't understand binary. So
+algorithm on. So it's hard to read, it's all
 
-I put it out in CSP like this, and
+binary and I don't understand binary. So I put
 
-as you can see most of the pixels here
+it out in CSV like this, and as you
 
-at the top, bottom, sides, they're all going to
+can see most of the pixels here at the
 
-be zero, and in the middle you'll see some
+top, bottom, sides, they're all going to be zero,
 
-numbers that's going to range between zero and 255.
+and in the middle you'll see some numbers that's
 
-So what we're trying to do is, take these
+going to range between zero and 255. So what
 
-60,000 images, basically create, have a algorithm learn those
+we're trying to do is, take these 60,000 images,
 
-images, and then when we give it a new
+basically create, have a algorithm learn those images, and
 
-input, like another image, that sort of looks like
+then when we give it a new input, like
 
-one of these, or maybe a little dissimilar, it
+another image, that sort of looks like one of
 
-should be able to tell us what it is,
+these, or maybe a little dissimilar, it should be
 
-right. So that, the MNIST set also comes with
+able to tell us what it is, right. So
 
-10,000 things for testing. So first we'll run it
+that, the MNIST set also comes with 10,000 things
 
-through that and see what our accuracy is, and
+for testing. So first we'll run it through that
 
-then I'll show you some of my bad, bad
+and see what our accuracy is, and then I'll
 
-handwriting. All right, so. I will talk about most
+show you some of my bad, bad handwriting. All
 
-of these things later, but I'm basically - you
+right, so. I will talk about most of these
 
-don't need to know what linear is, I'm just
+things later, but I'm basically - you don't need
 
-showing that I'm doing it on 60,000 samples, and
+to know what linear is, I'm just showing that
 
-I won't do the all 10,000 right now I'll
+I'm doing it on 60,000 samples, and I won't
 
-just do 500 of them. And that's going to
+do the all 10,000 right now I'll just do
 
-give, come back and say hey I'm 85% accuracy
+500 of them. And that's going to give, come
 
-and I didn't train the algorithm right now because
+back and say hey I'm 85% accuracy and I
 
-that takes a lot of time. I already have
+didn't train the algorithm right now because that takes
 
-it saved. And you can see the code and
+a lot of time. I already have it saved.
 
-all that, the saved models in GitHub, but for
+And you can see the code and all that,
 
-now the main important parts are this algorithm, it
+the saved models in GitHub, but for now the
 
-says it's 85% accurate, on the 500 samples that
+main important parts are this algorithm, it says it's
 
-we tested. And the, all these things that you
+85% accurate, on the 500 samples that we tested.
 
-see, like for example this guy, we got two
+And the, all these things that you see, like
 
-images that are actually 9, but are reported as
+for example this guy, we got two images that
 
-zero. Right, so those are bad. Everything that you
+are actually 9, but are reported as zero. Right,
 
-see along the diagonal are good, everything else is
+so those are bad. Everything that you see along
 
-bad. And I didn't tune the algorithm at all
+the diagonal are good, everything else is bad. And
 
-because I wanted to keep it simplistic and all
+I didn't tune the algorithm at all because I
 
-that, but you could do a lot more stuff
+wanted to keep it simplistic and all that, but
 
-and as VM I think it has been shown
+you could do a lot more stuff and as
 
-that it can get about 93% accuracy with this.
+VM I think it has been shown that it
 
-All right, so. Another thing is, so I wrote
+can get about 93% accuracy with this. All right,
 
-down some of these numbers on a sticky note.
+so. Another thing is, so I wrote down some
 
-That's probably not visible because it's all white. I'll
+of these numbers on a sticky note. That's probably
 
-see here. Right. So. Something like this, right. They
+not visible because it's all white. I'll see here.
 
-wrote it on sticky, and then scanned it in
+Right. So. Something like this, right. They wrote it
 
-gray scale. Then I'm kind of going to read
+on sticky, and then scanned it in gray scale.
 
-it from my own handwriting. So I did, some
+Then I'm trying to get it to read it
 
-of this Rails Magick stuff. Who's familiar with Rails
+from my own handwriting. So I did, some of
 
-Magick? Right, so I did some of that stuff
+this Rails Magick stuff. Who's familiar with Rails Magick?
 
-to get the raw gray scale intensity on all
+Right, so I did some of that stuff to
 
-that and so I made my picture look a
+get the raw gray scale intensity and all that
 
-little bit like normal gray scale. Right. So yeah,
+and so I make my picture look a little
 
-I'm going to use this kind of - say
+bit like more gray scale. Right. So yeah, I'm
 
-zero is pretty easy for an example because not
+going to use this kind of - say zero
 
-many shapes are like that. So let's see if
+is pretty easy for an example because not many
 
-it knows what's written. It says the answer is
+shapes are like that. So let's see if it
 
-zero. That's good. And I'm going to open this
+knows what's written. It says the answer is zero.
 
-so I know which ones are written and which
+That's good. And I'm going to open this so
 
-ones not. [^ 00:06:09-00:06:12 - ??] The one is
+I know which ones are working and which ones
+
+are not. [^ 00:06:09-00:06:12 - ??] The 1 is
 
 working. And some of these are not working. For
 
@@ -282,113 +284,113 @@ you know the prices, you can now feed it
 
 to an algorithm, and when you have, I don't
 
-know, like, I just made up a two bedroom
+know, like, it's just some made up a two
 
-apartment, throw that in , what should be the
+bedroom apartment, throw that in the algorithm, what should
 
-price? And it can give you the price, right.
+be the price? And it can give you the
 
-Of course it'll need a lot of work, but
+price, right. Of course it'll need a lot of
 
-that's essentially what supervised learning is. You are given
+work, but that's essentially what supervised learning is. You
 
-some known data, and then you predict unknown data.
+are given some known data, and then you predict
 
-Unsupervised is, on the other hand, there's no, like,
+unknown data. Unsupervised is, on the other hand, there's
 
-classified data or something like that. You just give
+no, like, classified data or something like that. You
 
-it a lot of data, and you're trying to
+just give it a lot of data, and you're
 
-find patterns in that. And for example, recommendation engines,
+trying to find patterns in that. And for example,
 
-like Amazon or Flipkart - everybody - recommendation engines,
+recommendation engines, like Amazon or Flipkart - everybody -
 
-right, they go do something like that. Now Flipkart
+recommendation engines, right, they go do something like that.
 
-does do something like that [00:08:15]?? I'm guessing. And
+Now Flipkart does do something like that [00:08:15]?? I'm
 
-they do finding groups or certain groups within your
+guessing. And they do finding groups or certain groups
 
-social network, things like that can be learned. So
+within your social network, things like that can be
 
-today we'll just talk about classification. And, so that
+learned. So today we'll just talk about classification. And,
 
-example I talked about house pricing. Let's say that
+so that example I talked about house pricing. Let's
 
-we'll need one attribute, we're gonna, we can barely
+say that we'll need one attribute, we're gonna, we
 
-sample here. And can everybody see this side, or
+can barely sample here. And can everybody see this
 
-should I be talking on the other side of
+side, or should I be talking on the other
 
-this room? This side is fine? This - that
+side of this room? This side is fine? This
 
-side? All right. OK, so, just one attribute we
+- that side? All right. OK, so, just one
 
-are focusing on, and I'm plotting all these houses.
+attribute we are focusing on, and I'm plotting all
 
-So this much area, this is the price, this
+these houses. So this much area, this is the
 
-much area, this is the price, or something like
+price, this much area, this is the price, sort
 
-that, right. And this is not exactly linear because
+of something like that, right. And this is not
 
-there are other attributes. We are just considering one
+exactly linear because there are other attributes. We are
 
-attribute. And we have this red dot here that
+just considering one attribute. And we have this red
 
-we want to predict the right price on. What
+dot here that we want to predict the right
 
-do you think is the best way to do that?
+price on. What do you think is the best
 
-AUDIENCE MEMBER: Extrapolation.
+way to do that? AUDIENCE MEMBER: Extrapolation. A.D.: Right,
 
-A.D.: Right, extrapolation. So this
+extrapolation. So this is a linear extrapolation, and it's
 
-is a linear extrapolation, and it's finding a linear
+finding a linear thing, the progression will give linear
 
-thing, the progression will give linear data. The dots
+data. The dots will be here, there, and there,
 
-will be here, there, and there, and in that
+and in that case you look data up on
 
-case you look it up on the other [00:09:24]??
+the only other fitting curve. In this case it's
 
-fitting curve. In this case it's a linear curve.
+a linear curve. And then once it do that,
 
-And then once it drew that, you figure out
+you figure out the dot will probably lie somewhere
 
-the dot will probably lie somewhere here. So it's
+here. So it's running a price over here. Which
 
-running a price over here. Which is not bad.
+is not bad. Given the limited sample here?? [00:09:32]
 
-[00:09:32]?? So how do you actually solve this problem?
+So how do you actually solve this problem? How
 
-How do you find these dots that are away
+do you find these dots that are away from
 
-from the line? The thing you do - before
+the line? The thing you do - before I
 
-I show you the math, for every one of
+show you the math, for every one of these
 
-these points, you say that if I knew what
+points, you say that if I knew what the
 
-this quote was, how do I compare it to
+slope was, how do I compare it to this?
 
-this? So that's the lead hypothesis, right. Hypothesis on
+So that's the lead hypothesis, right. Hypothesis on every
 
-every dot is going to be this line equation
+dot is going to be this line equation here.
 
-here. You probably know this as V and this
+You probably know this as V and this as
 
-as M, right. V plus Mx. But I'm probably
+M, right. V, V, V plus Mx. But I'm
 
-[00:10:11]?? not going to take that one, because you
+probably gonna use the theta one because you can
 
-can have more than one attribute. You actually missed
+have more than one attribute. You actually missed one.
 
-one. So how do we rotate out, concentrate and
+So that way you can rotate out, quantate and
 
-filter one, blah blah blah [00:10:20]??. So you can't
+filtrate one, blah blah blah [00:10:20]??. So you can't
 
 believe the hypothesis. Well right now you don't know
 
@@ -398,7 +400,7 @@ that Y there means is the actual price. So
 
 you take the Y and you find the difference
 
-between the hypothesis and the Y, while not moving
+between the hypothesis and the Y, while not knowing
 
 the hypothesis, right? So you're just forming the formula.
 
@@ -422,140 +424,664 @@ this, we'll figure out what equals zero and we
 
 can go on [00:11:10]??. And this was a linear
 
-thing, so linear, but [00:11:14]?? Next up is, that
+thing, so linear, but [00:11:14]?? we can also have
 
-was linear, so the price is a real number,
+polynomial curves. Next up is, that was linear, so
 
-so you're trying to predict the exact ones, whereas
+the price is a real number, so you're trying
 
-this kind is saying is my- is this email
+to predict the exact numbers, whereas this kind is
 
-spam or not spam? And this is a very
+saying is my- is this email spam or not
 
-famous machine learning thing that Gmail?? [00:11:33]. So I'm
+spam? And this is a very famous machine learning
 
-going to keep it simple, just considering two attributes
+thing that Gmail?? [00:11:33] started. So I'm going to
 
-of email. Length of the email, and does it
+keep it simple, just considering two attributes of an
 
-have a dollar symbol, right. So based on those
+email. Length of the email, and does it have
 
-two attributes, I have plotted out, let's say something
+a dollar symbol, right. So based on those two
 
-like - the red stars are spam emails. The
+attributes, I have plotted out, let's say something like
 
-blue ones are non-spam emails. Now how do you
+- the red stars are spam emails. The blue
 
-get an unknown email, how do you classify whether
+ones are non-spam emails. Now how do you get
 
-it's a red star? It's very similar with the
+an unknown email, how do you classify whether it's
 
-previous problem. You are again going to find the
+a red star or not? It's very similar with
 
-curve that's sort of a different, there's a difference
+the previous problem. You are again going to find
 
-between the red stars and not, and this one
+the curve that's sort of a different, there's a
 
-thing you do by computing some of these here
+difference between the red stars and not, and this
 
-[00:12:12]?? which both will show that this is probably
+one thing you do by computing some of these
 
-not exactly a linear solution. You'll need better than
+here [00:12:12]?? which both will show that this is
 
-one attribute. So unlike the previous one, this time
+probably not exactly a linear solution. You'll need better
 
-we need the hypothesis to be between zero and
+than one attribute. So like the previous one, we
 
-1. So zero means it's not spam, and it
+are going to need a hypothesis. This time we
 
-doesn't matter what it means as long as they're
+need the hypothesis to be between zero and 1.
 
-consistent. So the Y then will be either zero
+So zero means it's not spam, and it doesn't
 
-or one, so the hypothesis is also zero or
+matter what it means as long as they're consistent.
 
-one. And this is a very famous sigma function
+So the Y value will be either zero or
 
-that I will deliver to you after you figure
+one, so the hypothesis is also zero or one.
 
-it out, but this for me ?? [00:12:46]. And
+And this is a very famous sigma function that
 
-here, like the previous one, we're just using equals
+I will deliver to you after you figure it
 
-zero plus either 1 [00:12:53] right. This side, that
+out, but this for me ?? [00:12:46] results??. And
 
-whole thing, is Z and Z here. And then
+here, like the previous one, we're just using theta
 
-you solve that minimizer equation I guarantee you'll find
+zero plus theta 1 in base form [00:12:53] right.
 
-equals either zero or 1, and then you find
+This side, that whole thing, is Z and Z
 
-that you are right where you should be. So
+here. And then you solve that minimizer equation I
 
-it will come somewhere between zero and 1, and
+guarantee you'll find equals theta zero or theta 1,
 
-you take that from. That's how you classify it.
+and then you find that you are right where
 
-Right. And how you exactly minimize those problems is,
+you should be. So it will come somewhere between
 
-SVM is a powerful way to do that. Along
+zero and 1, and you take that from. That's
 
-with numeric constants and [00:13:21] to be used, machine
+how you classify it. Right. And how you exactly
 
-learning and [00:13:23]. It's called a large margin classifier,
+minimize those problems is, SVM is a powerful way
 
-and the SVM stands for Support Vector Machines. We'll
+to do that. Along with numeric constants [00:13:21] are
 
-see what [00:13:30] means. When I started, I thought,
+widely-used in machine learning and [00:13:23]. It's called a
 
-why are these things formed the way they are
+large margin classifier, and the full-form stands for Support
 
-here? So again, red stars and green stars, and
+Vector Machines. We'll see what [00:13:30] means. When I
 
-we want to segregate them. We want to find
+started, I thought, why are these things formed the
 
-the line that divides them. We can think of
+way they are here? So again, red stars and
 
-many lines. There's a pink line here, there's a
+green squares and we want to segregate them. We
 
-light blue line there, then there's a deep blue
+want to find the line that divides them. We
 
-line. So, what it does [00:13:52] is it finds
+can think of many lines. There's a pink line
 
-all the lines that it potentially can use, finds
+here, there's a light blue line there, then there's
 
-the critical points that matters as the distance between
+a deep blue line. So, what SVM does is
 
-the [00:13:58] line and the blue??, right. So in
+it finds all the lines that it potentially can
 
-the case of the pink one, this is the
+use, finds the critical points that matters as the
 
-closest one for this side, and that's probably, let
+distance between the [00:13:58] line and the blue??, right.
 
-me identify it, so one of these points is
+So in the case of the pink one, this
 
-the closest - so this, the closest one, is
+is the closest one for this side, and that's
 
-called the support vector for that group, right. All
+probably, let me identify it, so one of these
 
-these other points, the difference between the pink line,
+points is the closest - so this, the closest
 
-and all these other points around the blue line
+one, is called the support vector for that group,
 
-[00:14:25] are the minimal distance from the group. So
+right. All these other points, the difference between the
 
-it finds out the line that best segregates these
+pink line, and all these other points don't matter,
 
-things. And this is the support vector, and this
+because they are the minimal distance from the group.
 
-is the margin, the length of that is the
+So it finds out the line that best segregates
 
-margin, hence, large margin classifier, right. So that's SVM,
+these things. And this is the support vector, and
 
-the big one, will get exactly the algorithm [00:14:45],
+this is the margin, the length of that is
 
-right. So, and if you're feeling that, like that,
+the margin, hence, large margin classifier, right. So that's
 
-it's OK, because this is about six times the
+SVM, we are going, it will get exactly the
 
-[00:14:54]??
+algorithm [00:14:45], right. So, and if you're feeling that,
+
+like that, it's OK, because this is about six
+
+times the [00:14:54]?? But I know a lot of
+
+you love coding, so let's slow down and get
+
+coding. Right. So before we start coding, one more
+
+small theoretical segue. We learn how to move zero
+
+or 1, then do plusses, right. Spec or not
+
+spec. How do you do when there are multiple
+
+plusses? So in our example, we have ten plusses
+
+- the numbers zero through 9, we need to
+
+find out which number is it, right. What you
+
+do in this case is, we have three classes
+
+here. First we'll read it three linear - three
+
+classification problems. The first one is whether it's a
+
+red star or not. That's going to give you
+
+a line like this, right. It's a red star
+
+or not. And then you do another one that's
+
+a blue circle or not. And then a third
+
+one, whether it's a green square or not. Then
+
+you give that your unknown input, you ask all
+
+these three things, what do you think? So they'll
+
+say I think it's a red star or not,
+
+and then similarly for the other ones. Also remember,
+
+it'll also give you a number right, between zero
+
+and 1. So you take the one that is
+
+the most [00:16:00]?? So if you get point 9
+
+from the red, versus like point 4 or point
+
+3 from the others, and then you would think,
+
+you would think that it's a red star, right.
+
+So that's multi-class, and right, so we'll get down
+
+to Ruby now, which is what you guys all
+
+love. There is a very famous library called libsvm,
+
+which is available on the Unix [00:16:23]?? and there's
+
+a gem called rb - Ruby - libsvm, which
+
+shows how the code works, and that's what the
+
+code that I showed on GitHub is actually using
+
+that. We will also talk about weka, which is
+
+a, some Java library, only good for ?? [00:16:38]
+
+and is awesome. I'll show you how we use
+
+that for Ruby. And you could, of course, so
+
+[00:16:45] all the ?? is matrix or linear, so
+
+you could ?? you could find out either -
+
+or figure it out yourself, don't try to do
+
+that because it's very complicated, right. And there is
+
+- who has heard of Apache Mahout? That's probably
+
+very, very well well-known because it's highly scale-able but
+
+it's work setting up like a Apache Mahout and
+
+all that so I'll move on [00:17:09]?? Right, so
+
+using libsvm, and the exact code is in this
+
+model file, since we're still using Rails, right. So
+
+there you create a problem, and then you take
+
+in a parameter. And the parameter means things like
+
+using a linear or a parabola the shape of
+
+that line is called a curve, to put it
+
+simply. So when I'm using a linear curve, or
+
+a polynomial or something like that, as you can
+
+see I'm just doing this most simple thing, which
+
+is taking the [00:17:41]?? and then our examples, which
+
+I showed you, is taking about 60,000 images, or
+
+I'm sorry, 60,000 items, where every item is again
+
+28 by 28, so 785 numbers. But every number
+
+is between zero and 255, right. So if you
+
+wrap around in SVM mode, feed it into our
+
+problem, as labels and features. Features are these guys,
+
+labels are the known labels, like is it the
+
+ones, is it the twos, things like that. And
+
+then the training algorithm. The training takes some time,
+
+so usually it would say interrupt persisted, and then
+
+leave that data later on, and then use that
+
+to predict when you've been given it new data,
+
+like for example, my zero in my own handwriting,
+
+you take the array of 28 by 28 pixels,
+
+and you create the predict based on what it
+
+is, right. Simple stuff. Right. Weka is another awesome
+
+tool, it's from a university in New Zealand's name
+
+I cannot pronounce well, it goes something like Waikato,
+
+I don't get it, anyway. So another label. Instead
+
+of showing the screenshots of this I'm going to
+
+show you Weka. Weka is awesome because it is
+
+so versatile, right. It comes with a [00:19:04]?? as
+
+well as a Java API. And I'll just show
+
+you the [00:19:07]?? part so. This is my training
+
+data, right, it reads something on the arff format,
+
+but it can read CSV also. And I already
+
+read it in here, and it lets you picture
+
+like how your data loads like, first of all.
+
+So you can see I sent 4,784 images from
+
+that file, and it's pretty evenly distributed along the
+
+different classes and numbers, right, and I wanted to
+
+use something called Normalize, so that's a step where,
+
+so my numbers, attributes, go from zero to 255.
+
+That's good, but, think about having, in the house
+
+pricing, from your one attribute which is square feet
+
+as 1,800, and the scale of thousands, and another
+
+attribute which uses the scale 1 or 2 or
+
+5, right. So you will need to normalize it
+
+so every attribute is between a certain scale. And
+
+Weka extracts that from any of the emergent sliders
+
+in the- that way, and you can see these
+
+are all my 784 attributes. And I will show
+
+you something in the middle. So you can see
+
+max is zero - min is zero, max is
+
+one, and how many mistake values and all that.
+
+Most awesome part, and I'm going to say this
+
+multiple times, the most awesome part of Weka, is
+
+you choose any algorithm that you want, right. So
+
+you can do a layers/miles/files?? [00:20:33], someone of you
+
+may have heard this name, like a random format
+
+[00:20:36]?? or viewer samples?? and all that. You can
+
+pick any of that. And I pick the libSVM,
+
+which is the SVM. And I'm saying, I'm gonna
+
+use 90% of the [00:20:46]?? instances to train it,
+
+and the rest can push it to test it
+
+on. And then it's going to build a model,
+
+and then it's going to also scale the model
+
+and all that, and more - but it will
+
+probably take about seventeen seconds, yes, six seconds, and
+
+then now it's testing on those instances, and soon
+
+it will report what the accuracy was. This is
+
+probably not readable from the back, but I didn't
+
+build this software so don't worry ?? [00:21:13] 91%
+
+accuracy, using SVM. AUDIENCE MEMBER: [indecipherable - [00:21:18]] And
+
+then this is like the builder feature, we already
+
+saw that. Almost everything is along the background, so
+
+that's good. And this is in part the best
+
+thing about Weka. It comes with something called the
+
+Experimenter, where you can feed it the data that
+
+you have, and you give it multiple algorithms, or
+
+the same number in different values and it's going
+
+to compare all this and tell you which is
+
+the best, it's pretty amazing, right. So this is
+
+really, really awesome stuff. We use this a lot.
+
+It comes with a Java API, and this is
+
+how you use it. So yesterday Dejas told you
+
+about the best way to write Python. The best
+
+way to write Java is also in JRuby actually,
+
+so a class like this, Weka will classify something,
+
+becomes a new module. And Weka in some cases
+
+become this, and I'm so used to it I
+
+think that I hate [00:22:20]?? also. Yeah. This is
+
+awesome. So this is on the API, Java and
+
+initial data. So yeah, there are 70 options like
+
+linear, [00:22:28], the building it, [00:22:31]. Any time you
+
+have new data you classify it. Right. And then
+
+we didn't really touch up on what we didn't
+
+do today, and there's a lot of stuff. This
+
+is just like the tip of the iceburg, this
+
+list is not complete. There's something called regularization where,
+
+if you have lots of points, like almost spread
+
+over it, and you, like your input is not
+
+even enough, it's going to create the curve that
+
+goes through it, every living example. So when you
+
+have a Weka problem where your data is very
+
+similar to a [00:23:06] training?? example, it's going to
+
+predict exactly that data. When it is, like, here
+
+or there, it's going to be completely wrong. So
+
+you need something called regularization to prevent that. It's
+
+not going to be very easy. We talked about
+
+normalization, we talked about polynomial classifiers. And I also
+
+think another thing which is sort of important, so
+
+we have 784 attributes in our problem. And it's
+
+print-line comes into like the end of of all
+
+this and all that, given 60,000 elements. So you
+
+do something called principle ?? analysis [00:23:40] which figures
+
+out which are important attributes are in this. Because
+
+if you remember the image, the top, bottom, and
+
+the sides are all zero, right, almost always. So
+
+those are really not important to figure out what
+
+it is. And data generation. And so we won't
+
+talk about that today. And then, if you're not
+
+inspired, go and take this class. This is where
+
+I started. Machine Learning Coursera class, it was the
+
+first Coursera class, pretty, pretty awesome. And it goes
+
+very deep, so that's good. And then the collective
+
+intelligence in action is really, really good, and there's
+
+this, a website called kaggle, and you can, when
+
+you are reading about this stuff, they have something
+
+called competitions, and people like companies actually post their
+
+machine learning problems here. Right. And if you solve
+
+it then you get that much money. But there
+
+are lots of free competitions as well, where you
+
+can test out. So this is one, Digit Register
+
+is one of those, and you don't get any
+
+money for that, but yeah. So that's pretty awesome,
+
+trying, you can try and go through that. And
+
+that's it. Thank you.
+
+V.O.: We have time for questions.
+
+QUESTION: I have a question. Yeah. So in
+
+the case of when you are learning from this
+
+data, where do, how do you, how do you
+
+get known citation-[00:25:09] ??
+
+A.D.: How do you find data?
+
+QUESTION: How do you fix the emphasis of
+
+data, they have a lot of images, but only
+
+a few of them get passed in [00:25:19]. For
+
+example, if you take the example of the pricing
+
+of the flats-
+
+A.D.: Right.
+
+QUESTION: So each image
+
+the same- [00:25:23] depending on the same code, and
+
+they're probably offering at vastly different prices. And in
+
+such cases, [00:25:31]??
+
+A.D.: So basically what you're saying
+
+is your data sort of implements, right. That's probably
+
+not going to happen in the real world, where
+
+you probably have not found the right attributes, because,
+
+why is your neighbor giving you a flat fee
+
+in the first place [00:25:40], right. So that needs
+
+to be one of your attributes as well, right.
+
+But if there really, like, well simulated, then- So,
+
+what I showed was just the linear curve. You
+
+can have lots of polynomial , and by polynomial
+
+I mean weird shapes, so you could have, like,
+
+the center is that part, and again the outside
+
+part falls under one classification, the middle part does
+
+not, things like that. So it's basically going to
+
+try out a lot of things, basically to figure
+
+out what is the algorithm that you need.
+
+QUESTION: Can you, can you do the same pattern on
+
+any other media within the data, right? We have,
+
+like, extra data, like it's some extra number that
+
+is going into it. It is something [00:26:50]
+
+A.D.: So the same way here, like we showed, what
+
+you are working with, right, images, right. Images, ultimately,
+
+just not ours, right, when it comes down to
+
+it. Similarly for for vice?? [00:27:01] for, either find the
+
+frequency or they, you know, amplitude, things like that,
+
+which I know I'm not gonna get into right
+
+now, but, you would find numerical fences at that
+
+points. And actually one of the widely-known uses of
+
+machine learning is filtering out speech from the noise
+
+in the background. Right. So that code data [00:27:22]
+
+you're trying to figure out my voice, versus, like
+
+if there's aircraft in the hangar. How do you
+
+get that out? So yeah. You can [00:27:31].
+
+QUESTION: Like if you [00:27:36] ??
+
+A.D.: OK, so first of
+
+all this is a Ruby conference. So that's one
+
+big reason. Second thing is, when you're, when you're
+
+using libSVM, like you saw, and that's at the
+
+C level, so it doesn't really matter what I'm
+
+using. If you are using Weka, or using the
+
+JRuby, right. So at that point it doesn't really
+
+matter. I would still say that most people who
+
+are doing machine learning are not using Ruby, to
+
+be fair, because even the reading on the data
+
+might get, because you're working with Gigabytes or Terabytes
+
+of data, it might take awhile. But my point
+
+here is, you guys all know Ruby, or have
+
+visited Ruby, and this is another thing that I
+
+want to introduce you to, so this is probably
+
+the best way to learn it. Because if you're
+
+going to learn like Julia or R along with
+
+all this, you're probably going to be a little
+
+lost. So it's maybe this could be your first
+
+step, trying it out, like with something you already
+
+know. Then progress if you get really interested in
+
+this stuff. So progress a lot more towards the
+
+tools you are going to use [00:28:51]. Any more
+
+questions? That's it then.
+
+V.O.: Thank you Ardak.
+
+A.D.:
+
+Thank you.
