@@ -1,0 +1,623 @@
+Garden City Ruby 2014 - Zero Downtime Deployments with Docker - Vamsee 
+
+Kanakala
+
+VAMSEE KANAKALA: Hello everyone. Very good afternoon. I really enjoyed the 
+
+lightning talks, thanks everyone. And I hope you guys are slightly awake.
+
+So, this is slightly off the center topic, so, this is more about dev-ops rather than 
+
+Ruby or Rails, per se. So I'd like to know who all are already familiar with Docker, 
+
+have tried out or just know what it does and stuff like that.
+
+OK, not too many.
+
+Sorry about that.
+
+So I've been a web developer for eight, for quite some time. And a good part of it 
+
+is Rails. Actually the, I actually remember the days when the fifteen minute video 
+
+came out.
+
+So all through these years I have also kind of ended up setting up servers for the 
+
+Ruby teams that I worked with, and have been the Linux guy for as long as I can 
+
+remember, as in the professional life of mine.
+
+And so I thought, so lately I've been observing what's happening on the 
+
+production side of things, so I guess a bunch of you- so how many of you have set 
+
+up your own Rails servers, maintained them?
+
+Oh, quite a few. OK. Then, this should be relevent to what you're doing.
+
+So the point of, so we're gonna talk about zero downtime deployments with 
+
+Docker. So the point of this is, so what is Docker?
+
+So the first thing that Docker does is it basically commoditizes LXC. LXC is Linux 
+
+Containers. So the containers, you can think of them as something like chroot jail, 
+
+change root jail, you have in Linux.
+
+So what it, what it basically does is it gives you a separate folder as a root, and 
+
+you can run off your processes from there, and all the children are only allowed to 
+
+access that part of the directory, as a root directory.
+
+A container extends this concept by giving you isolation on the memory level, it 
+
+gives you isolation on network level, it gives you isolation on hard disk level. So 
+
+LXC is a fairly old technology in Linux, but it has been mostly in the realm of 
+
+people who understand Linux pretty well, or sysadmins who are trying to achieve 
+
+something on the production side.
+
+So Docker basically makes this accessible to all of us.
+
+So it makes portable deployments across machines possible, so you can basically 
+
+have, you have, I have, suppose a vagrant box, which runs Erlang?? [00:03:19] 
+
+install, but you can also, you can actually run production systems, production 
+
+installs of, out of, say at 12 point 0 precise.
+
+So you get a lot of flexibility of moving your production images around. So there is 
+
+efficient and quick provisioning, so it saves on a disk, how much disk it uses, by 
+
+doing copy-on-write installs. I'll talk about it a little bit later.
+
+There's, it's near-native performance, it's basically process virtualization. So 
+
+you're not, you're not doing hardware virtualization, or, you're not trying to 
+
+support different OSs and stuff like that, so the way you, the speed at which your 
+
+Docker instant boots up is very quick.
+
+So you almost have no overhead at all.
+
+It also has Git-like versioning of images. So you have basically a base image, 
+
+which is Ubuntu, and you can install something like emacs on it and you can 
+
+commit it and it'll save it and it'll make it into another image. Which'll also - I'll 
+
+show you a little bit more about that.
+
+So that enables a lot of reuse. So you can basically push these images to a public 
+
+depository that Docker maintains, index dot docker dot IO, so if they're public, if 
+
+they're open for sharing, so you can push them out there and people can use your 
+
+own configuration how you, however you configured your image.
+
+And the major difference between how LXC operates, or how LXC is talked about 
+
+and how Docker encourages you to think about containers is that, so LXC was 
+
+initially thought of as, you know, lightweight servers, which, where you install 
+
+basically everything and put them up and treat them as, just like any other server.
+
+Docker kind of encourages you to look at containers as an application. So you 
+
+install, say your database mask in one container, you install your app server as 
+
+another container, you install your, your RDB, you know, so, in another container.
+
+So, what is LXC? I actually wanted to take out this slide, probably it's a little too 
+
+advanced for this talk. But let - I'll try to cover this quickly.
+
+So at the basic level, it provides OS-level virtualization for Linux. So compared to, 
+
+say, what virtual box does for you, or KVM, or Zen, so these are all hardware 
+
+virtualization, so OS-level virtualization - much faster, much lightweight. Perfect 
+
+for production deployment, so.
+
+It basically does this. So LXC basically provides you one process space, one 
+
+network interface, and your own init framework. So your, you can be running on 
+
+Ubuntu, which uses Upstart as- and your container can use systemD. That's not a 
+
+problem at all.
+
+So the basic isolation is achieved with cgroups. Cgroups are control groups. So 
+
+what cgroups gives you is that it lets you put limits on the resource usage, 
+
+basically. Whether it's network or off your disk or your process usage, so cgroups 
+
+gives you this nice little interface where you can do - this is definitely the Linux 
+
+geek- do not worry, you don't have to worry about that.
+
+So the only catch is that it shares the kernel with the host, so you can do stuff like 
+
+having an x64 image and put it on i36 or vice versa. So that's pretty much the 
+
+only catch here and it's probably not very, not much of a catch at all.
+
+So a typical docker image kind of looks like this. At the most basic level you will 
+
+see the kernel, and you have cgroups, you have name spaces and device mapper. 
+
+So Docker kind of achieves this git-like portioning through, through a unioning file 
+
+system. Right now, debian-based installs use, a UFS, which is quite popular, but it 
+
+has some limitations, which is, it's integrated into a debian kernel, a debian-based 
+
+distros kernels, but it's not really available in others, like Santos and dev-hats ?? 
+
+of the world. [00:08:06]
+
+So recently they have switched, created a storage IO which kind of lets you swap 
+
+out AUFS with the device-mapper, and has plans for integrating RFS and BTRFS 
+
+and stuff like that.
+
+So beyond that, you see the base image, which is shipped out of docker registry, 
+
+and you also have images. So I installed emacs and, committed, it becomes a 
+
+read-only- so bootSF is basically read-only, and once you boot up that container 
+
+you'll get a writable part. So once you commit it, it'll become, again, read-only. 
+
+We'll go through that.
+
+Workflow class-
+
+So the basic workflow, I will do it now again, so you basically pull docker images 
+
+from the public registry and you run it on your host, and you add your own 
+
+changes on top of it, push it back to share them, or you could also build it from the 
+
+ground up using debootstrap and tools like that.
+
+So you also have a docker file which lets you build your own images. Apart from 
+
+that, you can set up a private regist- repor- registry - sorry. So the idea of private 
+
+registry is that you have your own work groups and you want to share these 
+
+images within your company and they're not really useful for the public usage. So 
+
+this is a very public registry, private registry comes in and, this is just a simple 
+
+Python app, you can run it on your own server and set it up.
+
+So, oh, you can also sign up for something like quail dot IO, which also lets you 
+
+push, well, you can have your own account, pay for it, and push your private 
+
+images there, and it's locked up.
+
+So before we go, go into the Docker file part, so let me show you a simple - 
+
+workflow.
+
+So you have images, so you can probably ignore a bunch of these. Look at the 
+
+last ones, which is basically - should I move that a little bit?
+
+OK. So at the most basic level, when you pull from Docker, say, so it will try to, 
+
+so, it's not gonna pull anything really, it'll just check for the layers that are 
+
+available on my system, and it'll just, adjust itself.
+
+So you see several layers there, so if you look at the Ubuntu part, it's actually, the 
+
+Ubuntu images actually comprised of precise and quantiles, and you can use any 
+
+of those to take of your container.
+
+So kicking off a container is probably as simple as - the end. You can give it, you 
+
+have to give it, I'm taking the Ubuntu image, a basic image, and I have to give it 
+
+an entry point.
+
+So it will drop me into a root prompt, and basically I can do, I can run app, get 
+
+updates, and I can install my own stuff. I'll just install a small, a very tiny 
+
+package, so, in the interest of time. Wow. That takes-
+
+So the basic starter image is pretty much very stripped down, you don't have 
+
+most of the components that you would need. So the idea is that it should be very 
+
+lightweight to deploy, and you can basically add your own, your own software on 
+
+top of it and commit and push it up.
+
+So let's say I install nano. There you go, right. That shouldn't take too long. Yeah.
+
+So you have nano here, and if I switch to the other window, you can see. Docker 
+
+ps.
+
+So among the other ones, are you- you can see the last one, which is being run 
+
+here, and if I actually switch, use nano there, you can see - docker -
+
+So each of the, each of the containers will have its own name, so you can do -  
+
+cranky - you can also set the names, which is a recent feature. But otherwise it'll 
+
+just regen- it'll just generate - oh, sorry.
+
+So it, it gives you what is happening inside the container. So you have a basic idea 
+
+of what's running inside the container. So you can also commit this. So you exit it, 
+
+and you see, so cranky curie is on there, so you can do something like docker 
+
+commit cranky curie.
+
+Sorry.
+
+So you can commit it, and it'll show up in your images.
+
+Oh, I have to give it a name. Cranky_curie as varsee nano. So, docker images.
+
+You'll see the one on top. It has fancy name. And you can push it, you can push it 
+
+to the public registry, the public registry kind of looks like this.
+
+So you can search for your own, whatever images that you might need for your 
+
+deployment and stuff like that. So I've, you know, I've been playing around with it 
+
+a little bit and stuff like that. So this is the public depository. You can install the 
+
+same thing on your private servers and secure it from outside.
+
+And you can have your own image. So that's basically the workflow that you would 
+
+work with. And there's a second part to it. What I've done so far is the manual, so 
+
+I've logged into a container and I've installed stuff in it. So you basically automate 
+
+it with something called a Docker file.
+
+Oh, sorry.
+
+So Docker file, so is, it's very similar to what you have reg file or make files in 
+
+your projects. So it's a default way to build it from base image. Basically upload a 
+
+file script, but definitely easier to maintain.
+
+And you have directives like from, run, command, expose. So from is basically 
+
+which, based on which image do I want to build my docker. And you have run, 
+
+basically has, or app to get install commands, whatever is done manually. And 
+
+command and entry point are very similar. So I've entered into the container 
+
+through bin bash, so I've basically put that in entrypoint. And the command is 
+
+what passes, you pass some options into that.
+
+So I'll show you a docker file anyway, so that will, that should put this, all this in 
+
+context. So you have, you can even add files, you can copy config files from your 
+
+host system into your container. You can have volumes, volumes are basically 
+
+mount points. You just mount a whole directory as either read-only or read-write, 
+
+it's up to you.
+
+And on the whole there are about a dozen commands. It's very simple to get 
+
+started with. No nonsense. And doesn't need a lot of time to learn the whole thing. 
+
+So, and you can create your own base images using debootstrap in centOS, it's, 
+
+debootstrap is basically a building tool with how you build a base image.
+
+But in that other distros you have, you know you can do it with other tools
+
+So zero downtime deployment. So why, why do we need that?
+
+So the most important part being, you have, you know, things like continuous 
+
+delivery and continuous deployments, right. So they're subtly different from each 
+
+other, they're very similar concepts, of course you have continous delivery where 
+
+you send stuff, you deliver your software on a regular basis and you have tight 
+
+communication loops with your clients and all that good stuff - ?? and stuff. 
+
+[00:17:38]
+
+And continous deployment is basically taking it one step, and I think Chad did a 
+
+really good example of that yesterday. So you know instead of making your 
+
+deployments, say, once a week, or you know, once every few days, the idea is to 
+
+make them as continuously as possible with least amount of angst around making 
+
+deployments.
+
+So you basically have, I'm sure you're all used to long deploys in Rails. Migrations, 
+
+you know, when migrations are happening, you're changing the schema, other 
+
+requests, you usually put in a maintenance page and when other requests comes 
+
+in you, if you don't put up a maintenance page, you already, you can get some 
+
+errors and stuff like that.
+
+And obviously you know about asset compilation, it takes way too long. So but 
+
+these problems are not, really not limited to Rails, per se. I'm sure you have the 
+
+same issues when you're deploying Jangle container, so Docker is basically a 
+
+framework diagnostic you can run any apps on it, and.
+
+So I'm trying to lay out a problem, so there are two parts to this problem. So one 
+
+is with migrations and without migrations. Without migrations it's usually a little 
+
+easier because you don't have to worry about making sure the databases are in 
+
+sync and stuff like that. So with databases it's a more complex scenario where you 
+
+have to take a master DB slave, DB, make sure they're sync, and you have 
+
+something like ZooKeeper kind of keeping track of who's master, who's slave, and 
+
+you switch.
+
+So I'll try to walk you through the simpler case, so we can extend this to, you 
+
+know, DB level. I don't think I can cover other DB stuff here.
+
+So you basically have a HaProxy. HaProxy is basically a reverse proxy but on 
+
+steroids. So it's a load balancer, to be exact. But what it does is very similar to 
+
+what engine x does for you, you have like multiple instances, and you are, they're 
+
+running on different multiple instances of your app server, they're running on 
+
+different ports.
+
+And basically enginex, once a request comes enginex will do a round up and 
+
+allotment of you know the servers. So HaProxy does that, but also a lot more. It 
+
+also lets you do funky stuff like what I'm gonna talk about, there's a back-up 
+
+server, and active server, which you can use cleverly to do zero-downtime 
+
+deployments. But it also has, if you have time, I would suggest you go through the 
+
+configuration file, which is very dense and long, but very interesting stuff.
+
+So what we're gonna use, in HaProxy here, is that you have basically two types of, 
+
+you can set up two types of servers. And the like, a bunch of active servers and 
+
+there are like a bunch of back-up servers, and the idea is that the back-up servers 
+
+are not used until all the active servers are down, right.
+
+So the request won't come through to back-up servers until all the active servers 
+
+are down. So what we are gonna, how we are gonna use that, sorry, the slides are 
+
+very basic, so.
+
+So, you basically kick off the deploy, kick off the image build with docker, and you 
+
+take down the back-up servers. At this point your HaProxy is still serving from 
+
+your active servers, right. So now you bring up the new back-up server, new 
+
+back-up servers with your new image, which is just being build when the deploy 
+
+happened. So, and then you take down the active servers.
+
+So after all the active servers are down, the requests will come in to the back-up 
+
+ones, right, so which is now serving your new code, which has just been deployed. 
+
+So after that you restart your active servers, you're back to normal again.
+
+So at the most basic level, so at least you will definitely won't be able to do 
+
+migrations with this set-up. You have to go a little bit advanced for that. But at 
+
+least you'll be able to avoid frustrations with stuff like long asset recompilation, 
+
+you know, long deploys that you usually get.
+
+So let me walk you through the whole thing, quickly. So I was actually quite upset 
+
+that the talk, the pamphlet which is being given, which had shortcuts for sublime 
+
+and whim, but it doesn't have shortcuts for emacs. Which is, I object!
+
+So the idea is, OK let me start you off with the simple docker file. So this should, 
+
+this should - oh, OK.
+
+Yeah.
+
+Let me restart it. I'll just show you on my-
+
+I think this is a lot more easier to show you.
+
+So app server, you have docker file. So at the most basic level, I am picking it up 
+
+from the Ubuntu image, and basically running some adaptation of my source's list, 
+
+and you have app-get update, app-get install, y.
+
+So let me run the deploy first, and then I will talk about this, because I don't think 
+
+we'll have enough time to actually wait afterwards.
+
+OK.
+
+So this will, this will run the deploy process in the background. Let me talk about 
+
+what it actually does out here.
+
+OK.
+
+So let's get back to our docker file. So what it does - this is almost like the shell 
+
+script that you use for everyday automation, so, but it adds a little bit more fun to 
+
+it, I guess. So what I'm doing is pretty straightforward. I'm installing chruby, I 
+
+hate RBM, especially for production it sucks, I mean, yeah. There are other 
+
+opinions about it. But at least I have, I've thought it's the easiest way to get 
+
+started.
+
+So I'm basically installing some default gems, like bundler and puma, and I'm 
+
+installing other dependencies. So the reason, I am actually splitting this into two 
+
+docker files. So you'll also have stuff like, so.
+
+What I'm doing here is that, so when I'm doing actually a deploy, I am only 
+
+running this. So I'm picking up, I'm installing all my dependencies in my earlier 
+
+image, and I'm just reusing it for deploys I want, because I want them to be 
+
+pretty fast.
+
+So what this does is pretty simple. It copies over the database configurations and 
+
+it does a bundle, and it does a db migrate. I'm just using sqlite here, so yeah.
+
+It exposes a port. So how the containers talk to each other within a docker, in 
+
+your host, is that through exposing these ports. And like I mentioned earlier, my 
+
+entrypoint is basically I'm starting Puma there.
+
+And I'm running it in a ?? [00:26:07]. Yeah.
+
+So if you look at the, if you. If you look at the deployment, I'm sorry-
+
+Yeah. So I don't know how much of this actually makes sense. I'll just show you 
+
+the, our deployment code. Sorry, the cap file, so that should make a little bit of 
+
+more, yeah.
+
+OK. So if you see at the bottom, you'll see that I am just doing a bunch of stuff 
+
+there, so I'm linking from my current deploy to the vagrant, sorry, the docker 
+
+container build directory. And I'm starting from the back-end servers.
+
+So I'll, I should also show you the, my HaProxy configuration. So it starts with 
+
+your ports set up and you actually search for those docker containers and take 
+
+them down. So the build takes a- a little long, so I've kind of commented it out for 
+
+now, but I can show you outside if you want to see how that works. And it's pretty 
+
+simple.
+
+So at the end of it I'm just restarting all my containers, so you can basically look 
+
+at them here. Docker ps a. You'll see that these top ones are only up for two 
+
+minutes. These are recently deployed.
+
+So all through, if you look at your HaProxy page, so you basically have two active 
+
+ones here, and two back-up servers here. So like, and I also should show you the 
+
+HaProxy stuff, right.
+
+So you can pretty much ignore all this stuff. The most important part is the last 
+
+two ones. So as you can see the web 01 and web 02 are active servers, and web 
+
+03 and web 04 are back-up servers. So that's all it takes.
+
+So you can basically segment your, the servers like that and go at it.
+
+So that's basically it. So I hope- and, a couple of helpful links if, sorry if it's not 
+
+very visible. There's docker dot io, where you can find all of the documentation 
+
+and stuff, there's haproxy - go look at it if you are doing deployments through 
+
+your regular day-to-day developer life. This is a lifesaving tool to learn well.
+
+And there's dockerbook, if you're - it's written by James Turnbull one of my 
+
+favorite technical authors. He's written Pro Puppet, which is still quite one of my 
+
+favorite books. And if you want to know a little bit more about the Linux part of 
+
+what Docker does, like the internals of Docker, you can listen to Jerome 
+
+Petazzoni, who is part of the Docker team. So he's given a really good talk, in-
+
+depth talk about it, at our next conference you should look at the video.
+
+And there are like a bunch of tools you can probably look at. There's Dokku which 
+
+is a PaaS. PaaS is a platform as a service, what- essentially what HaDokku does, 
+
+you can build your own HaDokku [00:30:06] with the Docker. And Flynn dot io, 
+
+CoreOS is also very import- very interesting tool. CoreOS kind of bundles Docker 
+
+with a service disovery thing, like, kind of like ZooKeeper, but it is called ATCD. 
+
+And it bundle system ??[00:20:21] in its framework, so if you're into deployments 
+
+this is a very interesting ecosystem to look at.
+
+And Quay dot io I mentioned. It's, you can basically upload your private images 
+
+there and get started. So they're like a bunch of tools.
+
+I don't know if I have any time for questions, but you can catch me. Sorry, but I'm 
+
+available, you can catch me at any time.
+
+Thanks a lot.
