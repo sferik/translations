@@ -1,0 +1,895 @@
+Garden City Ruby 2014 - Pharmacist or a Doctor - What Does Your Code Base 
+
+Need? - Pavan Sudarshan & Anandha Krishnan
+
+PAVAN SUDARSHAN: Hi. My name is Pavan.
+
+ANANDHA KRISHNAN: And I'm Anandha Krishnan. I'm also called Jake. Not 
+
+Anandha. I know.
+
+We work at MavenHive technologies.
+
+P.S.: This is probably the only talk where there are two speakers, and we haven't 
+
+rehearsed who says what, so we'll be stepping on each other's toes, so yeah. Bear 
+
+with us.
+
+So yeah. Quick disclaimer: Most of what we are going to talk about is actually 
+
+platform and language independent, or at least, in a sense, learned. But the 
+
+reason we are talking here in a Ruby Conf is because of the Ruby community. We 
+
+really think that a lot of things we are going to talk about resonates really well with 
+
+the community, and we are hoping to, you know, drive a good discussion, 
+
+conversation, whatever it is, from this audience.
+
+So that's really why we are talking here on this topic.
+
+A.K.: And a lot of the points that we're going to talk about kind of naturally apply 
+
+to Rails and Ruby. And most of these we learned, and we sort of experience in our 
+
+projects, which are mostly in Ruby and Rails, so.
+
+P.S.: Yeah, so let's start with condition. We have screwed up a lot in our careers. 
+
+Right, between me and Jake, we have no idea how many mistakes we have made. 
+
+And on those rare occassions, we have actually learned from it, or at least we 
+
+would like to think so.
+
+So yeah, this talk is about one such mistake from which we learned, and yeah.
+
+A.K.: And, yes, I think most of it, we just put it up front, just based on projects, 
+
+and you know, as we were talking about what happened with each of us, and 
+
+things like that. So yeah, just trying to make it, you know, presentable and that 
+
+stuff. But we-
+
+P.S.: Yeah, like, though we screwed up, we would like to believe that no 
+
+employers or paranoid androids were hurt in the process of our mistakes, so 
+
+yeah.
+
+OK, about three months back, so why pharamcist and doctors, right? So about 
+
+three months about I was in this pharmacy buying diapers for my daughter, and in 
+
+walks this guy - he just goes straight to the pharmacist and he's like, hey, can you 
+
+give me something for a toothache? There was something very interesting and 
+
+weird about this, and Jake and I, we carpool. So the next morning I was just 
+
+telling Jake, and between the two of us, like, between the two of us, we realized 
+
+that we have seen people ask for all sorts of medicines in a pharmacy.
+
+Right. Headaches, fever, like, like, true story, I even once saw this guy with a lot 
+
+of cuts on his face from a knife, and yeah. Insane. Insane, right.
+
+So about, when we were talking about this, we thought there was something 
+
+fundamentally wrong with this. Is there anyone here who thinks that it's totally OK 
+
+for you to just walk up to a pharmacist and ask for a medicine?
+
+Oh yeah, cool. Yeah, so. Nice.
+
+OK. Hold that thought. Yeah, but like. So what we think, yes, a pharmacy 
+
+potentially has a cure for pretty much any, most ailments that you could think of, 
+
+and but the important thing is, though, you need to know what ailment you have. 
+
+Right, there's that small implementation detail, right.
+
+And if it was that easy for you to just go to the right medicine and get it, this world 
+
+would be filled with only pharmacists and not doctors, right. Yeah, so that's, so 
+
+that's where the whole analogy starts, and then we'll get to how we connect to 
+
+what we're going to talk about.
+
+A.K.: Yeah, and that's, that's where we, in a sort of thought that we use this 
+
+metaphor to drive home that point. Of course, a lot of you might have your 
+
+opinions about self-medication and the whole thing. So we'll stop it at this, and we 
+
+will give us, our definition of what we think about these two sort of mindsets 
+
+actually are and, you know.
+
+So starting off with like doctors, right. They don't treat, rarely, they don't try to 
+
+treat the symptoms, it's about how you deal with them. So they go about just 
+
+figuring out what the problem could be, you know, and then probably, you know, a 
+
+lot of tests, make you run through a few tests or try and figure out what's what, if 
+
+indeed it is the problem, and then try and, based on that, prescribe a treatment 
+
+and, of course, make sure that you're OK at the end of it, right. The symptoms are 
+
+gone.
+
+P.S.: And we didn't take a look through a medical textbook, so we don't know if 
+
+this is right, but assuming it is, though, this is what worked for us, so.
+
+A.K.: And, again, in contrast, a pharmacist's job, we think very different, should 
+
+be more about understanding the medicines, the medicines themselves. Probably 
+
+even figure out what the disease is based on the medicine, right. But definitely 
+
+they don't really think about, you know, what was the problem originally or what 
+
+are we prescribing the treatment for. And they usually don't do it. Hopefully they 
+
+don't do it.
+
+P.S.: Yeah. OK. So now with this context of what we mean by a doctor and a 
+
+pharmacist and medicines and self-medication, all right. Let's get back to our 
+
+mistake, which we want to talk about.
+
+Right. So our mistake that we want to talk about is a way we have dealt with, or 
+
+rather we used to deal with bad symptoms on our code bases and on our projects, 
+
+right. So you, a lot of times you see these in your code bases. There's the 
+
+symptom, or there are some issues, right.
+
+So we obviously had a lot of those, in every single project we have worked on, 
+
+and this is about how we dealt with that, right.
+
+A.K.: Let's start off with one very simple one, or at least the one which was the 
+
+most easily expressible.
+
+P.S.: Yeah, as in, Tejas Dinkar, who has already been mentioned several times in 
+
+different talks, he threatened us to throw off the stage if we took anything more 
+
+than twenty-nine minutes, fifty-nine seconds. So we had to like really dumbify our, 
+
+you know, anecdotes.
+
+But you learn, we have like a quick mention of different things which we would 
+
+love to talk about offline, but yeah. So thanks Dejas.
+
+A.K.: So we'll get started on the first one. So this was a project where we had a 
+
+familiar problem of regression bugs. We added new features, and that kept 
+
+breaking things.
+
+So this is what we designed. We want this down. We want the number of bugs 
+
+down from 10 to 5, you know. At that time it was, like, let's set up this goal, let's 
+
+try and achieve this. What did we do?
+
+Oh, before that. Some facts about the project, right. This was not a project we 
+
+started on from scratch, it was a lot of legacy code, a lot of code that we did not 
+
+understand, and probably that's why we thought it was bad. And the test coverage 
+
+was-
+
+P.S.: How many of you have taken over a code base from another team and 
+
+thought the code base was awesome? Very small samples, so you realize what we 
+
+mean when we thought it was bad. So.
+
+A.K.: Sure. So test-coverage was low, which was probably one of the reasons why 
+
+people complained about the code base, of course.
+
+So what's your guess?
+
+P.S.: OK, so the problem we had was every time we checked in something, built a 
+
+new feature, touch any part of the code base, we ended up breaking a whole 
+
+bunch of other things. And we would not even know it right away, we would know 
+
+it over a period of time. Right, so this was a regression problem.
+
+And given the facts, what would you probably have done?
+
+A.K.: I'll try and just go back again, and then hopefully forward - we're done 
+
+[00:08:04]??.
+
+P.S.: Yeah, based on some facts.
+
+A.K.: Sure, so the low coverage was definitely a problem. We thought, I mean, 
+
+everybody agreed that we need to start working on that, and you know, fix the 
+
+coverage. So we went in there, put the coverage tool in place, you know. And then 
+
+we decided we will write tests for every bug we caught.
+
+We got the coverage up, not very surprising, I mean, we didn't manage to- you 
+
+know, improving the coverage-
+
+P.S.: Yeah like, so we spend like the whole time-
+
+A.K.: over a period of time.
+
+P.S.: OK, so, like so this was a problem, right. When you look at that, when you 
+
+try to abstract the, into, like what our thought process was. It was something like 
+
+this, right. Check.
+
+Yeah. So, we had a symptom. In this case it was low test-coverage, and - Jake - 
+
+and we had, we decided on what metric and tool to use. In our case it was a 
+
+simple line coverage, right and, archive?? [00"09"10], this was back in the days. 
+
+And then we started solving that problem that we had, and then, you know, 
+
+hopefully, for example, we were TDDing most of the new code that we wrote, so 
+
+coverage was good on that, then start writing tests for things, which were, any 
+
+part of the code base which we touched where there were no tests, we started 
+
+adding tests there.
+
+You know, a bunch of different things. So basically, like, the idea was to improve 
+
+the coverage and keep on writing, right.
+
+So cool, so. And what was the result?
+
+We ended up with, of course, drastically improving our test coverage, so we were 
+
+in the late '90s for most the part of the code base, which was awesome.
+
+A.K.: A hundred, man, a hundred.
+
+P.S.: A hundred, yeah. Or, yeah, sure. Very good coverage. But things got only 
+
+marginally better. At this point, this was when we realized that inspite of putting so 
+
+much effort into actually improving our test coverage, our actual goal was to 
+
+actual reduce the number of regression bugs. So we, we were still no better than 
+
+what we started off, about two months back.
+
+So the developers were generally very happy, now they were doing a lot more 
+
+TDD, they have a lot, they had manag- successfully convinced the manag- you 
+
+know the product manager and the stake holders to spend more time on the tech 
+
+deck?? [00:10:29] and things like that. They they also were happy. But the project 
+
+manager was extremely frustrated, because in spite of spending so much effort, 
+
+there was no real benefit from any of it, right.
+
+So it's like one of those very classic moments where you know, in Dilbert where, 
+
+you know, the, OK, in Dilbert developers are never happy, but at least here we 
+
+were happy and the project manager was sad, right.
+
+A.K.: And we weren't happy with the project managers as well.
+
+P.S.: Yeah, and eventually we feel there was something wrong, it's not like we 
+
+take pleasure out of it. So, we think this is a very big mistake, where we spent 
+
+almost two months of time without really realizing where we were going wrong, 
+
+right.
+
+So this mistake and several mistakes across different projects which Dejas won't 
+
+let us go into, ended up making us realize something very basic, right.
+
+And that's, this is basically what, this is what we were going to say.
+
+A.K.: OK, tell us a little bit.
+
+P.S.: If we had like a lightning talk, this is what we probably the only thing we 
+
+would have put up and left. So never improve a metric.
+
+Solving a problem should automatically imrpve the metric that you're measuring, 
+
+right. So the focus is on, is never on making a metric better. It's always about 
+
+solving the problem. And, the metric-
+
+A.K.: This is like one of those, one of those things that is, it's very easily said and-
+
+P.S.: Yeah, and it-
+
+A.K.: You have to, at least for us, we always fell in that trap of-
+
+P.S.: Yeah, like it almost sounds like 'do the right thing,' but, yeah, like, it's very, 
+
+it fits your common sense very well, but then when you're caught up in the daily, 
+
+the day-to-day stuff in what you do in a project, it becomes very easy for you to 
+
+miss the point here. So yeah, like this is really what, what is essence of what we 
+
+are trying to say, right.
+
+A.K.: So, so what really happened here. Let's go a little bit more into what we 
+
+were trying earlier and what we think we should have probably done.
+
+Instead of something like this, which, which actually ended up attacking the 
+
+symptoms, or you know, targeting the symptom, we want to do something like 
+
+this:
+
+There is a symptom, so just like always-
+
+P.S.: This is where the whole, like, the pharmacist and the doctor approach, yeah, 
+
+like, it's a very long-shot metaphor, we agree, but-
+
+A.K.: The doctor thinking, which we hopefully want to do, is first is just try and 
+
+take a guess at least at the problem, at least in our context, maybe not the 
+
+doctor's. But in our context, take a quess at the problem, right. Think what it might 
+
+be. Then that hopefully will tell you what you could do to probably solve the 
+
+problem, solve, you know, that could be the solution which hope- will hopefully fix 
+
+the problem, right.
+
+So this kind of very similar, we are iterating??[00:13:00] over this and hopefully, 
+
+you know, improving on what we thought was the problem. And how do you know, 
+
+then, that you know we are in fact improving on the problem? How do we know 
+
+that is the problem?
+
+P.S.: Like the whole, how do you define them, right. So, how do we define them?
+
+A.K.: And that's where we think, that's where we think the metrics come in. Again, 
+
+not metric, hopefully metrics, because that lets us measure the problem. It tells us 
+
+at every point that, you know, you're doing better, you know, it's improving. And 
+
+hopefully you also, when it gets done, right.
+
+So, yeah. So this is, this is probably the approach that we would like to try on, try 
+
+from now on, also. And, right, there, you know, the problem may not be the, what 
+
+is the one that we started out to fix. Like, like, probably in our previous case, you 
+
+know, it, you should always be open to the idea that the problem will, what you 
+
+thought was the problem was never the case, and it was not showing up.
+
+I mean, you were trying to, you were seeing the metrics improve, but then the 
+
+symptom never went away, right. So be open to the notion that the problem could 
+
+be different, in which case, the important thing is the solution is different and the 
+
+metrics are different, right.
+
+So yeah.
+
+P.S.: Any guesses on what could have been the problem on that project? Where 
+
+the regression bugs were written very high? It was duplication, as in there was, 
+
+like, rampant duplication all over the place. And we would change something but 
+
+forget to change the same thing in some other place. But, and because we didn't 
+
+know about the code base, yeah. We were just blindly adding tests. And 
+
+incrimentally going through different places, where each place where we found 
+
+that there were no tests, we added a test, right.
+
+But that didn't really help us with actually solving the problem of duplication. Yeah. 
+
+So-
+
+A.K.: The coverage number is something which is, it easily drives you to just keep 
+
+adding the specs, and we will talk about, more about that soon.
+
+P.S.: Yeah, so, if you really think about it, of, basically what, at least, we would 
+
+love to believe that we have stopped doing this, right. So Yogi mentioned this in 
+
+the panel discussion yesterday, block-force driven decisions, right.
+
+So that was really what we were doing, essentially. Like, we were a bunch of kids 
+
+on this project, who'd see a problem at the first, the, at the first, trigger we would 
+
+just start crawling the web, start crawling block force, see different github 
+
+projects, find a gem, install it, start, like, monitoring it, measuring it, try to 
+
+improve it, you know.
+
+We don't really spending too much time into figuring out what was really the 
+
+problem, right. And, especially, so in, OK - where does-
+
+Especially so in Rails projects, where, you know, or Ruby projects, where we 
+
+believe that the number of gems which actually bundle best practices is actually 
+
+very high, right. Here it's very easy for us to fall into the trap of, OK, just choose a 
+
+gem, start using it, and then two months or three months down the way you have 
+
+no idea where you used it in the first place.
+
+But it's just there in your process, right. Yeah. Like at least we used to find 
+
+ourselves in that trap all the time. So yeah. This is basically what we stopped 
+
+doing.
+
+OK, at this-
+
+A.K.: [indecipherable]
+
+P.S.: So this, this dude is basically Harry?? [00:16:10], he's sitting way over there.
+
+Yesterday we were doing a write-in??[00:16:14], and the only dude that, after this 
+
+point it's fine, but it's getting monotonous, it's very black and white. And you need 
+
+more images. And, like, Jake and I were really, we really think that-
+
+A.K.: That's our image, Harry!
+
+P.S.: We really think that we don't know how to add images to a presentation. And 
+
+we were like, OK fine Harry we'll just add your picture. And, yeah, so thanks for- 
+
+and as you notice, we are very receptive of feedback, so.
+
+A.K.: He hasn't spoken yet, but his is full of interesting ones.
+
+P.S.: Like it would have been funny if like his was the presentation before we got 
+
+the schedule, but yeah, anyway. He'll be talking next.
+
+So yeah, when you look at test coverage, right, how many of you think you 
+
+understand test coverage very well?
+
+Well enough.
+
+OK, I mean, sure, yeah, like-
+
+A.K.: This was one thing which at least took us as a very obvious metrics thing, 
+
+which we always get into, and-
+
+P.S.: When we were young and stupid as against now old and stupid, right, we 
+
+were, we used to think oh, test coverage, what's that, it's just - meh. It's so easy, 
+
+right. But then we realized even something so seemingly obvious had, like, so 
+
+many different shades of details. And once you start understanding it and 
+
+interpreting it in context is when you really understand the, the complexity of that, 
+
+of that thing that you're measuring, right.
+
+Now think of all the things that people at Flipkart measure. I don't even know if 
+
+they have a rational behind every one of it. I'm hoping they do, but you know like, 
+
+it becomes very OK, we just need to monitor these ten things.
+
+Why? Why are you doing it? Right. So it should not be like a checklist at every 
+
+project on start. You just start using it. So yeah, test coverage is definitely one 
+
+thing that we found where, on start of every project we just set up a coverage 
+
+tool. We just wanted to talk about some details on what we learned when doing 
+
+that, so yeah.
+
+A.K.: So first we want to start off the obvious one. The measuring. So controller 
+
+specs versus model specs coverage.
+
+I- I'm guessing it, does it ring any bells? I'm- so, so I'm, think of it this way, like, 
+
+he has a question for you, right? You have, let's take a simple case. There is a 
+
+single controller, you have a spec around it, there's a corresponding module, you 
+
+have a spec around it, right.
+
+And then, you, with these two tests you run your coverage, right.
+
+P.S.: And you get some coverage from-
+
+A.K.: I'm guessing it's going to be a hundred percent.
+
+P.S.: Do you see a problem with this? Could there, rather, OK, could there be a 
+
+problem with this?
+
+A.K.: What if you just removed the model spec?
+
+P.S.: What will the coverage for model be? Is there a chance that model's 
+
+coverage is not zero?
+
+A.K.: Your controller spec is still gonna be loading the model. So your coverage-
+
+P.S.: Depends on-
+
+A.K.: -is still in question.
+
+P.S.: The answer is it depends, right, like, really depends on how you are testing 
+
+your controller. But most of all things, what we have seen is, not every model is 
+
+mocked out in the controller. Well, it's a totally different debate, whether should 
+
+you mock your models or not, but if you are not modelin- or, mocking, your 
+
+models are being loaded in your controller. So the controller spec, when it is 
+
+tested for, like when the coverage is reported your models are being reported as 
+
+well.
+
+A.K.: While, while the, or the point of, the point we are trying to make is, here, is 
+
+not whether you should, how you should test your model specs and controller 
+
+specs. What we do implore you to do is make sure that when you're doing, when 
+
+you're looking at your coverage, you do have in mind your testing strategy, which 
+
+is, am I actually mocking the model out or is it also getting wrote as a part of my 
+
+controller spec?
+
+Is my controller spec also hitting the models, right? Think about these things 
+
+when, when you're looking at these numbers, right. Or something that worked for 
+
+us which we tried to do was we started monitoring the model specs coverage 
+
+independently, and then started looking at the controller specs in light of the, in 
+
+light of the model spec coverage.
+
+We wanted the model spec coverage to be high, because at least we wanted all, 
+
+hopefully all our business logic was in the model specs, and you know, that's what 
+
+we were keen on. Yes.
+
+Yeah, and then the next one, the line coverage itself, I think most commonly when 
+
+we talk about coverage we just talk about line coverage. But then there is a bunch 
+
+of other things as well, branch coverage, and then unique path coverage.
+
+P.S.: How many of you pay attention to branch coverages?
+
+A.K.: Or even monitor it?
+
+P.S.: How many of you don't think it's important?
+
+How many of you have no opinions? Cool.
+
+Yeah. I mean, sure. We have it on projects where it's been important, it's not been 
+
+important, it's fine. But it's just that, you just need to know that it exists, and you 
+
+need to train your data, right, so.
+
+A.K.: Just, hopefully it should not be a single metric. Something usually seems 
+
+wrong if it is just gonna be about that one metric. Next one.
+
+So reporting. Yeah, this one is a bit tricky. What I usually don't like about 
+
+coverage tools and these tools in general is they sometimes miss out this aspect 
+
+of it. And they, in an attempt to try and be nice to you when you are very simple 
+
+answered is try and give you a number which inherently makes it good or bad. 
+
+There's nothing in between, and then the focus is lost.
+
+Like you either start liking it or you don't like it. You don't really think about what 
+
+is there in between, right.
+
+Yeah. So the focus on, focus on some of the aspects of where is the coverage, you 
+
+know, what does it mean, right. One thing that worked for us was code climate in 
+
+the region projects. I really like it because they put a lot of focus into the 
+
+presentation aspect of it. Not just the collection aspect of it.
+
+It really, you know, takes you down to the, to the code, which is missing the 
+
+specs. Of course, they do also other metrics like code quality, which I really like, 
+
+by the way. They have some notification things like that, like, on, like Lexus a lot, 
+
+whenever this climate goes in, poof the coverage goes down or something like 
+
+that. [00:22:19]
+
+It doesn't break the builder part, it doesn't break the build, but it lets you know, 
+
+and then you can deal with it if you think it is important to deal with.
+
+P.S.: OK, speaking of breaking build, how many of you know what racheting, in 
+
+builds? OK. So the idea of racheting is basically you will never leave your code 
+
+base worse than what it already was, right. So every commit basically makes 
+
+sure, even if it doesn't do any good, it doesn't do any bad to your code base.
+
+So for example, if you're, your current code coverage is at 70%, and if this 
+
+check-in makes it 69%, it will break the build. Even though there's nothing 
+
+functionally wrong with it, you know, it's bad, right.
+
+We really think it's a double-edged sword. I will, this is one of those things which I 
+
+have a, in theory sounds very, very good, and direct, but in practice, what it 
+
+typically ends up doing is people end up fretting the actual metric, and never 
+
+about what the problem is, right. Becau- this exactly does what we said in the 
+
+previous slide, which is coverage is never red or green, right.
+
+Sometimes you are OK with taking this hit because you want to do something. I 
+
+mean there are all, there are so many reasons why which, in practic- in reality 
+
+you may have to do some bad things, and eventually have to pay for it, but it's 
+
+OK, it's a conscious decision, right.
+
+But racheting invariably stops that. It makes it very, you know, black and white, 
+
+right.
+
+A.K.: Difficult for you to proceed at that very moment.
+
+P.S.: Yeah.
+
+A.K.: And you start hating the process.
+
+P.S.: Yeah and it has a more behavioral impact on the team, which is your, your 
+
+team members start hating either the racheting, or they start hating the metric, or 
+
+you know, we had this one person who did not commit for four days because they 
+
+thought they did not have enough test coverage.
+
+And, like, when we breached the whole, OK, frequent check-ins, call check-in, and 
+
+this person was actually scared because they were about, they would break the 
+
+build, is actually a, very, very bad signal, of, a bad sign from your team, right. 
+
+Now well, you can always argue, OK, this person totally missed the point, we can 
+
+say a bunch of things, right, but this is the reality.
+
+So we think that it's a good idea, so that you might want to do it at certain points 
+
+in time. But yeah, be very, very careful about the freakanomic implication that it 
+
+has on your team, right, always keep that in mind.
+
+A.K.: And then the very other popular thing, which is, you just write that test to 
+
+bump up the coverage, if you're not just-
+
+P.S.: Yeah, so there was, there was just one more philosophy of full-on 
+
+coverage?? [00:24:50], which is saying, OK, you just checked-in code, but you 
+
+don't have a test for this, but that's OK. There's this other class which does not 
+
+have a test for it, which is easy, so let's start this there and keep my coverage 
+
+maintained right there.
+
+There's so many, like, weird things people end up doing, just because they are 
+
+now worried about coverage and not really worried about what it means to- you 
+
+know, what it means with what they are doing, right. So it's-
+
+A.K.: Of course it is done with the best of intentions, but then you get really, really 
+
+bad, cause, like-
+
+P.S.: Yeah. So, OK, how, how did we go, I mean, how do we now improve, like, so 
+
+we still take on a lot of projects, customer, we are, we are mainly now in 
+
+consulting, so we do end up taking worker code bases, right. So what do we do to 
+
+improve coverage if we have a bad one?
+
+One thing we realized is adding unit tests to classes, existing classes, could be a 
+
+very dangerous thing, right. What that essentially means, is you have, you know, 
+
+you are cementing the current design.
+
+Now I won't say, like prejudiously, it might be bad to say not a good design, right. 
+
+But you are cementing it, right. If ever you want to cement something, cement 
+
+features. Cement functionality, right.
+
+Which means you might want to write like a much higher level test of, and, you 
+
+know, ensure that the functionality is the same, so that you can go and refactor 
+
+later.
+
+On this one project, which Yogi, me, and Jake worked together on in 
+
+ThoughtWorks, it worked beautifully for us, where we were strangling ?? to 
+
+Hibernate [00:26:14]. Which meant that all that entire unit tests and database 
+
+level tests were completely invalidated, they were useless, right.
+
+And because of the way, and because we wanted to turn on to caches?? 
+
+[00:26:24], transactions changed. Like that meant the whole app was rendered 
+
+useless from a testing point of view, right, from a safety net point of view.
+
+But what came to our help was controller and beyond level tests. So our biggest, 
+
+we had such good coverage there, that we went in and we just modified a whole 
+
+bunch of things, and we like started deleting tests, you know. You get a lot more 
+
+flexibility and freedom inside your code base when you know that you're not 
+
+breaking any functionality.
+
+So yeah like it's a really, really, like, good thing, so definitely think about it when 
+
+you're inheriting a legacy codebase.
+
+A.K.: Unit tests, unit tests are great, but do keep in mind that they might also 
+
+come in the way of-
+
+P.S.: Changes.
+
+A.K.: Refactoring, and changes.
+
+P.S.: Yeah.
+
+A.K.: Big, big refactoring-
+
+P.S.: So, OK. What - the whole measurement reporting, racheting, improvement, 
+
+all of this is basically saying, always keep the problem you're solving in mind, 
+
+right. Rachet don't rachet - how do you decide? Well, is it helping you to achieve 
+
+your goal, or the problem you have at hand? Sure, you know, so do it. Otherwise 
+
+don't do it, right. It's-
+
+Yeah.
+
+A.K.: I think-
+
+P.S.: So, the second-
+
+A.K.: Let's-
+
+P.S.: -anecdote- I'll just be, quickly talk about-
+
+A.K.: We have five minutes, so-
+
+P.S.: Yeah, like, the second anecdote was basically, OK, we had this server which 
+
+was under a very heavy load. And, like thousands of requests, a minute, and only 
+
+about 5% of those requests, in very seemingly arbitrary periods of times, and 
+
+arbirtrary controllers and actions, would pause, and it would take a very long time, 
+
+right.
+
+So the- this problem was way more technical. It had nothing to do with the 
+
+behavior or, you know, like, or practices part of, or side of things. It was pure 
+
+technical problem. And goal was for us to find the root cause of this unpredictable 
+
+behavior and fix it, right.
+
+And, yeah, like we were, like we can definitely talk about how we went into, like a 
+
+lot of different solving, a lot of different symptoms, at one point even suspecting 
+
+JRuby. You know, like, so it's very, like, it becomes very hard for you to figure 
+
+out, OK, what is a problem, what is a symptom, and like, go very methodical 
+
+about it, right.
+
+So that's what this, this problem was going to be about. But let's take this offline. 
+
+At this point we can-
+
+A.K.: I mean, before that, yeah, let's get out some questions.
+
+P.S.: Yeah, let's take some questions if you have any.
+
+A.K.: Cool.
+
+P.S.: Cool, thanks.
+
+A.K.: Thanks.
+
+P.S.: Thanks guys.
