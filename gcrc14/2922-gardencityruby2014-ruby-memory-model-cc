@@ -1,0 +1,935 @@
+Garden City Ruby 2014 - Ruby Memory Model - Hari Krishnan
+
+HARY KRISHNAN: So, thank you very much
+
+for being here on a Saturday evening, this late.
+
+My talk got pushed to the last, but I
+
+appreciate you being here, first. My name's Hari. I
+
+work at MavenHive. So this is a talk about
+
+Ruby memory model. So before I start, how many
+
+of you have heard about memory model and know
+
+what it is? Show of hands, please. OK. Let's
+
+see where this talk goes. So why I did
+
+I come up with this talk topic. So I
+
+started my career with Java, and I spent a
+
+lot many years with Java, and Java has a
+
+very clearly documented memory model. And it kind of
+
+gets to you because with all that, you don't
+
+feel safe enough doing multi-threaded programming at all. So
+
+with Ruby, we've always been talking about, you know,
+
+doing multi-process for multi-process parallelism,
+
+rather than multi-threaded parallelism,
+
+even though the language actually supports, you know, multi-threading
+
+semantics. Of course we know it's called single-threaded and
+
+all that, but I just got curious, like, what
+
+is the real memory model behind Ruby, and I
+
+just wanted to figure that out. So this talk
+
+is all about my learnings as I went through,
+
+like, various literatures, and figured out, and I tried
+
+to combine, like, get a gist of the whole
+
+thing. And cram it into some twenty minutes so
+
+that I could, like, probably give you a very
+
+useful session, like, from which you can further do
+
+more digging on this, right. So when I talked
+
+to my friends about memory model, the first thing
+
+that comes up to their mind is probably this
+
+- heap, heap, non-heap, stack, whatever. I'm not gonna
+
+talk about that. I'm not gonna talk about this
+
+either. It's not about, you know, optimizing your memory,
+
+or search memory leeks, or garbage collection. This talk
+
+is not about that either. So what the hell
+
+am I gonna talk about? First, a quick exercise.
+
+So let's start with this and see where it
+
+goes. Simple code. Not much to process late in
+
+the day. There's a shared variable called 'n', and
+
+there are thousand threads over that, and each of
+
+those threads want to increment that shared variable hundred
+
+times, right. And what is the expected output? I'm
+
+not gonna question you, I'm just gonna give it
+
+away. It's 100,000. It's fairly straightforward code. I'm sure
+
+all of you have done this, and it's no
+
+big deal. So what's the real output? MRI is
+
+very faithful, it gives you what you expected. 100,000,
+
+right. So what happens next? I'm running it on
+
+Rubinius. This is what you see. And it's always
+
+going to be a different number every time you
+
+run it. And that's JRuby. It gives you a
+
+lower number. Some of you may be guessing already,
+
+and you probably know it, why it gives you
+
+a lower number. So why all this basic stupid
+
+code and some stupid counter over here, right? So
+
+I just wanted to get a really basic example
+
+to explain the concept of increment is not a
+
+single instruction, right. The reason why I'm talking about
+
+this is, I love Ruby because the syntax is
+
+so terse, and it's so simple, it's so readable,
+
+right. But it does not mean every single instruction
+
+on the screen is going to be executed straight
+
+away, right. So at least, to my junior self,
+
+this is the first advice I would give, when
+
+I started, you know, multi-threaded programming. So at least
+
+three steps. Lowered increments store, right. That's, even further,
+
+really simple piece of code like, you know, a
+
+plus equals to, right. So this is what we
+
+really want to happen. You have a count, you
+
+lowered it, you increment it, you stored it. Then
+
+the next thread comes along. It lowers it, increments
+
+it, stores it. You have the next result which
+
+is what you expect, right. But we live in
+
+a world where threads don't want to be our
+
+friend. They do this. One guy comes along, reads
+
+it, increments it. The other guy also reads the
+
+older value, increments it. And both of them go
+
+and save the same value, right. So this is
+
+a classic case of lost update. I'm sure most
+
+of you have seen it in the database world.
+
+But this pretty much happens a lot in the
+
+multi-threading world, right. But why did it not happen
+
+with MRI? And what did you see the right
+
+result?? [00:04:52]? That, I'm sure a lot of you
+
+know, but let's step, let's part that question and
+
+just move a little ahead. So, as you observed
+
+earlier, a lot of reordoring happening in instructions, right.
+
+Like, the threads were context-switching, and they were reordering
+
+statements. So where does this reordering happen? Reordering can
+
+happen at multiple levels. So start from the top.
+
+You have the compiler, which can do simple optimizations
+
+like look closer?? [00:05:20]. Even that can change the
+
+order of your statements in your code, right. Next,
+
+when the code gets translated to, you know, machine-level
+
+language, goes to core, and your CP cores are
+
+at liberty, again, to reorder them for performance. And
+
+next comes the memory system, right. The memory system
+
+is like the combined global memory, which all the
+
+CPUs can read, and also they're individual caches. But
+
+why do CPUs have caches? They want to, memory
+
+is slow, so they want to load, reload all
+
+the values, refactor it, keep it in the cache,
+
+again improve performance. So even the memory system can
+
+conspire against you and reorder the loads and stores
+
+after the memory registers. And that can cause reordering,
+
+right. So this is really, really crazy. Like, I'm
+
+a very stupid programmer, who works at the programming
+
+language level. I don't really understand the structure of
+
+the hardware and things like that. So how do
+
+I keep myself abstracted from all this, you know,
+
+really crazy stuff? So that's essentially a memory model.
+
+So what, what is a memory model? A memory
+
+model describes the interactions of threads through memory and
+
+their shared use of data. So this is straight
+
+out of Wikipedia, right. So if you just read
+
+it first, either you're gonna think it's really simple,
+
+and probably even looks stupid, but otherwise you might
+
+not even understand. So I was the second category.
+
+So what does this all mean? So when there
+
+are so many complications with the reordering, the reads
+
+and writes of memory and things like that, as
+
+a programmer you need certain guarantees from the programming
+
+language, and the virtual machine you're working on top
+
+of, to say this is how multi-threaded shared, I
+
+mean, multi-threaded access to shared memory is going to
+
+work. These are the basic guarantees and these are
+
+the simple rules of how the system works. So
+
+you can reliably work code against that, right. So
+
+in, in effect, a memory model is just a
+
+specification. Any Java programmers here, in the house? Great.
+
+So how many of you know about JSR 133?
+
+The memory model, double check locking - OK. Some
+
+people. Single term issue? OK - some more hands.
+
+So Java was the first programming language which came
+
+up with a concept called memory model, right. Because,
+
+the first thing is, right ones?? [00:07:45] won't run
+
+anywhere. It had to be predictable across platforms, across
+
+reimplementations, and things like that. So the, there had
+
+to be a JSR which specified what is the
+
+memory model that it can code against so that
+
+your multi-threaded code works predictably, and deterministically across platforms
+
+and across virtual machines. Right? So essentially that's where
+
+my, you know, whole thing started. I had gone
+
+through the Java memory model, and was pretty much
+
+really happy that someone had taken the pain to
+
+write it down in clear terms so that you
+
+don't have to worry about multi-threading. Hold on, sorry.
+
+Sorry about that. Cool. So. Memory model gives you
+
+rules at three broad levels. Atomicity, visibility and ordering.
+
+So atomicity is as simple as, you know, variable
+
+assignment. Is a variable assignment an indivisible unit of
+
+work, or not? The rules around that, and it
+
+also talks about rules around, can you assign hashes,
+
+send arrays indivisibly and things like that. These rules
+
+can change based on every alligned version, and things
+
+like that. Next is visibility. So in that example
+
+which you talked about, I mean, we saw two
+
+threads trying to read the same value. Essentially they
+
+are spying on each other. And it was not
+
+clear at what point the data had to become
+
+visible to each of those threads. So essentially visibility
+
+is about that. And that is ensured through memory
+
+barriers and ordering, which is the next thing. So
+
+ordering is about how the loads and stores are
+
+sequenced, or, you know, let's say you want to
+
+write a piece of code, critical section as you
+
+call it. And you don't want the compiler to
+
+do any crazy things to improve performance. So you
+
+say, I make it synchronized, and it has to
+
+behave in a, behave in a nice serial?? [00:09:40]
+
+manner. So that ?? manner is ensured by ordering.
+
+Ordering is a really complex area. It talks about
+
+causality, logical clocks and all that. I won't go
+
+into those details. But I've been worrying you with
+
+all this, you know, computer science basics and all
+
+this. Why the hell am I talking about it
+
+in a Ruby conference? Ruby is single-threaded, anyway. Why
+
+the hell should I care about it, right? OK.
+
+Do you really think languages like Ruby are thread
+
+safe? Show of hands, anyone? So thread safety, I'm
+
+talking only about Ruby - maybe Python. GIL based
+
+languages. Are they thread safe? No? OK. In fact
+
+they're not. Having single-threaded does not mean it's thread-safe,
+
+right. Threads can switch context, and based on how
+
+the language has been implemented and how often the
+
+threads can switch context, and at what point they
+
+can switch, things can go wrong, right. And another
+
+pretty popular myth - I don't think many people
+
+believe it here, in this audience at least. I
+
+don't have concurrency problems because I'm running on single
+
+core. Not true. Again, threads can switch context and
+
+run on the same core and still have dirty
+
+reads and things like that. So concurrency is all
+
+about interleavings, right. Again, goes back to reordering. I
+
+think I've been talking about this too often. And
+
+let's not, again, worry with that. It's about interleavings.
+
+We'll leave it at that. So let's, before we
+
+understand more about, you know, the memory model and
+
+what it has to do with Ruby, let's just
+
+understand a little bit about threading in Ruby. So
+
+all of you know, green threads, as of 1.8,
+
+there was only one worse thread, which was being
+
+multiplexed with multiple Ruby threads, which were being scheduled
+
+on it through global interpreter lock. 1.9 comes along,
+
+there is a one to one mapping between the
+
+Ruby thread and OS thread, but still the Ruby
+
+thread cannot use the OS thread unless it has
+
+the global VM lock as its call now. The
+
+JVL acquire. So does having a Global Interpreter Lock
+
+make you thread safe? It depends. It does make
+
+you thread safe in a way, but let's see.
+
+So how does GIL work? This is a very
+
+simplistic representation of how GIL works. So you have
+
+two threads here. One is already holding the GIL.
+
+So it's, it's working with the OS thread. And
+
+now when there is another thread waiting on it,
+
+waiting on the GIL to do its work, it
+
+sends a, it wakes up the timer thread. Time
+
+thread is, again, another Ruby thread. The timer thread
+
+now goes and interrupts the thread holding the GIL,
+
+and if the GIL, if the thread holding the
+
+GIL is done with whatever it's doing - I'll
+
+get to it in a bit - it just
+
+releases the lock, and now thread two can take
+
+over and do its thing. Well this is the
+
+basic working that at least I understood about GIL.
+
+But there are details to this, right. It's not
+
+as simple as what we saw. So, when you
+
+initialize a thread, or create a thread in Ruby,
+
+you pass it a block of code. So how
+
+does that work? You take a block of code,
+
+you put it inside the thread. What the thread
+
+does is usually it acquires a JVL and a
+
+block?? [00:13:11]. It executes the block of code. It
+
+releases the, returns and releases the lock, right. So
+
+essentially this is how it works. So during that
+
+period of executation of the block, no other thread
+
+is allowed to work. So that makes you almost
+
+thread safe, right? But not really. If that's how
+
+it's going to work, what if that thread is
+
+going to hog the GIL, and not allow any
+
+other thread to work? So there has to be
+
+some kind of lock fairness, right. So that's where
+
+the timer thread comes in and interrupts it. OK.
+
+Does that mean the thread holding the GIL immediately
+
+gives it up, and says here you go, you
+
+can start and work with it? Not really. Again
+
+the thread holding the GIL will only release the
+
+GIL if it is at a context to its
+
+boundary. What that is, is fairly complicated. I don't
+
+want to go into the details. I think people
+
+who here know a lot better C than me,
+
+and are deep C divers really, they can probably
+
+tell you, you know, how, at what the GIL
+
+can get released. If a C thread, a C
+
+code makes a call to Ruby code, can it
+
+or can it not release the GIL? All those
+
+things are there, right. So all these complexities are
+
+really, really hard to deal with. I came across
+
+this blog by Jesse Storimer. It's excellent and I
+
+strongly encourage you to go through the two-part blog
+
+about, you know, nobody understands GIL. It's really, really
+
+important, if you're trying to do any sort of
+
+multi-threaded programming in Ruby. So do you still think
+
+Ruby is thread safe because it's got GIL? I'm
+
+talking about MRI, essentially. So the thing is, we
+
+can't depend on GIL, right. GIL is not documented
+
+anywhere that this is exactly how it works. This
+
+is when the timer thread wakes up. These are
+
+the time slices alotted to the thread acquiring the
+
+JVL. There is no documentation around at what point
+
+the GIL can be released, can it not be
+
+released, and things like that. There's no, it's not
+
+predictable, and if you depend on it, what could
+
+also happen is even within MRI, when you're moving
+
+from version to version, if something changes in GIL,
+
+your code with behave nondeterministically. And what about language
+
+in Ruby implementations that don't even have a GIL?
+
+So obviously that's the big problem, right. If you
+
+write a gem or something which has to be
+
+multi-threaded, and if you're depending on the GIL to
+
+do its thing to keep you safe, then obviously
+
+it cannot work on Rubinius and JRuby. Let that
+
+alone, even, even if you give that up, even
+
+with MRI, it's not entirely correct to say that
+
+you're thread safe, because there is a GIL that
+
+will ensure that only one thread is running. So
+
+what did I find out? Ruby really does not
+
+have a documented memory model. It's pretty much similar
+
+to Python. It doesn't have a clearly documented memory
+
+model. What is the implication of that? So as
+
+I mentioned previously, a memory model is like a
+
+specification. This is exactly how the system has to
+
+provide a certain minimum guarantee to the users of
+
+the language, right, regarding multi threaded access to shared
+
+memory. Now, basically if I don't have a written
+
+down memory model, and I am going to write
+
+a Ruby implementation to model, I have the liberty
+
+to choose whatever memory model I want. So the
+
+code, if you're writing against MRI, may not essentially
+
+work right on my, you know, my implementation of
+
+Ruby. That's the big implication, right. So Ruby right
+
+now depends on underlying virtual machines. Even after ER,
+
+you have bad code compilations, so even MRI is
+
+almost like a VM. So that has no specification
+
+for a memory model, but it does have something,
+
+right, internally. If you have to go through the
+
+C code and understand. It's not guaranteed to remain
+
+the same from version to version, as I understand,
+
+right. And obviously JRuby and Rubinius, they depend on
+
+JVM and LLVM respectively. And they all have a
+
+clearly documented memory model. You could have a read
+
+at it. And the only thing is, if Ruby
+
+had an implementation - sorry, a specification for a
+
+memory model, it could be, you know, implemented using
+
+the constructs available on JVM and LLVM. But this
+
+is what we have. We don't have much to
+
+do. What do we do under the circumstances? We
+
+have to engineer our code for thread safety. We
+
+can't bask under the safety that, there is a
+
+GIL and so it's going to help me keep
+
+my code thread safe. So even I can write
+
+multiple, you know, multi threaded code without actually worrying
+
+about serious synchronization issues and things like that. It's
+
+totally not the right thing to do. I think
+
+any which way, Ruby is a language I love,
+
+and I'm sure all of you love, so. And
+
+it's progressing my leaps and bounds, and eventually we're
+
+going to write more and more complex systems with
+
+Ruby. And who knows, we might have true parallelism
+
+very soon, right. So why, still, stay in the
+
+same mental block that we don't want to write,
+
+you know, thread safe code that's anyway single threaded.
+
+We might as well get into the mindset of
+
+writing proper thread safe code, and try and probably
+
+come up with a memory model, right. But I
+
+think for now we just start engineering code for
+
+thread safety. Simple Mutex, I'm sure all of you
+
+know, but it's really, really important for even a
+
+stupid operation like a plus equals two. So simple
+
+things which are noticed in Ruby code bases and
+
+Rails code bases as well, like generally, is, there
+
+is like a synchronized, you know, a section of
+
+the code has lots of synchronization and everything. It's
+
+really safe. But we leave an innocent accessor lying
+
+around, and that causes a lot of, you know,
+
+pain, like debugging those issues. And general issues like,
+
+you know, state mutations, inside methods is really a
+
+bad idea. So if you're looking for issues around
+
+multi threading, this might be a good place to
+
+start. So I just listed a few of them
+
+here. I didn't want to make a really dense
+
+talk with all the details. You can always catch
+
+me offline and I can tell you some of
+
+my experiences and probably even listen to you and
+
+learn from you about some of the issues that
+
+we can solve by actually writing proper thread safe
+
+code in Ruby. I came across a few gems
+
+which were really, really nice. Both of them happen
+
+to be written by headius. The first one is
+
+atomic. Atomic is almost trying to give you the
+
+similar constructs like the Java utility concurrent package. It
+
+tries to, it's kind of compatible across MRI, JRuby,
+
+and Rubinius, which is also a really nice thing.
+
+So you have atomic integers and atomic floats, which
+
+do increments actually in an atomic way, which is
+
+excellent. And then there is thread_safe library, which also
+
+has a few thread safe data structures. I'm trying
+
+to play around with these libraries right now, but
+
+they may be a good, you know, starting point
+
+if you are trying to do higher level constructs
+
+for concurrency. And that's pretty much it. I'm open
+
+to take questions. Thank you. And before anything I
+
+really would like to thank you all, again for
+
+being here for the talk, and thank the GCRC
+
+organizers, you know, they've done a great job with
+
+this conference. A big shout out to them.
+
+V.O.: Any questions?
+
+H.K.: Yeah?
+
+QUESTION: Hey.
+
+H.K.: Hi.
+
+QUESTION: If, for example, if a Ruby code is running
+
+in the JVM, in JRuby, how does, because none
+
+of the Ruby code is written in a thread
+
+safe way. How do, how does it internally manage
+
+- does it actually, yeah, yesterday Yogi talked about
+
+the point that ActiveRecord is not actually thread safe.
+
+Can you explain it in detail like in a
+
+theoretical way?
+
+H.K.: OK. What is thread safety in
+
+general, right? Thread safety is about how the data
+
+is consistently maintained after multi-threaded access to that shared
+
+data, right. So Ruby essentially has a GIL because
+
+internal implementations are not thread safe, right. That's why
+
+you want to have a GIL to protect you
+
+from those problems. But as far as JRuby is
+
+concerned, or Rubinius is concerned, the implementation itself is
+
+not written in C. JRuby is written in Ruby
+
+again, I mean JRuby itself, and Rubinius is written
+
+in Ruby. And some of these actual internal constructs
+
+are thread safe when compared to MRI. I haven't
+
+actually taken a look in detail into the code
+
+of these code bases, but if they are implemented
+
+properly, you can be thread safe - internally, at
+
+least - so, which means, the base code of
+
+JRuby itself might be thread safe. It's only not
+
+thread safe because the gems on top of it,
+
+which are trying to run. They may have, like,
+
+thread safety issues, right. Does that answer your question,
+
+like, or- ?
+
+QUESTION: About thread safety?? [00:22:09].
+
+H.K.: Sure, sure. So those gems will not work. That's
+
+the point. Like what I want to convey here,
+
+is whatever gems we are offering, and whatever code
+
+we are writing, we might get it - it's
+
+a good idea to get into the habit of
+
+writing thread safe code, so that we can actually
+
+encourage a truly parallel Ruby, right. We don't, we
+
+don't have to stay in the same paradigm of
+
+OK we have to be single threaded.
+
+QUESTION: So Mutex based thread management is one way.
+
+There's also like actors and futures and things like that.
+
+And there's a gem called cellulite-
+
+H.K.: Yup.
+
+QUESTION: That, combined with something called Hamster,
+
+which makes everything immutable-
+
+H.K.: Yup.
+
+QUESTION: Is another way to do it.
+
+H.K.: Yup.
+
+QUESTION: Have you done it or like,
+
+what's your experience with that?
+
+H.K.: Yeah, I have tried out actors, with revactor,
+
+and lockless concurrency is
+
+something I definitely agree is a good idea. But
+
+I'm specifically talking about, you know, lock-based concurrency, like,
+
+Mutex-based concurrency. This area is also important because it's
+
+not like thread mutable state is bad. It is,
+
+it is actually applicable in certain scenarios. When we
+
+are working in this particular paradigm, we still need
+
+the safety of a memory model. Any other questions?
+
+QUESTION: Thanks for the talk Hari. It was really
+
+good.
+
+H.K.: Thanks.
+
+QUESTION: Is there a way that
+
+you would recommend to test if you have done
+
+threading properly or not? I mean, I know, bugs
+
+that come out-
+
+H.K.: Right.
+
+QUESTION: Like I have
+
+written bugs that come out of badly written, you
+
+know, not thread safe code, as.
+
+H.K.: So-
+
+QUESTION: Like, ?? [00:23:46] so, you catch them.
+
+H.K.: At least, my opinion, and a lot of people have
+
+done research in this area, their opinion also is
+
+that it's not possible to write tests against multi
+
+threaded code where there is shared data. Because it's
+
+nondeterministic and nonrepeatable. The kind of results you get,
+
+you can only test it against a heuristic. For
+
+example, if you have a deterministic use case at
+
+the top level, you can probably test it against
+
+that. But exact test cases can never be written
+
+for this.
+
+V.O.: Any more questions?
+
+H.K.: Cool. All right. Thank you so much.
