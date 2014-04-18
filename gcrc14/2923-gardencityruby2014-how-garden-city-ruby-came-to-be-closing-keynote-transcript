@@ -1,0 +1,665 @@
+Garden City Ruby 2014 - How Garden City Ruby Came to Be: Closing Keynote - 
+
+Prakash Murthy
+
+PRAKASH MURTHY: Good evening, everyone!
+
+AUDIENCE: [mumbling, speaking] Good evening!
+
+P.M.: I see the energy has sapped totally. We are at the end of the conference 
+
+and there's... At least that's how I am feeling. Am...
+
+AUDIENCE: [indecipherable]
+
+P.M.: OK. Good evening everyone!
+
+AUDIENCE: Good evening!
+
+P.M.: Yay!
+
+All right, do you- so, are you ready for the last session of the Garden City Ruby 
+
+Conference 2014?
+
+AUDIENCE: Yeah!
+
+P.M.: Yes!
+
+So let me start by this thing. This happened the day before the conference, and I 
+
+haven't processed all the things that have happened in the last two days, but I 
+
+feel like this is the best thing for, from my perspective in the last, in this 
+
+conference.
+
+First off, we have already fixed this problem. There are, there are no longer one 
+
+Ruby conferences in India. There are - how many?
+
+AUDIENCE: Two!
+
+P.M.: Two Ruby conferences in India now. But I, I was really kind of shocked 
+
+when Chad said that. Yeah, in the US it was like that, in fact in the whole world it was like that. In fact, there was no Ruby conferences ever, and then somebody said let's make one happen. So Chad and a few others joined together and did the first RubyConf in the US. And I was surprised learn that it was, it had only 
+
+thirty-one participants. 2001. In Tampa.
+
+And now, this year's RubyConf in Miami had around 500 participants. So it's 
+
+grown all like that over the last twelve years. I find it heartening because we are 
+
+at that stage, where they were back in 2001 and 2002.
+
+We can learn from them and get, butt ahead in the next couple of years.
+
+So, so this is what I have planned for this talk. I was not supposed to be here. My 
+
+plan for this conference was to be spending all the time with my beautiful 
+
+daughter and leave the team, team to take care of everything. And everything 
+
+was going fine. In fact, two m- last two months I haven't been on the mailing list as well. I let the team take care of everything and I was just, once in awhile, say 
+
+what's up, what's happening.
+
+But today, we lost one of our keynote speakers, and so that was a major crisis. I 
+
+didn't want to leave it on the team. So I came here, and I'm here, and I'm on 
+
+stage giving this talk.
+
+With not much preparation, I thought it's maybe a good idea to just share about 
+
+how we came to be here. How this whole Garden City Ruby thing happened. You 
+
+guys interested in learning more about Garden City Ruby?
+
+AUDIENCE: Yes. Yeah.
+
+P.M.: OK. Let's begin at, from the very beginning.
+
+In the beginning there was nothing.
+
+Let's see, let's see... yes. In the beginning there was nothing, then on June 29th, 
+
+2013, I sent email to the Bangalore Ruby user group, saying hey, let's do a 
+
+conference. This was a week after last, this year's RubyConf India in Pune, where 
+
+I gave a talk about taking Indian Ruby community to the next level.
+
+There I talked about essentially what Satir?? [00:04:43] talked about in his community lightning talk. We need more meet ups, we need more conferences. Afterwards, I got a lot of good feedback. A lot of people came up to me and said, hey, you inspired us, we are going to do a meetup in Mumbai. We are going to do a meetup in Kochi or whatever.
+
+Nobody really talked about doing a conference. So I said, OK, you know what, let 
+
+me show it by example how it is done, and I started this project. This mail got an 
+
+amazing response. Around fifteen, twenty people responded on the Bangalore 
+
+Ruby usergroup saying hey, we are interested. We want to help you.
+
+So, thanks to the Bangalore Ruby user group for that kind of amazing response.
+
+Next. So that's when it started. And the very first thing I focused on was to get the 
+
+keynote speakers. As somebody was pointing out to me earlier, if we have the 
+
+key, one or two keynote speakers, well-known keynote speakers in the line-up, it 
+
+becomes very easy to sell the conference to others.
+
+And the first person I approached to was Chad, and Chad enthusiastically said, 
+
+yes, I'm coming to Bangalore. I want to be in Bangalore.
+
+And, yeah, I was telling Chad yesterday, I attribute 80% of the success of this 
+
+conference to him. Because of him being here, a lot of people decided to come 
+
+here. We got a lot of sponsors to pay up. He says I'm, you know, I'm wrong, but I believe, at least, if not 80, 79%.
+
+Yeah. We got the keynote speakers lined up. Now that one, one other point I want 
+
+to make here. We can't keep having Chad come here every time we want to have 
+
+a conference. So we need more Indian Chad Fowlers. So we need more of the 
+
+people sitting here to be up here a lot of times, and make a name for themselves, 
+
+so that when you go to another place, or some city to give a talk, people pay to 
+
+come and see you.
+
+So we'll get there in a couple of years.
+
+Who wants to take up that challenge?
+
+Nice. Nice to see a few hands go up.
+
+The next thing I want to talk about is the first, the organization behind this 
+
+conference. So when I first started talking about this conference, my original idea 
+
+was that we'll go with ITT. ITT is the entity which puts up RubyConf India. They 
+
+have done a phenomenally good job of organizing four annual Ruby conferences 
+
+in India.
+
+And you already heard from Ajay in the morning about the background of those 
+
+conferences. Very soon in the process I realized that may not work out for me, or 
+
+at least, what I was trying to accomplish. If we had gone with ITT, it would mostly 
+
+have been, again, Ajay, Gautam and a few others doing most of the work, or taking most of the key decisions.
+
+And there's no - it would just be another RubyConf India. I wanted a totally new 
+
+team to come up, learn from scratch how to do all this. How to do, get sponsors, 
+
+how to put up a program, how to organi- do all the logistics stuff required for 
+
+setting up a good conference.
+
+So I decided in the very beginning, OK, not, we are not going to go with ITT. We 
+
+are going to start a- we'll have a new, non-profit entity created. And so maybe, it 
+
+took us awhile to get there, but two months later I think we had our trust.
+
+So these are the six trust members. So among the organizing team, it's me and 
+
+Tejas who are not on the trust, for different reasons. Everyone else is on the 
+
+trust, and yeah.
+
+The one hour of time, Satish at this point, because he did all the ground work for 
+
+finding out what's required to do, set up a trust. And he is also followed up on the 
+
+financial part of it. So big hand to Satish. Satish over here.
+
+So, yeah, that's probably about the organization part. Then about the talk 
+
+selection and, talk proposals and selections. I want to share this interesting 
+
+breakdown of all the talk proposals we got. Total we got seventy-two talk 
+
+proposals.
+
+That's a good number, given that we had only around a month's time for call, 
+
+when the call for proposal was open.
+
+What do you make of this? Everybody wants to submit a talk at the last minute.
+
+This, actually we- Where's Leena?
+
+Come on up here. Carry the mic for her. Oh, you, yeah.
+
+So Leena had the idea that we should actually train some of these people who give us a proposal and then maybe, yeah, we could interact with them, and then we'll lead much better proposals and much better talks in this conference.
+
+If this happens, if everybody submits at the last minute, we can't do much about 
+
+that. So next time a conference is announced, please make sure you submit a talk 
+
+right at the beginning. We, we, well, I want this to be reversed. I want more talk proposals coming at the beginning than at the end.
+
+Just, I have a few questions for you.
+
+So I'll just show a couple of other things. We got sixty-seven proposals from men 
+
+and five proposals from women, and of the five proposals from women, three 
+
+were from the same person, and one was a, was paired with a perso- guy.
+
+L.S.N.: And the-
+
+P.M.: And the last one was, we made, we invited those two to submit a talk. That was Sakshi and Pallavi. We told them we need you here talking, so you need to propose.
+
+So really this was almost non-existant for the number of proposals by women.
+
+L.S.N.: And that too the three proposals was not from India- I mean-
+
+P.M.: Again, yeah, that three proposals-
+
+L.S.N.: It was from Emily, Emily from Mongol?? [00:12:26]
+
+P.M.: So the womenfolk in the room here. Any thoughts of submitting proposals 
+
+for the next conference?
+
+OK. Let's, let's change this.
+
+We got a lot of proposals from different countries as well. But ultimately it ended 
+
+up that none of them could come. We selected two of the speakers from this, for, 
+
+from non, who are not from India, and both could not come for different reasons, 
+
+so we ended up with only Indian speaker line-up, other than the invited keynote 
+
+speakers.
+
+I was very happy with, to see this. The breakup from different cities. This shows 
+
+that there is room for having meetups and conferences at each of these cities as 
+
+well. You just need to start something there.
+
+OK, this is fine. So Leena. How did we go about talk selection. What, what 
+
+happened?
+
+L.S.N.: So, like I'm, like Prakash mentioned, we wanted to have a lot of 
+
+conversation with the submitters, but that didn't happen because of lots, so many 
+
+proposals came in. So we relied on the busyconf rating system, so all, all, everyone in the, in the organizing committee, they rated the talks, and we went with the - most of the time we went with the rating, given by the, the auto rating given by busyconf as rated by all the organizers.
+
+And we had given some exceptions. Like the Rails Girls, we thought, OK, we want 
+
+them to be talking about how we ran. Because it's experience important that, that 
+
+should encourage others to join these kind of things. So, so we made some 
+
+exceptions like that, but mainly it was the rating given by, given by the 
+
+organization.
+
+P.M.: So it's these ratings here. Each of the team members gave a rating and we 
+
+rated all the talks. So started ?? from the ?? [00:14:38]. There were a few exceptions, right.
+
+L.N.S.: Yeah, we had, only Rails Girls was the exception.
+
+P.M.: Rails Girls was exception, and I think Emily also we had to remove one of 
+
+her talks.
+
+L.N.S.: Yeah, and we also, so Emily's - we, I think we have, we can pull out the blog post that we have written. So we also, apart from the rating, we also decided that we would not have more than two speakers outside of India, and we'll have only one speaker from the organizing company-
+
+P.M.: Organizing team, yes.
+
+L.N.S.: Even if it gets higher rating. And we also decided that we'll not have two 
+
+talks from the same person, so that negated many of them in the top, because 
+
+Emily's almost, all talks from Emily got a higher rating. But we negated those 
+
+because same speaker, and outside India.
+
+And then we relied on the rating-
+
+P.M.: Yeah.
+
+L.N.S.: And exception was, and apart from those exceptions, we gave the exceptions to Rails Girls-
+
+P.M.: Rails Girls, yeah.
+
+L.N.S.: Because we, because of the Rails reason, and I think that was a very good talk and I think we learned quite a few things from them, so.
+
+P.M.: And Hermant had a very good talk proposal and which rated very high.
+
+L.N.S.: So there was a lot of-
+
+P.M.: And we had to remove him.
+
+L.N.S.: Yeah, there was a lot of debate on, we had to, we, among us organizers, 
+
+we had to, we had a lot of debates. And that, that talk went for a couple of calls, 
+
+and then finally we decided we'll have only one talk, and Hermant had two.
+
+But Hermant had a very good Panel Discussion-
+
+P.M.: Panel Discussion, yeah.
+
+L.N.S.: And, that I think was a huge success, so.
+
+P.M.: OK. So. I want to thank Leena for doing a phenomenal job with the talk 
+
+selection and leading everything. Thank you.
+
+You can give it to her.
+
+I want to thank Emil over here for managing the website and everything related to that. He, he didn't do all the work, but he got the right people involved at the right time, and he gave us what we wanted. The blog featured in the website, it was amazing. He made it superb.
+
+How many of you know about the opportunities scholarship that we gave in this 
+
+conference? Nice. So, Swanand, what's this opportunities scholarship that we are 
+
+talking about?
+
+SWANAND PAGNIS: So the opportunities scholarship is an opportunity for those students and other underrepresented groups to attend a conference. For example students, who are studying ?? [00:17:26], who really want to be a part of the community, talk to other people, but cannot really afford to travel all the way to Bangalore, or even for the conference tickets.
+
+Usually conference tickets in India are like two, three thousand, in that range. For 
+
+a student it's a decently steep price. So the idea was also implemented in RubyConf India. I was one of the mentors of one of the students, and I really had fun interacting with them all along, like, about the month leading to the conference, and on the conference days itself.
+
+So Prakash and I decided that if the budget allows it we are going to do the 
+
+opportunities scholarship here at GCRC, too. And, well I'll a-
+
+P.M.: This is the list.
+
+S.P.: So this is the list of all the selected students, and-
+
+P.M.: So where are the scholarship winners?
+
+S.P.: Can all of them please stand up.
+
+P.M.: Can you stand up.
+
+S.P.: All the students.
+
+P.M.: Students! And most of them don't even know Ruby, they are seeing the Ruby for the first time, a couple of them are seeing Ruby for the first time.
+
+S.P.: Tushar here is coming from, all the way from Jaiper.
+
+P.M.: OK. Thank you. And, OK.
+
+Oh yeah. I missed out some- an important point here, which we did a lot of work 
+
+in figuring out the way to hold this conference, and making all arrangements: food, logistics, the internet, everything - all this. Lanyards, t-shirts, all that. Tejas and Dheeraj- Dheeraj is here? OK, so big hand to Tejas and Dheeraj, please.
+
+So this is what happened with our registrations. We made that much money from 
+
+it, and we had a total of 187 participants register. That included both people who 
+
+paid for their tickets and who got complimentary admission. Our aim was to make it a two hundred people partici- conference. Keep it very limited - not, RubyConf India, yeah, has four hundred people.
+
+Yeah. I was there for two days, and I didn't meet a couple of people I wanted to 
+
+meet, even though I was there for two days. It was such big crowd there. Here I 
+
+wanted it, to keep it smaller, two hundred, so that everybody can meet everybody 
+
+else. Has that mostly been accomplished?
+
+Yeah, 174. OK.
+
+And again, of that, I think that around twelve or fifteen people didn't show up. So it's about 160 people who have been here for the last two days.
+
+V.O.: 174
+
+P.M.: 174? Oh great.
+
+Oh that's, you already submitted, removed the number. Great.
+
+And, one other thing I want to show is the, before I come here. It's in some- one of these tabs. Yes.
+
+This was maybe a day, couple of days ago that we went through our finances. We 
+
+got a total income of around one grand for forty- oh, forty grand, forty to a thousand. We started with the idea that we'll have this fifteen grand event, but, and even with a fifteen grand budget. We met that target, almost came very, we came very close to meeting that target, with the sponsors and ticket sales.
+
+And expenses, we, yeah, it looks like we are just a little bit below our income, or 
+
+maybe a little bit over. We'll know in a couple of days. We had a couple of last 
+
+minute expenses come through, so, but yeah.
+
+In this context, I want to thank all the sponsors.
+
+These folks made it really easy for us to put up an awesome event, and it was 
+
+also amazing how easy it was for us to get the sponsorship. At one point, there was some doubt that maybe we won't be able to do it. We won't have enough money, we won't be able to do - we may have to cut off a few things. We probably won't have the opportunities scholarship or maybe not, if not lunch, at least cut something in the lunch or whatever. So.
+
+All that didn't happen. We could get all the, the budgeted, the intended amount of 
+
+money. So thank you Flipkart, thank you Josh, thank you Nilenso, thank you GitHub, thank you Qwinix, thank you ParamiSoft, thank you Bang the Table, thank you MavenHive, thank you GoodWorkLabs, thank you CodeBrahma, thank you CodeMancers, thank you Multunus, thank you Mahaswami, thank you SupportBee, thank you Icicle, thank you Cognitive Clouds, thank you Big Binary and thank you MaSymbol.
+
+Maybe I should have said yes there, right, to update.
+
+MartMe and StartUp Village in Kochi?? [00:23:33] - they were the t-shirt sponsors, so thank you MartMe and StartUp Village.
+
+So wow. I covered all ten of the items I had there.
+
+So now. My hope from this conference is that it will inspire some of you to go back 
+
+to your towns and start something similar there. In that context, what questions 
+
+do you have for me and the team here? So I want all the team members to come 
+
+up here.
+
+So, questions, questions.
+
+OK. Yeah?
+
+QUESTION: So what difference does having a conference like this have over all 
+
+the regular meetups and workshops, and-
+
+P.M.: Yeah, who in the audience can answer him?
+
+Yeah. Let's - let Gautam handle it.
+
+GAUTAM REGE: So the short answer - the more, the merrier.
+
+Right. And the longer answer to that is that in a larger conference, you get to 
+
+meet a lot of other people, see how they work. See how- which all companies are 
+
+interested. See what the other people, what experience they have. And that's why 
+
+conferences, people take time out to come for conferences. Sometimes it happens 
+
+in meet ups that, you know, it's an beyond my job thing.
+
+P.M.: Yeah.
+
+G.R.: So if I go there, it's OK, if I don't go, then it's fine. But a conference, you attend.
+
+
+Meet ups - I'm not sure I'm paid meetups.
+
+P.M.: So-
+
+G.R.: Do we have paid meetups?
+
+P.M.: ?? [00:25:23] Has Chad Fowler ever covered your meet up? Conference, we need conference for that. K, next?
+
+QUESTION: I would like to answer his - I would like to answer his question in one 
+
+line. It, the difference between ?? [00:25:43]. People go to ?? [00:25:44], people don't go to ?? [00:25:47].
+
+So there's the answer I would give.
+
+P.M.: OK.
+
+QUESTION: Hello. What should be the mindset of a person who is attending a 
+
+conference, or what should one expect from a conference-
+
+P.M.: From a conference.
+
+QUESTION: Or what should one do for a conference, or, for that matter, a meet up?
+
+P.M.: As a participant or as an organizer?
+
+QUESTION: As a participant.
+
+P.M.: OK, as a participant, I would say, to make more, new friends.
+
+And to learn new things.
+
+TEJAS DINKAR: All right, does anyone else on the team want to answer that 
+
+question as well? Swanand, or ?? [00:26:29]
+
+S.P.: One important thing you need to consider when you're attending any 
+
+conference is basically meeting new people. So the talks and everything is one 
+
+part of, obviously they're important. And probably talks, you're gonna go back home and watch it again on ConFreaks. It's all being recorded. So the most important thing is you know meet new people and make new friends.
+
+That is the reason, one of the reasons why we have reduced the talk period from forty minutes to thirty minutes, and have increased the lunch time and the, you know, coffee breaks. So that people get to talk to each other more. So that's the reason behind that.
+
+??: Meet new people or keep meeting your friends at conferences. There are 
+
+many people who I only meet at meet ups or only at RubyConf India or RubyConf.
+
+P.M.: And I meet Coby at every conference I go to.
+
+OK, next question here.
+
+QUESTION: First of all, you guys did an excellent job of getting this conference 
+
+together. I basically have two questions. First is, how do you raise money from 
+
+sponsors for a conference like this? I'm sure it's very difficult.
+
+And second is, how do you get international speakers, like, you know, Chad, 
+
+Coby?
+
+V.O.: So I think Swanand wants to answer this one.
+
+S.P.: You don't raise money for sponsors. You just ask them, hey we are 
+
+putting on a conference, and they just say OK, we are gonna sponsor, here's the 
+
+money.
+
+T.D.: Like, a bit more practically, like this is something I had a big conversation 
+
+even with Ajey Gore about that developed this?? [00:28:03]. You have to understand that no matter who is there on this board, every company that sponsors is interested in something else.
+
+
+It kind of ties into what ?? [00:28:13] was speaking about in the morning. So I'm just gonna take my own example, is that we had at Nilenso are hoping to meet interesting people and eventually bring on like, hire someone new, and that's why, say, Nilenso is, that's definitely one of the reasons we are sponsoring a conference like this.
+
+So it's just to try to get into the mindset of the person you're speaking to and see 
+
+what benefits can you provide them, because like, these, the different levels of 
+
+sponsorships - you also have to, we also have different things that they are 
+
+allowed to do. For example, a gold sponsor like Flipkart is allowed to bring in that 
+
+large banner back there and have a booth, and allowed to speak-
+
+P.M.: And they get two minutes.
+
+T.D.: Yeah - and are allowed to speak to people.
+
+A silver sponsor has their own set of benefits, like giving out something in the 
+
+pamphlets, so. It's about going and speaking to these different organizations, 
+
+trying to understand what they are looking for, and seeing how your conference 
+
+can help them and vice versa.
+
+??: What Dejas said just now was exactly what Ajey was saying in the 
+
+morning about keeping the stakeholders in the loop.
+
+P.M.: So the other part of your question was about keynote speakers. I would say 
+
+it's all about personal relationships. I knew Chad from before, so I reached out to 
+
+him and he said, yes, I am ready to come. And it helped that he was in Bangalore 
+
+before and he wanted to come back.
+
+??: Actually Coby has a very nice answer to this question. I was talking to him 
+
+in the afternoon. He said, why do we need it?
+
+P.M.: Why do you need it?
+
+??: Why do you always need foreign spekers to come here?
+
+P.M.: Yeah, so. Till we have Indian Chad Fowlers, we need the real Chad 
+
+Fowler.
+
+??: So, there you go. Your goal is set for the next two years.
+
+QUESTION: I just wanted to ask you [indecipherable - 00:30:04] at what state do you think the local meet ups can actually arrange a conference, because there needs to be a certain mileage or momentum that needs to be accumulated by the local meet ups to then, you know, result in a conference. You just cannot have a big conference right away, right. So where do you think is the equation of breakdown should happen?
+
+P.M.: Yeah, so. You want to answer that? How, how-
+
+??: So what do you mean by big conference, I mean?
+
+QUESTION: [indecipherable - 00:30:35]
+
+T.D.: So how big do you think that the first RubyConf India was? I don't 
+
+know. Actually I don't remember myself, but it was somewhere around 300 or 350 
+
+people.
+
+V.O.: 250 people.
+
+T.D.: 250, is it? We were really, really scared if we were gonna get about 40 people in that, in that hall. Because we had, it was completely untested waters.
+
+Like I personally, I think I'm a bit romantic about this, but I strongly believe in 
+
+what, in Ajay said in the morning. It was really one person's vision. One person 
+
+wanted to run a Ruby conference, and everyone else was just kind of following 
+
+along with that vision and doing it.
+
+So in reality, the answer to your question was, well, money aside, it was about 4 to 6 people, that was all that was needed to organize the first one. And people came. I think, I think Bangalore definitely India is such a place that, you put out something, you know, some new technology like, like we have some obscure, like Go language conf, next month, just because it's interesting, people will show up.
+
+??: This may not be the only way to organize a conference, you know. 
+
+Everybody's welcome to figure out their own way. People from ?? [00:31:46] can travel together, and they talk about Ruby and come back the next day. You know, you can do your own plans, really.
+
+COBY RANDQUIST: So as far as, do you have to have meet ups to build up a momentum to hold a conference. I actually disagree.
+
+Because in Bend, it's a town of about 85,000 people. We had literally twelve Ruby developers in town, and we started Ruby on Ales to get, to put Bend on the map in the Ruby community. So we knew we didn't have a mass of people there.
+
+Now what that did mean, is we had to go about it a little bit differently, because we had to do, you know, more external marketing, and to Prakash's point, one of the, one of the big advantages of large conferences, or actually I wouldn't even call this a large conference, but of conferences in this size, is that you do get to meet more people. And you get to create relationships with people, you know, honestly the reason I'm here is because Prakash and I talked several years ago at RubyConf in Loiussiana, and that's really how it came about.
+
+You know, Chad and I's relationship over the years, I think we've never met 
+
+anywhere but conferences. I've got a whole group of, you know, literally hundreds 
+
+of friends at this point, that the only time I ever see each other face to face is at 
+
+conferences.
+
+Yes. And now I've added another country.
+
+So when you're trying to put together an event, part of it is make sure you know what you're trying to accomplish. That's the key part, because if you know what you're trying to do, then you can set your limits.
+
+And the other key piece to the budgeting aspect is, always remember you don't want to dig yourself a hole. You know. So limit things. With our OpenStack on Ales that I mentioned yesterday, we basically said, we know what it costs to rent the place, and if we only have ten people show up plus our speakers, we're OK. We know what, we know what our out of pocket expense is gonna be. But we're not gonna provide coffee - you know, there's water because there's water fountains. But we were able to control those factors.
+
+So yeah, you don't, you don't need a lot of momentum locally. You do need an interest, or you need to scale your cost model so that if you only have three people show up you're OK with it.
+
+But, yeah.
+
+T.D.: Also, one more thing I want to say. I would like everyone to look at the 
+
+back of the hall near the Flipkart stall, that's Karen over there. Everyone wave hi.
+
+P.M.: Hey Karen!
+
+T.D.: So, Karen, or Jase, as he's known, and is partners of about I think it's a 
+
+team of five, have been running, I think, like a dozen successful tech events 
+
+every single year under the banner of HasGeek. And so if anyone wants to know how to run a conference successfully and on a different range of budgets, from like, really big to really small, please talk to Jase.
+
+P.M.: OK, so. We are almost out of time. I want to thank all the, my co-organizers 
+
+here, and the one last thing I want to say before closing is, it's not just the few of 
+
+us up here who did this conference. There are a lot of people out, who helped us 
+
+from outside. We may not have time now for everyone, but I want to thank 
+
+everyone who helped us put this conference up, and made it an amazing journey 
+
+so far.
+
+Thank you everyone.
+
+V.O.: We will see you at RubyConf India in March.
