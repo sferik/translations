@@ -1,16 +1,31 @@
 transcript = File.open("transcript.txt", "r")
-transcript_content = transcript.read
 closed_captions = File.open("closed_captions.txt", "w")
 
-transcript_content = transcript_content.split(" ")
+# transcript_content = transcript_content.split(" ")
 
-until transcript_content == []
-	transcript_line = transcript_content[0..8]
-	transcript_line = transcript_line.join(" ")
-	closed_captions.puts transcript_line
-	closed_captions.puts ""
+lines = 0
 
-	transcript_content = transcript_content.drop(9)
+transcript.each_line do |line|
+  lines += 1
+
+  if lines <= 4
+    closed_captions.puts "#{line}"
+  else
+    words = line.split(" ")
+
+    until words == []
+      transcript_line = words[0..8].join(" ")
+      closed_captions.puts "#{transcript_line}\n\n"
+      words = words.drop(9)
+    end
+  end
+#until transcript_content == []
+#  transcript_line = transcript_content[0..8]
+#  transcript_line = transcript_line.join(" ")
+#  closed_captions.puts transcript_line
+#  closed_captions.puts ""
+#
+#  transcript_content = transcript_content.drop(9)
 end
 
 transcript.close
