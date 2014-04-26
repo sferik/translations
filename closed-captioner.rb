@@ -1,8 +1,6 @@
 transcript = File.open("transcript.txt", "r")
 closed_captions = File.open("closed_captions.txt", "w")
 
-# transcript_content = transcript_content.split(" ")
-
 lines = 0
 
 transcript.each_line do |line|
@@ -19,13 +17,6 @@ transcript.each_line do |line|
       words = words.drop(9)
     end
   end
-#until transcript_content == []
-#  transcript_line = transcript_content[0..8]
-#  transcript_line = transcript_line.join(" ")
-#  closed_captions.puts transcript_line
-#  closed_captions.puts ""
-#
-#  transcript_content = transcript_content.drop(9)
 end
 
 transcript.close
@@ -66,3 +57,4 @@ There are things I would like to figure out.
 Also, figuring out how to have the program post the finished cc.txt to
 the appropriate location on GitHub would be cool
 =end
+ 
