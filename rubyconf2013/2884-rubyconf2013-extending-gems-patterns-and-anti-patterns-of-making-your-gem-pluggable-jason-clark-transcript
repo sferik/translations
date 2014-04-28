@@ -1,0 +1,1267 @@
+Ruby Conference 2013 - Extending Gems - Patterns and Anti-Patterns of 
+
+Making Your Gem Pluggable - Jason Clark
+
+JASON CLARK: Welcome everyone. My name is Jason Clark. I work for 
+
+New Relic. Specifically on the Ruby agent, so that's the New Relic RPM gem 
+
+that maybe a few of you are familiar with and have installed once or twice.
+
+And I'm here today to talk to you about ways that you can make your 
+
+gems more extensible, more flexible. And talk about, like, a lot of the 
+
+pitfalls that you might run into in building a gem that other people might 
+
+want to build on top of.
+
+But before we get too far into that, I want to start with a little storytime.
+
+So New Relic does performance monitoring for your Rails and other 
+
+applications. One of the things that we do is we will inject a little piece of 
+
+JavaScript into the footer of your page so that it can get timings on the 
+
+clients' side and then transmit those back to us so we can paint you pretty 
+
+graphs and show you alerts for what's going on.
+
+So in the Ruby agent - the Ruby agent is the piece that you put in your app 
+
+- there's this little piece of code. And here's a snippet of it, where we're 
+
+figuring out the queuing time. Then we've got all this ugly business, so we 
+
+were doing around rounding and clamping and making sure that things are 
+
+fine.
+
+And then we omit this footer, and that actually ends up in your page.
+
+Well, this is the type of code that, you know, when you're making another 
+
+change in an area, you might want to refactor a little bit. And so we 
+
+extracted a bunch of the timings out, we moved a bunch of that logic 
+
+around, you know. What's a millisecond. What do we round. What do we do 
+
+there into a transaction timing's object. Which cleans this interface up very 
+
+nicely.
+
+This, you know, is kind of deep in the guts of the agent. It's deep in our 
+
+code, and so we felt pretty good about doing that and then removing that 
+
+other browser timing method that was there.
+
+Unfortunately there was a problem.
+
+Elsewhere in New Relic, we run a Rails-based application, a web, our 
+
+website, that you might go and log into. And this method happened to show 
+
+up in there. So we were monkey patching the footer_js_string so that we 
+
+could modify that and put it in there.
+
+And, you know, we use our own site to run our software and experiment 
+
+with things. But we didn't catch this until it got onto dev. It didn't make it to 
+
+production - nothing broke. But this is an example of the sort of problem 
+
+that you can have when you tromp on something in another gem.
+
+Do- the Ruby agent didn't provide a good API for somebody else to extend 
+
+it the way that we would like them to. And so to get their work done, they 
+
+did the only thing that was available to them. And it caused both of us pain 
+
+in the end.
+
+That's the sort of situation that I'm here to talk to you about today, and 
+
+give you a lot of tips all the way from small things that you can do all the 
+
+way up to how you pattern your applications and gems, so that you can 
+
+avoid this sort of pain that happens when people plug in to your gems in 
+
+ways that you're not expecting.
+
+Maybe you want to write the next big application server. You want to get in 
+
+the fray with Unicorn and Puma and fight it out, you know. Maybe you think 
+
+that you've got a better idea about how to do background job processing, 
+
+you know.
+
+All these other frameworks have got it wrong. You've got the plan.
+
+Or maybe you've just got some little utility gem that you want to put out 
+
+there and have people be able to use, and you want people to be able to 
+
+build on top of it.
+
+Whatever the case is, there are ways that you can make your life easier 
+
+and make the life of your gem users easier as well.
+
+So we're gonna cover a lot of material, a lot of little cases, that we've run 
+
+into at New Relics. So we're on both sides of this. We hook into other gems 
+
+to be able to monitor and get timings for them. And other people build on 
+
+top of us and put us in their app. And so some of these examples will be 
+
+things that we've run into with other gems and worked through with them. 
+
+Others will be things that we've screwed up and made other peoples' lives 
+
+hard.
+
+And we'll hopefully learn a lot from all of this. We'll talk about how you can 
+
+pass things into your gems and patterns for doing that to make it easy for 
+
+people to modify the behavior of your gem. We'll talk about using events to 
+
+make things more decoupled, giving a good interface for people to hook in 
+
+to your gem.
+
+We'll talk about the middleware pattern, which is a very powerful way for 
+
+letting people interject into kind of a request life cycle within the life of your 
+
+gem. We'll talk about life cycle for broader things, more application 
+
+lifecycle for webservers and background job processors and making the 
+
+changes you need there for people to work.
+
+We'll talk about naming, configuration, documentation - all of the sort of 
+
+periferal things around your gem that surprisingly can make things a lot 
+
+easier or a lot harder depending on how you do it.
+
+So let's move on to the first topic. Passing things in.
+
+A great case for letting somebody pass something in - the simplest sort of 
+
+way that you can let somebody modify the behavior of your gem, is to let 
+
+them hand you an object. And a logger is a really great example of that, 
+
+and one that you probably should be doing if you're doing some sort of 
+
+logging from your gem.
+
+We have here the one positive case that I'll take out of ActiveRecord today 
+
+to show you of the pattern from the gem. It actually happens to be the only 
+
+thing that I'm taking out of ActiveRecord in this case. But they will let you 
+
+set the logger. It's right there on the base. You can hand it an object and 
+
+that's what it'll use to log.
+
+If they didn't do that, and you wanted to change the output that they do 
+
+where that goes to, you know, pack that somewhere else, put it to a file, 
+
+modify it in some way. You know, you would be forced to grovel around in 
+
+their internals or find where they're doing that logging and monkey patch it 
+
+in some way.
+
+So letting them surface that logger just, give access to that object on the 
+
+top level, gives you a lot of flexibility.
+
+In other circles this is commonly known as dependency injection. But if 
+
+you're like me, that makes you think of something in Java with factoring 
+
+managers and a bunch of XML to wire it up.
+
+It doesn't have to be, though. Dependency injection just means that you let 
+
+somebody else provide you with the dependency that you need to work 
+
+with.
+
+And in this case with the logger, it's just a matter of a single accessor for 
+
+the object that you're gonna use.
+
+This is a lot simpler in Ruby than it is in some other languages as well, 
+
+because of duck typing. Although that's kind of a double-edged sword. In 
+
+the case of the logger, you need to make sure that your logger supports all 
+
+of the same methods that would commonly be exposed off of the logger 
+
+class that ActiveRecord is expecting.
+
+It's highly recommending, from what I've found, to provide some sort of 
+
+spec, if you're intending people to pass an object in for this type of case. 
+
+You know, maybe not for a logger, because that's pretty common and 
+
+people know, but if you've got anything more specialized, you want to 
+
+clearly communicate what that contract is.
+
+The other people are gonna be building their code against.
+
+Another great case for doing this sort of injection is instrumentors. And this 
+
+is obviously very near and dear to my heart, being at New Relic, and I love 
+
+to see gems that provide ways to let you wrap around and measure the 
+
+timings for critical things that happen within them.
+
+A good example of where this had been done was in the excon gem. So 
+
+excon is a HTTP client library, and when you spin up the new connection, it 
+
+gives you this instrumentor in the hash that you can provide. And you give 
+
+it a class or module and it will go and it will use that to wrap around all of 
+
+the HTTP calls that it makes.
+
+This is a really nice idea, and it lets you build a simple little instrumentor 
+
+class that just, you know, does whatever timing or output or logging that 
+
+you want to do, and then you yield and it carries on with its business inside 
+
+of there.
+
+Unfortunately there's a little bit of a problem with this, and that's the fact 
+
+that there is one instrumentor allowed in excon. So on the surface this 
+
+looks like exactly what we wanted when we came around to instrument this 
+
+particular HTTP library. But in fact we couldn't use it, because it would 
+
+tromp on somebody else's instrumentor that they might have set.
+
+The application that was using it might have already set one. Some other 
+
+library might have. Or in, excon itself might set something there by default.
+
+All of those cases wouldn't have allowed us to easily pass that in and 
+
+modify it without risking ruining somebody else's behavior. This is a theme 
+
+that we'll come back to a number of times throughout this talk. That if there 
+
+is a place where you have a single thing, whether it is a hook or an object 
+
+that's being relied on, you know, that potentially locks people in in how 
+
+they interact with your gem and makes it difficult for people that want to 
+
+extend it to do the things that they need to do.
+
+Another great case for passing things in and allowing different functionality 
+
+is backend. So assuming everybody else uses the same data access 
+
+library, or gets things together in the same way as you do, it's, you know, 
+
+kind of confining.
+
+A good case for this was the Delayed::Job gem. So Delayed::Job is a 
+
+background job processor. The first line is the demonstration of just a piece 
+
+of Ruby code that you would do. And with Delayed::Job you can say dot 
+
+delay and then call the method that you would. And what that delay 
+
+actually does is serializes enough information into some data store that it 
+
+can run that piece of code for you later.
+
+And in the early versions of it, it was tied to ActiveRecord, but then they 
+
+broke this out into separate backends that you could provide. And I think 
+
+there was a datamapper implementation and a Mongo implementation.
+
+So they actually went so far as to make it so that you could provide 
+
+separate backends as gems, that would hook into this. And that's a really 
+
+nice structure for being able to do that.
+
+There was a little bit of a weirdness, though, in how the interaction went 
+
+with these backend gems. And it caused us some issues in the 
+
+instrumentation that we wrote for it. And it specifically was this line.
+
+So what that does, you provide it with your backend. You've got your own 
+
+class in your gem, but then they were forcing that to be the delayed job 
+
+constant. So when we came to this library we thought, oh, you know, the 
+
+delayed job class. That's the one that we ought to instrument things 
+
+around.
+
+And we wrote some code that looked a little like this. So we looked for the 
+
+count on it. Well this seemed safe. We're talking to something that was 
+
+right there in Delayed::Job, right.
+
+Well, no. We were actually talking to something that was a separate plugin. 
+
+It wasn't part of the main API, and if you tried to use Delayed::Job with 
+
+something else, it would fail.
+
+This isn't something that you can even cleanly protect against in a lot of 
+
+senses, because just looking for a respond to on count doesn't necessarily 
+
+imply that it's going to work properly when you call it with these methods.
+
+So it would have probably been cleaner if they had left things, not making 
+
+it look like that backend is something that's in the base gem. But maybe 
+
+provided a different way that you could access and check it to figure out 
+
+what capabilities it had.
+
+There are a lot of ways that you can make specific things to the 
+
+functionality of your gem in the objects that people pass in. So the example 
+
+that I have here is resque. So resque is another background job processor.
+
+You provide it a job class with a perform method and it allows you to incue 
+
+that job and then it will write that to a Redis backend and a separate 
+
+process will then consume that. It'll run later on.
+
+So the way that they let you customize this is they provide before and after 
+
+hooks for a lot of different pieces of the lifecycle of your job. So they have 
+
+a way that, if you name a method with before_perform on the class that 
+
+you're handing in, then it will go and find all of those and it'll run them for 
+
+you.
+
+So in this way they let, they give you a very tidy interface for modifying 
+
+your job class and the way that you pass it in, to get the work done that 
+
+you need to do around your job.
+
+And as an instrumentor, as somebody that works on top of Resque at New 
+
+Relic, we use exactly this functionality to be able to wrap around your 
+
+perform on a job and take the timings that you want to get to figure out 
+
+how your jobs are doing.
+
+Another key point about this is that this is also documented. They have a 
+
+nice page that spells out all the hooks and what they are because this 
+
+naming with before_perform and then you can name it whatever you want 
+
+after that is very flexible, you know, without the documentation it may not 
+
+be clear without reading the code exactly what's gonna be supported and 
+
+what's not.
+
+But they make that very clear in the docs and that's a plus, and something 
+
+that we'll touch on later, too.
+
+So there's a lot of different ways that Ruby, being very object oriented and 
+
+duck typed, allows you to let people pass different things in than what your 
+
+base implementation is. So when you're writing a gem, think about the 
+
+ways that people might be able to simply pass things through to get 
+
+different behavior than what they might be getting out of the box.
+
+There's another way that you can let people intercept and find out about 
+
+the things that are happening in your gem. And that's events.
+
+So when I say events, there's probably a lot of things that you might be 
+
+thinking. Maybe you're thinking, you know, node and asynchrony, or, you 
+
+know, IO-driven stuff, or maybe if you've had bad experiences like me, 
+
+you're thinking visual basic event handlers - anybody? No. OK, don't think 
+
+about that too hard.
+
+When I say events, what I really just mean is, ways of notifying external 
+
+code that important things have happened in you gem, giving them points 
+
+where they can hook behavior onto what you're doing.
+
+I've actually given a whole talk about this, and an eventing system doesn't 
+
+have to be complicated. I've written up a little gem, not necessarily for 
+
+production usage but to demonstrate as, maybe like fifty lines to write this 
+
+sort of event system where you can notify of something that happens and 
+
+have an arbitrary list of subscribers that are interested run their code and 
+
+the things that you care about happen.
+
+This provides a really nice interface, just because it separates the classes. 
+
+They don't have to know about each other. They talk to each other through 
+
+that event interface, and that's a really powerful thing that you can do 
+
+when you don't control the code on both sides.
+
+How you surface those events is kind of up to you, but it makes a lot of 
+
+sense to kind of frontload this into a place that's very visible, and very 
+
+easy for instrumentors and other people to access.
+
+So in the New Relic Ruby agent, we've actually started using this. And so 
+
+on our agent there is an events object that is the primary event listener 
+
+that is in our system. And then here's an example of how you would 
+
+subscribe to that.
+
+So this says hey, when I start a transaction, I've got some custom 
+
+parameters work that I want to do. That block gets executed whenever we 
+
+fire :start_transaction.
+
+You have to know about the agent in the events object, know they get to 
+
+that, but then you don't have to know anything else about our transaction 
+
+class. You don't know any of those details. You can just wire this block up.
+
+Resque has a similar sort of hooking mechanism, although they do it 
+
+directly off of the top of a module. So you can set this after_fork, so when 
+
+Resque runs for each job, it will fork off a new copy of job process. And 
+
+each of those will run this after_fork for you.
+
+This actually turns out to be pretty important because this line is very 
+
+commonly added in cases where people are using Resque or other forking 
+
+frameworks, to make sure that your database connections are all there and 
+
+the child.
+
+You can run into problems if you don't re-establish those connections.
+
+This turned out to be an issue for us at New Relic, though, because we 
+
+actually have some work that we really want to do in our, in the after_fork 
+
+from Resque as well. We use some background threads - we'll talk a little 
+
+more about that later. But we needed to have an after_fork, and as it 
+
+turned out there was only one of them.
+
+In some earlier versions of Resque, you got one after_fork put. And so 
+
+either we didn't get our threads started, because somebody else came 
+
+along later and registered their own after_fork, or we tromped over 
+
+somebody else's after_fork hook, and then their database connections 
+
+might not work or whatever functionality they were rewiring at that point 
+
+would end up broken.
+
+This is not a good situation at all, and we ended up having to, you know, 
+
+when people would run into it, they would have to make their own 
+
+after_fork that did both the database stuff and called over to our piece of 
+
+code and did whatever else they needed to have happen there.
+
+Not a good situation for anyone. So the fix for this turned out to be pretty 
+
+simple when they put it into Resque, two or three versions back. And that 
+
+was simply to make it so that after_fork had an array. It held on to multiple 
+
+handlers and allowed you to put those in there.
+
+And so it was wonderful that the way that they did that was actually API 
+
+compatible. Nobody had to change their code necessarily to make that 
+
+work correctly. And if it had been that way from the start, would have been 
+
+nice, but, you know, where we're at today, you don't have to do this sort of 
+
+custom hookup that you do.
+
+So if you've got, again, one thing, think about whether it might make sense 
+
+for there to be more than one. Make sure that you're not gonna be running 
+
+into a situation where different people are gonna tromp on that single log 
+
+object and run into problems because of it.
+
+Working with events, one consideration is whether there is order 
+
+dependencies in the event handlers and the things that need to happen. 
+
+And it's kind of a pressure against using an evented sort of mechanism for 
+
+this, because they don't really support events. I don't know what order the 
+
+things that I put in to :start_transaction are necessary to get called in.
+
+If it matters a lot, you might want to think about doing things differently. 
+
+But that's kind of a thing that might push us to some other techniques that 
+
+we'll look at a little later.
+
+Also want to make a call-out as well, that Rails in ActiveSupport, since 
+
+about the 3.0 version, has shipped with a thing called 
+
+ActiveSupport::Notifications. And this is basically a built-in eventing, event 
+
+notification system like what I just tried. The interface is very similar to 
+
+what we've shown that we use in the agent, although we've got our own 
+
+little implementation, since we can't depend on this specific version of 
+
+ActiveSupport.
+
+So a lot of things in Rails are already using this. This is how a lot of the 
+
+logging happens. A lot of the things that underpin Rails are already built on 
+
+top of this. And so depending on the context of your gem, you might 
+
+consider wiring into that. I've seen a lot of things as well where people are 
+
+optionally wiring into it if they find that it's around and firing off interesting 
+
+events that people like, wanna subscribe to.
+
+Which is kind of nice to provide that visibility if it's there.
+
+So events are a really powerful way that you can let people hook into your 
+
+code in a decoupled way and respond to the important things that happen 
+
+during the lifetime of your gem.
+
+But another way that you can handle things, especially if there is order at 
+
+play, is the pattern of middleware. So most people are probably familiar 
+
+with middleware primarily from rack.
+
+So rack is a very common library that's used under the vast majority of the 
+
+web frameworks that we're familiar with today in Ruby, Sinatra, Rails uses 
+
+it. And basically the metaphor that it has is there is a, a stack of these 
+
+middlewares. And when a request comes in, it gets handed through each of 
+
+these layers in this middleware stack.
+
+Each of them have their opportunity to do something in response to that 
+
+request, modify the request, eventually it gets to your application. You 
+
+generate content to send back out. And then that response percolates back 
+
+out through that middleware stack, and everybody again has an 
+
+opportunity to look at that and do what they need to in response to it.
+
+So the interface for this is really slim. There's, you just define a call 
+
+method, it takes an environment which is a hash that has the values from 
+
+the request and the values from the environment - the server environment 
+
+and things that come through. And you're responsible to make this app call 
+
+and pass on to the next layer of the stack.
+
+It's really very slim and very nice in that way.
+
+The environment, though, can be a problem, in this sort of setup. It's very 
+
+wide open. This hash is just there, and any of the middlewares that are in 
+
+that stack have the opportunity to interact with that.
+
+Sometimes in ways that you might not expect. This is just the list of the 
+
+base things that I saw in a Rails application that I had there. And it's pretty 
+
+easy for there to be leftovers. It's pretty easy for there to be things that 
+
+happen in that environment that you might not be expecting.
+
+Especially if you do things where maybe you mount a Sinatra app inside of 
+
+a Rails app. It's stringing these things together. I've definitely seen cases 
+
+where there are things that are left in the environment from prior layers of 
+
+the middleware that cause behavior that you're not expecting.
+
+So it's just something to be aware of, you know. If everybody's tidy and 
+
+clean and write's their code well, this doesn't end up being a big problem.
+
+But it can happen when you're passing off through so many different 
+
+layers.
+
+There's also a problem with introspection, and the way that rack has 
+
+implemented the middlewares. Rails and Sinatra actually wrap some things 
+
+around this, so you can see what that stack is. But at the base of it, all that 
+
+rack requires is that each layer knows the communicate to the next one, 
+
+like that app instance variable is the connection between those. And there's 
+
+no reason it has to be named app. I can store that wherever I want to.
+
+And so if you're wanting to look at that stack, look at what's in those rack 
+
+layers, you kind of are in for a little bit of a hard time if you can't assume 
+
+some version of Rails or Sinatra that's there to help you.
+
+Middleware is not necessarily restricted to just Rack, and the web, though. 
+
+I've seen it applied very well from the background job processing 
+
+framework Sidekiq. So Sidekiq, unlike Resque, which forks, Sidekiq uses 
+
+multiple threads to do that processing.
+
+And there are actually middlewares that are provided, both on the side of 
+
+adding a job into the queue, and taking the job off of the queue and 
+
+processing it on server side.
+
+And so a middleware in, in Sidekiq looks like we see here very similar to 
+
+what we had in Rack. Tells you the worker, tells you the message, gives 
+
+you some information that you can set up.
+
+This is really nice because it gives you a very structured way to organize 
+
+those pieces. And in addition, it, there is a directly exposed way to see 
+
+what that stack of middlewares are. You can add them very simply in this 
+
+way, but you can interact and you can look at that list. And so as a third 
+
+party, being able to potentially look at what's there, make sure that you're 
+
+not already added, you know, potentially since other things that are going 
+
+on in that middleware stack, is a really big plus.
+
+So that's the middleware pattern. It's a good way to deal with things when 
+
+you've got events that might need to be wrapped around what's going on in 
+
+your gem, but you care about the ordering, you care about the sequence 
+
+that they happen in.
+
+So sometimes you write gems, sometimes you might be writing something 
+
+where there's kind of more of a executable aspect to it, whether it's a web 
+
+server or some sort of service that sits there and monitors something, 
+
+background job processor.
+
+A lot of times, those sorts of applications will run into issues around forking 
+
+and daemonization.
+
+So at base, what happens with forking is that you're running a process, and 
+
+you make a call for a process for one of the similar overrides of that which 
+
+exists. And the underlying operating system will make you a new child 
+
+process, with its own identity, but with an exact copy of the state of the 
+
+process that you started in.
+
+And in that child and parent, then execution continues from that point 
+
+before it was called.
+
+So it's really nice if you're writing an application that does this sort of 
+
+forking to provide hooks for before and after the fork.
+
+This let's people that might be interested in making the state of the world 
+
+be a little different than it was, take care of their business, either before 
+
+you go off and take care of the fork, or after it.
+
+One really concrete example of why you might want to do that is the fact 
+
+that, I just kind of lied to you. When I said that the state of the child 
+
+application is exactly the same, there are some things that don't carry 
+
+over. When you have multiple threads executing in a process, only the 
+
+thread that called fork ends up in the child.
+
+Now maybe you're thinking, OK, well, so those threads go away. Why, why 
+
+do we care?
+
+Well, for example, New Relic runs a background thread that will send the 
+
+data for your performance monitoring once a minute. If we start up in the 
+
+parent process, and then you fork, we don't have our background thread to 
+
+report that data back and you don't get your graphs.
+
+So for us, it's critical that we know when we fork so that we can restart that 
+
+background thread and the child process. But without hooks, there aren't 
+
+hooks built into the Ruby language to get at this in the generic way.
+
+So without you as a gem author, providing those spots where we can hook 
+
+into it, we're kind of in for a bad time.
+
+There's also some other issues that we've run into around this, specifically 
+
+related to locking and multi-threaded is concurrency. So if you have a lock 
+
+held on a background thread, and then the fork happens on another thread 
+
+while that background lock is taken, the lock state carries over to the child, 
+
+but the thread that actually owned it isn't there to let it go away.
+
+No some of this might be bugs, at the Ruby VM level, we've actually seen a 
+
+few patches come through to deal with some of these. But you gotta be 
+
+aware that threads and forking, you probably are in for a little bit of a bad 
+
+time.
+
+Actually had a long thread on this, on the resque project, talking through 
+
+some options, and it's amazing the lengths to which some people have 
+
+gone to get this stuff to work correctly. There have been patches to Ruby, 
+
+a lot of stuff around, you know, exact versions of the operating systems 
+
+that you work with to take care of that.
+
+If you're running an application that's also responsible for loading gems, 
+
+there's a lot for you to consider around how you interact with things, to 
+
+give third parties the hooks that they need.
+
+Unicorn is a great example of this. It's a forking web server. The master 
+
+process starts up, spins off worker children that actually handle the 
+
+requests. And they have a couple of different modes that you can run in. 
+
+You can either load the gems in the parent or you can load them later on 
+
+after things have started in the child.
+
+The unfortunate part about this for us is that because things get laoded late 
+
+in the lifecycle if you set the preload app to false, we actually can't 
+
+instrument the right things when this goes on.
+
+Because we don't get the hook after the load has happened, we want to 
+
+actually instrument something that has already been called in Unicorn. And 
+
+so we can't get the cycle of that correct.
+
+It's a difficult thing to work through, but if you're loading gems, it's good to 
+
+pay attention to when you provide hooks and what the life cycle is that 
+
+people might need.
+
+So that's the lifecycle of a broader application gems, a lot of, a lot around 
+
+forking and threads. A lot to look into and a lot to think about if you're 
+
+gonna write something that works that way.
+
+Moving on.
+
+So naming is a hard thing, right. It's, it's one of the two hard problems in 
+
+computer science. The other ones being cache-in validation and off by one 
+
+errors.
+
+So it's something you definitely got to pay attention to.
+
+There is a thing in the Ruby community, which has been very great for 
+
+Rails, called convention over configuration, right.
+
+And another way to talk, another way to think about that is, it kind of 
+
+forces you to name things in a certain way. Forces you to do certain things.
+
+Now if you're Rails, that's great. If you're Rails, I will - if I'm gonna work in 
+
+Rails, I'll shape things to what, what I'm doing. But if you're a third party, if 
+
+you're a smaller library, you might want to think twice about how much you 
+
+enforce about the naming and paths that other people have to abide by.
+
+The example that I have here is the sequel ORM. Now I want to be clear, 
+
+sequel is an awesome ORM. We love it. It's great. And we especially love 
+
+the fact that they provide a plugin and extension architecture. Like, they 
+
+have thought through the fact that people are gonna want to plug in to this, 
+
+and they've provided a lot of functionality around it.
+
+There's a whole huge list of plugins if you go out to the project. This is the 
+
+line that shows you how you can register a plugin with sequel to, you know, 
+
+put that extra sort of stuff in there.
+
+But there's a little bit of a rug to me about how this gets implemented. 
+
+Cause basically what this boils down to is a require that looks for sequel 
+
+plugins in New Relic instrumentation.
+
+Now maybe I'm just being a little, you know, pedantic about things, but 
+
+when I look in the lib directory for my gem, K, New Relic, folder, that's 
+
+where most of my code goes, that's great. Tasks, OK, you know, that 
+
+makes a lot of sense. New Relic RPM - gotta have that. And sequel.
+
+It gets a little awkward that I'm being forced to put sequel at the top level 
+
+of my structure to have things end up the way that they need to to get 
+
+picked up.
+
+So it'd be a fairly simple thing to address by just letting us pass a class, or 
+
+module. Let us pass in the thing that we want to hook into you, rather than 
+
+something that you evaluate to a path to go it up for.
+
+Again, just a consideration depending on what sort of library you're writing 
+
+and how broadly it's used.
+
+I also have a little bit of a thing - so in Ruby, there's a lot of very colorful 
+
+naming for our gems, and sometimes we get made fun of, and I'm not 
+
+actually gonna, gonna pick on that at all. But every once in awhile we also 
+
+kind of go to the other end of the spectrum and name things a little 
+
+generically.
+
+Like here's my implementation of the ActiveRecord pattern. I called it 
+
+ActiveRecord. Here's the datamapper pattern. DattaMattern.
+
+I'm gonna write an HTTP client. I'm gonna name it HTTPClient.
+
+You know, this isn't a huge thing, but then if somebody else wants to use 
+
+any of those words in their, their infrastructure, like if you're, you have 
+
+multiple HTTP clients that you actually wire into. It gets a little ambiguous 
+
+when of them, one of these specific libraries, that you support is named 
+
+HTTPClient. No, no, not the HTTP client. The HTTP client HTTPClient.
+
+It's nice to keep in mind that you might want to go with something that's a 
+
+little more specific than that. I know it's hard to come up with good names 
+
+at times. But it's probably worth your time.
+
+This also leads to a lot, so naming also leads to a lot of issues around how 
+
+you qualify your code. So when I say qualify that, that means you know 
+
+how you specify the modules where things live. And there's a lot of 
+
+dynamic things about how Ruby will look up to find code for you, and 
+
+occassionally, depending on how you name things, that can come back to 
+
+bite you.
+
+So here we have a mistake that I personally made. So we were adding a 
+
+little bit of functionality. We wanted to have some consistency around how 
+
+we spun background threads up within the New Relic agent. Because we 
+
+have a couple of them.
+
+And I thought, hey, I'll make my own thread class that kind of has our 
+
+extra little bit of stuff that we want there.
+
+Everything's good.
+
+Well, not so much. Cause somewhere else out there in gem land, 
+
+somebody wanted to reopen the standard library thread class and do 
+
+something to it. Their code, unfortunately, ended up getting executed in the 
+
+context where we were looking up into New Relic agent, and guess what 
+
+class they found instead of the standard library thread class.
+
+They found my class.
+
+So we ended up renaming it. Which is a little unfortunate, because it feels 
+
+like it's the clean thing to do, but there's some peril if you are gonna name 
+
+things after the standard library.
+
+Now, I've had people make a little objection to my comments on this, that 
+
+like, well, any gem out there could name something a name that you're 
+
+gonna use. But I think it's mostly around the really commonly used things. 
+
+Like if you're shadowing the name of something that's in the standard 
+
+library, or maybe in Rails, you might run into cases where there could be 
+
+some ambiguity or things that will get looked up in a way that you might 
+
+not be expecting, and that you might not be testing for because it relies on 
+
+other pieces of the gem infrastructure being loaded, that you're not really 
+
+putting into your environment.
+
+Embarrassingly, we had a similar sort of thing happen within New Relic 
+
+itself. SO there is a plugin gem which this is responsible for communicating 
+
+your own custom metrics to the New Relic platform, which is different than 
+
+the New Relic RPM Ruby agent on there.
+
+And in the plugin they defined this logger class. Seems pretty reasonable. 
+
+It's in the New Relic module. But I bet you can all imagine what's probably 
+
+gonna happen next.
+
+In New Relic RPB, we had the AgentLogger - now I know the naming's a 
+
+little odd, Agent AgentLogger, but roll with me here. We learned from that.
+
+Unfortunately we had this.
+
+We weren't using the plugin gem together with the agent, cause we hadn't 
+
+tested that combination, and there wasn't a lot of functional reason for it. 
+
+But you can guess exactly which class got found when this line of code 
+
+executed.
+
+You put two New Relic things together and it bombs. That's not a good 
+
+experience.
+
+This could just as easily have been with somebody else's gem and some 
+
+other thing of naming. And it's annoying because the fix is two characters.
+
+I really think that if you're writing a gem, you want to be very cautious, 
+
+very conservative about the ways that you name on the module lookup 
+
+rules. Cause you can't always assume the context in which your code is 
+
+gonna execute.
+
+Unless you're way smarter than me, you know, things will come out and 
+
+bite you. And it's just a matter of two colons to make sure that you're 
+
+talking to the class that you think that you're talking to.
+
+So that's names and paths. It's easy to get those mixed up, and it's 
+
+definitely something that's hard to test for at times. So keep your eyes 
+
+closely on that.
+
+Configuration is another part, especially if you write a larger gem, that 
+
+comes into play.
+
+Ruby's got a pretty good standard built-in mechanism now, all of the noise 
+
+around yml with the security vulnerabilities earlier in the year. I don't really 
+
+feel like makes it invalid as a configuration file format, you know. If you're 
+
+slinging data across the wire in yml, you're gonna have problems. But 
+
+config is kind of what it's there for.
+
+If you want a little more dynamic thing than just those sort of key value 
+
+pairs, though, you can also mix this up with ERB a little bit.
+
+Example of how you would do that, is we read in a yml file. We can then 
+
+use ERB to evaluate that, and what that lets us do, when we load the yml, 
+
+is people can embed some templating in there. So here, they can get that 
+
+default_awesome_key that we handed in from that external environment, 
+
+or they can run any, any Ruby code that they need to.
+
+Potentially a little ugly for people to do that, though, if they need to do 
+
+something really dynamic. And so there has been a resurgence of a new 
+
+language for doing configuration in the Ruby space in the last couple of 
+
+years that you might want to consider.
+
+And that language is Ruby.
+
+Prime case of this is Unicorn. You provide it a config file, it's a Ruby file. It 
+
+gets executed in the context of a config object that provides these 
+
+methods. The nice thing about this is that all of the configuration can go 
+
+together. Things that need to have code associated with it - an event 
+
+handler can be defined in here, alongside the other config that's there.
+
+Puma has similar support for this sort of RB file, which is really nice, and 
+
+you can see all the on_worker_boot. So it has a forked mode, where it'll 
+
+send off other child processes, so we're doing, here's an example of how 
+
+they would wire the database back up.
+
+There is a little downside to this sort of configuration file loading in Ruby, 
+
+though, that you gotta be aware of. And that's, if you are writing for gems 
+
+to be able to wire into that as well. This is very clean for the app to write 
+
+that RB file that gets loaded up.
+
+But if some third party wants to glom onto that, you want to make sure that 
+
+your interfaces are nice for it.
+
+So this is what we actually end up doing in the case of Puma for New Relic, 
+
+and you don't have to read all the details, but it's kind of ugly for us to be 
+
+able to interact with that from the code rather than from that config file.
+
+And in particular, it relies on this :cli_config, which it is not actually always 
+
+present, depending on the way that you start Puma. We're working with the 
+
+Puma folks - we love Puma, it's awesome, and we wanna make this a little 
+
+better, but, you know making sure that you provide a code based way of 
+
+facing your config as well as the file based loading that people might 
+
+commonly use is a really good idea if you're gonna write a gem that has a 
+
+lot of functionality to it.
+
+So that's configuration. The bigger your gem gets, the more likely that you 
+
+are to want to let people get in there and do things that you might not be 
+
+expecting, and how you configure it.
+
+The last place that we'll go is documentation. So readmes.
+
+Most people will not get past the readme. So if you've got ways that you 
+
+expect people to hook into your application, expect them to modify your 
+
+gem, at least call out that that documentation exists from the readme. 
+
+Maybe you don't need to be like Sinatra, where you go to the readme and 
+
+then there's the table of contents, and then there's still the table of 
+
+contents, and there's still the table of contents, and then all the stuff is in 
+
+the readme page.
+
+That might be a little overboard. But make sure that the pertinent details, 
+
+and the fact that you've thought about how people should extend your gem 
+
+shows up there early, or people are gonna start looking at the code and 
+
+digging in and monkey patching things that you don't expect.
+
+Sidekiq is a great example of this. There's a wiki out there. It's got a lot of 
+
+articles and they're very specific, and you can see that it tells you about 
+
+the internals, it tells you about the middlewares, it tells you all of those 
+
+different pieces that you can customize about it. It's very accesible, and it 
+
+made it very easy for us to work on instrumenting it from New Relic.
+
+Don't bury the things in your documentation that people care about. And 
+
+here I'll give a counter example that we've just fixed.
+
+So our documentation used to look a lot like this. And it scrolls, and it 
+
+scrolls.
+
+How do you know what class you're supposed to use? There's no real way 
+
+for you to tell that as somebody external. We've thinned that down. Make 
+
+the things that are important for people to get at the things that show up 
+
+when they first go to it.
+
+And then they can read the code if they need to get into more details and 
+
+do something more complicated.
+
+Also, the version of your gem is part of your documentation. Consider 
+
+using semantic versioning to make that clear when things appear so you 
+
+don't have to think about, was it zero thirty-seven or zero thirty-five where 
+
+we added that hook? Semantic versioning makes that a lot easier to 
+
+remember.
+
+So that's docs.
+
+We've covered a lot of material here. We've talked about how to pass 
+
+things through, how to event things, how middleware can help you. The 
+
+lifecycle of gems, names, config, docs. Hopefully you found something in 
+
+here that'll help your gems get better, easier for people to work with, and 
+
+save you and your clients pain.
+
+Thank you.
