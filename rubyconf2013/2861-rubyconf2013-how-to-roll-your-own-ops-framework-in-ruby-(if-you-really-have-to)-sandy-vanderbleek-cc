@@ -1,0 +1,661 @@
+RubyConf 2013 - How to Roll Your Own Ops Framework in Ruby (If You Really Have To) - Sandy Vanderbleek
+
+SANDY VANDERBLEEK: OK. So I'm gonna talk
+
+about how to write your own operations framework,
+
+if you really have to. And that's the first question.
+
+Do you really have to? No. You don't. Other
+
+people have written lots of different things, and if
+
+you're working in Ruby, Chef is pretty great and
+
+it'll get you really far. So, and you know,
+
+if you have to roll your own thing, it
+
+doesn't mean you can't keep using Chef. We're using
+
+Chef, and the problems we're trying to solve are-
+
+We want something that is very testable. That is
+
+our first key desirable. And we need to be
+
+able to test things rapidly at the unit level
+
+and then integrate it, and then the biggest area
+
+of testing is acceptance testing.
+
+We want to have our framework bring up real
+
+machines and make assertions about the state of those
+
+machines. And we want to know that our framework
+
+can bring up the machine's - you know, we
+
+want continuous test running so we know we can
+
+deploy our infrastructure.
+
+So we know we can build our infrastructure at
+
+all times, so at, you know, three in the
+
+morning when things are going bad, we don't also
+
+have to deal with debugging our deployment code. So
+
+that is the main desirable.
+
+Right, before we decided to write our own framework
+
+at the company I'm working at, we've been using
+
+CloudWatch on AWBS. Not CloudWatch. Cloud Formation Templates. And
+
+stuff like that. They're slow and it was hard,
+
+they're hard to test. So just, designing this framework
+
+with tests first is a big, big thing.
+
+So, and then the, the rest of the standard
+
+stuff. We need to be available. Everything for us
+
+is based around high availability. Everything is pretty much
+
+a cluster with a load balancer. So we have
+
+no single point of failure.
+
+And this has to apply to our, what's running
+
+our, you know, operations framework, too. The, the servers
+
+that our ops is running on need to be
+
+high availa- highly available, too. So it needs to
+
+bootstrap itself from a local machine into a cluster
+
+mode, and run like that.
+
+Debugability is big. When a deployment fails we need
+
+to get on our machines, see why it fails,
+
+see what's going on. The whole system is based
+
+on the system of swapping out an already running
+
+cluster with the new, newly deployed custer. So, and
+
+we, we want to keep that old cluster around,
+
+if you can, I mean that'd be nice, in
+
+case the new one has some problems - just
+
+swap back.
+
+So, also audit-able is a big thing. We want
+
+to know what's going on every transition of our
+
+operations resource, we want to know why it triggered
+
+and it wasn't successful. You know, how long has
+
+it taken, we want to know average deploy times,
+
+average fail times, et cetera. Want to be able
+
+to run those analytics.
+
+So what's wrong with just Chef? So Chef server
+
+is what you would go to to kind of
+
+provide this whole, you know, framework for managing your
+
+settings, managing your machines, doing service discovery, stuff like
+
+that. And to make that highly available is non-trivial.
+
+And you know Chef-spec, the testing, you know that,
+
+one of the testing libraries that is out there
+
+for it, it's just pretty much a unit test.
+
+It just doesn't actually do anything. It just tests
+
+your code, and you know, can it run.
+
+And there are some other tools out there, like
+
+Cucumber-Chef, which it comes from this bug test-driven infrastructure
+
+using chef, and you get to write cucumber tests
+
+that say, like, real machines, it deploys actual AWS
+
+resources and then runs your tests on those servers.
+
+So that's a pretty cool tool. It's, it's not
+
+really under active development right now, and it's not
+
+quite flexible for what we wanted to do. And
+
+something really cool that's coming out with the same
+
+people who did Chef-Spec is Test Kitchen.
+
+I don't know if anyone's seen this, but it,
+
+it definitely is what we're aiming to do from
+
+the testing standpoint. So, but it's under wraps and
+
+all that.
+
+So here are the components that I came up
+
+with for this framework. It's all API based. So
+
+we have ops, basically, as a API service where,
+
+and, just, developers can make API calls from a,
+
+from Perl or whatever. Or there's also a front-end
+
+component that I built in JavaScript.
+
+So the API is like, you know, access, it's
+
+just your, your single point of control. Then all
+
+the, you know, our business logic is in the
+
+domain. The domain layer. And that's things like, what
+
+we consider part of our deployment process. We built
+
+images, we deploy clusters, we have some settings and
+
+users with permissions. So that's basically our domain.
+
+And then the ops is like the whole meat
+
+of it. This is all the nasty stuff, working
+
+with your cloud library, working with, you know, Unix,
+
+getting all of the things done that you need
+
+to get done to make your domain a reality.
+
+We have a database for persistence. We're using MongoDB
+
+in a cluster. So the database isn't that important.
+
+Whatever you're gonna use just needs to be reliable.
+
+And then the frontend - it can be a
+
+app, a command line, whatever. That's why you make
+
+the API, so you have that flexibility at the
+
+front-end level.
+
+So the API - we have end points. It's
+
+just rack, so it's pretty simple. We're using Grape.
+
+Grape is really nice for writing quick APIs in
+
+Ruby. Grape has entities which are map, domain objects
+
+to the JSON representation. We're just using JSON and
+
+JSON out.
+
+So and then when we consume a representation that
+
+a client has messed with, it's called a representation
+
+right now which is not a great name. But
+
+that's to take a representation and go back into
+
+the domain layer from there. Then services kind of
+
+act as the interface to the domain and ops
+
+layer for the API, so it's not highly coupled
+
+to what's going on there.
+
+And the client's, the API provides some clients, just
+
+rest clients basically. Everything is restful. So there are,
+
+there are a couple of client objects in the
+
+API layer that you could use for a command
+
+line inside the ops.
+
+Wherever you need it. And executation is a abstraction
+
+for the API to say go do something, I'm
+
+gonna respond to the client, and some work is
+
+gonna go on in the background.
+
+And there's a, I extracted it because there's a
+
+couple different ways, just for getting started. Just want
+
+to fork, you know, but we use AWS flows
+
+a lot, to do a lot of our work,
+
+so. I wanted to make it flexible enough so
+
+that when we plug it into our flow infrastructure,
+
+we can run our tasks like that.
+
+So at the domain layer we have resources which
+
+have states and logic, and then there are provisioners,
+
+which are state machines over these resources. So states,
+
+for example, image has a pending state, a building
+
+state, a built state, a destroyed state, et cetera.
+
+And the provisioner is the state machine that's gonna
+
+run through all those states which transitions using success
+
+and failure, and all this happens in the background,
+
+usually when you ask for a resource to change
+
+state. Provisioner is gonna determine what it needs to
+
+do to change that state, and then go about
+
+doing that.
+
+And that uses the ops layer, where the providers
+
+are basically controlled by the provisioners in the machines.
+
+They communicate using just success and failure and pass
+
+an options hash. And then the ops has a
+
+lot of, you know, tools to use the cloud
+
+services, so we can get things done on the
+
+cloud.
+
+And very important are the testing tools to prove
+
+that the things actually got done on the cloud.
+
+We want to know processes are running, files, directories,
+
+everything is set up. Everything is good. OK.
+
+And the database. It's just a database. We use
+
+it to store data. There are mappers that map
+
+the resources to MongoDB and back. It uses the
+
+data mapper pattern. Perpetuity is a cool gem. Right
+
+now it just works with Mongo, but they're adding
+
+a postgres SQL to it.
+
+So I also looked into Ram, RV, which is
+
+pretty cool, but definitely not ready for use. Tried
+
+to keep the, you know, model persistence out of
+
+the domain layer, you know, not ActiveRecord style. Data
+
+mapper is a, is the pattern. It's in patterns
+
+of enterprise architecture. If you haven't heard of it,
+
+definitely check it out.
+
+So the resources transition between states. Transitions are also
+
+resourced. This is part of the audibility. You want
+
+to know, you know, every transition. So our resources
+
+are image clusters, settings, users, permissions, right now. It's
+
+pretty simple.
+
+The providers are the implementations of each resource state.
+
+So this is in the ops layer. And you
+
+write a provider, you'll write, like a method called
+
+build, if you're image provider, and then you'll have
+
+like a method pending, build pending, and just, that
+
+method is called when that resource is gonna go
+
+into that state. So you need to do everything
+
+that will make that resource in the state, and
+
+then say success inside the provider if you, you
+
+know, if you achieved it.
+
+And then the provisioner will actually update the client
+
+and let the resource know that it is in
+
+that state at the API level. So the provisioner
+
+is just the control object. It knows about the
+
+client and the only transition events are success and
+
+failure.
+
+So it runs inside an execution with the run
+
+ID as the transition. So a nice feature that
+
+we don't have yet will be to take that
+
+run ID and cancel, cancel transitions.
+
+So another explaine flow, for images for us is,
+
+we start in pending, we set up our, our
+
+image on AWS. We go into a build_pending and
+
+we, you know, run our, we install Ruby on
+
+it. We do everything we want to have the
+
+image set up. It takes awhile. And, well that's
+
+actually the building state, sorry.
+
+And then when it's built, we, you know, make
+
+sure it's registered properly and everything like that. So
+
+this framework lets us think in terms of state
+
+machines, which I think is really valuable. Think about
+
+state transitions and think about all your operations resources
+
+- all your operations, you know, things as resources
+
+that have states that are gonna go through state
+
+provisions as state transitions as you, you know, deploy
+
+things, make things happen.
+
+So how do I make it, you know, more
+
+of a framework, something reusable for everybody?
+
+So right now it's, it's kind of hard. You
+
+build your own subclass of resource provision or provider
+
+for, you know, your domain object, something you want,
+
+you know, to act as a operations resource for
+
+you. And then you also have to do your
+
+entity and endpoint service. And write the mapper for
+
+the database.
+
+And so it's really like seven, at least seven
+
+classes you're gonna create to make on operations resource.
+
+So that's pretty hard.
+
+I've looked into trying to make a DSL to
+
+build the resource and provisioner, because they're very related.
+
+It's basically the states and the state machine. But
+
+the state machine is already - I'm using a
+
+workflow, it's already a state machine DSL. So, it's
+
+hard to, to make frameworks on top of frameworks
+
+sometimes. And lots of fast-level native programming.
+
+So.
+
+But it's interesting, and definitely the real map is
+
+to do that. There's already a DSL for the
+
+API. It's great. And the frontend - I made
+
+some interesting decisions cause I'm a former front end
+
+developer. So I'm using EmberJs to just work with
+
+JSON. There's no frontend server. It's a static JavaScript
+
+app, self-contained. So would people be interested in that?
+
+It's kind of crazy. Also Emblem is a templating
+
+language, and it's lime HML with handlebars. It's kind
+
+of cool. Some cool stuff. So the goal is
+
+definitely to opensource, you know, the work we've done,
+
+and of course, profit. So what are our key
+
+process benefits from this?
+
+So we write acceptance tests using RSpect matchers. They
+
+run on the instances created by the API, that
+
+is really big. Cause we, we could have had
+
+a broken deployment for weeks, and had no idea
+
+previously. You know, cause we weren't constanly testing our
+
+deployment infrastructure.
+
+So when a deployment fails, we have SSH to
+
+access the machine. We have a one stop shop
+
+for settings and service discovery. Fail overs is a
+
+fundamental construct. Swapping clusters back and forth.
+
+And it is self-documenting, which is pretty cool, using
+
+Grape. You write a couple descriptions of your end
+
+points, of your, you know, gets and puts, and
+
+then I made a, an endpoint to represent the
+
+endpoints, actually. So there's an entity for the endpoint.
+
+So the actual API endpoints can be, output is
+
+JSON representations, and then you can ask for documentation
+
+is JSON.
+
+So that was pretty cool. But, yeah, it's not
+
+done yet. Lots of work. And right now it's
+
+kind of monolithic, which is a little bit a
+
+problem because we need to integrate lots of different
+
+tools that ops developers are building, and they don't
+
+all fit or, you know, they already work, and
+
+how do we in them into this provisioner or
+
+provider model. It's a little heavy weight for some
+
+lightweight tools.
+
+So I'm gonna show a couple examples of the
+
+frontend.
+
+So bootstrap three. It's very nice and clean. We
+
+have the resource dates on the clusters, pending down
+
+up, some actions and we have a little menu
+
+to go through our deployments. Some of these, these
+
+are just mocks, basically. The whole thing's not working.
+
+We want monitors eventually. We get paged a lot
+
+and sometimes we don't know if, well if we
+
+got paged or if it was just transient.
+
+So we want a page to look at really
+
+quick, you know, just to see if, basically a
+
+sanity check to see if, do we really need
+
+to, you know, get up at three in the
+
+morning, get on the computer and get on these
+
+servers and see what's up.
+
+So, oh yeah. And the nice thing about using
+
+this with bootstrap is it's definitely gonna work on
+
+a mobile phone, so you'll be able to locate
+
+it on your phone in bed. Yeah.
+
+And this will change our life. This is a
+
+big pain point for us is how we manage
+
+our settings. We run Chef solo, right now we
+
+don't use Chef's server, and our settings are in
+
+a bunch of S3 buckets. We have rigged tools
+
+you know to update all our buckets, but it's
+
+definitely not the easiest to visualize. So.
+
+It's gonna help us a lot.
+
+So here's some of the, some of my inspiration
+
+while doing this. Test-driven infrastructure with Chef. It's a
+
+really quick read, it's like 70 pages. If you're
+
+interested in, you know, testing, your deployment process, check
+
+that out. It's kind of hand wave-y, but, there
+
+is the code, there is the Chef, Cucumber Chef.
+
+That the guy who wrote the book wrote, so
+
+you can check that out too.
+
+DevOps Weekly is a great, great newsletter. I pretty
+
+much read every week. They bring up some really
+
+cool tools and things people are working on. Just
+
+release it is a very cool book in the
+
+pragmatic programmer series or whoever releases that. It's, it's
+
+Java based, but it's, it's all about, you know,
+
+handling failure, and how important failure is a concept
+
+to operations.
+
+And, of course, you know, when you're building a
+
+framework and you're really trying to find these, this
+
+structure, patterns of enterprise architecture is a classic, and
+
+Growing Object Oriented Software Guided By Tests, two really
+
+great books, you know. The whole idea is to
+
+you know start with your unit tests, then write
+
+your class, so.
+
+It's good.
+
+That was actually pretty quick. So does anyone have
+
+any questions?
+
+I'm kind of done. Thanks.
