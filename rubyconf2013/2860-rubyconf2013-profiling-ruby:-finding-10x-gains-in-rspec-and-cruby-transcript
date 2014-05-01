@@ -1,0 +1,293 @@
+RubyConf 2013 - Profiling Ruby: Finding 10x Gains in RSpec and CRuby - Xavier Shay
+
+XAVIER SHAY: Sorry. The lights stopped. Thank you for your patience.
+
+My name's Xavier. I currently work at Square on the production engineering team. And my details are up here. You can see them.
+
+And today I'm going to be talking about profiling Ruby. It's a thing that I've done a little bit of. I've sped up a lot of things. In some ways, this is kind of a weird talk for me to give, because I'm actually not really that much of an expert at this. And I don't really even like it very much. But. I really, really hate slow things. And that's been sufficient motivation to overcome the first two difficulties - an opportunity to speed up some slow things.
+
+And so I wanted to talk through that with you guys.
+
+To put it in Matz's terms from this morning, sometimes you just have to take out the garbage, right. So that's, that's what this is for me.
+
+Now this isn't, this isn't a tools talk. I want to preface that. If you've come to learn the latest and greatest about sampling profiles, this is not that talk. I do cover some basic tools that you need to know about, but this is really about the mindset of how I, how I go into this problem, and how I, how I approach it, and it's worthwhile for me.
+
+So there are, there are three, three things that I'm always doing whenever I'm trying to figure out why something is slow. I'm hypothesizing - why could this be slow? What is this thing doing? Computers are really fast, and if I'm sitting there for three seconds waiting for a computer to do something, I have heaps of time to think about, well, what's it doing? It's got three seconds. That's a lot of computer time, right.
+
+So coming up with ideas.
+
+Figure out how to isolate those in order to test whether that's actually your problem or not, and then also figuring out how to instrument different things to figure out which bits are fast, which bits are slow, and then to prove that you actually spend a thing up.
+
+So I'm gonna keep coming back to these three points. I'm gonna work through a couple of examples of, of how I've applied this, and there's pretty graphs and everything. It's gonna be great.
+
+To begin with, though, I wanted to talk more about the, the mental game of this. Because I've certainly, for me it's, profiling has always been that kind of thing, it's like, it just seems too hard, right. And some of the best advice I got in relation to this was actually not computer related at all. This was probably third year university. I moved into an apartment with one of my friends, and sort of fairly early on in the relationship, he was like, hey, do you want to play a game of Scrabble? Ah, that sounds great.
+
+Do you guys know Scrabble? The board game? Hopefully everybody knows Scrabble.
+
+And, so oh, great, I love Scrabble. That's a fun game. I played it as a kid. So you know we got a couple of beers, got the Scrabble board out, played this game. He absolutely smashed me. Like, he got a gazillion points. I couldn't put any words on the board. And afterwards, he was like, oh wow, I really need to teach you how to play Scrabble.
+
+And that was kind of hard, cause I was like, it's just Scrabble. It's just making words. Like, none of this, like, somebody's mom was like a pro-Scrabble player and all we did together was play Scrabble, and he really shocked me. But one of the best bits of advice he gave me, so.
+
+We're, we're playing along and there's this thing in Scrabble called a Bingo, where if you put all of your seven piles, you get rid of your rack, you get a bonus 50 points. It's kind of a big deal. It's also kind of exciting, like, laying down all seven tiles. It's kind of, it just feels really good, you know. But, like, making a seven-letter word in Scrabble is really hard. I've never done it before in my entire life.
+
+And like, within the first couple of games he's laid down a few of them. And I called him on it. I'm like that's, that's rubbish. Like, how did you manage to get all these seven letter words? He's like, oh you just need to look for them.
+
+I thought, well that's useless advice, isn't it.
+
+But sure enough, I thought, well, OK, well, I'll try it out. And the next game, like, every single rack I got, I just look at it, and say, OK, can I make a seven letter word? Like, no. No. No. And I kept trying and I kept trying, and then, then it was yes! I saw one. And like the very next game I got my first seven-letter word ever. And I was so excited. And it all just came from, he's like, you just need to look for it.
+
+And I, this is applied so much to me for speeding up code. It's really easy to sort of in your head say, oh it's a popular library, like, much smarter people than me have looked at this, you know, surely, maybe there's some micro optimizations, but I don't know how to find those.
+
+You really need to actually - that's a really negative mindset. You need to come in believing that you're going to find something. You need to sort of walk into the code base, say, you know what, there's so much low-hanging fruit in here I can, there's plenty of peaches. I just need to go in and find them.
+
+So you just need to go into a code base and just believe that you can find something. And honestly more than of- more often than not you probably will.
+
+This is rea- I've been, I've been absolutely surprised every single time I've managed to speed something up. I have been shocked at, one) how easy it was, and two) the fact that it's like, wait, really? It's like, that obvious that we can speed it up in this way?
+
+And so, what I want everybody to come away from this talk with, is, hopefully I can inspire you. So tomorrow or Monday or whenever you're back, you can sit down, you - that thing that's been annoying you for ages, that you just sort of take for granted. It's like, oh yeah, now it just takes a minute to boot up.
+
+Well, what are you gonna do? Hopefully I can inspire you to sit down and take another look at it. That's really what this talk is about.
+
+So, let's start with my first example. I know this isn't a Rails conference, but does this resonate with anybody?
+
+Just checking.
+
+So, this is not Rails specific. It just happens that I, it happens to be a good project to demonstrate some of these techniques on. So Rails boot time is slow. I've had this problem so many times.
+
+So let's sit down and figure out. We'll hypothesize - well, what does it do? What could possibly be slow? We'll isolate it, figure out which bits are slow, and then figure out how to instrument it and measure.
+
+So what does Rails do at start-up?
+
+Load Bundler and gems. Loads up the Rails framework. Runs your initializers. I guess it's, maybe starts a server.
+
+But, this is kind of basically it, right. This is like three seconds of work, right. Being like, well I guess it does that, I guess it does that. Like, I guess it does that.
+
+So, OK, well that's a good place to start, right. So let's, let's see if we can isolate those things. This is the really, this is my favorite way to do an initial test of something. Just time Ruby require some stuff. Run some code
+
+Turns out in this case that everything is slow.
+
+Which is good. It's good. It means there's plenty of places to look, right. And this is on a fairly smallish Rails app. It doesn't really do anything. The - I actually, I have a number of different Rails apps. All the, the these numbers are not consistent across slides, because I switch between apps.
+
+Because they all have something different to show. But, so this is the first way to isolate. Second way to isolate - this is my favorite thing about Ruby and scripting languages, is you can just throw a thing in the global namespace and go and iterate throughout your code, right.
+
+Obviously this is not something that you would share with anybody. You wouldn't ship it to production. But doing this sort of thing, where, you know, you come up with a time stamp, write a method to put it out, and then you can just go in and start putting, like, snares all through your code.
+
+This, I find, is a really great way to just jump into a problem. The other - the other issue I see, like, when I'm coming into a problem, it, it can seem kind of intimidating. Like, Rails - I don't really know how it all works. I don't really know what everything's doing. But I can jump in and put put stamp code with the best of them, right. Like it's, this is what I call the naive approach.
+
+And this is my way of discovering a code base and of figuring it out. Now the, there are some advance profiles that'll sort of do this automatically for all of your methods, and I'll talk about them later. But that can also be kind of overwhelming, right. You get like these massive trays of like, here is every method execution ever, and you're like, ahhh!
+
+Whereas this you can just go in and say OK, well, we're booting, we're doing some Rails, we're doing some Bundle stuff, et cetera, et cetera, et cetera. What's also cool about this is it helps you figure out where in the code things are happening. So if you don't know about the caller method in Ruby, you need to learn it, because this is the other best thing in Ruby.
+
+I have a couple of best things in Ruby, and caller, combined with the fact, so caller will give you the stacked trays of the current spot where you are. Then you can copy this line, open it up in your editor, and it's like some gem somewhere, whatever - change it, rerun your code.
+
+This is amazing. You could just go in and change third-party libraries on the fly. Which is really, really scary, but really, really useful in development.
+
+So here is an example. So initializers. So Rails takes every file in a directory, runs each one of them on through. And so, this does take a little awhile, so I thought, oh well, I could go into every initializer I have and stamp, stamp, stamp, stamp, stamp. But I could just do puts caller, find the full loop that's running over the, the code. Like yes it's in Rails internal, but I can probably recognize a for loop when I see it.
+
+And, and then I could just put some extra stuff in there. And this was really interesting. So I did this on - actually this is one of the first things that I did two and a half years ago at Square, where I went and I did this follow down initializers. And something really stood out at me. And there's one here that you'll notice - it's taking about four or five seconds for an initializer to run.
+
+That's kind of a long time. Seems like too long a time, right. And I actually went in and it turned out that we were shelling out to a Bundle exec, so it was reloading the Rails environment again. It was like, oh, well, we just don't - we can just not do that. And that sped this up quite considerably.
+
+I have since either run this or advocated other people do this, just this, literally exactly this. Like, open up the Rails code, print stuff out, and like, sixty-percent of people find just stuff there that's slow.
+
+My favorite was, there was an app that, they were using ZooKeeper, but they were just using it in production, some force coordination stuff. But in development, they were trying to connect to ZooKeeper. Which wasn't there. So it would time out.
+
+Then it would try again. It would time out. Then it would try a third time, before it would continue on. So the route was taking ages to start up. And with this it was sort of kind of obvious what was going on.
+
+So if you run a Rails app, you should do this. If you haven't already. That's, it's, you'll find something.
+
+Quick aside. I think Rails should do this by default for you and log slow stuff. Submit a poll request if you think so too. Just check out.
+
+Big part of this, big class of performance problem is not actually a performance problem but a visibility problem. Somebody said this to me, and I can't remember who it was, and I can't find it on my Twitter.
+
+But, there's performance problems where you have to go in and change algorithms. And there's just visibility problems, where you're doing something stupid, but you don't know about it. And this is what I consider the class of visibility problem.
+
+And there's actually a large class of things that are slow. It's that, you don't know what's going on. We had a deployment tool at Square that, that's written in Ruby, and it was slow when you ran it. And it turned out that it was like doing some get operations that we could optimize. But the biggest - that was really obvious once we just put in some logging around, well, OK, what am I doing now? What am I doing now?
+
+So making, if you, whenever you have long pauses of anything, it should be logging. Your app should log what it's doing so you can find this stuff without even having to go looking for it.
+
+So that's, so that's kind of the obvious stuff, right. So far we haven't talked about anything hard or anything difficult. Put statements and finding stupid things.
+
+So you crunch on that a little while. Hopefully you'll find something. Then you get down into the kind of trickier situations. And you start having to do the other thing, where you need to prove that things are fast.
+
+So when you hypothesize if a thing is slow, that's great. Maybe you can prove that it's slow. But if you can't find what's slow, you then need to take the opposite approach and start, figure out, OK, well what's fast?
+
+And how do I guarantee, how can I prove that this is fast? And so the most obvious one for me was when you're loading up an app, was, well, let's prove that require is fast.
+
+Just requiring files. So you can do this - there's a library, probably most people are familiar with, called benchmark in the standard library. It's really simple. It just, you don't even need to use it. It just loops over your code a number of times to tell you how long it took to run.
+
+In this case here, I'm creating ten thousand files in the file system, and then requiring it in terms of like, I'm requiring 500, then 1,000, then 1,500, then 2,000. Just to see, you know, if there's any change between small, large, whatever.
+
+And of course this is gonna be really superfast, because this is CRuby and that's awesome. And then I ran it and I was like - well, so it's, we got twenty-five thousand- twenty-five hundred files. And they're not doing anything and it's taking a second, a bit over a second to load. And that's a long time in computer, in computer-y times.
+
+So anyway, the top one is the benchmark output. The bottom one is a Ruby one-liner trying to be a bash one liner, except it doesn't bash very well. And Ruby's really good at one-liners. You just make a CSV, which we can then graph, and when I put a graph, like this, now it's starting to look pretty scary to me.
+
+This is the thing that I was trying to prove is fast, turned out, actually it's looking kind of slow. So, sorry the colors on this are terrible, but the top one, the top line is 1 point 9, Ruby 1.9, load time, the bottom one is 1.8.7.
+
+And there are two things that are horrifying about this graph. The first one is that kind of exponential-like curve, right. Whenever you see this sort of exponential curve, you should kind of get scared. There are very few computer-y problems that we deal with day to day that should exhibit this sort of behavior. They should be relatively flat.
+
+And the second one that was interesting to me was the large gap between 1.8.7 and 1.9.
+
+So my Rails at the time was about twenty-three hundred files. So another interesting Ruby thing, you can just monkey patch require if you want to measure stuff. That was kind of neat. So twenty-three hundred, which was taking about, you know, a second.
+
+And I thought this was particularly interesting, because 1.8.7, if you look at it, has the same performance curve, but the absolute numbers, so the y scale is over here is about 200 milliseconds for 1.8.7. So it's like, oh, maybe just nobody's noticed this before. This was in the fairly early days of 1.9.
+
+So I was definitely noticing this one second load. So the curve was scary and the difference between 1.8.7 and 1.9 was pretty scary. Now when you, when you think about that, it kind of makes sense. The require behavior in 1.9 is much more sensible. It resolves relative paths for you, it's case intensive. It's really nice. So it is doing extra work, so it is justified in taking some extra time.
+
+But this was too much for me. So, anyway.
+
+Now, now we're at a place that's really, really scary. Because require is slow, and that's CRuby, and that's C code, and I don't know a thing about C code. I'm a Ruby programmer who just writes Ruby everyday. And so this for me is kind of like the take a brig- take a big breath moment, right. And I have to talk myself up and so I started with this sort of mantra of believe you can find something, right.
+
+This is, you know, I wake up and I repeat it to myself five times every morning. It's, it's that sort of mantra. And I have another one as well, which I use. Which is this one: Computers are really stupid. They only do what you tell them. And C code, it's still just code, right. There's function calls, there's variable assignments. I can, you know, if I take a deep breath and just, like, look in, I'm gonna feel a little bit like this guy. But I can probably figure something out.
+
+At least, that's, that's what I believe before I open up the require code in Ruby and then close my laptop and ahgahah!
+
+It's all right, it's all right. Take a deep breath. It's just C code. It's just unfamiliar. I can work with this.
+
+And this actually took quite a bit of time for me. It was like, calming myself down enough where I could read through this, figure out what was going on. A big part of what I did was say, OK well, I know it's slow. I don't know exactly where- why it's slow, or where it's slow. But I can just try, like, commenting out some code branches and see what happens.
+
+Seriously. This is a really good strategy.
+
+So I actually got to a point where I could require basic files with none of the extra fancy 1.9 stuff, and got it down to 1.8.7 performance. Like, OK, well, now I know like, this is my naive approach that I started with, right. Just go in, just doing stupid stuff. But it's like, obviously not going to work.
+
+But it, it helps you figure out what's going on, it gets you involved in the code, and you know, you start seeing patterns. You start, you know, being able to figure out what's going on.
+
+And there's some really neat optimizations in here. For instance, like if you require a file in Ruby, I, it looks for an rb extension, sometimes it also looks for a dot SO extension, right. And so, naively you could say, well give me all the files and then check, OK, is this an rb one or an SO. No, let's move to the next file, move to the next file.
+
+Except, whoever requires an SO file? Like, basically nobody. And so there's some code in here. This is, this is old 1.9. It's not the latest anymore. But there's some code in here that say well go through all the Ruby files first, and then start looking for SO files. Which is, you know, pretty sensible.
+
+So this is actually a pretty good read. My, part of my approach for this is I really like to rewrite what I'm seeing in something that I'm familiar with. So I went through and I rewrote this in Ruby, or I rewrote the essence of it in Ruby.
+
+What does the require algorithm look like in 1.8.7 and 1.9? And I came up with this. Which says, OK, well if you're gonna load a file, make sure we haven't loaded it already by iterating through all the existing files, and then, then loading it and adding it to the end. Now, this doesn't account for all of the, the exponential thing, but even just looking at this, you should be able to see, OK, well, I could probably make an algorithmic change here to use a hash or a set rather than an array, and that should speed things up quite considerably, right.
+
+And so that's, that was my, that was my game plan. I was gonna change loaded to be a hash. Now - so I wrote up a proof of concept of this. It was terrible C code. It changed like every line in the file. And the Ruby guy's like, we can't apply that, which is totally justified. I wouldn't have done that either.
+
+But I was able to run this on our app, just as an RVM hash set, and drop out, drop out load time from about seventy-eight seconds down to ten using this patch. So that was pretty cool.
+
+Thankfully the Ruby guys said, well, we're not gonna take your patch. We'll write a better one. And they did, and as you can see now require for 9.2 is now much, much faster than it used to be. So that's awesome. And it's also looking much flatter, which is really cool.
+
+So anyway. That's, that was my experience with CRuby. The next one I wanted to talk about was, was this problem.
+
+So, is anybody - does this resonate with anybody?
+
+Yeah, so, my, my problem here is actually different to what most people experience. Most people when this is, they're doing integration testing, you know, something like that. My problem was my unit tests are slow. And when I say unit tests, I'm talking about they're not doing any database access, they're not doing any file or network. It's just a file of code that was taking too long.
+
+And this is where, like, when I said I really hate slow things, like I really hate slow things. I had unit tests that I thought should have been taking no more than a millisecond. They were taking ten milliseconds. Which is unacceptable.
+
+So I thought, OK, well, I can look at this, you know, believe I'm gonna go in and find a peach. This was RSpec. This was kind of scary at the time. Hadn't really dealt with that before. But, applying these three steps, hypothesize, isolate, instrument, figure out what's going on.
+
+So what is my RSpec test do?
+
+Create some doubles. That's fine. It does some varifying things which should be normal things in Unit Specs with RSpec Fire - which if you're not familiar with, allows you to stub stuff in a fairly safe manner. If your things are loaded, so you - it basically stops you from making stubs that are just totally made up.
+
+And we actually just rolled this into RSpec 3, which we released the offer of yesterday. Which is, sorry, the better of. We changed what we're gonna call it. Cause it's actually much more better, it's much better than Alpha. It's definitely a beta.
+
+You should try that out. If you wanted help with that, there's a number of RSpec guys around. We can help you out. But it's a really good release. So, and it has all the stuff that I'm about to talk about in it.
+
+So if you're really annoyed at your 10 millisecond unit specs, you can go into RSpec 3.
+
+And it does some expectation matches. I've actually found performance improvements in all three of these, but I'm gonna talk about double creation to start with.
+
+So the first thing we do is we isolate. WE say, OK, well, there's not really that many parameters when you create a double. There's pretty much the number of attributes that you have. And so I create the spec that, you know, once again, it's normal, but a thousand times it'll create a double with zero attributes. Then with one attribute, then two attributes, and then three, right.
+
+And this is the graph, this is what it looks like. Two things - one the curve looks kind of terrible. And three, we're creating a thousand doubles with nine attributes, which in my mind, well it's not really doing very much. It's taking about three second. That's a lot of computer time.
+
+So I was kind of offended by that. So I thought I'd go in and start poking around. Now I started with all the approaches that I've already talked about. But then, it gets to the point where, the one I was talking about was really useful when you have a log thing. You use log stuff and figure it out.
+
+This is, you know, much smaller time frame. Much harder to find, much harder to tease out patterns using that thing. So this is where I switch to using RubyProf, which is a tool that instruments all of you methods automatically, and gives you a really sweet call stack.
+
+Now, I want to emphasize this is the first time in the talk that I've mentioned a tool at all. Up until now, it's just been me talking about how I do this. I want everybody to remember that. You don't need tools to speed things up. Sometimes they help, sometimes they're useful. But you really need to approach it without them, and you know, don't let, don't let not knowing a tool scare you away from this.
+
+So this call stack graph, I obviously don't expect you to read all of it. But it gives you the amount of time spent in each of these different methods - nested. The interesting ones to me - there's a lot of stuff going on in here, which seems like a lot to me. And more interesting, there's a call down here to kernal dot caller, which is that awesome method I showed you earlier that shows the back trace.
+
+We're calling that 5,000 times. Now we've got a double that we're declaring. So this is - sorry. A thousand creations with five attributes. So we're creating a double in one spot and for that double we're calling call-all, which is going to give the same value as calling that five times.
+
+So I look at this and thought, I have no idea how this code works, why it exists, but I'm pretty sure that we should only call that a thousand times.
+
+Right, this is my naive approach. So the very first thing I did was pulled naive up, pulled the caller up, and I just called it a thousand times rather than five thousand.
+
+Five x improvement. It was amazing. Well, five x to that bit.
+
+And, so then I started thinking, OK, well why is call a slow. It's just giving me a back trace, right? And so I started poking around, I started - didn't quite get to the bottom of exactly why it's slow, but it's kind of because the Ruby VM like does some fancy stuff it needs to reconstruct it or magic - I'm sure there's people in the audience who know much more about that than I do.
+
+But one thing I did discover that was interesting, is there's a new argument to caller in more recent versions of Ruby where you cay, well don't give me the entire stack trace, only give me the first two lines, or the middle two lines, or something like that.
+
+And so I ran some benchmarks on this, because why we're doing it, in RSpec, which I found out after reading through it, was we're trying to get the first non RSpec backtrace line, to say, hey, this is where the error was in your code.
+
+And generally that's in the top two to seven bactrace lines. So I thought, well what if rather than pulling the entire backtrace and searching it, we did like a chunking algorithm, where we chunk down. And so I wrote that out. This is kind of what it looks line. Which, you know, it's about twenty percent faster. The common case it's much faster.
+
+So, I thought, that was a pretty cool find.
+
+And so that was an interesting thing I learnt about caller. The most interesting thing I learned was that, so you create a double with snapshot in the caller, so we can use it later - where, how can you close a failure?
+
+What, what would ever trigger that caller stack trace?
+
+Turns out, you can't. We were just using some of the generic RSpec infrastructure to create these doubles that used the caller, but in this particular case, it was never getting used. SO it was spending all this time to capture a variable that we never used.
+
+So in the end, after optimizing caller, I managed to just get rid of it completely, which initially made me fell kind of stupid, but then I was like, well, this is like, you start with a naive approach, you learn about the code, and then you know, you fix it up.
+
+And we use this elsewhere in RSpec anyway, so it still got faster.
+
+This is the same thing after I was done. The things to note are one, it's a lot simpler. Rather than using all the generic RSpec infrastructure, we added a new concept to make it easier. ANd there's no, there's, it doesnt'call out to caller.
+
+And that's what the graph looks like. It's pretty flat now.
+
+So that's kind of awesome.
+
+It's about a two or three x above, just using an ope- just using an open struct.
+
+So it's the same curve, just with a higher constant factor. So we can probably get a little better, but that's - eh, I'm feeling pretty good about that.
+
+Anyway, so I just mentioned RubyProf as one tool. But some other tools here, perftools, dtrace, strace. I haven't really used them very much so I'm not gonna speak about them. I'm just throwing some names up if you're interested. Some different things here - perftools is a sampling profiler. So RubyProf, you run it against code, it slows it down a lot.
+
+Cause it instruments it a lot. Perftools will just look at your code every now and then and be like, what are you doing now? What are you doing now? What are you doing now? It adds very little overhead.
+
+So in some cases you can actually run that in production, too.
+
+Strace you can track down system calls. If you want to see some cool graphs, search for dtrace and flame graphs and people have done some cool stuff visualizing the things, and this is also exposed in a Ruby 2 API. I think it's trace point - I think.
+
+I can't remember. but something like that. Anyway, just a dump of names for you to look into if you're interested.
+
+So that's, that's kind of my adventure and the things that I've learned about. Are there any, any questions about this? I've got a couple minutes left.
+
+Pretty straightforward then? Awesome.
+
+QUESTION: Yeah, I found the slides online at the beginning of the talk. Are they gonna be online at the end?
+
+X.S.: Yeah, yeah. I can do that. Yeah. There's some nice graphs in there.
+
+Yup, in the back.
+
+QUESTION: Have you given talks about [indecipherable - 00:27:30]
+
+X.S.: I- I did it, and they were like, this is great. Fix up some things. I did. Yeah. And then it - then I actually ended up getting more involved in the project. SO it was actually a good, a good way in. So I'm now a committer on RSpec. And helping out there a lot.
+
+It was, if you ever want to get, like, the, like, the best, most awesome code review you've had in your life, submit a poll request to RSpec. Get Maryn to look at it. That man - are you, is he here? Where is he? This man here. He seriously gives like the best code reviews. It's amazing.
+
+So I highly recommend - would submit again.
+
+Yes?
+
+QUESTION: How long did it take for you to refactor require?
+
+X.S.: How long did it take for me to... ?
+
+QUESTION: To do the require refactoring.
+
+X.S.: The require refactoring? Most of my nights for two weeks.
+
+QUESTION: Two weeks?
+
+X.S.: A lot of that was just, like, figuring out - like, you know, an hour or two a night for a couple of weeks, just to figure out C code mostly. So. Yeah, I don't know. That's - if I was actually working full time on it, it would have been a lot quicker.
+
+Cool. All right. Well, to just quickly finish up.
+
+The things I want you to remember - one, the computer only does what you tell it, right. Just remember this, whenever you're like, getting scared or getting intimidated, you know, CRuby is still just C code, right.
+
+Might take some time, but you'll be able to figure it out. All just, it's all just function calls in the end.
+
+Believe you're gonna find something. You know, just visualize, visualize that looking, you know, how tasty that peach is gonna be. If you just believe you're gonna find something, you probably will.
+
+And these three things. Hypothesize. Isolate. And instrument.
+
+Thank you very much.
