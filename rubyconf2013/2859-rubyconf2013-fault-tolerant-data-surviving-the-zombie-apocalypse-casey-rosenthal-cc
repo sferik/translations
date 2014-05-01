@@ -1,0 +1,1096 @@
+RubyConf 2013 - Fault Tolerant Data: Surviving the Zombie Apocalypse - Casey Rosenthal
+
+CASEY ROSENTHAL: Hi. Hope everybody had a good lunch.
+
+I'd like to start by reading the title of my presentation.
+
+Fault Tolerant Data: Surviving the Zombie Apocalypse.
+
+I'm Casey Rosenthal. That's my Twitter handle. If you're
+
+interested in some of the stuff I talk about,
+
+I figure the most efficient way for me to
+
+get links to you is I'll, I'll Tweet the
+
+links after the talk.
+
+Very small bit of background on me - I
+
+worked for a company called Basho. Our icons look
+
+like this because it's named after a Japanese poet.
+
+So that's me. I get to work with a
+
+really good team of consultants. That's the consulting team
+
+I've had the opportunity to work with.
+
+And we set up distributed databases for critical data
+
+for large enterprises. So recording things like internet traffic,
+
+transactions and things that lives depend on, like medical
+
+records and video game scores. Really important things like
+
+that.
+
+And to give you a sense of where, what
+
+my motivation is - I love working with data.
+
+And I'm gonna make the, you can call databases
+
+sequel versus no sequel, new sequel, no dbs, there's
+
+a bunch of different ways of chopping up the
+
+database space right now. But from a software engineer's
+
+perspective, I'm gonna draw a primary distinction between sequel
+
+and other, OK.
+
+So I work particularly with a distributed key-value database.
+
+Most of the data modeling techniques I'm gonna talk
+
+about are applicable to distributed key-value and other kinds
+
+of distributed databases. Not just the one that I
+
+happen to work with most, which is Reaq?? [00:02:15].
+
+So the reason that I love this category is
+
+other is because I'm gonna generalize, I'm totally gonna
+
+generalize about your experience. Most of you have worked
+
+with relational databases. I don't really care if that's
+
+true, I'm just gonna assume it.
+
+So I also come from a background with sequel,
+
+with relational databases, and over many, many years working
+
+in other languages, but also Ruby, I got to
+
+the point where, OK, I kind of understood what
+
+an MBC framework looked like. I'm not gonna come
+
+across any new surprises there.
+
+With the decades of institutional knowledge we have about
+
+sequel databases, nothing is really gonna surprise me about
+
+how to write, how to data- how to mile
+
+data on a relational database.
+
+And if you know your design patterns, and you
+
+probably have a couple that you use regularly, it's
+
+unlikely that you're gonna come across a design pattern
+
+that, like, completely blows your mind and changes how
+
+you do everything.
+
+In the category of other databases, that happens on
+
+a regular basis. New databases come along that completely
+
+change, not only how you understand modeling your data,
+
+but the kinds of applications you're able to build,
+
+because they have different properties, they can do new
+
+things, they look at data in a different way
+
+that you didn't have the capability of accessing before.
+
+So it's really cutting edge and it changes a
+
+lot and it's a good brain exercise.
+
+So part of that is just the computology aspect.
+
+I happen to like reading white papers, and there's
+
+a lot of great academic work going on right
+
+now in the other database and the distributed systems
+
+sphere.
+
+There are a lot of unsolved problems, still. There
+
+are cases where we don't know the implications of
+
+setting up certain kinds of distributed architectures. And I'll
+
+touch on a couple of them.
+
+The other reason this field is exciting to me
+
+is because of this principle of high availability.
+
+Yeah.
+
+Zing.
+
+So think for a moment about Google, right. When
+
+you go to search something, you don't necessarily expect
+
+that it has everything indexed up to the exact
+
+second that you hit the search button, right. We
+
+allow a little bit of fuziness in the results.
+
+In fact, we don't even expect that if you
+
+search here, you're gonna get the same exact results
+
+at the same time as if somebody did the
+
+same exact search in LA, right.
+
+We allow for a little bit of oddness there.
+
+What we do expect is that Google will show
+
+up. If we get a 500 or a 400,
+
+we'll probably start checking our internet connection first, before
+
+we think, Google is down, right.
+
+That's high, that's a form of high availability. To
+
+give you another example - email. If you use
+
+email on your phone, and your phone goes out
+
+of range, you don't expect that you all of
+
+the sudden won't be able to read your email
+
+and not be able to write email. You expect
+
+that when the internet connects again. Anything you've written
+
+gets sent out. You know, and so that's another
+
+form of high availability, that the key ingredient here
+
+is there is not a global state that exists,
+
+that is consistent, at any given point in time.
+
+Of course, health records. You don't expect, when you
+
+buy insurance or update your, your, or go to
+
+the doctor, that immediately that's gonna be reflected on
+
+your health record. But you do expect that when
+
+you go to the health insurance website, it will
+
+be up. And it will have, like, historical data
+
+available to you.
+
+So that's really interesting, because that's the expectation that
+
+most of us have, most people familiar with the
+
+internet have, about using the internet. Is that it's
+
+highly available and not strongly consistent. It doesn't have
+
+one global state at any given point in time.
+
+And there's kind of this tension between the two.
+
+Well if that's the expectation, the interesting thing is
+
+sequel was designed to be strongly consistent.
+
+So the database that we use intrinsically is not
+
+the one that follows the paradigm that most of
+
+our expectations using online applications follow. Other databases are
+
+built with high availability in mind.
+
+So they might not be strong consistent at a
+
+given point in time. They might be eventually consistent.
+
+There's allowance for data that hasn't propogated to all
+
+of the machines in the cluster to get around
+
+to it.
+
+So to really hammer home this distinction, I'm gonna
+
+focus on two different mindsets when we're building applications.
+
+This is your brain SQL. And nobody's rushing the
+
+screen, which is a good sign, so there's no
+
+zombies in here.
+
+When you're building - so, as an engineer, you
+
+get a use case and you're gonna build this
+
+application on SQL. Again, I'm just gonna generalize some
+
+experience here. So you take the use case, you
+
+figure out what data's in there - say, addresses,
+
+companies, users, whatever. And you break those down into
+
+tables. Figure out what the relationships between those tables
+
+are, and denormalize your data.
+
+Do a lot of other things that, again, we
+
+have decades of institutional knowledge, how to structure tables
+
+and rows and indexes in relational databases. And if
+
+we do that right, according to best practices, if
+
+we do that well, then we have a pretty
+
+good level of confidense that when we go to
+
+build an application on top of it, we'll be
+
+able to get the data out in a way
+
+that we want to present it to the client,
+
+whether the client is another computer or person or
+
+whatever.
+
+OK. Model your data, do that well, then show
+
+it to the client.
+
+By contrast, when you're building, when, an application on
+
+top of a key-value system, you have to have
+
+a different mindset. And that mindset is, is kind
+
+of the reverse. You look at the use case
+
+and you focus on how is this gonna look
+
+to the client?
+
+Again, whether the client is another machine, or a
+
+user or a terminal or whatever, how, how is
+
+it gonna be presented at the end? If you
+
+can figure that out, then modeling the data kind
+
+of falls out, OK.
+
+Figure out how it's gonna be presented, and then
+
+with a high degree of confidense you know you'll
+
+be able to model the data in a K/V.
+
+It's not that one is better than the other
+
+in terms of data modeling. The difference is that
+
+SQL is more flexible, but harder to scale.
+
+And that's not a principle, that's an observation. So
+
+I'm not saying that in principle SQL is harder
+
+to scale. But I will make the observation, that
+
+the more sophisticated the query planner is in your
+
+database, the more difficult it is to scale that
+
+database in a way that's highly available or fault
+
+tolerant in particular.
+
+OK. K/V, that's the simplest kind of database you
+
+could have, right. You give a database a key
+
+and a value, it'll store the value. You give
+
+it just the key, it gives back the value.
+
+There's really no query planning going on there, so
+
+the design of the database can do other interesting
+
+things, like focus on making it highly available and
+
+fault tolerant and scale horizontally.
+
+So I want to put this in a perspective
+
+that we can all relate to. So the situation
+
+we've all had, well maybe you don't all take
+
+the subway, but you know I get up, go
+
+to work, get on the subway, and look over
+
+and there's somebody else who's obviously going to work,
+
+but they look a little not right.
+
+We've all had this experience. We see that there's
+
+a zombie on the subway and we know that,
+
+you know, the apocalypse is upon us. So it's
+
+a common theme in our careers. Zombies!
+
+Right. So we've all had this experience, and you
+
+know, maybe the acute zombielepsy breaks out, as it
+
+does, and you know, maybe the zombies start here
+
+in Miami, and you got to admit, some of
+
+those zombies can run fast. So they spread and
+
+pretty soon there's, let's say, a million zombies around
+
+the country.
+
+So, again, as frequently happens to me, and I'm
+
+sure to all of you, the CDC comes and
+
+says, hey, we need to get a handle on
+
+this. We need to store all of this zombie
+
+data. We need to do it quickly, so, you
+
+know, we want an application built in Ruby, because
+
+developer time is of the essence. We want this
+
+to be agile. We don't know exactly what kind
+
+of things we're gonna have to do with the
+
+data.
+
+And we have this database that we need to
+
+store it in. OK. I'm sure anybody can do
+
+this. This isn't too sophisticated.
+
+What does the data look like? Well, here's an
+
+example of a value that's just in JSON. SO
+
+we've got some DNA, DNA sample, of the zombie.
+
+Their gender, their name, address, city, zip. Weight, height,
+
+latitude, longitude. I left some out - blood type,
+
+phone number, social security number, stuff like that.
+
+But the situation's a little bit more complicated. The
+
+CDC actually has databases all around the country. And
+
+they all need to store this data. And they're
+
+kind of hooked up in a weird way because,
+
+intertubes, mhmm.
+
+So the data has to replicate between the data
+
+centers like this, OK. This is, this is not
+
+an uncommon situation with big data.
+
+This can be done with the SQL database, but
+
+it would kind of be a pain in the
+
+ass so far, right, to set up the load
+
+balancers and figure out the replication strategies.
+
+Anyway, let's make it a little bit more interesting.
+
+So what else could happen? Well, the CDC knows
+
+that this could happen, right. The CDC is not
+
+yet immune to the acute zombielepsy. So there could
+
+be a scenario in which we lose data centers.
+
+I know what you're thinking - this never happens,
+
+right. The whole East coast never goes down.
+
+So if that happens, then we lose those connections.
+
+But, you know, if the human race is to
+
+survive, we can't just ignore these guys out here.
+
+They have to be able to continue to accept
+
+reads and writes.
+
+And this is one of the stricter definitions of
+
+high availability, which is that if you can connect
+
+to any part of the system, any part of
+
+the database, it will accept reads and writes. OK,
+
+it'll serve you whatever data it has access to,
+
+and if you write data, it will contain, it
+
+will take it.
+
+That's very difficult to do with the SQL database.
+
+SQL databases just aren't designed to do that sort
+
+of thing.
+
+But a lot of the other databases are.
+
+OK, so this is, this is getting kind of
+
+interesting. So let's take another, a closer look at
+
+that database. Well, it's big.
+
+We're storing DNA, right, so that's about, your genome,
+
+well, I don't know about yours. Everybody else's genome
+
+is about 1.5 gigabytes per person. So 1.5 gigs,
+
+that's getting to be a large database. It won't
+
+fit on one server.
+
+So we're gonna have to store it on several
+
+servers.
+
+Again, other databases are designed to do this. They
+
+will automatically do one of two things. They'll either
+
+have a logical router that knows by looking at
+
+the key, where the data's supposed to be stored,
+
+or they have some sort of meta data server
+
+that keeps track of where all of the object
+
+and the database are stored. Those are the two
+
+major paradigms for how a distributed database stores data.
+
+And this also has to be fault tolerant.
+
+Let me just put a definition on that phrase,
+
+fault tolerant. That's the optimistic view that stuff is
+
+gonna happen, that bad stuff is gonna happen. Optimistically,
+
+if you have a fault tolerant system, you're expecting
+
+bad things to happen. So in this case, server's
+
+gonna die.
+
+It's gonna catch on fire. The barings in the
+
+harddrive are gonna dip, the rate is gonna dive
+
+- something, something's gonna happen and a server's gonna
+
+die.
+
+And in a fault tolerant system, that's OK. It
+
+continues to run. In some cases worse, a cable
+
+comes unplugged. You know, zombies get into the data
+
+center, chasing the ops guys and trip over a
+
+cable, right. And so now we've got part of
+
+the cluster is connected and another part of the
+
+cluster is not connected, OK.
+
+Again, I'll leave time for questions - we can
+
+talk more about how databases have different strategies of
+
+dealing with fault tolerance and replication and anti-entropy -
+
+entropy being when data sets get out of sync.
+
+But let's continue talking about the requirements. OK.
+
+So we're gonna store this as key/value data model,
+
+thank you mister, or CDC person. So this is
+
+the value - we need a key.
+
+Well, fortunately they have a system for establishing a
+
+UUID for a key, so in this case it'll
+
+be patient0. When we want to look up this
+
+data, we give the system patient0, and it gives
+
+us back the data that we need to, to
+
+do research on.
+
+And CDC person says, oh, and also I want
+
+to sometimes look it up by zip code. I
+
+want all of the zombies in a given zip
+
+code.
+
+OK. A strict key value doesn't have a second
+
+way of looking things up. So here's where we
+
+have to start consider, considering data modeling. We can
+
+always look this record up by the key patient0,
+
+that makes sense. How do we look it up
+
+by 33436, that zip code?
+
+Well, if we've got the data on a bunch
+
+of servers, right, the zombie data comes in, we
+
+store it on one machine - in this case,
+
+the upper right machine. And the system knows that
+
+patient0 key points to that machine. So that's how
+
+it knows to get that data.
+
+But say we have these three zombies in that
+
+zip code. We don't have a way of asking
+
+key value system how to find those three zombies
+
+who are in the zip code.
+
+The solution is to create an inverted index. This
+
+is an inverted index because a field from the
+
+data in the value of the object is pointing
+
+back to the objects that contain it. So that's
+
+the inversion.
+
+And the index is really simple, in this case,
+
+we'll just say, hey, and object with a key
+
+zip underscore 33436 contains the objects patient0, patient45, and
+
+patient3924.
+
+We're getting more zombies here.
+
+OK.
+
+So how do we store that index?
+
+We know that this is zip object should point
+
+to those three zombie values. So if we represent
+
+that index as this green star thing, where do
+
+we put it? We have two options.
+
+One is, when the zombie object comes into the
+
+system, we save the index on the same machine
+
+with that document. This is called document based inverted
+
+indexing, because we're partitioning the index with the document,
+
+the object that we're indexing.
+
+So as time goes on, we now have an
+
+index for zip 33, 33436, on the upper right
+
+machine, and on this lower left machine, because those
+
+all have zombies in that zip code.
+
+OK, let's think about the performance implications here. We
+
+save an object, the system locally indexes it, and
+
+saves that index locally. Super efficient for a write,
+
+right.
+
+Save the object, index it yourself. OK, that's easily
+
+done. Now how do we read it?
+
+Well we have to go to each of the
+
+machines and say, you know, top one - do
+
+you have anybody in that zip? Nope. Second one
+
+- yup, I've got these two guys. OK.
+
+Nope. Yup, one. Nope. And then we put together
+
+the results in one answer. That was a really
+
+inefficient read, right. But that's, but it was inefficient
+
+right. SO that's one way to do it.
+
+Another way to do it is a zombie comes
+
+in, we index them before we save them, and
+
+then we save the index someplace else, a specific
+
+place in the cluster. OK, this is called term
+
+based inverted index. So it's a different partitioning scheme
+
+for the index. We're partitioning by the term that
+
+we're searching on.
+
+More zombies come in. And it's always updating that
+
+same object, which is someplace else in the cluster.
+
+So let's think about the performance profile of this.
+
+For every zombie value that we write to the
+
+database, we have to fetch the index from some
+
+place else, add to it, and write to it
+
+and save it back. So that's an inefficient write
+
+pattern, but now look at the read. When we
+
+want to know who's in that zip, we only
+
+have to read from one machine.
+
+So these are the two. We got document-based inverted
+
+index and term-based inverted index. These are the two
+
+paradigms for inverted indexes that we've considered.
+
+Again, document-based: fast read - fast write, inefficient read.
+
+And term-based inverted index has a fast read but
+
+an inefficient write.
+
+The point being that, when we look at the
+
+use case, that's what should determine how we model
+
+the data.
+
+We have to understand from the CDC person, is
+
+this data gonna be written a lot, this index?
+
+Or is it gonna be read a lot?
+
+OK. It's a much different way of looking at
+
+the problem than using a relational database, where we
+
+just would have indexed that as a separate thing,
+
+as a secondary index in a relational database.
+
+So, consider- it's an important distinction in this kind
+
+of thing, and if you like charts, I'll link
+
+to some charts later that show some comparisons that
+
+we did between different distributed databases and the way
+
+that, or different partitioning schemes in a distributed database.
+
+So back to zombies.
+
+Because these guys haven't stopped eating brains yet.
+
+All right, so in this scenario, where we've got
+
+two data centers down, three are still up, two
+
+are connected. Consider the situation where data comes in
+
+to the top data center, writing to record patient0.
+
+And somebody down in Southern California also writes data
+
+to patient0.
+
+How would you handle this in a SQL database?
+
+Let's make the problem worse. Then because, you know,
+
+the crisis is happening, somebody runs along cable between
+
+those two data centers, and connects them and so
+
+now they have to replicate their data with each
+
+other.
+
+How do we reconcile these two different versions of
+
+patient0?
+
+First, first attempt might be, OK, let's take the
+
+one with the last time stamp on it. Two
+
+problems with that. One, obviously, you might lose data.
+
+Two, time stamps in a distributed system are entirely
+
+unreliable, OK.
+
+If you want to sync your clocks in a
+
+distributed system, that's a particular kind of pain that
+
+I just wouldn't want to get into.
+
+So in the simplest case, we have a system
+
+that has what are called siblings for that particular
+
+key/value object. And basically the system would get two
+
+versions of data and just say, oh, I don't
+
+know which is which, so I'm just gonna store
+
+both. And then when you go to read it,
+
+it says, well I've got this value and this
+
+value. These siblings. Here.
+
+And at the application level, we can do a
+
+couple things with that, right. In the simplest case,
+
+none of the data overlaps. So we can just
+
+combine them, right.
+
+None of that data overlaps. None of it overwrote
+
+it, so we just combined them.
+
+What if that's not the case? Well then we
+
+can do a couple things. We can write our
+
+own policy. We could just present both versions to
+
+CDC person on screen, and say I don't know
+
+- you pick, right.
+
+This is a problem that I didn't have to
+
+think about as an engineer with the SQL database,
+
+because it was impossible to have siblings in a
+
+SQL database.
+
+But with this highly available, huge fault tolerant database,
+
+this kind of stuff has to be considered.
+
+There's a whole field of research into what are
+
+called CRDT, commative or convergent replicated data types, that
+
+specifically analyzes the, the, specifies the kinds of data
+
+structures that you can build that you can automatically
+
+converge into one value without human intervention, right, without
+
+any side effects or conflicts.
+
+And that's an on-going field of study. We don't,
+
+we haven't, like, numerated all of the possible data
+
+types that we can do that for. I'll give
+
+you an example of one simple one.
+
+Think of an array that has unique values and
+
+only grows. It only gets bigger. YOu never remove
+
+a value from it. This is kind of the
+
+simplest case for CRDT. So say up in the
+
+north west, we had somebody write this object with
+
+patient0, 45, 3924, and in the southwest, we had
+
+somebody write this object that the zip index with
+
+patient73 and 9217.
+
+If we want to combine these two, since we
+
+know none of those objects can ever be taken
+
+out, we can simply add them all together into
+
+the list and call unique on it, right. Problem
+
+solved.
+
+What if you were gonna allow items to be
+
+removed. Problem gets a lot more difficult.
+
+And that's a whole other area of research that,
+
+again, is very interesting. Other topics - I want
+
+to take some questions, so I won't get into
+
+this too much, but. Other research topics with distributed
+
+systems: GeoHashes, right. If you want to store longitutde
+
+and latitude for an object, and then you want
+
+to know, hey, find me all of the things
+
+that are within a mile, if that's on one
+
+computer, we have algorithms that do that.
+
+What if you're trying to contain that data set
+
+on many computers? That becomes a much more difficult
+
+problem, because you can't just ask one computer, give
+
+me all the thigns within a mile, because some
+
+of those things might be on another computer. So
+
+what do you do, ask all of the computers?
+
+That's an inefficient read. A lot of interesting research
+
+going on there, and acid transactions. The 'I' is
+
+lowercase on purpose.
+
+So in a highly available system, you know a
+
+couple years ago people - I was asked, can
+
+you have acid compliant transactions on top of a
+
+highly available system, and the general consensus was no
+
+- as little as two years ago.
+
+Now, we know that that's not the case. It
+
+turns out that the 'i' in ACiD actually means
+
+a lot of things. And in a sequel database,
+
+you probably think it means that one transaction starts,
+
+does stuff, stops, and then another one starts, does
+
+stuff, stops.
+
+Most SQL databases that we use here - again,
+
+I'm just making a huge generalization - don't actually
+
+work that way. Or they rely on serialization at
+
+the resource level to give you that kind of
+
+result. But they have other levels of protection called,
+
+you know, repeatable reads, or read committed, where, when
+
+one transaction starts, maybe another one starts, too, and
+
+does some work before the first one ends.
+
+OK, by default, a lot of the databases, the
+
+SQL databases that we use do that. That kind
+
+of transaction, you can build on top of a
+
+highly available system. And you can model your data
+
+in a way to give you those properties if
+
+you require them.
+
+So to sum up, keep calm. Always bring a
+
+towel. The fate of the human race depends on
+
+you. Distributed data, distributed databases like this, highly available
+
+databases, can help you survive the next zombie apocalypse.
+
+We've all been through them before. There's no reason
+
+for us to expect we won't go through more
+
+in the future.
+
+And, I will, again, Tweet links to this, or
+
+you can just copy it - it's zombies dot
+
+samples dot basher dot com.
+
+We have a, an application that uses the data
+
+modeling that I talked about online. It has a
+
+maps that you can see where the zombies in
+
+the area are, and it allows you to search
+
+using those two different indexing methods that I mentioned:
+
+term based inverted indexing, and document based inverted indexing
+
+for the zombies in a given zip code.
+
+You can also search for them by GeoHash. There
+
+is a blog post describing how that's done. And
+
+the code is available in Ruby, and a little
+
+bit of JavaScript. OK.
+
+And that is my presentation. So I would like
+
+to thank four of my colleagues - Drew Kerrigan,
+
+Dan Kerrigan, for writing the application that I spoke
+
+about. Nathan Aschbacher for some of the material and
+
+John Newman for the artwork. And I will include
+
+links to all the things that I just referenced
+
+there in Twitter, shortly.
+
+So my time is up. Find me in the
+
+halls. And good luck.
+
