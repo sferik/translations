@@ -1,0 +1,409 @@
+Garden City Ruby 2014 - Lightning Talks
+
+SPEAKER 1: My name is Smith. I work at Flipkart.
+
+SPEAKER 2: Hi guys. I'm Tri Hari?? [00:00:29]. I am a partner at Nilenso.
+
+S.1.: OK, we are going to talk about impact. So what do we mean?
+
+So let's start with a question.
+
+As programmer, what are the problem we face? So looking at this, aside from that, you know, maybe, in the worst case we have to quickly fix a bug on production, or maybe just really cranky client comes up with a requirement which is very hard to fulfill, or you know, our code quality or our tests written so big, like Chad said yesterday, that it takes a long time to finish.
+
+But these are the kind of problems we face, generally. But let's see what other problems do people in rural India face?
+
+Yeah. So. Let's start with this: food.
+
+So I'm sure all of us enjoyed the really good lunch there, [00:01:25] pune gosh, chicken packenard, fune mokney [00:01:28]. We will also get a tea break soon enough. I'm hoping. But what about the people out there? They don't even get a square meal once a day.
+
+Water- well. People in India really have accepted the fact that they don't get water to bath in the rural areas. They somehow manage it with the drinking water they get. It's really not clean, but they somehow manage.
+
+Shelter. V.J. told me a fact today, that sixty percent of population in India do not have a toilet. They don't have access to a toilet. So let's, not even care about anything else.
+
+And education, this is something very personal to me. Where I come from, it's even lucky to people to study up to ?? standard [00:02:12].
+
+So, so my question is, how many of you have written a line of code which has impacted life in some way? I'm not saying a big way, but a meaningful way.
+
+Can anyone show their hands? Yeah.
+
+And how many of you really want to help them out.
+
+Only this many? Like this is really sad. OK.
+
+So you really want to help them out, and this is how you can do it.
+
+S.2.: Right, so this is essentially what we heard about. A few of us at Nilenso, and previously C42, have been fortunate enough to work on the Survey Project.
+
+And I'm gonna leave it to this: We have 6,000 people who have been impacted by the first run of this project. This thing is opensource. I'm gonna leave this slide for you guys to look at. And we've- five big cities, 6,000 people. Kids, pregnant women, with the nutrition survey. Right, this was the first run.
+
+And there was another one, that went to people, women, in the agricultural side, and there are three thousand families who have been helped. And one, a single fact that, that's gonna help you understand where we are with this - look at the last three lines in this slide, basically.
+
+These are the inferences that have been drawn based on the data here that is 6,000 requests from here, and 3,000 families. That's roughly, again, around 6,000 records here, right.
+
+So that's so much data coming in, and inferences drawn across surveys.
+
+Technically, like, why am I, why are we presenting this here, and what do you people have to do with it? Apart from this, like, the technical, like the number of apps and whatnot, there is so much data coming in, right. The last thing that we have in our road map is a separate Clojure app to take care of the big data stuff.
+
+And, like, personally I have spent hours of my time looking at the UX in this thing.
+
+So these apps have to go down to the last mile, down to people's homes, where there's no internet, right. And they have, like, one hour of internet in a week, and then there's so much data integrated problems that you have to deal with as well.
+
+And sadly over the last month or so, this has come to a slow stop, and we have not had the time to work on this. But, I'm hoping that a lot of people here do have some time to spare. Send us a poll request, whatever it is.
+
+These are the people we really care about. We write algorithms to bring down our performance from point zero one seconds to point zero zero one seconds, and that's all we have, right.
+
+S.1.: So I'll wrap it up really fast. So let's not always write code to help these people out with our wonderful projects like WunderRails RubyGems and other languages.
+
+Let's also these people out as well. You know, maybe give them a boost, because I really believe we don't all have to be Bill Gates to help these people out. With our own skills we can contribute to and write technical projects that could help them out.
+
+And, yeah, this is where you can find the projects and start and everything.
+
+Thank you.
+
+S.2.: You can catch anyone of us after the talk if you want to help us out. Thanks.
+
+***
+
+INTRO: So next up we have Kestap?? [00:06:12] on the stage. Time starts now.
+
+SPEAKER: Hi everyone. Today I'll be talking about Sinatra, basic introduction. Probably everybody knows this, but more and more though I'll be talking about how to write an extension in Sinatra.
+
+So the basic structure of Sinatra is this. There is a request class that extends from Rack::Request, response that extends from Rack::Response, ExtendedRack is basically for the things that are not in rack, and so they define extra methods there.
+
+There is a commonlogger which extends from Rack::CommonLogger, and this is the main part, Base.
+
+So there are actually three ways to, there are actually three ways to extending Sinatra. The first one is extensions, the second one is - no.
+
+Not quite.
+
+The second one is helpers and the third one is middleware. I won't be talking about middleware probably, there is a lot of material on that. but the extensions and helpers, I've found it difficult to use them, so. I've kind of made a small presentation here.
+
+So the first difference between helpers and extensions is that, in helpers, you use a helper or you write a helper if the functionality is required in the get method or post method or any other blocks that we use.
+
+So inside a route block the extensions are for extending the functionality of Sinatra itself.
+
+So for example, inside a get block we find our two, return JSON response every time, so I can make a function like this, JSON(a) and convert basically converts our hash into a JSON string.
+
+So the implementation is this. You write it in a module called Helpers. You define the method, you pass it in, and it basically returns the string. And you include your helpers in before, in your app file.
+
+So to write this as a gem you have to put that under a namespace of Sinatra, then use the module, the same code as above.
+
+And these two are the magic things that actually happen. So base dot helpers is almost similar to adding helpers json inside your app file.
+
+So, and base dot set is basically, it sets the json_content_type, sets the request_content_type to JSON by default for every request.
+
+So the other thing, the major portion is extensions.
+
+So in extensions, Sinatra provides extensions to, let's say you want to define a new route, so you can do that by extensions. I'll demonstrate a small thing, a small route actually. So I created this extension today.
+
+So I have a module Sinatra, I have this super module, and this is an extra route. So this, the route method is provided by Sinatra base, and I'm extending that, so that every, every request that you make to this end point, to, with a method request of this one, instead of get r post, it will return something pretty good.
+
+So start it up.
+
+And yeah. So that's what it does.
+
+So, you don't have to clap for that, it's lame.
+
+So the basic difference between these two is that this is, this is an extension of Sinatra. This route is not defined but we are defining that route.
+
+We are using the things that are provided by Sinatra and we are basically extending. So the register method is a method provided by Sinatra where all, whatever module you define have to be registered with Sinatra, so that every app that you use, and, like this. So every app that you use, you just call register Sinatra, that one, and I'll, I've defined my route instead of get slash, I have used doge and it returns this.
+
+So the basic difference is that it's, like you, if you want to extend so there are these two things, and I think that's it.
+
+***
+
+VINASH: Yeah, so. This Billard, I am Vinash. We are from Mumbai, RV?? [00:10:57] So I just want to tell all of you guys, and introduce us too, we're from Mumbai RV?? [00:11:01].
+
+We have total counted seven meet ups in all.
+
+So we are on our way to have a big meet up soon. Maybe in June or later. But till now we have a frequent audience of ten to twenty people, always there. We have one or two talks, we have a single hack session once. That was for Brails?? [00:11:19]
+
+We are not going to push anything, but we are able to discuss a few things and we wrote entire cookies, et cetera et al. Everyone knows.
+
+So there is a mindset about Bombai that Bombai is partially, Bombai has very few jobs and all that stuff. But I can say that nowadays with so many startups starting up, the salaries are very good I guess, currently.
+
+So I guess I will tell you that. You should ship to Bombai if you are born in part of Bombai, you should definitely come back to Bombai rather than going to Bangalore and Pume, because, yeah.
+
+I know! The intellectual level at Bombai is a little low as compared to Bangalore or Pume, but we need to change that, and we want guys like you to come back to Bombai who were born in a part of Bombai and increase the ?? [00:12:18] of Bombai to a level which can compete with Bangalore and Pume itself.
+
+So I want Billard to say a few words about the same.
+
+BILLARD: Actually I just interacted with some of the peers here, and I found out that they didn't even know that there's are some developers in Bombai like who know Rails or something. So we just came here to give a lightning talk that, oh, dude we are, we exist there, there are some people who are trying to make a dent, not in the, not in the universe, but at least in Bombai.
+
+To, so we are that's what we are putting all our efforts, like, and that's what, as my- as Vanash said that we are about to complete first annual city for Mombai. I RV?? [00:13:11]. That's what we are now making the name out of it.
+
+So we are created at least a small event, which, so, which we all are planning, looking forward to. So that's all we have. And Bombai RV is alive and it will be.
+
+***
+
+SATYA KALLURI: Hey guys, this is Satya, I'm from Hadribad?? [00:13:36], and you know, I basically want to talk about technology meetups. I've been part of some technology meetups for quite some time. And you know to be very straight, I was a little upset with the way they go.
+
+So, and fortunately, you know, I've been in touch with some of the technologies these days, and they've revived the hope in me, so I just wanted to share some of my learnings, and how can we make better use of these technology meetups.
+
+Oh, by the way, I'm Satya Kalluri and our group is @HydRuby, so you can follow us there.
+
+So the first thing is I believe there are two kinds of meetups in the universe. There are two really kind of different meetups.
+
+A) is technology meetups, which we need to consider them as absolutely local. It's like you and me catch up together in the next house or the next coffee house. It doesn't have to be as big as this in total area?? [00:14:21]. So it's a technology meetup where you know what, it's a local thing. And you know what, the, and it's focused. It doesn't have to be as wide agenda as this.
+
+It could be as simple as a bug-a-thon. It could be as simple as learning a new gem, or it could be anything basically. A small local, focused.
+
+And there are other ones which are technology conferences. These are bigger ones, where in what, all, it's like one of the organizers said, you know like, made of communities and sub communities. Atoms and molecules, right.
+
+So these small technology meetups, they come up together and create these bigger conferences, regional ones, which have a wider agenda.
+
+So my problem is about the technology meetups. The conferences are going good. GCRC here is an example, they're doing an awesome job. But how can we improve the technology meetups. You know whenever I catch up with folks at the lunch place or something, the majority of them say, oh, you know, my meetup gets only two attendees, three attendees.
+
+You know that over a period of time I've just found that certain items, if, which if we address them properly I think the local technology meetups are gonna be kickass.
+
+So.
+
+So. Basically I wanted to let you know what a technology meetup is, first of all, and why are they for?
+
+Technology meetups are absolutely for techies to collaborate, learn, contribute, share knowledge. So these are local ones. So do understand, these are the only for those techies. They're not for the job seekers and not the employers. Whenever there's a technology meetup going, and if you need a Rails developer, please do not go there.
+
+And if you're looking for a job, don't go there. Just, let's not pollute these small local meetups. They have for technology peers to basically go there, share knowledge and solve each others problems and become better in technology.
+
+You know the last two are acceptable for conferences like these, where, you know, these are big things where there are networking opportunities and tech meetups and everything. But for local meetups let's stick to technology.
+
+That way everybody who comes, you know what, knows what's going to happen. It's technology. This is Rails, which I love. I come here to write, to learn Rails.
+
+And while participating, you know what, these, the following six things are the most important things which I could recommend everybody to follow.
+
+The first thing is identity. Most of those whom I see don't have an identity on Twitter, don't have an identity on StackerWorkflow, even meetup I see some of them say plus five. Now what the heck does plus five mean?
+
+Not what, who are the other five guys? So it would be nice if they identities, because that way I might want to communicate with that fifth guy. I don't need to contact this first guy.
+
+So and you are gonna create your identity, somebody needs to contact you directly, you know what, it creates an open channel, and as one of them, one of the speakers said, you know, you are going to create and identity and then a brand. So this is the first step. So create an identity for yourself on Twitter, StackerWorkflow and everything.
+
+It adds authenticity to the group, you know. Two guys, two persons catch up in a meetup doesn't make sense. But two plus five is seven, so when seven people really catch up in a meetup, I think it adds a lot of authenticity to the group.
+
+When you guys have your own facebook account, why not have your own StackOverflow account. I don't get it.
+
+The, so the next thing is RSVPs. I see many RSVPs, like even our @HydRuby has thirty-five RSVPs, but only four of them turned up, so. Take your RSVPs seriously because there are people, like, you know, they're not awake, and you know all these people who take these meetups very seriously, and there may not be some, some people who buy beers for everybody who come up and-
+
+When 31 beers are leftover, you know, nobody's gonna buy them, so. Please take your RSVP seriously. That adds authenticity to the group, OK.
+
+And the next thing is attendees, you know, don't wait for ten or twenty people to really come to a meetup. You just need one other guy to listen to you and you can create a meetup, and you can, guys, can really discuss about technology.
+
+The next thing is StackOverflow, you know, just share and contribute. You don't have to really, I mean, for you to really become a good meetup guy, I think at least spend every day, fifteen minutes on StackOverflow. Don't just find answers but answer the questions. This I've learned from Swanand. This guy has some 6,000 bloody points on StackOverflow. I have some twelve hundred, that's it.
+
+So I've learned from it. So become a better contributer. You become really confident, and you'll become a different person. You can also contribute at GitHub. If you don't know which GitHub module to really contribute, go for Codetriage. It gives you good popular libraries to really help.
+
+And, do you have an idea? Just stop working on it. First learn better technology and then, you know, you can definitely work on the product. And the last thing is, like, spread the word. This guy's already on me, so. Spread the word. Go for Facebook. You can use Facebook too, and you can also use Twitter.
+
+So spread the word and make these technology meetups a good thing.
+
+Cheers guys, thank you.
+
+***
+
+SPEAKER: Before I start, big thumbs up for the guys who started off. It's great to see, you know, technology people, developers who care about social issues.
+
+And here I am to talk about Milaap, which is also a social enterprise. And I just want to talk about what Milaap is all about and how you can help.
+
+So Milaap is a Crowdfunding platform for communities in need which is powered by Ruby on Rails. So we are a hardcore Ruby on Rails shop, and we bridge the gap between people who are need of help and people who want to help, right.
+
+So let's quickly look at what that means. So I'm sure all of us want to do good. We want to help others. But when it comes to helping others with financial aid a lot of us are hesitant, because we are not sure, you know, our hard-earned money, when we give it to someone, you know, is it going to be used in the right way? Is it the right person I'm going to give this money to.
+
+So Milaap tries to bridge this gap, right. So Milaap has a set of profiles uploaded on our website, which are across various kind of causes, and you can, you can filter through various criteria and choose them. And it helps you make an informed decision about whom you want to help, right.
+
+So this is how it brings, it bridges the gap between people who want to help and people who are in need of help.
+
+How it works: It's very simple. Just four steps. As I said, the first step is, you look at the various causes and various filter criterias and choose the person you need to help. You want to help.
+
+And make a loan on Milaap website. This is just an online payment that you do. The real test starts after website. So the whole business is about testing transferrency. Can you trust Milaap that the money is going in the right hands?
+
+Another big thing, when it comes to helping is, donations - there is this hesitancy that, you know, my hard-earned money is going away, whereas what you do on Milaap is not a donation but a loan. That means you help one person, let's say a person needs ten thousand rupees to build a toilet. You contribute just 500 rupees out of it, but that 500 is not a donation.
+
+Within a year, month on month, you get back your money, and all your 500 rupees back to your account within one year's time. And then you can utilize the same thing to make an impact on someone else's life. This is what we call making an impact, again and again with the same money. And of course if you start believing in the idea, you start putting more, more of money in helping others, right.
+
+So there's the four simple steps. Choose a customer, make a loan, get repaid and relend.
+
+How can you help, right? Of course the obvious thing is you know check out the website, if you like the idea, like us on Facebook. Tweet about us, write about us on your blog. We also have a widget which you can put on your blog saying that you support Milaap.
+
+But if you want to do even more, right, obviously you can actually be an active participant on our website. Go and make a loan to someone there today. You could also do something interesting, I think one of the best gift ideas that you could have is to give a Milaap gift card to someone.
+
+That is you are gifting someone the ability to help someone, and repeatedly keep doing it, right.
+
+Finally you could also start a campaign. If you want to go really big, you could adopt a particular borrower on the website or adopt a particular cause, and decide to raise some funds to impact that critical cause. So you can decide to raise some money for education. Let's say you're running a marathon, you can put out, we can put up a page for you and help you raise some of money through you, through that event.
+
+But, right, I'm sure many of you would think, this guy's coming here talking about some company, Milaap in three, four minutes, why should I go ahead and do anything about it, right? So proof of the pudding is in it's eating, right.
+
+So what we want you is to first get real, first-hand experience of what Milaap is and how it helps people, how much you can trust it, how transparant it is. So we are right now giving away free credits, free Milaap credits worth 500 rupees. Anyone who wants to try out what Milaap is without spending a buck from your pocket can use this gift card, GCRC14, which some of, same as our twitter hash tag as well. And you'll be able to make a loan on Milaap just by using those 500 rupees.
+
+You just click on lend button and when it comes to actually making a payment, just write in the coupon and you'll be able to, you are good to go, right.
+
+Thanks a lot.
+
+V.O.: Thanks Sarish?? [00:23:48].
+
+***
+
+SORU: Houston, can you copy me?
+
+OK. So I don't have slides. So I'm Soru. I'm nineteen. I'm still in college. So over the last summer I did a Google Summer of Code with a ?? project [00:24:03]. And I built this GitHub for designers, so I thought I would teach that here so that you could know about it, and I could, I saw that there are some design-oriented start-ups so they could probably give me feedback.
+
+So the idea is that, like, when designers collaborate, especially opensource designers, they go to mailing lists and they share links, and so, let's say, Coby decides to make, make this banner. So he starts with, he starts with the logo, and he puts it on MGo?? [00:24:34] and shares a link on the mailing list, and people go plus one, cool, or this is awesome.
+
+And everybody gets that link. It's a pain in the ass. So like, this is kind of very, it's like spam, it's also annoying, and there's no nice way to understand designer feedback.
+
+So how it helps is, so you can, GlitterGallery is not live right now. But I'll get it up soon. So right now what you can do, there is, you can go create a new design project just like GitHub and you can create SVG files, or you can create, you can upload your own SVGs or PNG or JPEG or whatever.
+
+So after that, so let's say he created the same thing inverted in color, and he can post it there and he can share links with his friends and anybody else on the app can log in and he can comment over there, so. So cool, plus one and all that.
+
+So some comments make sense. Because these comments are nice, they make you feel good. But there are certain comments which could, which could say that, OK, if you're going to project this, this won't be visible properly. So he can mark said comments as issues. They go to an issue tracker, and somebody else can forward the project, so it becomes theirs. They can make changes to it and send back poll requests to the original designer.
+
+So he can, you know, pull back and. So design projects can flourish that way. And also we have a feature called GlitterPosts. So something like, I don't know, maybe like medium, where you can go and explain what, what design process you went through. So every time you make a new change, anytime you update, there is a commit happening in the background.
+
+So we use the great library provided by GitHub. They use the same thing. So every instance has a commit idea and all that. So you can reference comments, so you can go there and say I started with this file, this is the idea behind it, and now, next I did this, this is how it went.
+
+So it also serves as a nice way to learn, also maybe a nice way to judge designers' thought process. So, so I would just like to ask if any of you work with designers or are designers yourselves, what could be some better ways to collaborate, and how else could I extend this project.
+
+By the way, this is opensource. And next summer for Google Summer of Code we might be taking around two people. So if there are any students here who would like to contribute, you can ping me later. Thanks.
+
+***
+
+SPEAKER: Thanks, Qwinik, for the opportunity to be here, first of all, because they sent us here just to, to sponsor and represent Qwiniks.
+
+It happens that I land in this company, and I start to work with them as a programmer, and I have a lot of difficulties to, to adopt my German mindset to the Indian mindset. And I'm still having difficulties. I'm still not understanding things, and I'm trying, deeply.
+
+So, but I want to advise, or talk about, what, what was the things that I've faced here, and first thing that I want to advise, and, is that this is opensource work. Opensource work means that there is no one willing to teach you. You have to teach by yourself. And the code is there. Please open libraries and write libraries. Not write what is the code inside, and not what is the documentation says, because documentation can be outdated.
+
+So with this I will advise that you need to handle your own will and what is the consequences. So you need to be able to know the difference between what you want and what the project wants. This is for people that works either for projects, companies or by freelancers.
+
+And you need to think about the consequences. You need to think about what is the, what is the impact of this code, what is the maintenance of this code, and what is the purpose of this code. So think about that before writing the first line of code.
+
+The second thing is setting up your priorities. So I found that it's somehow some people wants to rush to the finish, just to find a solution, and most of the time without understanding what the problem is.
+
+I spent two, three days thinking what the real problem is. What is the thing that you have to solve, and then solve it. It's become, it will become easier in time. Mostly for maintainers.
+
+They other one will be, be humble. Not be humble in the streets saying, I'm not so, or not so, be humble with your code. So don't try to solve big problems. Solve the small problems. So don't focus on the solution and the feature that you want to generate. Focus in the method that you're generate in. Making it consistent, make it very small.
+
+I am try to go because there is a lot of the - I will jump the career of the programming to the culture one. I'm sorry, I will say. Clients are not gods. So you are, you can be against them. It's allowed. You're allowed to be against them.
+
+Meaning I, don't want to take this seriously, but meaning, meaning with this, you are allowed to say no, you are allowed to say scopes. Saying we are not allowed to do this. We need more time or we need this resources that we don't have. So please take in mind this because this is a huge impact for the company owners, for the people in project managers.
+
+Project managers are waiting, expecting something from you, and if you will not deliver on time, or what they're expecting, you're breaking big rules. It's not a small thing. You're breaking big, big rules.
+
+With this, I want to add, you need to be predictable. Whatever you do make it predictable for the project manager, for the company owner, for the client. Meaning if you're doing something that you know that will be wrong, just tell him, it will be wrong. But make it predictable. So don't make people wait for you, to see what is, what it will happen. One minute more.
+
+OK, I just jump down to, so I will say after coming here, I'm just seeing the huge effort you are doing to work in opensource. I have seen sadly for me that some books are more expensive than what juniors earn in one month. So that's brokes my heart, some way, because I am able to buy in Europe we're able to buy books as something, without side effects. And here people that ?? [00:31:25], for them it's impossible.
+
+I mean the book is two, is twice what they earn a month. So with that, it is impossible, I know that it's impossible to learn. So I really admire the courage that you have to come here. I know the price that you're paying for coming here. I know the effort that you're doing and I will like to say that, I really admire that.
+
+And yeah. My time is over. This guy has an android with him, so I better run.
+
+***
+
+SPEAKER: OK, so I'll, I'll just go over this and then see if I can-
+
+So, what I'm going to do is I, the time I have, I'll try to sow some doubts in your mind, and then make you go back and think about some of the things that you've believed about.
+
+So like I'll talk about my experience working with ActiveRecord and why I think it's a very bad thing for building business applications.
+
+So ActiveRecord is good when you're building web applications, shallow web applications that have a database and some rich UI on top of it. But when you are trying to build business applications that have a lot of heavy logic, it's not a good, a good thing to do.
+
+I'll briefly talk about why it's not such a good thing. One of the most problematic things about ActiveRecord is it's so much coupled with databases. So when I am trying to solve a problem that is very business logic heavy, I tend to put things that are difficult to, positions that are difficult to reverse later.
+
+The database schema is something that is very difficult to reverse. ActiveRecord makes you do that upfront. Any model that is tied to ActiveRecord, you can't write this without connecting to database and all that. We need to define schema up front.
+
+Which I think is troublesome. So it kind of makes it difficult to decouple the core business logic from the framework. Most of the stuff you're writing is tightly coupled with the framework. Something new comes up, you need to rewrite the entire thing. There's no, nothing that can you, you can take to that new, new framework.
+
+There other things, like, so whenever you encounter situations which were not thought of when the framework was designed, there are no points that allow you to extend. There's no easy way to customize the ID generator, logic. There's no easy way to incorporate composite keys. So the project I was working on,w e needed to use mySQL partitions. So I can't use mySQL ID generation. I have to use auto composite keys.
+
+And there was no easy way of doing it. There's a plugin that provides composite key support, if you go look at the implementation of that, you'd be scared to use it. So it's like, gorilla patching - monkey patching to the extreme. So it kind of like highlights some of the problems. How the code to framework has been written.
+
+And there are other features that I like and other form mapping?? frameworks [00:34:29]. Like you load a bunch of objects, do something on it, at the end they all get persisted to the database. It's automatic, dirty checking transaction right behind. There's something called a persistence data utility. I create an order, order line items, all this stuff.
+
+I create save and it saves everything. So limited support for things like that.
+
+These features are very important when you're trying to follow these practices, domain-driven design, so you need to work in terms of aggragates, so you need to decouple your persistence logic from your busienss logic. All that is very, very hard to do if you're using ActiveRecord.
+
+So there are some alternatives.
+
+So datamapper is a framework, but I think it's become stagnant. There's a new version of it called Ruby?? [00:35:13]. I don't see a release for that as yet. So those are some alternatives that you can look at.
+
+Or, yeah. Look at something in other languages. So these are based on my observations of working with ActiveRecord for the last five months, and I'm comparing it with eight years I've spent working with Hibernate, and this looks like a toy compared to what that can do.
+
+Thank you.
+
+***
+
+NIRANJAN PARANJAPE: So, a few really good talks. Heavy talks. I'm gonna keep this light.
+
+So any - talk abuot continous learning.
+
+But before going there I want to talk about what happens if you don't learn continuously.
+
+So we have been doing interviews for quite some time. And these are a few gems I have heard while doing interviews.
+
+So I asked a question: Which programming language do you like?
+
+Imagine the answer - come on.
+
+AUDIENCE: Ruby!
+
+N.P.: No. I program in Rails.
+
+Go read RubyonRails dot org. You'll find something different.
+
+Someone asked me, why shouldn't I use GOTO?
+
+After all language supports it.
+
+Do you know anything about cyclomatic complexity?
+
+Do you know what other feature language supports which are really bad programming constructs and you should generally avoid?
+
+Go read about that.
+
+So I started the interview. I spoke about like, OK we have been hearing a lot about, you should ask skinny controllers and fat models, and there was a huge buzz about it.
+
+Then we went and said that, no we actually need thin models.
+
+So where to I write my business logic.
+
+And I wrote a response. Helpers.
+
+I asked someone, how do you scale your application?
+
+I got a response: I don't have to, I deploy in Cloud.
+
+I asked someone, can you talked about GC?
+
+Oh, GC, garbage compiler. Let's talk about it.
+
+I asked someone, why is encapsulation important?
+
+I heard, because the book says data security is important.
+
+And, last noted, but not the least - I have heard this, actually.
+
+I don't believe in learning in my personal time, because I believe in work-life balance. Now, my answer to that person is, this is the doctor's roadside. Are you going to go to him, or are you going to go to him?
+
+You want your doctor to continuously learn and understand his medical practices, and essentially keep up with the latest technology. You are a software programmer. You are to do the same.
+
+You cannot afford to fall behind the scene. You have to keep learning.
+
+How do you keep learning? Lots of books are out there. How many of you have read Pragmatic Programmer's Journeyman to Masterman?
+
+How many of you have read it twice?
+
+This is a book you should read every year. It's a brilliant book. Coding Honor. Clear coding. Wonderful books. Read different blogs. Learn different language or paradigm, because what you learn there, you can essentially translate it into your understanding of programming itself, and maybe bring some parts in your actual code.
+
+But just reading these things are not important. Understand the concept behind is important. Where do you understand the concept?
+
+Maybe you can go to, read c2 dot com. How many people know that? What is c2 dot com?
+
+It's a first Wiki. And then maybe you can go to c2 dot com. And maybe you can go to c2 dot com again, because that's a brilliant, brilliant site.
+
+And most importantly, contribute to opensource. We hear a lot about hey, you should contribute to opensource because, you know, give back to the community, it's fun. But there is one major aspect of contributing to opensource that's just learning, self-learning. And that is something which I have done a lot.
+
+How do you start? You start by reading code. Read what other people are writing.
+
+That's the first step in understanding how to write better code.
+
+Essentially it allows you to pair with good people, across the globe, and get their feedback about your code. Talk to them about their design, their understanding of programming. So it's a wonderful tool.
+
+Find a mentor if possible, and just, don't just stop there. You have to actually go and become a mentor and teach someone what you have learned. So yeah. That's it.
