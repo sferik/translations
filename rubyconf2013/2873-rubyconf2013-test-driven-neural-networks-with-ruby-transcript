@@ -1,0 +1,253 @@
+Test Driven Neural Networks with Ruby - Matthew Kirk
+
+MATTHEW KIRK: Hi. My name is Matt Kirk. Hello!
+
+Hi everybody. My name is Matt Kirk. And I want to know, who remembers email before Gmail? All right. Now who remembers the massive amount of spam that we used to get every single day in our inbox? Still do.
+
+I know that when I switched from having an excite account to having Gmail, it was like entering the garden of Eden of all inboxes, because I no longer had to spend my time deleting all of those ridiculous adds for pharmaceuticals and solicitations for Nigerian money.
+
+I could focus on sending emails to people that were important, and I no longer had to spend my time actually filtering out spam myself. Now, who remembers mix tapes? All right. My kind of audience.
+
+I know that when I was a kid, I used to listen to a couple radio stations up in Seattle, where I'm from. And my favorite radio stations, I'd always have a cassette ready, because there might be that song that I really want on a tape. And, of course, as soon as it got to that song, it would play the intro and then I'd hit record as fast as I can, and about twelve hours later I'd have this mediocre mix tape. That was pretty good but it wasn't really that great.
+
+No longer do I have to do that. Now I can just load up my iPhone, type in favorite artist into Pandora and go for a run. It's amazing that I don't have to spend twelve hours making a playlist. I don't have to spend any of this time.
+
+Now, Pandora and Gmail, or spam filtering getting better. They both have one thing in common, and that is they're both using data to solve a problem to make our lives much easier.
+
+And today I am here to issue every single one of you a challenge, and that is to use data to solve problems. Somewhere in this audience, there is somebody who will make the next Pandora, or will make a spam filter that somewhat works.
+
+I think that this community is extremely smart, and can do it. Can really utilize data, because there is a massive opportunity in front of us right now. We can get data everywhere from temperatures to Kim Kardashian's Tweets to everything in between. We have data. We have data's being created from Rails, you name it.
+
+But, of course, this is a RubyConf, and Ruby really isn't the big data language. A lot of people, unfortunately, think that, when I talked about machine learning, big data, data science, whatever you want to call it, we're talking about Java and Python and R and Julia and Clojure and MatLab and the list goes on.
+
+But Ruby doesn't do that. Ruby has tools too. We have tools. Whether it be JRuby tying into Mahout, or using some of the C libraries in MRI. We have Ruby tools. We have tools as well. We can approach machine learning problems, data problems, like everybody else.
+
+But unfortunately, data science, big data, machine learning, optimization, bio-informatics, you name it, is a big freaking mess. It is a confusing ball of mud in everybody's mind because nobody really knows what even to call this form of study. If you were to go and find an academic paper and start reading through it, most likely by the end of it,  you would be more confused than when you started reading it.
+
+It's like this poor little guy who doesn't have a freaking clue what's going on. Data science? That's a form of science. Hasn't had Newton or Einstein to come and unify everything in this elegant theory. It is an extremely nascent field, whereby it's extremely immature and confusing.
+
+On top of that, Ruby was not ever created to be about complex mathematics, linear algebra or anything like that. Matz, the creator of Ruby, created the language for everybody here, including me. He made it for our joy, happiness, to make us happier, so that we didn't have to worry about boilerplate.
+
+And I'm sure a lot of you can attest that mathematics was not created for our happiness.
+
+But that can actually be a strong point in Ruby as well. Ruby was made for our happiness. It's expressive, it's easy to read. When you write Ruby in the right way, it's almost like writing pseudo-code. So if we're able to solve these data-type problems in Ruby, we could share it with other people and teach more how to approach these problems.
+
+Today, I'm going to teach you how to approach one simple problem. By the end of this, you won't know nearly enough, when it comes to machine learning. You will not come out of here with a Ph.D. in advanced mathematics. But, I hope to encourage you to search and to learn more about this field, because it is extremely useful for what we do.
+
+Today we're gonna go through what feed forward neural networks are. We're going to have one example, which is classifying strings to languages. We're going to do it in a test-driven fashion, which is kind of a different way of thinking about it. And then at the very end, just to prove that I'm not making things up, we'll actually have a demonstration.
+
+So who knows what a neural network is?
+
+OK. Who knows how they work?
+
+All right.
+
+Neural networks, to me, is the best example of machine learning, because it's kind of a magical sledgehammer, whereby we can hammer in functional relationships of previous data. It works really well, if we have data that we can model, and we think that there's a functional relationship there. But, for the most part, it is kind of a confusing algorithm, and, I hope, by the end of this section, you'll at least have a better idea of how they're built.
+
+Definitely won't be very deep, but hopefully you'll just know a little bit more about how these neural networks actually work.
+
+In the graphical format, it looks something like this, for the most part. Neural networks are broken down into four pieces. There's three layers, and then neurons.
+
+So, the layers, going through them one by one, we have an input layer. Input layer is actually probably one of the easiest things to understand. Really, it is just what we're inputting into this particular model that we want to model a functional relationship.
+
+Now the thing here to stress is that, for the most part, when we're talking about neural networks, we're talking about data between zero and one. So that can be anything normalized between zero and one. So input is simple. It's just what you're inputting into this particular model.
+
+Now that's not where most people get tripped up. Instead they get tripped up on this idea of the hidden layer. And this is where I got really confused when I first learned about a neural network.
+
+I understand that input and output is input and output. But the hidden layer is like this private method that we have no control over and can't really observe. The hidden layer is just an added complexity to the model, so that we can model even more complex functions.
+
+Unfortunately, we can't really observe what's going on in there, because it is really just like a private method of this function. It's out of our scope, and for the most part, we just treat it like a black box.
+
+I'll get back to how these things actually get computed a little bit later, but let's first talk about neurons.
+
+How many neurons actually should go into this is a very open question. When you look at this particular graph, we know that we're inputting a certain amount of data, and we want to output a certain amount of data. But when it comes to the hidden neurons, how many neurons do you want in that layer?
+
+Now you could put as many or as little as you want in there. It's up to you. But there's a heuristic which is to use two-thirds times the input layer plus the output count. That's just a good way to start.
+
+It doesn't really matter. The only thing to stress here is that these neural networks, in a feedforward context, which is what we're talking about, more or less, does a really good job of aggregating data together. So as you can see, it goes from three to two to one.
+
+Lastly, we have the output layer, which is just where the data comes out of this massive function.
+
+Let's talk about the neurons.
+
+Neurons, as you know, are in every single one of us, in our brain. We have a neural network of sort. And it takes input, a bunch of input, and then it sends outputs to other neurons, which then sends more output to other neurons.
+
+When we're talking about an artificial context, though, it's a very specific idea, which is, we're taking two inputs, in this case x1 and x2, and then we're weighting them together. The idea here is that we really only want one output in this neuron.
+
+And we just want it to be weighted based off of minimizing the error of the entire network. On top of that, we also want it to be between zero and one. Now, this is really confusing, so let me explain it in a different way.
+
+How many of you have ever run into digital logic before? All right, so most everybody here probably knows what digital logic is, because you use ands and ors in Ruby code all the time. Digital logic is where, basically, you say zero is false and one is true. So when you have something like the and gate, the only time it will be one is if they're both one. So it's true and true equals true.
+
+Simple enough.
+
+This neuron, like a digital logic gate, is more like fuzzy logic. So instead of being zero or one, it's really just kind of a range between zero and one. So, for instance, instead of being true, it could be seventy-five percent true.
+
+Now this is a really powerful idea, because instead of having to make sure that everything is true or false, we can have an inclination towards an answer, and that's what really makes neural networks powerful. We get close to a solution, but we don't actually find the exact solution.
+
+And originally when neural networks were first come up with, that's what they were doing, is looking at something called threshold logic, which is around this idea of taking a lot of input and determining whether things were true or false.
+
+Now, if you noticed back on this slide, I had this random function that wraps everything. This f. There's a special name for that, and what it's called is the activation function. Now I'm sure everybody up here knows these, right.
+
+Obviously not. OK. So, activation function serves one purpose and that is to normalize everything between zero and one. So if, for instance, the weighted sum outputs ninety-five, then it would be towards one, but it wouldn't actually be one.
+
+Activation functions take many different forms. Sigmoidal and Elliot is really just the learning curve. So, if you have learned something, most likely, you know about the learning curve, where you struggle for awhile, it goes up really fast, and then you kind of plateau at the top. So that's Sigmoid and Elliot.
+
+Second, we have Gaussian, which really is just a fancy term for the bell curve, which looks like a big hump in the - or like a hill. Linear - line. Threshold is just yes or no. And cosine is, obviously, cosine and sine.
+
+The really important thing here is that, since we're looking for a fuzzy logic answer, we need to make sure that everything is normalized between zero and one.
+
+Now, I don't think that you're gonna be able to see this, because I pulled this somewhere off of Google images and it's hard to see, but I will be posting all of this, resources at the end so you can check it out. This is just a graph of all of the activation function so that you can see it.
+
+Now, the last thing we need to talk about in terms of feed forward neural networks is this idea of a training algorithm, and that's where machine learning really comes into play. Now if you think about it, looking back on the neuron slide, there was this weighted sum. But how exactly does it weight?
+
+It could be completely arbitrary. Should it be fifty-fifty or seventy-five twenty-five? It's a completely arbitrary idea. And what the training algorithm does, effectively, is illustrate it in this little slide that I put together, including the little AOL guy.
+
+So imagine that you're the AOL guy standing at the top of a mountain, and for some reason, it's super dark outside, it's foggy, you have a tree in front of you with the club on the top. And you want to get to the bottom of the valley where your base camp is.
+
+Now intuitively, in terms of how I would do it, I would say, OK, it's really freaking dark, but, it looks like the hill is going down that direction, and I start walking that direction until I notice the hill start goes back up.
+
+Now, then I would say, OK, I need to backtrack and maybe I'll try a different direction. And that's effectively what these training algorithms do. They're just trying to find the minimum error. So they're trying to find the set of weights that minimizes the error of the entire model.
+
+And they do that step-wise. So they look for the steepest descent. So we're looking for how to get down to the bottom of the valley. This is just the tip of the iceberg when it comes to neural networks, and to be honest, it's a lot to take in in a very short period of time, so I recommend everybody look more into this, into neural networks.
+
+There's all kinds of variants, including cyclical, RBF neural networks. The list goes on and on. But hopefully this explains enough so that we can approach a problem of some use.
+
+Who's seen this before? Anybody know what it is?
+
+Wow, you guys are really loud.
+
+OK, thank you. Google translate. So if you're a, if you're a student of a foreign language, most likely you've gone to Google translate or any of the other ones. But one day, I was kind of surprised by being able to type in a word, and it would say, would you like to translate this from German or, whatever you're trying to translate - Finnish, whatever.
+
+And when I looked at it, I'm saying, wow, Google is really smart. They must know things that I don't know, because they can read my mind. And I thought to myself, OK, how would you actually approach building something like this?
+
+Now, the programmer in me would say, OK, this is just a simple dictionary lookup, for the most part. We could probably get every word in the entire world, put it into this enormous hash, and then look things up one by one.
+
+Until I thought about it for a second. I'm saying, OK, there's probably twelve thousand words, more or less, for each language, across maybe a few hundred languages. That would get pretty big pretty fast, and, for the most part, I don't care if it's perfect or not.
+
+On top of that, if you're into German, they have really big, complex, compound words that probably wouldn't be found by the particular implementation. So we really need to take a different pers- different approach.
+
+That approach of solving specifically something like this, where we want to classify English, German, Polish, Swedish, Finnish, Norwegian. Now, I just picked these languages out of hat because that's what I want to specify. I think it would be great if we could actually make a Scandinavian German language classifier, because they kind of look similar sometimes.
+
+The way that I would do this is I'd probably pull some data down first. And, all politics and religion aside, probably one of the most translated books in the world would be the Bible, so I just figured I would go out and find a bunch of text from the Bible in many different languages, pull that down, and if we have the data, we can do something with it, right?
+
+Well, this is where things get a little bit more complicated, because, language, as many of you know, can be extracted in many different ways. Now, a computer really doesn't care about what the language looks like. They care about how you're modeling that language.
+
+And if we have all of this text from the Bible in many different languages, we could extract it in many different ways. We could pull out stems, words, character counts, or we could do frequency of characters.
+
+And this is where something struck me right away, because I remember, from grammar or something, that e was the most frequent letter in the English language. So I said, OK, that would be great if I could just pull out the frequencies of these letters and somehow model that into a classifier.
+
+Doing a little bit more research, I decided to graph this out, and what this is is showing the character distribution alphabetized for these six different languages. So, as you can see, Finnish has a lot of a's in it. English has a lot of e's. So I'm just pulling that out of my head, but.
+
+As you can see though, there's something here. There is somewhat of a relationship and there's somewhat of a characteristic to each one of these languages. And that was really intriguing to me, and exciting, because if there's something, then we could probably use a neural net, right.
+
+Now, taking a step back, who remembers the scientific method from seventh grade science class? All right. I remember in seventh grade I learned the scientific method, and it was hypothesize, test that hypothesis, and based off of that answer, you feed that into a new hypothesis, which then you do the same thing over and over again until finally you have a theory of sorts.
+
+I've always thought that test-driven development is just a subset of the scientific method. You write a test, you test it, you make, you see what comes out of that, and based off of that feedback loop over time you get to a theoretically sound code base, so to speak.
+
+Now wouldn't it be great if we could actually approach this particular problem of mapping strings to language in a test-driven fashion so that we're actually writing down our assumptions first, and then running the test so that we can use that feedback to actually tune something like a neural network, or anything.
+
+And so I'm going to explain to you how I go about doing that. And it's a little bit different than probably what you're used to. I think a lot of us are used to this idea of unit testing, whereby you make sure that a class returns the same string every single time.
+
+Instead, this is a little bit more fuzzy, but it's still writing down your assumptions in code.
+
+Now the first thing, it's really important when testing something like this, is making sure that integration points are well-tested. So if any of you have ever read working effectively with like, you'll see code most likely, you've heard of seam testing, which is making sure that the seams between one piece of code and something that's more or less out of your control, is well-tested.
+
+Now, machine learning algorithms are pretty much out of our control. We don't have any real power over what goes on inside of the training algorithm, because that's just an algorithm that somebody else has built before us. So what we have power over, though, is what we give to the neural network.
+
+And so in this case, I'm using really generic terms for my classes, which is a bad thing, but I just made a language class, which takes in a bunch of text and a language. And I wanted to test these three things, which is making sure that it has the proper characters. I used keys because I think of everything as a hash, but, making sure that it has the proper keys for everything.
+
+On top of that, I also wanted to ensure that the data itself summed up to one. So I was wanting to make sure that it's a percentage of total, as opposed to just anywhere between zero and one, because that's how I wanted to model it.
+
+On top of that, I wanted to make sure that we had a unique character set. So this comes in a little bit more important when I explain the code, but, it's important that we don't care about sensitivity and cases. We just want everything to be - yeah.
+
+QUESTION: (indecipherable – 00:24:36)
+
+M.K.: Sure.
+
+So the vectors in this particular context, assuming that you have a bunch of - so I've downloaded a bunch of Bible data, so to speak, and in that, there's a bunch of versus, which are sentences and paragraphs. The vector is really just a frequency distribution of each sentence.
+
+So each sentence, going through one by one, I wanted to make sure that the data was well-defined for that particular sentence. Does that make sense? Great.
+
+Now, we can test what data goes in and make sure that our data is always well-formed, but really the most important test when we're testing things is how it performs. And for that, we have something called cross-validation.
+
+Now if any of you who have ever looked into neural nets, you've probably heard of, learned that there is an error rate inside of the neural net. So there's this basic idea that this neural net has an error rate of five percent or whatever.
+
+Now, we could rely on that. But I feel that it's actually more powerful to split your data into two pieces. One of them being a training piece and the other one being a validation piece. And the real important distinction there is that, with the validation piece, we can validate against new data as it comes in, to make sure that our model is still performing as we expect it to.
+
+So, cross-validation is really just this generic term of splitting your data into multiple pieces and modeling it against the train, the trained model. And the last thing that we really need to test is Ockham's Razor.
+
+And this sounds completely out of context, but hang with me for a second. Neural networks take steps. So each training algorithm is an iteration, over and over and over again. If those iterations go on for millions of billions of times, most likely what we're trying to model is not working very well.
+
+So the thing to think about here is that Ockham's Razors is all about simplicity being the best answer if you can find the simple answer. So with neural nets, we want to make sure that our model doesn't take a really long time to train, because if it does, most likely it's not seeing the patterns, or there is no pattern to begin with.
+
+So while you can't explicitly test for this, this is something to keep in the back of your mind as kind of a cognitive test, I suppose. You will know when your neural network all of a sudden doesn't work because it takes all of, a really long time to run.
+
+That's a lot to take in.
+
+And I'm really excited that all of you are sticking with me on this, because neural networks can be a lot in the very beginning. But I think this will be actually a lot more exciting, because I personally learn in terms of application. And at the end of this talk, I'm going to post a link, which you guys can go and get all of the resources to this.
+
+I recommend that you download the GitHub repository, you play around with it and actually learn how it, how it works, because really we all learn through application.
+
+So let's go through this one by one.
+
+I'm going to start this test because it takes twenty seconds or so and I don't want to sit here waiting for it to run. So this is just running my, my unit test that, or not really unit tests, but my test suite that I've defined up on the previous slides.
+
+And let's load this up so that you can see that I have two tests in here. One of them being a language test, which is just the seam test, and the other one being the cross-validation test. Now when I was personally writing the language test, I was getting a little annoyed because I'm thinking, wow, this is a lot of boilerplate. This is kind of silly that I'm making sure that what I'm writing is correct until I found a really nasty bug that tripped me up for a little bit of time. And that was, UTF8 characters in Ruby is really hard to work with.
+
+Splitting on spaces or downcasing things that have umlauts over them is a tricky prospect, and I was finding things like, oh, space is a character that we want to model in our model, which is not true. That happened to just be the UTF8 character of space.
+
+So after writing these tests, I came in here and I explicitly put this translate - can everybody see this, by the way? Should I make it a little bi- OK, great.
+
+So I had to explicitly translate some of these special characters like a circle, which is Swedish, and the German characters, which is really enlightening, especially since I was- I wanted to make sure that my data was well-formed, and the test actually told me right away that something was wrong.
+
+As opposed to learning about it after I've put all the effort into training the neural network.
+
+So that's the seam test in a nutshell.
+
+Cross-validation is actually mostly just setting up the two different neural nets, which one of them is the Matthew verses from the book and the ax verses. And down here I'm going through each language, English, German, Finnish, Norwegian, Polish, Swedish. And testing to make sure that it has an error rate of strictly less than five percent.
+
+I just arbitrarily picked five percent because five out of a hundred times of errors is OK with me. I don't really care that much.
+
+This test really just trains a network and validates against known quantities. Now let's go back and take a look and see if this still runs.
+
+As you can see here, there's a bunch of output, and this is from the gem that I was using called RubyFan. It was just a artificial network gem off the shelf. I didn't really do anything with it. This is a bunch of output from that. It actually runs and it's correct.
+
+Now the thing that's interesting here, though, is that when we build neural networks, a lot of the times there's things that you can tweak. You can try new things, and in this case, I did.
+
+So this network class, you can try to set error rates at many different levels, and since I had an automated test, I could explicitly test to make sure that it was strictly less than five percent. So I found that point zero zero five worked. So I just went with that.
+
+On top of that, I decided to use the fancier activation function, the Elliot function just because I felt like it. The important thing here to realize though is that I can change or experiment with many different things and if I try something that breaks the entire thing, I will know it breaks. And that's huge.
+
+Now, of course, we're not gonna go through every line of code one by one, so I wanted to show you what this looks like in a little Sinatra app, where you can basically come in here and type in random words.
+
+Or we can - I don't know Swedish, so I don't know what this says, but. Mileage may very.
+
+It, it will show up as red if it's mis-classified. And I've been playing with this for awhile and it, it does mis-classify once in awhile. This is Polish now. Oh boy, that's long. Norwegian. OK. I don't see mis-classification.
+
+Well, you get the picture. And for a little bit of fun I wanted to throw in just one little thing, and that is I really like the Swedish chef because he's hilarious on the Muppets and I was wondering what language he spoke.
+
+So, well, OK. So "No masken?" is Swedish. This, I don't even know what this says. Jaaa!! This is Polish obviously. No match. It says, okee dokee is Norwegian.
+
+Now, one thing to realize here though is that it does break down with smaller sample-sizes. So if you put in something like blam it will be Swedish, or l-a-m-o is Finnish supposedly.
+
+Now the thing to realize is that we are kind of looking at the average, so it will generally get better as you add more characters to it, but that is OK with me because, for the most part, that is how these classifiers work. So the more data that you give to it the better it becomes.
+
+But as you can see just using some of these random - it's, it does really extremely well just based off of character frequencies.
+
+OK.
+
+So there is the link that I recommend everybody go to. It's modulus seven dot com slash rubyconf. There's a bunch of different links on there. Some free data resources. There's a, there's actually a really good paper on there if you have an afternoon and you really want to delve into something, there's a paper written by Scott Falman, who, by the way, invented the emoticon.
+
+He also came up with the quick prop algorithm, which you saw earlier, and it's a really well-written piece that will explain some of the more deep mathematics behind feed forward neural networks.
+
+Also, to plug myself a little bit, there is a link up there to sign up for a email list. I'm writing a book about test-driven machine learning. It's called Thoughtful Machine Learning. It will be out in 2014. So if you want more information, it would be great if you signed up so that I can send you emails. That's hopefully not spam.
+
+I promise it won't be spam.
+
+Also, you can Tweet at me. You can come up and talk to me as much as you like. I will be here until tomorrow.
+
+But I want to leave you with this notion that this is not the beginning. I firmly believe that in this community we have an amazing amount of talent and people who will be able to make the next Pandora or the next Gmail. And I personally believe that the way that we're going to be able to do that is through utilizing data.
+
+Because data really is the next frontier when it comes to programming. And as you can see, just using a neural network to map really, just, simple text to languages is really powerful. It's also extremely fast. If you noticed, I was just typing things in and it was making a request every single time. It's extremely fast.
+
+So learning these techniques will make everybody here better. So I really challenge you to go out there, learn more about data analysis, and just learn more. Thank you.
