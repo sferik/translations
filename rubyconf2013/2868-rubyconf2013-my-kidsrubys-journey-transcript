@@ -1,0 +1,929 @@
+RubyConf 2013 – My KidsRuby Journey – PJ & Katie Hagerty
+
+PJ HAGERTY: Hey everybody.
+
+KATIE HAGERTY: Hi there.
+
+P..H.: So do you want to introduce yourself?
+
+K.H.: Sure. I'm Katie. And I do a lot of extra curricular activities, like, I'm on the student council, and I dance, and I'm in my school's musical, which is Alice in Wonderland.
+
+P..H.: And anything else?
+
+K.H.: I code.
+
+P.H.: Oh, you code.
+
+K.H.: Yes.
+
+P.H.: And, for those people out there who haven't met you or seen all of the nine thousand pictures that I've put of you just this weekend on Twitter and Instagram – no, no duck face.
+
+K.H.: Duck face.
+
+P.H.: How old are you Katie?
+
+K.H.: Eleven.
+
+P.H.: Yeah, I know that. But tell them that.
+
+K.H.: I'm eleven!
+
+P.H.: So, you started doing this awhile ago, like, and you started with KidsRuby. What got you into KidsRuby?
+
+K.H.: My brother, Ian.
+
+P.H.: What-
+
+K.H.: Pretty much, yeah.
+
+P.H.: What, what, what made you want to do KidsRuby because Ian was doing KidsRuby?
+
+K.H.: Cause Ian's older, and I really wanted to beat him at something. I beat him at very few things.
+
+P.H.: So, it was really all about beating him. It wasn't about, you know, you didn't want to be the world's next THH. You didn't want to be the biggest coder in the world. You just wanted to beat your brother.
+
+K.H.: Yeah, but, now I want to code for fun, so, there.
+
+P.H.: Code for fun and profit?
+
+K.H.: Yeah.
+
+P.H.: Yeah.
+
+K.H.: I still beat my brother, though.
+
+P.H.: All right. So maybe to make this easier, do you want to do the talk that you gave at Nickel City Ruby?
+
+K.H.: Yeah.
+
+P.H.: All right. Go ahead.
+
+K.H.: OK. So, I gave a talk at Nickel City Ruby. It was, like, two months ago now, right?
+
+P.H.: Yeah, it was in September.
+
+K.H.: Yeah. OK. I noticed KidsRuby just two years ago when I was in fourth grade. My brother was doing it, and I wanted to try, cause, like I said, I wanted to beat him. After my first day, I was almost done with the whole thing. I loved it so much, I couldn't stop coding.
+
+So it went from beating my brother to being absolutely frun- fun, whoops.
+
+P.H.: It's OK.
+
+K.H.: I used to wonder how this turtle thing worked. It, it didn't really, it was a turtle, and you can't actually see it, so I'm like, why the heck is it called a turtle? And I really wanted to know how fast it went. I was never really able, how, able to find out how fast it went, cause it was like – boom!
+
+So really, I just learned how it worked.
+
+Before KidsRuby, I thought how I wanted to work, like my dad, a Ruby programmer who works at home, in his pajamas. Speaking of which, where's the pajamas?
+
+P.H.: Yeah. It is, it is the morning, and it is a Saturday, but I thought that maybe since there are all these other people here, maybe, maybe my Batman pajama pants weren't appropriate.
+
+K.H.: Well maybe we should have told them to where their pajamas, too.
+
+P.H.: That's a good point. We probably should have thought about that.
+
+K.H.: Go home and put on some pajamas, people.
+
+P.H.: Are we, are we just gonna sit here and wait?
+
+K.H.: Yup.
+
+P.H.: Cause, you know, other people have to talk today too.
+
+K.H.: Pajamas first.
+
+P.H.: So, no. We'll forgo the pajama party for today.
+
+K.H.: All right.
+
+P.H.: Next time.
+
+K.H.: OK. Back to my talk. But I thought kids couldn't use Ruby language. Well, they can, so take that me. So when I saw the turtle program, I had no idea how it worked, at all. I thought it was an actual turtle swimming in a tank.
+
+But thanks to KidsRuby dot org, now I know, so I can code now.
+
+You guys probably already know this, but this turtle I keep talking about is something called a program. A program is set of instructions that, in this case, draws shapes the way you want it to. KidRuby taught me how to draw a square on my computer at home, to start, and I added different code to draw a circle with a bunch of sticks coming out – spokes on a wheel.
+
+And even a cross. And it was more of, like, a lower-case t cause it wasn't that thick, like a cross. You know what I mean.
+
+P.H.: I know what you mean.
+
+K.H.: I did all this by writing my square!
+
+The first coding thing I did, which I thought was super hard, was commanding the turtle to do something. To do this, I used the program language Ruby. I mean, that's why I'm here at RubyConf. I'm not at another conference for another language.
+
+So what computers don't actually talk like us, we use languages like Ruby to talk to them. And we don't, they don't really talk the way we do. They're more like, computer-like. And here's what I did, right here, as you can see on my turtle. This is what I did with the turtle a few months ago, which I like playing with a lot cause it's easy to play with it. So.
+
+Right there is the code, and next to it is the picture. So I did turtle dot draw do, because without do you can't actually, it won't work, so, after I didn't do KidsRuby for awhile, it's like, why the heck is my turtle not working?
+
+Dad, help.
+
+Well, I forgot the do, so.
+
+And then I picked a background color, which is blue-violet, but there it kind of looks like a lavender-y purple. And then my pen-color is choral. It's, it's a good color.
+
+So then I did two dot times do. I feel like I just said do two times, cause, it says two dot times two. So you have to do the other do, so it does this too. So without the do's, you're not gonna go anywhere. The turtle's just gonna sit there. Maybe watch some TV.
+
+OK. So then I did forward seventy, which is an angle, so, it's like walking forward 70 ti- paces.
+
+P.H.: Paces.
+
+K.H.: Paces. And then turn left ninety. So you'd turn left, do ninety paces. And then, that was, and then I did six dot times do, which means it just did that two times. So now it's gonna do something else. And that's turn-right forty and backward thirty.
+
+Now, if I did forward again, the picture wouldn't look like this, cause it, it, it, there is this one time I did forward one hundred and then backward one-hundred, and then it was just a straight diagonal line across the screen. So that's how that worked.
+
+And then end, end, end, because I had three do's, as you can see, do, do, do, and then I needed three ends, end, end, end, and I got that picture right there.
+
+So this is another part of it, where it's like, it's another part I did in KidsRuby. It's another lesson out of the beginning or, it had a title. I know what it is – just can't seem to remember it. It's lost in my mind.
+
+So, something I didn't show you is alerting and putting. With alerting, you can have someone guess a secret number or a type of dance! Cha-cha-cha-cha!
+
+Anything you can think of. Numbers, words, basically, like, it could be your favorite number. You can also say hello to the world, but this only shows up on your computer. So you're really just saying hello to yourself.
+
+Yeah. Everybody seems to like that at Nickel City, too.
+
+So there are, there are lessons on KidsRuby about alerting and putting, but I only told you about alerting, so here comes some information about putting. Well, actually, here's some more stuff about alerting.
+
+It will only pop up on your screen, and also with the alert, there will be an exclamation point. There will be a white exclamation point with a blue circle around it. Well, that's what KidsRuby was, so that's what I have.
+
+However, you're just putting, just puts it on a blank white screen. Like, Google, without the bar and the Google, so – like a plain piece of paper.
+
+I learned that very expensive and formal, or fancy, yes, fahncy, applications aren't needed to do all this coding. You don't need fancy thingamajigs, big laptops with good internet, even though good internet – it's kind of what we need to code. Just make sure you got internet.
+
+And I have a PC with a bunch of stickers on it. And I successfully completed it, but when I completed it, I had no stickers on it. Any kid or adult, if you don't code, in which case, can get started at any time, and easily. KidsRuby is free, and all you have to do is download it on any computer device.
+
+And that was my talk at Nickel City Ruby. It was fun. So.
+
+P.H.: So we talked a little bit about why you got started in programming, but why is, why is, why is programming, and why is Ruby, why is it fun for what?
+
+K.H.: Well, first, like I said, I beat my brother. So it's absolutely fun for me. And that's kind of why he hates it now, cause I love it. He has to hate it.
+
+P.H.: Yeah, he's actually, he's actually now doing like, he's doing, I think, Ember-
+
+K.H.: Yeah, but.
+
+R.H.: Because he doesn't want to do Ruby cause you're doing Ruby.
+
+K.H.: Yes. I like pea- no, I don't like peanut butter, he likes peanut butter. I like jelly. He doesn't like jelly.
+
+P.H.: But, you know what, the funny thing is is that in the end, you both have sandwiches.
+
+K.H.: Yup.
+
+P.H.: So it doesn't really matter.
+
+K.H.: Yeah, but we fight a lot, so.
+
+P.H.: Funny, adults do that too. About the same things.
+
+K.H.: Oh, man.
+
+P.H.: So do you think, when coding stops being fun, that's when people should stop coding?
+
+K.H.: No.
+
+P.H.: They should keep going then.
+
+K.H.: Yeah.
+
+P.H.: Like it stops being fun, they should drive their life into a-
+
+K.H.: No, they need to try something new. Maybe another language or maybe some framework.
+
+P.H.: Like, for example, we talked a lot about, and we'll talk about the coder-dojo more later, but when we started the coder dojo, you wanted to build, like, a blog-y type website, and you immediately said Rails, and I stepped in as professional dad and said, Sinatra.
+
+K.H.: Yeah, but if you're internet goes out, which in Sinatra is way funny when this happens, it says-
+
+P.H.: Yes.
+
+K.H.: It says, Sinatra has left the stage!
+
+P.H.: Which makes it more fun.
+
+K.H.: Yup.
+
+P.H.: Yes.
+
+K.H.: More fun.
+
+P.H.: And more fun is-
+
+K.H.: But-
+
+P.H.: -really where it's at.
+
+K.H.: Since I use it, Ian won't use it.
+
+P.H.: Ian won't use it. Well let's, let's leave Ian aside, since he, he could not make it down to Miami for various reasons.
+
+K.H.: Ha-ha-ha!
+
+P.H.: That's, you are the worst sister ever.
+
+K.H.: But I love him.
+
+P.H.: So if it's not fun, people are doing it to make money, so is your goal to be like, a gazillionaire?
+
+K.H.: Well, I do.
+
+P.H.: You are, you-
+
+K.H.: But-
+
+P.H.: You do make money doing this?
+
+K.H.: I want to, but-
+
+P.H.: But there's laws.
+
+K.H.: You don't – if coding's fun, you should just forget about the money. It's not really about the money, it's about helping people with websites, or, like, the fun charities you guys do, like Movember!
+
+R.H.: Yes, we'll talk about Movember later.
+
+K.H.: You are Movember.
+
+P.H.: I am – I am Movember. I'm just unshaven. But anyway-
+
+K.H.: Unshaven people!
+
+P.H.: Stop. So let's go back to how this all started. So you started KidsRuby, you really liked it, you started doing a few other things, and then there, you gave a presentation at your school. How did that go?
+
+K.H.: It was – how do I say this? Awesome!
+
+P.H.: But, you were also, you were, you were basically up, you were in a room, kind of giving like a science fair presentation-
+
+K.H.: Well, yeah. It was kind of like a science fair, but it was kind of like this, but I wasn't up on a stage. I was just standing there by my teacher's u- uh, well we were all in different rooms, like, cause there were four fourth grade teachers. Didn't matter if the person wasn't your teacher. I got Miss Keeper – she was my teacher.
+
+P.H.: So you, you're getting a little too in-depth on this-
+
+K.H.: And so I, it was, it was fun, easy, and I didn't freak out. So there-
+
+P.H.: So, it was kind of odd though, because you were doing a big presentation about computer programming, which, if I remember correctly-
+
+K.H.: Nobody got?
+
+P.H.: Yeah, we had to, we had to kind of explain to your science teacher why computer science is a science, even though science is in, is in the term.
+
+K.H.: Uh, yeah.
+
+P.H.: And then he was like, you know, you did that, and you had a couple kids who built a little robot, and basically-
+
+K.H.: Yeah.
+
+P.H.: -everybody else was like, you know, clocks powered by potatoes and prismatic colors of the rainbow-
+
+K.H.: How the eyeball works!
+
+P.H.: And you walked in and you, you, yeah, and you dropped this.
+
+K.H.: I was the first one, so.
+
+P.H.: Yeah.
+
+K.H.: Everybody was like, huh?
+
+P.H.: Yeah, if I remember what your principal said, is, I don't know what you're feeding her or what you're doing, but she's pretty dang smart. She may have used stronger languages but, you know, there's kids in the audience, probably. You gotta be careful.
+
+K.H.: Yeah.
+
+P.H.: So after that, though, you actually filled out the CFP and got accepted to speak at Nickel City Ruby. Which, for clarity, I did not vote on your talk.
+
+K.H.: No. He just did nothing. I was like-
+
+P.H.: I gave you a zero.
+
+K.H.: I was like, here, and I was talking, and I was like-
+
+P.H.: But you had to, you actually had to stand on a box, cause we couldn't see you over the podium.
+
+K.H.: Yeah. I, I had a, I had a little crate like that, and I'm only four foot seven and a half, so you couldn't see me!
+
+P.H.: Well that's OK. You hold on to that half.
+
+K.H.: I will.
+
+P.H.: You do it. But yeah. I, I remember, we came in after lunch-
+
+K.H.: Lunch!
+
+P.H.: -and there were gentlemen playing piano on the stage-
+
+K.H.: Piano!
+
+P.H.: Because we had one, and – have a seat.
+
+K.H.: Have a seat!
+
+P.H.: But, and we went up the podium, and you were not tall enough for the podium, so we had to get you something else.
+
+K.H.: Too small.
+
+P.H.: And, if I remember, it was Flip Sasser who went on before you.
+
+K.H.: Correct!
+
+P.H.: And he said to me that evening, after the conference had ended, that if he knew that he had to go before you, he would have said there's no way he would have done it, because he doesn't think anybody remembers anything that he said, because of the ten minutes that you took on stage and just blew everybody's mind.
+
+K.H.: You just won a million dollars.
+
+P.H.: I did?
+
+K.H.: Yeah.
+
+P.H.: Well we can talk about that later. I don't even know where that's coming from.
+
+K.H.: It's coming from your wallet, technically-
+
+P.H.: Well, yeah. Basically.
+
+K.H.: You already have it!
+
+P.H.: Isn't everything coming from, from your wallet. So, the big thing that people took away from your talk at Nickel City was that kids can code-
+
+K.H.: Yup.
+
+P.H.: And your HelloWorld comment.
+
+K.H.: Yeah. I remember, you know, there, we had to redo my cards because I had cards for these slides like you saw I was. And for the KIC-
+
+K.H. & P.H.: Kids in Query Conference
+
+K.H.: I had to have a question, and my questions were on these cards here. But, it said, can kids code? How does the turtle work? Cause, you have to have the exact question on your cards. Couldn't exactly remember what I asked, so I just, it was something about, can kids code, so that's what we wrote down on the card. So there you go.
+
+P.H.: There you go. So no-
+
+K.H.: Just a question-
+
+P.H.: But now you're at RubyConf. You're at what's basically the biggest Ruby Conference in the world.
+
+K.H.: In the world!
+
+P.H.: In Miami.
+
+K.H.: World, world, world!
+
+P.H.: And there's all these people, and I think that, you know, when we were back stage, I think you were nervous.
+
+K.H.: Uh, nuh-uh. That was you. You were all like, um, yeah, I'm, and you were like pacing, and then you did a power stance.
+
+P.H.: Power stance. Amanda Coranta?? taught us that.
+
+K.H.: Yeah. Use it.
+
+P.H.: Use it. So what would you say, cause there's a lot of people out there that I bet have never been up on stage. I mean, forget RubyConf. Forget huge conferences. Just, at their local meet-up, they've never gotten up on stage to talk. What would you say to them?
+
+K.H.: Get up on stage and don't be afraid.
+
+P.H.: It's just that simple, huh? Put the fear in your back pocket and get-
+
+K.H.: If they-
+
+P.H.: And get up on stage.
+
+K.H.: Yup.
+
+P.H.: Not right now. That wasn't an invitation.
+
+K.H.: Yeah, don't come tackle me on stage. Put the fear- take the fear
+
+P.H.: It's not that kind-
+
+K.H.: -out of the back pocket. Put it back in you.
+
+P.H.; That is not-
+
+K.H.: I'm sorry, I didn't know what to say!
+
+P.H.: Well-played madam. Well played. So, let me ask you, cause this kind of-
+
+K.H.: Um, madam?
+
+P.H.: This kind of-
+
+K.H.: Now you're a ma'am. You're a man.
+
+P.H.: Yeah man.
+
+K.H.: Mah.
+
+P.H.: It's up. S'up bro. Do you even lift?
+
+K.H.: S'up bro? Let's grow some mustaches.
+
+P.H.: Let's grow some mustaches.
+
+K.H.: Well, yeah, I do lift, three-pound weights.
+
+P.H.: Woo-woo, show off your guns.
+
+K.H.: Gun show. You got the tickets.
+
+P.H.: All right.
+
+K.H.: That was my joke when I was three.
+
+P.H.: All right, let's, let's, I think we've somehow gotten off track, maybe, a little bit.
+
+K.H.: Who cares? People are laughing!
+
+P.H.: Yes, I know.
+
+K.H.: That was my goal.
+
+P.H.: We do have a few more informative questions to get through before we finish this.
+
+K.H.: I don't want to finish.
+
+P.H.: You can't be on stage forever.
+
+K.H.: Um-
+
+P.H.: All right, focus.
+
+K.H.: Get the duct tape!
+
+P.H.: All right, are we good?
+
+K.H.: I can never be serious, ever.
+
+P.H.: I know. I've noticed that.
+
+K.H.: In my life.
+
+P.H.: And now all of these people know, too.
+
+K.H.: Oh, wait, you want me to be serious.
+
+P.H.: Yes, just for a moment, can we-
+
+K.H.: Did you know that rainbow trout are in the ocean, but why the heck are they called rainbow trout? Cause they are not in the color of the rainbow.
+
+P.H.: Honey.
+
+K.H.: They are trout.
+
+P.H.: Honey. Honey.
+
+K.H.: They're just plain old trout!
+
+P.H.: Honey! This is not the rainbow trout convention. We can go there another time. But I'm gonna ask you-
+
+K.H.: That's not funny.
+
+P.H.: Hey-
+
+K.H.: I'm serious.
+
+P.H.: All right. I'm gonna ask you another question. So.
+
+K.H.: OK.
+
+P.H.: What would you say, first of all, to any kids who want to learn how to program?
+
+K.H.: Do it!
+
+P.H.: Do it?
+
+K.H.: Do it!
+
+P.H.: Can you elaborate on that further?
+
+K.H.: Do it cause it's fun!
+
+P.H.: Do it cause it's fun. What about-
+
+K.H.: F-
+
+P.H.: What about-
+
+K.H.: U-
+
+P.H.: -adults-
+
+K.H.: N!
+
+P.H.: -who are out there, who are programmers, what would you say to them about getting kids involved?
+
+K.N.: I mean, don't walk up to a stranger and be like, hey kids, do programming! Hehe.
+
+P.H.: Now I can see how that would come off as slightly creepy. Also, probably-
+
+K.H.: Here's a random laptop!
+
+P.H.: -don't offer, here's a random laptop and some free candy. Come, I'll teach you to program.
+
+K.H.: Oh yeah. There's another thing. If you work in a coding building, do not put up an electric sign that says Come Code With Us! Free Candy!
+
+P.H.: Also, probably, it shouldn't do that to hire new people. Like, hey, come program with us. We have a ping pong table.
+
+K.H.: And then, you know, it's like, it's like, it's just like, you can't do that. Plus, it, you're throwing candy at a kid, make sure they're not jolly-ranchers.
+
+P.H.:  Yeah, those things hurt.
+
+K.H.: Boom! Ow.
+
+P.H.: So, do you think programs for, programming is for everyone?
+
+K.H.: Only if they like it. You gotta, you can't just put someone at a computer and be like, code, person, code!
+
+P.H.: Right, and we talked a little bit when we were getting ready for the talk, you said that, basically, people who are under the age of two and can barely talk, they probably shouldn't code.
+
+K.H.: No. Cause if you can't talk, you can't write, you can't type, you can't read.
+
+P.H.: That's true.
+
+K.H.: And other stuff, but I'm not-
+
+P.H.: And also-
+
+K.H.: -not getting into that.
+
+P.H.: Also, great-grandmothers over the age of one-hundred probably shouldn't code.
+
+K.H.: Yeah. One-hundred. You're done.
+
+P.H.: So you get ninety-eight- So you get ninety-eight good years of coding in, and then, that's not bad, though. Ninety-eight years. You could probably make a spot of change in ninety-eight years.
+
+K.H.: I'm gonna make the world change with my coding.
+
+P.H.: Is that what, is that, you got that from Matz yesterday? You're gonna go out and change the world?
+
+K.H.: Yeah.
+
+P.H.: Now how are you-
+
+K.H.: With magical unicorns!
+
+P.H.: With, with magical unicorns.
+
+K.H.: And pegasi!
+
+P.H.: It's hard- thank you for using the correct plural.
+
+K.H.: I hate when people say pegaseseseseses-
+
+P.H.: Pegaseseseses.
+
+K.H.: Seseseses.
+
+P.H.: So do you think people, like, as far as changing the world, you think people should write code that, like, helps other people out, like, you know, maybe, gives back to charities or does something to help people who are in need?
+
+K.H.: Like Movember.
+
+P.H.: Like Movember, but there's lots of other things out there.
+
+K.H.: Yeah. I'm just gonna use Movember for an example. Like, if you do stuff for charity, it lets people know you're smart and intelligent to give what you have to people that need it. And it lets people know you care and you're not cold-blooded and you have a heart. I know you have one, cause most the time I'll run up and hug you and you'll be like, ugh, she hit me in the gut!
+
+P.M.: And that gets, that gets my-
+
+K.H.: That's lame.
+
+P.M.: That gets my blood flowing because my heart beats when you, when you tackle me and hug me.
+
+K.H.: You know I can hear your heart go beat, beat, beat, yeah.
+
+P.H.: OK, this is not that time.
+
+K.H.: Aww!
+
+P.H.: We can go to Karaoke later maybe.
+
+K.H.: Oh yeah!
+
+P.H.: But, so, all right. I've completely lost track of my questions because you're slightly distracting.
+
+K.H.: He. He. He he.
+
+P.H.: Is there anything kids can do on their own to get started?
+
+K.H.: Yeah. Get interested. Also, they can use those resources right there on the screen.
+
+P.H.: Do you want me to laser point them? Ooh!
+
+K.H.: Ooh! Ooh!
+
+P.H.: No.
+
+K.H.: Oh, come on. Please?
+
+P.H.: I don't, I don't feel like it's safe.
+
+K.H.: Daddy, I have a lazer pointer at home.
+
+P.H.: Yes. And it's been in my eyeball before. So that's why I'm thinking that maybe it's not a good idea.
+
+K.H.: Please? OK. You want to do it for me.
+
+P.H.: Absolutely. So-
+
+K.H.: OK.
+
+P.H.: You talk and I'll point.
+
+K.H.: How would you point over there while I talk over here?
+
+P.H.: I'll point over there and you'll point over there.
+
+K.H.: OK, so let's start at the top. Coder dojos!
+
+P.H.: What are Coder Dojos?
+
+K.H.: Coder Dojos? Well, what are Coder Dojos? They're people who code, dojos.
+
+P.H.: So they're, they're people who code professionally, and then kids come in with their ideas, and-
+
+K.H.: Yeah. Pretty much, it's like-
+
+P.H.: It's, it's, kid-driven, it's coding by kids for kids-
+
+K.H.: Kids wanna code?
+
+P.H.: With professionals.
+
+K.H.: Kids wanna code? You get mentors, and we pair them up there. I've worked with my dad.
+
+P.H.: I think they all know I'm here honey.
+
+K.H.: Just so you're clear, this is my dad. And-
+
+P.H.: We're-
+
+K.H.: I bet most of you don't know his real name.
+
+P.H.: OK, we're not going there.
+
+K.H.: And also-
+
+P.H.: And also in fairness, there's your mom. You should-
+
+K.H.: Wave mom!
+
+P.H.: You're fifty percent responsible for this.
+
+K.H.: That's my mom!
+
+P.H.: So let's, so let's focus. Coder Dojos. KidsRuby-
+
+K.H.: OK.
+
+P.H.: -we already talked about that.
+
+K.H.: Nuh-uh!
+
+P.H.: Oh?
+
+K.H.: I have stuff to say about KidsRuby.
+
+P.H.: We are running out of time.
+
+K.H.: Besides the stuff I said about KidsRuby, like I said, kids Coder Dojos, and you can't Coder Dojos without kids, just so you know. KidsRuby. KidsRuby. All right. So, yup. There it is. KidsRuby. Thank you.
+
+KidsRuby really hit it in Coder Dojos. I recommended it to some of the kids. They started doing stuff. They were like, I don't understand. I have, I like, like, one of them started Code Academy – which is down there. Code Academy. And, they're like, I'm sorry, I don't get this, can we start somewhere easier?
+
+So they went to KidsRuby, even if they didn't want to do Ruby, it's kind of like a good place to start. So we started there and they actually got into RubyWarrior.
+
+Haiah!
+
+And then HacketyHack. Well, I don't know that was a website at first. So dad?
+
+P.H.: Yes?
+
+K.H.: Why, I-I-I, I had no idea. All I know is there's HacketyHack lessons on KidsRuby. And I think-
+
+P.H.: There's kind of a lot of cross-over between the two things, but.
+
+K.H.: I think-
+
+P.H.: They teach things slightly differently.
+
+K.H.: I think HacketyHack was in the lessons of the turtle, I think.
+
+P.H.: Yes.
+
+K.H.: And the learning putting as well. So I just gave you a presentation on what I did with HacketyHack there. Then Code Academy. It's an Academy for people that code.
+
+P.H.: For people that want to code.
+
+K.H.: Yup. Adults can do it. I just do it and I'm like sixty-percent through the Ruby. Yay!
+
+P.H.: Yay! All right, so have a seat.
+
+K.H.: OK.
+
+P.H.: We're done with the pointing. Time, Katie, time.
+
+K.H.: OK.
+
+P.H.: So we talked about Coder Dojo, and this is a picture-
+
+K.H.: Coder Dojo!
+
+P.H.: This is a picture from our Coder Dojo.
+
+K.H.: Yup.
+
+P.H.: It was the first one.
+
+K.H.: Yup. At the EngineYard office in Buffalo.
+
+P.H.: Yup. But the, the next one that we have is actually, like, after we did the first one, a lot of people wanted to come along and do it as well.
+
+K.H.: Yeah. Two weeks from now is our next Coder Dojo.
+
+P.H.: And I think we have, like, fifteen kids signed up. So that's three times as many.
+
+K.H.: Yup. These are all the kids. See the kids squatting. Yeah, that's funny.
+
+P.H.: And that's Ian.
+
+K.H.: That's Ian! That's my brother. He was just a little bit too tall, like that other kid. That's a kid people, not an adult, there's only four adults in the picture. Just four.
+
+P.H.: Sometimes, sometimes a teenager kids start to get tall. But it was really easy to set up, because you basically, you said, daddy, I want to go to West Newark Ruby every month. I want to see all your friends. I want to hang out with Wayne and Nick. And I said- No.
+
+K.H.: I, yeah. You said no.
+
+P.H.: I said no.
+
+K.H.: I'm like, but, ahh!
+
+P.H.: I think there's a certain language of, of, of, a certain amount of language that's used there that probably is maybe-
+
+K.H.: Swearing! Like-
+
+P.H.: I've heard of this swearing before-
+
+K.H.: Ple-ple-ple-ple!
+
+P.H.: OK. So we, we, I helped you get setup, but you basically run the Coder Dojo. Your mom and I just buy the pizza and soda and show up.
+
+K.H.: Yup. And you work with me. But hopefully we can get more mentors-
+
+P.H.: But next time we, cause I'm not very good at this.
+
+K.H.: Daddy, we're working on a website together, which, I'll tell you about later. And yeah.
+
+P.H.: Yeah, we should actually get to this.
+
+K.H.: And as you notice, my dad's not in that picture.
+
+P.H.: Cause I took it.
+
+K.H.: No, actually, mom took it, because she wanted you to get in. You never did.
+
+P.H.: That's not the way it went down. I remember this very differently.
+
+K.H.: Well I was looking at the camera and I did not see your-
+
+P.H.: I think I was doing some very-
+
+K.H.: -hand there.
+
+P.H.: I was doing some very important logistical work.
+
+K.H.: Oh, yeah. Logistical.
+
+P.H.: So what's next for you?
+
+K.H.: What's next? Kitter. Kitter for Kids. That's why I took the Tw off Twitter. Kitter. That's simple. So Kitter is a place where you can crack jokes or puns, anything that you think is funny, you can put on Kitter, which I'm actually making right now. So don't go home and look up Kitter dot com because it's not ready yet.
+
+And, instead of followers, you have fans, because followers on Kitter - not good. Because you'd rather be famous and have fans, instead of followers, cause then, you don't want, like, five million people following you. And then I'm building, well first, it's gonna be a blog for Coder Dojo, the Western New York one.
+
+Oh, my god, I messed that up.
+
+P.H.: It's OK, honey. It's OK.
+
+K.H.: So-
+
+P.H.: People don't really know where Western Newark is anyway.
+
+K.H.: It's technically a blog, for people. It's for the kids of Coder Dojo, and it's gonna be, like, there's, like, the more you code, the higher you get. So it's gonna be like student, give me a name.
+
+P.H.: Steve. That's not what you were looking for.
+
+K.H.: No. Like, you have to have like, a crazy nickname. So-
+
+P.H.: So it's like, it goes, I think it goes, like, learner, student-
+
+K.H.: Learner, let's, let's say-
+
+P.H.: Apprentice.
+
+K.H.: Learner.
+
+P.H.: Something, something. Prophet.
+
+K.H.: Learner, student, ninja, apprentice, sensai.
+
+P.H.: Sensai. And other than that, you're just gonna be a normal kid, right.
+
+K.H.: Being a normal kid.
+
+P.H.: As normal as you get. All right.
+
+K.H.: I'm pretty normal.
+
+P.H.: So we do have to say thank you to EngineYard before we get off stage.
+
+K.H.: Thank you EngineYard!
+
+P.H.: Because EngineYard was nice enough to fly you all the way down here, give you a fancy hotel room, and give you-
+
+K.H.: Fancy!
+
+P.H.: And give you this sweet t-shirt, and-
+
+K.H.: Sweet t-shirt. See?
+
+P.H.: So-
+
+K.H.: They do have tank-tops.
+
+P.H.: Can you, can you give- I don't know if we have any left. Can you, can you just look right at the camera, cause I think he's watching on the live feed, and say thank you to Engineer and say thank you to Aman Leonard?
+
+K.H.: Thank you, EngineYard and Amond. I think he's in Germany right now, right?
+
+P.H.: I don't know where he is right now.
+
+K.H.: OK.
+
+P.H.: He's anywhere in the world watching you. That's how he's spending his Saturday.
+
+K.H.: Oh! Hi! I like your Irish accent. It's cool.
+
+P.H.: Actually, that brings up a good point, because Amond had a, had a young friend who was eleven years old, and now you're talking to Adam-
+
+K.H.: Oh, yeah. My pen-pal from Ireland.
+
+P.H.: Who developed a chat-up line app and now likes to talk to my daughter on email.
+
+K.H.: Yup. We still need to- hello, I'm trying to say something dad. OK, so, he's never emailed me any puns, but I do know one.
+
+P.H.: What's that?
+
+K.H.: Are you a keyboard? Cause you're just my type.
+
+P.H.: All right, and with that, I think we're ready to wrap it up. So I-
+
+K.H.: OK.
+
+P.H.: -wanna say, I wanna say thank you to you, because I don't think you realize this is a, this is a big deal, that I get to come up here and sit with my lovely daughter.
+
+K.H.: We'll do a water show. I did a water show with you!
+
+P.H.: We did a water show at the Reds Carl yesterday.
+
+K.H.: We were all like-
+
+P.H.: We did a lovely water show. We don't need to talk about that.
+
+K.H.: And then you threw me in the air and -
+
+P.H.: Yes.
+
+K.H.: and I twirled and we did ripple effects.
+
+P.H.: OK, all right, all right.
+
+K.H.: And nobody else was in the pool, and-
+
+P.H.: OK-
+
+K.H.:  -and there was purple spot lights and I was all like-
+
+P.H.: All right, Katie. Katie-
+
+K.H.: We were dancing.
+
+P.H.: Katie, bring it down. Thank you.
+
+K.H.: OK.
+
+P.H.: I like to think I'm a cool dancer.
+
+K.H.: You were holding me-
+
+P.H.: All right, so-
+
+K.H.: -while you were dancing.
+
+P.H.: Thank you to you.
+
+K.H.: K.
+
+P.H.: Thank you to all these people for listening.
+
+K.H.: Thank you for listening, people, you know you didn't have to come if you didn't want to. You didn't necessarily have to come. You could go walk out that door right now.
+
+P.H.: OK, so, if anybody has any questions, you'll be at the EngineYard with me later today, right?
+
+K.H.: Right. Actually, I think I'm going right now, aren't I?
+
+P.H.: Well, that would, any time after right now is later today.
+
+K.H.: Yup. I'm gonna be at the EngineYard booth if you got any questions.
+
+P.H.: All right. So thank you very much everybody.
+
+K.H.: That's my GitHub!
+
+P.H.: That's my girl!
+
+K.H.: That's my GitHub!
