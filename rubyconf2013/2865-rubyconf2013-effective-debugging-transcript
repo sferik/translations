@@ -1,0 +1,267 @@
+RubyConf 2013 - Effective Debugging - Jonathan Wallace
+
+JONATHAN WALLACE: Hello everyone. Thanks for coming to my talk. My name's Jonathan and I'm gonna talk about effective debugging today. And before I get started, I, I wanted to explain this awesome flavor saver that I'm rocking right now. I'm part of Movember. If you've heard of this, this is an organization that's raising awareness about prostrate and testicular cancer. If you're interested, are interested in helping out, feel free to come and talk to me after the talk.
+
+All right. So today I want to share with you my take on what it takes to be effective in doing debugging in Ruby. That's gonna involve us looking at a case study. We'll look at some basic commands that you can use in almost any library, any library in Ruby that supports debugging. After that we'll recap what we learned, talk about some advanced commands that may not be available on all the versions of all the libraries. After that we'll sort of look at a little bit of an overview of the debugging ecosystem, so you'll know which version of which library to use with which version of Ruby. And then we'll touch on Pry. If you were in the previous talk in this room, it was an exceptional talk. The guy gave a great, went into great detail about what makes Pry so great.
+
+And we're not gonna do that here. But we will talk about the intersection between Pry and some debugging libraries.
+
+So let's get started. Let's look at our case study. So in this case study, we're gonna use a gem called BuyBug. And here's the situation. We've received a project from a client or a boss, and this project is a simulation of a relationship between a crap and a parasite.
+
+And this parasite is called Sacculina Carcini. This is a parasitic barnacle and it, if you look at this picture of the crab and you look at the yellow glistening disgusting thing on the bottom of it, that's called an externa, and that's where the parasite releases its, the larvae children into the water.
+
+And there's a really interesting aspect. If you haven't investigated, one of my favorite topics is some biological host-parasite relationships. And this is one of the more interesting ones. I've got a few more, if you want to hear about them I can share, share the general details with you, but.
+
+In this case, what this larvae does, the Sacculina Carcini, it, it lands on a crab in the water, and it'll crawl along the shell of the crab until it finds some soft part of the exoskeleton. So that's either a joint or an eye socket or an eye stalk. And then what it does is it pierces that soft part of the crab and ejects itself, injects itself into the crab, you know, throwing away its thorax and abdomen, and it crawls along the inside of the crab. It migrates its way to underneath the heart of the grab, and it starts taking nutrients and growing.
+
+This takes a couple of weeks of time.
+
+Then, this is where it gets really creepy. So this is already, this, this parasite's in there, and, and that's sketchy and scary that, you know, you've got another organism living in you. But what gets really weird is that it, it actually starts extending tendrils into the crab's brain. And it starts to change the hormone balance of a crab.
+
+So female crabs in general they, you know, they reproduce, so they have an egg sac, and when they want to spread their eggs they climb up to, onto a rocky shelf or rocky outcrop, and they wave their claw in the air, in the, in the water to help distribute their eggs.
+
+Well, the same behavior is what needs to happen to distribute this parasite. But this parasite's not picky. It doesn't just infect ma- female crabs. It also infects male crabs. In fact, what it does is it changes the shape of a male crab to be like a female crab. The male crab now acts like a female crab. It performs the same types of behaviors, including crawling up to the top of some, you know, the high part on the bottom of the ocean, where there's, the current is strong, and waving its claw to help distribute the larvae.
+
+So, really sketchy stuff. A really interesting relationship. And our software is simulating this relationship. So we're going to, we're going to look at the code base and, and see if we can add some features to it.
+
+So here we are. We've cloned the code base down and we're gonna run Rspec. So this project has a test suite, which is fantastic. It should allow us to move a little bit quicker. And the previous developer that, that gave us this code base says, everything's good to go. You can start adding features right away.
+
+But, just to verify, we want to make sure that everything's working the way it says it is. We're gonna run the test suite.
+
+So we do that, and we have a failure. Darn. That stinks. But it's not altogether unexpected, right. Sometimes we're, developers are optimistic about how things work. In my experience in developing software, it's very, very tempting for us to ignore the things that we don't understand. And a big, huge long stack trace when you're getting started in Ruby is very intimidating, and people don't want to read it.
+
+But it's still intimidating, someone who's been developing Ruby for five or six years. And so my first point that I'd like to make is to make sure you read the errors that you receive. Read them closely. It's very easy to, to not be focusing, to not have our attention at a hundred percent, because, the goal here is that we want to be efficient, and if we're not giving our full attention, it's very easy for us to make mistakes that we, you know, glide over and then find out ten minutes later that if we'd only paid attention in the very beginning we would have caught it right away.
+
+So we're gonna do that right now. We're gonna make sure we look closely at that error and we're gonna read that. So the failure error is that the crab's abdomen should have an externa. Remember that yellow sac in the image.
+
+At some point in this test, that should be present.
+
+We're gonna look at the expected and, this is the part where my eyes, as an experienced Ruby developer, will start to glaze over. There's a class name followed by its location in memory, which is this nice hex to decimal string. And then it has a bunch of instance variables and I don't want to look at it. But I want to make sure that I know what that is.
+
+And, and so now, I know that that's an instance of Sacculina Carcini, which is the parasite. And instead of seeing an instance of that class, the parasite, we're seeing a nil value. So the next thing we want to look at, after we know we, after we're sure we're confident we know what the error is in our test suite, is to examine the stack trace.
+
+Now my tendency, and, when I first started developing, even still now, is to jump into the details and get to the nitty-gritty. I would advise against that. A well-written software will, will segregate out into separate, different layers of abstraction, and at the higher level of abstractions we can see the broad details of what the application or the program is supposed to do.
+
+If it's well-written software that'll be the case, and we're gonna assume that here. I find that that's the best way for us to partition the problem space where the bug can lie.
+
+So in a typical software application, you may have tens of thousands of lines of code. If you jump down into the details, there's a lot of details in the application you're gonna have to look through to find the bug. So if we can figure out a way to partition that space and maybe do like a binary search. Let's cut it in half and determine that the bug doesn't exist in this half. Then we can throw that half away. Then we're, we're doing fantastic. We can quickly find the, the root cause much, much faster and, and resolve it.
+
+So for that reason, I advice for you to start at the bottom of the stack trace for the first piece of code that you're responsible for. So that doesn't include libraries. You don't want to dig into the library code unless you're sure there's an error there. And ninety-nine - nine hundred and ninety-nine thousand - no, wait. Nine thousand nine hundred ninety-nine times out of ten thousand, it's always your code, right.
+
+It's never the other person's code. So in general find the code that you own and start there. That should be the highest level abstraction. We want to make sure that things are good there. And we understand the context as we dive into those layers.
+
+So in this case, the error's on line twelve of a feature file. Now we are using a tool called Turnup. This app- this program is using Turnup, which is a, gives us gerkin syntax. If you're not familiar with that, it's also used in Cucumber, which gives us a nice, high-level overview. The features are written in plain English. The implementi- implementation details are abstracted away. And that's what we have here. [00:08:11 - review paragraph]
+
+And the key point to take away from, from Turnip if you're not familiar with it, is that we have a series of steps that are executed in sequential order. If any step has, contains an expectation that fails, execution will stop on that step and that will be where the error is reported and the stack trace is shared with us.
+
+Like the one we stopped- the one we just saw.
+
+So line twelve is the line we're interested in. And if we look at line twelve, it's just telling, it's the same that was in the error, we don't have any more information. It's not telling us exactly what's going, so it's, the other thing I like to, to point out is that it's important to go back to my errors.
+
+It's important for me to maintain a, a, a good understanding of what my, what problem I'm trying to solve. If I get lost in between the trees I can forget - what problem was I trying to solve? So let's go back and look at our stack trace again.
+
+We're actually interested in the next level up. And in that case, that is spec steps dot rb on line thirty-two. So let's examine that step definition file and see if we can learn a little bit more.
+
+So here we are. I've opened up the spec steps dot rb file, and we are interested in line thirty-two.
+
+If we take a second to read this line, we can see that we have an instance variable of a crab. There's some method called payload that's being called on it. And we're, where there, we are indexing into that via infection, and we expect whatever the value of that is to equal a instance variable that's @sacculina_carcini.
+
+So if we think about our error, we can say that there, there's an instance of a sacculina_carcini, and we expect it to be there, but we're seeing nil instead.
+
+So if we take a step back, look at our feature again, we know the failure is on line twelve - then we have a really good idea of where the error is probably occurring. It's somewhere between lines three through eleven, right. A simple process of elimination. That's our, that's our search space.
+
+This is the prob- where the problem could reside. We need to figure out where in between lines three and eleven the error is actually occurring, determine the root cause, and resolve it.
+
+So, again at this, it's always tempting to jump down into the details of the crab and try to figure out what's going on. In this example that I've, I'm sharing with you, it's very, it's gonna be a simple example. We could get away with that. We can do that in small applications.
+
+But in larger applications, that maybe have years of development, years of different approaches to solving problems, with different styles in the same code base, maybe good code coverage in some sections of the application and not in the others. That can lead you down rabbit holes that take, that can distract you from actually getting your problem solved.
+
+So I say let's not do that. Let's keep things very simple. Let's try to stay assumption free, if we can. So we're gonna use the ByeBug gem. It's hosted on RubyGems. And there's two things that we have to do to use ByeBug.
+
+Number one, we're gonna add it to our gem file, run Bundler, and then number two, we need to make a method call. So we're looking at our step file here, and we're gonna add a method column here, and - but where should we put it?
+
+Remember, we have those steps when we were looking at our feature file, we saw lines three through eleven. We're looking at the actual step definitions now. Well, here's the first two, two features. There is a crab and there is a SacculinaCarcini.
+
+So there is a host and there is a parasite. From looking at lines two and line six, we can quickly see that there's not any relationship between those two instance variables.
+
+So this is probably not where our problem is going to lie. We can sort of say, make a good safe assumption, that the background steps - they're fine. If there was even more going on in there, we might have to dig into there a little further but, we're good.
+
+So we're gonna drop it into the very first step that's not a background step, that was occurring on line eight in the feature file, which in this case we're gonna drop in line ten. So we're dropping the debugger method call on line ten.
+
+The important thing to note about using a debugger, if you haven't used on in the past, is that when execution reaches the debugger statement, the debugger method call, the executation of our application is gonna stop, and we'll be dropped into the debugger session.
+
+So let's see that happening. We're gonna run our focused feature. And here we are. You can see that we ran Bundle, and that we ran our focus feature, and when we do that, we are paused. So let's take a moment and dissect what we see.
+
+If you've not used the debugger, and most peo- my familiarity when I started using a debugger was GGB. That's my background. When I came to Ruby I struggled with the fact that there wasn't great debugging support out of the gate.
+
+But if you're, if you're a person who's been using IDEs in the past, it may be a little confusing. So we're gonna break this down real quick. Here's the context. We can see ten lines of context, and we can see the line numbers that, where we're at in the left-hand column. We can see where the execution is paused - we're paused on line eleven. There's a nice little hash rocket there that shows us that to keep us knowing where we're at.
+
+So let's again examine the code in this step. So there's two lines, and I don't know what's going on in line eleven. I don't need to know. But I can tell from the error message that we recieved that line twelve looks really interesting. The crab's payload was nil, when the test expected there to be a value.
+
+So we're at the, we are at the, we want to make sure that we can see how that value changes throughout the executation of our application. So there's a nice feature in the debugger called display - this is a watched variable or a display variable. We're gonna write out display and then our arbitrary Ruby expression.
+
+And we're gonna hit enter. Once we do that, note that now in our debugger session, as part of that, we have something that is gonna display the expression on every debugger command that we provide to it. So we will, can, every step that we take through the application, every time executation is paused, we can verify - has something changed with that particular Ruby expression?
+
+All right. So we're gonna move forward. We've got that set now. So we're gonna use the step command. This is the next command. If you're not familiar with this, this is gonna execute one Ruby command and move us forward. So we're gonna enter, hit step and hit enter, and the first thing to note is to double check - has anything changed with our display Ruby expression? And nothing has. It's still, it still points to nothing.
+
+But something else has changed. You may have noticed that the context for where we're at has changed. And so we're no longer in the step definition file. Now we are in another file, which is cut-off a little bit on my slide but it's the, it's the parasite's attach method.
+
+And we can see that's not where we want to be. So we've just dropped down one level of abstraction, a little bit deeper than I think we need to be. We want to stay at the same level until we've determined that we need to dive deeper.
+
+This'll keep us from falling down rabbit holes and spending time doing things that are not gonna lead us to resolving the issue. Sometimes you get lucky if you try that, but it's, if we're playing a percentages game, it's not the way to go.
+
+So I'm gonna cheat a little bit here. I'm gonna type in step three. So I can pass an arbitrary argument, an integer argument, excuse me. I can pass an integer argument to step that'll tell it how many times to run.
+
+How do I run that it, I should run it three times? Well I can see here that there's three lines, but it's because I wrote this and I already know that. So we're gonna use that for now just to, just to move along.
+
+So we're gonna step three, and that's gonna take us back up to the level of abstraction that we were operating at before. So now we're, we're paused before the execution of line twelve. And we are back in our steps file and double-checking that our displayed variable hasn't changed.
+
+So even though I sort of cheated and I skipped through the attach method, nothing changed in our displayed Ruby expression. So we're good. I cheated a little bit, but that way I just cut-out at that method. If that method was seven, seven method calls, and maybe hitting external service and nothing changed, then I didn't have to go examine those things. So that's a win-win.
+
+So we're gonna step forward again, and wal-la. Something has changed. Our display val- our displayed Ruby expression, which is the crab's payload infection, has a value. This is fantastic.
+
+But our context has changed again. And this can be a little jarring when you're first using debugger. We're now in the turnip/rspec dot rb file. So now we have actually moved into the internal Turnip library. And this is not where we want to be at all. We're not even in our application anymore.
+
+So we, we're interested in what happens at the Turnip step levels of eight, nine, ten, and eleven, right. We're not concerned about background. And so how can we quickly stop execution at each of those lines?
+
+Well there's one way that I've already shared with you that we could use. We could add debugger statements to lines sixteen, twenty, twenty-four, and twenty-eight. So we have it on line ten, that it would look something like this. We'd have debugger statements. Now we're littering our code. But that's - there's a much better way.
+
+We can make use of another command called break, which adds a break point, which is a place that the execution in the application should stop. I'm using an abbreviated version of the break command. And it's normally, you use break, spelled out b-r-e-a-k. And instead I'm just using the shorthand version. I'm gonna create a break statement on line sixteen of steps dot rb.
+
+So I'm gonna do the same thing again on line twenty. Again on line twenty-four. Again on line twenty-eight. And now we've got our break points set at each of the step definitions. And now I'm gonna use a new command called continue, which says, continue execution of the application until the program completes, or I hit another break point.
+
+So we continue. We hit enter. And now we can see that we have a bre- we're at break point number one. Our crab's payload has stayed the same. And we are on line sixteen, all right. So fantastic. Nothing has changed. You can't quite see the memory location of this instance of sacculina_carcini. That's fine.
+
+Trust me. It's good. It hasn't changed. So we're gonna continue. Again, we're partitioning the search space. We're not concerned. We're looking to see, where does this value change for the first time.
+
+So we hit continue again. And now we hit break point number two. We examine our display val- variable. It's good. We hit continue again. Now I'm using an abbreviated version of continue, which is just the character c. And we hit break point number three. Again, our displayed arbitrary Ruby expression - in this case the crab's payload, is still the same.
+
+And then we hit continue again, and now we are at break point number four. Still nothing's changed in our displayed variable. This is interesting, right. We would have expected - we really just cut out about seventy-five percent of this search space, where the, where the error could reside.
+
+So we're looking at this line. The crab's, does, @crab, does it have an externa? This, this method call externa question mark. The last time we stepped into a method, we took a detour that wasn't necessary or informative. So let's look at another command that we can use. We're gonna look at the command called next.
+
+And the next command - what it does, is it will execute the next line of code, and if it's a method it will wait till that method returns before pausing execution again. So if this method contains a lot of things that are going on it can take a little bit of time, but once you hit, type in next and hit enter, you'll move to the next line. So in this case it's line twenty-nine.
+
+And there's something interesting about this line. If you were in the Pry talk, you might have, you might have expected this. There, there's the, there's nothing else that could be wrong. But if we look back to the desplay variable and start comparing, now that we have caught, we have the context between what we expect to see and what the test is expecting in the same place, we can see that we have a very common error.
+
+The string versus symbol. If you're a Rails developer, I would say that Rails facilitates us making this mistake because we use hash within different axis, which makes us think that strings and symbols that represent the same thing are, are the same thing, but they're not.
+
+This is instance is a regular Ruby program. This is probably the source of the bug in the code, and it's an easy one to make. So we're gonna quit out of our debugger session and test this out. And then for some reason all the debuggers like to make sure you're really sure and confident that you're ready to quit.
+
+So let's go dive into our steps file. We're going to make the change. We have a string for an infection. We're gonna change it to symbol. And then we're going to remove our debugger statement. We've got out steps file. We save that. And now we can run our test suite. And success! We've got a green test suite.
+
+Now we can move forward with confidence in developing our feature set or, our doing whatever is needed.
+
+So recap. We covered six commands. We talked about debugger. We talked about display. We talked about step, break, and continue and next. The debugger method paused the execution, but actually I sort of just lied to you guys a little bit.
+
+We, remember we're using the ByeBug gem. ByeBug doesn't support the method debugger. It actually requires that you use ByeBug. If you're using two point three point one, which is the latest version. So anywhere we saw the word debugger used, which was actually only in one location, you would have to use ByeBug. However, that should change. Just recently I, I submitted a poll request to the maintainer of ByeBug and that's been accepted.
+
+So the next version that gets pushed out to RubyGems, you can use the debugger alias.
+
+So to recap display - to go into a little more detail, you can pass an arbitrary Ruby expression. You can abbreviate it as d-i-s-p. The step command takes an arbitrary integer argument that tells how many times it needs to be done. The break command, the way we saw it used, you pass in a file name followed by a colon followed by a line number.
+
+You can abbre- use the abbreviated version. And then there's actually a couple other ways. One, you can drop in a break statement for the method, for a class method, by using class dot class method. You can also do the same thing for an instance method. And then we looked at the continue command, we looked at the next where you can also, we didn't see this, but you can pass in an integer as an optional argument to next. And you can also abbreviate next as n.
+
+So let's look at a couple of advance commands. Those commands that we just looked at, you could use that in any version of the libraries that I'm gonna talk about today, which are the majority of the debugging libraries. But we missed a couple of things that are advanced, that are available in ByeBug, that are highly useful.
+
+And those are finish, save, and source. So let's look at finish real quick and see how that would work.
+
+The finish - remember in our case study, a couple minutes ago when we were looking on line eleven and we stepped into the attach method and that was not the thing that we wanted to do? And so then I used step three to jump back out of it and I just happened to know that if I step three times we would, we would pop that frame off the stack.
+
+We could have used the finish command there instead. That would have, runs executation until a stack frame has popped off. And then re-pause execution the application. And so we come back out to line twelve.
+
+Super simple. Doesn't work in some of the libraries that we're gonna talk about in a couple minutes.
+
+Save. This one is supe- this one is key. In simple applications, you probably won't need this. But in more complex applications that have external dependencies on third-party APIs or on the database, you may establish, you may be trying to partition your search space of the problem domain to figure out where the bug is lying or where the root cause of the bug is lying.
+
+And you may have to exit out of your debugger session and reset that state if you're debugging something in your development environment. Or even worse, if you were develop- debugging something in y our production environment. So the save command allows us to save this, the state of the debugger session. So if we were to input arbi- some displayed expressions along with some break statements and we needed to change, we needed to exit out of the application and change some external state to see if we can trigger the bug again, we can use the save command.
+
+It takes a optional argument that is a file name. If you don't, it'll drop it somewhere in temp. And then once you hit enter there it actually saves it out to that file name. I like to use something like debug dot command - it's pretty obvious what that is. And then if we go look at the debug dot commands file we'll see that the statements, the lines that we just entered are there.
+
+Our break statements are there, our displayed value is there, as well as some more things. So let's, let's take a second to talk about what those are. Auto-eval means that if I type something, an arbitrary expression into my prompt in a debugger session, that it will automatically evaluate it. That's on by default in ByeBug. Basename is off. So right now we're seeing the full path for all files in the output.
+
+You can turn that off if you don't need that. I left it on here because that's the default. Testing - I'm not actually sure what that does, but it seems to be off, so. I guess that's a good thing. Autolist is the thing that's giving us the context. That's a default to ByeBug. And then autoirb is off. So if you like to use features of irb, you can turn that on so that, instead of landing into a debugger prompt, you're landed into a, you're dropped into an irb prompt.
+
+And the way that works is it'll try to execute whatever you type in as a debugger command first, and if that fails, then it'll execute it in the context of irb.
+
+So pretty cool. So that's the save command. You can think about the save command as serializing the state of your debugger session out to a file. Alternatively, you have source, which does what you would think. This is deserializing the state of a debugger session.
+
+This is when we've restarted and we don't want to have to re-enter all our break points. One of the things that I haven't talked about in this talk is that you can pass conditionals into your break commands as to, maybe if you want to only call the, hit the break point on another arbitrary Ruby expression.
+
+Remember, we're trying to partition our search space. So if you have a huge loop that's looping over things a thousands of times or a bunch of data you're not interested in, you might not need to wait until the nine hundred and ninety-ninth iteration of your loop, maybe if you know there's a thousand objects in there. You don't want to hit that break point nine-hundred ninety-nine times.
+
+So you can pass an arbitrary expression to handle that.
+
+So we use the source command. We hit enter. Fantastic. We see that our break points are automatically created for us nice and quick. There are the display variables there, and that the other session, session variables for the debugger are re-established.
+
+So fantastic. You're ready to run out and go use the debugger, right? You're super excited - I can tell. You guys are ready to walk right out.
+
+Hold up a second. Let's talk about which version of Ruby was I using, because that matters. This whole, the cont- the implicit context in this talk has been that we're using CRuby. We're using MRI. And in fact we've been using Ruby 2 point 0 patch 247. Unfortunately it wasn't always so great.
+
+Here's your, your, your cheat sheet as to which libraries you, you can use with which versions of Ruby. If you're on 1.8 you have to use something called Ruby dash debug. If you're on Ruby 1.9, you have a few options. None of them are super great. You have debugger, you have Ruby dash debug one nine, you have debugger2. If you've tried to use these in the past you may have found issues getting some C extensions to compile, that they depend upon. And if you're using Ruby 2 point 0, you have a few options. Debugger's available. Debugger2 is available. ByeBug is the one I recommend. Both Debugger and Debugger2 are - they don't have full support for everything that they, that's documented.
+
+So why is this the case? So, it's because debuggers stink. Especially in Ruby. OK - that's my provocative slide. I'm just trying to say something, something that we can argue about later. But let's talk about why that's the case.
+
+Previous to Ruby 2 point 0, all of the debuggers would hook into internals to the C API. So anytime you have a new version of Ruby release, any time a new patch level came out, your debugger broke and you couldn't use the debugger.
+
+So if you were the type of a person, as I was, who likes using the debugger to quickly rectify the cognitive dissonance between my understanding of the code and how it actually works, there would be times where you wouldn't have a debugger available for your version of Ruby for a week, two weeks, to however long it took for the maintainer to, to bump their dependency.
+
+And what we're looking at here is the debugger changelog on GitHub.
+
+And the majority of point releases were to match up with point rel- patch levels that had been released for Ruby. So again, the early, in Ruby 1.8 and 1.9 are, the C API was tightly coupled to, debuggers were tightly coupled to the Ruby C API. This was a problem. That's not the case anymore in Ruby 2 point 0. They've, they wrote, the Ruby core maintainers wrote something called trace point API, which is what gems can hook into to get, to look into the internals of Ruby.
+
+That's fantastic because now there's a well-defined interface and when the internals of the Ruby C API change, they, we, they, we have a contract that we know is not going to change. So if you're going to use, if you need to debug in Ruby 1.8, I saw on Heroku's blog post, I think it was within the last year, that there's still people who are using Ruby 1.8. There might have been even one that was still using Ruby 1.8.6.
+
+But I, I'm pretty sure still 1.8.7, so if you're using 1.8 you're gonna use Ruby dash debug. In that case, if you want the functionality that we looked at here, you need to set a few variables and a ~/.rdebugrc file, a dot rdebugrc file. So you want to set your auto reload, your auto eval and your auto list.
+
+If you're using ByeBug and you want to change those default values, it's actually ByeBugrc as opposed to rdebugrc.
+
+If you're using 1.9, you have options. Good luck. I don't know which one will compile for you in your situation. But those are your options. Debugger, Debugger2, Ruby dash Debugger19. And then if you're going to use 2.0, just use ByeBug. Debugger and Debugger2, they're not fully fleshed out.
+
+And the person who's maintaining Debugger is not actively working in Ruby anymore, so there is an option if you want to, there's an opensource repository that needs some help, you could jump in, garbage collect there. There's a good amount of work that has been done.
+
+In fact, that's why ByeBug was created. The developer, he was frustrated with some problems he was having with Debugger, and so he created ByeBug to, to resolve that.
+
+So I said I was gonna talk about Pry. One of my many, many of, my many pet peeves is this tiny one here. Is that a lot of people will just say, oh I just use Pry to debug things. Well Pry isn't a debugger. If you were in the last talk, it was made clear that Pry is an alternative to IRB. What's really cool about it is the, the, the plugin architecture has allowed a lot of people to build really cool tools on top of Pry.
+
+It's got syntax highlighting built in which is really cool. So I'm gonna take a second to show us real quick what that would look like if we did our case study with Pry.
+
+So instead of just having ByeBug, we would have Pry dash ByeBug. So this would say that we have Pry available within our ByeBug sessions. And instead of using the debugger method call, which remember - we can't use until the next version of ByeBug is released. We would use binding dot Pry.
+
+So we run our feature. And execution is paused on that line. This is very similar to what we were seeing before. The only- the main thing to know that's different is you got pretty colors. Fantastic.
+
+You have commands like step. It's very similar. We saw that earlier. We have next. We're gonna next over that attach method. But one of the key differences to note, if you're gonna use, if you're a Pry lover and you want to use debugging functionality with Pry, is that you don't have the alias for B by default. You have to type out break.
+
+And you have, you have to type out the relative path of the file to where your application is running. So we have to write out specs forward slash step dot rb. We can't just say step dot rb and give it a line number.
+
+Other than that, as soon as, the other interesting thing that Pry does is as soon as I hit enter on this line, it actually takes us - it creates the break point for us, and takes us and shows us the context of that break point. So we haven't actually moved, we haven't actually executed anything other than creating a break point in our debugger session.
+
+But now we're seeing the context of that. That's a little different than we saw before. All right. So we're on- now we see where our breakpoint is. This is, this is nice in case you're like, oh I put the breakpoint in the wrong spot. Maybe you can delete the breakpoint or disable it.
+
+So once we actually hit continue, then we see that we've actually hit the break point. And a nice thing that, that Pry is giving us is it's showing us how many times we hit that break point.
+
+If you do want the aliases, there is a way to do that in Pry. You can alias commands. You can drop that in a dot Pryrc. So that's fantastic.
+
+If you want to use Pry with debugger, you can use Pry dash debugger. That'll give you the debugger that has all the problems that we talked about along with Pry in Ruby 1.9. And you can use it with Pry dash ByeBug.
+
+So real quick, a couple more things about ByeBug. It was a mashup of something called debase. Debase is what's being used in RubyMine. And so they, he, the developer, David, took the C extension portion of Debase and combined with the lib and the test ears of the debugger and put that together, put in a lot of work to fix any of the open issues that were existing on debugger, and so that's why you need to use ByeBug. Because it actually works and does all the things it says it's gonna use and do.
+
+It works on Ruby 2. Doesn't work on 1.9. Doesn't have any internal source code dependencies. It's fantastic.
+
+All right. So that covers CRuby, right. Now you have a good idea of which debuggers to use with which version of Ruby you need to use it for. You know the basics of how to do it, and hopefully if the version you're using supports the advance commands, you know how to do that as well.
+
+What about Rubinius? Great news. Rubinius has a debugger built in. If you've never used Rubinius, this is fantastic. You don't have to include a separate library. It has all of the functionality that we just talked about, plus a little bit more. That's awesome.
+
+What about JRuby? If you're using JRuby and you need to, and you want to debug things, you've got the whole Java ecosystem to lean on. There's a tool called VisualVM. I've used it in the past when I needed to do memory debugging in Ruby. And so there's, the tooling system in Java is much more mature than it is in Ruby. For, and, so that's fantastic. So you have those are your choices there.
+
+So to recap, we, we looked at a case study. We looked at the basic commands of next, step, break, continue, and display. We look at some advance commands that are not available everywhere, but they're available in ByeBug. That's finish, source, and save. If you're using Ruby 1.8.7, you're gonna use Ruby dash debug. If you're using 1.9 you're gonna use Debugger, and if you're using 2 point 0 you're gonna use ByeBug.
+
+If you're gonna use Pry, you can. You can use them with both of them. And in fact in the last talk they talked about using Pry dash plus. I would highly recommend that as well.
+
+My slides are available up on SpeakerDeck. I'll tweet those out later, too. You can see the source code repository for what we used in this project. Attributions for the nasty photo of the, the host crab with its Sacculina Carcini parasite. That's the credit there.
+
+I've got a nice stache for a reason - you can talk to me about it. If you want to get to know me, you can go check out my blog. If you want to follow me on Twitter. If you want to work with me, I work with a company called Big Nerd Ranch. We develop IOS Android apps. We also the back-ends for those things in Ruby.
+
+And I thank them for giving me the time to work on this type of stuff, and come and work on these types of presentations and share it with you guys. Thanks to the organizers. And if you want to code with me and don't want to work with me, you can come code with me on GitHub.
+
+So that's it. I'm open up to question if anybody has any. Thank you so much.

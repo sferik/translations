@@ -1,0 +1,303 @@
+RubyConf 2013 - Beneath the Surface: Harnessing the True Power of Regular Expressions in Ruby - Nell Shamrell
+
+NELL SHAMRELL: My name is Nell, and I used to be intimidated by regular expressions.
+
+Has anyone else felt intimidated by regular expressions? I see a lot of hands that just went up.
+
+I used to look at a reg ex like this, and I would feel a sense of dread in my heart. Now what this reg ex does, is it validates visa credit card numbers. Now once I knew the context, I could kind of see what was going on. Kind of pick out clues here or there. But I had no idea how I'd ever write something like this.
+
+It's human nature to fear what we don't understand. Now it took time. But once I understood how a reg ex parser actually works, how it does that magic where it finds that match in the string, I realized it was simply a process. A logical process like any program that I could grasp.
+
+Then I knew how to use reg ex without fear. How to harness their power to match exactly what I wanted, exactly when I wanted.
+
+I'm here today to share this knowledge with you. To help you move beyond your fear by understanding how regular expressions work beneath the surface. When it comes to reg exes, knowledge truly is power, and today I'm going to show you how that power can be yours.
+
+Ruby and regular expressions work together in a harmony, in a symphony of code. If I was really gonna learn regular expressions anywhere, I'm so glad I learned them in Ruby. What we see in Ruby, however, when we use things like the match method, is just the tip of a very large iceberg. A lot more goes on beneath the surface in the Onigmo regular expressions library.
+
+Let's take a dive together beneath that surface.
+
+The Onigmo regular expressions engine was introduced in Ruby 2 point 0. Ruby passes regular expressions and strings to Onigmo, and Onigmo handles the actual matching. Now Onigmo is actually a fork of the Oniguruma reg ex engine that was used in Ruby 1 point 9.
+
+Both of these provide the standard reg ex features you'd find in any engine. But what these two do, is they handle multi-byte characters such as Japanese text, particularly well. Onigmo adds some new features that were introduced in Perl 5.
+
+Now Patrick Shaughnessy, who I know is in attendance here - there he is - has a great article entitled Exploring Ruby's Regular Expressions Algorithm. I'll include a link to that in my resource notes.
+
+Now in this article, he lays out the workflow of Onigmo. When Ruby first passes a reg ex to Onigmo, Onigmo reads the reg ex and parses it into an abstract syntax tree. And abstract syntax tree simply represents some code - in our case, a regular expression - in a tree form that's easier for Onigmo to compile.
+
+Onigmo then compiles this tree into a series of instructions for the engine to execute. Now these instructions can be represented by a finite state machine. Now what on earth is that?
+
+A Finite State Machine is a mathematical model that shows how something works. It's like a diagram or a map that shows how something can get from one state to being in the other state. This'll be clearer with the example, so let's go ahead and create one.
+
+I'm first going to create a Finite State Machine for a dog. In particular, this is my parents' dog, Annie. She's a very cute whippet Irish terrier mix. And, like most dogs, she loves to go in and out of the house all day, every day.
+
+So each of these two circles, these nodes, represent a state that Annie can be in at any given time. She can either be in the state of being in the house or she can be in the state of being out of the house.
+
+So how does she get from one state to the other?
+
+Well, if she's in the state of being in the house, she can go through her doggy door and transition to the state of being out of the house. Likewise, when she gets bored outside, she can go through the doggy door again and be in the state of being in the house.
+
+So that's an example of a Finite State Machine. But even with an example, a very cute example if I do say so myself, just those words, Finite State Machine are still quite a mouthful.
+
+Let's break it down.
+
+The machine is what I'm modeling. In our example, it was Annie the dog.
+
+State means we're modeling states that Annie- or, pardon me, modeling states that a machine can be in. In the case of Annie, she can either be in the house, or she can be out of the house.
+
+Finite means there are a limited number of states our machine can be in. States are often limited by physical reality. Annie really can't suddenly be under the ocean - unless she's in Miami and playing on the beach, I suppose - or suddenly be on the moon.
+
+In a computer, physical memory is not infinite. There's only so much a computer can process before it will crash. Therefore the number of states a computer process can be in is usually limited by physical memory.
+
+Now, before I move on, I want to mention that, like many dogs, Annie loves to stand halfway in the house and halfway out of the house.
+
+Now, in these cases, she is in multiple states simultaneously. There are ways a computer process can be in multiple states simultaneously as well, including reg exes. Now it's out of the scope of this presentation, but the article Regular Expression Matching Can be Fun and Fast by Russ Cox delves into an algorithm by Ken Thompson that allows for this.
+
+I'll also include a link to this in my resource notes.
+
+So let's make a Finite State Machine for this reg ex.
+
+This reg ex looks for the word force in any string that I pass to it. So when I use this reg ex in Ruby, I'm gonna declare it. I'm gonna declare my string. Then I'm gonna call match on my reg ex and pass it my string.
+
+After Onigmo reads the reg ex and parses it into that abstract sync- syntax tree, then compiles it into those instructions, my Finite State Machine will look something like this.
+
+A regular expression tries to match a string one character at a time, starting with the left-most character. So the first character this reg ex sees is that capital letter U. Now that doesn't match the path to the next state - it would need a lower-case F for that.
+
+So it stays there on that starting state. Next it sees the lower-case S. Now that still doesn't match, so it still doesn't move from that starting state. Now it's gonna do this for several characters, so let's go ahead and fast-forward.
+
+When we come to this lower-case F, now things start to get interesting.
+
+A character in the string matches the path, which means my Finite State Machine can move on to the next state. Then it sees the lower-case O in the string. Once again, that matches the path to the next state. Does the same with the R and the C and the E - and we have a match.
+
+We've reached that final state in our Finite State Machine, which means we're at a matching state. Onigmo passes the information back to Ruby, then Ruby returns a MatchData object containing our match. In this case, it's the word force.
+
+Now that was a pretty simple example. For our next example, let's try something a little more complicated.
+
+Let's try a regular expression that uses alternation.
+
+This regular expression with match a capital letter Y, followed by either the characters O-L-K, or the characters O-D-A. I'm providing two alternate ways my regular expression can find a match.
+
+So in Ruby, again, I'm going to declare my reg ex, declare my string - the word Yoda. I'm gonna call match on my reg ex and pass it that string, and this time my Finite State Machine looks a little bit different.
+
+There are two paths that can lead to a successful match. So after it matches the Y in my string, it now has to make a choice. Which path should it try first?
+
+In the case of alternates, a reg ex engine will always try the left-most alternate first. But before it tries that o-l-k path, it saves both the point in the string where it is, and the state it's at, to what what's called the back-track stack. Every time a reg-ex chooses one path over the other, it saves the string and the state just in case the match fails and it needs to try the other option.
+
+I like to think of it as being kind of like a choose-your-own-adventure book. It's marking a place that it can come back to. And it's a good thing it did. As soon as it sees that 'd' in the string it knows it has no way to get from its current state to that finishing matching state.
+
+Now, normally, having no paths to the finishing state would cause the reg-ex to fail. However, because it has something in that back-track state- stack, it can back-track back to the point where it chose which path to follow and try the other one.
+
+This time things go better. After it matches the lower-case o, it's next able to match the d, and the a, and hoorah! This time we have a match.
+
+Back in Ruby, it returns the MatchData object containing your match, which is the entire string in this case - Yoda.
+
+Now Finite State Machines become even more interesting when we use quantifiers.
+
+Now it's easy to look at this regular expression with our human brains and see the word no followed by a plus sign. However, Onigmo sees this as a capitol letter n, followed by a lower-case o, and a plus sign quantifier. That plus sign after the o means the o can appear one or more times.
+
+So in Ruby, again, I'll declare my reg ex and my string. This time, the string is the word Noooo, famously yelled by Luke Skywalker in The Empire Strikes Back.
+
+I'm gonna call match on my reg ex and pass it that string. And this is what my Finite State Machine looks like. It's pretty simple at first. It matches that capitol n, then it matches the first lower-case o, and now our reg ex has a dilemma.
+
+Technically, it has a correct match right here. It has a viable match. It can go ahead and return this back to Ruby and declare it found that match.
+
+But it also sees more lower-case o's in the string. It could either return the match here or it could follow that curved o path and loop back on itself into the same state.
+
+So what should it choose?
+
+It chooses to keep looping and match that second o. By default, the plus sign quantifier is a greedy quantifier. A greedy quantifier will always keep looping as long as there is more string to match.
+
+A greedy quantifier will always match as much of the string as it can get its greedy little arms around. Even if it has a successful match, it will always be hungry for more. It's greedy.
+
+A greedy quantifier uses maximum effort for maximum return. It will try every permutation of the reg ex to see if it can get the biggest match possible from the string.
+
+So it just keeps on looping. It matches that third o. Then the next o. And we have a match. Back in Ruby, I'm gonna get my MatchData object back and it matched the entire string. Capitol letter n with all four of the lower-case o's.
+
+But what if I want the opposite behavior?
+
+What if I want to match as little of the string as possible? I would use a lazy quantifier. Woah.
+
+Did someone just lean on the light? Oh. It's OK! It was mood lighting. Lazy quantifiers deserve darkness.
+
+So lazy quantifiers do the opposite of greedy quantifiers. They match the least number of characters possible. Lazy quantifiers use minimum effort for minimum return. They're lazy. They do just enough to get the job done and then they stop.
+
+I make a quantifier lazy by adding a question mark right after the quantifier. The plus sign is the quantifier. The question mark is a modifier on that quantifier that makes that quantifier lazy.
+
+So when I match my string using this reg-ex, again, declare my reg ex and my string, calling match on my reg ex and passing it that string, it's gonna start off the same. It's gonna match that capitol letter n, then that lower-case o, and now it finds itself with that same choice.
+
+Should it keep looping? Or should it go ahead and return the match right here?
+
+Well, because this is a lazy quantifier, it chooses to go ahead and return the match. It's done just enough to get the job done. It's done.
+
+And back in Ruby, I'm gonna get my match back, and notice that I have the capitol letter n and only one lower-case o this time. This choice, whether to keep looping or return the match, is the essence of greedy and lazy quantifiers.
+
+The difference between them is that a greezy- greedy quantifier will always choose to keep looping whenever able, and a lazy quantifier will always return the match as soon as it has a viable one. Now even though greedy quantifiers are greedy, they're also reasonable.
+
+If a greedy quantifier matches an extra character, but then that character is needed later in the reg ex to make a successful match, it will go ahead and give the character back. It will always choose to allow for an over-all match versus holding on to any extra characters.
+
+So let's try another example, but this time let's use the star quantifier.
+
+Now, before I continue, I should recommend that you use the star quantifier with caution. Star quantifier after character means that a character can appear any number of times, and any number of times includes zero times. So the dot character matches any character. Then we have the star quantifier - it'll be any character appearing any number of times, followed by the word moon.
+
+So in Ruby I'm gonna declare my reg ex, and declare my string - in this case it's another of my favorite lines from Star Wars. It's, 'That's no moon.' And then call match on my reg ex and pass it the string. And in my Finite State Machine, it first sees that capitol letter T. Now that matches the dot meta-character path, so it's able to move on to the next state, and when it gets to this state, there are two paths that it can take.
+
+If it finds a lower-case m in the string, it can go ahead and move on to that next state. Or if it finds any character at all, it can again loop back in, in on itself, follow that dot character path, and be back at the same state.
+
+So h, lower-case h, matches any character. So it goes ahead and matches it. It then sees the lower-case a in the string, and again, that matches the any character path. So it's gonna do this for awhile. So let's go ahead and fast-forward a little bit, until we get to that lower-case m.
+
+This is where things start to get interesting. My reg ex has a dilemma. It can either take that path that matches the lower-case m, or it could take that looped any-character path. Which should it choose?
+
+Well, because that star quantifier on the dot character in my reg ex is greedy, it keeps on looping over that any character path. It does this again for the o, and the second o, and the n, and... uh-oh.
+
+My reg ex has no more characters left in the string for it to match. And it's still not at that finishing matching state. So it now has to make another choice.
+
+Should it back-track and give back some of those characters that matched, or should it declare the match a failure?
+
+Well, remember. Greedy quantifiers are reasonable. The star quantifier - or, pardon me, the dot with the star quantifier, goes ahead and surrenders some of the characters that it matched, starting with the most recent one it matched.
+
+So it surrenders that lower-case n, and that doesn't make things better. So it goes to the next one, that lower-case o. Still no match for that m path. Then it surrenders the next o. Still no match. Things are looking grim.
+
+Until it gives back that lower-case m. Now we have a match, and we can move on to the next state, where it again matches the lower-case o, then the second o, then the n. And huzzah! We now have a match.
+
+Back in Ruby, I'll get back my matched data object, which is the entire string, "That's no moon."
+
+So with back-tracking, we were able to find a successful match. But back-tracking tends to be slow. When you hear someone complain about how regular expressions are slow, they're probably complaining about backtracking.
+
+It's great when backtracking lets my reg ex find a match when it otherwise wouldn't have, but when it doesn't find that match, when my match fails, all that work, all that extra memory it used, is for nothing.
+
+So let's look at an example of this. This reg ex will match the capitol letter n, followed by the lower-case o appearing one or more times, followed by a lower-case w appearing one or more times.
+
+In Ruby, I once again declare my reg ex. I'm matching the string Nooo again. And call match on my reg ex and pass it that string.
+
+In my Finite State Machine, it matches the capitol letter n, then it matches the lower-case o, then it loops and matches the other os, but it's, because remember that plus sign on the lower-case o is greedy, then the next o, and the next, and the next, and - uh-oh. Once again, it's at the end of the string and it hasn't reached that final matching state.
+
+It hasn't found that lower-case w appearing one more times. Now it has to make a choice. Should it fail the match now or should it try to backtrack? Well, because it's a greedy quantifier and therefore reasonable, it goes ahead and backtracks. It gives back some of the characters.
+
+So it gives back that lower case o at the end, still no match. It's not a w. Then it goes to the next o, and the next one until it gets here. That's the last lower-case o it can backtrack over, and there's definitely no way it can make a match now.
+
+So it fails the match. Now that backtracking was a lot of extra effort. Sometimes that effort is worth it. But when it's not, there's a third kind of quantifier. The possessive quantifier.
+
+A possessive quantifier allows you to control the backtracking in your reg ex. Possessive quantifiers do not backtrack. They either make a match on the first try or they fail the match. So let's look at an example of this.
+
+I make a quantifier possessive by adding a plus sign after it. This reg ex matches a capitol letter n followed by a lower-case o appearing one or more times, and now I've added a second plus sign after it. One of these plus signs is the actual one or more quantifier, and the other is, again, a modifier on that quantifier that makes it possessive.
+
+After the o, my reg ex also looks for a lower-case w appearing one or more times.
+
+In my Finite State Machine, my reg ex first matches the capitol letter N, then it matches the lower-case o, and it proceeds the same, matches the next lower-case o and the next and the next one, until it comes to here, where it has that same dilemma.
+
+It hasn't yet found that lower-case w appearing one or more times. It didn't find it on the first try through the string. It has to decide whether it should backtrack and give back some of those extra o's in the hopes it might find that lower-case w somewhere, or it needs to give up and fail right now.
+
+A possessive quantifier always chooses to fail rather than give up any of the characters that it matched. Possessive quantifiers save both time and memory by making a reg ex fail faster. You use a possessive quantifier when you know there's a point in your reg ex where continuing or backtracking would be pointless. The match will fail no matter how many permutations it tries.
+
+Use possessive quantifiers with caution. They can potentially cause unexpected failures. Generally I've found the best place to use them is within smaller sub-expressions or nested quantifiers within your regular expression. When used carefully, they can significantly speed up a regular expression's matching.
+
+So far, I've taken you through the bits and pieces of how regular expression works. It's good information to know and great theory to understand, but it doesn't explain how to practically use a reg ex in your every day code.
+
+Crafting a regular expression for a specific need is as much an art as a science. In this last section, I'm going to take you through crafting a regular expression from scratch for use in real functioning code.
+
+Back in May, Avdi Grimm Tweeted a regular expression challenge. It was to create Ruby code using the GSUD method on a reg ex that would convert a snake_case string into a CamelCase string.
+
+Now, I was away on vacation and unplugged at the time, so I didn't see this until much later. I'd like to present my solution for you now, and take you step-by-step through how I developed it.
+
+First step was to white-board the requirements for my solution. First thing it needs to do is find the first letter of the string and capitalize it. Then it needs to find any character that follows an underscore and capitalize that one. Finally, it needs to remove the underscores from the string.
+
+These steps will transform a snake_case string into a CamelCase string.
+
+So let's start with that first step.
+
+I need to find the first letter of my string and capitalize it. Now I'm a test-driven developer, and I develop my regular expressions through the same red-green refactor method. Red-green refactor process, pardon me.
+
+So first I write a spec where I define the basic structure of my program. I'm creating a class called case_converter, and I'm adding a method to that class called upcase_chars. I expect when I pass a lower-case string to upcase_chars it will return that string with the first letter capitalized.
+
+Next, I draft a regular expression just to capture that first character in the string. I'm gonna use the slash A short hand, which anchors my regular expression to the beginning of my string. Next it's gonna need to find the first letter at the beginning of the string.
+
+In my first draft of this reg ex, I used the slash w short-hand, which will match any word character. So let's plug this into the actual upcase chars method.
+
+I define my reg ex, then I call gsub on my string and pass it that reg ex. Next I use a block and tell it every character that reg ex matches, call upcase on that character. So when I run my spec, my spec passes.
+
+But there's a problem with this reg ex.
+
+I want to capitalize the first letter of my string, even when that string starts with an underscore. Now in this spec, I state that when I pass it the string, underscore method, I should expect to, to the upcase chars method, I expect to receive that string back with the first letter capitalized.
+
+Now when I run this with my current code, with that current regular expression, this spec fails. Let's take a look at the error message from that spec.
+
+I expected to get back a string with a lower-case m capitalized, but I got back a lower-case string instead. Something is not right here. There's a problem with the slash w shorthand. Sure, it matches all word characters, but in its mind, all word characters includes underscores.
+
+If I pass it a string that starts with an underscore, it will match the underscore, not the first letter. My Ruby code will then call upcase on the underscore, and, naturally, nothing will happen. I was presenting a draft of this, and I, I was watching a chat from some students, and when I said this line, someone else responded, sure, if you upcase an underscore it becomes a hyphen.
+
+It doesn't.
+
+I need to be more specific. Instead of the slash w shorthand, I'm gonna use a character class. This character class will match any lowercase letter from a to z, which is exactly what I need to capitalize, and nothing more.
+
+Next- furthermore, I'm gonna allow my reg ex to match one underscore at the beginning of the string. Finally, I'm gonna add in a question mark after that underscore that makes that underscore optional. This reg ex will match both a string with an underscore at the beginning of it and a string without an underscore at the beginning of it.
+
+So my code, I'm gonna plug in this reg ex into my upcase chars method, and this time my spec passes.
+
+So I'm ready to move on to the next requirement for my solution.
+
+Find any character that follows an underscore and capitalize that character.
+
+Again, I'm going to define a spec. I expect that when I pass the string some underscore method to my upcase_chars method, it will return that same string, but with the letter s and the letter m capitalized.
+
+So to do this in my reg ex, I now need a reg ex that will match both the first lowercase letter of the string and any lowercase letter it- char, letter directly following an underscore.
+
+I take my current reg ex, and I add an alternate to it. This will now match the first lowercase letter of a string or any lowercase letter in the string. Now to make that alternate specific to lowercase letters that follow underscores, I add in a look behind. This look behind adds a context to that last character class, to that alternate.
+
+It states that it will only match a look, the lowercase letter if it directly fo- is, pardon me, if it directly follows an underscore.
+
+So when I add this reg ex to my code and run my spec, my spec passes.
+
+Now it's time to move on to the final requirement for my solution. I need to remove any underscores from the string.
+
+Again, I create a spec. For this requirement I'm going to have a separate method in my case_converter class called remove underscores.
+
+When I pass it a string with an underscore in it, I expect to get back that same string with the underscore removed.
+
+Now my reg ex for this method is actually pretty easy. I just need to find a literal underscore in my string. Some of my char- case converter class, I create my method, remove underscores. I declare my reg ex, which is just a literal underscore. Then I call gsub on the string I pass into it and I tell it that anything that matches this reg ex, replace it with an empty string.
+
+This effectively removes all underscores from the string.
+
+Then I pass both the reg ex and the empty string, and when I run my spec, my spec passes.
+
+So finally I now have two separate methods for my solution. I need to combine them into one method, to combine the results together. I create another spec. This one for a method called .snake_to_camel in my case_converter class.
+
+When I provide it a string with all lowercase letters and an underscore, I expect the method will return that string with the letter s and the letter m capitalized and the underscore removed.
+
+My snake_to_camel method will first call upcase_chars on the string that's passed into it, then call remove_underscores on the result of that upcase_chars method. When I run my spec, my spec passes.
+
+The code I presented here is available at this GitHub address. I'll also be Tweeting out this address after this presentation. There is definitely more than one solution to this challenge, and I highly recommend anyone who's interested, please submit a pull request, or Tweet out a solution. I'll re-Tweet it. It'd be great to have some discussion going.
+
+Life with reg exes is a journey.
+
+A journey that is at first fraught with peril. But it becomes much easier as you learn and understand what happens beneath the surface. Here are a few tips to help you along your way.
+
+Powerful, elegant regular expressions are not developed all at once. Develop your reg exes in small pieces. Make sure those individual pieces work, then combine them together into larger wholes.
+
+When you write a regular expression, you are programming in another language. The language of the reg ex parser. Like any program, reg ex need to be developed iteratively. They come in drafts.
+
+Whenever I'm crafting a regular expression for use in Ruby, I first develop it in Rubular. Rubular is a fantastic site that allows you to easily create and test regular expressions on test strings. Now a tip I picked up from Maryn Marsten on the Rogue's Parlay list, was to, whenever I create a regular expression in Rubular, make a perma link of it. Rubular allows you to make perma links of any regular expression you create on there.
+
+Then copy the url for that perma link and paste it into a comment in my code.
+
+This has been enormously helpful whenever I've needed to come back to regular expressions that I wrote a few weeks ago. Or anyone who's not as into regular expressions as I am needs to edit my code.
+
+Regular expressions are a programming language of their very own. Like any programming language, they can be learned. They are a logical system and process that, at their core, is no different from any program that takes in a certain input and returns a certain output.
+
+Regular expressions are powerful. So powerful, they inspire fear in many of us. But that fear will be overcome through understanding. Here's the call to action.
+
+Fire up Rubular. Experiment with greedy, lazy, and possessive quantifiers. Play with regular expressions. Have fun with them. Move past your fear and take a dive beneath the surface.
+
+I think you'll be amazed at what you find.
+
+I'm Nell Shamrell. I'm an engineer with Blue Box. That's my Twitter handle. I used a ton of resources in putting this presentation together. That's a link to all of them. All of them are fantastic. I'll Tweet up that link after this presentation as well.
+
+Please check it out. Explore all these awesome works by many authors that help me put this together.
+
+And with that, I'm ready for any questions. We have thirteen minutes. We have plenty of time.them. Move past your fear and take a dive beneath the surface.
+
+I think you'll be amazed at what you find.
+
+I'm Nell Shamrell. I'm an engineer with Blue Box. That's my Twitter handle. I used a ton of resources in putting this presentation together. That's a link to all of them. All of them are fantastic. I'll Tweet up that link after this presentation as well.
+
+Please check it out. Explore all these awesome works by many authors that help me put this together.
+
+And with that, I'm ready for any questions. We have thirteen minutes. We have plenty of time.

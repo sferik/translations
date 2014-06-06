@@ -1,0 +1,937 @@
+RubyConf 2013 - Extreme Makeover: Rubygems Edition - Andre Arko
+
+ANDRE ARKO: So this is Extreme Makeover: Rubygems Edition.
+
+I'm basically gonna talk about what happened
+
+to Rubygems in the last year
+
+and what we're planning on doing in the near future.
+
+I am Andre Arko. I'm indirect on all of the internet things.
+
+I work at Cloud City Development, a mostly Rails,
+
+but general web development shop, where we build apps
+
+for people.
+
+So let's get started.
+
+Rubygems. Lots of stuff happened this year. It was
+
+a really eventful year for RubyGems. The infrastructure changed
+
+a lot, and - mostly in good ways. So
+
+the, the first kind of, stretching the definition of
+
+a year till last October. The first thing that
+
+happened was Bundler kind of DDoS'd Rubygems dot org.
+
+Sorry.
+
+Arguably my fault.
+
+We basically couldn't tell that it was happening until
+
+people slowly installed Bundler 1 point 1 and more
+
+and more and more of them installed Bundler 1
+
+point 1, and eventually it was enough people that
+
+Rubygems couldn't handle it anymore and it died.
+
+So the dependency API that Bundler was using turned
+
+out to be really CPU intensive compared to the
+
+like, not very CPU intensive delivering a file that
+
+was happening without the API.
+
+So I gave a talk at Gotham Ruby this
+
+year, actually, just a few months ago with a
+
+lot of detail about that particular situation and what
+
+happened and what we learned from it and what
+
+we did about it. It's online if you guys
+
+really care about that particular thing.
+
+The TL;DR is that we rebuilt the API as
+
+a Sinatra app. It's not hosted on Horoku, separate
+
+from Rubygems dot org, and we throw an unbelievable
+
+amount of CPU and database resources at it in
+
+comparison to like what we had before.
+
+The next relatively significant thing that happened was there
+
+was a security breach over at Rubygems dot org
+
+in January. Their gems have yml gem specs and
+
+Rails, at the time, provided a way to use
+
+yml to exploit against the running application. So someone
+
+uploaded a gem to Rubygems dot org that contained
+
+crafted, malicious yml and the server executed it and
+
+they got access to the server.
+
+Like, I think they paste binned a copy of
+
+the etsy passwords file. It was pretty bad.
+
+As a result of that, potentially any gem on
+
+Rubygems dot org could have been replaced with a
+
+gem that had a Trojan in it and we
+
+didn't really have a way to tell just from
+
+the server logs because it could have been tampered
+
+with.
+
+So the Rubygems dot org team mostly up in
+
+Phoenix kind of exhaustively compared every gem that we
+
+had to copies of those gems that had been
+
+taken by mirrors of Rubygems at other times before
+
+the exploit had happened. Happily it turned out that
+
+all of our gems were fine and no one
+
+was screwed. Yay.
+
+But we didn't really have a way to trust
+
+the box that Rubygems dot org had been hosted
+
+on again. Not too surprisingly. So as part of
+
+the process of rebuilding everything from scratch, we actually
+
+rebuilt everything on a new architecture that's more flexible.
+
+We're on EC2 now. We have redundant servers. We
+
+have maybe, possibly, hopefully fail-over if some of those
+
+servers stop working. It's all managed by chef recipes.
+
+Honestly I think it's way better than the set
+
+up that we had before. The chef recipes are
+
+open source. Anyone can contribute fixes or features to
+
+not - before you could contribute fixes and features
+
+to Rubygems dot org the Rails app. Now you
+
+can contribute fixes and features to the servers that
+
+Rubygems dot org runs on as well.
+
+The refill is on GitHub in the Rubygems org
+
+named Rubygems dash AWS.
+
+And that's actually pretty cool. Like I'm - as,
+
+as frustrating as this was at the time, I'm
+
+really happy with how things turned out and how
+
+things are better now.
+
+Another issue that plagued a lot of people was
+
+Travis network issues connecting Rubygems dot org. Like, I
+
+don't know if all of you guys know what
+
+Travis is. It's an automated continuous integration system. Lots
+
+of opensource projects use it because they will provide
+
+server-side continuous integration testing for free, for all opensource
+
+projects.
+
+Bundler uses Travis super extensively to test on every
+
+Ruby version and every Rubygems version to make sure
+
+it still works.
+
+For a few months, it was basically a crapshoot,
+
+whether you could actually install gems on Travis. You
+
+could try, like, ten times, and sometimes eight of
+
+those tries would work and sometimes one of those
+
+tries would work, and it really, really frustrating. And
+
+basically no one knew what the problem was because
+
+everyone said it was someone else's fault.
+
+There was a, I don't know, kind of on
+
+and off investigation. It turned out that the problem
+
+was actually DNS. The Travis virtual machines had hard-coded
+
+DNS servers that were on the opposite side of
+
+the country from the data center where the Travis
+
+VMs actually ran.
+
+That meant that whenever Rubygems tried, or actually, so,
+
+Rubygems posts gems on Amazon's S3 service, and then
+
+sends you to Cloud Front, which theoretically gives you
+
+a server that's geographically close to where you are.
+
+The problem is, it uses your GNS servers to
+
+know what geographically close to you is. That meant
+
+that the Travis servers looked to Cloud Front like
+
+they were on the other side of the country
+
+and they were getting told to use Cloud Front
+
+servers that were about as far apart as is
+
+possible to be whilst still being inside the United
+
+States.
+
+That was not optimal. It - once we actually
+
+figured out that that was the problem, Travis was
+
+able to sort of force their DNS servers back
+
+to ones that were actually inside the data center
+
+where their, their VMs were hosted. And that basically
+
+just went away. It's not perfect - there's still,
+
+like, it's still like a very heavily contended connection
+
+to Rubygems. But because there's, like, so many jobs
+
+running simultaneously. But it's way, way, way, way better.
+
+It's now like nine or ten times out of
+
+ten. It succeeds.
+
+The other equally frustrating and equally intermittant problem that
+
+happened to Rubygems this year kind of semi-concurrently with
+
+the Travis issues, have been continuing after that was
+
+SSL issues.
+
+If you have done a lot of gem installing,
+
+you have probably seen SSL errors and been, like,
+
+I don't know why this happens. And sometimes they
+
+just go away if you try again, which is,
+
+like, the worst possible kind of bug.
+
+So it turned out to actually be two different
+
+bugs. There was one issue that was kind of
+
+a combination of different certificate problems. Some, like, so,
+
+some Linux machines don't ship with a new enough
+
+certificate to verify the Rubygems dot org certificate, and
+
+so we had to add the appropriate certificates to
+
+Rubygems and Bundler, so that on machines that didn't
+
+have it we can verify that Rubygems dot org
+
+was the machine that we thought it was.
+
+There was another certificate issue in that some S3
+
+end points started using a newer SSL certificate, which
+
+meant that what we'd done to fix that was
+
+now semi-invalid, but it was kind of random which
+
+S3 input you got, so it only sometimes failed.
+
+So we also updated the certificates again to like
+
+fix that issue. And then, surper frustratingly, at the
+
+same time, there was a different SSL issue, where
+
+if it, it turned out, eventually to be that,
+
+if you were on a laggy connection, Rubygems dot
+
+org would just stop responding to your requests to
+
+open a connection if it took a little bit
+
+too long.
+
+The timeout was very short, just like a few
+
+seconds. And so the SSL, like, what you would
+
+see if the servers that note this took too
+
+long kill it, was an SSL error. Because the
+
+SSL connection had never been finished setting up.
+
+So we increased the time out, and that also
+
+has basically made that problem go away. Obviously it
+
+can still happen if you're on an incredibly laggy
+
+connection, but we set it to something more reasonable
+
+that means almost everyone succeeds almost all the time
+
+now. Which is great. Like it's so much better.
+
+So that's kind of, like, a review of the
+
+significant things that happened. Now I'd like to talk
+
+about how Rubygems works and how I am working
+
+on changing it to work differently. So, right. How
+
+it works today.
+
+Today, both Bundler and Rubygems download gem information from
+
+Rubygems dot org. There's basically two ways to get
+
+information about gems. You can either ask Rubygems dot
+
+org for the list of all the gems that
+
+exist, or you can ask the Bundler API for
+
+just a, like, named list of gems.
+
+Honestly neither one of these is that great. But
+
+they both work. So we keep using them. When
+
+you run gem install Rubygems downloads the list of
+
+all of the gems, and then looks for the
+
+newest version of whatever gem you asked for to
+
+find out what it is. When you call Bundle
+
+install, it will first try to use the API
+
+and only ask about the gems that are in
+
+your gem file, and then the gems that those
+
+gems need and the gems that those gems need,
+
+and then the gems that those-
+
+So it can mean a lot of requests. Both
+
+of those options, like, are pretty memory intensive, because
+
+you end up with, like, if you download the
+
+whole list, you end up with a list of
+
+every gem that exists, even if you didn't actually
+
+care about any of those gems - just the
+
+one.
+
+So with a fast connection it's not that bad.
+
+You can download the whole list of every gem
+
+pretty quickly. You can make lots of requests to
+
+the Bundler API pretty quickly. And either way it's
+
+tolerable. It's not great, but everyone's pretty much OK
+
+with it.
+
+The problem is, Rubygems dot org, and the Bundler
+
+API both live in AWS US East zone, which
+
+is in Virginia. That means that if you're not
+
+in the United States, you don't have a fast
+
+connection. The end.
+
+If you're, like, in Europe or Asia or Australia,
+
+god forbid, it's gonna take a really long time.
+
+It, it's not as bad if you're just downloading
+
+the whole list all at once, but then you
+
+have the, like, this is it, it's like multi-megabyte
+
+file, and then you have to unmarshal- It's, it's
+
+a big file with arrays of gems and then
+
+it's marshalled into the Ruby marshal binary format.
+
+And so you have to unmarshal the entire list
+
+and then look through that list for the gem
+
+that you actually cared about, and that can use
+
+up way more memory than it needs to, and
+
+way more bandwidth than it needs to. And if
+
+you're using Bundler, you've probably just made fifty round
+
+trip requests to Virginia, and if you're in Australia,
+
+that took forever. So definitely could be better. This
+
+is not the fastest situation.
+
+So basically after setting up the new Bundler API
+
+system earlier this year, it took us probably a
+
+month to get the replacement up after everything went
+
+down in October. And then kind of after that,
+
+I spent, I don't know, several, several conferences worth
+
+of time talking with the Rubygems dot org team
+
+members, the Rubygems team members and the Bundler team
+
+members. And we kind of, like, all pooled our
+
+ideas for how to make this less bad. And
+
+I kind of aggregated all of them together and
+
+sanity checked the overall ideas with everyone, and we
+
+have a plan.
+
+It's relatively straightforward, but it's a pretty big departure
+
+from how we've been doing things up until now.
+
+So instead of using Marshal to raise, we just
+
+have a plain text file that lists the gem
+
+names and the versions of the gems. You can
+
+parse plain text files with, like, split - you
+
+don't have the dangers of marshal or yml or
+
+have to worry about the file changing from the
+
+beginning to end just because you added a single
+
+thing to the end of the list.
+
+Those are all benefits. It's really easy to cache
+
+plain text files. It's really easy to, you know,
+
+like, copy them around and look at them and
+
+it's much nicer in general, I think. Happily, we
+
+figured out a way to use plain text files
+
+that is very, very, like, within 5% as fast
+
+as the current marshal format. So, pretty good.
+
+So once we have that plain text format, we
+
+can make some improvements. We can cache those files
+
+on the client because it's broken down into individual
+
+pieces, you know, like, each, each gem has a
+
+file that lists all of the versions of that
+
+gem and all of the gems that those versions
+
+depend on. And then there's like a master list
+
+that tells which gems, like, tells you about all
+
+of the gems that exist.
+
+So because those files are separate and small, we
+
+can say, hey, I'll just keep these here on
+
+my computer and I won't need to redownload them
+
+every time, because right now both Rubygems and Bundler
+
+redownload the entire list of gems from scratch because
+
+it might have updated. And we had no good
+
+way to incrementally add to that list with the
+
+format that we already had.
+
+That also reduce, like, so that, the, that obviously
+
+reduces the size of the data that gets transferred.
+
+But that also reduces, by a lot, the number
+
+of requests that have to be made, because you
+
+can do things like check to see if new
+
+gems have been pushed since the last time you
+
+ran, and if you get the response that's like
+
+nope, no gems pushed, then you don't even have
+
+to check to see if any of the individual
+
+gems were updated. You just know that they're all
+
+up to date.
+
+So less response data, and less requests means faster
+
+for everyone, but it will definitely be significantly, noticeably,
+
+like, it will be noticeably faster in the US,
+
+but it will be incredibly faster outside of the
+
+US.
+
+Right along those lines to speed things up even
+
+more, we're going to add CDNs in front of
+
+basically everything. Right now the way that the architecture
+
+works is all requests have to go to AWS
+
+in Virginia to find out where to get the
+
+data from. And that works for gems, it works
+
+for gem specs, it works for the gem index
+
+file itself. So everything will be CDN.
+
+I, the, the CDN company Fastly volunteered to both
+
+provide engineering resources and an account. And so we're
+
+going to have the gem specs, the gems, and
+
+the gem index files, which right now are not
+
+cached in a CDN at all, available just from
+
+Fastly. Which means that when you make a request
+
+from Australia, assuming that the file hasn't changed, Fastly
+
+will just give it to you from a server
+
+in Australia. You won't have to - like, there
+
+will be no requests that happen to the US
+
+until the Rubygems server tells Fastly, hey, there's a
+
+new version of this file.
+
+That should remove all requests that have to span
+
+the world to install gems, and I'm hoping that
+
+that will make all of the international Rubyists super
+
+happy.
+
+The final part of the improvement plan is to
+
+provide easy to install and use local mirrors of
+
+Rubygems. Right now this is basically a nightmare. It's
+
+super hard to do and it's not - a
+
+combination of the way that it works right now
+
+and no one having spent a huge amount of
+
+time on it means that the options basically boil
+
+down to, hey you should just put a varnish
+
+or squid cache in front of Rubygems. And hope
+
+that that does what you want.
+
+So we are like as part of this plan,
+
+we're building out the app that currently provides the
+
+Bundler API to also act as a local mirror
+
+of Rubygems. So you'll be able to spin up
+
+a copy of that inside your data center, near
+
+your machines, and, like, we're working with the Travis
+
+guys to get this set up inside the Travis
+
+data center. Various other companies that run enough boxes
+
+that install gems that they're, like, you know, if
+
+you're, if you either care about this performance-wise, because
+
+you have a lot of machines doing a lot
+
+of gem installs, or you care about this from
+
+like a paranoia perspective, where you want to have
+
+copies of all of your gems yourself, inside your
+
+data center, even if Rubygems dot org is gone
+
+- this will allow you to do that.
+
+And it, we're hoping to - although it's not
+
+done yet - have scripts that will let you
+
+just like run this on a, an out of
+
+the box Ubuntu VM or run this on, you
+
+know, like, whatever internal setup you have super easily.
+
+So after I hashed out all of this plan
+
+and wrote it down and said, this is what
+
+I'm gonna spend my free time working on for
+
+the next whatever, six months or a year, ten
+
+years or however long it takes to do this.
+
+Ruby Central said hey, that actually sounds like a
+
+really great idea. And we would like to give
+
+a grant to work on that.
+
+So, I got a grant to work on that.
+
+For the last few months I have been working
+
+one or two days a week, paid by Rubygems
+
+to implement that plan, which is pretty awesome. Yeah.
+
+So I'm really excited about that. Like it's super
+
+great that Ruby Central thought that this was worth
+
+doing, and I am really happy to have been
+
+working on it in that time. I just wanna
+
+let you guys know what we've been able to
+
+do so far and kind of where we're at.
+
+So there had been like a couple of different
+
+stabs at a new index format by various Rubygems
+
+team members. But nothing that was like super solid
+
+or that was actually getting used. I spent the
+
+first, probably, month or so working on the index
+
+format and making sure that it worked and contained
+
+all the information that we needed, and it was,
+
+you know, like usable across both Rubygems and Bundler
+
+and could be created on the server and all
+
+of that stuff.
+
+And then started implementing it. So like right now,
+
+the Bundler API Sinatra app can actually serve the
+
+new plain text index formats, like, and it works.
+
+It's really great. There's - I, I have a
+
+prototype implementation in Bundler that lets Bundler install gem
+
+files using only the new index format, from only
+
+the, you know like, from a server that only
+
+speaks the new index format, which is pretty sweet.
+
+Along with working on this, we, you know, kind
+
+of like, in that same time period, I worked
+
+with the Rubygems dot org team on the SSL
+
+issues that I'd previously mentioned, to figure out what
+
+was going on and get those resolved. We've also
+
+worked with Fastly and the Rubygems dot org team
+
+to actually get - it's not the entire plan,
+
+but right now gems engine specs are actually hosted
+
+by Fastly, and we've asked international Rubyists to benchmark
+
+this change. And it's been a huge improvement.
+
+So we're part of the way there on the
+
+CDN thing, which is really great.
+
+So having made it that far, here's what we
+
+have left to do.
+
+Rubygems dot org is going to but does not
+
+yet serve the new index format. Rubygems itself is
+
+going to use but does not yet use the
+
+new index format. And we're going to get all
+
+of those files pushed out into Fastly so that
+
+no requests have to go to the Rubygems server
+
+itself unless there's a cache miss on the CDN.
+
+So. At that point, once we have done that,
+
+everyone installing gems, everyone using Bundler, everyone using Rubygems,
+
+will be able to benefit from all of those
+
+changes. That's pretty exciting, actually. Basically, like, at that
+
+point, no matter which, like, gem installing client you're
+
+using, or how you have, you know like, the
+
+server set up, you will be able to use
+
+the new index format, get your data from Fastly,
+
+and make as few requests as possible and just
+
+get to the business of actually installing gems.
+
+So let's talk about what that means for the
+
+future.
+
+I am really excited about this plan. Like, I
+
+- even in my prototype rudamentary testing is way
+
+faster. I am super, super grateful that the Rubygems
+
+team and the Rubygems dot org team and the
+
+Bundler team have all, like, been helpful and supportive
+
+as I've been working on this. Ruby Central has
+
+obviously been paying for some of this work, which
+
+is super awesome.
+
+Kind of more immediately, in the future, there is
+
+a pre-release version of Bundler right now that doesn't
+
+include the new index format, yet. Instead it includes
+
+a parallel installation, which is another huge speed increase
+
+that we've been working on. If you install a
+
+pre-release version of Bundler, and then call Bundler install
+
+with dash j and then a number, it will
+
+spin up that many processes or threads to install
+
+your gems.
+
+If you have, like, four or eight cores, this
+
+can make a really significant difference in how fast
+
+your entire gem file gets installed. Horoku and Travis
+
+are both testing this change and will implement it,
+
+like, system-wide once the release is final.
+
+That should make both deploys and CI runs noticeably
+
+faster, which will be pretty great.
+
+As soon as this version is out as a
+
+final release, I'm going to move into the pre-release
+
+cycle for the version of Bundler with the new
+
+index format. It's, it's almost baked enough to be
+
+a pre-release, and I'm kind of like parallel-y splitting
+
+my time between getting the work that we've already
+
+done out and working on the new stuff.
+
+Once these release - like once this release is
+
+out completely I will ask everyone to try out
+
+the new index version of Bundler, and probably will
+
+have to fix whatever has gone wrong that we
+
+didn't notice. But it's like real soon now, is
+
+basically the answer. That said, there is a lot
+
+of work left to do.
+
+Like, obviously, like, there's ongoing Rubygems and Bundler maintenance
+
+as Ruby moves forward and as Rubygems moves forward.
+
+We have to like keep all of them in
+
+sync and working together. So there's ongoing compatibility work.
+
+There's working on making Bundler faster. There's working on
+
+making all of these things work together to be
+
+an awesome new system like we've planned. Even with
+
+the Ruby Central grant, I'm still only able to
+
+work on this like two days a week.
+
+The volunteer teams that work on Rubygems and Bundler
+
+and Rubygems dot org have been super helpful this
+
+entire time, and we could totally use more help.
+
+If any of you are interested and able to
+
+help us out, definitely hit me up. I will
+
+pull you into the next generation Bundler group and
+
+we can try and get things worked out so
+
+that it happens even faster.
+
+That's it.

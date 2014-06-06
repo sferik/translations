@@ -1,0 +1,1509 @@
+RubyConf 2013 - Recommendation Engines with Redis and Ruby - Evan Light
+
+EVAN LIGHT: OK, so it's 2:01.
+
+I guess we better get started, cause I was told that,
+
+all right I have to hit this little button,
+
+that once I run out of time this little doo-hicky here
+
+is gonna make lots of noise
+
+and then they're gonna bring out the,
+
+the gong, and it won't be pretty.
+
+So yeah, that's me. And we're, so right. I'm
+
+mixed up. I'm Xavier Shay. I'm here to talk
+
+about Ruby Profiling. If you were looking for this
+
+Evan Light guy, he's in that other room.
+
+Oh, wait, no that's not right. Yeah, OK. We're
+
+- I'm Evan Light and we're talking about recommendation
+
+engines with Ruby and Redis, and why are there
+
+more people in here than I expected? OK.
+
+So, very briefly about me - I created and
+
+run this event out in northern Virginia called Ruby
+
+DCamp. It's a three-day nerd commune in the woods
+
+for Ruby programmers. If you haven't heard about it,
+
+there are a bunch of handy, a bunch people,
+
+participants here who have been before. So, but, in
+
+a nutshell, you come out in the woods, you
+
+hack on Ruby code, you hang out with awesome
+
+programmers, you are not allowed to leave until the
+
+very end.
+
+And the attendees decide on basically everything and they
+
+have to do all the chores. And that sounds
+
+like a lot of work, but it's really an
+
+awful lot of fun. Oh, and free. But you
+
+have to get, you have to get a code
+
+in order to be able to attend.
+
+Also, I work for this little company called rackspace.
+
+Can you guys raise your hands if you've heard
+
+of us before? Oh, that's pretty good. How many
+
+of you guys use us? Or, well, I guess
+
+I'll say currently use us. Hmm. That's not too
+
+many. We need to work on that some.
+
+So I'm a, a what they call developer advocate
+
+for rackspace. That is, that I'm here for you
+
+guys. Truly. And that's why I took the job.
+
+I wanted the job where I could do more
+
+for the Ruby community, and they basically said, great,
+
+that's the kind of person we want.
+
+So if there's anything I can do to make
+
+your lives, those few of you here, we need
+
+more, who use rackspace, make your lives better with
+
+rackspace, great. And for those of you who don't,
+
+if there's anything you can think of that would
+
+make you want to - yeah, we'd like to
+
+hear that, too.
+
+Let's see. So moving right along. In a nutshell,
+
+here's what we're gonna talk about. This is a
+
+case study of sorts for which I, a client
+
+whose problem I solved with a recommendation engine, we'll
+
+talk about that. So we'll talk about the context,
+
+the solution that I used - I need to
+
+not look at my phone. Some Redis-related tangents, because
+
+this is a really all about Redis and Ruby,
+
+and some painful lessons I learned along the way.
+
+So the context. The client of mine, who shall
+
+remain nameless, just so that way I can be
+
+a little freer with discussion. They had a soccer,
+
+or have, I should say, a soccer social network.
+
+So imagine Facebook but for soccer.
+
+Like, Facebook for blah blah blah, that's pretty common
+
+in California, right. But in their case, what made
+
+them really interesting is that they have a live
+
+feed of soccer data coming in all the time.
+
+So, as games are being played, every time there's
+
+a red card or a yellow card, or someone
+
+scores a goal or there's a penalty, they get
+
+a notification about it.
+
+And what they wanted to be able to do
+
+is they wanted their users to be able to
+
+see popular events, popular posts on their site, so
+
+the, the soccer event feed, as it's coming in,
+
+would be automatically spewed out into the website as
+
+a series of posts. And they would be contextualized,
+
+that is, that they would have tags instead, we'll
+
+see more on that later.
+
+So they wanted the, the users to be able
+
+to see popular posts and relevant posts. And in
+
+near real-time, in that in near real-time part means
+
+that there's a little bit more exciting.
+
+So recommendation engines - I'm sure that most of
+
+you are at least familiar with the idea, because
+
+you use this thing called Google, probably. Maybe you've
+
+heard of it. So recommendation engines are an approximation,
+
+and they are based on, obviously, large sets of
+
+data, ideally. And in this case, we want two
+
+different kinds of recommendations.
+
+Again, we want what's popular - that's pretty straightforward.
+
+But what's relevant - and that's very subjective.
+
+So they're based in statistics. But this is me
+
+an statistics. And, and, and, and this to me
+
+is actually what makes this talk interesting, because I
+
+built a recommendation engine being that dog.
+
+So statistics - so recommendation engines are canonically based
+
+in the statistical methods and, yeah. Statistical methods and
+
+I, we don't get along so great. So this
+
+is basically about how you do it with brute
+
+force and still get away with it.
+
+So other than being ignorant to statistical methods, quite
+
+frankly, I couldn't get the client to pay me
+
+for a day or two of research. I asked
+
+them - I said, wouldn't you like to do
+
+the, the right thing rather than just, just, than
+
+something probably ugly that'll work? And they said, no
+
+basically we trust you, so just go build it.
+
+But I'm telling you, it'd be better if I
+
+did a little research in advance.
+
+No, no - just go build it.
+
+OK.
+
+Cause I like being paid.
+
+So, why Ruby?
+
+Well, kind of the same thing there. Their developers
+
+knew Ruby. They knew JavaScript. I said maybe we
+
+should use something faster, you know, Java - which,
+
+I feel is really funny to say, having been
+
+a programmer for awhile. If you said Java was
+
+fast twenty years ago, you'd, I would, or if
+
+I'd said it, I'd be laughed out of the
+
+room.
+
+Nowadays, you have Java - fast. Go - fast.
+
+C - fast. Even, JVM languages. I said Clojure
+
+because I like Clojure. But, nope. They wanted Ruby.
+
+So, OK, Ruby it is. No statistical methods, really,
+
+fine. I'll figure something out.
+
+So let's talk about the system a little bit.
+
+Like, every social network, it has the typical nouns
+
+of users, posts, comments. You're used to this. But
+
+then we have a few new ones. We have
+
+teams, players. I forget, I think they, they had
+
+a match as a noun, but really a match
+
+to me was just two teams playing. An event
+
+with two teams on it.
+
+And then we had a series of verbs. So
+
+submitting a post - I'm sure you're familiar with
+
+that. Except that I alluded to this a little
+
+bit earlier - posts have tags. They're taggable polymorphically.
+
+So you could put any old thing on them,
+
+but usually you would see teams and players, and
+
+that's really all they wanted out of the recommendation
+
+engine.
+
+It's important to mention. More on that later.
+
+And it's not that import - it's really not
+
+that important, it's just a fun point later.
+
+So you can comment on a post - big
+
+surprise. Again, social network, you probably didn't expect to
+
+see that. But you can tag posts, you can
+
+tag, sorry, comments, with users - kind of like
+
+you could in Facebook. It was a little bit
+
+more of a nuissance because they didn't have a,
+
+a tagging mechanism per se for users, like Facebook
+
+does. I just had to write something to scan
+
+the text. Not entirely relevant to the rest of
+
+the discussion, so. We'll just keep on going.
+
+Other verbs that kind of mattered a bit -
+
+favoriting teams or players. This isn't something that, that
+
+Facebook had. More like a FourSquare thing, when you
+
+say, I love this. I love this team. I
+
+love this player. And then liking posts. Pretty typical
+
+stuff.
+
+So given a, a model that looks a- something
+
+a little like this, leaving out comments and likes
+
+and favorites for now. Let's say you have a
+
+user, in this case he's user 2, he has,
+
+he posted three posts. The first two posts are
+
+really the important ones, and the first two posts
+
+talk about tags one, two, and three.
+
+So say we're given this. And maybe we have
+
+something like this, but we don't initially, where we
+
+can say this other - we have this other
+
+guy and he's interested in these tags. So those
+
+might be teams or players.
+
+And they have these scalar values associated, this user
+
+has these scalar values associated with each of these,
+
+say, teams or players. So given those things, what
+
+we want, ultimately, is that.
+
+We want to be able to say, this user
+
+is going to be interested in these posts and
+
+not that post. So post three and - going
+
+back two slides - had tag four. And post,
+
+and user 1 only cared about tags one, two,
+
+and three. Not tag four.
+
+So he's only interes- he should only have a
+
+score for post one, post two, and he shouldn't
+
+have anything for post three because he just doesn't
+
+care. So we want something like that.
+
+So this part here is where the, the interesting-ness
+
+came in. When the client approached me, they said,
+
+well we have this idea for how a recommendation
+
+engine would work. We'll just, we'll just have a
+
+weight associated with each one of these events as
+
+they occur.
+
+Well, that's all well and good, but going from
+
+the first diagram with the post and the tags
+
+to, oh, I have this in a single step
+
+doesn't really make any sense.
+
+I needed some kind of lens in order to,
+
+to figure out what the user, what content the
+
+user would actually care about. So I needed intermediate
+
+value - I needed some intermediate values to get
+
+a sense of what does the user care about?
+
+So moving on. We start with ActiveRecord. Every good
+
+application does - not really. But it was a
+
+Rails app, so yeah, we had ActiveRecord. But really
+
+we're talking about ActiveRecord::Observers. So that's to say that
+
+we would capture, or would capture the lifecycle events
+
+of the nouns I described earlier. And, well, we
+
+would have some data that we would feed into
+
+something and we'll get there in just a minute.
+
+So to reiterate, we cared about two different kinds
+
+of posts. Really, they're, well, posts are posts. But
+
+we care about quantifying them in two different buckets.
+
+Popular, which is a global thing, and relevant, which
+
+is subjective to the individual user.
+
+So popularity is pretty straightforward. It, it could be
+
+made a little more complex, in this. Popularity, if
+
+I recall, is based on comments and likes. And
+
+I forget which was worth more. Because we, we
+
+would - and that's kind of irrelevent. The point
+
+is, they would have different weightings.
+
+So for a trending this standpoint, a comment might
+
+be worth than a like or a like might
+
+be worth more than a comment. One thing that
+
+we had talked about doing that if we hadn't
+
+done would have made life a lot more interesting,
+
+is to have a notion of taste makers. And
+
+that is, people who are super jazzed about a
+
+topic having their, their likes and their comments being
+
+more valuable in terms of popularity than other people's.
+
+If you instantly start thinking about gaming the sytem
+
+when I say something like that, then you're basically
+
+reading my mind. Because I kept going back to
+
+the client over and over again about that, and
+
+their response was, oh to have such problems. And,
+
+well I had to agree with them.
+
+If someone games your system, well then you're doing
+
+pretty well for someone to care enough to do
+
+it.
+
+Relevence is really where it gets a little more
+
+interesting, or a lot more interesting. So we have
+
+these verbs, or I guess these statements, like if
+
+you go and favorite DC United, or you submit
+
+a post tag with DC United - let's say
+
+you like DC United, or you comment on a
+
+post that is tagged with DC United, or the
+
+really confusing one, you're mentioned in a comment on
+
+a post tagged DC United.
+
+If your head hurts on that one, I understand.
+
+It took me awhile to wrap my brain around
+
+it too.
+
+So obviously, if you hadn't figured out, there was
+
+a time in my life when I liked DC
+
+United. But I'm not really much into sports anymore.
+
+But moving right along. So, relevence is, in this
+
+system, is defined by an algorithm kind of like
+
+this.
+
+So given an arbitrary event defined by an AR
+
+observer, or essentially serialized by an AR obvserver, for
+
+each tag on that event, for each user interested
+
+in that tag, go score the user's interest in
+
+that tag, or go rescore assuming that there's an
+
+interest already.
+
+So if you hadn't figured out already, that's a
+
+Big O events squared algorithm, if you're in computer
+
+science. And that's a bad, bad, bad thing. Damn
+
+- I was hoping they might have been more
+
+Pacific Rim fans in the audience, but. Oh well.
+
+So yeah, Big O N squared algorithm. I'm up
+
+against it, so I'm thinking there's - this, this,
+
+this is bad. What am I gonna do with
+
+this situation? Well, how could we cheat?
+
+So, it occurred to me, we're talking about soccer
+
+matches, about sports games. We're talking about wanting timely
+
+recommendations. Why do we care about stuff that's in
+
+the past? WE shouldn't. So I went to the
+
+client and said, what if we just say, have
+
+a window of three days and then after that
+
+we just don't care anymore?
+
+And they said thumbs up, and I thought, oh
+
+great, now there's a whole lot of data I
+
+don't have to worry about. So, Big O N
+
+squared is bad, but N just got a whole
+
+lot smaller.
+
+By the way, sorry, computer science parlence. Big O
+
+of N squared is to say it's a nested
+
+loop, and N is some arbitrarily large constant. It's
+
+the largest, if, I think, we're being concrete about
+
+it, the size of the largest data structure would
+
+be iterating over. So the big O is worst
+
+case run time of this algorithm would be looping
+
+over the longest structure in a nested fashion. And
+
+that's generally very slow - you don't want to
+
+do that.
+
+So we only care about recent posts, as I
+
+said a moment ago. But now we, we've narrowed
+
+down what events we care about. We need some
+
+kind of event consumer. So how many of you
+
+are familiar with resque?
+
+Hmm, OK. About half. I wasn't sure what to
+
+expect. Interesting.
+
+So Resque is a, a queuing system for processing
+
+background tasks, and it's written using this thing called
+
+Redis, which was in the talks. I assume you
+
+might be vaguely interested in this thing called Redis.
+
+How many people know about Redis, are kind of
+
+comfortable with it?
+
+OK, that's a little more than half. Pretty good.
+
+So I'll keep this short.
+
+Again, don't time me. So Redis is a key
+
+value store, which is to say it's a little
+
+bit like a mem hash, or if you just
+
+want to speak more Ruby parlence, it's basically like
+
+a glorified hash, except it runs as a server,
+
+as a daemon process basically.
+
+It lives, or, it's storage is in-memory, but it
+
+can persist to disk, and there are a couple
+
+of different persistence options that give you a little
+
+bit of flexibility about how often, how reliable it
+
+persists.
+
+And the interesting thing about Redis is it's not
+
+just a straight key-value storage, it's not just a
+
+hash, or I guess you could say it is
+
+a lot like a Ruby hash in some ways,
+
+because the value doesn't have to just be a
+
+string. The value could be some kind of data
+
+structure. And Redis supports, well, the ones listed here.
+
+So lists, so lists allow repitition. And they're sorted.
+
+Well, they're sorted based on insertion order, I should
+
+say.
+
+A hash, as you might expect, so actually, so
+
+key-value is by virt- by nature a lot like
+
+a hash, so basically you can have hashes in
+
+your hashes. You don't necessarily want to use those,
+
+and we'll talk about that soon.
+
+Sets. So a list where the insertion order doesn't
+
+necessarily matter, but no repetition is allowed, and sorted
+
+sets, which are pretty darn interesting because they don't
+
+allow repetition and they maintain a sorting order, and
+
+you're, so you're inserting a value and some sortable
+
+value to go with it.
+
+Well, and again, more on that later.
+
+Maybe one of the most interesting parts to me
+
+about Redis is that it supports adding a time
+
+to live, an arbitrary time to live, user-definable, to
+
+any given key that you put in Redis. Now
+
+when I say key, I need to be very
+
+specific. Key, at the macro level of key-value for
+
+Redis. So if you store a hash, a hash
+
+has a single key that refers to the whole
+
+hash.
+
+If you're storing a list or a set or
+
+a sorted set, there is one key that points
+
+to the whole thing. So you put a TTL
+
+on that, and what that says is, I want
+
+this value to just go away after this amount
+
+of time. That can be pretty handy. So when
+
+I mentioned that three day window earlier, the TTL
+
+is very handy there.
+
+That's just a little too big font, font-wise. So
+
+the AR::Observers were pushing events out to Resque. And
+
+the event would look something like this. It'd be
+
+pushing JSON up. So the event would have the
+
+type, the noun, essentially, the action - I think
+
+we were only concerned with creates, and occassionally deletes.
+
+But we didn't really care about updates.
+
+I offered to add that. It wasn't, this was
+
+a one-over lease, it just wasn't something that mattered
+
+that much at the time.
+
+Then we would have the ID of whatever the
+
+thing was, the user ID, because that very much
+
+matters here since we're talking about the user's interest
+
+in things. And then the names of the tags
+
+associated.
+
+But, we have all this stuff queued up, but
+
+one does not simply share the load. We have
+
+to define our workers. So the worker that I,
+
+I created, I called a calculator because I figured
+
+we're calculating a score, and the calculator originally was
+
+just one giant class. And it was aweful.
+
+So a TDD very quickly showed me how bad
+
+of an idea this was, as my tests grew
+
+to be more and more hard. SO then I
+
+started to break it out into three different kinds
+
+of calculators that formed a sort of workflow. And
+
+also I, I learned through more TDD suffering that
+
+I shouldn't even have my calculate, individual calculators think
+
+about persistence, because then that made their already busy
+
+life of trying to compute things even busier by
+
+trying to worry about, well, where do I put
+
+this stuff when I'm done.
+
+So instead I just had the outer level calculator
+
+act as a sort of strategy, I guess, in
+
+the object-oriented sense. And, so he was the Resque
+
+worker, and he handled all the persistence, and he
+
+just directed the other guys to do work. He
+
+would call one guy, get his output, pass it
+
+on to the other and so forth.
+
+So persistence was handled by Redis, but I created
+
+a very simple abstraction around it, just a class,
+
+so that way the customer could decide later, oh
+
+well, storing everything in memory is kind of sucking,
+
+so Redis is costing us hundreds of dollars now.
+
+A month, or more. Because Redis again is all
+
+memory, and memory gets a lot more expensive when
+
+you start getting bigger and bigger and bigger chunks
+
+of RAM. So I thought at some point they
+
+might want something like, dare I say, MongoDB -
+
+not a big fan, but. Something like that, maybe.
+
+So I put that there. It wasn't something I
+
+really had to worry about too much while I
+
+was working with them again for 1.0 version, but
+
+it seemed like an easy win.
+
+So getting into the individual calculators. The trengingness calculator,
+
+just like the, the, my discussion about popularity earlier,
+
+this guy was really straightforward. You like something. That
+
+bumps up the score on a post. You comment
+
+on something, that bumps up the score on a
+
+post. Really dumb.
+
+And then it outputs, so it would get the
+
+event, it would output a new score for that
+
+individual post.
+
+The way that data was stored was just as
+
+a simple key-value pair in Redis. So you would
+
+have, and this was actually a, I guess as
+
+a brief aside, this was a little uncommon for
+
+me. I was trying to find lots of ways
+
+to use Redis data structures, and for whatever reason
+
+this made more sense to me as a key-value
+
+pair.
+
+As it turned out, it probably would have been
+
+better as something else. But that's in the lessons
+
+learned section.
+
+So I would munge the keys so I could,
+
+you know, name space the values I was storing.
+
+Because if I just had the post ID in
+
+Redis, then I would have a key of forty-two
+
+and, well, if that's the, if that's the post
+
+ID, if I wanted to store anything else for
+
+that key, well, I would overwrite whatever was there
+
+and that would suck.
+
+So I would put something up front, like say,
+
+trend for trendingness. That's pretty common in key-value stores
+
+to have long munged names sometimes just for namespacing
+
+purposes.
+
+So let's see, right. In the key-value, the trendingness
+
+scores had the three day TTL that I talked
+
+about earlier. The one part that I regretted here
+
+was that these values were sorted in Ruby at
+
+run-time, when trendingness was requested. Now remember we're only
+
+talking about three days worth of posts.
+
+And this was for a fairly new social network.
+
+So, again, going back to the remark I made
+
+about gaming, you know, oh to have such problems,
+
+where sorting in Ruby would be that painful. But
+
+I would far rather sort and say something like,
+
+C or Java, which is like 100 times faster,
+
+so that sorting wouldn't be as painful as soon,
+
+but alas.
+
+So the user interest calculator. This is where we
+
+start getting into that, that relevance business. Deciding which
+
+users care about what. So it would get the
+
+event, and but it's important to mention that on
+
+a, for a given even there might be multiple
+
+users that might care about the event. And the
+
+reason for that is because, you have the person
+
+who posted the original post, but then you have
+
+all the commenters, you have all the likers.
+
+So you have to aggregate all of those people
+
+together because if anything else happens in this event,
+
+these people have expressed some degree of interest in
+
+the tags that are involved. I don't think I
+
+have a slide for this - so I wish
+
+I had, I'll take a brief aside to mention
+
+that every single one of those verbs had a
+
+waiting factor associated with it.
+
+So I'm just computer scalars here. I did have
+
+an AI class twenty years ago, back in college.
+
+So I learned a little, little bit.
+
+So each one of those events would have some
+
+kind of waiting associated with it, so when we
+
+had a scalar value we would know it was
+
+based primarily on this, and a little bit of
+
+that, and a little bit less of this and
+
+a little bit less of that, like, when you
+
+favorite something, that's a big, large declaration to say,
+
+I love this! When you comment on something -
+
+well, maybe I kind of like it, and if
+
+you are tagged on a comment belonging to a
+
+post - eh, OK, that's a pretty weak attachment
+
+but that connotes some degree of interest, cause you're
+
+associated with someone who cares about something else.
+
+So that's a very weak association, but it is
+
+some form of association.
+
+So all of those users needed to have their
+
+interests rescored. Right, and I just mentioned arbitrarily assign
+
+the weights for event times, so that was all
+
+I had, that one bullet. So I think the
+
+aside was worth it.
+
+So this is how we get this structure, that
+
+we have a user and we have a score
+
+for each tag based on that big nasty big
+
+O n squared algorithm that we defined earlier.
+
+So internally in Redis this is how I would
+
+store it. I would have one hash per user,
+
+and the field, so that the key would be,
+
+something like UI - the User ID, the user
+
+interest. It's something that we would look up an
+
+awful lot, so having a nice short key seemed
+
+important. Having it munged kind of essential because, again,
+
+we don't want to step on User ID values
+
+with something else later.
+
+I think Redis calls the individual keys in a
+
+hash fields - I don't remember if I have
+
+my Redis nomenclature right. But the field names were
+
+just the tag names, and then the values were
+
+the scalar interests.
+
+And intentionally I did not want to put any
+
+kind of time to live on that hash, because
+
+users interests are one thing we know are gonna
+
+live on and on and on and on.
+
+Downside is the user interests, the users' interests are
+
+something that will live on and on and on
+
+and on. So you know that they're just gonna
+
+take up more and more space. Tags are not
+
+something that, that leave the system very often, because
+
+players tend to play for awhile, and even if
+
+they retire they might get mentioned again in the
+
+social network, so I don't know that the players
+
+are gonna leave the system often. Teams likewise.
+
+So it just made sense to just basically leave
+
+these datastructures alone and let them grow. That said,
+
+having those in Redis, neh, it bugged me a
+
+little. But, again, one O system, it wasn't a
+
+big concern.
+
+So post score calculator is, I think I got
+
+mixed up there. Post score calculator is where the
+
+big big o n squared nastiness came in. So
+
+now we've rescored all these users' interests. WE need
+
+to go propogate this throughout the system.
+
+And so again we have, back to the, excuse
+
+me I'm so sorry - but I discovered after
+
+the fact a name for this pattern that I
+
+came upon. It's called inverted indices. And inverted index,
+
+that's a link by the way - these will
+
+go up on GitHub at some point. This is
+
+all HTML. You'll be able to click through. You
+
+don't have to take any notes, if by chance
+
+you are.
+
+An inverted index is basically just an index of
+
+the content to where the content is stored. So
+
+I had a few difference sets I would, for,
+
+let's see, a post, I would have the set
+
+of all the tags, and let's see, and I
+
+actually have to read this cause I don't remember
+
+off the top of my head.
+
+And then I had a set of right, the
+
+interested user IDs by tag. And that would save
+
+me from having to go out to the database
+
+all the time to perform a whole bunch of
+
+expensive queries. I could just go to Redis and
+
+say hey just give me and boom, there I
+
+go.
+
+And the user post scores were also stored in
+
+Redis as a hash, very much like the user
+
+interest scores. It's just instead of having the tag
+
+you had a post.
+
+So this structure, I, I showed you earlier, it's
+
+a workflow, but really what it also could be
+
+is a series of queues. It's not a big
+
+truck. You don't just dump stuff on it. Thank
+
+you - I'm so glad somebody appreciated that one.
+
+So some other design considerations that came up as
+
+we went along. So I'm, I've alluded a few
+
+times. I was trying to aggressively optimize the RBDMS
+
+out of the equation. The client very much did
+
+not want the recommendation engine to make the Rails
+
+app run slower, because, well, they're on, they, let's
+
+see, they're on Heroku and, you know, ?? [00:25:27]
+
+cost money.
+
+And we already talked about using inverted indices to
+
+some effect, again reducing - further reducing the need
+
+for database queries. And I already talked about those
+
+examples.
+
+Now the other thing I, that I, I've mentioned,
+
+that I broke the calculator down into a trendingness
+
+calculator and a user interest score calculator and post
+
+score calculator, and no one's made any kind of
+
+rude gestures, but those names really suck. I'm sorry.
+
+Post score calculator - just, it's German. Take a
+
+whole bunch of words together and mush them together.
+
+Is it good enough? Well, it ran in production,
+
+and the customer was happy. So yay.
+
+Was I ashamed of a lot of the code
+
+I wrote? Oh god yes. Would it scale? Well,
+
+I was limited by Redis, so memory, RAM. And
+
+I knew I'd be limited by CPU. But what
+
+they were conc- what they were concerned with was
+
+getting a one-over lease out the door, something that
+
+people could use right away, and if they'd be
+
+successful, well, worst case they would rewrite it. But
+
+there was potential to refactor and scale it further.
+
+One of the little interesting things that happened along
+
+the way is, because a post, the post is
+
+polymorphically taggable, you could just throw anything on it.
+
+So the engine originally didn't just care about teams
+
+and players - it just took any old tag
+
+you gave it. And the, the client later said
+
+yeah, I really only want the other teams and
+
+players, but the interesting side effect was, well users
+
+would get thrown in their as tags too.
+
+So I thought, you know, maybe a side business
+
+is a sports dating site or something, because all
+
+of the sudden it would say, hey, this is
+
+how interested I am in this person versus that
+
+person.
+
+But, no, I took that out and hard-coded it
+
+to just teams and players.
+
+So, so lessons learned along the way.
+
+Statistical methods - obviously would have been nice, because
+
+any time I had to write a big O
+
+N squared algorithm and I know Ns gonna keep
+
+getting bigger, I get really anxious. I did not
+
+like writing this.
+
+The lesson learned for me, if I were still
+
+freelancing, but even though I'm not I work at
+
+rackspace, is when I know something is right, I
+
+need to argue for it, just a little bit
+
+more.
+
+Prefer straight key-value over hashes. I've mentioned TTLs and
+
+I think I mentioned TTLs and I mentioned TTLs.
+
+You can't put a TTL on a field on
+
+hash. So you can't say I want this for
+
+this user, this post score to expire some time
+
+in the future. No, you're stuck with that guy.
+
+So there is a way around that. That's, I
+
+think, the next slide. But that's more work.
+
+What I could have done instead is just had
+
+longer munge names. Said, like, user ID, user ID
+
+blah blah blah, post ID blah blah blah, and
+
+then just had a value and put a TTL
+
+on that and then it would just disappear in
+
+three days and life would have been better.
+
+Extracing small - OK, so one more slide. Extracting
+
+smaller workers - when I said this is a
+
+series of queues, what I was getting at was
+
+I designed this system expecting that post score calculator
+
+would inevitable get more CPU than the other guys.
+
+So it, there're all written as Resque workers, but
+
+only the outside calculator is a Resque worker.
+
+It would have been fairly trivial to extract the
+
+other three, give them all their each, give them
+
+each their own queue. The only thing I would
+
+have had to have done is I would have
+
+had to add persistence capability to them, and that
+
+could have been something dependency injectable, for example.
+
+And that would have been kind of simple.
+
+The other thing that would have been nice is
+
+each one of those little guys basically runs on
+
+a case statement, and that's the big giant oh,
+
+oh, scream of please extract me, please extract me
+
+and, well. Oh well.
+
+Less chattiness with Redis. So I just was making
+
+individual calls to Redis if I needed to get
+
+a set, I would just make a single call.
+
+If I needed to do, push a key value
+
+pair, at least a single call. It was enough.
+
+It worked well enough. Individual calls on AWS from
+
+Heroku to Redis - I did actually bench it.
+
+It was something like 2 milliseconds.
+
+They add up, but if you're, only if you're
+
+making a ton of them. This was still way
+
+faster than the Rails app, so it, it really
+
+wasn't a big concern. But something to be aware
+
+of.
+
+Redis supports two different features that, only one at
+
+the time when I wrote this recommendation engine, that
+
+would have helped here. Pipelining, which allows you to
+
+just batch up commands. You get futures back, which
+
+is basically saying here, this is where you result
+
+will go later. And then all of the results
+
+come back, and you just access the futures to
+
+get the results.
+
+So you send one big request with all of
+
+your different commands, and then you get a bunch
+
+of little responses back when they're ready. And that
+
+will result in less network chattiness, which means you're
+
+app will run faster.
+
+The second one, and this one is very dangerous
+
+because Redis is an evented key-value store, I didn't
+
+mention. Which means there's one thread. You can script
+
+inside of Redis. If you script badly inside of
+
+Redis you might occupy that one thread for awhile,
+
+and when you send commands to Redis, it might
+
+say, sorry I'm busy right now.
+
+So that would be bad. You know, like crossing
+
+the streams in ghost busters.
+
+So pruning. When I mentioned not wanting to use
+
+hashes so much in Redis, if you are gonna
+
+use something that's gonna grow and grow and grow
+
+and nothing ever expires and you want things to
+
+be removed eventually, one option is to put a,
+
+a timestamp in every value that you're gonna put
+
+in that hash.
+
+So instead of just putting straight values into a
+
+hash, just integers for example, you just put JSON
+
+in, like we do with Resque, and that might
+
+have a timestamp and then the value. And then
+
+what that means is periodically, although I've heard that
+
+the, the best practice is maybe every time you
+
+do an insertion into a structure - also go
+
+through and prune that structure, look for things that
+
+you can remove that have outlived their usefulness.
+
+But I mentioned earlier, still, better to prefer a
+
+key-value where you can just set a TTL than
+
+to go and have to deal with pruning. Pruning
+
+is more work. I told the client that was
+
+something was concerned about for later. Again, for 1.0
+
+they didn't care. They were like, I could wash
+
+my hands of it and walk away, but it,
+
+still, I didn't like knowing memory would just grow.
+
+I used to code in C and Java and
+
+you don't like leaking memory.
+
+So one other thing I realized actually just today
+
+was the calculator, because it was stateless, could have
+
+benefited a lot from a functional programming style using
+
+what's called referential transparency. And really that's just a
+
+fancy way of saying the output from one function
+
+is the input to the next function. And you
+
+just accumulate state by taking that output from, from
+
+one function, passing that as your input to the
+
+next, along with whatever stuff you need to, and
+
+just keep accumulating and your final output's what you
+
+care about.
+
+That might have been pretty nice to do. It
+
+might have made the code a little bit readable
+
+because the imperative style can be a bit hard
+
+to follow sometimes. I know I was, as I
+
+said I wasn't thrilled with the end result of
+
+the code, and I tried really hard to make
+
+it readable, but the imperative style didn't look too
+
+good in the calculator.
+
+And the final lesson learned is you do something
+
+faster in Ruby.
+
+So, but that, that was really just a joke.
+
+Because Ruby was actually adequate to the task. It
+
+wasn't a problem. So this is the part where
+
+I get to say I've got seven minutes and
+
+forty-one seconds. Are there any questions, heckling, or other
+
+statements, remarks, something?
+
+No? OK. Cool, well. Three minutes left, so thanks
+
+very much.

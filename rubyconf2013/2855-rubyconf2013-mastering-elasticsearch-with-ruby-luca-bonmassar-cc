@@ -1,0 +1,1533 @@
+RubyConf 2013 - Mastering Elasticsearch With Ruby - Luca Bonmassar
+
+LUCA BONMASSAR: I'm Luca Bonmassar.
+
+Even though my badge say Bonsommar.
+
+My real name is Bonmassar. I'm thirty-one.
+
+I am Italian and I live in San Francisco.
+
+I work at Gild, and today
+
+I'll talk about search using Elasticsearch.
+
+I have a lot of content to show, and
+
+I have - here - a ticker that tell
+
+me the time, so I'll just jump into the
+
+talk.
+
+So let's start by defining what we will discuss
+
+here. Search is a very broad topic, so we
+
+won't do, like, clarify what's our use case. What
+
+we're discussing here is, you're building a product, and
+
+you want to integrate some search experience in your
+
+product. So we're not talking here to build a
+
+search engine. We're not trying to compete with Google.
+
+So we want to implement that little box that
+
+every website has, so that the user, the general
+
+use case, is you have user generated content, and
+
+you have other user that have to be able
+
+to find and discover this content.
+
+So, why we have to discuss this. The reason
+
+is that search is not easy. It usually starts
+
+when you have to build some search capabilities in
+
+your product by saying, hey, our primary data storage
+
+has some search capabilities. We're not using that.
+
+And then you start by adding some sort of
+
+SQL queries, where you can try to search in
+
+your database. But then the user are picky, and
+
+they want more. They want not just be able
+
+to search by exec name, they want also to,
+
+for example, enter a long, long string and be
+
+able to find products in your, in your, in
+
+your system.
+
+And then you want to support Nqueries, or not,
+
+and your little where_name becomes a function that has
+
+to pass parameter. You don't want only to search
+
+on a specific field but you soon start searching
+
+on multiple fields in your database, so you need
+
+to start indexing and indexing.
+
+And in your product, what happens is that you
+
+start with a very simple function and you become
+
+building your own search engine in your product.
+
+That's probably not what you want to do, because
+
+you want to focus your development effort on the
+
+core functionality for your product and not rebuilding yet
+
+another search engine.
+
+So the agenda, what I want to show here
+
+is not a search engine. I want to speak
+
+a pet project. And talk about search on that
+
+project so that it's easier to discuss the various
+
+step that we have to take to introduce search
+
+in the project rather than talking about search for,
+
+like, anything.
+
+We will see some, several boilerplate that we have
+
+to go through to like download the code, the,
+
+download the elasticsearch, installing staffolding,
+
+configuring, et cetera, et cetera.
+
+And we will see a very simple website that
+
+we can build, integrating search functionalities. And then see
+
+how you can refine, improving and adding more capabilities
+
+for our search. And then, as homework, other capabilities
+
+that elasticsearch give that I don't have time to
+
+discuss here. But with almost no effort you can
+
+integrate in your product.
+
+So the idea of why we start from a
+
+real project and not taking, like, the search as
+
+a separate topic is because it's - I can
+
+use this.
+
+It's, it's easier to understand each use case and
+
+understand why there are some decisions taken here and
+
+there if we talk about something concrete rather than
+
+any possible search. And we'll see, for example, a
+
+few features that are not, like, it's, they're not
+
+easy to understand why there is this feature there,
+
+but in the project it makes lot of sense.
+
+Because, oh, yeah, you could do this.
+
+So our project start from RubyGems. Everyone has seen,
+
+is familiar with RubyGems. And RubyGems has the functionality
+
+to search gems in the database they have, and
+
+they have implemented the, the search in the same
+
+way I describe before.
+
+So if you look at the RubyGems, the source
+
+code in GitHub, what they are doing here is
+
+a SQL query, name, like, what you're inputting. And
+
+they can detect the, if the result from the,
+
+the result is an exec match or something similar.
+
+But it's a pity because they have so many
+
+more information in their database you could look up
+
+for dependencies, you could look up for, not just
+
+the name, but also the info, the summary, the
+
+build.
+
+So what we want to do is extending their
+
+search capabilities in a way that we can do
+
+all of this.
+
+Clearly we don't have access to, like, their database.
+
+So our project will start by getting the content
+
+through a web spider. We will import the data
+
+into a Mongo database - I'll clarify why the
+
+decision of going for MongoDB for the sample project.
+
+We will see Elastic Search in action and then
+
+we'll build a very simple Rails application that expose
+
+the, the function, right, of search that we want
+
+to for the Ruby gems project.
+
+So let's start from the crawler. The code is
+
+available there. I'm not spending too much time here
+
+because is not the purpose of the talk. But
+
+the idea is RubyGems dot org slash gems provide
+
+the least of all the gems name. They are
+
+paginated by names. So we can go one by
+
+one, collect all the name using ?? [00:06:03].
+
+And then, using the gem's, the gem's own API,
+
+we can download for each gem the JSON of
+
+the, of that gem.
+
+So all of these, when it runs, and in
+
+this, so. I'm not expecting you to, like, parse
+
+all the content, but the idea is now we
+
+have the, inside Mongo a JSON file representing all
+
+the data available for each gem. In this case,
+
+the Twitter gem.
+
+This now clarify why we want to go for
+
+Mongo. Because we don't want to map data between
+
+what the gem's API return, whatever they return in
+
+term of data structure. We just dump the JSON
+
+into Mongo and it's there. It's available for us
+
+to manipulate and work on that.
+
+So we are now to the stage that we
+
+have the crawler running. We have the data imported
+
+into the system and it's also available at dump
+
+of the data in case you want to play
+
+with that.
+
+And, let's start building our very simple interface. So
+
+this is the starting point of our project. So
+
+here there is nothing else than just a scaffold
+
+Rails application showing all the gems that are available,
+
+which support pagination, and you can open any of
+
+these. And here is basically reporting all the data
+
+that we have here.
+
+So this is the starting point, like, this is
+
+my generic product, where I want to implement here
+
+our little search. And the, let's see how we
+
+do that. So the first step is to introduce
+
+Elastic Search. So we're not gonna implement all the
+
+logic of a search engine, but we just use
+
+something that does that for us.
+
+This is Elastic Search, that is cool, bonsai cool.
+
+What is Elastic Search? Here is a long list
+
+of answers, but let's say that is an OpenSource
+
+search engine. They also provide analytics capabilities, so you
+
+can also use the same engine to get the
+
+sort of map reviews on your data.
+
+It's distributed, meaning that the, it's easy to scale
+
+somehow, because the data is not monolithic. You can
+
+split it into multiple shards.
+
+You can have multiple note that you can distribute
+
+your data on, and each shard can be replicated
+
+so it's also very good for, like, the resilience
+
+of your application.
+
+It supports almost near time search, that, in the
+
+short terms means that you can index new data
+
+and almost in real time you can have this
+
+data available for search.
+
+It's multi tenant. That means that you can have
+
+multiple indexes, not just one. And you can do
+
+cool stuff as in you can swap indexes and
+
+the application doesn't see any change. So you can
+
+deploy new indexes and you have almost no downtime
+
+for your application.
+
+That's very cool when you're building your application, iteration
+
+and every time you change something in your index.
+
+And unless you want to index all the data
+
+and keeping the website off for awhile, you can
+
+just swap, offswap data in the database.
+
+And the last thing is build on top of
+
+Apache Lucene. There are also other project that use
+
+the same technology. But Apache Lucene is a Java
+
+library for manipulating text that is very powerful.
+
+All this is nice, but as a developer what
+
+is really interesting is that we have this magic
+
+box that is able to do search and expose
+
+its capabilities using a rest API. And the language
+
+to communicate with this magic box is JSON.
+
+So we can send JSON documents in and we
+
+can, even with the core command, we can query
+
+the server.
+
+So here is a list now of things that
+
+we have to do to have the entire Elastic
+
+Search ready for us to play with our product.
+
+We have clearly to download the Elastic Search code,
+
+set it up. Define some settings. We will see
+
+some default and something that you have to change.
+
+Optionally we have to define update and mapping in
+
+Elastic Search world, data mapping is the equivalent of
+
+defining a database or table in the database world.
+
+It's optional because Elastic Search is schema-less. So you
+
+could just ignore that and just start injecting data
+
+into Elastic Search. You only have to do that
+
+if you don't want the default assumption that Elastic
+
+Search does on it's field. So if you want,
+
+for example, that specific field gets tokenized or parsed
+
+in very special ways you have to define your
+
+own data mapping.
+
+Then the next two steps are, first, we need
+
+to load data into the Elastic Search cluster. So
+
+we have to transfer data from the MongolDB to
+
+Elastic Search cluster. And the last thing that is
+
+a thing that we want to do is we
+
+want to start doing search.
+
+Since it's a rest API and JSON document, we
+
+can even do that by using the comma line,
+
+and we can parse the results because they are
+
+JSON so they are very easy to read from
+
+the terminal.
+
+So let's start from the deboiler plate. This is
+
+the procedure that works on any environment. So Elastic
+
+Search is a Java beast, so you need the
+
+Java on your, in your machine. Hopefully not any
+
+Java but the Oracle Java. You can also run
+
+it with the new Java but very often you
+
+run into weird issues and the Oracle Java -
+
+it's definitely better.
+
+If you're running on a Mac or a Linux
+
+you can clearly do the installation using the, the
+
+package distribution like Pro or Port or APT.
+
+And we go for the configuration. So the very
+
+basic configuration is logging, where you have to define
+
+the repository of your logs. But also where to
+
+log and what to log at any stage, like
+
+production, development staging.
+
+And then you have the long list of config
+
+setting for Elastic Search. By default, if you want
+
+to run it on dev box, you don't have
+
+to configure anything.
+
+You can assume that all the settings are good
+
+enough for development environment. There is actually one only
+
+parameter that you have absolutely to change. That is
+
+the name of the cluster. And the reason is
+
+that, by default, the name of the cluster is
+
+Elastic Search and the, we, as we say, the
+
+Elastic Search is a distributed system.
+
+So if you run on a network where your
+
+developer friends are on the same network running Elastic
+
+Search, they will start discovering each other and they
+
+will start building their own cluster. What it means
+
+is that if you're operating on your local host,
+
+you're actually operating on all your developer team.
+
+And it's a nightmare troubleshooting because I can wipe
+
+out the entire database and everyone else that is
+
+working on that doesn't realize what's happening.
+
+So it's very good that at least you change
+
+the name of your cluster.
+
+Many of the other parameters are like one time
+
+only. You set it and forget it. The first
+
+are the topology of your cluster, like, how the
+
+cluster is gonna look like, how many shards, or
+
+how do you want to split the data. How
+
+many replicas for each shards. You're going to find
+
+where are the things on your local system.
+
+Elastic Search is extensible through plugins in Java. So
+
+you can also either write your own classes and
+
+inject into the cluster or you can download any
+
+of the plugins that are available. There are many
+
+for monitoring and controlling of the cluster.
+
+The sad thing where you will spend the majority
+
+of your time in production is the memory. Elastic
+
+Search is a Java beast and you will need
+
+a lot of tuning for the JVM. In particular
+
+to not run out of memory every time you
+
+run a facets query.
+
+And everyone else, again, it's for, like, you set
+
+it once and you forget it.
+
+So we're almost there, in term of boilerplate. We
+
+can finally start our Elastic Search cluster. And using
+
+curl we can test if it's alive. There are
+
+tons of APIs available to check the out of
+
+the cluster, each node and also the consistency of
+
+its index, or to see if, for example, your
+
+index is all line or not, if it's corrupted
+
+or what is the link? Sometimes it's like synchronizing
+
+data between nodes, so through this API you can
+
+do that.
+
+And you can also shut down each node or
+
+the entire cluster using APIs.
+
+We're done, so we are finally ready to be
+
+an Elastic Search expert. We can tell the ward
+
+that we are Elastic Search expert and let our
+
+friends endorsing us. And I'm sure that as soon
+
+as you put it all your friends will start
+
+saying yeah, it's an expert! So it's a good
+
+thing to put it on your resume.
+
+So let's, let's take a step back and see
+
+what else, where we are and what is missing
+
+for our project. So we, we have the elastic
+
+search running. We have Mongo running. What else we
+
+have to do?
+
+We have to start telling our project something about
+
+Elastic Search. And we have to start moving the
+
+data between Mongo and Elastic Search. And last, that's
+
+just the step where we want to get, is
+
+able to do queries so that we can implement
+
+our search capabilities in our product.
+
+So the first step is then to tell something
+
+to our app of where is Elastic Search and
+
+how to communicate with that, so the client side
+
+of the Elastic Search. We can use Tire, the
+
+gem, that unfortunately has been renamed Re-Tire in September.
+
+And the reason is that the Elastic Search group
+
+is now building their own official gem, so the
+
+author is now deprecating the gem.
+
+However, in term of maturity and complexity, probably they
+
+are like at least one year or more behind,
+
+so Tire is the way to go for now.
+
+And Tire provides not only a way to interact
+
+- so you could do everything through HTTP, your
+
+favorite HTTP or Ruby library like HTTP party. But
+
+unless you want to, like, be at the, the,
+
+meta-level, you want something that wrap hold the complexity
+
+of interacting with its single, like, timeout and Tire
+
+can do that for you.
+
+It also support a nice active model integration, so
+
+if you're using Rails you basically can forget about
+
+Elastic Search. You will have a few needles that
+
+you can operate on the class, and all the
+
+complexities - it's totally hidden.
+
+And last it provides a set of utilities and
+
+tasks to perform operation that you will do it
+
+by end, and like for example, important data. And
+
+I'll show you a couple of cases.
+
+So we need to set the, the gem out
+
+to do that. We put it in our gem
+
+file and we bundle install. There is a ??
+
+[00:17:32] if you do that you'll probably override the
+
+entire gem find.
+
+You, the configuration, it's pretty easy. It depends on,
+
+like, if it's the Rails or traditional Ruby, but
+
+the idea is you just set where is the,
+
+the entrypoint of your cluster, and that's the only
+
+thing that you have to do.
+
+A second configuration, if you want to log, that's
+
+very, very interesting for debugging whilst Tire is doing.
+
+If you set it up, you can have a
+
+log file from the client side. And the format
+
+of this log, it's in Curl, so you can
+
+cut and paste any of this comment in your
+
+terminal, and you can physically replace every single step
+
+of what Tire is doing, and you can also
+
+then inspect each single result coming from Elastic Search.
+
+So now we can start talking about code.
+
+So, the Ruby gem is the wrapper for Mongo,
+
+so a Ruby gem class in our little project,
+
+it's a single Mongo document. What we do is
+
+we extend that with the Tire DSL, so at
+
+line 5 and 6 we can add Tire.
+
+And everything else here is optional. I like to,
+
+to, like oversell, but everything that is here is
+
+optional. So we define our own mapping, that is
+
+the format of the record in Elastic Search.
+
+So here we basically define a few fields, like
+
+ID, name, original name, info licenses and so on.
+
+You don't need to do that, because, by default,
+
+the first time that Elastic Search see any of
+
+this field, will pretend that all this fields are
+
+there.
+
+It's here, just as a sort of live documentation,
+
+so that if tomorrow you have to put the
+
+ans again on the core at least you know
+
+which are the fields that are supposed to be
+
+in Elastic Search.
+
+And you have to do this in case some
+
+of the field you have to override. Any of
+
+the properties, like telling that for example, for a
+
+couple of fields, like, ID and original name, Elastic
+
+Search, please store it but don't do any logic
+
+on top of that, we want to keep it
+
+the field as it is.
+
+And these define the structure of the record. The
+
+second thing that you should do is override a
+
+metric called to_index JSON. That's part of the Tire
+
+DSL. The idea is that you have to convert
+
+your record, that in our case is JSON because
+
+this is Mongo, into some other JSON for Elastic
+
+Search.
+
+You can also ignore the entire metric here if
+
+you want to just have a one-to-one maaping, so
+
+whatever is in Mongo is going to be in
+
+Elastic Search.
+
+However, if you don't want to overkill Elastic Search
+
+with every sort of parameter that is in Mongo,
+
+you want to find the structure of your own
+
+record. So here we just define an hash for
+
+these records and we convert it to JSON.
+
+So if we recap what we have done here,
+
+we can fire our Rails console and take the
+
+first Ruby gem record. We can call the two
+
+index JSON on that record, and that is like
+
+the representation in JSON for your record in Elastic
+
+Search.
+
+If on that record we call update_index, what Tire
+
+is gonna do is to call your to_index JSON,
+
+so it take the record, it generates JSON, and
+
+then execute a push on Elastic Search.
+
+So this is, like, the log that we can
+
+enable on the client's side. And the, you can
+
+see what is happening. It's posting on the Ruby
+
+gems index for the Ruby gem type, which a
+
+specific ID, and then the payload of the JSON
+
+that it's loading into Elastic Search.
+
+And Elastic Search is returning us 200, so the
+
+rest- So the operation succeeded. So now we know
+
+how to index at least one record.
+
+We have to replicate these for all the data
+
+that we have available. The naive way would be,
+
+let's iterate through every record that we have in
+
+the database, let's call update_index and we are done.
+
+It works. Particularly in development mode.
+
+The way it works is to execute one single
+
+post for each single record. You won't notice any
+
+performance issue is running if you're running everything in
+
+local host.
+
+Clearly if you are running with, like Elastic Search,
+
+it's in one box and you're on another box,
+
+the data transfer - it's huge, cause you have
+
+a lot of round-trip time. What you can do
+
+is you can use a bulk API from Elastic
+
+Search, and upload a thousand records at a time.
+
+And here we have a bundle stack, right, provided
+
+by Tire that does everything for you. So you
+
+can just fire that comment and it's showing you
+
+the upload of all your record into Elastic Search.
+
+And we're finally done with all the infrastructure, setting
+
+and we can now focus on the search.
+
+As usual, I like the put more things that
+
+aren't needed just for showing you, like, the capabilities
+
+of the gem, but everything besides line 7, 8,
+
+9 it's optional.
+
+So here I'm not using, for example, any digression
+
+with ActiveModel. I'm going to Tire and asking for
+
+a search. I could have done Ruby gem dot
+
+search and I wouldn't have to pass the name
+
+of the index.
+
+In the Tire search we designate/define how our search
+
+is gonna look like.
+
+We ask to not the load false is an
+
+option, so by default what Tire does is to
+
+match the result coming from Elastic Search to your
+
+original record in your primary storage. But that means
+
+that if you get twenty-five results back, for each
+
+one is gonna go on the database and load
+
+the original record to give you the result.
+
+If you don't need that data, because for example
+
+you have enough data in Elastic Search record to
+
+present it to the view, you don't want to
+
+do that, because it's much faster just parsing the
+
+results coming back from Elastic Search.
+
+So in this case we just tell, please don't
+
+load data coming from Mongo.
+
+And here is the query part. In the query
+
+part, we get a search terms. The search terms
+
+is, it's a string. It's whatever the user is
+
+gonna type in for our search. And we ask
+
+Elastic Search to search into name, info, owners, and
+
+authors.
+
+We als- and that's everything that we have to
+
+do.
+
+Then we also ask a few other things to
+
+Elastic Search. We ask not just, don't just give
+
+me back results, but also tell me for each
+
+results where did you find the match, because we
+
+don't want to confuse the user. Because now we
+
+are searching also for example owners and authors.
+
+And maybe you're searching Twitter and you get a
+
+gem that's called something else but the author's was
+
+called Twitter and you don't get why you get
+
+this result back.
+
+We ask a specific sorting. By default, Elastic Search
+
+provides a score for each record of how, how
+
+that record is significant for the search. It's a
+
+sort of, not page rank, but the search rank
+
+on each document. And it's based on multiple different
+
+factor, for example, how many times the occurency of
+
+that word appear, the frequency, the position and so
+
+on.
+
+Here we just override and, by saying don't bother
+
+sorting by that, sort by the original name. And
+
+the last thing is to implement pagination.
+
+So the two API here are from and size,
+
+so we define what's the page size and where
+
+are you in the stream so that you can
+
+jump to page two, three, four, five.
+
+That's all we have to do to implement the
+
+search. So what we can do next, it's playing
+
+with the search from comma line. We can again
+
+fire a Rails consol, and on the Ruby gem
+
+we can call simple search, and this time search
+
+for Twitter and Bootstrap but not Rails.
+
+And we can print the first twenty-five results back.
+
+So we are done in term of logic. We
+
+can go now to the UI and implement our
+
+little input box that just generate a get request.
+
+Whatever the user types in we pass to the
+
+simple search metric. And here is also the highlighting
+
+running, so we also show that if you're searching
+
+Twitter and Bootstrap not Rails. This is for each
+
+record where it's coming from, in full name, authors.
+
+And where in the string that matched.
+
+I want just to show you how the highlighting
+
+works, and then I'll jump on the, on the
+
+running product. So if we execute again a simple
+
+search for Twitter and Bootstrap not Rails, and we
+
+get the term, the results, that results is the
+
+- first of all, it's not a real Ruby
+
+gem class. It's an item wrapping a Ruby gem.
+
+And implements other metric decorating the Ruby gem class,
+
+for example, the highlights, print us back the key,
+
+as a key, where you define that result, and
+
+as a sort of HTML with emphasis, where, so
+
+you can add easily CSS to, to highlight and
+
+show it in your, in your UI.
+
+You can also change the way it's stacked. Instead
+
+of EM, you can use anything that you want.
+
+So if we go here, this is where we
+
+are now.
+
+So, we have implemented the very simple search. But
+
+there is one problem. So if you, in every
+
+simple search, if you search, for example, by author,
+
+since we search everywhere, at least in those four
+
+fields, we can get an expect the results.
+
+OK, so I'm searching for author and I also
+
+matched authors. That's clear because that's what we have
+
+built and what we were looking for. But the,
+
+while this can work, you want your user to
+
+be able to go into an advanced mode, where
+
+he can specify, I want to search here and
+
+there. So this time we implement that this feature
+
+going the other way around. We start from the
+
+interface and we go back to the code.
+
+So this is more or less what a user
+
+would see.
+
+So we continue to show here the results, but
+
+on top instead of just giving an input box,
+
+we give a list of input box, so that
+
+the user has more control on the search.
+
+And also here we could give more control to
+
+the user, like, on what do you want to
+
+sort the results - do you want to sort
+
+by name, by something else? We could also ask
+
+the user to show, to request how many results
+
+per page do you want, for example.
+
+When implementing these, one of the things that you
+
+have to wonder is, what's the logic for all
+
+the fields? So if I'm searching something in name
+
+and info, what should we search? By default we
+
+could be a an 'or' or can be an
+
+'and'. So do you want the search, if I
+
+put multiple fields to restrict your search or to
+
+grow, like expand your search?
+
+So in our case, we decide that if you
+
+search for name and author, so you put this
+
+in name and in authors, we will search by
+
+'and'.
+
+So we go back here, and this is the
+
+interface that we have built. And the, let's look
+
+at the code. SO it's not very different, so
+
+everything looks the same, and like, just cut and
+
+paste the code to the advanced search.
+
+The only thing here that we change is the
+
+way we execute the query block. We tell Elastic
+
+Search that this is the boolean search. The search
+
+condition now is not anymore a string. It's an
+
+hash of condition that the user, it's whatever comes
+
+from the form. So it's a list of different
+
+keys and names.
+
+And we just iterate for the fields that are
+
+set by the user. We execute a search by
+
+saying please put this as an 'and' condition.
+
+That's everything that you have to do. And it
+
+just works.
+
+So if we go here back, we can now
+
+search for author here.
+
+And we just filter out everything that wasn't name,
+
+and we can iterate by searching in something else
+
+- probably if I search here it will be
+
+empty. Empty search. Because now those are in 'and',
+
+and there's no project that's called Tor and has
+
+an author of Tor.
+
+Success.
+
+So let's iterate again and let's make the search
+
+interface a little bit more, like, professional. Let's look
+
+about facets. So facets are a way to organize
+
+your results so that when you search for something,
+
+in this case it's a link to a page,
+
+and it's search for a Ruby developer. What we
+
+can do is in our results set, we can
+
+have certain amount of categories.
+
+For example, in this case, relationship, location, current company.
+
+And in real time the search engine can tell
+
+you for each category it can propose you specific
+
+sub categories, like first connection, second connection.
+
+And how many results are you gonna get if
+
+you are clicking on that, and like narrowing down
+
+your search.
+
+So facets, it's a very cool way to explore
+
+the data, because even the, like the one hundred
+
+thousand results that got back, I can very quickly
+
+filter and narrow my search back to a few
+
+results.
+
+So how complex is to implement this with Elastic
+
+Search? So it's kind of easy. It's the same
+
+code as before. The only thing that changed is
+
+the line 34 to 38. So here we define
+
+facets. So if the user has clicked on the
+
+check box facets, we define four categories.
+
+So we want to group our results by license.
+
+We want to group our results by version. And
+
+we want to group our results by when the
+
+gem was built. The difference between the global license
+
+and the current license is the facets by default
+
+are related to the result of your query.
+
+So whatever you search it classify the results of
+
+your query. But you can also specify don't bother
+
+about my query. Give me the results of the
+
+entire data that you have in Elastic Search.
+
+So if we try these on comma line, so
+
+the only difference, it's face, it's true when we
+
+enable that option. The results already get decorated by
+
+a meter called facets. And if we inspect what's
+
+inside the facets we get back from Elastic Search
+
+a key value where keys are what we have
+
+to find in our facets. So global licenses, current
+
+licenses, current version, and the date.
+
+And we get some statistic of how many documents
+
+have that property, how many they were found, how
+
+many they don't have anything like that. But in
+
+particular within terms or entries you get key values
+
+of how many for that specific category match. So
+
+how you can plug in these into your view.
+
+Well you can on the left implement the same
+
+thing that we saw before in LinkedIn.
+
+So when you run a query, you get the
+
+first one that is global. So you get a
+
+categorization by licenses. So that's global for the entire
+
+population of gems that we have available.
+
+Based on your query you can have a breakdown
+
+of the licenses. For example in this case of
+
+Twitter, and if you click on that you just
+
+refine your search by narrowing down on that category.
+
+Three other things that you can expand after we
+
+are reached this stage of the project.
+
+The first one, it's implementing a did you mean
+
+capability, that similar to my badge that was misspelled.
+
+If you misspell something, it can tell you, hey,
+
+you typed in Bonsmar. You probably meant Bonmassar. And
+
+it's a simple API. When you execute a search,
+
+you ask for suggestions, in the second case, and
+
+it's gonna give you like frequency and probability of,
+
+yeah, probably meant this other thing.
+
+So behind it's implementing like let's define distance to
+
+find matches, and you can specify several configuration on
+
+what, for you, means similar, because clearly you can
+
+say that anything is similar or, like, one or
+
+two letter should be mispelled.
+
+Something other, one cycle that you can have out
+
+of the box from Elastic Search is the implement
+
+the similar to these, that you can find, for
+
+example in Google.
+
+When you find the result that you really, really
+
+like, for example, you are building a website where,
+
+you're searching for apartments, and you finally find an
+
+apartment that you really like, but unfortunately it's not
+
+available today. You can execute a new search asking,
+
+give me more results that are similar to this.
+
+The results on an API for that. And basically
+
+you tell, OK, I really like this document, give
+
+me something that is similar. You can specify what
+
+similar should look like. And, again, it, Elastic Search
+
+will compute the distance from that document to what
+
+it has in its database and provide you other
+
+documents that are very similar to that.
+
+The last Bonsai- Bonsai Cool API that I want
+
+to show is Percolate. This is one of the
+
+API that when you read the first time, you
+
+don't understand what you can do with that. It's
+
+a reverse search. So usually you search for a
+
+term and you get back a list of documents
+
+that match that query. Percolate is the other way
+
+around.
+
+You give a list of queries and then a
+
+single document, and you can get back which query
+
+would match. What you can do with that is,
+
+for example, going back to the example of the,
+
+of the product where you search apartments. You could
+
+have a query as a user of apartments in
+
+Miami, because this is what you are looking for.
+
+What you can do is to save your search,
+
+and every time there is a new apartment in
+
+this product, the product can search for any queries
+
+that have been searched by a user and notify
+
+you when a new apartment is available. Because now
+
+that match your query, and then you can notify
+
+the user, hey, come back, there is an apartment
+
+that could be interesting for you.
+
+And closing on this, a couple of comments on
+
+deployment option. So everything was more or less around
+
+development. But consideration about deployment:
+
+Option number one is the do it yourself. So
+
+the pro is that you have total control on
+
+installation and you can have any topology and you
+
+can specify. You can also inject Java code and
+
+extend the cluster. The cost is that, my experience,
+
+it's a nightmare. In particular, the early version were
+
+very, very hard to run and manage. Some of
+
+the learning that we have found doing that, first
+
+of all, there is something that you have to
+
+be aware when you're moving from a cluster of
+
+three nodes to something more than three nodes: till
+
+three nodes, everything is fine. Unicorn and rainbow. After
+
+three nodes you have to specify a set of
+
+settings that, if you forget about that, you lose
+
+all your data. So be aware of that.
+
+And the reason is that there is an arbiter
+
+mechanism that automatically define who is master, who is
+
+slave. Till you are below three nodes, everything is
+
+fine. After awhile, unless you specify those parameter that
+
+you can find in documentation, weird thing can happen.
+
+Like, you can have, everyone is a master and
+
+then everyone will start saying, delete the data I'm
+
+the master. No, I'm the master. And- be aware
+
+of that.
+
+And the other consideration is about meta, the memory
+
+profiling. There are some operation in Elastic Search like
+
+the facets that, where, unless you read carefully in
+
+documentation, they load all the data in memory. So
+
+if you have enough data you can go out
+
+of memory very quickly.
+
+And you have also to tweak several times the
+
+garbage collector to say, please, like, keep all the
+
+memory. Reserve it to me. Or the priority system
+
+will take your Elastic Search out.
+
+A easy way, in case you want just to
+
+spend some money, is to go as a service.
+
+There are a few companies doing that as a
+
+service. The, the, this is really beautiful, because you
+
+just need a credit card. Swipe the credit card
+
+and you have the cluster up and running in
+
+a minute. Also you buy support. That's very important
+
+when you're playing around with API and you don't
+
+understand why your query is always putting the cluster
+
+out of memory.
+
+The consequences - it's expensive. The second thing is
+
+that you could be in the wrong region. For
+
+example, in our case we run in the US
+
+west, but all these companies and also other that
+
+you can find are on the US east. You
+
+can find something also for more space, but that's
+
+also tricky.
+
+And the other two consideration is, it's expensive. And
+
+it's expensive. Really expensive.
+
+So this is all I got. Here is the
+
+code, and the results of demo and the data
+
+so that if you want you can play with
+
+that. There is also a machine running with that.
+
+Please me nice with that, because it's a little
+
+micro and everything is running that.
+
+And that's it, so. I have ten seconds left.
+
+So if you have any questions.
