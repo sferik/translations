@@ -1,0 +1,3255 @@
+1
+00:00:00,000 --> 00:00:05,000
+(energetic big band music)
+
+2
+00:00:16,837 --> 00:00:18,569
+Brandon:Oh, hi.
+
+3
+00:00:18,569 --> 00:00:21,059
+A hush falls over the room
+because I'm not paying attention.
+
+4
+00:00:21,616 --> 00:00:22,949
+My slides came up. Hi.
+
+5
+00:00:25,733 --> 00:00:27,272
+Really quick first,
+
+6
+00:00:27,694 --> 00:00:30,699
+there are seats in the middle
+if people can squish together,
+
+7
+00:00:32,055 --> 00:00:34,172
+otherwise people are
+going to be sitting in the
+
+8
+00:00:34,172 --> 00:00:37,531
+aisles and the fire marshal
+is going to get angry.
+
+9
+00:00:38,833 --> 00:00:42,031
+I don't know that, I'm not a building guy.
+
+10
+00:00:43,129 --> 00:00:44,946
+Hi everybody, sorry to
+make you move around
+
+11
+00:00:44,946 --> 00:00:46,536
+but also maybe that will
+wake you up a little bit.
+
+12
+00:00:46,536 --> 00:00:47,775
+This is going to be a shot of espresso,
+
+13
+00:00:47,775 --> 00:00:49,142
+we've got to go, go, go, go.
+
+14
+00:00:49,249 --> 00:00:52,072
+I have a very serious talk
+about the heart of architecture.
+
+15
+00:00:54,010 --> 00:00:57,708
+As you know, as DHH said at the
+first talk, we are engineers.
+
+16
+00:00:57,708 --> 00:00:59,685
+What we do is build bridges with code.
+
+17
+00:01:01,880 --> 00:01:04,923
+We are architects, we build
+centuries old castles.
+
+18
+00:01:05,954 --> 00:01:09,220
+We are craftspeople, we are
+old-timey metal workers.
+
+19
+00:01:09,570 --> 00:01:11,035
+And we live in the cloud.
+
+20
+00:01:11,035 --> 00:01:13,141
+I think Javascript is ready
+for all of these things.
+
+21
+00:01:13,813 --> 00:01:16,991
+I feel like Javascript is
+ready for Cloudgineering.
+
+22
+00:01:20,756 --> 00:01:22,347
+If anybody knows what any of the things
+
+23
+00:01:22,347 --> 00:01:24,125
+I said with the pretty pictures are,
+
+24
+00:01:24,125 --> 00:01:26,403
+please grab me after the
+talk and explain them to me.
+
+25
+00:01:26,864 --> 00:01:29,336
+I just say them to sound smart and serious
+
+26
+00:01:29,336 --> 00:01:31,298
+about programming, it is serious business.
+
+27
+00:01:31,298 --> 00:01:32,407
+Hi I'm Brandon Hayes,
+
+28
+00:01:32,407 --> 00:01:35,117
+I work with Charles
+actually at The Frontside.
+
+29
+00:01:35,490 --> 00:01:41,930
+I'm a dedicated Cloudgineer
+and no one ever asks which of
+
+30
+00:01:41,930 --> 00:01:44,269
+us is the smart one when
+we converse together,
+
+31
+00:01:44,269 --> 00:01:45,731
+which is a little weird.
+
+32
+00:01:45,960 --> 00:01:47,157
+These are my credentials.
+
+33
+00:01:47,157 --> 00:01:49,534
+As you can see I'm highly credentialed and
+
+34
+00:01:49,534 --> 00:01:51,531
+ready to tell you all about programming.
+
+35
+00:01:52,551 --> 00:01:54,206
+My wife gave me a few of these,
+
+36
+00:01:54,206 --> 00:01:56,032
+most of them are actually true.
+
+37
+00:02:00,453 --> 00:02:02,532
+I'm not here to talk about some
+
+38
+00:02:02,532 --> 00:02:07,079
+core ideal or some big fancy thing.
+
+39
+00:02:07,516 --> 00:02:08,314
+I live in the real world.
+
+40
+00:02:08,907 --> 00:02:13,154
+I have to write programs that
+people want written fast and
+
+41
+00:02:13,154 --> 00:02:16,875
+want them yesterday and it's
+very challenging some times.
+
+42
+00:02:17,571 --> 00:02:21,304
+I understand that
+architecture is great but
+
+43
+00:02:21,304 --> 00:02:23,160
+I don't have a lot of use
+for ivory tower people,
+
+44
+00:02:23,160 --> 00:02:25,466
+I think the universe has
+plenty of uncles in it.
+
+45
+00:02:26,769 --> 00:02:28,877
+We live in a place,
+
+46
+00:02:29,330 --> 00:02:31,252
+and I'm going to tell you a
+tale about a couple of places.
+
+47
+00:02:31,739 --> 00:02:33,703
+It's actually a meta talk about the
+
+48
+00:02:33,703 --> 00:02:35,281
+ball of mud architecture pattern,
+
+49
+00:02:35,281 --> 00:02:36,892
+that's one I can really get behind.
+
+50
+00:02:37,111 --> 00:02:39,745
+If you're not familiar
+with this, Brian Foote,
+
+51
+00:02:39,745 --> 00:02:43,470
+I believe in the late 1970s,
+described an architecture
+
+52
+00:02:43,470 --> 00:02:46,331
+pattern that everyone here has
+seen called the ball of mud.
+
+53
+00:02:47,531 --> 00:02:48,875
+To do that I need to
+talk about city planning.
+
+54
+00:02:50,188 --> 00:02:51,925
+Most cities are not designed for growth.
+
+55
+00:02:52,502 --> 00:02:54,158
+Salt Lake City would be a rare exception.
+
+56
+00:02:54,865 --> 00:02:57,532
+You'll see it handled its
+eventual growth pretty well.
+
+57
+00:02:58,595 --> 00:03:01,021
+From layout to infrastructure
+it seems to have avoided
+
+58
+00:03:01,021 --> 00:03:03,697
+many of the problems
+that plague large cities.
+
+59
+00:03:04,345 --> 00:03:06,304
+Our code does not live in Salt Lake City,
+
+60
+00:03:06,304 --> 00:03:07,558
+they don't work like that.
+
+61
+00:03:08,470 --> 00:03:11,454
+My current home town of
+Austin is a lot more typical.
+
+62
+00:03:13,230 --> 00:03:15,692
+I look at that every day
+on my drive home while
+
+63
+00:03:15,692 --> 00:03:18,034
+Charles rides his bike
+home, which is great.
+
+64
+00:03:18,405 --> 00:03:19,860
+I get to sit in that every day for
+
+65
+00:03:19,860 --> 00:03:21,512
+about 45 minutes on the way home.
+
+66
+00:03:21,954 --> 00:03:23,846
+The city layout and
+infrastructure was not prepared
+
+67
+00:03:23,846 --> 00:03:26,001
+for the kind of growth
+that they've experienced.
+
+68
+00:03:26,347 --> 00:03:28,671
+That results in the dreaded urban sprawl.
+
+69
+00:03:29,640 --> 00:03:31,794
+But we don't actually even live here.
+
+70
+00:03:31,819 --> 00:03:33,627
+Let's be honest about our
+code for a minute people.
+
+71
+00:03:34,236 --> 00:03:35,309
+We live here.
+
+72
+00:03:37,943 --> 00:03:39,713
+It's not a sprawling metroplex
+
+73
+00:03:39,713 --> 00:03:41,116
+or a beautifully planned city.
+
+74
+00:03:41,116 --> 00:03:42,744
+We live in a favela.
+
+75
+00:03:42,813 --> 00:03:45,489
+A favela is a Brazilian slum, basically.
+
+76
+00:03:45,489 --> 00:03:47,084
+It looks like cool though, right?
+
+77
+00:03:47,223 --> 00:03:51,298
+It's the definition of a
+walkable city -- well, hikeable.
+
+78
+00:03:52,051 --> 00:03:53,676
+Let's zoom in.
+
+79
+00:03:54,799 --> 00:03:58,017
+A favela is a Brazilian
+shanty town made permanent.
+
+80
+00:03:58,564 --> 00:04:02,566
+The structures require little
+skill to create and they
+
+81
+00:04:02,566 --> 00:04:06,012
+pop up everywhere out of
+whatever materials can be found.
+
+82
+00:04:06,396 --> 00:04:08,284
+The problem is these structures are
+
+83
+00:04:08,284 --> 00:04:10,532
+difficult to grow, to maintain or protect.
+
+84
+00:04:11,080 --> 00:04:13,501
+There's little police
+presence or fire presence,
+
+85
+00:04:13,647 --> 00:04:16,111
+and safety and crime
+issues are pretty rampant.
+
+86
+00:04:17,426 --> 00:04:19,533
+Forget architecture stuff,
+
+87
+00:04:19,536 --> 00:04:21,596
+we're going to go in to a code favela,
+
+88
+00:04:22,048 --> 00:04:23,536
+it will look familiar to you.
+
+89
+00:04:23,536 --> 00:04:25,111
+You've probably had some that made you
+
+90
+00:04:25,111 --> 00:04:27,079
+nearly go crazy trying to maintain it.
+
+91
+00:04:27,502 --> 00:04:29,426
+I apologize in advance
+for making you look at
+
+92
+00:04:29,426 --> 00:04:31,955
+this but I really need
+you to feel my pain.
+
+93
+00:04:34,202 --> 00:04:37,095
+That favela is a
+manifestation of the ball of
+
+94
+00:04:37,095 --> 00:04:39,329
+mud pattern, which is
+really easy to create.
+
+95
+00:04:39,411 --> 00:04:42,319
+You just need to build
+something temporary,
+
+96
+00:04:42,319 --> 00:04:45,154
+add to it, and then rely
+on it for your business.
+
+97
+00:04:45,423 --> 00:04:47,501
+They're so easy to create
+that it's the dominant
+
+98
+00:04:47,501 --> 00:04:50,747
+architecture pattern, I would
+contest, in software today.
+
+99
+00:04:51,862 --> 00:04:53,346
+Let's talk about how this happens.
+
+100
+00:04:54,049 --> 00:04:55,395
+Should be pretty easy right,
+
+101
+00:04:55,395 --> 00:04:56,861
+you can probably make
+this happen this week.
+
+102
+00:04:58,947 --> 00:05:02,619
+I need a show of hands.
+How many of you hate being
+
+103
+00:05:02,619 --> 00:05:04,676
+asked to raise your hands in a talk?
+
+104
+00:05:05,866 --> 00:05:08,659
+I should see no hands, that is insane.
+
+105
+00:05:09,705 --> 00:05:11,601
+How many of the rest of you have a
+
+106
+00:05:11,601 --> 00:05:13,686
+prototype that is shipped to production?
+
+107
+00:05:14,848 --> 00:05:16,533
+Pretty good balance there.
+
+108
+00:05:20,627 --> 00:05:21,955
+They say, "This is a two week feature,
+
+109
+00:05:21,955 --> 00:05:23,284
+"let's ship this thing in two weeks."
+
+110
+00:05:23,555 --> 00:05:24,665
+I don't believe in two week features,
+
+111
+00:05:24,665 --> 00:05:26,054
+I don't think that's actually a thing.
+
+112
+00:05:26,519 --> 00:05:28,722
+We do try to cram features
+in to two weeks and then make
+
+113
+00:05:28,722 --> 00:05:31,489
+sacrifices to get them out the
+door, or we inherit code from
+
+114
+00:05:31,489 --> 00:05:34,300
+less experienced developers
+and it has to ship.
+
+115
+00:05:34,991 --> 00:05:37,860
+But mostly these shanty towns
+start as a quick prototype.
+
+116
+00:05:39,097 --> 00:05:40,972
+Let's go ahead and build a shanty town.
+
+117
+00:05:41,599 --> 00:05:43,191
+It starts off like pretty much any other.
+
+118
+00:05:44,674 --> 00:05:46,599
+Let's say we're all working on Giffindor.
+
+119
+00:05:46,956 --> 00:05:48,909
+It's a social network for animated gifs.
+
+120
+00:05:50,070 --> 00:05:52,320
+The founder is a huge Harry
+Potter fan, cosplayer,
+
+121
+00:05:52,334 --> 00:05:54,800
+the whole thing. Has the
+glasses, it's adorable.
+
+122
+00:05:54,849 --> 00:05:56,127
+Personally I'm more a Hufflepuff,
+
+123
+00:05:56,127 --> 00:05:57,441
+this is not my website though.
+
+124
+00:05:58,069 --> 00:06:00,581
+It's a vanilla server-side app in Rails.
+
+125
+00:06:01,472 --> 00:06:04,862
+One note on pronunciation.
+I'm going to stake a stand.
+
+126
+00:06:04,862 --> 00:06:07,409
+I'm going to say that gif is
+pronounced like GitHub Gist.
+
+127
+00:06:09,360 --> 00:06:11,643
+I do the same thing
+with JSON and [JAY-sin].
+
+128
+00:06:12,143 --> 00:06:13,049
+I like to make everybody mad.
+
+129
+00:06:13,049 --> 00:06:15,159
+Mix tabs and spaces, people love me.
+
+130
+00:06:16,114 --> 00:06:16,799
+Back to work.
+
+131
+00:06:17,692 --> 00:06:20,128
+Let's just sprinkle in
+a little interactivity.
+
+132
+00:06:21,195 --> 00:06:22,574
+Let's start with sprinkles, they're fun,
+
+133
+00:06:22,574 --> 00:06:23,895
+sprinkles are fun, yay!
+
+134
+00:06:25,705 --> 00:06:28,627
+Your boss calls. She says,
+"We want a better experience
+
+135
+00:06:28,627 --> 00:06:30,375
+"on the site. Our users
+demand it. They should not
+
+136
+00:06:30,375 --> 00:06:32,627
+"have to go through a
+page refresh all the way
+
+137
+00:06:32,627 --> 00:06:34,878
+"to the new page to submit
+a new animated gif."
+
+138
+00:06:36,330 --> 00:06:37,502
+You look at your Javascript file.
+
+139
+00:06:39,132 --> 00:06:41,693
+Nothing there, undaunted
+you march forward.
+
+140
+00:06:42,299 --> 00:06:44,847
+Easy right? Just make a little HTML form
+
+141
+00:06:44,847 --> 00:06:47,123
+on the page with show hide, all done.
+
+142
+00:06:48,378 --> 00:06:51,219
+That worked, except it submits and
+
+143
+00:06:51,219 --> 00:06:53,053
+does a full page refresh on submit.
+
+144
+00:06:53,053 --> 00:06:54,252
+"Can you do that by AJAX,
+
+145
+00:06:54,252 --> 00:06:55,936
+"it's kind of irritating to our users?"
+
+146
+00:06:56,377 --> 00:06:58,078
+All right, that's what AJAX is for, right?
+
+147
+00:06:58,128 --> 00:07:00,155
+We submit this thing via AJAX.
+
+148
+00:07:01,049 --> 00:07:03,285
+That seems to work, all right.
+
+149
+00:07:03,692 --> 00:07:05,974
+But now you actually
+have to add that new POST
+
+150
+00:07:05,974 --> 00:07:08,474
+to the list of POSTs
+that are on that page.
+
+151
+00:07:09,128 --> 00:07:10,035
+All right, no problem.
+
+152
+00:07:10,627 --> 00:07:12,456
+Okay, a little bit of a problem.
+
+153
+00:07:13,269 --> 00:07:16,321
+We're starting to duplicate
+some DOM code here in your
+
+154
+00:07:16,321 --> 00:07:19,059
+Javascript so you get to
+edit stuff in two places.
+
+155
+00:07:19,486 --> 00:07:23,805
+A little duplication. We know,
+we don't de-duplicate first.
+
+156
+00:07:25,019 --> 00:07:26,802
+You're agile so you agile that code right
+
+157
+00:07:26,802 --> 00:07:29,459
+in there until this whole thing is agile!
+(laughter and applause)
+
+158
+00:07:30,043 --> 00:07:32,831
+By the way that's a trademark
+of Cloudgineering Inc.
+
+159
+00:07:32,845 --> 00:07:35,798
+so do not use that without
+written permission.
+
+160
+00:07:37,382 --> 00:07:39,974
+So this sprinkle is starting
+to turn in to a little more
+
+161
+00:07:39,974 --> 00:07:42,815
+of a rain shower, a little
+bit of a steady rain.
+
+162
+00:07:42,815 --> 00:07:45,310
+But cheer up Keanu, we
+shipped some software, right?
+
+163
+00:07:46,564 --> 00:07:49,597
+Okay, sport. The product
+manager, who tends to look
+
+164
+00:07:49,597 --> 00:07:52,315
+like Fred MacMurray for some
+reason, is really happy.
+
+165
+00:07:52,830 --> 00:07:55,598
+He has more ideas. He wants
+users to be able to click
+
+166
+00:07:55,598 --> 00:07:57,674
+a cancel button so that
+they zero out the form,
+
+167
+00:07:57,674 --> 00:07:59,581
+because if you open it
+it's just stuck there.
+
+168
+00:08:00,830 --> 00:08:02,980
+Dutifully you implement the cancel button
+
+169
+00:08:02,980 --> 00:08:04,888
+and zero out the form with jQuery.
+
+170
+00:08:05,115 --> 00:08:08,034
+Awesome, except now users
+are hitting submit on
+
+171
+00:08:08,034 --> 00:08:10,316
+empty and invalid forms,
+so we need some sort of
+
+172
+00:08:10,316 --> 00:08:12,724
+client-side validation to
+prevent that from happening.
+
+173
+00:08:12,878 --> 00:08:14,474
+It shouldn't be too hard to tell if
+
+174
+00:08:14,474 --> 00:08:17,273
+somebody has attached
+an animated gif link.
+
+175
+00:08:19,212 --> 00:08:22,138
+It wasn't super, super
+easy but it was relatively
+
+176
+00:08:22,138 --> 00:08:24,476
+straight forward. We disable
+the submit button unless
+
+177
+00:08:24,476 --> 00:08:26,908
+it's valid and show messages with jQuery.
+
+178
+00:08:27,474 --> 00:08:29,190
+This is starting to look
+a little weird, right?
+
+179
+00:08:29,213 --> 00:08:30,954
+It's starting to really come down.
+
+180
+00:08:32,488 --> 00:08:33,762
+Poor Al Roker.
+
+181
+00:08:34,972 --> 00:08:36,879
+Your CEO comes in to congratulate you
+
+182
+00:08:36,879 --> 00:08:38,442
+on all the great work you've done.
+
+183
+00:08:38,442 --> 00:08:40,895
+You've really shipped a lot
+of code and agiled everything
+
+184
+00:08:40,895 --> 00:08:44,003
+and you just need a
+couple more enhancements.
+
+185
+00:08:44,240 --> 00:08:47,115
+Let's add an inline preview
+for that image so users know
+
+186
+00:08:47,115 --> 00:08:49,436
+what they're about to
+post before they post it,
+
+187
+00:08:49,479 --> 00:08:51,947
+and a little character
+count that doesn't ding them
+
+188
+00:08:51,947 --> 00:08:54,159
+for long urls. We want
+a smart character count.
+
+189
+00:08:55,784 --> 00:08:57,474
+That's working but
+actually broke a couple of
+
+190
+00:08:57,474 --> 00:08:59,989
+other things about the state of this form.
+
+191
+00:09:00,193 --> 00:09:03,665
+We do some double checking
+and enable or disable submit.
+
+192
+00:09:04,879 --> 00:09:06,912
+Now you're caught
+between these two worlds.
+
+193
+00:09:06,912 --> 00:09:09,705
+You want to craft code that
+you can be proud of and that
+
+194
+00:09:09,817 --> 00:09:12,707
+lets you feel good about
+the things that you do,
+
+195
+00:09:12,806 --> 00:09:14,663
+but you also want to
+be able to ship stuff.
+
+196
+00:09:14,663 --> 00:09:16,874
+Your business needs you to
+move fast and break things.
+
+197
+00:09:16,884 --> 00:09:20,581
+You need to get stuff done,
+GSD. Craftsmanship, ship it.
+
+198
+00:09:20,698 --> 00:09:22,482
+I say craftmanship it.
+
+199
+00:09:22,559 --> 00:09:24,959
+(laughter)
+
+200
+00:09:24,959 --> 00:09:28,574
+(hesitant applause)
+
+201
+00:09:29,666 --> 00:09:31,438
+It's a good thing you're
+a cloudgineer and you
+
+202
+00:09:31,438 --> 00:09:33,552
+can straddle these two
+worlds just perfectly.
+
+203
+00:09:34,363 --> 00:09:37,002
+Look at all this code that
+we've craftsmanshipped.
+
+204
+00:09:38,427 --> 00:09:41,127
+Sandy Metz talked
+yesterday about code shape
+
+205
+00:09:41,127 --> 00:09:42,969
+and the squint test as an indicator.
+
+206
+00:09:42,969 --> 00:09:45,812
+When I squint this code has a shape and
+
+207
+00:09:45,812 --> 00:09:47,838
+that shape is a sack of hot garbage.
+
+208
+00:09:47,838 --> 00:09:50,284
+(laughter)
+
+209
+00:09:50,284 --> 00:09:52,031
+I don't know if Chicago
+has this but in Manhattan
+
+210
+00:09:52,031 --> 00:09:54,301
+in the summer time you get this nice smell
+
+211
+00:09:54,301 --> 00:09:56,297
+wafting off of the hot
+garbage, it's great.
+
+212
+00:09:56,563 --> 00:09:58,025
+That's kind of how it feels.
+
+213
+00:09:58,459 --> 00:10:03,217
+Here we are, a total tsunami
+of entangled jQuery code.
+
+214
+00:10:03,217 --> 00:10:05,857
+(laughter)
+
+215
+00:10:05,857 --> 00:10:07,957
+Let's ship a feature against that.
+
+216
+00:10:10,658 --> 00:10:13,438
+Please, it's really important!
+
+217
+00:10:14,386 --> 00:10:16,593
+Your CEO is now putty in your hands,
+
+218
+00:10:16,593 --> 00:10:19,001
+you are a superstar
+developer and the expectation
+
+219
+00:10:19,001 --> 00:10:21,556
+is now that you just shipped so fast.
+
+220
+00:10:21,556 --> 00:10:23,991
+And a light button, let's do it.
+
+221
+00:10:24,083 --> 00:10:27,187
+Here's the thing. I was going
+to implement this in jQuery,
+
+222
+00:10:27,505 --> 00:10:29,140
+I was going to do it
+but there was already so
+
+223
+00:10:29,140 --> 00:10:31,253
+much double checking and
+interwoven states that
+
+224
+00:10:31,253 --> 00:10:34,328
+I physically couldn't
+without getting really ill.
+
+225
+00:10:34,862 --> 00:10:36,765
+The thought of touching
+this code made me want
+
+226
+00:10:36,765 --> 00:10:38,457
+to quit writing the talk and just be like,
+
+227
+00:10:38,457 --> 00:10:40,329
+"You know what RailsConf, thanks anyway."
+
+228
+00:10:41,465 --> 00:10:43,289
+Now what, what do we do?
+
+229
+00:10:43,562 --> 00:10:46,236
+Actually Brian Foote has prescriptions for
+
+230
+00:10:46,236 --> 00:10:47,468
+dealing with the ball of mud pattern,
+
+231
+00:10:47,468 --> 00:10:49,098
+and it's not always what you think.
+
+232
+00:10:49,098 --> 00:10:51,372
+You don't necessarily dive
+right into a refactor.
+
+233
+00:10:51,632 --> 00:10:53,652
+Addressing a ball of
+mud is pretty difficult.
+
+234
+00:10:53,867 --> 00:10:55,568
+We can sweep it all under the rug,
+
+235
+00:10:55,568 --> 00:10:57,215
+or put it inside of a black box.
+
+236
+00:10:57,768 --> 00:10:59,160
+You can reconstruct it,
+
+237
+00:10:59,160 --> 00:11:02,854
+tear the whole thing down
+and raze it and rebuild it.
+
+238
+00:11:02,968 --> 00:11:04,218
+You can renovate block-by-block,
+
+239
+00:11:04,218 --> 00:11:05,950
+which he calls keeping it working,
+
+240
+00:11:06,096 --> 00:11:08,699
+or you can quit you job,
+which in some cases,
+
+241
+00:11:08,699 --> 00:11:10,979
+sometimes it's the thing to do.
+
+242
+00:11:11,819 --> 00:11:13,641
+Black box is fine if you know you're never
+
+243
+00:11:13,641 --> 00:11:15,332
+going to have to touch that code again.
+
+244
+00:11:15,332 --> 00:11:16,868
+If it's some complicated math equation or
+
+245
+00:11:16,868 --> 00:11:18,338
+something I've seen that done, where you
+
+246
+00:11:18,338 --> 00:11:20,850
+just hide it in the
+closet and that's fine.
+
+247
+00:11:21,434 --> 00:11:24,158
+A rewrite is a great way
+to learn really amazingly
+
+248
+00:11:24,158 --> 00:11:27,189
+hidden lessons about your business logic.
+
+249
+00:11:27,315 --> 00:11:29,422
+Things that are encoded
+in very strange places.
+
+250
+00:11:29,598 --> 00:11:31,191
+It's a really great way
+to make something that
+
+251
+00:11:31,191 --> 00:11:33,435
+sounds like it takes two
+weeks take six months.
+
+252
+00:11:35,771 --> 00:11:38,590
+I feel like you always
+discover that hidden
+
+253
+00:11:38,590 --> 00:11:41,152
+business logic so let's
+talk about a refactor.
+
+254
+00:11:41,693 --> 00:11:43,154
+Why would we do that?
+
+255
+00:11:43,879 --> 00:11:45,540
+We decided that refactor
+is probably the right
+
+256
+00:11:45,540 --> 00:11:46,943
+thing to do because the feature has to be
+
+257
+00:11:46,943 --> 00:11:49,375
+maintained but it's now
+too expensive to manage.
+
+258
+00:11:49,513 --> 00:11:51,422
+Users are starting to
+actually have a bad time with
+
+259
+00:11:51,422 --> 00:11:53,398
+it because the longer
+they stay on the page the
+
+260
+00:11:53,398 --> 00:11:55,639
+more likely they are to
+have problems with it.
+
+261
+00:11:56,599 --> 00:11:59,140
+And more importantly to me personally is
+
+262
+00:11:59,140 --> 00:12:00,989
+that you are tossing
+and turning all night.
+
+263
+00:12:00,989 --> 00:12:02,844
+You cannot sleep because
+you're dreaming about the JIRA
+
+264
+00:12:02,844 --> 00:12:04,734
+tickets that are waiting
+for you in the morning.
+
+265
+00:12:04,734 --> 00:12:06,578
+Why are we still using
+JIRA, why is that a thing?!
+
+266
+00:12:06,578 --> 00:12:08,267
+Okay, anyway, separate deal.
+
+267
+00:12:10,104 --> 00:12:12,766
+You think about your
+frustrated users, your gut is
+
+268
+00:12:12,766 --> 00:12:15,293
+telling you to fix it and
+your gut is totally right.
+
+269
+00:12:16,628 --> 00:12:18,159
+You have two paths out of here.
+
+270
+00:12:18,159 --> 00:12:21,220
+I think the person in this
+room, super smart guy, is like,
+
+271
+00:12:21,220 --> 00:12:24,951
+"Why don't you refactor this
+to smart Javascript objects?"
+
+272
+00:12:25,535 --> 00:12:29,668
+He's largely right. That's an
+ideomatic way to dig out of this.
+
+273
+00:12:29,816 --> 00:12:32,293
+He also asked me if I
+did that as a strawman
+
+274
+00:12:32,293 --> 00:12:34,845
+of how to build really
+terrible jQuery code.
+
+275
+00:12:35,131 --> 00:12:39,438
+I was like, "Yeees. I
+was not doing my best."
+
+276
+00:12:40,857 --> 00:12:42,423
+The other option is to use a framework
+
+277
+00:12:42,423 --> 00:12:44,879
+to abstract away the DOM and handle data.
+
+278
+00:12:46,241 --> 00:12:47,866
+Our goal is to get the heck out of
+
+279
+00:12:47,866 --> 00:12:49,490
+the DOM as fast as humanly possible.
+
+280
+00:12:50,344 --> 00:12:52,245
+That's our biggest pain point right now.
+
+281
+00:12:52,570 --> 00:12:54,385
+For me I'll choose a framework.
+
+282
+00:12:54,391 --> 00:12:55,660
+The framework will manage the DOM and
+
+283
+00:12:55,660 --> 00:12:57,283
+we'll just manage the underlying data.
+
+284
+00:12:58,583 --> 00:13:01,548
+All we need to do now is
+five steps to get out.
+
+285
+00:13:02,816 --> 00:13:05,165
+These steps will probably
+apply for people that
+
+286
+00:13:05,165 --> 00:13:08,581
+use plain Javascript and
+don't use a framework,
+
+287
+00:13:08,581 --> 00:13:10,488
+or any framework that you choose.
+
+288
+00:13:10,488 --> 00:13:12,344
+It's just nice to build up against one,
+
+289
+00:13:12,384 --> 00:13:13,844
+personally I certainly prefer it.
+
+290
+00:13:14,861 --> 00:13:17,016
+On our blog we'll talk more about why
+
+291
+00:13:17,016 --> 00:13:18,970
+we choose Ember and why we like it,
+
+292
+00:13:18,970 --> 00:13:21,379
+and you heard Charles mention
+earlier if you were here,
+
+293
+00:13:21,379 --> 00:13:23,485
+about why we like Ember's model layer.
+
+294
+00:13:23,613 --> 00:13:26,094
+I feel like it's a really
+strong model layer for
+
+295
+00:13:26,094 --> 00:13:28,220
+the case that we're
+trying to accomplish now.
+
+296
+00:13:28,220 --> 00:13:29,770
+It has really great
+bindings and managed state,
+
+297
+00:13:29,770 --> 00:13:31,281
+and it's got a great drop in component
+
+298
+00:13:31,281 --> 00:13:32,952
+library to tie it all together.
+
+299
+00:13:33,553 --> 00:13:37,137
+Step one, let's rap it. Rap
+it, rap it, rap it, wrap it.
+
+300
+00:13:40,495 --> 00:13:42,471
+A little sidetrack, a lot
+of people don't realize
+
+301
+00:13:42,471 --> 00:13:44,563
+that you can sprinkle Ember into an app.
+
+302
+00:13:44,738 --> 00:13:47,298
+A lot of people think that
+Ember only works if you want to
+
+303
+00:13:47,298 --> 00:13:49,866
+start an app from scratch and
+build up from the ground up,
+
+304
+00:13:49,866 --> 00:13:52,799
+from floor zero all the way to
+the top, but you can actually
+
+305
+00:13:52,799 --> 00:13:54,661
+apply it to a lot of
+codebases and it's really
+
+306
+00:13:54,661 --> 00:13:57,613
+great for refactoring
+existing codebases toward it.
+
+307
+00:13:58,233 --> 00:14:01,808
+That's just these three steps right here.
+
+308
+00:14:02,007 --> 00:14:04,494
+At The Frontside we do
+that pretty often where
+
+309
+00:14:04,494 --> 00:14:07,850
+we take an existing Rails
+application and move
+
+310
+00:14:07,850 --> 00:14:11,343
+it towards Ember, but it's
+actually not that hard.
+
+311
+00:14:11,383 --> 00:14:13,381
+First things first it's
+time for some justice.
+
+312
+00:14:13,381 --> 00:14:15,801
+We're going to put that
+terrible code in code jail.
+
+313
+00:14:15,801 --> 00:14:18,690
+That code jail is this
+initLegacyCode function.
+
+314
+00:14:18,690 --> 00:14:21,960
+We're going to create an Ember
+component, we're going to
+
+315
+00:14:21,960 --> 00:14:25,361
+put the stuff in initLegacyCode,
+which is not a special name,
+
+316
+00:14:25,361 --> 00:14:28,817
+I just chose it to tell
+me that this is the jail.
+
+317
+00:14:28,817 --> 00:14:31,724
+It bootstraps the old
+code inside the component.
+
+318
+00:14:31,724 --> 00:14:33,857
+We do not alter that code at all.
+
+319
+00:14:34,159 --> 00:14:37,470
+Also we move the HTML in to a handlebars
+
+320
+00:14:37,470 --> 00:14:39,643
+template associated with this component.
+
+321
+00:14:39,925 --> 00:14:42,210
+No structure of that
+HTML actually changes,
+
+322
+00:14:42,566 --> 00:14:44,220
+we're just isolating.
+
+323
+00:14:45,100 --> 00:14:48,548
+Then we can sprinkle. Now we
+use jQuery to stuff all of
+
+324
+00:14:48,548 --> 00:14:51,859
+this old stuff that we had
+before back in to the DOM.
+
+325
+00:14:54,004 --> 00:14:56,707
+Another thing Sandy said
+yesterday that I hope
+
+326
+00:14:56,707 --> 00:14:59,345
+it's self evident, it's certainly
+made itself self evident
+
+327
+00:14:59,345 --> 00:15:02,711
+to me over the course of the
+last year or two doing this,
+
+328
+00:15:02,711 --> 00:15:04,607
+that you have to test it.
+
+329
+00:15:04,895 --> 00:15:08,757
+If you do not test your code a refactor is
+
+330
+00:15:08,757 --> 00:15:11,830
+essentially impossible, I
+cannot imagine trying to do it.
+
+331
+00:15:11,830 --> 00:15:14,002
+I was not a big testing advocate earlier.
+
+332
+00:15:14,002 --> 00:15:17,112
+I was very skeptical,
+let's say, about testing.
+
+333
+00:15:17,112 --> 00:15:19,823
+I was raised by cowboy coders in my first
+
+334
+00:15:19,823 --> 00:15:22,247
+place when I was learning to program.
+
+335
+00:15:22,572 --> 00:15:25,003
+But we're going to do it and
+we're going to see that it's
+
+336
+00:15:25,003 --> 00:15:27,674
+actually not that hard to
+actually test the thing itself.
+
+337
+00:15:28,017 --> 00:15:30,439
+We're going to test that
+it shows up and it passes.
+
+338
+00:15:33,866 --> 00:15:35,600
+I'm doing a little bit of a hand wave
+
+339
+00:15:35,600 --> 00:15:38,330
+here over Javascript testing setup.
+
+340
+00:15:39,363 --> 00:15:43,617
+Javascript test setup story
+for getting Ember applications
+
+341
+00:15:43,617 --> 00:15:47,198
+bootstrapped in Rails can
+be a little challenging.
+
+342
+00:15:47,198 --> 00:15:49,167
+There's a growing body
+of knowledge about it.
+
+343
+00:15:49,167 --> 00:15:51,173
+I want to give you guys
+a quick note on that.
+
+344
+00:15:51,193 --> 00:15:53,017
+On its own, Javascript
+testing is pretty easy
+
+345
+00:15:53,017 --> 00:15:55,187
+but when you add in frameworks
+and tie it to Rails,
+
+346
+00:15:55,203 --> 00:15:56,660
+add in the asset pipeline,
+
+347
+00:15:56,660 --> 00:15:58,192
+things can get a little complicated.
+
+348
+00:15:58,349 --> 00:15:59,799
+It's a little bit of a wild west,
+
+349
+00:16:00,095 --> 00:16:01,267
+there's a lot of choices out there.
+
+350
+00:16:01,517 --> 00:16:02,972
+There's a little bit of
+paralysis of choice I think.
+
+351
+00:16:03,393 --> 00:16:05,582
+It's really wide open,
+but not like home on the
+
+352
+00:16:05,582 --> 00:16:09,514
+range wide open, more like
+this kind of wild west.
+
+353
+00:16:10,544 --> 00:16:14,112
+It can lead to that, you
+look at the thing of,
+
+354
+00:16:14,112 --> 00:16:15,845
+"I don't know what brand
+of toothpaste I want,
+
+355
+00:16:15,845 --> 00:16:17,388
+"I just want some toothpaste."
+
+356
+00:16:17,720 --> 00:16:19,613
+There's not really a truly accepted happy
+
+357
+00:16:19,613 --> 00:16:21,537
+path just yet but it is getting better.
+
+358
+00:16:22,174 --> 00:16:23,615
+Things are maturing,
+we're building schools,
+
+359
+00:16:23,615 --> 00:16:25,186
+we're building hospitals still.
+
+360
+00:16:25,955 --> 00:16:28,079
+There's a lot of a need
+for libraries and blog
+
+361
+00:16:28,079 --> 00:16:30,993
+posts and people finding
+these happy paths.
+
+362
+00:16:30,993 --> 00:16:33,262
+Taking aside for 15 minutes,
+there are screen casts
+
+363
+00:16:33,262 --> 00:16:35,018
+being released right now,
+there's a thing called
+
+364
+00:16:35,018 --> 00:16:37,988
+Ember Sparks where he's
+teaching people how to
+
+365
+00:16:37,988 --> 00:16:40,596
+set up and bootstrap your
+application environment.
+
+366
+00:16:40,596 --> 00:16:43,596
+We're all still figuring this
+out there, so be prepared
+
+367
+00:16:43,596 --> 00:16:47,188
+for a little bit of rough
+take off on this still.
+
+368
+00:16:48,504 --> 00:16:50,864
+Another thing is testing
+AJAX can feel a little
+
+369
+00:16:50,864 --> 00:16:52,396
+intimidating when you're
+trying to test Javascript
+
+370
+00:16:52,396 --> 00:16:53,673
+but it's actually pretty simple.
+
+371
+00:16:53,673 --> 00:16:55,490
+There are multiple libraries
+to do this kind of thing
+
+372
+00:16:55,490 --> 00:16:57,096
+I like ic-ajax.
+
+373
+00:17:00,177 --> 00:17:03,845
+It intercepts AJAX calls and
+allows you to inject fixtures in.
+
+374
+00:17:04,942 --> 00:17:09,496
+Here we're going to test each
+path through the experience.
+
+375
+00:17:09,627 --> 00:17:11,267
+In this one we're testing that clicking
+
+376
+00:17:11,267 --> 00:17:13,191
+submit shows a success message.
+
+377
+00:17:13,643 --> 00:17:15,579
+We just want to go through
+and verify that all the
+
+378
+00:17:15,579 --> 00:17:18,424
+things that the code says
+it does it's actually doing.
+
+379
+00:17:19,419 --> 00:17:21,238
+We're not changing any code,
+
+380
+00:17:21,238 --> 00:17:23,605
+we're just wrapping it in test existing.
+
+381
+00:17:24,710 --> 00:17:25,927
+And that passes.
+
+382
+00:17:26,507 --> 00:17:29,037
+Okay. At this point we
+repeat for each path
+
+383
+00:17:29,037 --> 00:17:31,248
+to create an integration
+test for the entire
+
+384
+00:17:31,248 --> 00:17:33,858
+application stubbed at the API level.
+
+385
+00:17:34,147 --> 00:17:37,346
+This took several hours
+but it's really important.
+
+386
+00:17:37,346 --> 00:17:38,696
+As I said if you don't have a test harness
+
+387
+00:17:38,696 --> 00:17:40,330
+I do not know how you can refactor.
+
+388
+00:17:40,646 --> 00:17:43,128
+Maybe if somebody has another
+answer we can discuss it,
+
+389
+00:17:43,128 --> 00:17:45,663
+because testing is not my
+favorite thing in the world.
+
+390
+00:17:47,049 --> 00:17:49,049
+We can now move forward
+with some confidence.
+
+391
+00:17:49,049 --> 00:17:51,300
+Go ahead and take yourself a
+victory lap, you earned it.
+
+392
+00:17:51,300 --> 00:17:53,233
+This is, however, just the start.
+
+393
+00:17:54,665 --> 00:17:56,893
+Step three is to identify models.
+
+394
+00:17:56,893 --> 00:17:59,925
+You have this blob of code,
+how do you find models in here?
+
+395
+00:17:59,925 --> 00:18:02,349
+Your server MVC might give you some hints.
+
+396
+00:18:02,894 --> 00:18:05,791
+I don't believe that your
+models will map one to one,
+
+397
+00:18:05,791 --> 00:18:08,067
+but it's a really great place to start.
+
+398
+00:18:09,168 --> 00:18:12,472
+In this one we actually get to
+start driving with the tests.
+
+399
+00:18:12,817 --> 00:18:15,143
+Sometimes I test drive, sometimes I don't,
+
+400
+00:18:15,143 --> 00:18:19,215
+I'm not an expert at either
+style, but I do think that
+
+401
+00:18:19,215 --> 00:18:22,161
+in this case it was pretty
+good to say, "I know that I
+
+402
+00:18:22,161 --> 00:18:23,830
+"have a model and I know
+part of what a model is
+
+403
+00:18:23,830 --> 00:18:27,131
+"going to parse out an animated gif url
+
+404
+00:18:27,131 --> 00:18:29,346
+"and tell me whether it
+is one or is not one."
+
+405
+00:18:30,787 --> 00:18:33,822
+With no code that thing
+should fail, and it does.
+
+406
+00:18:34,834 --> 00:18:36,930
+Now let's extract it.
+
+407
+00:18:36,930 --> 00:18:39,643
+We can actually extract some
+of that logic to a model.
+
+408
+00:18:40,490 --> 00:18:43,412
+And we can extract the
+animated gif link from
+
+409
+00:18:43,412 --> 00:18:45,830
+the POST body and give it a property here.
+
+410
+00:18:45,830 --> 00:18:48,173
+This is called a computed
+property where you see parsedUrl.
+
+411
+00:18:48,479 --> 00:18:50,300
+It does some functiony stuff
+and then it has a little
+
+412
+00:18:50,300 --> 00:18:52,347
+declaration at the end
+that says property body.
+
+413
+00:18:52,480 --> 00:18:54,868
+It means that we're going
+to depend on the body,
+
+414
+00:18:54,868 --> 00:18:57,909
+which is the blob of data
+that somebody just types in,
+
+415
+00:18:57,909 --> 00:19:00,103
+the text that they type in.
+
+416
+00:19:01,056 --> 00:19:02,569
+At any time a person changes that,
+
+417
+00:19:02,569 --> 00:19:03,911
+any time that changes
+it's going to observe and
+
+418
+00:19:03,911 --> 00:19:06,582
+update this parsedUrl
+property on this object.
+
+419
+00:19:08,722 --> 00:19:13,365
+Now those unit tests will pass
+and we can start turning that
+
+420
+00:19:13,365 --> 00:19:17,703
+static content into the dynamic
+content using handlebars.
+
+421
+00:19:18,779 --> 00:19:21,428
+This lets us kill some
+code, that's pretty awesome.
+
+422
+00:19:21,761 --> 00:19:25,070
+This should get the older
+acceptance test passing again.
+
+423
+00:19:25,070 --> 00:19:29,002
+It is the coolest feeling in
+the world to write some tests,
+
+424
+00:19:29,002 --> 00:19:31,661
+take some code, scrub
+some garbage out of it,
+
+425
+00:19:31,661 --> 00:19:33,768
+do something really dangerous feeling,
+
+426
+00:19:33,768 --> 00:19:35,519
+like jump off the cliff
+and know, when you rerun
+
+427
+00:19:35,519 --> 00:19:37,768
+those tests and they start passing again,
+
+428
+00:19:37,768 --> 00:19:39,418
+and you start getting green
+again after a refactor,
+
+429
+00:19:39,418 --> 00:19:40,882
+it's really fun.
+
+430
+00:19:41,493 --> 00:19:43,024
+In this case we didn't do that much,
+
+431
+00:19:43,024 --> 00:19:44,409
+we didn't have to write
+that much code because
+
+432
+00:19:44,409 --> 00:19:46,240
+we let the framework
+carry our matched luggage
+
+433
+00:19:46,240 --> 00:19:48,610
+for it which we cannot live without.
+
+434
+00:19:49,294 --> 00:19:50,997
+The models hold onto your data,
+
+435
+00:19:50,997 --> 00:19:54,008
+they keep it up to date and
+the changes in the DOM are
+
+436
+00:19:54,008 --> 00:19:56,972
+just going to automatically
+propagate out of that.
+
+437
+00:19:58,413 --> 00:20:00,597
+Now we're going to lean even
+harder into the framework.
+
+438
+00:20:01,211 --> 00:20:03,664
+It actually is sort of the
+fun part, identifying the
+
+439
+00:20:03,664 --> 00:20:05,613
+states is more fun than
+identifying models, I think,
+
+440
+00:20:05,613 --> 00:20:06,878
+because we get to go back through the
+
+441
+00:20:06,878 --> 00:20:08,519
+app and pick out what these states are.
+
+442
+00:20:09,346 --> 00:20:11,379
+In this little widget the first state is
+
+443
+00:20:11,379 --> 00:20:13,131
+a blank state, a initial state where the
+
+444
+00:20:13,131 --> 00:20:15,144
+button is just visible
+and nothing else is.
+
+445
+00:20:15,743 --> 00:20:17,331
+When we click it the button goes away and
+
+446
+00:20:17,331 --> 00:20:19,268
+the thing is in a ready-to-save state.
+
+447
+00:20:20,351 --> 00:20:22,098
+While data is in flight
+we're going to disable
+
+448
+00:20:22,098 --> 00:20:24,269
+the post button, leave
+everything else the same.
+
+449
+00:20:25,243 --> 00:20:26,644
+On an error state we're going to leave
+
+450
+00:20:26,644 --> 00:20:29,097
+the text intact but display a message.
+
+451
+00:20:30,929 --> 00:20:32,729
+On success we're going to display a
+
+452
+00:20:32,729 --> 00:20:34,501
+success message and hide the form.
+
+453
+00:20:34,695 --> 00:20:37,344
+After five seconds we want it
+to reset to that initial state.
+
+454
+00:20:37,444 --> 00:20:39,036
+That's kind of the business
+logic that we wanted
+
+455
+00:20:39,036 --> 00:20:42,066
+in the first place but we
+incrementally built it.
+
+456
+00:20:42,066 --> 00:20:44,882
+That's an okay way to
+find out what you want but
+
+457
+00:20:44,882 --> 00:20:47,263
+not a great way to ship to
+production, as we found.
+
+458
+00:20:48,176 --> 00:20:49,895
+The component starts
+in this initial state.
+
+459
+00:20:49,975 --> 00:20:52,590
+We bind that state to a
+class on the component's DOM,
+
+460
+00:20:53,336 --> 00:20:55,756
+and then we'll use that later to let CSS
+
+461
+00:20:55,756 --> 00:20:57,875
+manage what is shown and what is hidden.
+
+462
+00:20:58,491 --> 00:21:00,699
+We want the DOM to just
+be a representation of the
+
+463
+00:21:00,699 --> 00:21:03,520
+state of the app. The DOM
+is just there to represent
+
+464
+00:21:03,520 --> 00:21:05,451
+the app's state at any given time.
+
+465
+00:21:05,556 --> 00:21:07,869
+It's kind of almost read-only.
+
+466
+00:21:08,288 --> 00:21:10,368
+Now instead of managing
+the DOM with jQuery
+
+467
+00:21:10,368 --> 00:21:11,598
+we're going to have buttons fire off
+
+468
+00:21:11,598 --> 00:21:13,269
+actions that just push the state around.
+
+469
+00:21:13,661 --> 00:21:14,946
+"You go here, you go here,"
+
+470
+00:21:14,946 --> 00:21:18,756
+they're like the train conductors
+in a Japanese train station.
+
+471
+00:21:19,488 --> 00:21:21,269
+It's kind of a lazy developer's state
+
+472
+00:21:21,269 --> 00:21:22,692
+machine but it's going to do for now.
+
+473
+00:21:24,076 --> 00:21:25,510
+Step four, that's done.
+
+474
+00:21:25,510 --> 00:21:26,945
+That was all the code we needed for state.
+
+475
+00:21:27,191 --> 00:21:29,816
+Step four is to break up the
+remaining code left in code jail.
+
+476
+00:21:29,992 --> 00:21:32,050
+The states and model are
+in place and are tested,
+
+477
+00:21:32,050 --> 00:21:33,780
+but there's a couple of ugly things left.
+
+478
+00:21:33,913 --> 00:21:36,956
+Let's look at it. Code jail is not empty.
+
+479
+00:21:36,956 --> 00:21:38,972
+The legacy code still reaches outside the
+
+480
+00:21:38,972 --> 00:21:41,938
+component to delete things in a wonky way.
+
+481
+00:21:42,977 --> 00:21:45,785
+And, heh heh, hi, how are you.
+
+482
+00:21:46,991 --> 00:21:48,941
+I want to rub your nose in this code,
+
+483
+00:21:49,007 --> 00:21:50,269
+even though I'm the one that wrote it.
+
+484
+00:21:51,692 --> 00:21:53,594
+What could possibly go wrong here, right?
+
+485
+00:21:54,935 --> 00:21:59,133
+This POST is pretty scary.
+It's painful to modify,
+
+486
+00:21:59,133 --> 00:22:01,914
+it invites pain for the
+user but listing POST
+
+487
+00:22:01,914 --> 00:22:04,009
+is outside the responsibility
+of this component
+
+488
+00:22:04,009 --> 00:22:06,151
+we've created so what can we do about it?
+
+489
+00:22:07,939 --> 00:22:09,395
+Actually we have a pattern
+that we've already laid out.
+
+490
+00:22:09,395 --> 00:22:10,551
+Let's create another component and
+
+491
+00:22:10,551 --> 00:22:12,223
+sprinkle it in for listing those POSTs.
+
+492
+00:22:13,323 --> 00:22:15,301
+Another quick detour in to Ember Data.
+
+493
+00:22:15,493 --> 00:22:16,960
+At this point I have a choice to make.
+
+494
+00:22:16,960 --> 00:22:20,644
+Do I want to make sharing
+this information with you more
+
+495
+00:22:20,644 --> 00:22:23,082
+complicated by talking about
+Ember Data and I think I do,
+
+496
+00:22:23,082 --> 00:22:24,974
+it actually made the
+next steps much easier,
+
+497
+00:22:25,246 --> 00:22:27,854
+and this detour actually
+took me about 20 minutes to
+
+498
+00:22:27,854 --> 00:22:30,255
+replace the model with
+an Ember Data model.
+
+499
+00:22:30,463 --> 00:22:33,442
+Ember data is basically a
+wrapper that talks to AJAX
+
+500
+00:22:33,442 --> 00:22:36,692
+for you and converts to
+an Ember model for you.
+
+501
+00:22:38,259 --> 00:22:40,039
+It buys us lots of good things.
+
+502
+00:22:40,146 --> 00:22:41,973
+Basically took just a few minutes to do.
+
+503
+00:22:42,086 --> 00:22:46,551
+That's it, we just declare
+it as a model on Ember Data.
+
+504
+00:22:47,867 --> 00:22:51,301
+I like to wire in an ic-ajax,
+just like we did before,
+
+505
+00:22:51,301 --> 00:22:54,083
+to Ember Data and this is all
+the work that it takes to do.
+
+506
+00:22:54,348 --> 00:22:56,380
+Fixtures will still work as written.
+
+507
+00:22:56,434 --> 00:22:59,069
+This was all it took to get
+the tests passing again.
+
+508
+00:23:00,446 --> 00:23:02,223
+That's pretty much it
+for the list component.
+
+509
+00:23:02,223 --> 00:23:03,848
+As you can see I have a delete function,
+
+510
+00:23:03,848 --> 00:23:05,756
+a place to reference the list, that's it.
+
+511
+00:23:05,756 --> 00:23:09,083
+It has a list of those posts
+and a way to delete one of them.
+
+512
+00:23:09,490 --> 00:23:12,067
+All I'm doing is
+destroying a model record.
+
+513
+00:23:13,687 --> 00:23:15,464
+The second set of tests here is pretty
+
+514
+00:23:15,464 --> 00:23:17,866
+much going to follow the
+first. This test shows
+
+515
+00:23:17,866 --> 00:23:20,990
+that the animated gifs
+show up as expected,
+
+516
+00:23:21,223 --> 00:23:23,677
+and from here we can drive
+out the delete functionality.
+
+517
+00:23:24,427 --> 00:23:27,490
+We have a second template to
+replace the server-side markup
+
+518
+00:23:28,492 --> 00:23:30,709
+and then we sprinkle it in
+just like the first one.
+
+519
+00:23:30,787 --> 00:23:33,154
+We say, "Hey, jQuery, take this
+component and stuff it in to
+
+520
+00:23:33,154 --> 00:23:35,614
+"the DOM for me where that
+list of posts used to be,"
+
+521
+00:23:35,870 --> 00:23:37,676
+and Ember is going to
+show that for us now.
+
+522
+00:23:37,695 --> 00:23:39,295
+That's interesting, we
+have two components.
+
+523
+00:23:39,295 --> 00:23:40,990
+How are they talking to each other?
+
+524
+00:23:41,245 --> 00:23:43,491
+Well they both react to
+changes to the underlying data.
+
+525
+00:23:43,491 --> 00:23:46,241
+There's a pool underneath that is the
+
+526
+00:23:46,241 --> 00:23:48,067
+same shared data set but the components
+
+527
+00:23:48,067 --> 00:23:49,948
+are completely isolated from one another.
+
+528
+00:23:49,948 --> 00:23:51,910
+They can only communicate by altering
+
+529
+00:23:51,910 --> 00:23:53,679
+that pool of underlying data.
+
+530
+00:23:54,714 --> 00:23:56,770
+Changes in one place can affect the other.
+
+531
+00:23:57,724 --> 00:24:00,052
+There's a lot of boilerplate
+code we did not write here.
+
+532
+00:24:00,052 --> 00:24:01,443
+We just trust that the
+data layer is going to do
+
+533
+00:24:01,443 --> 00:24:03,734
+its job and the DOM will
+represent it properly.
+
+534
+00:24:05,359 --> 00:24:07,961
+One thing that happened though is because
+
+535
+00:24:07,961 --> 00:24:11,396
+we're not doing stuff
+with jQuery UI animation
+
+536
+00:24:11,396 --> 00:24:13,446
+stuff any more we lost
+show hide functionality,
+
+537
+00:24:13,446 --> 00:24:14,737
+so let's put that back.
+
+538
+00:24:15,273 --> 00:24:16,818
+We're going to use CSS transitions
+
+539
+00:24:16,818 --> 00:24:18,036
+which buys a lot of benefits,
+
+540
+00:24:18,036 --> 00:24:21,380
+including hardware acceleration
+on more modern browsers.
+
+541
+00:24:22,427 --> 00:24:25,548
+Remember how we bound class
+name to form state earlier?
+
+542
+00:24:25,745 --> 00:24:28,198
+We said there was a thing
+there that says form
+
+543
+00:24:28,198 --> 00:24:31,473
+state is bound to the class
+name for this component.
+
+544
+00:24:31,555 --> 00:24:33,771
+Now we get these classes
+for free automatically,
+
+545
+00:24:33,898 --> 00:24:35,197
+Ember is going to stuff that in to our
+
+546
+00:24:35,197 --> 00:24:37,494
+component every time the state changes.
+
+547
+00:24:37,494 --> 00:24:39,956
+It pushes the state, it
+changes the name of the class.
+
+548
+00:24:40,381 --> 00:24:42,112
+I like to start by creating placeholders
+
+549
+00:24:42,112 --> 00:24:46,522
+for the various states
+in a given component,
+
+550
+00:24:47,618 --> 00:24:50,146
+and then put different
+behaviors under those states.
+
+551
+00:24:50,353 --> 00:24:52,538
+In this you can see it
+almost tells a story.
+
+552
+00:24:52,635 --> 00:24:54,509
+We start an initial state with a height of
+
+553
+00:24:54,509 --> 00:24:56,646
+zero px and an opacity of zero.
+
+554
+00:25:03,143 --> 00:25:06,245
+Then once it's in another
+state it actually expands.
+
+555
+00:25:06,616 --> 00:25:09,209
+Everything except initial it
+will transition to that state.
+
+556
+00:25:09,853 --> 00:25:11,356
+We transition open to visible
+
+557
+00:25:11,356 --> 00:25:14,724
+with a 200 millisecond delay and a ...
+
+558
+00:25:16,322 --> 00:25:18,686
+You know what, I'm just
+going to show it to you.
+
+559
+00:25:18,686 --> 00:25:21,349
+It's not great to try to
+explain how CSS animations work.
+
+560
+00:25:22,354 --> 00:25:23,302
+Let's do that.
+
+561
+00:25:31,647 --> 00:25:33,226
+I think I need to make
+that window smaller.
+
+562
+00:25:36,121 --> 00:25:37,834
+That's great. Thanks Obama.
+
+563
+00:25:42,064 --> 00:25:44,919
+We're going to submit and now it expands.
+
+564
+00:25:44,919 --> 00:25:48,041
+Here we're in a validation error state.
+
+565
+00:25:50,991 --> 00:25:52,689
+We have the gif preview.
+
+566
+00:25:52,712 --> 00:25:54,555
+We have zero characters
+because that smart preview is
+
+567
+00:25:54,555 --> 00:25:57,370
+telling us that we're not
+using up any characters.
+
+568
+00:26:00,973 --> 00:26:02,948
+And we'll post it.
+
+569
+00:26:03,929 --> 00:26:05,858
+Oh, I just got trolled by chrome caching.
+
+570
+00:26:09,152 --> 00:26:13,982
+This one is just great.
+Julie Andrews is so awesome.
+
+571
+00:26:18,212 --> 00:26:20,584
+I have many of these that
+I really love very much.
+
+572
+00:26:22,026 --> 00:26:23,729
+Instead of doing that all day maybe
+
+573
+00:26:23,729 --> 00:26:25,586
+we should go back to the talk.
+
+574
+00:26:27,059 --> 00:26:28,334
+What we're not doing is we're not
+
+575
+00:26:28,334 --> 00:26:30,060
+manipulating the DOM directly.
+
+576
+00:26:30,074 --> 00:26:32,302
+If we want our tests can
+actually relax about the DOM
+
+577
+00:26:32,302 --> 00:26:35,406
+a little bit, we don't need to
+necessarily test the framework.
+
+578
+00:26:36,017 --> 00:26:38,642
+What we can focus on is application logic.
+
+579
+00:26:38,756 --> 00:26:41,076
+We can still integration test if we want
+
+580
+00:26:42,355 --> 00:26:44,474
+but let's look back and
+see what we've done so far.
+
+581
+00:26:45,258 --> 00:26:48,736
+There's some old code right here.
+
+582
+00:26:48,736 --> 00:26:50,813
+Let's see if you can locate
+the business logic in here.
+
+583
+00:26:52,968 --> 00:26:54,555
+Right? You can't.
+
+584
+00:26:54,555 --> 00:26:56,443
+That's why I'm introducing a powerful
+
+585
+00:26:56,443 --> 00:26:59,327
+encryption algorithm called jQCS, 512-bit.
+
+586
+00:26:59,779 --> 00:27:01,367
+It scatters your business logic across
+
+587
+00:27:01,367 --> 00:27:03,225
+hundreds of lines of jQuery code.
+
+588
+00:27:04,688 --> 00:27:06,396
+You can stop worrying
+about whether hackers
+
+589
+00:27:06,396 --> 00:27:08,100
+are going to access your
+business logic in your
+
+590
+00:27:08,100 --> 00:27:10,819
+front end because even
+your programmers can't.
+
+591
+00:27:10,819 --> 00:27:12,158
+(laughter)
+
+592
+00:27:12,158 --> 00:27:13,705
+That's cloudgineering folks.
+
+593
+00:27:14,996 --> 00:27:16,357
+Also a trademark.
+
+594
+00:27:17,444 --> 00:27:19,646
+That turns out not to be
+such a super hot idea.
+
+595
+00:27:20,738 --> 00:27:23,101
+We've now refactored
+this into a place where
+
+596
+00:27:23,101 --> 00:27:25,323
+we've moved that encrypted
+logic and exposed
+
+597
+00:27:25,323 --> 00:27:27,691
+it via computed properties,
+states and models.
+
+598
+00:27:27,921 --> 00:27:29,883
+The business logic is
+actually front and center now.
+
+599
+00:27:30,302 --> 00:27:32,476
+We've got from this
+sack of hot garbage to a
+
+600
+00:27:32,476 --> 00:27:35,014
+tested and documented
+reliable implementation.
+
+601
+00:27:35,014 --> 00:27:38,178
+It's not perfect but now it
+begs to be extended and reused.
+
+602
+00:27:39,980 --> 00:27:42,099
+From here what happens
+next is really up to you.
+
+603
+00:27:43,455 --> 00:27:45,929
+From here, most of the rendering that's
+
+604
+00:27:45,929 --> 00:27:47,817
+happening on the page
+is being done by Ember.
+
+605
+00:27:47,897 --> 00:27:49,788
+If you want to replace it
+and get all the benefits of
+
+606
+00:27:49,788 --> 00:27:52,209
+having a router underneath
+your app, great, go nuts.
+
+607
+00:27:52,513 --> 00:27:56,461
+You can actually now take
+application handlebars and
+
+608
+00:27:56,461 --> 00:27:58,897
+have it render those to components
+for you, and you're maybe
+
+609
+00:27:58,897 --> 00:28:01,240
+a few hours from having a
+full single page application.
+
+610
+00:28:01,568 --> 00:28:03,839
+Or you can continue to
+sprinkle in more components
+
+611
+00:28:03,839 --> 00:28:05,947
+and let your Rails app do
+all the driving and let your
+
+612
+00:28:05,947 --> 00:28:08,558
+components do the more dynamic
+pieces of your application
+
+613
+00:28:08,558 --> 00:28:11,002
+for you with that pool of
+shared data underneath it.
+
+614
+00:28:12,847 --> 00:28:14,641
+Now my brain is tired.
+
+615
+00:28:14,850 --> 00:28:17,084
+Why did we do all this
+stuff, what even is my life.
+
+616
+00:28:18,589 --> 00:28:22,504
+We had one job to do, a job
+that we were just about to quit,
+
+617
+00:28:24,122 --> 00:28:26,959
+but right before you became
+millionaires in the IPO.
+
+618
+00:28:26,959 --> 00:28:28,647
+I found out a couple years ago I quit
+
+619
+00:28:28,647 --> 00:28:33,697
+a job that just recently IPO'd.
+I would be on some yacht.
+
+620
+00:28:35,531 --> 00:28:37,725
+But we didn't quit,
+because we love our users,
+
+621
+00:28:37,725 --> 00:28:41,174
+we love our coworkers, and
+we want to love our job.
+
+622
+00:28:41,948 --> 00:28:43,834
+Software development, it really is fun.
+
+623
+00:28:44,009 --> 00:28:47,129
+It can be frustrating but it
+shouldn't give you night sweats.
+
+624
+00:28:48,632 --> 00:28:50,412
+Let's try this one more time against
+
+625
+00:28:50,412 --> 00:28:51,930
+our new and improved code base.
+
+626
+00:28:51,930 --> 00:28:53,945
+Once we know the API
+it's a small test to just
+
+627
+00:28:53,945 --> 00:28:55,893
+verify that this thing does what we want.
+
+628
+00:28:55,893 --> 00:28:57,972
+We can add a little
+favorite or like feature.
+
+629
+00:28:58,977 --> 00:29:02,304
+We stub out the data, test that
+a favorite makes it favorite
+
+630
+00:29:02,304 --> 00:29:04,022
+and an unfavorite makes it unfavorite.
+
+631
+00:29:04,573 --> 00:29:06,416
+Build a little favorite
+model that talks to
+
+632
+00:29:06,416 --> 00:29:09,128
+the server and it has
+many relationship here.
+
+633
+00:29:09,384 --> 00:29:11,186
+You can see DS belongs to gifPost
+
+634
+00:29:11,186 --> 00:29:12,960
+and it has many on the other side.
+
+635
+00:29:13,645 --> 00:29:15,058
+And add some dynamic content
+
+636
+00:29:15,058 --> 00:29:17,352
+to the handlebars template.
+
+637
+00:29:18,499 --> 00:29:20,663
+Then we write a toggle action to create or
+
+638
+00:29:20,663 --> 00:29:23,336
+destroy the favorite and
+that's pretty much it.
+
+639
+00:29:23,975 --> 00:29:26,918
+If chrome caching will smile upon me
+
+640
+00:29:26,956 --> 00:29:29,837
+We'll demo that as well, I'm
+going to switch my branch.
+
+641
+00:29:47,439 --> 00:29:49,579
+Everybody knows this trick, right?
+
+642
+00:29:50,739 --> 00:29:53,268
+Also everybody knows the
+trick of typing rails s.
+
+643
+00:29:55,796 --> 00:29:58,796
+It's a little known thing,
+most people don't know.
+
+644
+00:29:59,230 --> 00:30:01,835
+It's how you load a Rails server up.
+
+645
+00:30:02,573 --> 00:30:04,539
+(laughter)
+
+646
+00:30:07,093 --> 00:30:09,321
+You can see my responsive
+design is so badass.
+
+647
+00:30:09,590 --> 00:30:12,488
+Woah, star just flies all around.
+
+648
+00:30:13,301 --> 00:30:16,220
+Now we can favorite this thing.
+
+649
+00:30:16,275 --> 00:30:18,804
+It's actually talking to the
+server on the back end but
+
+650
+00:30:18,804 --> 00:30:20,940
+it was so easy to do this
+that we actually were like,
+
+651
+00:30:21,033 --> 00:30:23,297
+Well, do you want me to filter
+these favorites for you?
+
+652
+00:30:23,297 --> 00:30:26,606
+I can do that and just
+show you my favorite ones.
+
+653
+00:30:26,606 --> 00:30:29,243
+This one, this is legendary.
+
+654
+00:30:33,149 --> 00:30:34,981
+(laughter)
+
+655
+00:30:36,211 --> 00:30:38,504
+(laughter)
+
+656
+00:30:43,149 --> 00:30:45,687
+(laughter)
+
+657
+00:30:46,948 --> 00:30:49,902
+Now we have favorites.
+If I unfavorite something
+
+658
+00:30:49,902 --> 00:30:51,761
+it will automatically pop out of the list.
+
+659
+00:30:51,761 --> 00:30:54,265
+I'm not managing any of
+this stuff. I just built a
+
+660
+00:30:54,265 --> 00:30:56,739
+little tiny filter that took
+like five minutes to do.
+
+661
+00:30:57,273 --> 00:30:59,916
+This stuff buys you so much and extending
+
+662
+00:30:59,916 --> 00:31:01,728
+this actually becomes very fun.
+
+663
+00:31:07,126 --> 00:31:09,990
+We've changed our relationship
+now to this code base,
+
+664
+00:31:09,990 --> 00:31:12,020
+where we actually like working on it.
+
+665
+00:31:12,101 --> 00:31:13,398
+We wake up in the morning
+instead of feeling
+
+666
+00:31:13,398 --> 00:31:15,763
+sick about what's going
+to be in our inbox we're
+
+667
+00:31:15,763 --> 00:31:18,113
+actually really excited
+about what we get to do next.
+
+668
+00:31:20,256 --> 00:31:22,994
+I just want to tell you as
+an addendum to this that my
+
+669
+00:31:22,994 --> 00:31:26,262
+personal story about, my
+first conference was about
+
+670
+00:31:26,262 --> 00:31:31,199
+four years ago and I think
+a lot of people, can I get a
+
+671
+00:31:31,199 --> 00:31:35,367
+show of hands of who's hear
+that's their first conference?
+
+672
+00:31:37,636 --> 00:31:39,670
+That's a really great portion of the room.
+
+673
+00:31:39,670 --> 00:31:40,926
+My first conference,
+
+674
+00:31:40,926 --> 00:31:43,457
+I went to a hack night the
+night after the conference.
+
+675
+00:31:43,549 --> 00:31:45,602
+It was put on by some really great people
+
+676
+00:31:45,602 --> 00:31:48,459
+but I walked in, I looked around
+and I didn't know anybody.
+
+677
+00:31:49,601 --> 00:31:51,719
+I listened to some people talk.
+
+678
+00:31:51,719 --> 00:31:53,789
+I was just learning to program.
+
+679
+00:31:53,789 --> 00:31:56,300
+I was listening to people
+talk and they were so smart
+
+680
+00:31:56,300 --> 00:31:57,986
+and they were people that
+were so well known in the
+
+681
+00:31:57,986 --> 00:32:01,530
+community and I was so
+nobody that I immediately
+
+682
+00:32:01,530 --> 00:32:03,362
+turned around, left, ran
+out of the room as fast
+
+683
+00:32:03,362 --> 00:32:05,705
+as I could, got in my car
+and cried and drove home.
+
+684
+00:32:06,260 --> 00:32:08,380
+Which is pretty awesome,
+I'm like super cool guy.
+
+685
+00:32:08,380 --> 00:32:10,336
+(laughter)
+
+686
+00:32:10,336 --> 00:32:13,040
+After that point the
+community picked me up and
+
+687
+00:32:13,040 --> 00:32:15,271
+dusted me off and said,
+"Get back in there kiddo."
+
+688
+00:32:15,829 --> 00:32:18,010
+Many people in that community
+that I didn't know in the
+
+689
+00:32:18,010 --> 00:32:20,043
+room at the time became
+some of my closest friends.
+
+690
+00:32:21,555 --> 00:32:23,977
+These people in this room, if
+you'll look around, are some
+
+691
+00:32:23,977 --> 00:32:27,554
+of your future closest friends
+and colleagues and mentors.
+
+692
+00:32:28,227 --> 00:32:31,023
+The community is the reason that
+
+693
+00:32:31,023 --> 00:32:32,784
+I get to do this for a living,
+
+694
+00:32:32,784 --> 00:32:35,294
+when before I was doing
+just horrifying things.
+
+695
+00:32:35,294 --> 00:32:36,899
+If you can imagine what
+it would be like to do
+
+696
+00:32:36,899 --> 00:32:38,943
+marketing for a multi-level
+marketing corporation.
+
+697
+00:32:39,826 --> 00:32:43,116
+Just imagine the existential
+hell and imagine programming.
+
+698
+00:32:43,116 --> 00:32:45,041
+We're pretty lucky to
+get to do this and I want
+
+699
+00:32:45,041 --> 00:32:47,260
+everybody to have as good
+a time writing software
+
+700
+00:32:47,260 --> 00:32:50,148
+as I get to have when I'm
+doing stuff like this.
+
+701
+00:32:52,423 --> 00:32:53,947
+The other thing I want
+to say, the last note
+
+702
+00:32:53,947 --> 00:32:57,714
+I want to say on community
+is we have a tendency
+
+703
+00:32:57,714 --> 00:32:59,621
+to do this tent pole
+thing where we raise some
+
+704
+00:32:59,621 --> 00:33:02,198
+people up and then gather
+around those people.
+
+705
+00:33:02,214 --> 00:33:03,930
+That's not really what
+a community is about,
+
+706
+00:33:03,930 --> 00:33:06,306
+a community is a mesh, it's
+not like hub and spoke.
+
+707
+00:33:06,930 --> 00:33:08,448
+Every person in here has something to
+
+708
+00:33:08,448 --> 00:33:09,977
+contribute and something amazing to do
+
+709
+00:33:09,977 --> 00:33:11,616
+and I can't wait to go
+to your talks later.
+
+710
+00:33:11,634 --> 00:33:14,054
+I'm told I'm pretty good at hugs ...
+
+711
+00:33:14,054 --> 00:33:18,274
+(applause)
+
+712
+00:33:28,399 --> 00:33:30,076
+I'm told I'm pretty good at hugs so come
+
+713
+00:33:30,076 --> 00:33:34,636
+say hi to me and thank
+you so much. (applause)
+
+714
+00:33:38,775 --> 00:33:43,181
+(energetic big band music)
+
