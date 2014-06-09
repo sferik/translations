@@ -1,0 +1,1661 @@
+RubyConf 2013 - Extending CRuby with native Graph data type - Andy Pliszka
+
+ANDY PLISZKA: My name is Andy. I work at Pivotal Labs
+
+in New York City. And today I'm gonna show you how to
+
+extend Ruby in C. And we're gonna concentrate on CRuby,
+
+and I'll show you how to build Ruby and extend it.
+
+So this is pretty much the agenda. I'm gonna,
+
+I'm gonna explain a couple of problems that I'm
+
+trying to solve with this talk, and then we're
+
+gonna build Ruby, set up Debugger, look at the
+
+CRuby source code, write a couple of simple extensions,
+
+and then, at the end, we're gonna write a
+
+simple graph implementation in, in CRuby.
+
+K. So what are the problems? If you are
+
+addressing a big, big dat- big graph or big
+
+data problems, what do you need? You need a
+
+lot of memory. You need speed, and write algorithms,
+
+right.
+
+Then, and when you think about big data problems
+
+and big data, big graph problems, usually you're gonna
+
+face this: that Ruby is slow. I think everyone
+
+faced this kind of question in our professional life.
+
+And I do not totally agree with this statement
+
+because, what I think is that objects are slow.
+
+So object-oriented abstractions are slow.
+
+So objects actually have a lot of overhead. They
+
+require extra memory. They require a lot of indirection
+
+and they result in fragmented memory, so you can
+
+actually lose some of the performance. And that gets
+
+even worse when you work with arrays of objects.
+
+And now you, if you have an array, it
+
+doesn't really matter if you, if you have, let's
+
+say, ten thousand objects, but if you have a
+
+million or a billion of objects, that overhead is
+
+really substantial.
+
+And it prevents you from actually solving problems. So
+
+when you work with arrays of objects, you have
+
+more int- overhead, more indirection, more memory fragmentation, and
+
+then all the CPU caches and all the optimization
+
+that you get from the CPUs are pretty, pretty
+
+much wasted.
+
+And it's not only a Ruby problem. It's, it's
+
+a problem really with every object-oriented language. So that
+
+was a problem at the beginning of the Smalltalk,
+
+right, when pretty much you had to have the
+
+most powerful computer to run Smalltalk. Java had the
+
+same problem in the beginning. That's why, why, that's
+
+one of the reasons why Java has primitive types.
+
+So you can actually work with bytes of, bytes
+
+in memory instead of arrays of objects. And Python,
+
+Python is actually solving it by, by using NumPy
+
+and actually using C extensions. And even C, when
+
+you talk to people who are doing high-frequency trading,
+
+for example, they also have a lot of tricks
+
+that, to speed up C++. So it's not only
+
+Ruby that's, that's slow but it's a lot of
+
+languages that have this problem.
+
+So what is the solution? Solution is Ruby plus
+
+C. We can do it. You can combine Ruby
+
+productivity and ecosystem, all the gems and all the
+
+tools that we have, especially for testing - like
+
+RSpec or MiniTest - with C efficiency, speed, and
+
+algorithms. Because when you really think about it, most
+
+of the algorithms are already written in C, right,
+
+they originally were written in C.
+
+So why even rewrite them in Ruby if you
+
+can use them directly? So what you get is
+
+you can put all your high-level abstractions in Ruby.
+
+So all the modeling, all the algorithm coordination, all
+
+the analysis and scripting, do it in Ruby. But
+
+all of the low-level operations, like algorithm implementation and
+
+manipulation of large in-memory data structures, you can do
+
+it in C.
+
+And in this way you can also integrate with,
+
+with you know, linear algebra libraries and improve that
+
+and other stuff. So you can make this stuff
+
+that matters and that requires speed you can write
+
+it in C, but you can actually control it
+
+from Ruby.
+
+So my goal for this talk today is to
+
+give you a tool set so you can go
+
+home and actually experiment with CRuby on your own
+
+at home. And the first step in that journey
+
+is actually building your own version of Ruby. And
+
+that's what we're gonna do. So the first, first
+
+we have to check it out from, from GitHub,
+
+right. Set up the, set up the, check out
+
+the stable version of Ruby. This is Ruby 2.0,
+
+build 247.
+
+And then you have to configure it. So if
+
+you are running on Mac, you probably want to
+
+install OpenSSL because you will need it for RubyGems.
+
+Then you run auto configuration tool and then you
+
+have to configure your, your Ruby source code. And
+
+you can just copy and paste this into terminal.
+
+What it does - I'll explain what each element
+
+does.
+
+For example, this prefix, it says that the Ruby
+
+that you, you are building, you want to install
+
+it in your home folder under myRuby. You want
+
+to use this OpenSSL that comes from, from brew,
+
+from the brew cellar, and you want optimization flags
+
+set to O zero. This is basically no optimization
+
+because you want to set up a Ruby version
+
+that has no optimizations so it's easier to debug,
+
+because if you set this to a higher level,
+
+actually compiler will rearrange the code and it makes
+
+debugging much harder.
+
+And then you have to specify dash g for,
+
+for full debugging, so. And I use disable install-doc
+
+just to make it faster so we don't install
+
+docs. So once you have, once you configure it,
+
+and you run it, this is pretty much what
+
+you will get. Just for your sanity check, this
+
+is pretty much the result that you should get.
+
+It's gonna run for a couple of minutes, then
+
+it's gonna finish and you will have a configured
+
+version of Ruby.
+
+If you are running on Linux, it's slightly different
+
+but only a little bit. Instead of using brew
+
+you can use apt-get to install SSL, auto configure
+
+it. And the flags are almost exactly the same
+
+except for the debugger because on, on Mac we
+
+use LLDB and on Linux you use GDB. So
+
+that's the only difference really.
+
+So once you configure it, well you have to
+
+compile it and build it. And you can do
+
+it with just single command make. This first compile
+
+takes couple of minutes, incremental compiles are much faster.
+
+And this is pretty much what you should get
+
+on your screen. It basically should say that it's
+
+linking Ruby and you should have your Ruby version
+
+built.
+
+Once you build your, your, your Ruby, what, what
+
+you want to do is run Unit tests. CRuby
+
+actually comes with around fourteen thousand tests that you
+
+can run by running make check, and it will
+
+tell, take some time but it will give you
+
+confidence that all the configuration and the whole build
+
+that you have is actually correct. And one note,
+
+if you, if you're gonna run into couple of
+
+errors, what's important is make sure that you run
+
+this command. This actually fixes some of the security
+
+on, on the folder. And the, what I notice
+
+is without running that command some of the tests
+
+around like fourteen tests actually fails and it's a
+
+false negative.
+
+Once you run the check and everything is green,
+
+well you can install it. And you can install
+
+it by running make install. And you can see
+
+here that it actually installed in, in that myRuby
+
+folder. So this will actually copy all the binaries
+
+and put it in the tilde slash my, myRuby
+
+folder. So you can use, you can always, you
+
+always know that it's there. And it will install
+
+a couple of basic gems and you are almost
+
+ready to use it.
+
+What you have to do next, you have to
+
+configure the terminal that you are in. You, you
+
+set the path to myruby path, so it, it
+
+first searches in the bin folder under myRuby, and
+
+you also want to configure gem home and gem
+
+path so that it includes myRuby. So my goal
+
+here is to give you a single terminal where
+
+you have your own version of Ruby for experimentation
+
+without actually changing any shell script configuration files so
+
+your RVM, it doesn't really effect your RVM. This
+
+is your private send box that it can, you
+
+can, you can run all your code and experiment.
+
+So even if you break your Ruby you will
+
+not break your, your work set up, et cetera.
+
+So once you set up these paths, you can
+
+verify that Ruby is installed correctly just by running
+
+which and you see all these, all these commands
+
+actually include myRuby. And you can even test if
+
+irb, by raising, you should see myRuby in that,
+
+in that path. This is pretty much a sanity
+
+check for you that everything is set up correctly.
+
+Next thing that you have to cor- verify is
+
+make sure that the gem, gem set up correctly.
+
+Because, what I want you to do is to
+
+be able to use your own compiled version of
+
+Ruby to run pretty much any Ruby software that
+
+you can imagine. Your production software or, you know,
+
+Rails applications, et cetera, so you can experiment with
+
+your, with the software that you use every day.
+
+So here you run gem environment. Always myRuby should
+
+be there. You can verify it that way. These
+
+are the gems that I installed by default. And
+
+they are stored in this folder, right. So pretty
+
+much we are, we are ready to install Rails,
+
+now, actually use our own compiled version of Ruby
+
+to install Rails and run a Rails application.
+
+So when you run gem install in the same
+
+terminal it will actually install all the required gems,
+
+and then you can create a new Rails app
+
+and, and run it and pretty much, this, this
+
+Rails app is actually using your own compiled version
+
+of Ruby. So within roughly thirty minutes you have
+
+your own sandbox for experimentation with C, C code.
+
+If you're using RubyMine, the set up is also
+
+easy. Just open RubyMine and set up DSDK to
+
+point to myRuby version of Ruby. And that pretty
+
+much completes the, the level one. So you, we
+
+build our own version of Ruby so we have
+
+all the source code, source code for Ruby. We
+
+can actually go there and play with it and
+
+modify it and experiment with it. And you, you
+
+can, you can even run Rails apps. It's just
+
+like any, like, like Ruby that you would install
+
+using RVM. And it shouldn't take you longer than
+
+thirty minutes. So that's the first step in our
+
+journey.
+
+The next step is, because we're gonna do a
+
+lot of C, C coding, well, it's always useful,
+
+very useful to have a debugger set up. So
+
+there are multiple options that you can use. If
+
+you are on Mac you can LLDB, if you're
+
+on Linux you can use GDB. And the, if
+
+you prefer GUIs you can use Xcode. And of
+
+course very VIM and emacs are also supported.
+
+So this is how you would actually debug Ruby
+
+running the upstring Ruby file using LLDB. So you
+
+basically provide a path to the binary, provide the
+
+string, provide it, provide a name with a file
+
+and the file is just basically upcasing hello. And
+
+then when you run, when you enter LLDB, you
+
+would set a break point at a line, at
+
+this line in this file. This is the, the
+
+actual, the first line of the upcase method that's
+
+implemented in C.
+
+And then when you run it, it will actually
+
+run, run your code, run Ruby interpreter on, on
+
+that, on that upstring rb file. And what actually
+
+stop, you can see the little arrow here. It
+
+was gonna stop on the first, first line of
+
+the upcase in string. String dot c. So this
+
+allows you to debug from command line, and if
+
+you're on Mac, you can actually use Xcode to
+
+debug your, your CRuby source code.
+
+OK, so now we have, we have Ruby compiled
+
+and we can debug it. So the next step
+
+is actually take a look, we will take a
+
+look at the C Ruby source code. And we'll
+
+take a look at the folder structure.
+
+So this is my, this is pretty much the
+
+folder when I downloaded check out Ruby from, from
+
+GitHub. Pretty much 99% of the files that you
+
+want to worry about are, are files here. The,
+
+the, the C files in the main folder, like
+
+things like array, or big num, class. Most of
+
+the important files are in the root folder, and
+
+the only additional folder that you want to check
+
+out at the very beginning is probably the extension
+
+folder.
+
+So here, for example, you will find things like
+
+psych, all the extensions that, that you, you probably
+
+use. Json. And these extensions are actually a good
+
+learning tool because they are usually small, so you
+
+can actually see how they were implemented. So for
+
+example, JSON, JSON's a little bit harder, could be,
+
+but find one that is only a few files
+
+and just try to understand how it's implemented. It's
+
+a good exercise.
+
+So let's take a look at a couple of
+
+files that, that we have here. So let's start
+
+with, let's see how fixnum is actually implemented in
+
+C, right. So it's gonna be in numeric, numeric
+
+dev C file. So every file that you open,
+
+you probably want to go to the bottom of
+
+the file and then you scroll up and look
+
+for init function.
+
+It's a big file. There we go. You are
+
+looking for this init function, and this is the
+
+entry point for every class that's defined in C.
+
+And here for example and you can find that,
+
+for example, here, there's a definition of an integer
+
+class using rb define class integer, and you can
+
+see that actually you can inherit from cNumeric. Here
+
+are the definitions of all the, all the methods
+
+for, on the integers.
+
+So for examples, all the methods that we use
+
+every day, odd, even, upto, downto, times, if you
+
+scroll a bit lower you will actually find definition
+
+of a fixnum. So this is actually where you
+
+are using fixnum you are not actually using a
+
+class that is defined in Ruby. You are using
+
+a class that was defined in, in C. And
+
+all the methods are actually implemented in C.
+
+So for example, here you can, you can find
+
+fix, so here is the definition for the fixnum
+
+for the class method, right. So I can find
+
+it here for you. And this is, well definitely,
+
+probably this one, this line is what does the
+
+actual addition. but there's a lot of wrapping code
+
+around it. For example you can do, if you
+
+want to play a prank on someone, you can
+
+just compile your own version of Ruby and just
+
+change it. And then you know you can watch
+
+someone try to figure it out for a couple
+
+of hours.
+
+yes, so you can use, you know, this is
+
+the first thing that you can do. You want
+
+to play with it. It's just that you can
+
+play, start with pranking other people, but this is
+
+a really good tool to understand how Ruby works,
+
+right. How this stuff is implemented, how you can
+
+actually extend Ruby not only in Ruby but using
+
+C and make your code much faster, right. So
+
+this is, this is fixnum.
+
+Let's actually find another class. Let's say string, right.
+
+So string is implemented in string C, and I'm
+
+gonna, wanna do the same thing. I'm gonna go
+
+all the way to the bottom, I'm gonna scroll
+
+up and find this init method. There you go.
+
+And the pattern is exactly the same. like once
+
+you start looking at couple of files, one or,
+
+one, three, four files, you see that the patterns
+
+are, are exactly the same.
+
+So you first start with definition of a class,
+
+you give its name, you basically specify which class
+
+it inherits from. And here also we, we can
+
+see that rb include module, so string class actually
+
+includes comparable, right. there's arrow function. and there are
+
+all the functions, string functions like, equals, hash. All
+
+this stuff is actually implemented here. and the method,
+
+method implementations are actually above.
+
+let's take a look at one more class -
+
+array, right. so here is the array. yet again,
+
+init method, define class. i think you can see
+
+the pattern. and it's real easy to understand what's
+
+going on ebcause you already have a lot of
+
+knowledge about how ruby works so you know the
+
+method names. so it's very useful actually to see
+
+for example how the, where is length - something
+
+simple - there we go, here is the definition
+
+of the length method on array, right. so you
+
+can actually find it and actually see how it's
+
+implemented, k, I'm gonna find it. there we go.
+
+That's all it takes to implement the, the array
+
+length method. that's the actual C implementation.
+
+So that's the folder structure. Fixnum, string, and array.
+
+So how do you actually define classes in C?
+
+Right. So let's take a look. Let's take a
+
+look at array again. pretty much all you have
+
+to do is to create a file in this
+
+case if I were defining a new array I
+
+would call it array dot c, right. define this
+
+method init array, and then I would call this
+
+Ruby define class, give the, give it the class
+
+name and give it the ba- the, the, the
+
+base object which is, which is Ruby object.
+
+And this is pretty much equivalent to this, to
+
+this Ruby code, right. You can also see that
+
+it references this value, which is RBC array. And
+
+that's actually defined at the very top of the
+
+file. And you can see, as defined here, and
+
+every time you see this value in CRuby source
+
+code, think about it. It's a reference to an
+
+object. It's pretty much an object. So when we
+
+define this array here, when you look at this
+
+Ruby define class, what it really does, it actually
+
+creates an instance of a class, right.
+
+if you are interested how metaprogramming actually works in
+
+Ruby, actually looking at the C, CRuby source code
+
+will probably give you the most insight how the
+
+metaprogramming is actually implemented. Because I think without actually
+
+understanding how, how this CRuby code works, it's very
+
+difficult to understand the, all the details of metaprogramming.
+
+So for example, you know that everything in Ruby
+
+is an object, right? This is pretty much what
+
+it does. It creates a class object for Ruby
+
+array and stores it in this reference. Then it
+
+actually includes a module in that class, right. innumerable
+
+module in the array class. and then also specifies
+
+the allocation function and there is, if you, if
+
+you are interested in a metaprogramming in Ruby, so
+
+these, these actually, these method actually define singleton methods,
+
+but they are define singleton methods not on the
+
+instances of an array but actually on the instance
+
+of an array class, right.
+
+So yeah there's, there's, you can even define aliases
+
+pretty much you can just by looking, just by
+
+reading these methods and looking at them you can
+
+connect them with, with Ruby equivalents. So all you
+
+really need is create a new file, C file,
+
+create init methods, define a method, provide allocation function
+
+and provide, define couple of methods, right, that's all
+
+you need. Literally six lines of code.
+
+K.
+
+So that's defining class. And I'm also gonna show
+
+you a complete example in couple of minutes. So
+
+what about methods? So to define a method on,
+
+on a class, for example, array class, you have
+
+to use this define method, pass in the reference
+
+to the object of the class, right, specify the
+
+name and then point it to a function, C
+
+function that actually implements it. And the last argument
+
+is the number of arguments that this function takes.
+
+For example, it could be minus one if you
+
+want to use variable number of arguments. If it's
+
+zero it means that there's no arguments. And then
+
+you have to actually implement the C implementation of
+
+the function. So here, here is the implementation of
+
+array length. And you can see that it is
+
+a static function. It returns a value, and every
+
+time you see a value, you should think an
+
+object. So it returns an object, takes an object,
+
+and this object is actually self.
+
+It's the reference to the instance of the object
+
+that we are calling the length on. So if
+
+you would write that a equals Array.new, this would
+
+be the reference to a. And then we use,
+
+this is using a macro to extract the length
+
+of the array as a long. So this is
+
+a C, C data type. Because Ruby only knows
+
+about objects, every time you have C types like
+
+leng- long, integer, or float, you have to actually
+
+convert it back to a, to a value object.
+
+To an object.
+
+And you can use these macros. I'm gonna, I'm
+
+gonna talk, talk about it a little bit more
+
+in couple of minutes.
+
+So you see pretty much to implement the length
+
+method you literally need couple of lines of code
+
+and you can monkey patch your classes in C.
+
+OK, so what's important to understand when you are
+
+trying to extend Ruby in C is that there
+
+are really two worlds that you have to be
+
+aware of. There is the C world where you
+
+work directly with memory, there is no garbage collection,
+
+and you allocate and, and free memory using mailoc
+
+and free.
+
+And there's the other world, where, where, where you're
+
+in Ruby realm, and you work with heap and
+
+objects and everything is done for you using garbage
+
+collection. And every time you, you switch from one
+
+world to the other, you have to make sure
+
+that you take precautions and you convert the types
+
+correctly.
+
+So these are the data types that you have
+
+access to in, in C. You have pretty much
+
+all equivalents to the, to the data types that
+
+we have in Ruby. And this is how you
+
+actually do conversions. So assuming that you have a,
+
+let's say a method parameter that's Ruby fixnum, and
+
+you want to convert it to C type long,
+
+all you have to do is use this macro,
+
+num to long, and you're gonna get, get the
+
+value back.
+
+If you want to go the other way, from
+
+C long to Ruby fixnum, what you have to
+
+call the long to num function and it's gonna
+
+do it for you. And you have to remember
+
+that you call this conversion every time you call
+
+C code from Ruby and every time you return
+
+values from C back to Ruby.
+
+OK, so at this point, we have compiled version
+
+of Ruby, we know how to debug it, we
+
+pretty much have a basic understanding what, what is
+
+the folder structure, how to define a class, how
+
+to define a method, and how to convert data
+
+between C and Ruby, right.
+
+So we can actually take a look at couple
+
+of examples of, of Ruby extensions. OK, so let's
+
+start with something simple, right. So this is how
+
+we would monkey patch fixnum in Ruby to add
+
+a Fibonacci number to fixnum, right. So what you
+
+would do, you would reopen the class and you
+
+would define a method. And this is equivalent C
+
+implementation, right.
+
+The algorithm is pretty much the same. If you
+
+write the algorithm it doesn't really matter that, that
+
+control structures are different. The problem is that you
+
+cannot really use C implementations directly, because remember that
+
+Ruby only knows about objects, and C only cares
+
+about memory locations and pointers, right.
+
+So Ruby doesn't really understand what long is. Ruby
+
+only understand those value objects, right. So what you
+
+have to do, you have to actually convert the
+
+C implementation, the plain C implementation, into, I call
+
+it CRuby version. The version that's aware of objects.
+
+And the way you do it, well you have
+
+to change the signature of the method, so in
+
+this case, instead of taking a long and then
+
+returning a long, you're actually taking a value, reading
+
+between lines that it's an object, and you actually
+
+return a value. And then when you actually use
+
+those values in C, you have to convert them
+
+from, from objects to longs, right. And then when
+
+you return a value back, back to Ruby, you
+
+have to also convert V. In this case, you
+
+can see here that is a long. So you
+
+have to long to num convert it into a
+
+numeric value and return it.
+
+And that's all you have to do to pretty
+
+much convert a C function into a CRuby, CRuby
+
+function. And then of course you have to define,
+
+define this method in, in, in the, in this
+
+case numeric, that's C.
+
+Let me actually show you this in the, in
+
+the editor. So let's open numeric, numeric C. K,
+
+I'm gonna find- it's C fib, right, C fib,
+
+OK. So this is pretty much an example how
+
+you would monkey patch fixnum directly in C, right.
+
+So I, I, because we have this send box
+
+that we set up in the, in the step
+
+one, we can pretty much modify this whole C
+
+source code, and we know they're gonna break anything
+
+so you can do pretty much whatever you want.
+
+And we d-defined a method like fib, and here's
+
+the implementation, right, this is exactly what we had,
+
+what we had on the screen. And now if,
+
+I think I have it compiled, so if I
+
+run IRB and, let's say I'm gonna do 10
+
+dot cfib - there you go.
+
+So this actually, it's already, I didn't have to
+
+require any file, so that proves that I actually
+
+modified the original Ruby source code. So this is
+
+the 10th Fibonacci number, right. And this is calling
+
+the, the, the C, C function directly, right. And
+
+you can debug it. I, I have, I showed
+
+you before that you can actually, I can actually
+
+debug it in Xcode, and, and experiment with it.
+
+So why would you do such a thing as,
+
+you know, why, why choose C over, over, instead
+
+of monkey patching in Ruby, why would you do
+
+it in C? Well, if you need performance, that's,
+
+that's going back to the problems that I described
+
+at the very beginning of the talk, which is,
+
+you know, if you are dealing with a lot
+
+of data, well you need performance, right. So for
+
+example, this is a benchmark, just simple benchmark, trivial
+
+benchmark of running fib(80) a million times, right.
+
+We run both, both of them directly from Ruby,
+
+and the CRuby implementation takes twenty-six seconds and, and,
+
+and C implementation takes like, less than a second.
+
+So roughly we are thirty-times faster. And this is
+
+really trivial. And remember that we actually compiled Ruby
+
+without any optimization. So if you would bump optimization
+
+to all three, for example, you would probably get
+
+even better performance.
+
+So what's important here is that it's not that
+
+Ruby is slow, but what you can do, you
+
+can choose your battles. And do the stuff that's
+
+high level, high-level abstraction, you can do everything in
+
+Ruby but the critical paths, all the algorith- low-level
+
+algorithms, you can implement in C, and make your
+
+application much faster, right.
+
+If you are, if you are working, let's say,
+
+I don't know, with Facebook graphs or Twitter, Twitter
+
+feeds, right, that have millions of records, I think
+
+it makes a difference if you can do it
+
+twenty-times, thirty-times faster, right. You can be ahead of
+
+your competition. You can, and you can really, if
+
+you need thirty servers to run something, if you
+
+rewrite it in C you probably only need two
+
+or three. Right, so if you need to save
+
+money. OK.
+
+Let's go to the next example. So next example
+
+is prime, right. Testing for prime. Also very simple
+
+algorithm. We just go through all the numbers and
+
+make sure that we are not divisible by, by
+
+any number below the, below the, the self number.
+
+So this is already, this algorithm is pretty much
+
+identical. The only thing that we're using, we could
+
+use for loop, but just we're using opt-to here.
+
+So this is already converted to CRuby style. And
+
+you can see there's not a lot of, of
+
+differences. It's very easy to rewrite this code into
+
+C. That's going from Ruby to C, right.
+
+But when you really think about it, most of
+
+the algorithms are already written in C. So usually
+
+go, you go the other way around, right. So
+
+you get the algorithm like in the book or
+
+numerical methods book, you find the C implementation and
+
+you try to implement it in Ruby.
+
+And you really can avoid that by just interfacing
+
+your code directly with, with C. So here, again,
+
+you monkey patch prime. This is C prime. You
+
+define the method. And the thing I also have
+
+it running here, so, I don't know. 11.cprime.
+
+There we go. So with couple of lines of
+
+code you can monkey patch fixnum and, and, you
+
+know, experiment with it. These are just simple examples
+
+but you can go with much more advanced functionality.
+
+So again, if we compare the performance, in this
+
+case, if we test one of marked primes, it
+
+takes thirty-one seconds using C, using Ruby. And it
+
+takes two seconds using C. So it's seventeen times
+
+faster, right. And that's even without any optimization.
+
+So I think you can see that there are
+
+benefits, especially if you, if you are, if you-
+
+definitely you don't want to rewrite your GUIs and,
+
+and web applications in, in, in C. But what
+
+you want to do, if there are certain algorithms
+
+that you have that are critical for your application,
+
+you can rewrite it in C and get a
+
+lot of benefits. Especially if you operate on a
+
+lot of, on large arrays of objects or lists
+
+of objects.
+
+So that was simple monkey patching. But what about
+
+if you want to create a completely new class
+
+in C, right? This is all it takes. All
+
+you have to do is to define init method,
+
+specify and define class, C long array, that it
+
+inherits from an object. Define a lock function for
+
+it. Define a constructor for it. And also we,
+
+here we gonna demonstrate that, that the quick service
+
+slightly faster when we are running directly on longs
+
+and we have to access our methods, right.
+
+So if we look at it, the, the lock
+
+function is really simple. Couple of lines of code.
+
+WE use this date, data make struct macro. What
+
+it does, it will actually take this C structure
+
+and wrap it in an, in Ruby object. Once
+
+you wrap it in a Ruby object, you can
+
+return it. So this self is, so we start
+
+with this array T, which is a C construct,
+
+and we get back, by calling this data make
+
+struct, we gonna get an ob- a C, a
+
+Ruby object that we can return and we can
+
+use it in a Ruby code.
+
+This is the initialization. So this is how we
+
+would call it from Ruby, right. C long Array.new
+
+10. Ten is basically the size of the array.
+
+It's a really simple implementation of an array with
+
+a fixed size. When you initialize it, use this
+
+ga- data get struct to get access to the
+
+actual array pointer. So basically unwrap the, the Ruby
+
+object and get access to the pointer to the
+
+memory to where the data is stored.
+
+And then you can just use CRu- C mailoc
+
+and allocate enough room for let's say, in this
+
+case, ten numbers, right. And you store the size
+
+and you can return the object. So at this
+
+time you have enough room to store ten objects
+
+in it. And to access array limit- elements, so
+
+it works exactly like Ruby, a Ruby array. You
+
+can just define this square brackets function and it
+
+does the same thing. It extracts the, the pointer
+
+to, to array, converts the index, which it comes
+
+as a fixnum, and convert it to a long.
+
+And then we just access it, access this through,
+
+through a pointer, and we, we convert it back
+
+to a fixnum and we send it back to
+
+Ruby. And this is how we would set the
+
+value.
+
+It's exactly the same except for it's 99, which
+
+is the value that we, that we set it
+
+to. And it's, the difference is only here. Instead
+
+of returning the value at this index, we're actually
+
+setting it. OK, and this is, this is a
+
+quick sort of implementation, right. I'm doing something different
+
+here. SO instead of actually converting the C, the
+
+C example quicksort code to CRuby convention, actually I
+
+ha- I'm using this wrapper function that abstracts all
+
+the objects. It, it converts all the objects to
+
+C data structures and it actually calls the C
+
+function directly.
+
+So you can see it here. This, this function,
+
+this quicksort function, it's pretty much, doesn't know anything
+
+about Ruby, anything about the objects. This function, array
+
+quick_sort, actually converts everything for it. So you can,
+
+you can get this directly from any website that
+
+lists algorithms, and you can use it directly in
+
+your code.
+
+And if you compare performance, when you really thinking,
+
+quick, sorting stuff is a really fundamental feature in
+
+a lot of algorithms, right. And just by using
+
+this array and this quick_sort implementation, you can get
+
+a ten times faster sorting.
+
+For example here we're sorting one million numbers, and
+
+in C it takes two hundred milliseconds, and in,
+
+in, in Ruby it takes two seconds, right. So
+
+that pretty much demonstrates that we can monkey patch
+
+fixnum in C directly in C. It's thirty times
+
+faster. This one is seventeen. And we can even
+
+implement our own classes directly in C.
+
+OK, so that brings us to graphs. So this
+
+is really simple implementation. We are, we will work
+
+with this grid graph, which is, you just, just
+
+a, just a square. A four-by-four so it has
+
+sixteen nodes. This is the presentation that we are
+
+using. It's pretty much a list of linked list.
+
+So, for example, one is just all the elements
+
+that we are connected to. So one is connected
+
+to two and five. So one is connected to
+
+two and five. So we'll be using linked list-
+
+basically an array of linked lists.
+
+And this is the, the data structure, C data
+
+structure that we use for the graph, so it
+
+has this side. So it has how many nodes
+
+we have on the side. And the, a, a
+
+link to this array of linked lists. And this
+
+is just a node in the list. This is
+
+pretty much one of the squares. It has the
+
+value of the node and the pointer to the
+
+next node.
+
+OK, C graph, although we are implementing pretty complicated
+
+data structure like graph, this is not getting much
+
+complicated, if you compare it to the array, right.
+
+You still define the class. We give it a
+
+name, it inherits from an object. We still need
+
+allocation function. We need a constructor that takes one
+
+argument and in this case we have three methods.
+
+We have ref_first_search, def_first_search, and, and prims spanning tree.
+
+So alloc is exactly, almost exactly the same. The
+
+only thing that's, that's different is this bolded, bolded
+
+text, which is, before we had array, we had
+
+array underscore t, now we have a graph, because
+
+we are using a different data structure. So this
+
+is exactly almost the same as in the array
+
+example. And init is a little bit more complicated
+
+because, yet again we extract the pointer to, to
+
+the data. This graph it points to the, to
+
+the location in memory where the graph is stored.
+
+We store this side. WE convert it from, from
+
+a fixnum to, to a long, and then we
+
+call this method implementation of that method, basically what
+
+it does, it just generates the, the grid graph
+
+for us. So it links up all the, all
+
+the nodes together. So you would have to do
+
+it anyway. So this is the actual, the, the
+
+adapter function that we use for calling BFS C
+
+implementation. So we have this plain CBFS which is,
+
+this code is completely unaware of Ruby. It just,
+
+it's a textbook example of, you know, using queue
+
+to perform a BFS search.
+
+And here what we do is actually first we
+
+get access to those values that are passed in,
+
+right. We get, we get this graph will point
+
+to the memory location when that graph is stored,
+
+and we actually pass it here directly. We also
+
+pass in the long that is the size of
+
+the, of the, of the graph, and we also
+
+pass the source node, so the node where you
+
+want to start the BFS search.
+
+And you call this method, right. So this method
+
+will go through the graph and it will actually
+
+return this path. And this path is all the
+
+nodes that you explore during the, the graph search.
+
+And this is, this is a C structure, so
+
+what you have to do is create this trace.
+
+We create a new array, this is a Ruby
+
+array, and we basically go over all the elements
+
+in this path and we push all the elements
+
+from path onto a trace by converting it to
+
+a, to a Ruby object, right.
+
+So pretty much we are trying to get the
+
+C structure completely converted into complete Ruby array, and
+
+we pass back that array to a calling, calling
+
+code. And before that we also free some memory
+
+here. So it's a little bit more complicated, but
+
+the complexity is here are not really that important.
+
+What's important here is how easy it is, like
+
+literally without, without, with couple of lines of code,
+
+you can, you can start using really complicated graph
+
+algorithms directly from Ruby, and you can speed up
+
+your Ruby, Ruby code.
+
+So for example here, we have, we have a
+
+graph with four million nodes. This is just creation
+
+of the graph. And if you want to create
+
+it in Ruby, it's gonna take you twenty-seven seconds.
+
+And if you do it in C, it's gonna
+
+take you half a second. So it's, in this
+
+case it's actually, C Ruby is actually fifty times
+
+faster than, than Ruby. I think that's, that's worth
+
+the effort, and all you have to do is
+
+just write a couple of lines of C and
+
+you can speed up your code fifty times.
+
+And if it comes to actual BFS implementation, given
+
+a graph with one million nodes, the full BF-
+
+b?? search in that graph (00:38:58) in C takes
+
+two hundred milliseconds and in Ruby takes nineteen min-
+
+nineteen times slower, four thousand milliseconds on MacPro.
+
+So this was just a simple graph example. You
+
+can go much deeper than that, but I think
+
+for, for presentation it doesn't really make sense. But
+
+what this proves that you can really easy in
+
+couple of lines of code, I think there was
+
+like thirty lines of code, you can create your
+
+own CRuby implementation of a graph in Ruby that's
+
+gonna play really well with Ruby. You can write
+
+implementation in BFS and you can make it twenty
+
+times faster.
+
+So when you really think about it, if you,
+
+if you working with graphs such as, let's say,
+
+Facebook, right, of your friends. Well, very quickly that
+
+graph grows. Like if you have hundred friends, and
+
+all of your friends have hundred friends, that graph
+
+goes into millions really quickly, right. So if you
+
+can do something twenty or fifty times faster, that's
+
+the difference between not being able to do something
+
+or being able to do something, right.
+
+If something takes twenty hours, you can, you can
+
+get it done in an hour, right. So, it
+
+might be also a base for a business model
+
+if you want to, if you want to start
+
+a start up.
+
+OK, so what are the conclusions? The conclusions are
+
+that you can use C to speed up your
+
+Ruby algorithms, especially if they are low-level algorithms like,
+
+for example, sorting. Like I showed you that really
+
+with a simple code you can speed up your
+
+sorting ten times.
+
+You can also go a little bit deeper and,
+
+you know, there's a lot of like numerical methods
+
+books where they have very elaborate algorithms, algorithms, so
+
+you can actually take them and use them directly
+
+in Ruby.
+
+Rewrites in, in C are, I think I, I,
+
+I showed you that they are not that complicated.
+
+Most of them are straightforward. And you can write
+
+by using those wrapper functions that convert objects in
+
+C data structures and then call the C functions,
+
+you can actually use a lot of algorithms directly.
+
+So you don't have to worry about the fact
+
+that you will break the algorithm. You can just
+
+use, you can use it verbatim and just provide
+
+it this adapter function.
+
+If you do some trivial CRuby rewrites, like the
+
+Fibonacci or prime, you're gonna get immediately ten extra,
+
+fifty extra speed performance bump. And if you want
+
+better performance you pretty much, you can go and
+
+you can, you know, look what people are, let's
+
+say, doing a high performance, high frequency trading, right.
+
+There's other tricks that you can use.
+
+But just with simple rewrite of your, of your
+
+crucial algorithms in C, you can, you can get
+
+ten to fifty times x performance bump.
+
+All right, that's pretty much it.
