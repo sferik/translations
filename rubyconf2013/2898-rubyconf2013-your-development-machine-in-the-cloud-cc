@@ -1,0 +1,669 @@
+RubyConf 2013 - Your Development Machine in the Cloud - Charles Wood
+
+CHARLES WOOD: All right. I'm Charles Max Wood
+
+and I'm gonna be talking about my dev machine in the cloud.
+
+When was it, it was like a year and
+
+a half ago, I started working for a company
+
+as a- I'm, I'm a freelancer. So I was
+
+contracting with a company, and they decided that they
+
+wanted us to pair with each other even though
+
+we were all remote. And so what they did
+
+was they set up their development machines in AWS,
+
+and we would all login to them and we
+
+would work off of them. And I've kind of
+
+adapted that, so that now when I work on
+
+things, I work on it in a cloud server.
+
+And so I'm just gonna explain a little bit
+
+of why I like it, and then I'll do
+
+a little bit of demo and show you how
+
+I use it.
+
+So one thing that I run into a lot
+
+is why. Why would you do this, right? Why
+
+would you put your development environment in the cloud
+
+when you can get a rockin', awesome machine, a
+
+Mac Pro or something, that has all the resources
+
+you want. Why would you put it up in
+
+the cloud and, and do things that way?
+
+Well, one of the big things for me is
+
+that I like to be able to move around.
+
+I generally work from home. Sometimes that doesn't work
+
+out. And so I need to be able to
+
+go somewhere. Do something a little bit different. Work
+
+from a coffee shop. I like being flexible as
+
+far as which machine I use. I mean, obviously
+
+I've got this 2009 white MacBook, so it's not
+
+always the ideal machine to work off of.
+
+And so it, it gives me that mobility. It
+
+lets me work from anywhere. It doesn't matter where
+
+I'm at. It doesn't matter if I've just got
+
+my iPad with me. I've worked off of that
+
+before. I can just, I can do things wherever
+
+I want. If I'm working on somebody else's machine,
+
+somebody else's environment, somebody else's network, it doesn't matter
+
+because I can just get on the machine where
+
+I'm at, where ever I'm at.
+
+Another reason is pairing. I have a handful of
+
+subcontractors that work for me on a regular basis.
+
+And a lot of times it's nice to be
+
+able to get in and look up the code
+
+that they wrote or write some code with them,
+
+and work with them and work in an environment
+
+that I'm familiar with. Or work in a way
+
+that allows us to just move ahead and, and
+
+have things already setup so that we can do
+
+pairing.
+
+And so it's really nice to be able to
+
+do that as well. It's really simple. It's pretty
+
+straightforward. You don't have to install a whole bunch
+
+of stuff to make this work. I'll talk about
+
+what I'm using in a minute. But really they're
+
+just a handful of critical pieces and so it's,
+
+it's relatively simple to setup and it's pretty simple
+
+to use.
+
+And then the last one is cost. It costs
+
+me twenty dollars a month for my development machine
+
+in the cloud. I'm hosting it on DigitalOcean, which
+
+means that I get two gigs of ram, forty
+
+gigabytes of hard drive space, which is plenty for
+
+my development work. And it costs me twenty bucks
+
+a month.
+
+And they actually have solid state drives, so it's
+
+reasonably fast.
+
+One other reason, like I said before, is you
+
+can do it on the iPad. Now, this is
+
+an iPad first generation, so it doesn't do Air-
+
+what is it? Airplay? Airplay mirroring. But my iPhone's
+
+an iPhone5 so it does. So let me go
+
+ahead and show you this really quickly.
+
+Now, I have, on my machine, a program called
+
+Reflector App. Turn on mirroring. Live demos. I've had
+
+several people tell me I'm brave for doing something
+
+like this.
+
+So you can see my phone. And the app
+
+that I use on my iOS devices is called
+
+prompt. So there, you can see it. So now
+
+I'm logged into my system. I can hide the
+
+keyboard. This is much nicer on my iPad. Can,
+
+can you all not read that? I can't read
+
+that.
+
+I'm not sure if I can bump the font
+
+size up. I can read it on my phone.
+
+But anyway, so.
+
+This isn't. Let's see, connect. Hang on. You've gotta
+
+love technology, right?
+
+So the only way to go, by the way,
+
+is to have this bluetooth keyboard, have a bluetooth
+
+keyboard. This case that I have for my iPad
+
+cost about twenty or thirty bucks on, on Amazon.
+
+So now we're back to Prompt. Boy, I wish
+
+I could zoom in or something. Nope, that's arrow
+
+keys. Anyway. So you can't read it, but it
+
+works. So.
+
+That's the directory I'm changing to. So now I'm
+
+in projects. So then I can list the directories.
+
+I can do whatever else I need to. And
+
+it works right here on my iPhone. Now typically
+
+I do this on the iPad. It's a lot
+
+easier to see. But you kind of get the
+
+idea that you can really do it from whatever
+
+device you have, as long as it allows you
+
+SSH into the other machine.
+
+Now, where'd I put my remote?
+
+So a lot of people ask, then, well what
+
+do you use? What do you do with it?
+
+So obviously the big deal is you have to
+
+be able SSH into the machine. SSH is good
+
+because it's encrypted, and there are some other things
+
+that you can do to make it a little
+
+bit more secure.
+
+I host on DigitalOcean. I was talking to my
+
+friend Evan, and he made sad faces at me
+
+because he works for RackSpace. You can do this
+
+anywhere. I just like DigitalOcean because it's inexpensive. I
+
+use Tmux. A lot of you out there who
+
+have been involved in some of the remote pairing
+
+discussions out there, you probably know what Tmux is.
+
+And I'll talk through these a little bit more.
+
+I, I like Emacs. You can do this with
+
+Vim. I know a lot of people who do
+
+it with Vim. And Chef is what I use
+
+to set it up.
+
+So let's talk about SSH for a minute. I
+
+just use an SSH Config. So all I have
+
+to do is SSH the name of the machine
+
+and then it knows which public/private key to use.
+
+It knows what the username is. It knows what
+
+the IP address is. And so, it just kind
+
+of works. There's nothing else to it. It's kind
+
+of like a shortcut for your SSH.
+
+And then you can setup a public/private key for
+
+each machine. You can set one up that you
+
+just use everywhere, and however it works is, is
+
+really up to you. So it's, it's really handy
+
+that way.
+
+DigitalOcean is a VPS service. So you just pay
+
+for the virtual private server. Like I said, they
+
+use SSH, solid-state hard drives, and I use the
+
+two gigabyte version and that seems to work really
+
+nicely.
+
+I am looking into how to use their API
+
+to just provision the server. But as it works
+
+right now, I go in, I tell them I
+
+want a new server. I get the email back
+
+with the root password and then I login and
+
+setup Chef.
+
+Tmux is also really nice. Now I use Tmux
+
+for a variety of reasons. The main reason is,
+
+is that with Tmux, if you setup a session,
+
+and you work in it for awhile and then
+
+you have to go do something else, Tmux will
+
+remember your session, so when you come back you
+
+just join that same session and you can pick
+
+up right where you left off.
+
+It's also really handy for pairing, because, again, multiple
+
+machines can connect to the same session. And so
+
+with my subcontractors, they just login to the guest
+
+account on my machine. They join the Tmux session.
+
+You have to make sure you setup the permissions
+
+so that they can see the socket file. And
+
+then you're good to go.
+
+One other thing I really like is that you
+
+can set it up to split screen. You can
+
+do that with Emacs as well. But I found
+
+that it's a little more convenient with Tmux, and
+
+so a lot of times I'll have my code
+
+on one side and then tests on the other
+
+or my code on one side and have, like,
+
+Guard or something running on the other side.
+
+And, and Tmux allows you to do that. And
+
+the really cool thing is you can configure it
+
+to actually start all that stuff up when you
+
+get in. And, like I said, I mean it's
+
+so configurable that you can setup an environment, you
+
+can make it run, and then if you have
+
+to go to the coffee shop, or you're driving
+
+somewhere, going to users' group, and you connect from
+
+there, you can just pick up that session and
+
+you're right back where you left off.
+
+Emacs. I'm not gonna go into all of the
+
+details, Emacs versus Vim. I like them both. I
+
+just like Emacs a little bit better. But it's,
+
+it's very configurable. You can program Emacs lisp to
+
+make it do whatever you want. It's text-based, which
+
+is what you need for an SSH thing. And
+
+you have a gazillion plugins.
+
+One other thing that I've, I've been able to
+
+work through with this, I have all my dotfiles,
+
+so like your dot bash rc and all of
+
+your setup stuff for all of your different scripts
+
+and things, all of that's in GitHub. I'm looking
+
+to move all this into Chef, with templates for
+
+files, but I haven't done that yet. So for
+
+right now I just do a GitPull and then
+
+I have an install script that puts everything where
+
+it goes.
+
+I also setup an SSH key with Chef. It's
+
+just part of the setup. It generates a new
+
+key. And that way, each machine has its own
+
+key and I can just disable it when I
+
+need to.
+
+Deployments are real nice with GitHub, or working with
+
+GitHub, because all of that stuff is running out
+
+there instead of on my local machine. So if
+
+I'm in any kind of a position where I
+
+have bandwidth constraints, like, for example, if I'm running
+
+off of the wifi on my phone, then it's
+
+not that much of an issue, because it pulls
+
+it all down, it connects to the other machine.
+
+All of that stuff happens off of the, the
+
+network at the data center that I'm running from.
+
+And I put RVM on here. I didn't mean
+
+to. That should have been on Chef.
+
+So Chef is really nice for provisioning the machine.
+
+All you really have to do, once you have
+
+your Chef Recipe setup, which there's a little bit
+
+of a learning curve to Chef, but it's not
+
+terrible. But now that I have all of the
+
+recipes and things, I have a role for a
+
+development machine. And so that role lists all of
+
+the recipes and all the cookbooks that you need
+
+in order to setup a machine like this, and
+
+it's so, then all I have to do is
+
+Bootstrap the machine and then go onto the machine
+
+run Chef client, and it installs Ruby, it installs
+
+RVM, it installs Tmux, it installs Emacs.
+
+And I'm pretty much good to go. It sets
+
+up my user and generates that SSH, or the,
+
+yeah, the SSH key for GitHub. So I do
+
+have to copy that and send it to GitHub.
+
+But the rest of that's all done. It takes
+
+about five minutes for it to provision a new
+
+machine for me. And so if anything ever happens,
+
+you know, heaven forbid my machine gets compromised or
+
+something like that, then I can just shut it
+
+down, turn off the key. I don't have to
+
+worry about anybody getting into my GitHub account. And
+
+I have a new machine in like five minutes.
+
+So let's talk about security for a minute. This
+
+is something I get asked a lot. You have
+
+your machine in the cloud. What if you get
+
+hacked? For the most part, I learned my lesson.
+
+I used to host things on the same machine
+
+I was doing development on. That's generally not a
+
+good idea. Mainly because it provides a target for
+
+people to hit, and it's your development environment as
+
+well.
+
+So since I have it setup to deploy client
+
+apps and things like that, it's not really ideal.
+
+So now it's its own machine, and the only
+
+thing that's consistently running is the SSH server. As
+
+far as outside access goes.
+
+And then if I need to run a Rails
+
+server or something like that, then I can just
+
+fire it up and I'm good to go.
+
+So some of the security measures that I take.
+
+I generally turn, turn on public/private authentication only, once
+
+I get it setup. So I typically have to
+
+login once with that root password that DigitalOcean sends
+
+me. And then after that I just turn that
+
+off so that you can't login with a password.
+
+The reason is that because a lot of the
+
+scripts out there will just try passwords and try
+
+and get into your system, and so even if
+
+they guess the right password that way, they still
+
+can't get in.
+
+Another thing that I do is I turn off
+
+the root SSH access, which is obviously turned on
+
+by default by DigitalOcean. And you don't want people
+
+hacking your root account. And they'll come, they'll hit
+
+port twenty-two, root is the user name, and then
+
+they'll just go for it.
+
+And so anybody who can pull a script off
+
+the internet can do that, so you just turn
+
+it off and then that way they have to
+
+get into your account and then figure out what
+
+your sudo password is.
+
+So it's just another layer of indirection.
+
+Setup a firewall. Again, the only thing that I
+
+really run, that I, that I need access to
+
+from outside is typically SSH. Sometimes database. But there
+
+are Chef recipes for that, if you want to
+
+turn those ports back on, or if you, you
+
+know, if all you're gonna do is SSH then
+
+you can turn that on. And then, you know,
+
+you just, I just open up a block of
+
+ports around 3000 so that I can turn on
+
+Rails server and get to it from my, my
+
+machine.
+
+One other thing I didn't put up here is
+
+that I usually change the SSH port to something
+
+other than twenty-two. And again, those folks, they pull
+
+out the script and they're just trying to blast
+
+any servers in a vlan that they can find.
+
+So you turn that off and then that can't
+
+get to it.
+
+I also use a tunneling service called ProXPN, and
+
+they are really, really awesome. And you can pay
+
+for different levels of access. But then essentially what
+
+it does is it sets up a tunnel from
+
+your machine to their machines, and it just, it
+
+just works out well that way.
+
+And finally I, I setup sudo, and I make
+
+that work. So I just realized for the camera
+
+people, I forgot to hit play on this thing.
+
+Is that a problem? OK.
+
+So I use sudo to control all the access
+
+there.
+
+Other than that, it just works. One thing that's
+
+nice about this setup is that I have a
+
+standing desk and a sitting, a place that I
+
+sit in my office. And so when I switch
+
+between the two I can just move seamlessly between
+
+the two. I can make things work. And yeah.
+
+So.
+
+So it's worked out really well for me, and
+
+I really like the flexibility that it offers. And
+
+I just realized that I blew through a, what
+
+I rehearsed to be a forty minute talk in
+
+ten minutes.
+
+Well, I feel bad, cause this went way faster
+
+than I thought it would. But. Yeah, the pics
+
+are right there.
+
+All right. So anyway. Well, thanks for coming. If
+
+you want Ruby Rogue stickers, come find me. And
+
+if you have any questions, come talk to me
+
+afterward as well. And yeah. Thanks for coming out
+
+to RubyConf.
