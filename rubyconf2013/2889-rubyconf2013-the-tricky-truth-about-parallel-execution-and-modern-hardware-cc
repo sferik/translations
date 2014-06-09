@@ -1,0 +1,1217 @@
+RubyConf 2013 – The tricky truth about parallel execution and modern hardware – Dirkjan Bussink
+
+DIRKJAN BUSSINK: Hello everybody. I'm gonna pronounce my own name
+
+so everybody knows how to pronounce it.
+
+It's always a challenge. It's Dirkjan Bussink.
+
+I'm used to all kinds of different butchered forms of it,
+
+so don't worry about it if you want to ask questions later.
+
+So what I want to talk to you, today,
+
+is about – I call it a tricky truth
+
+about parallel execution in modern hardware. It's a bit
+
+of a broad term, term – and I'm gonna
+
+talk about all kinds of behavior that might seem
+
+crazy but are, can be interesting and actually matter
+
+even to Ruby these days.
+
+So it's a bit of a journey, for me.
+
+It's been a thing that I've touched upon for
+
+at least the last few years in, in, sometimes
+
+less, sometimes more, and even today, today, like even
+
+looking into stuff for this presentation, there was still
+
+things that only then I understood better and, and,
+
+and actually correct, so. I'm not gonna tell this
+
+is easy and you should all understand everything and
+
+all the nuances after this talk.
+
+It's something that, you know, takes time and, and,
+
+and is something that you should be interested in.
+
+So I want to start the journey with actually
+
+a, a step across the way, which was a
+
+GitHub commit I made, I think it was two
+
+years ago. According to the screen shot at least,
+
+it was. And it was actually a commit to
+
+Rubinius, and it was something that actually- it only,
+
+if you look at it, it's a three-line comment
+
+and it actually only changes one line.
+
+And this talk is a bit of the story
+
+about how I came to this case, add this
+
+one line, in this specific example.
+
+So one of the things I want to talk
+
+about first is a very basic concept. It's called
+
+causality. Basically things happen in a certain order, in
+
+this case, in your computer. So let's – I'm,
+
+I'm – let's talk about, you know, reasonably trivial
+
+code, where basically we say OK, we have a
+
+number and we have a string and we have
+
+a variable a and b and we just set
+
+them.
+
+You know, so far, so good. So far it's,
+
+it's pretty straightforward. But we're gonna make it a
+
+little bit more complex. We're gonna add some stuff
+
+to the mix, and that is parallelism, concurrency. So
+
+we're gonna change it a little bit. We now
+
+make a and b a shared variable.
+
+So everybody knows shared mutable state is bad. This
+
+talk will hopefully, you have a little bit better
+
+of an idea of what all, except for the
+
+standard problems of shared mutable state, what other concerns
+
+are with it.
+
+So, but, nevertheless, we're just using mutable state, because
+
+we got a problem that we want to solve
+
+this way. So what we do is we change,
+
+we initialize and, first these variables, then we change
+
+them. And we use them in another CPU or
+
+thread, in this case.
+
+The question is, what can happen here? What are
+
+possible orders in which you might see things? So
+
+first there's this. We first initialize a and b.
+
+Then we copy the values to x and y.
+
+And at the end, x is the empty string
+
+and y is, in this case, 1. Note that
+
+actually swapped the order.
+
+In the second case, where we first load b
+
+and then load a.
+
+So another way this could happen is you first
+
+copy these values, this code gets run first, and
+
+then we end up running the other two examples.
+
+And at the end, x and y are both
+
+zero.
+
+There's, of course, more possibilities. There's this one. It
+
+actually says x, x is zero and y is
+
+one at the end. As you might have noticed
+
+so far, this is three possibilities. You can change
+
+them in a different orders and all this kind
+
+of stuff, but there's only actually these, these three
+
+options that should come out of it if you
+
+reason about this in a logical sense.
+
+But the question is, is that really what can
+
+happen on your computer? And there's actually cases how
+
+this can end up not being in a right
+
+order, and actually x ending up being an empty
+
+string and y being an, ending up zero.
+
+And the question is, what happens? I didn't copy
+
+this – no, I did, but, it's actually purposefully
+
+dutch word. It's the only Dutch slide I have
+
+in my presentation. Because this is exactly the expression
+
+that we would say in Dutch. Wat?
+
+It actually sounds almost the same.
+
+So why, why is this happening? Like, what can
+
+do this? What can cause this stuff in your
+
+code. Well, there's a, there's a few things that
+
+can cause this. The first one I want to
+
+talk about are compiler optimizations.
+
+So, if you imagine this code not, it could
+
+be Ruby, it could be, you know, C, Java
+
+– whatever. The same principles apply. So there might
+
+be something that actually works in optimizing your code,
+
+so just, it doesn't, it doesn't just, you know,
+
+emit this direct code and run that at a
+
+low-level in assembly on your machine.
+
+So it could be, you know, C compile, it
+
+could be a just-in-time compile. It, it could be
+
+anything.
+
+And, and one of the things to think about
+
+is, you know we have these, these two statements.
+
+And the question is, how different is this from
+
+doing this? You know, does this matter? Does this
+
+have an effect that is different on your system?
+
+And that actually all comes down to the, to
+
+the perception of what is this, what is the
+
+same, like, what is equal? And a lot of
+
+systems define what is equal in the sense of,
+
+what is equal for just the single thread of
+
+execution? So in that context, this is perfectly fine.
+
+You can swap these and it doesn't make the
+
+meaning of your program in any way different.
+
+But actually, it doesn't work anymore if you consider
+
+this in a concurrent scenario. Because what then happens
+
+is we see, hey, we suddenly run this in
+
+a different order, and we get this example of
+
+x being an empty string and y being zero,
+
+even though, if we look at our code and
+
+reason about it in the order that we see
+
+things, this is not what is supposed to happen.
+
+So that's one example. So that's, that's one cause
+
+of what can cause these problems and that's, in
+
+this case, your compiler.
+
+But, of course your compiler is not the only
+
+thing that can do that, because that will be,
+
+you know, too simple. There's another principle here that
+
+could have an effect on this. And I say
+
+could because it depends on a lot of factors.
+
+For example, let's think about, like, the machine you
+
+have, I think a lot of people have in
+
+front of them. Usually they're intel systems, laptop still
+
+these days, so what does the intel manual say
+
+about, you know, memory and running code and, and
+
+stuff like that.
+
+So actually, intel is actually pretty nice. It's, it's
+
+fairly conservative. It doesn't do things that you might
+
+find confusing. But it does say one thing, and
+
+that is that loads may be reordered with earlier
+
+stores to different locations. And that's from the intel
+
+64 and ia32 architecture developer manual called 338. It's
+
+a long term.
+
+But, but what, what does it mean?
+
+Well what it means is that, if we look
+
+at code like in a more assembly style of,
+
+of those examples we had, that we, we now
+
+define this here as a load and a store
+
+operation. X and y can be other memory locations,
+
+and be registered, but that's not, it's all about
+
+the a's and the b's here.
+
+So what we see here is that, OK, we
+
+can load a and load b and store them.
+
+And this is, still has the same examples. And
+
+if you look at that common, like that line
+
+from the manual we just saw, there's not really
+
+a way. Because the only thing the manual allows
+
+is that we could swap instructions that store and
+
+load, like only a store and load that actually
+
+use a different location.
+
+So if you want to go back to having
+
+this example where we can end up with x
+
+being an empty string and y being zero, there's
+
+not really a way to do that here, because-
+
+Well, we can see, actually in all cases, we
+
+see that there's a load and a store in,
+
+in like the left lower corner that actually talk
+
+about the same memory location. But we cannot swap
+
+them around.
+
+But of course not all architectures are created equal.
+
+This is where it gets interesting, and that is
+
+that, like I said, x86 – the thing you
+
+have in your laptop – it's fairly straight. It
+
+doesn't do a lot of things that could be
+
+confusing. But if you compare it to what you
+
+have in your phone these days, which is like
+
+ARMv7 architecture or newer even, I think they're working
+
+on, like version 8 with 64 bit support, was
+
+like the new iPhone has that – all that
+
+kind of stuff.
+
+And even ARM these days has multi-core systems. So
+
+on ARM, actually, it is allowed, that we re-order
+
+the loads on each other, so we can swap
+
+loads or we can swap stores and loads or
+
+stores in stores.
+
+So if you look at that, you can see,
+
+you can actually create a new example by swapping
+
+some instructions and actually causing the same problem we
+
+had before. So this is something that can happen
+
+on your phone, or your tablet, or your whatever.
+
+So, so, the question is why. Why, why do
+
+CPUs do this? Well, there's a few things that
+
+are going on. One of the things is that
+
+this is something they do for efficiency, so they
+
+can, you know, some operations might be slower, some
+
+of them might take longer, and one of the
+
+things that the instruction can store, for example, is
+
+CPU cache.
+
+So we all know that if you have something
+
+that is slow, and in this case, memory, memory
+
+is slow. You know, if you look at Morris-law
+
+and you look at the paths we had, CPUs
+
+and memory were, were much more on par. But
+
+the speed at which CPUs got fast or when
+
+– it went a lot faster than, than memory,
+
+so.
+
+The disparity between the speed of your CPU and
+
+the speed of memory has only become wider and
+
+bigger and bigger over the last years. So how
+
+slow is memory?
+
+Well we all know that if you have slow,
+
+something slow that, you know, you got to add
+
+a cache. That's the thing we do as, as
+
+developers. If you're a web developer, your web page
+
+slow, you'll end up adding caches. Your CPU is
+
+slow, you look at adding caches.
+
+So what kind of caches do we have. In
+
+this case I'm talking about the, the Vintel core
+
+dual architecture. Basically this based on a reasonable, reasonably
+
+recent intel CPU. So we have very descriptive names,
+
+of course, cause we have different levels of cache.
+
+Level one.
+
+Level one is like really close to your CPU.
+
+It's very expensive memory. It's not very big. And
+
+it's pretty fast. So if there's a memory value
+
+that's there, we can get it and just four
+
+memory, four CPU cycles, which is reasonably fast. If
+
+it's in level 2, it's a bit slower, but
+
+it's bigger. So we still have that. It takes
+
+ten cycles. L3 is even slower. It depends a
+
+bit on, because L3 is usually shared between CPU
+
+cores, so.
+
+They're different timings depending on which CPU core actually
+
+manages that piece of the cache. So, and, and
+
+actually RAM is really slow. It's like hundreds of
+
+cycles and, and, and usually it's even measured in
+
+actual time, because they don't actually always match up
+
+with your CPU, because they have different timings and
+
+stuff.
+
+But, like I said, caching, caching is hard. So
+
+we have to do all these tricks to keep
+
+this stuff in sync, and if you look back
+
+at these timings, this could be a way you
+
+say, OK, so, if your CPU has something that
+
+we have a load of two memory locations and
+
+one load is already available in our cache, and
+
+the other load is, is still, still further away
+
+in another cache or a memory, we might want
+
+to start running the load that's far away first,
+
+so we don't waste CPU cycles on waiting for
+
+that slow load later.
+
+So we might run stuff in a different order.
+
+That is actually one of the reasons that this
+
+stuff could be happening. But like I said, caching
+
+is hard.
+
+So one way we implement this is in, in
+
+the, or not – we, that's a bit presumptuous.
+
+I'm not smart enough, I know. I don't feel
+
+smart enough to work on this kind of stuff.
+
+But actually not designing CPUs that's not my thing.
+
+I would love it if I could, but...
+
+So one of the things we use is a
+
+store buffer. It's actually a very small place in
+
+your CPU where we actually store intermediate values you
+
+might use up later. So I'm giving you another
+
+example. This example is actually slightly different from the
+
+one we saw before, but it shows that even
+
+on your laptop, you can have issues with running
+
+code on your system and getting and seeing very
+
+weird results.
+
+So one of the things is, here we say,
+
+OK, we have a is one, and we set
+
+b to a string, and in the end the
+
+question is, what comes out?
+
+So here we have, again, x is y, x
+
+is zero and y is one.
+
+And we have another example where we do it,
+
+of course, in a different order, and we get
+
+the empty string and zero.
+
+So then there's the case where we intermix them,
+
+you can intermix in all these different orders, it
+
+doesn't really matter much, you'll always usually get, get
+
+an order like this. But if you think back
+
+about what did the intel manual with a long
+
+name say?
+
+It said that we can actually reorder loads and
+
+stores. So if you go back to this slide,
+
+you can see, OK, so what can we do
+
+here? We might, we're allowed to reorder stores and
+
+loads. Let's do that. So we now say we
+
+do the loads first, before we do the stores.
+
+And it means we have x is zero and
+
+y is zero. Which is not a very intuitive
+
+answer that your machine might be giving if it's
+
+running this code in your CPU.
+
+So of course we have a problem now. But
+
+what would a problem be without fixing it?
+
+So there's actually a fairly straightforward way to fix
+
+this, and that's a concept called memory barriers, and
+
+basically what memory barriers say is that we have
+
+your CPU has a specific instruction that says, I
+
+want to make sure that this happens in the
+
+way, in the order that I want it to
+
+happen. So how does the memory barrier look like?
+
+Well, a lot of languages, like, you know, this
+
+is, this is low-level concern so we might need
+
+C, but, well, C actually doesn't have this. There
+
+are built in constructs in, in, in C and
+
+compilers that could do, but there's no, like, native
+
+thing in C that actually has this.
+
+C doesn't even tell, C doesn't even say anything
+
+about the semantics and stuff. So you end up
+
+doing stuff like this – inline assembly and trying
+
+to solve this problem. Well, not really elegant, if
+
+you're a Ruby programmer, that's not the thing.
+
+You know, we all know what Matz, Matz talked
+
+about, about the hardware abstraction, and not wanting to
+
+think about – well, this is actually an area
+
+where, in some cases, you might have to think
+
+about it.
+
+So there is, there's three versions. Basically sfence, it
+
+says don't reorder stuff with, well s stands for
+
+stores. I guess everybody knows what the l stands
+
+for then, it stands for loads. So don't reorder
+
+loads around it. And mfence is basically both. So
+
+the mfence says, OK, we're not reordering anything, any
+
+code that happens before this with any code after
+
+this.
+
+So I've been talking about this stuff, and it
+
+may look like a very, you know, artificial problems,
+
+constructed problems that are not a real problem in
+
+actual real-world code that is out there. And that's
+
+actually not true. There's actually a pretty-often used pattern
+
+that is broken in sometimes all these subtle ways
+
+that can be very complicated.
+
+And that's double check locking.
+
+So double check locking, basically, builds on the idea
+
+that you have something in your system that is
+
+expensive to make. Like, you know, people know the
+
+singleton? Pattern. It's not usually a very good pattern.
+
+But maybe there are places where you have an
+
+object in your system, and you don't want to
+
+build an expensive object every time, because you might
+
+need it – I know, I don't know, like
+
+a hundred times in your Rails requests, and you
+
+don't want to build that expensive object a hundred
+
+times.
+
+But, so you think about it, and you say,
+
+OK, it means I, you know, I have a
+
+system that runs concurrently, so I have to think
+
+about mutual exclusions. So I'll put a lock around
+
+it. But that means that, even if you're construction,
+
+like, your, your object is very expensive, you still
+
+have a lock around it. And a lock is
+
+actually not always that cheap, either. So you have
+
+to think about, OK, oh, let's remove this lock.
+
+So you end up with code that looks something
+
+like this.
+
+So we store it. We have a mutex, so
+
+we can do the synchronization part. We initialize it,
+
+and we do this.
+
+So I don't know. The thing is, we'd say,
+
+OK, we have an instance, and if we don't
+
+have it, we do a lock. And if we
+
+still don't have it, we make a new object.
+
+You can now see where the name double check
+
+comes from, because you see the same unless check
+
+twice. This is actually why I wrote it like
+
+this and not with a or or is because
+
+this, this is a little bit more explicit.
+
+And the reason for that is that if you
+
+think about it, if two threads are running at
+
+the same time, both think, hey, the object is
+
+not initialized that, yet, they both try to grab
+
+the lock. Only one of them succeeds, and if
+
+that object succeeds, it would see, it would build
+
+the object, and then unlock and return it.
+
+And the other thread sees oh, this code is
+
+now unlocked. And I was waiting for it so
+
+I can run this code. But if it would
+
+not check again, if some other thread had run
+
+it and initialized the object, it would run, initialize
+
+the object again.
+
+And we would build it twice. That might not
+
+be a problem. It might be a problem. But
+
+it's something in this case we don't want to
+
+happen.
+
+There is a thing that is actually – this
+
+is the, this solves this problem. There's actually something
+
+far more subtle going on here, that you might
+
+not think about. And that is, if you remember
+
+what we just talked about, is that things might
+
+happen not in the order that you think they
+
+are.
+
+And in this case, maybe the compiler, or CPU
+
+you're running this on, tries to optimize something for
+
+you. And what it does, it actually ends up
+
+creating, it's perfectly valid in that sense to say,
+
+OK, we are building a new instance. And you
+
+might ask why did I put that constructor up
+
+there? And that's actually not just for fun.
+
+Cause what might happen is that, because this stuff
+
+runs out of order, it might even say, OK,
+
+I already, in, assigned this variable to instance. But
+
+I'll finish up the constructor later. So it actually
+
+might happen that the other thread already sees that,
+
+hey, instance is there, so I'm going to initialize
+
+it.
+
+But it also sees that bar is still nil.
+
+And it might crash or throw an exception or
+
+whatever. So what we have to do is find
+
+some way to explicitly synchronize this. If you run
+
+on x(86), it's good enough to insert, in this
+
+case, compiler barrier, which means that it's a way,
+
+it's safe to say, a right. We have our,
+
+our compiler is not allowed to reorder this, because
+
+it would happen if we reorder stores, and if
+
+you remember, x is, it doesn't do that.
+
+But if you're on an ARM system, that's not
+
+enough. You actually have to do, like, CPU instructions
+
+to do this correctly. If you'll look, I think
+
+if you Google for like, double check locking, like
+
+Google will auto suggest, like, double check locking is
+
+broken in programming language x or y. Because a
+
+lot of languages don't provide explicit mechanisms that allow
+
+you to handle this stuff.
+
+So how does this all matter to Ruby? Because
+
+you all, people always say, like, Ruby is, is,
+
+you know, this is not the stuff we want
+
+to worry about in Ruby. And, for that, I
+
+have, I have a little other example.
+
+And it goes back, it's called false sharing, and
+
+it goes back to the CPU cache problem that
+
+we talked about before, the performance of the CPU
+
+cache. So, imagine we're now doing something different. We
+
+have some concurrent data structure, for example, that we're
+
+using, and we're, and we're doing things with. And
+
+we have this magnificent foo class that we need,
+
+and it has just a single attribute – this
+
+case a.
+
+And we have two threads that are actually modifying
+
+this. We don't really care about that they actually
+
+have, to like, interleave this, or what. It's just
+
+that we run this stuff in two different threads
+
+on our system, and it runs on two CPUs
+
+or cores or whatever. Usually cores, cause that's what
+
+I, what usually ends up happening.
+
+So, what will we see here is actually we
+
+change the same value in memory. So if you
+
+think about this diagram again, we're actually changing a
+
+shared variable between two, on the same object in
+
+the same place of memory.
+
+So what happens here is that the CPU needs
+
+to synchronize that, because if one core changes it,
+
+it needs to notify the other that it needs
+
+to flush its stash and update the value because
+
+it just changed it. And there's a lot of
+
+chatter going on about that stuff, because, well, that's,
+
+that's the downside of caching. You have to keep
+
+it all in sync.
+
+And it has to go at least to the
+
+level three cache, because that's usually where it ends
+
+up sharing data between different CPU cores. So if
+
+you see, look at this, and if like, at
+
+least ten times slower to use that memory address.
+
+So it, in total this benchmark is not ten
+
+times slower, but somewhat less, because there's other code
+
+running, but I have the numbers later, but this
+
+is like, four times slower, if you compare this
+
+to just, to just running the single thread compared
+
+to running two threads are doing this.
+
+But we're smart. We have a way to solve
+
+this, because we think of a new data structure,
+
+and that allows us to use two different variables
+
+that are not the same. And they're not the
+
+same. We don't need to keep the cache synchronized,
+
+so we don't suffer from this problem.
+
+So this case, we have the value one and
+
+the value of value a and b, and the
+
+one thread we modify a and the other one
+
+we modify b. And we benchmark this again. And
+
+what do we see? This is just as slow
+
+as the previous example. It's just as slow as
+
+the case where we're writing both a's.
+
+And the question is why. Why is it happening?
+
+And that comes down to a principle that's called
+
+cache lines, because your CPU doesn't work with caches
+
+of just a single memory location. Now, in, in
+
+Ruby, everything is an object and in this case
+
+everything here is, even this number is a reference
+
+so it's, it's, on a 64 bit system it's
+
+an eight byte value.
+
+We constantly store an eight byte value. But this
+
+cache line is on this x(86) machine is 64
+
+bytes. So it means we have, we always synchronize
+
+the cache in a pair of 8 consecutive entries.
+
+So what happens is that even though we modify
+
+different variables, there's a pretty good chance that they're
+
+in the same cache line. And we actually end
+
+up trashing the system in exactly the same way
+
+as modifying only variable a.
+
+But of course, for this, we have a solution.
+
+Because we just add more properties, you know. Let's
+
+do, let's do k, that's probably not on the
+
+same cache line as a. And actually, if you
+
+run this, it actually is as fast as it
+
+was before.
+
+And this is actually, like, a bench, like, I
+
+run this on, on, Rubinius, because mostly because it
+
+actually creates object layouts for this that actually are
+
+consecutive in memory. So if you run this benchmark,
+
+this is pure Ruby code, these are the numbers
+
+I get. They might be different on different runs,
+
+because it might end up in different memory locations.
+
+But this is the kind of idea of what
+
+is happening here, and what can happen, and what
+
+this confusion can cause. So, again, Ruby.
+
+It's all just Ruby. And also the other examples
+
+that I showed are actually something that is a
+
+problem in, in, in what Ruby is currently defined
+
+as. So it, it, it, it puts, it asks
+
+the question, like, what is thread-safe code?
+
+So I was in, in Paris a few weeks
+
+ago at a conference, and Emily, who also gave
+
+the previous talk, talked a bit about threading there,
+
+and she said, there's no such thing as thread-safe
+
+Ruby code. And I have to agree with that.
+
+Basically because the only way currently we define thread
+
+safety is basically, oh, this might work on Rubinius,
+
+or this might work on Jruby, oh this works
+
+on MRI.
+
+So it only is define in that context. There
+
+is no definition of what it is in Ruby.
+
+So what does it mean for the, for the
+
+future, and then actually, I would, I was, I
+
+immediately have to think of that when I heard
+
+Matz talk this morning is that I don't think
+
+we should follow the ostrich strategy. So I don't
+
+think this is a problem we should ignore.
+
+I think the garbage collectors, as he called it,
+
+of this, should think about this, and think about
+
+how do we solve, or not solve, but how
+
+do we define semantics, how do we define what
+
+is, what is it that, that Ruby developers can
+
+expect from Ruby? You know, is there Ruby optimizat-
+
+like, is Ruby git, is it allowed to reorder
+
+statements? Or is it not?
+
+You know. May it change order of initializations for
+
+optimization purposes or not?
+
+What, what level, in what level do we want
+
+to abstract our, our machine, you know? Are the
+
+things, the, the concerns that I talked about, about
+
+your CPU reordering things, are those things that semantics
+
+that end up in Ruby, or do we say,
+
+no that's not something that should be allowed?
+
+And those are the things are questions to think
+
+about, because it matters a lot for, in this
+
+case, alternative implementations, actually, to think about that. So
+
+that, that thing is called memory model, basically. It's
+
+a umbrella term for a lot of those aspects
+
+of what is the Ruby language allowed to do
+
+and what is the Ruby, or, sorry, what is
+
+the Ruby implementation allowed to do and what is
+
+it not allowed to do?
+
+So I had, there has been some discussion about
+
+this. It also means we need better APIs with
+
+new things and supports to do this, because we
+
+want to be able to build libraries that, as
+
+a Ruby developer, you could just pick up and
+
+use. If you don't want to be that garbage
+
+collector, you just want to say I need a
+
+thread-safe cache.
+
+And there already are APIs, there are gems that
+
+provide that, but I think it would be nice
+
+to see that in Ruby and defined as a,
+
+as a functionality in Ruby.
+
+So, so bringing back this commit of, of, of
+
+two years ago, I don't know, it's. I don't
+
+– maybe it's not very readable, but down at
+
+the bottom you see, we're actually updating it, globally
+
+shared cache object with a new entry. So actually
+
+the fix was something where we needed to synchronize,
+
+because otherwise, another threat would see a half-finished cache
+
+entry, and it would just crash.
+
+And it's one of those bugs where you're looking
+
+at code and staring at it and just running
+
+it and once every while it crashes, and you're
+
+scratching your head. Because the moment you're down in
+
+your debugger, everything looks fine, because a few tenths
+
+of seconds have passed, a few seconds are an
+
+eternity for a CPU. It has already flushed everything
+
+and synchronized everything back up. And you're like, why
+
+did this happen?
+
+So this is the story a bit about how
+
+I went through this, the things I've learned, and
+
+I think it's important for the room and Ruby
+
+community to think about what is the level of
+
+learning and what are the things here we want
+
+to solve for Rubyists, and what are the things
+
+we don't want to solve.
+
+So. That's it.
