@@ -1,0 +1,2517 @@
+RubyConf 2013 - Bad Ruby code doesn't exist - Matt Aimonetti
+
+(Incorrect Title in Video - Your Development Machine in the Cloud - Charles Wood should be Bad Ruby code doesn't exit - Matt Aimonetti)
+
+MATT AIMONETTI: All right. So I am Matt Aimonetti.
+
+I'm the cofounder of a startup called Splice. Splice
+
+dot com. And what we do is we work
+
+in the music space to change the world of
+
+music, and we change the creation process by bringing
+
+a lot of the programming tools and torture into
+
+the world of music. If you want to know
+
+more about it, please come and see me. We're
+
+actually hiring in the, in the nice Santa Monica
+
+area in L.A..
+
+I've been programming for many years, and during the
+
+preparation of this talk, I realized I spent exactly
+
+17,542 hours programming Ruby. I was at, at 540
+
+hours last night, but I wrote a bit of
+
+code so I had to update the slides.
+
+That's about 730 days, two years non-stop, and at
+
+the end of all that time, I don't know
+
+if I can write good or bad code, but
+
+I've seen a lot of code. And I've seen
+
+a lot of good code and a lot of
+
+bad code. At least that's what I thought.
+
+Now, you need to understand something about me, is
+
+that when I look at a glass like this
+
+one, I have a tendency to see the glass
+
+half empty. And when I tell that to people,
+
+they're like, Matt, you're such a pessimistic. And I
+
+really strongly disagree with them, because I see potential.
+
+This glass is half empty, but it should be
+
+full. So I see the potential of the glass,
+
+and I want to fill it up. So I
+
+don't believe that I'm a pessimistic. I'm an optimistic
+
+and I see opportunities and potential in things.
+
+But I also believe that I'm not the only
+
+one I think the wide version, like, I don't
+
+have truth. And it's hard for me to understand
+
+how people think about projects and how they think
+
+about code in general.
+
+So, I started looking online and I asked people
+
+on Twitter. Have you ever seen bad code? Who
+
+has ever seen bad code?
+
+Wow. That's not that many people. I'm surprised. So
+
+Avdi has this quote, it said that the worst
+
+code I've ever seen were in Rails projects. So
+
+it's good, because I've been writing Rails code for
+
+a long time. So he probably saw a lot
+
+of my code.
+
+And I started doing a lot of research, and
+
+I came to the conclusion that there's not such
+
+thing as bad code. I think all of you
+
+guys who were raising your hand were wrong. There
+
+is no bad code. And I'm right and you're
+
+wrong.
+
+I think that's about it. Now, I will explain
+
+why I think you're wrong and why there's no
+
+bad code, but I remember going to school and
+
+hating school. I loved to learn but I hated
+
+going to school because I could never argue with
+
+my teacher.
+
+The teacher was coming, and was filling us, usually
+
+it was a female and she was telling me,
+
+well, this is what you need to believe. And
+
+I'm like, well, why? It's like, no, I'm just
+
+telling you this. It's the truth. And I hated
+
+that.
+
+And I really don't like when I sit at
+
+a talk and I disagree with a person and
+
+there's no discussion. So I will talk for only
+
+about ten minutes, and then I will invite these
+
+gentlemen to come on stage with me and tell
+
+me how wrong I am.
+
+And we will have a discussion. And the, the
+
+goal of this discussion is not to say Mat
+
+is right or Bryan, which is easy because we
+
+have two Bryans, is, is wrong. The goal is
+
+to have a discussion together to try to change
+
+and to learn something.
+
+When I have a discussion and argument with somebody,
+
+I feel I win when they convince me I
+
+was wrong and I learn something new. So hopefully
+
+they will convince me, but I still believe there's
+
+no such thing as bad code.
+
+So what do I mean by that? Well, I
+
+mean that, there is code that runs and code
+
+that doesn't run. I believe that the community doesn't
+
+get to set what the language is. I actually
+
+very disagree with Ernie when, this morning, he was
+
+saying, we, we as a community decide what Ruby
+
+is.
+
+No. I'm sorry. The language designer and the interpreter
+
+will define what it is. You might not like
+
+it. But it is what it is. So you
+
+have code that runs and you have code that
+
+doesn't run.
+
+Then I went back into books, because I notice
+
+people give good talk quote smart people, and that
+
+make them smarter. So I found a quote on
+
+the internet. It says, code is neither good or
+
+evil, but only a place for good and evil.
+
+And that sounded very, very good to me. Because,
+
+I mean, we agree.
+
+And, and, I really think that's a very important
+
+point. Coding itself cannot be good or bad, right.
+
+I mean, code is just code. What we do
+
+with it is what's good or potentially bad. So
+
+I talk to a linguist friend of mine and
+
+I ask her, what is good and bad mean?
+
+Like, what do we mean when we talk about
+
+good and bad code? And what, when people refer
+
+to good things and bad things?
+
+And she explained to me that every language on
+
+the planet had a concept, a word expressing good
+
+and the concept of having something that has desirable
+
+qualities. One or many. And bad means undesirable. Something
+
+we do not want.
+
+Now, what's very important to understand is that this
+
+is a universal concept, but it's a concept that
+
+has a sense of moral judgment. This is very,
+
+very to understand that we're talking about moral. These
+
+are not scientific terms. These are terms that belong
+
+to religion, ethics, and philosophy.
+
+A code in itself doesn't have a soul. It
+
+cannot be good or it could be, it cannot
+
+be bad. What you do with it and how
+
+you write it is your own problem. So the
+
+other issue with good and bad I have is
+
+that, when you start talking about good and bad,
+
+you start talking about blaming people. I'm right, you're
+
+wrong. And you're not really moving things further than
+
+just a discussion of just who's right, who's wrong.
+
+So I think we're focusing on the wrong thing
+
+when we talk about good and bad. So I
+
+was talking to Marc Andre yesterday and I was
+
+telling him about a talk, and he was like,
+
+Matt, no, no, no, no, it's not right. Some
+
+code is just better than other.
+
+And I was thinking about that, and he's probably
+
+right, in the sense that, it might be probably
+
+true, but how do we define and evaluate the
+
+quality of your work? Because, moralistic values such as
+
+good and bad are not good enough to define
+
+what is right and what is wrong.
+
+It's a tough topic, and we need to think
+
+about it. So, you know, I went back to
+
+my room, and I started playing some music, and
+
+all of the sudden this music connected with me.
+
+The lyrics were so inspirational and they answer this
+
+question, and they went something like that.
+
+So tell me what you want, what you really,
+
+really want. The Spice Girls figured it out before
+
+me, which made me feel special. And, I think
+
+the key is that it's not about how you
+
+do it, but why you do it. And I
+
+think that too often, we are focusing on how
+
+we do it, and you do it wrong is
+
+how you do it. It's not why you do
+
+it.
+
+So I started to try to come up with
+
+rules, because you guys love rules. Everybody love rules,
+
+right. So I was like, rules? But I could
+
+not come up with them because I hate rules.
+
+So instead, I define a process. And this is
+
+a process I'm trying to apply, and this is
+
+how I think we should work when we, or
+
+we should try working when we look at a
+
+project.
+
+First, I need to assume that everyone cares about
+
+the end result. So, we're not talking about everyone
+
+agrees on how to write code. We all care
+
+about the same end result. To do that, we
+
+need to define the expected outcome. And I'm not
+
+talking at the code level. I'm not saying this
+
+is what the code should be doing.
+
+I'm talking about, this is the behavior at a
+
+higher level. This is the time line we have
+
+to do this. And we need to talk about
+
+why we do it. Once we define that, then
+
+we evaluate all the available solutions we have to
+
+do it, we pick one, we implement it. At
+
+the end we re-evaluate the process, we re-evaluate the
+
+end result, and then the very important step that
+
+we usually forget is communication at that point.
+
+I think it's very important to come back and
+
+have a discussion about the process, project and the
+
+process and agree that we met, we met the,
+
+the expected outcome or not. And what's key with
+
+this process and that it helps us understand that
+
+we're not paid as developers to write 'good' code.
+
+We are paid to deliver great products.
+
+Now, I'm not saying that we should not be
+
+writing 'good' code, even though I don't believe in
+
+good code. What I'm saying is that, our job
+
+is not to write code. Our job is really
+
+to deliver an end product that has reason to
+
+be.
+
+And to do that, I think the only thing
+
+I know how to do is trying to understand
+
+the why. Why do we do things? And the
+
+problem is that when you are just looking at
+
+code, you don't always understand why. You might understand
+
+why a method in Ruby works a certain way.
+
+But you don't understand the business context behind it.
+
+The time line behind it. The different players. The
+
+risk factors you have. And I think this is
+
+what we often miss, because we're focusing on the
+
+code being good or bad. And this is not
+
+what it's, what it's all about.
+
+The other issue is that when you talk to
+
+other people and you show them what you're doing,
+
+they usually come back to you and then, you're
+
+doing it wrong. And this is another reason why
+
+I don't believe in bad code. Because if I
+
+would believe in bad code, all the code in
+
+the world is bad. Every time I write something,
+
+there's somebody else that will come and tell me
+
+you're doing it wrong. It's bad code.
+
+And, I was scratching my head about that. I
+
+was like, why do we do that all the
+
+time? And, I'm guilty of that quite often. I've
+
+been in seat to judge code. A lot. And
+
+it, I think this is wrong. And I think
+
+the reason we do that is because we love
+
+to judge things.
+
+We judge people who look different. We judge people
+
+that act differently. We judge people who speak with
+
+an accent. We judge people who think differently. And
+
+that's what we do as human beings. That's just
+
+a fact. It's very annoying, but that's what we
+
+do.
+
+And what is the best way to judge people?
+
+Is to define rules. When you have rules, it's
+
+very easy. If you agree with my rules, we're
+
+right. If you disagree with my rules, you're wrong.
+
+And usually people come up with rules of good
+
+intentions. They want to help others.
+
+Really quickly these rules become a weapon into arguments
+
+that don't really help us build better products. And
+
+we use them to tell them their wrong. Sandi
+
+Matz rule that she never really wrote, by the
+
+way, she just mentioned something in a pod cast,
+
+and this rules were now applied everywhere. Classes can
+
+be no longer than one hundred lines of code.
+
+Methods can be no longer than five lines of
+
+code.
+
+A few days ago I wrote a method, it
+
+was, I think, fifteen lines of code. Sandi sent
+
+me an email. Like, Matt, what are you doing?
+
+And I was like, well, I'm really sorry, I'm
+
+tired. She's like, no, that's not an excuse.
+
+And as I sent my response, I got an
+
+email from Bryan Heimkamp from CodeClimate, he said dude,
+
+you got a F! I'm like, come on. I
+
+finish doing that, and then I got another email
+
+from Bryan Liles, this time, like, dude, where are
+
+your tests? You should write tests first! You cannot
+
+write good code.
+
+So you hear things like that all the time.
+
+And especially if you work with a team, you'd
+
+hear people arguing, and they will be telling you,
+
+no, no, no, dude, you don't know what you're
+
+doing. You didn't get an A on Code Climate.
+
+I got an A.
+
+So I'm a better programmer than you. Yeah, we
+
+should talk about that, Bryan. I'm sure there's ways
+
+for you to fix my code so I get
+
+As, right. So the point of that is that
+
+you have different perspective on things.
+
+And rules aren't what make you, your product, the
+
+end result valuable. Rules are usually a way to
+
+help you. But you need to focus on the
+
+deliverables. Rules are indicators, they're not a goal in
+
+themselves.
+
+Writing good code should not be your goal. Delivering
+
+good products should be the goal. Now usually to
+
+deliver good products, you want to, your code to
+
+be easy to maintain, you want to perform well,
+
+and you want to do many things.
+
+But all that depends on the expectations. If you
+
+need to deliver code in five hours, you might
+
+write it differently than if you need to deliver
+
+it in two weeks. If you're gonna have five
+
+users instead of a hundred users, you will write
+
+code differently.
+
+One lesson that I think is also very important
+
+is to learn how and when to write rules.
+
+But I'm just surprised by how much the Ruby
+
+community loves rules. We're all about rules all the
+
+time. And I think, I actually blame a little
+
+bit Matz, because Matz didn't give us rules.
+
+Matz was like, you don't need rules. You be
+
+open about that. And we have this feeling that
+
+we need rules. So even though he didn't give
+
+us any rules, we feel like we have to,
+
+to use these rules. I remember when DHH started
+
+using put something in to do a loop, a
+
+loop in a template in Rails. People got mad
+
+at him because he was not using each.
+
+And it's like, the language allows this. Why do
+
+we fight the language designer, and we think we're
+
+right and the language designer is wrong? We're right.
+
+The interpreter is wrong.
+
+But what I'm trying to say is that the
+
+key to writing what you guys call good code
+
+is not the syntax. It's communication. And this is
+
+why Ruby's actually a very good language. Because Ruby
+
+should help us community. But you don't write code
+
+to communicate. Once again, I disagree with my friend
+
+Ernie. I don't believe you write code to tell
+
+stories. We write code to deliver products.
+
+Now, to deliver products, we need to write code,
+
+and to write code, we need to communicate. And
+
+this is why we need to focus on communication.
+
+But the end result is really what matters, not
+
+the process as much. But of course you need
+
+to also improve your process.
+
+So my suggestion, before we start talking with the
+
+panel about why I think they're all wrong and
+
+I'm right, is to focus on the outcome. I
+
+really want people to think about, why do we
+
+do these things? How can we do them better?
+
+But not start by, this is how you do
+
+things, and then we, it might, we might have
+
+a product at the end.
+
+When I was working through this talk, I realized
+
+I was just basically telling you guys you're really
+
+wrong, and I'm not giving any hints about how
+
+you can improve that. Now, to be fair, I'm
+
+struggling with the same problem. I don't believe there
+
+is good and bad code, but I think there
+
+are ways of delivering better value. Ruby is one
+
+of them.
+
+And recently I discovered something called Mob Programming, and
+
+I just want to mention it quickly. Mob Programming
+
+is something you should try with your team. Mob
+
+Programming is like Pair Programming with more people. You
+
+get the entire team. One of you do a
+
+project chart. One keyboard. And you rotate every ten
+
+minutes.
+
+And the idea is that you all work together
+
+on the same problem, and you communicate. When I
+
+was invited to Pair Program with them, I thought
+
+it was the worst idea ever. Like, how can
+
+four, five people, looking at the same screen, can
+
+be more efficient than two teams of two?
+
+And it turns out that, we focused more on
+
+communication than actually the code. We talked about a
+
+lot about edge cases. And this specific team ended
+
+up, after a year, being able to deliver ten
+
+times more quality code and products than they used
+
+to do.
+
+So they basically have a back log, and they
+
+realized they're way faster by working together through this
+
+process. It works very well for them. It doesn't
+
+mean it would work for you. But I challenge
+
+you to do that once a week with your
+
+team. Take an hour, a hard problem or a
+
+new thing, and all work together in communication.
+
+And you will see that you will stop blaming
+
+other people and be like, oh, your code is
+
+wrong. Everybody's writing in the code together, and you
+
+will stop doing right and wrong. You will start
+
+talking about, how do we get to the point
+
+we want to be.
+
+Some other things. Daily iterations. That's something I also
+
+learned from Woody. Instead of doing weekly iterations, spend
+
+five minutes at the end of the day, and
+
+you draw a happy face and a sad face,
+
+and you just talk quickly about what went well,
+
+what didn't go so well, and how can you
+
+improve the things that, that went well.
+
+If nothing happened, don't do it, but that might
+
+be a problem. Then you rit, that was the
+
+daily retrospectives. The daily, the daily iteration is like
+
+a different, it's what kind of business value I
+
+can deliver by the end of the day.
+
+That was a very interesting concept. Like, it's hard
+
+to break things down. But basically in their team,
+
+they believed that they should be able to deliver
+
+business value every single day. And that's how they
+
+saw the day.
+
+Another thing I've learned in the past that I
+
+really liked is to pair program with people and
+
+non-programmers, to shadow somebody, like a sales' person, or
+
+a non-technical person. And you learn a lot about
+
+the business. I know the thing that's very interesting
+
+is to write in a different language. Programming language,
+
+or even learn another human language.
+
+So these are just my tips. I just want
+
+to summarize that I think there's no such thing
+
+as bad code, because bad code doesn't run, and
+
+the only bad code that I know of is
+
+the one that Matz doesn't let run, because the
+
+interpreter doesn't accept it.
+
+Now, there's code that might be hard to maintain,
+
+and there's code that might have issues, but this
+
+is based on your own expectations, not on the
+
+programming language.
+
+I will now invite a few people. If you
+
+have any questions, you can Tweet to me and
+
+I will ask the questions to the panel. But
+
+first I would like Bryan Liles to come on
+
+stage. Bryan works for ThunderBolt Labs, and can you
+
+quickly explain what, what you do and I will
+
+then-
+
+BRYAN LILES: So, I, I work with ThunderBolt Labs.
+
+We are a part-time consultancy, full-time product company. We're
+
+trying to solve problems in data using any means
+
+possible. Not just Ruby. Whatever's fast is the best.
+
+M.A.: Right. And you're very well-known for TAFT, right.
+
+Test all the time.
+
+B.L.: Yeah, that's actually my epic Ruby troll that
+
+I did five years ago.
+
+M.A.: Right.
+
+B.L.: I don't want to eat it.
+
+M.A.: Yeah. That's better.
+
+B.L.: Yeah. So. Yes. Test all the effing time.
+
+Basically what that boils down to is I thought
+
+that we should be thinking about testing more, and
+
+the way that I communicated it to the community
+
+was by saying it fifty times in a talk.
+
+Test all the fucking time.
+
+It worked. Five years later, people are testing more.
+
+And more people hate me. So we win all
+
+the way around.
+
+M.A.: All right. I'd also like to invite Bryan
+
+Helmkamp, from Code Climate.
+
+So, yeah, OK.
+
+B.H.: Fancy. Hello.
+
+M.A.: So, what, Bryan, you founded, or co-founded Code
+
+Climate.
+
+B.H.: Yes.
+
+M.A.: You're also very famous for a lot of
+
+the blog posts you wrote.
+
+And we'll get into that in a minute.
+
+B.H.: Sure.
+
+M.A.: I have a few questions for you. And
+
+then the last guest is Aaron Patterson who works
+
+for AT&T and is also part of the C,
+
+CRuby team.
+
+A.P.: Yes.
+
+M.A.: The Rails team.
+
+A.P.: Yes.
+
+M.A.: The nokogiri team.
+
+A.P.: Yes.
+
+M.A.: The, what other team?
+
+A.P.: I love cats. I'm probably on the merge
+
+team too.
+
+M.A.: Merge team.
+
+A.P.: The A team. I just have to say
+
+though, I'm on the, I'm on the Rails core
+
+team, I can tell you there is such a
+
+thing as bad code. So we're done here.
+
+M.A.: All right, let's talk about that-
+
+A.P.: Thanks.
+
+M.A.: Well, so, let me ask the first question
+
+to Aaron, since you seem to want to talk
+
+about it. You're known, you're known to work on
+
+the, some of the worst parts of Rails.
+
+A.P.: Yes, that's true.
+
+M.A.: So you apparently believe in bad code.
+
+A.P.: I do, yes.
+
+M.A.: How, how do you know it's bad code?
+
+A.P.: So, I believe. So, I know it's bad
+
+code. So the thing is, bad code is just
+
+like, you know, I'm not gonna say exactly the
+
+quote. Bad code is just like obscenities. I can't
+
+tell you what it is, but I know it
+
+when I see it.
+
+M.A.: But in the, in the-
+
+A.P.: That's how I know.
+
+M.A.: -in the dictionary, they actually mention, as this
+
+is vulgar, do not use this word.
+
+R.P.: Which word? Obscenities. Yes. Yes. Yes. That's true.
+
+M.A.: So how do you know when you look
+
+at Rails code it's bad? And why-
+
+A.P.: I just know.
+
+M.A.: Why did people write the bad code?
+
+A.P.: Why did, why did they write the bad
+
+code?
+
+M.A.: Yeah.
+
+A.P.: I don't know.
+
+M.A.: Was it bad when they wrote it?
+
+A.P.: Was it bad when they wrote it? It
+
+depends on the situation. I mean, sometimes, yeah, it
+
+started out bad, or sometimes it just gradually got
+
+that way. It depends.
+
+M.A.: So, so when you're, do you write bad
+
+code?
+
+A.P.: All the time, yes.
+
+M.A.: Why, why do you do it? I'm very
+
+confused. Why do you write bad code?
+
+A.P.: Well, I mean, so sometimes, like, there will
+
+be issues where, like, we got a bug or
+
+something, and you wanna do- for example, like, if
+
+we get a bug, or if I get a
+
+bug, and I need to fix it in a
+
+bug-release version of Rails, for example, and like, I
+
+can see that there's a right way to fix
+
+it. But it turns out that the right way,
+
+that would result in good code, turns out to
+
+be, like, a larger patch-
+
+M.A.: OK, let me just stop here. What's, what
+
+does it mean, the right way?
+
+A.P.: Oh, a way that I think would be
+
+more correct or more general.
+
+M.A.: So why is it more correct than another
+
+way?
+
+A.P.: Why is it more correct? It's more correct
+
+in another way, because maybe it's more extensible or
+
+easier to maintain.
+
+M.A.: How do you know it's easier to maintain?
+
+I'm serious. Like, I'm trying to ask you, because
+
+when I write code, I don't want to write
+
+bad code.
+
+A.P.: Well, it mostly, I mean, I have to
+
+say it's mostly based on experience. Like, I can't
+
+tell you exactly why it's more maintainable. Something that's
+
+easier to test, for example.
+
+M.A.: So, Bryan. You, you, you make a business
+
+of, of telling people when they write bad code,
+
+right?
+
+B.H.: I'm sorry.
+
+M.A.: Aaron cannot, he doesn't really know why he
+
+writes bad code.
+
+A.P: Yeah.
+
+M.A.: Can you tell him why-
+
+A.P.: Why I write bad code?
+
+B.H.: Why do you write bad code?
+
+A.P.: I write bad code, I write bad code
+
+because I want to have the smallest patch in
+
+order to fix the bug.
+
+M.A.: So is that really bad code?
+
+A.P.: So. Yeah. It's bad code.
+
+B.L.: Well, how about, how about, let's get rid
+
+of the term bad. There is code and there
+
+is better code. If we get rid of the
+
+connotation of it being bad, then maybe that will
+
+help you.
+
+Help us help you.
+
+M.A.: Help me Bryan, right.
+
+B.H.: Sure.
+
+M.A.: You think you know when you see bad
+
+code and good code, right. That's why I get
+
+an A or F.
+
+B.H.: Well, so, the idea, so I think, the
+
+idea behind Code Climate, and what we do with
+
+code, we do static analysis and we try to
+
+give sort of an objective but imperfect assessment that
+
+can facilitate discussions within teams. So I think a
+
+lot of, you know, you had that quote up
+
+there, and Matt tells me there's gonna be a
+
+quote on the board that says, if you're not
+
+doing an A on Code Climate, your quote is
+
+terrible. And I said, who are you going to
+
+attribute that quote to? Cause, don't put my name
+
+on that.
+
+Code Climate does not have a 4 point 0
+
+on Code Climate. Code Climate scores like a 3
+
+point 1 on Code Climate. So if your Code
+
+Climate score is above 3 point 1, it's better
+
+than Code Climate itself.
+
+So, you know, the, I think the reality is,
+
+we're trying to help people make more informed decisions.
+
+And that important thing is that the developer has
+
+as much information available to them when they make
+
+decisions about how to write the code as possible,
+
+right, or as is productive to make, you know,
+
+those choices.
+
+And sometimes, like Aaron described, you're, you're always balancing
+
+different trade-offs. Sometimes, a small patch is more valuable
+
+than a larger patch that might be, I'm gonna
+
+avoid the word bad, so, or good, so I
+
+don't get yelled at. But might be, you know,
+
+easier to understand.
+
+M.A.: Right. So, Bryan, you, you build products, right.
+
+B.L.: Yes. Yes.
+
+M.A.: You care a lot about process. I mean,
+
+that's why you know for, like, this, this TAFT
+
+thing is all about process.
+
+B.L.: Yes. Process is actually the, the great leveler.
+
+Believe it or not, there are a lot of
+
+great coders out there, but there are way more
+
+not-great coders out there. Process allows me to distribute
+
+the great among the not-as-great.
+
+And a good example is-
+
+M.A.: And if I'm great, I don't need to
+
+write tests.
+
+B.L.: Well that's, no, that's not true.
+
+M.A.: Well that's what you just said, right.
+
+A.P.: So Bryan, you prefer processes over threads.
+
+B.L.: Yes. Exactly.
+
+So, actually, so the whole testing thing. So, a
+
+good example would be tests. Yeah. I do not
+
+write tests first all the time. And I'll tell
+
+you why. And here is the reason why.
+
+M.A.: Wow.
+
+B.L.: Because of-
+
+M.A.: Wow. You guys should Tweet that.
+
+B.L.: And I'll give you an, a great example.
+
+I was writing an API for processing excel spreadsheets
+
+the other day. I had no idea what it
+
+looked like. But I knew at the integration level,
+
+well, I didn't know what that looked like either.
+
+So guess what? I wrote the code to do
+
+it, and then I said, well that looks good.
+
+I'll write a test that mirrors this.
+
+Not test first, but test after. Still fine.
+
+But, you know what, as I learn the process
+
+and I learn the domain, yeah, I have the,
+
+I actually had the mentality and the insight to
+
+be able to write tests first. So that's fine.
+
+A.P.: I think this comes back to the rules
+
+thing that you were mentioning earlier, which is basically,
+
+like, we give, we give people a bunch of
+
+rules, and I don't believe in rules. I, like,
+
+I'm sorry. That's, that's weird. I do believe in
+
+rules, it's just that, I believe these rules are
+
+guidelines, and you know, like, you, so you know
+
+when to break those. But, like, you only learn
+
+when you can break those and throw those things
+
+out when you have experience doing it, right.
+
+So he has experience. He knows, like, OK, this
+
+is an OK time. I'm gonna break the rules.
+
+B.L.: So actually I have a, a really small
+
+piece of theory on this. Good development is knowing
+
+why versus how. Until you understand why you're doing
+
+something, you need the rules to actually show you
+
+the guidelines so you do not fall off the
+
+boat.
+
+When you actually start understanding why, you can actually
+
+ashew the rules, because you don't need them anymore,
+
+because you know how to walk the straight line.
+
+And that's, and that's, and I think that is
+
+the difference between OK developer and more-than-OK developer. And
+
+I'm not saying that that, that goes for everyone,
+
+but I'm saying that is a good guideline to
+
+follow.
+
+M.A.: So I have an example. I almost want
+
+to show you an example of code that would
+
+get an A on, on Code Climate, that would
+
+follow all the rules from Sandi Matz, but it's
+
+actually code that, if I would believe in bad
+
+code, I would actually use as bad code. Can
+
+I show that to you guys?
+
+A.P. & B.L. & B.H.: Yeah. Sure. Sure.
+
+B.L.: And while he shows you that, I'll take
+
+Code on Code Climate that is actually good code
+
+that fails on Code Climate. I love inject. I
+
+can think in inject. Code Climate, and I guess
+
+because Bryan Davis doesn't like code, doesn't like inject-
+
+B.H.: Yeah, it actually fails horribly. Yeah, so the
+
+complexity analysis in Code Climate was built on top
+
+of an opensource tool called flog, which is roughly
+
+an ABC metric, assignments, branches, and conditionals, but it
+
+has the few things that it really doesn't like.
+
+And most of that is metaprogramming.
+
+But one of those things is inject. And it
+
+just, it will be very unhappy with you if
+
+you use inject. But, as will I, because I
+
+can never understand how that method works. I'm not
+
+smart enough for inject.
+
+A.P.: Can you change, can you just change inject
+
+to reduce? And then will it work?
+
+B.L.: So yeah. I actually could. I actually could.
+
+B.H.: That, that would improve your Code Climate score.
+
+B.L.: I'm a troll, I'm a code troll. I
+
+know it.
+
+M.A.: So here is example of code. So this
+
+is a controller in Rails. It's actually real code
+
+that I got from production. And so, we have
+
+def create, and we have this small method name
+
+that, you look at that, like, wow, this is
+
+great. But, I'm a big-
+
+B.H.: This is fantastic.
+
+M.A.: -truist, so I wanted to see- What's that?
+
+B.H.: This is fantastic.
+
+M.A.: SO here's the code. This is the entire
+
+code. And, I mean, this is beautiful, right. Single
+
+line. It's great. The problem is when you start
+
+going into this code. So you start by saying
+
+set_comment_to_new_comment, and that calls set_comment, which is defined on
+
+the bottom here, that sets the nav bar, to
+
+the param. Now, we have no idea where the
+
+param is because comment, we don't know what comment.
+
+Maybe it's a string. Maybe something else.
+
+But then comment comes from new_comment, and new_comment is
+
+defined here, and turns out, it's actually an instance
+
+of this class, which lives outside of this context.
+
+And we pass it comment_params, which itself is a
+
+method that calls permitted_params, which itself is calling params,
+
+which is something defined somewhere else, and calls permit
+
+on it.
+
+And we could actually rewrite this entire code like
+
+that.
+
+B.L.: I hated that code. I really did. That
+
+was bad. Sorry. I, I'm, I'm disappointed that the
+
+author of this code didn't take the opportunity to
+
+extract a permitted_comment_params method with just the, the symbols.
+
+I feel like they cut a few corners here.
+
+M.A.: So I don't think it's bad. I think
+
+it's hard to maintain. It's hard for me to
+
+follow and to understand. And over abstraction. But you
+
+also see, on the other side, under abstraction.
+
+B.H.: Yes.
+
+M.A.: What's interesting for me when I see code
+
+like that is not to say it's good or
+
+it's bad, it's to talk about it. That, why
+
+do you think - wow, I need to go
+
+through this. Why do you think this was bad?
+
+Like, why did you choose to not write that
+
+instead of writing the complicated version.
+
+And, and this is-
+
+A.P.: I, I didn't write that Matt.
+
+M.A.: Well, you didn't write it.
+
+This is kind of the discussion I want to
+
+have with people. It's not about doing it right
+
+or doing it wrong. It's trying to understand why
+
+they did it. And is that doing the same
+
+thing that we want to do? We're just setting
+
+the new comments.
+
+So I, sorry, I just wanted to show you
+
+this code, because this is a good example-
+
+A.P.: Yeah.
+
+M.A.: -of why rules don't always apply.
+
+B.H.: Yup. So in my mind, there's, there's definitely
+
+a line that needs to be walked between over-abstraction
+
+and under-abstraction. And typically, I think the most common
+
+pattern for large Rails apps that are maintained over
+
+multiple years by teams of, you know, multiple people
+
+tend to suffer from under-abstraction.
+
+And that manifests itself in god objects and classes.
+
+Those files that, like, when you open them you
+
+want to just shut them and run away from
+
+them and wait for someone else in your team
+
+to finish the work.
+
+So what, you know, with Code Climate for example,
+
+what we try to do is provide feedback as
+
+things start changing incrementally. So at the beginning, Code
+
+Climate's gonna tell you, all your code isn't like,
+
+it'll say, OK, there's, there's no code here. It's
+
+an A. Great.
+
+And it won't start complaining until that class starts
+
+to get pretty big. And that's when, what it's,
+
+when it's complaining at that point, what it's really
+
+saying is, now's another time to take another look
+
+at this and sort of start to think about
+
+if there's maybe additional concepts that are being represented
+
+here that deserve different treatment.
+
+And then the developers make that decision in their
+
+teams based on the discussion that comes after that.
+
+A.P.: I have to say, Code Climate sounds like
+
+a pretty shady business.
+
+M.A.: So, at the end of the day, how
+
+do you guys use this to create better products?
+
+Cause that's, for me, that's really the, the key
+
+question. We, we could argue about code and syntax
+
+and things we like and we don't like forever.
+
+B.H.: Yeah.
+
+M.A.: But really, do you, do you first agree
+
+that we don't write code to write code, we
+
+write code to build something or not?
+
+B.L.: No. All right, no. So, at home, whenever
+
+I'm learning another language, yes. I write code to
+
+write code. But whenever I'm working and I'm doing
+
+it to make money, I want to do it
+
+in the fastest way possible, with the least amount
+
+of communication with having the most amount of communication.
+
+I don't want to just talk about it. I
+
+want to do it.
+
+And I want to move on. Code is not
+
+the final product, like you said earlier. I'm, I'm
+
+paid to ship.
+
+A.P.: Yeah, but on the other hand, so I
+
+agree, we're writing, we're writing code in order to
+
+build products, something like that. But I'm, I'm hesitant
+
+to agree with this statement because it makes it
+
+sound like the ends justify the means, and I
+
+totally disagree with that. Yeah, I don't think so.
+
+I want to write good code to build my
+
+product.
+
+I want to write something I'll be proud of.
+
+I am a programmer, and what I deliver is
+
+code.
+
+M.A.: So let me ask you a question. You
+
+write many opensource code. Is there a difference between
+
+writing opensource code and writing applications that you deliver
+
+for different kind of users?
+
+A.P.: For me, no.
+
+M.A.: What, what do you guys think?
+
+B.L.: I guess it depends on your client. When
+
+you're dealing with fifty billion dollar companies whose lawyer
+
+pool is bigger than your company times ten, yeah.
+
+You just, you gotta walk that fine line. Don't
+
+mess up.
+
+M.A.: But, but, I feel like, when you write
+
+opensource code, your product is also your code, so
+
+that why, that's why it matters a lot more.
+
+And, I think that, you're also an example for
+
+the people. So it's, it's very, very different.
+
+A.P.: Well, but the thing is, I mean with,
+
+when I, so when I think about, OK. I'm
+
+gonna use the bad word. Good code. Sorry. When
+
+I think about good-
+
+M.A.: Just to clarify, when you say good code
+
+in this case, you mean code that's easy to
+
+maintain?
+
+A.P.: Yes. So what I, what I think about
+
+is something that's easy to maintain, easy to extend.
+
+Something that, something that can last going into the
+
+future. And that's, that's basically what I think about-
+
+M.A.: And you base that on-
+
+A.P.: -when I'm writing.
+
+M.A.: -on, on your experience?
+
+A.P.: Yes. On my experience. And that's what I
+
+wanna, that's what I wanna write when I'm building
+
+a product is something like that, because you know,
+
+the business rules are gonna change, and we need
+
+to remain, remain agile and be able to be
+
+more malleable. I'm afraid that if we're just, like,
+
+well, it doesn't matter. I'm gonna get the product
+
+done. I'll just throw code everywhere, it's fine!
+
+Oh, the product's done. Ship it! And then as
+
+soon as the business rules change, you're like, oh
+
+man. Now I gotta adjust this mess I have.
+
+B.H.: Yeah. I think it's, it's very difficult, I
+
+think, in practice to have a product which has
+
+high external quality without having high internal quality. If
+
+you're writing code which is difficult for the humans
+
+who are working on it to understand, it's gonna
+
+be much more likely that there are bugs that
+
+are creeping into the software. And also that the
+
+software is not able to be, you know, iterated
+
+quickly to respond to the needs of its customers
+
+and its users.
+
+And that's when you start to see, you know,
+
+you've all probably used products that feel buggy all
+
+the time, that feel like they are never able
+
+to get updated cause you can kind of see,
+
+like, the wear and tear that the developers just
+
+can't actually maintain the system. So I, I think
+
+it's, it's possible to have good internal quality, without
+
+good external quality, but it's very difficult to have
+
+good external quality without good internal quality.
+
+A.P.: If the product was just gonna end and
+
+be like, OK, it's done now, then I'd say
+
+go for it, right. Whatever you want to. Doesn't
+
+matter. But I don't think that's the case.
+
+M.A.: Well, so I think I agree more with
+
+Bryan than with you.
+
+A.P.: OK.
+
+M.A.: No, the reason why I said that-
+
+A.P.: We're not here to agree, Matt.
+
+M.A.: I just wanted to say, no-
+
+A.P.: The only reason I agreed to join this
+
+panel was because we were talking, and I'm like,
+
+I completely disagree with you. I totally disagree with
+
+you. I want to be on the pan, I
+
+want to be on the panel. In fact, I
+
+wasn't planning on speaking here. You can see on
+
+my badge. It says attendee.
+
+M.A.: No. I think the, the, the question is,
+
+do you need to first focus on the code
+
+being right, or do you need to focus on
+
+the product being right? And I believe, like Bryan
+
+was saying, that if you work on the product
+
+being right, you have to actually have code that
+
+will match these expectations. And therefore your code cannot
+
+be bad.
+
+If your code is bad it cannot deliver good
+
+product.
+
+B.L.: Well-
+
+M.A.: And it's just, where do you focus?
+
+A.P.: What is a good product? Ooh!
+
+M.A.: All right you got me.
+
+B.L.: You could subscribe to my code does smart
+
+things so there are smart things inside of my
+
+code, and therefore I'm a smart guy and whatever
+
+I do is right. I mean, sure, everyone in
+
+this room has seen that smart guy code stuff.
+
+But, you know, when it-
+
+M.A.: Are you talking about me?
+
+B.L.: No. But when it comes down to it,
+
+when you're running a business, you're very practical. You
+
+can't just be short-sighted and say that I'm gonna
+
+do this and it's gonna be perfect.
+
+M.A.: Right.
+
+B.L.: We, we try to do the best that
+
+we can within the means that we have. And,
+
+you know, some things are better than others. I
+
+don't like the word bad, unless you're a bad
+
+developer.
+
+M.A.: So I should believe there's no bad code,
+
+but there's, there are a lot of bad developers.
+
+B.L.: Oh, I agree there. There are horrible developers
+
+out there.
+
+A.P.: I'm a bad developer. I'm a rebel. I've
+
+got mavericks installed. I'm a maverick.
+
+B.H.: You've been saving that one all day.
+
+A.P.: That's classic!
+
+M.A.: So, what are the issues, Aaron, with, with,
+
+what you were saying, is that if, especially when
+
+you're a junior developer, you want to do things
+
+right, right. Because that's what matters the most to
+
+you. But you might end up building a lot
+
+of things that are not useful. And they will
+
+slow you down. You're not gonna be able to
+
+ship your product on time. And this abstraction layer
+
+that you've constructed, I'm sure the people who wrote
+
+the code I showed you here really meant best,
+
+because they wanted to be flexible but at the
+
+end of the day, it's not that fixable.
+
+It's actually worse than if it was simpler.
+
+A.P.: Well, this is a, it was probably a
+
+person who didn't know when to break the rules,
+
+right. So, and so-
+
+M.A.: How do you know that?
+
+A.P.: This person was probably following the rules and
+
+didn't know when to break them.
+
+M.A.: You and I seem to always break rules.
+
+But what about, how do you know when to
+
+break rules?
+
+A.P.: I don't know. I can't tell you.
+
+M.A.: Well I break the wrong rules all the
+
+time. How do you know what rules to, to
+
+break?
+
+B.H.: So, so one theory I have about this,
+
+you know, sometimes people ask me, like, well how
+
+do I know when I need to refactor? Is,
+
+like, kind of another way to think about that.
+
+Like, how far can I go just sort of
+
+pushing things in the same spot before I need
+
+to stop and refactor.
+
+And the way, one of the heuristics that I
+
+use to think about that, to try to give
+
+people something a bit concrete, is looking at the
+
+code and thinking about how long would it take
+
+me, if I had to sit down and refactor
+
+this, to take it from where it is to
+
+something that's really easy to work in?
+
+And if the answer to that is, you know,
+
+maybe half a day, a day at the most,
+
+then I know that regardless of what the next
+
+feature I need to implement is, I'm no more
+
+than half a day away from having really maintainable
+
+code to work in in order to ship that,
+
+right.
+
+So if I need to change it dramatically, I'll
+
+spend that half day, get it into great shape,
+
+and then work in there. The problem comes, when
+
+it's like, for me to refactor this will take
+
+a week, and then you're faced with having to
+
+make some really difficult decisions about how to implement
+
+that feature.
+
+A.P.: The problem, though, the problem with that, though,
+
+is when you say, like, something that becomes really
+
+easy to work in, which is, just again, another
+
+subjective issue. Like, you can't, you can't, everybody who
+
+looks at one bit of code is gonna have
+
+some different opinion about what is easy to work
+
+in, right.
+
+B.H.: Yeah. It's like, it's absolutely subjective. I don't
+
+think there's a solution to that.
+
+M.A.: Isn't it also based on where we're planning
+
+on going with the code? Like, if you know
+
+you're not gonna build more features, there's no need
+
+for you to add layers of abstraction. And then,
+
+the question we get from the audience, is how
+
+do you evaluate the cost, the cost of good
+
+code versus better code?
+
+Because, you're saying, well there's good code and there's
+
+better code. How do we evaluate the cost? Because,
+
+you have to pay it, right. Especially when you
+
+run a business, you're paying for the better code.
+
+A.P.: It's about $350.
+
+M.A.: $350?
+
+B.H.: A pound? A line?
+
+M.A.: In, the, the other question is, should you
+
+really, I mean, it's still about the cost. Like,
+
+should you worry about shipping now or any later?
+
+Like, what is your approach to that? Because you
+
+can refactor, right. If you ship small units-
+
+B.H.: Yeah.
+
+M.A.: They can be not as great as they
+
+could be-
+
+B.H.: Well-
+
+M.A.: But then you refactor as you learn more.
+
+B.H.: Yeah. So I think there are, there are
+
+a couple different types of changes, and they're, they're
+
+handled a bit differently. Like, so, Katrina Owen sometimes
+
+talks about how when she's looking at a class
+
+and working on it, she will pretty much always
+
+take the steps of trying to decompose things into
+
+composed methods, because that is just going to, it's
+
+pretty easy to do and it pays dividends basically
+
+right away.
+
+So I think sometimes she says things like, it's
+
+making an investment in, you know, a stock that
+
+you're always going to, is always going to go
+
+up, and is always gonna pay dividends. But changing
+
+around the structure of your application, introducing new classes
+
+and concepts and layers, that is, tends to be
+
+a lot more costly.
+
+So I would pretty much always try to do
+
+the former, and the later is kind of more
+
+what I was referring to when I was discussing,
+
+you know, thinking about how much work it would
+
+be to sort of level up your architecture when
+
+you're faced with that.
+
+M.A.: So a very simple rule I have, because
+
+I don't have a lot of rules, but if
+
+syntax doesn't work with my code, there's a problem.
+
+So if, if I run C tags and I
+
+cannot find where the method is being defined, there's
+
+a big issue right there.
+
+A.P.: So I think, I think a lot of
+
+people talking about how, when do we know, like,
+
+when should we ship and stuff like that, or
+
+what, like, how do we know how good the
+
+code has to be before we ship is, in,
+
+in my personal opinion like, I'm, I'm totally afraid
+
+of being like, OK, I gotta make sure that
+
+this is totally perfect before we ship.
+
+And that's, that's absolutely a problem for me, which
+
+is why I know this is a weird thing
+
+to say for an opensource developer, but I really
+
+like deadlines. So if I have - yes -
+
+it's totally weird to say. But I like having
+
+deadlines, so it's like, well, I have to ship
+
+this feature. It has to ship. I can't, I
+
+mean, I'll make it as good as I can,
+
+but I know that we can just make it
+
+better in the future. Here's my date. Let's do
+
+it.
+
+M.A.: So you're saying that when you write code,
+
+you don't try to write the right code, you
+
+try to write the best code you can based
+
+on the timeline-
+
+A.P.: Yes. Exactly. I write the best-
+
+M.A.: Do you time blocks? Do you say, I
+
+have two hours, I want to finish that in
+
+two hours?
+
+A.P.: Yes, I do.
+
+M.A.: Do people do that? Can I see some
+
+hands?
+
+B.L.: Yeah. I, I do that as well.
+
+M.A.: You do that as well.
+
+B.L.: Yes.
+
+M.A.: I have a tendency to do that because
+
+I get stuck or, I mean, I can try
+
+to improve my code for hours, and if I
+
+put a limit, I know, like, oh I only
+
+have ten minutes. I better finish this thing now.
+
+So that works for me, too.
+
+B.H.: Well, one thing I wanted to interject into
+
+the conversation is I think with the way that
+
+you opened, it kind of made it seem like
+
+there was a conflict between sort of shipping good
+
+products and writing good code. And I don't think
+
+that's necessarily the case. In fact, I think in
+
+most cases, those are supportive of each other. And
+
+that was kind of what I was saying earlier.
+
+But there's this vicious cycle that happens when you
+
+write code, which is, difficult to maintain. So you
+
+have this, you know, maybe you're under a lot
+
+of pressure to deliver something by a deadline, which
+
+is what made me think of this. So because
+
+of the pressure, you write sloppy code or code
+
+that's hard to understand. And that has the effect
+
+of making things even more late, because now it's
+
+difficult for the programmers to change it, and this
+
+just starts to sort of build on itself.
+
+So the next deadline that the business has is
+
+even harder to meet, and pretty soon you're just
+
+stuck in this endless loop of writing crappier and
+
+crappier code to meet more and more difficult deadlines.
+
+And that, that causes, obviously, in some cases, total
+
+business failure.
+
+M.A.: You seem to talk about experience. You probably
+
+experienced that in the past, right.
+
+B.H.: Yeah, in various forms.
+
+M.A.: So how did you get out of that?
+
+B.H.: Good question.
+
+So I set up Code Climate. It's-
+
+M.A.: Wait. Wait, wait, wait, wait. Aaron has-
+
+B.H.: It's C-O-D-E, so yeah, oh sorry.
+
+A.P.: Would you call this vicious cycle the perfect
+
+storm?
+
+B.H.: I might. I might.
+
+M.A.: All right. Back to the real question. So
+
+how do you get out of this perfect storm?
+
+B.H.: Yeah. So it's, I used to- You have
+
+to be prepared for this whenever anyone tells you
+
+you're gonna be on a panel with Aaron. You
+
+have to, you spend a lot of time focusing
+
+in preparation, so. So there's a two, I recommend,
+
+like, I usually try to follow two steps.
+
+One, is stop introducing new code, which is creating
+
+whatever problem you're experiencing. In this case, like, code
+
+that's difficult to understand. You have to stop writing
+
+more code like that. And that's where I think
+
+a lot of teams struggle to get that first
+
+part done.
+
+They realize, we have a big problem, but they
+
+haven't actually stopped introducing new problems. And then you
+
+just start chipping away at it over time. And
+
+there, there is a point where, you know, you
+
+kind of, as a development team, have to take
+
+responsibility for it and say, this is how we're
+
+going to do things because it has these benefits,
+
+and we can flip this cycle around.
+
+M.A.: So, Bryan, do you have a process for
+
+that? I mean, you love processes.
+
+B.L.: I mean, yeah. I, I, I mean. I
+
+have had the pleasure of working with great developers,
+
+and I've had the, also the pleasure of working
+
+with decent developers. What I'm gonna say is actually,
+
+I'm kinda not gonna answer your question. What I'm
+
+gonna say is that, not everybody can get to
+
+that place. Unfortunately, in the real world, business fail.
+
+And the reason they fail is because their team
+
+can't figure out how to do it.
+
+There is-
+
+M.A.: How, or what to do?
+
+B.L.: Well, they can't figure out how to ship
+
+in a, in a method that actually pays the
+
+bills. And, you know, what, what, what I'm gonna
+
+say-
+
+M.A.: So are you saying that- sorry. Do startups
+
+fail because of code? That's not shipped?
+
+B.L.: Well, you know, they, they do. But, but
+
+that code failure because, because of bad management, or
+
+it could be because the dev team is awful.
+
+There's a lot of companies, there's people here, in
+
+this crowd right now, who are working for companies
+
+that will not exist next year.
+
+And all of us are in that same position.
+
+M.A.: Don't, don't, don't say that. It's not nice.
+
+B.L.: I mean, yes. Companies that might not exist
+
+next year. So, no. But, I, but what I
+
+wanna do is, I always focus on very small
+
+incremental steps. I want to be better than I
+
+was last year. I want to be better than
+
+I was yesterday. And I can't compare myself to
+
+Aaron or Bryan, and the reason why is because,
+
+it is subjective. We have different needs. We have
+
+different histories. We have different, we like different things.
+
+I don't like cats. So, you know.
+
+So, so what I want to say is that,
+
+there is no answer to your question.
+
+A.P.: I respect that. I disagree with it. But
+
+I respect your opinion.
+
+B.L.: No, but there is, there is no answer
+
+to these questions.
+
+M.A: So-
+
+B.L.: What I'm saying is-
+
+M.A.: Instead of asking, let me just rephrase the
+
+question.
+
+How and what changed your view of code quality.
+
+Like, basically, I'm sure you want all the same,
+
+like, five years ago, ten years ago, and you
+
+now have a different perspective on things. What was
+
+the trigger for you to help you go from,
+
+follow these rules, you need to test all the
+
+time, or whatever process you had in mind, to
+
+be more flexible and understanding when to, well-
+
+B.L.: This is going to be an awful answer.
+
+I, I'm gonna tell you guys for real what
+
+that is.
+
+I love coding. I really do. I like cars
+
+way more. And the cars that I like are
+
+really, really expensive. So this is actually an, this
+
+is actually, I'm working to be able to afford
+
+nice cars, and then I'm not going to do
+
+this anymore.
+
+A.P.: Are you gonna live in the car?
+
+B.L.: No, no no. So no, really. And you
+
+know what it is? Actually, my goals are not
+
+to write code. My goals are to be the
+
+best that I can to what I do to
+
+be able to live the life the way that
+
+I want it. So, yes, being, and this is
+
+why, why, I actually train, I actually practice writing
+
+code, because I want to be really good at
+
+it. And I want to be able to share
+
+with other people how to be better than you
+
+are.
+
+I'm not saying I can tell you how to
+
+be the best. I'm saying that I can tell
+
+you things that I did that were not bad,
+
+and if I can save you twenty minutes by,
+
+please don't do this, then, then I've won.
+
+M.A.: Do you justify it when you say that?
+
+Do you say, or you just say, this is
+
+bad code, don't do it?
+
+B.L.: No. Usually I say, my god. Is that,
+
+your pull request done? It can't be done.
+
+M.A.: So we're running out of time. But, Bryan,
+
+what was the trigger for you to, to change,
+
+I mean, were you? I mean, I was like
+
+that. I used to be very dogmatic about the
+
+way I was working and the rules I wanted
+
+to follow and something happened to me and I
+
+kind of changed the way I looked at it.
+
+Are you done?
+
+B.H.: We're done?
+
+M.A.: We're getting close to be done. OK. Can
+
+you still answer the question? Please?
+
+B.H.: Not, not very quickly. You know. I think
+
+it's just seeing, you have to, you kind of
+
+have to go through- I had to go through
+
+this process of seeing failure on both sides. So
+
+seeing failure from not applying any structure and not
+
+revisiting things and trying to improve them, and then
+
+seeing failure in a different form from trying to
+
+things like - I'm sure all of us have
+
+run into a project or a person who's over-applying
+
+patterns. Like that, you know. I think I definitely
+
+went through that phase when I frst learned about
+
+patterns and thought everything was a nail that could
+
+be fixed by them.
+
+So once you sort of, it's like a pendulum.
+
+It swings both ways. And then like you kind
+
+of find the middle and that, that was I
+
+guess how it happened for me.
+
+M.A.: So Aaron, the question's slightly different, because I
+
+know you still-
+
+A.P.: Factory pattern. It's all you need.
+
+B.L.: Composite. Delegate. Forwardable.
+
+M.A.: So what would be your advice to somebody
+
+who wants to improve the quality of their code,
+
+but understand that they want to go further than
+
+just the rules. What can they do?
+
+A.P.: So, for me, personally what I did is
+
+I practiced a lot. I love programming. I program
+
+because, I like, my job is a programmer because
+
+I love programming.
+
+M.A.: Can you just explain what you mean by
+
+practicing?
+
+A.P.: Practicing.
+
+M.A.: real quickly, like, what do you mean by
+
+that? Do you just write code and you're the
+
+only one looking at it?
+
+A.P.: Hmm. A lot of time, yes. I mean,
+
+a lot of time, yes, but one of the
+
+main things I did is I found, so, I
+
+found jobs and I started working with people at,
+
+like, at our Ruby group, and then finally got
+
+jobs with people. But I, I would actively seek
+
+out people who were better than me. All the
+
+time. Is what I would do. Is just, I
+
+just keep trying to find someone who's better than
+
+me and then make an effort to work with
+
+that person so I can learn from them.
+
+So a lot of times it's just practicing on
+
+my own, but also a lot of time is
+
+practicing with someone who s better than me.
+
+M.A.: All right. Well thank you very much.
+
+A.P.: Thank you.
