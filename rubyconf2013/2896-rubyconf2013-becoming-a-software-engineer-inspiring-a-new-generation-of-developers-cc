@@ -1,0 +1,1067 @@
+RubyConf 2013 - Becoming a Software Engineer: Inspiring a New Generation of Developers - Kinsey Ann Durham
+
+KINSEY ANN DURHAM: OK, I'm gonna go ahead and start.
+
+How's everybody doing today?
+
+AUDIENCE: We're good.
+
+K.A.D.: Good? Having a good conference? Thank you all
+
+for coming. I'm Kinsey. I'm an apprentice at ThoughtBot
+
+in the new Denver office, and today I'm going
+
+to be talking about becoming a software engineer: inspiring
+
+a new generation of developers.
+
+So if you were to tell me even a
+
+year ago that I would be standing up here
+
+speaking at RubyConf, I would have told you that
+
+you were crazy. I never dreamt or even thought
+
+it was possible to find such a yearning passion
+
+for writing code. I thought I wasn't smart enough,
+
+and I honestly build up building ba- grew up
+
+building Barbie's dreamhouse and not computers.
+
+I have been working in ad agencies since I
+
+was sixteen. I was an advertising major and I
+
+was good at it. And the thought of being
+
+a software engineer never crossed my mind. It honestly
+
+looked really boring and intimidating. My step-brother is a
+
+really awesome developer, and any time I heard him
+
+talk, it sounded like he was talking in an
+
+alien language. I never understood anything that he was
+
+saying.
+
+People are shocked and sometimes even blatantly negative when
+
+they hear about my new dreams of becoming a
+
+developer. Friends' jaws literally dropped when I told them
+
+that I was learning how to write code. I've
+
+also received comments that I'm too sociable and I'm
+
+the last person on Earth they thought would want
+
+to write code. That I should be in sales
+
+and also I don't think in a way that
+
+a developer should.
+
+I don't ever want to let these comments discourage
+
+me, although it's definitely easier said than done. There
+
+are definitely times when I want to give up
+
+and throw my computer out the door and go
+
+back to some of the mindless work I did
+
+in advertising.
+
+So the path to becoming a software engineer, in
+
+my mind, was straightforward and well-defined. You needed a
+
+computer, you needed a computer science degree, to have
+
+dropped out of your computer science degree to work
+
+for a company writing code, or have been a
+
+self-taught programmer who loon- learned to code at a
+
+very young age.
+
+Recently, the community has seen a rise in non-traditional
+
+paths to becoming a software engineer. These paths are
+
+the future to building a diverse community and training
+
+the next generation of developers. So today I'm here
+
+to argue that outreach programs, mentorship and apprentice programs
+
+are legitimate paths to becoming a software engineer.
+
+This path is begin, has been the beginning of
+
+my journey, making me see that what I thought
+
+was impossible was actually possible. So I first want
+
+to talk about outreach programs. Railsbridge is a great
+
+example of an outreach program that is working.
+
+So how many people have heard of Railsbridge? Wow.
+
+That's a lot. A lot. Awesome. How many people
+
+have volunteered, sponsored, or participated in a Railsbridge? Awesome.
+
+I can honestly tell you that a Railsbridge workshop
+
+changed my life. Railsbridge, for those of you who
+
+don't know even though most of you raised your
+
+hands, is an outreach program that puts on free
+
+weekend workshops where people learn from experienced Rails volunteers.
+
+So these workshop attract, workshops attract a lot of
+
+beginners, and in one day you get to build
+
+a basic Rails app and deploy it on Heroku.
+
+It planted a seed to a career that I
+
+had always dreamed of but hadn't yet realized. I
+
+not only met Jesse McAdam who would become one
+
+of my greatest mentors and influencers, but discovered a
+
+passion for writing Rails that I never would have
+
+discovered on my own.
+
+This is a Tweet that I Tweeted when I
+
+was at Railsbridge. I was so excited.
+
+Railsbridge taught me that writing code wasn't scary and
+
+in a few hours I deployed my first application
+
+to Heroku. I literally remember it like it was
+
+yesterday. I was yelling at my best friend who
+
+also was in the workshop at the top of
+
+my lungs that I was going to write code
+
+from now on. And Railsbridge was the beginning of
+
+my journey, where I learned that I could actually
+
+have a passion for writing code.
+
+So SarahMay and Sarah Allen started Railsbridge in 2009
+
+when the San Francisco Ruby community was 98% male
+
+and 2% female. Since the program lowered the barrier
+
+to entry, they saw an increase of women attending
+
+the workshops. In one year, the Sarahs saw the
+
+female ratio increase from 2 to 18% thanks to
+
+Railsbridge efforts.
+
+And I am - yeah.
+
+So I am definitely not the only one who
+
+has pursued a career in web development thanks to
+
+Railsbridge. I want to share with you guys a
+
+few of the testimonials from various women who have
+
+attended the workshop and who are now full-time software
+
+engineers.
+
+So Rachel Meyers who is now a developer at
+
+GitHub said this about her experience at Railsbridge. I'm
+
+gonna let you guys read this, cause I don't
+
+want to just read off the slide.
+
+Laura Steadman, who is now a developer at QuickLab,
+
+said that attending Railsbridge was inspiring because of what
+
+she built that day. Or not because of what
+
+she built that day, but rather the sincere enthusiasm
+
+of the volunteers. She was amazed that people were
+
+giving up their weekends to volunteer at a workshop.
+
+Rita Vatshi who is now a developer outright stated
+
+this.
+
+So Railsbridge is not the only outreach program that
+
+is out there that has been successful. Rails Girls,
+
+Women who Code, Black Girls who Code are other
+
+great programs, all of which need sponsors, teachers, and
+
+volunteers on an ongoing basis. I'm currently the coordinator
+
+for the Denver women who code group, and it
+
+is truly amazing to see the impact that the
+
+group has had in the community in one year.
+
+The most popular meetups are typically ones that are
+
+geared towards beginners, so in them we have more
+
+experienced females develop- female developers come in to speak
+
+about how they got into programming, what resources are
+
+out there and advice to becoming a developer.
+
+So now that I've talked about outreach programs, I
+
+want to talk about mentorship. Mentorship is another important
+
+aspect to train the next generation of developers. Mentorship
+
+is beneficial to me because I look to my
+
+mentors not only for technical skills but for soft
+
+skills and support. Because, to go from attending a
+
+Railsbridge workshop to becoming a full-time software engineer is
+
+way more work than I ever expected.
+
+There are days when I come home in tears
+
+and I feel stupid and frustrated for not understanding
+
+basic concepts still. I'm not only learning how to
+
+write Ruby, Rails, testing frameworks, use get, but a
+
+completely new way of thinking.
+
+So Jesse who I mentioned earlier is one of
+
+my greatest mentors has opened doors to me that
+
+I didn't even know existed. She's truly humble about
+
+all the work that she's doing and bringing diversity
+
+into the industry, but she really is making a
+
+difference. She works tirelessly on top of her job
+
+and managing her family to reach out through organizations.
+
+It's like Dev Chicks and Railsbridge.
+
+And I even hear her talking about how she
+
+wants to open a beginning to code school in
+
+her house on the weekend. Jesse and one other
+
+mentor in particular have been there for me, to
+
+pick me back up when I'm feeling frustrated and
+
+that I cannot continue, and they remind me of
+
+how far I've come in a year and how
+
+hard it truly is to understand this stuff.
+
+no matter how busy they are, they are always
+
+there to listen to me and help me when
+
+I get stuck on a problem and am floundering.
+
+So they give me the encouragement that I sometimes
+
+desperately need.
+
+So mentoring is also beneficial to my mentors. My
+
+mentors constantly tell me how mentoring ultimately makes them
+
+a better developer, because it solidifies an understanding of
+
+the content being taught. John Fully, who's a developer
+
+at Pivotal Labs told me that mentoring elevates you
+
+from thinking you know to actually knowing you know
+
+or not knowing at all.
+
+Mentoring not only provides countless and necessary benefits to
+
+the mentee, but to the mentor perspectively. So even
+
+advanced developers can learn new things by having to
+
+explain it in a way that a beginner can
+
+understand it.
+
+So I recently came for- full-circle in the Railsbridge
+
+community and was a TA for one of the
+
+workshops in Colorado, and teaching basic Ruby conference- concepts
+
+was really frightening because I kept questioning myself, and
+
+I went back, you know, and did more research
+
+and made sure that I actually understood what I
+
+was telling people.
+
+So I really did learn a lot that day.
+
+Maybe even more than when I was doing the
+
+Railsbridge workshop.
+
+So I really think that mentorship is worth your
+
+time. How many people here have been mentored by
+
+somebody?
+
+Quite a few. And did it help you in
+
+advancing your career? Yes. Cool.
+
+And how many people here have been a mentor
+
+to somebody? Wow. That's a lot of hands. That's
+
+awesome. I want to encourage everyone to be a
+
+mentor if you have time, resources, and the patience
+
+to do so. Mentoring is a really hard thing
+
+to do and it definitely isn't for everyone. It
+
+requires a lot of time and patience.
+
+I'm really inspired because I've met a lot of
+
+people here this weekend who are mentors and, or,
+
+or making the effort to become a great mentor.
+
+So thanks to all of you who I've talked
+
+to you about this and your efforts are truly
+
+making a difference.
+
+Now I want to switch gears and talk about
+
+what it means to be a great mentor. I've
+
+had so many great mentors this past year and
+
+would love to share with you some of the
+
+qualities that I thought they all shared. Ally talked
+
+about this in her lightning talk yesterday and she
+
+gave a lot of great advice as well.
+
+So if you were gifted in explaining concepts, complex
+
+concepts simply, you would be a great mentor. The
+
+greatest mentors that I have had were able to
+
+take an abstract concept and make it really concrete
+
+to me. Emily Saffo, who presented yesterday, she gave
+
+an awesome talk in Paris at a conference about
+
+concurrency in Ruby. And she gave a really simple
+
+analogy to explain threading, and it, she compared it
+
+with an orchestra, and I thought it was a
+
+really awesome metaphor, and she took this complex thing
+
+and really broke it down into something simple that
+
+I could understand.
+
+Last night, Steve Harms who presented here at RubyConf
+
+yesterday gave us a Star Wars example that was,
+
+that made it easy for us to understand the
+
+topic he was talking about in regards to object-oriented
+
+programming.
+
+It's really important to try and explain these things
+
+in a simple manner that anyone can understand, at
+
+least at first, to get the concept through. And
+
+you know some con- some concepts are complex and
+
+can't really be boiled down to something simple.
+
+But one technique that one of my mentors does
+
+with me is ask me, if I had no
+
+idea what any of this was, how would you
+
+explain to me what I was doing? It was
+
+really challenging and hard for me to do that.
+
+It is, once again, beneficial to the mentor to
+
+have to explain things in a simple way.
+
+Awareness. Awareness of both yourself and your mentee. Mentors
+
+who are unaware of the fact that they are
+
+coming off as discouraging could ruin or completely dissuade
+
+a beginners' passion for the craft. It is important
+
+to be aware of signs of frustration, language that
+
+is discouraging, and body language when mentoring an apprentice
+
+developer.
+
+Great mentors that I have had have also been
+
+very aware of my learning styles. The same mentor
+
+that would, that would ask me to explain things
+
+back to him asked me on the first day
+
+of being my mentor what my learning style was.
+
+I wasn't even aware of the best ways that
+
+I learned, but we were able to up, discover
+
+that together, and use those, and practice how I
+
+learned best.
+
+I really excelled during my apprenticeship with this mentor
+
+because we were both aware of my learning habits,
+
+my way of thinking and learning. I learned that
+
+drawing things on the white board, drawing them out
+
+was really helpful to me. And I also discovered
+
+a lot of the time I need to sle-
+
+I needed to sleep on what I had learned.
+
+Then the next day I was able to get
+
+it.
+
+Also on this note, getting to know your mentee
+
+is invaluable. Knowing what makes them tick, how they
+
+learn, how they think, and how they approach problems
+
+can make for a more productive mentorship.
+
+Patience is also very important. It's also, it's important
+
+for the mentor and the mentee. If you're an
+
+impatient person, it might not be best for you
+
+to be a mentor. When a beginner is learning
+
+to code, you may have to explain things multiple
+
+times until they get it. Things move at a
+
+slow pace, and it is important to make sure
+
+that you're being patient and understanding when working with
+
+your mentee.
+
+Patience is also a skill that I have to
+
+learn. One of the things that I struggle with
+
+is when I see an error message or there's
+
+a bug, I angrily switch from the failing test
+
+back to them without taking my time to read
+
+the error message. So writing code and mentoring are
+
+similar. Heh. I see people nodding.
+
+Writing code and mentoring are similar in that it
+
+ta- requires a lot of patience. So I've learned
+
+a lot in that aspect as well.
+
+Weekly retrospectives are also very important in a formal
+
+mentorship. Once a week, take time and sit down
+
+with your mentee. Discuss what went well, what didn't
+
+go well, and what to improve on. These meetings
+
+were invaluable to me because I was able to
+
+focus on softer skills as well, and overall skills.
+
+I became aware of my impatience habit and areas
+
+that I needed to focus on the most, so
+
+that really helped me out.
+
+Pairing. I think pairing with my mentors has been
+
+the best thing for me from a technical standpoint.
+
+So it was definitely where I learned the most.
+
+Pairing on actual client projects and even on my
+
+own breakable toy was extremely helpful. Pairing is also
+
+great because you can speak remotely with a mentor.
+
+I was able to learn so much fun, more
+
+in a pairing situation than when trying to read
+
+the Ruby pickaxe book. I was able to constantly
+
+ask questions, drive, and really dive into learning the
+
+Ruby language and Rails framework.
+
+But the most important piece of advice that I
+
+can give to mentors is to have empathy. It
+
+is extremely discouraging to be told that this is
+
+easy and you should be getting this. It's really
+
+not easy, especially for someone who has never done
+
+this before. You know, how long have you been
+
+writing code? Something that was easy, that is easy
+
+to you now, is not gonna be easy for
+
+a beginner.
+
+Also, remember that your mentee might have a completely
+
+different way of thinking. It's important to put yourself
+
+in their shoes and remember what it was like
+
+to learn how to write code.
+
+So my incredible mentors and my experience Railsbridge has
+
+not only changed my life, but changed others around
+
+me in an almost verbal effect. These are my
+
+two best friends at another Railsbridge event that we
+
+did in Denver. We were all three advertising majors
+
+at CU.
+
+Emma, the blond one, she's now doing front-end development
+
+in San Francisco, and Terra, just, got accepted into
+
+an intense Ruby on Rails program in New York
+
+City. So Terra had a really great job and
+
+decided to quit her career to pursue a career
+
+as a developer, which I think is really cool.
+
+So intense Ruby on Rails training programs like GSchool,
+
+Dev BootCamp, are other great examples of alternative education
+
+options that I unfortunately don't have a lot of
+
+time to discuss today. I get to spend a
+
+lot of time around the G Schoolers and Galvanized
+
+because we work in the same place. It's amazing
+
+to see the applications that they build in a
+
+short amount of time.
+
+We can also relate to the struggles of learning
+
+Ruby together. I've also gotten to meet a, so
+
+many wonderful developers this weekend, who have come out
+
+programs like Flat Iron School, Bit Maker and Dev
+
+Boot Camp.
+
+Talking with all of them about their experiences has
+
+made me realize how these programs can really open
+
+doors for people who never thought it was possible
+
+to become a developer. And it is truly inspiring
+
+to see how passionate they are about the community
+
+and the craft of writing code.
+
+So now that I've talked about outreach programs and
+
+mentorship I want to talk about apprentice programs. Apprentice
+
+programs are intense training that you would not receive
+
+at a university, and apprentice programs can take a
+
+passionate learner and turn them into competent, reliable software
+
+engineers.
+
+I'm really, really fortunate because ThoughtBot accepted me into
+
+their apprentice program this past year. It is one
+
+of the most challenging things that I've ever done,
+
+but the amount that I have learned during my
+
+apprenticeship has been incredible.
+
+For those of you who don't know what ThoughtBot
+
+is, it's a consulting company that builds and designs
+
+web and mobile application. And they have a program
+
+specifically for apprentices called apprentice io. ThoughtBot's really passionate
+
+about the learning space and has a learn program
+
+where workshops are frequently taught. And twenty-five percent of
+
+the employees at ThoughtBot were apprentices at one time
+
+in the company. So a quarter of the company
+
+actually came through the apprentice program.
+
+And it is proved to, to be a great
+
+way for ThoughtBot to train and maintain budding talent.
+
+So Dan the CMO describes why the program was
+
+created in this quote, and once again I'm gonna
+
+let you guys read this.
+
+Chad, the CEO, stated, that everyone in the program
+
+who has been eligible to get a job afterward
+
+has gotten a job, with ThoughtBot or another employer.
+
+That's pretty impressive. ThoughtBot's apprentice program has given me
+
+the biggest push in achieving my dream. They believe
+
+that I can do it, they support me, and
+
+even are taking the time and money that it
+
+takes to train me.
+
+ThoughtBot rewards and supports its employees for engaging in
+
+mentoring programs and for participating in programs like Railsbridge.
+
+This is something that I think all companies should
+
+be doing.
+
+So the U.S. Department of Labor did a study
+
+on apprentice programs in the U.S., and apprentice program
+
+graduates have much higher earnings than those who did
+
+not. The study also showed that the social and
+
+overall benefits to the company that maintain these programs
+
+appear to be much larger than the cost. So
+
+over the career of an apprentice, the estimated benefits
+
+to the company exceeded the initial cost by more
+
+than $49,000.
+
+So apprentice programs are not only a legitimate path
+
+to becoming a developer, but it's a bridge for
+
+people coming out of these outreach programs that I
+
+spoke about earlier. Even after doing multiple Railsbridges and
+
+working tirelessly with many mentors, I wasn't ready to
+
+become a full-time software engineer managing large web applications.
+
+I needed something like the apprentice program to really
+
+jump off the deep-end into writing code. And apprentice
+
+programs create a structured environment where I can continue
+
+to learn best practices and become a developer that
+
+produces reliable and maintainable software.
+
+So there are many benefits to companies creating a
+
+formal or mentorship, formal apprentice or mentorship program. So
+
+if companies invest in apprentice and mentorship programs, there
+
+will be more highly-trained and prepared candidates out there.
+
+These companies can help other companies find, et cetera,
+
+find highly, find high quality candidates.
+
+CSR is also really important in our society. A
+
+study showed that 94% of consumers would be more
+
+loyal to the company if they have CSR initiative.
+
+96% of people said that they would have a
+
+more positive image of the company. So CSR is
+
+clearly important and an all-around great way to give
+
+back to the community.
+
+So this is more specific to consulting companies, but
+
+a lot of times projects are lost due to
+
+a large price tag, and if companies take in
+
+an apprentices, they will be able to bill them
+
+at lower rates to projects that have a strict
+
+budget and not so much of a strict timeline.
+
+So there are also a lot of engineers that
+
+I have met that are out there who would
+
+love the opportunity to become a mentor and are
+
+not sure the right way to get involved. This
+
+would create an opportunity for interested parties to teach
+
+and mentor in a more formal environment.
+
+So, I mean, look at me. I'm up here
+
+genuinely talking about ThoughtBot and, because they took a
+
+risk on me. SO the message and good will
+
+of your company will spread throughout the students that
+
+you take risks on and train.
+
+But why is all of this important? Why is
+
+it important to have educational alternatives to training the
+
+next generation of developers? I have three reasons.
+
+Diversity, a massive lack of, of supply of engineer,
+
+and traditional education that isn't providing with the amount
+
+of people that we need. So mentorship Railsbridge programs
+
+and apprentice programs are absolutely key in getting more
+
+diversity into not only the web development world but
+
+the tech world as a whole.
+
+As you can see, NCWiT thinks it's crucial for
+
+advancing underrepresented employees.
+
+So access to the internet is a privilege. White
+
+males specifically have access at an earlier age and
+
+a much higher rate than females. And people of
+
+different ethnic backgrounds. Statistics show that boys get their
+
+first computers at fourteen, while girls at age eleven.
+
+It's even later for people of color, who tend
+
+to have a much higher adoption rate of smart
+
+phones, and I can't imagine trying to write code
+
+in a smart phone.
+
+So females make up more than half of undergrad
+
+graduates but only 18% of computer science graduates. There's
+
+a really high barrier via the traditional computer science
+
+route in university.
+
+Financial access, discrimination, lack of role models, lack of
+
+encouragement in general are creating this large gap of
+
+the lack of diversity. These are all barriers that
+
+are hard to overcome. So we want to create
+
+diversity within the industry, education has to come from
+
+elsewhere.
+
+outreach programs, mentorship and apprentice programs are all alternatives
+
+to a traditional education that lower these barriers. This
+
+is key in creating a diverse community. And I
+
+really want to emphasize that this is lowering the
+
+barriers and not the standards.
+
+Alternative education needs to be high quality in caliber
+
+in order to maintain the standard in the industry.
+
+So we all know that diversity is important. Not
+
+only does it drive economic growth, it's been scientifically
+
+proven that diversity fosters innovation and enhances abilities to
+
+solve problems. And approaching tricky programming problems from many
+
+perspectives proves to be successful in this industry.
+
+So another thing to be aware of is a
+
+lot of these outreach programs and alternative paths are
+
+in predominately white areas for people of average or
+
+even high socioeconomic statuses. So it would be awesome
+
+to see mentorship apprentice programs and outreach programs happening
+
+in rural areas that have a low socioeconomic status
+
+and ethnic diversity.
+
+So secondly, there's a massive lack of quality engineers.
+
+How many people here, or their company, is hiring
+
+on an ongoing basis? Yeah, and is it hard
+
+to find quality engineers? Yeah.
+
+So companies continually struggle with this. According to NCWIT
+
+research, if current trends continue by 2018, the information
+
+technology industry will only be able to fill half
+
+of its available jobs. There are people who never
+
+considered software engineering as a viable career option because
+
+they were discouraged from it, never thought they were
+
+smart enough, never grew up with a computer or
+
+were intimidated by people who had been programming for
+
+most of their lives.
+
+These people can discover their passion and take an
+
+alternative approach such as the ones I discussed earlier
+
+and programs like GSchool and Flat Iron School.
+
+So thirdly, the traditional science, computer science degree isn't
+
+providing the industry with the developers that it needs.
+
+Most people coming out of college are not ready
+
+for full-time engineering jobs. It takes four or more
+
+years to recieve a degree and not to mention
+
+the hefty price tag.
+
+So thanks to programs like Railsbridge, my amazing mentors,
+
+and ThoughtBot's apprentice program, I am here today to
+
+speak about the importance of alternative education paths in
+
+software development. I am almost done with my apprenticeship
+
+and I'm excited for what my next step will
+
+be on this path, and I would be lying
+
+if I told you that the path, my path
+
+to becoming a software engineer has been easy and
+
+constantly rewarding.
+
+There are times when I'm really close to quitting
+
+and there are times when I cry from feeling
+
+so frustrated and incompetent when the test suite won't
+
+turn green. But I know that I love what
+
+I'm doing and I won't quit and I know
+
+that it's because sometimes I literally get chills when
+
+I manage to get through it, refactor it, and
+
+produce some beautiful code.
+
+It literally moves me and makes me feel like
+
+I can do anything. My goal is that other
+
+people who never thought that becoming a software engineer
+
+was possible will become inspired by one of these
+
+alternative education programs or by an influential mentor and
+
+discover that they not only can be a great
+
+developer but find a passion for it.
+
+Thank you for your time today and you can
+
+contact me through email or Twitter if you have
+
+any questions. And here are some of my works'
+
+cited.
