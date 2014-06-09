@@ -1,0 +1,1413 @@
+RubyConf 2013 - Raft: Consensus for Rubyists -  Patrick Van Stee
+
+PATRICK VAN STEE: All right, cool, well, I guess we'll get started.
+
+It's already 1:50. I think that's when I'm supposed to start.
+
+All right, cool, so I'm Patrick, and we're gonna
+
+talk about Raft today, which is a distributed consensus
+
+protocol. So I'm vanstee pretty much everywhere on the
+
+internet and I work at Big Nerd Rand. You
+
+might know us from our books. We do some,
+
+like, iOS and Android books. We also teach courses
+
+and do consulting.
+
+I wrote, I write Ruby there on the products
+
+team, so, we also have our own products. But
+
+first, before we get into anything too technical, I
+
+want to go through like a really human, normal
+
+example of consensus that you all might have done.
+
+We actually - it's, funny enough, we actually did
+
+this this morning over Twitter, trying to find coffee.
+
+So there's four friends. Matt, Amy, Kim, and Dan.
+
+They all live in Atlanta and every Friday morning
+
+they text message each other to try to find
+
+out where they're gonna go for coffee.
+
+So Matt wakes up first, Friday morning. He asks
+
+everyone else where they want to go for coffee,
+
+if they're awake and everything. Amy and Kim are,
+
+want to go, and they're like yeah, let's go,
+
+but Dan is still asleep and hasn't responded yet.
+
+So Matt suggest Octane, which is one of my
+
+favorite coffee shops in Atlanta, and Dan's still asleep.
+
+Doesn't get the message. Amy and Kim are like,
+
+yeah, we'll meet you there, and yeah, again, Dan
+
+- nothing.
+
+But then Dan wakes up and frantically wants coffee
+
+and so he doesn't look at his, his phone
+
+at all, and he just sends out a message
+
+to everyone. He's like, OK, I need coffee right
+
+now.
+
+But Matt's already like, oh we already made a
+
+decision, we're going to Octane. You can meet us
+
+there. So. Pretty normal, you know, coffee situation or,
+
+you know, if you've tried to schedule beer with
+
+other people, it's pretty normal.
+
+But if we really try to like, break it
+
+down to, like, different concepts of like, what just
+
+happened, I guess we could say that we did
+
+kind of a form of leader election, where Matt
+
+kind of initiated the conversation, handled who is going
+
+and kind of made the decisions on when they
+
+were gonna go.
+
+We also, it's kind of - I don't know,
+
+it's kind of weird to talk about with people,
+
+but we did state replication, I guess. You know
+
+Matt made a decision and then everyone else, you
+
+know, heard about it and stored it in their
+
+brain.
+
+And we also, I mean this eas- this is
+
+silly, too, but we had, we had a partition,
+
+right. Like, Dan was asleep, didn't really hear what
+
+was going on but when he woke up, everything
+
+was fine and he got up to speed without
+
+any problems.
+
+So, and that's, I mean that's, pretty eve- it's
+
+even easy to talk about some of these concepts
+
+related to humans, but if you were to, like,
+
+write an algorithm for it and like cover all
+
+of those steps and all the edge cases, it
+
+gets, like, really, really complicated and it's really difficult.
+
+So and it really comes down to, like, humans
+
+are just way better at consensus than computers.
+
+I think other people have even said that computers
+
+really only do what you tell them to do
+
+at this conference, and that's, I mean, everyone kind
+
+of knows that, but I just - it's hard
+
+because we have to tell them exactly all of
+
+these cases to handle. So that's why consensus is
+
+hard. But why am I talking about this at
+
+RubyConf? This, there's not a ton of Ruby in
+
+this talk, but I think it's, knowing some of
+
+these distributed computing algorithms is really important.
+
+And a lot of Ruby people deal with the
+
+internet or the web in some way. And so,
+
+here's something to think about.
+
+So, do you have multiple database servers in, in
+
+your service or app? Well, obviously that's gonna be
+
+a distributed system. I think most people realize that
+
+or would classify that as a distributed system.
+
+What if you have multiple apps servers? So what
+
+if you're, what if you have two dinos on
+
+Heroku? Well, that's also distributed. You might not have
+
+thought about that before, but it's kind of considered
+
+distributed. It might not be super interesting either, but
+
+you still have some of those problems.
+
+What about multiple clients? So if you have a
+
+web app, you probably have multiple clients, right. Cause
+
+clients can even be browsers. And so it's probably
+
+a super boring, not super interesting distributed system, but
+
+that's also distributed as well. So it's really good
+
+to know about some of these problems.
+
+And, I mean, the main thing is, if you're
+
+writing web apps, you're really building boring, but, they're
+
+still distributed systems. So it's good to think about
+
+some of these problems and just know where the
+
+boundaries are, where you're gonna, I don't know, it's
+
+good to know what problems can come up and
+
+what solutions are available to solve them, so.
+
+So, let's get into Raft, which is, like I
+
+said, is a consensus protocol. So we're gonna go
+
+through a bunch of examples and stuff. But it
+
+was written by Diega Ongaro and John Ousterhout. They
+
+both work at Stanford. They wrote the paper together.
+
+Diego's a super nice guy. You should ping him
+
+on Twitter if you have any questions or anything.
+
+And before we do some really in-depth stuff, I
+
+just want to do a quick definition of what
+
+consensus is. And it's really just agreeing upon state
+
+across distributed processes, even in the presence of failures.
+
+So we have a bunch of servers. WE want
+
+them to agree on a certain decision or value,
+
+and we want them to be able to do
+
+that without all the servers having to be up
+
+or available. So if a couple of them are
+
+down, we still want the consensus to be possible.
+
+And when should you use it? Some common examples
+
+are if you need distributed locks, if you're like
+
+trying to, if you can, if you're the only
+
+person trying to write to a file or something
+
+like that, you would use it. Also a lot
+
+of people use it for distributed configurations, so if
+
+you have a lot of servers that are sharing
+
+configuration information, you would want to use it.
+
+And an interesting one, too, that you could do
+
+would be storing your background jobs in some kind
+
+of distributed store, or you could, you know, write
+
+those jobs to, to that database or whatever, and
+
+then use consensus to pull them out and acquire
+
+a lock on them or something.
+
+And for the people who know what Paxos is,
+
+and if you don't know what it is, it's,
+
+it's like an older consensus algorithm from the, from
+
+the late '80s, and there's a reason I'm not
+
+giving a talk on Paxos. Well, one, cause it's
+
+kind of older, but it's, it's still really good,
+
+right. Like a lot of Raft is founded on
+
+this, but as systems developers and as, actually just
+
+as software developers in general, it's actually really hard
+
+to understand. I've actually tried to build some stuff
+
+with Paxos before and if you just read the
+
+first paper, it's really hard to get anywhere.
+
+There's a lot of, there's a lot of missing
+
+pieces. They're not really missing, they're just, it wasn't
+
+really a part of the initial protocol, so you
+
+have to read a bunch of other papers, and
+
+then there's like conflicting decisions on which, on what
+
+you want to make, and if you start implementing
+
+Paxos, you really end up implementing something else, usually.
+
+And so Raft kind of fixes that by taking
+
+a systems approach to creating a consensus algorithm.
+
+So let's lay some groundwork and get into some
+
+examples. So all of my slides, the circles are
+
+nodes and they all kind of have this configuration,
+
+so. THey all have a log, which holds different
+
+entries in it, and they're in a specific order.
+
+These are things like, if you send a client
+
+request to a server they're gonna store that in
+
+the log.
+
+There's also a consensus module, which handles the logic
+
+and stores the state for who's the leader and
+
+who can do what and who should we listen
+
+to. ANd there's also a state machine, and I'm
+
+not really gonna talk too much about the state
+
+machine. Just know that, if you, if you don't
+
+know what a state machine is, I guess, it's
+
+like, it's something where you give it an input
+
+and its always gonna give you back output that
+
+you expect. So this could even be like a
+
+Ruby program. And Raft kind of lets this be
+
+pluggable so you could write your own little Ruby
+
+business logic module plugin to this state machine part
+
+that just knows how to respond to the, the
+
+client commands you store in the log.
+
+So, you don't have to worry too much about
+
+that. Just know that client commands get run through
+
+it.
+
+So a basic cluster - this one has three
+
+nodes. And typically there's just one leader for the
+
+cluster and everyone else is a follower. That's kind
+
+of the normal operation. And the way things happen
+
+is a client talks to the leader, and the
+
+leader decides to send out what the client gave
+
+it to everyone else, kind of replicates the state
+
+out.
+
+And then everyone runs that client command on their
+
+local state machine. SO everyone has a copy of
+
+that, an identical copy of that state machine. The
+
+client commands get sent out and then they just
+
+run that locally. So we're not sending, like, state
+
+around, we're just sending these, these client commands.
+
+And so, I mean this is kind of, this
+
+is super basic right, like we haven't talked at
+
+all about like, what happens if the leader fails
+
+or anything like that. Like, how do we maintain
+
+the order of the log? So Raft kind of
+
+splits, splits up those three problems into three different
+
+sections.
+
+And so first we're gonna talk about leader election.
+
+It's just like the major, the major, one major
+
+part. So nodes can have one of three roles,
+
+and this is kind of how, I'm gonna just
+
+discuss how you kind of move in between these
+
+rules. Basically how you become a leader from being
+
+a follower.
+
+So everyone starts out as a follower, and, like,
+
+when you bring the cluster up. And if they
+
+haven't heard from a leader in awhile, they get
+
+suspicious and they decide to start their own election
+
+to become leader. So at that point, if they
+
+haven't heard from the leader in awhile, they expect
+
+them to be down or just lost somewhere. And
+
+they become a candidate.
+
+And so once they become a candidate, they've started
+
+an election, they're trying to get people to vote
+
+for them. SO one of three things can happen.
+
+They can either win the election, which, in that
+
+case, they would become the leader. ANd the way
+
+you win an election is you, you've been, when
+
+you become a candidate you send out a request
+
+for votes, and if you get a majority of
+
+votes, so, a majority of the other nodes in
+
+the cluster say that you can become leader, you
+
+do.
+
+Now it, there's another case where if, if you
+
+only get like a third of the votes or
+
+something, or let's say three candidates try to become
+
+leader at the same time. You're gonna have a
+
+split vote, and so if that happens you basically
+
+just restart the election. So you kind of wait
+
+for enough votes to come in, and i fyou
+
+don't give them in time then you just try
+
+again. And you would just do that indefinitely.
+
+And then, obviously, there's a third option, and that's
+
+if someone has beat you, right. If you lose
+
+the election, you'll, that leader will tell you, basically,
+
+and then you'll step back down to a follower.
+
+And then, so, and then, so if we became
+
+leader, there's also the case where we are garbage
+
+collecting for three minutes or something and everyone else
+
+thinks we've died or crashed, and someone else will
+
+become leader and kind of replace us. So we
+
+have to worry about that case as well.
+
+And in that case, you just become a follower
+
+again. And so we've talked about, kind of how
+
+the servers communicate with each other while they're changing
+
+state, and so there's two major ways to communicate.
+
+You can see that, you know, the candidates have
+
+to ask people for votes, and the leaders have
+
+to tell people that they're leaders.
+
+So there's two, there's only two remote procedure calls
+
+that we need to make. SO there's only two
+
+ways that these servers are gonna be talking to
+
+each other. And the first one is request vote,
+
+which is exactly what you would expect it to
+
+be. It's a candidate asking for people to vote
+
+for them.
+
+And so they would, they would just send that
+
+out when they become a candidate to all the
+
+followers, and if they respond successfully, that is a
+
+vote that they got. Now AppendEntries is, might sound
+
+like it's named kind of weird. In the previous,
+
+the previous slides we were kind of talking about
+
+it as the leader notifying all of the other
+
+people that it was leader. But this is also
+
+used, it's kind of overloaded. It's also used for
+
+the leader replicating out those log entries.
+
+So the leader gets a client command, and the
+
+way they send it to all the followers is
+
+they use AppendEntries. I'll show an example of what
+
+that actually looks like on a further slide.
+
+But we also, we also talked about - oh
+
+yeah, and I guess, if, if they haven't gotten
+
+requests from the client in awhile, they'll also send
+
+out an empty AppendEntries call, and so it's kind
+
+of like a heartbeat that they'll be sending just
+
+so none of the followers try to become leader
+
+in the mean time.
+
+OK. So then we talked about how the leader
+
+can find out that there's a new leader. Well,
+
+how do we know which one's newer or older,
+
+right? So Raft kind of gives us the, gives
+
+us this thing called a term, and it's really
+
+just a replacement for like a wall clock. So
+
+instead of using like a time stamp or something
+
+to know who is the most current leader, we
+
+use this number that we increment. And the, the
+
+diagram here just shows every time there's a new
+
+election, before, when a follower becomes a candidate, they
+
+just increment their term number.
+
+ANd so they would, if they won the election
+
+they would become leader for that term. And so
+
+you can use that number, if you're, let's say
+
+if you're a, if you're a leader and someone
+
+says that they're a leader and they have a
+
+higher term, that means that they are the most
+
+current leader, so you would step down.
+
+So you can use that to kind of, you
+
+can also use that to make sure that you're
+
+not voting for more than one person per term,
+
+so you're not, you don't have, so if you,
+
+if one person wins an election, but it's really
+
+just to, just used to make sure that you're
+
+talking to the right people and you're not, you
+
+can ignore old requests from people that recently came
+
+back.
+
+So let's get into how an election actually works
+
+in the cluster. So.
+
+Everyone starts out as a follower. And then, let's
+
+just say that the top guy times out because
+
+he hasn't heard from the leader in awhile. So
+
+times out, becomes a candidate. This is when he
+
+would increment his term number as well. And he
+
+immediately votes for himself. SO he already has one
+
+vote out of three, which, I don't know, makes
+
+sense.
+
+And then he would send out request votes to
+
+everyone else. And then, let's just say that this
+
+follower over here responds with success, but the other
+
+follower on the other side, we, we don't know
+
+what happened to him but he, he just never
+
+responded. And that's OK cause we already got two
+
+out of three votes. WE can, we can say
+
+that we're leader and everything's fine.
+
+So that's really leader election. Let's move on to
+
+log replication. And let me, let me go through
+
+what the logs actually look like. Because we've kind
+
+of, I've kind of hand-waved over that for a
+
+little while.
+
+So this would be an example of what a
+
+log on a leader and a log on a
+
+follower would like like. So these are these client
+
+commands. Almost like Reddis style commands here where we're
+
+setting, we're just kind of setting x equal to
+
+one, y equal to two.
+
+So that's, that's what that looks like, but that's
+
+not really the important part. The important part here
+
+is the, the numbers on the very top are
+
+the index for the log and the numbers in
+
+the squares are the term numbers. So, for this,
+
+for the first term there were three client requests,
+
+and then someone became the leader, the new leader
+
+for the second term.
+
+And the reason those are important is because you
+
+can uniquely identify each one of these slots by
+
+the index and the term number. So forever, if
+
+we ever see, you know, index two term one,
+
+we know that that command is gonna be there.
+
+Now the reason that some of these are blue
+
+and then like the last one is still tan
+
+is, there's a notion of a client command or
+
+a log entry being committed. So when the log,
+
+when, or, when a leader initially gets a request
+
+from the client, they're gonna store that in their
+
+log immediately but they don't actually run it through
+
+the state machine. And that's really important, because we
+
+get to wait for all of the other servers
+
+to have that entry before we run it through
+
+and actually commit it.
+
+And we also want to make sure that they're
+
+always in the same order, too. So we have
+
+to make sure that everyone has the same log
+
+before we actually are committing these entries along. SO
+
+let's, let's look at what one of these AppendEntries
+
+examp- or just, one of these commands would actually
+
+look like.
+
+So we have the entries, like you would expect.
+
+In this one we have index four and we're
+
+just setting x equal to four. And also this
+
+is the first term, we've seen that before, and
+
+- another interesting thing here is there's a, the
+
+leader commit is the commit index. So that's how
+
+leader tells followers and other people to commit these
+
+entries, to run them through their same machine and
+
+make sure that we're applying those.
+
+And, I'll talk about this previous log, piece in
+
+a minute. But really it just means that you
+
+want to, it's a consistency check to make sure
+
+that we have the previous entry. Since that's it,
+
+you can uniquely identify the previous entry by the
+
+term and the index.
+
+So here's an example of running that AppendEntries call
+
+on a log. SO first we have three entries
+
+all on the first term. X equals one, y
+
+equals two, z equals three. And the third, the,
+
+the entry in the third index is not committed
+
+yet. So after we run, after we run this,
+
+AppendEntries example, which is saying, it has leader commit-
+
+three and it also is giving us the fourth
+
+entry, set x equals four for the first term.
+
+So we're gonna commit three and then add four.
+
+So, pretty simple. But it's good to see the
+
+example. You can kind of see it in action.
+
+So, and, really the take-away here is log entries
+
+are always committed in the same order, and after
+
+we commit them, even if, even if the leader
+
+commits it and can't actually tell anyone cause it
+
+crashes, we, we always, we can never uncommit it,
+
+right. So once it's committed, it has to always
+
+be committed. Otherwise we would have inconsistencies in our
+
+cluster and it wouldn't be consensus at all.
+
+So this might be hard to see, so let's
+
+go through some actual examples, so. This is the
+
+happy path case of what would normally happen without
+
+any crazy problems. So, start out with the leader.
+
+Two followers. Nothing in the logs yet. WE get
+
+a client request with a star and the, when
+
+the leader gets it, it immediately puts it in
+
+its log.
+
+But now, just keep in mind, it's not actually
+
+committed yet. It's in the log. It wouldn't be
+
+blue. It's still tan. So, so the next step,
+
+the leader replicates it out to the followers. They
+
+store it in their log as well. Still not
+
+committed.
+
+And they respond back to the leader, and once
+
+the leader gets the majority of successful responses and
+
+it knows that it's in a majority of the
+
+follower's logs, it can then go ahead and commit
+
+it and immediately respond to the client.
+
+So at that point, if you were making a
+
+request from, like, a Ruby program or something, you
+
+would get the response and be able to do
+
+whatever with it.
+
+And then the next step would be, the leader
+
+would increment that commit index and the followers would
+
+know that they can commit it as well and
+
+run it through their state machine. So that's the,
+
+that's what should normally happen. That's the good example
+
+of how this works.
+
+But it's kind of cool to see some failure
+
+cases and how it's handled and wrapped. So, so
+
+same thing. We start out with a leader. Two
+
+followers. Empty indexes everywhere. And the leader gets the
+
+client request, again, with the star. But right after
+
+it gets that client request we have a network
+
+partition. So the leader can't, can no longer talk
+
+to the followers at all. It tries to. Doesn't
+
+get a response back.
+
+In the mean time, the followers are like, well
+
+we haven't really heard from the leader in awhile,
+
+so I guess once of us will become leader.
+
+So I'm kind of skipping over that, the actual
+
+leader election part there, cause we've already seen that.
+
+And then, so, once one of them become leader,
+
+becomes leader, the client starts talking to them. And
+
+that leader gets a new entry, which, I'm just
+
+representing as a circle.
+
+And, but, but keep in mind, we still have
+
+that star up there in the first one. So
+
+it seems like it's conflicting yet but since neither
+
+of them are committed yet we can still keep
+
+moving. So that leader then replicates it to that
+
+follower. it can't replicate it to the leader yet
+
+cause it's still partitioned there.
+
+But the leader has heard back from a majority
+
+of the le- or, a majority of the servers.
+
+It can then commit it. And so that, that's,
+
+that's awesome, but we still, this leader up here
+
+still has an old record in it. And let's
+
+say that at this point the partition is resolved
+
+and that leader is then like, hey guys, you
+
+need to replicate this star entry.
+
+Well, when this, when this server on the bottom
+
+right became leader, it incremented his term number. So
+
+when the leader up top, the old leader up
+
+top tries to send the star down, they're gonna
+
+be like, you're an old leader. We're not listening
+
+to you. And they're gonna tell them about the
+
+new circle one that they got.
+
+So that was kind- that was a basic, a
+
+basic example of how that leader got replaced and
+
+how everything kind of kept moving forward. But there's
+
+an even worse example that we can talk about,
+
+which is kind of crazy.
+
+So, same thing. Start out with the leader. We
+
+have two followers. We get that client request again.
+
+The star. Put that in there. And this time,
+
+a different server gets partitioned off, this follower over
+
+here. It doesn't actually get the star, star command,
+
+can't put it in its log. But this guy
+
+over here gets it and he successfully responds, like,
+
+hey we got it. You can go ahead and
+
+commit it.
+
+They respond to the client, the client knows that
+
+it's been committed. So at this point we can't
+
+uncommit that entry or anything. And right after the
+
+leader responds to the client, and before it can
+
+tell everyone else that it's committed, we get another
+
+partitioned.
+
+So at this point, the leader's committed it, it's
+
+run it through its state machine. The client thinks
+
+that it's committed. But the other servers in the
+
+cluster don't know that it's committed and haven't run
+
+it through their state machine yet.
+
+This is sort of a problem, right, and it's,
+
+we, we want to make sure that we're always
+
+committing the same entries everywhere. So, at this point,
+
+the followers are like, hey, we haven't heard from
+
+the leader in awhile. We, I don't know, we
+
+don't know what to do. So one of us
+
+is gonna become leader.
+
+But what if the server on the right hand
+
+side becomes leader? That would be a huge problem,
+
+right, cause it doesn't have the entry. So it
+
+would become leader and would potentially be able to
+
+commit entries into that, that first slot there, which
+
+would conflict with what we already know is, is
+
+that star.
+
+So, I, Raft, Raft solves this. WE, there's ways
+
+to guard against losing these log entries. And, and
+
+I guess, in the paper they call this safety.
+
+It's this whole section at the end. And it
+
+really comes down to two major rules. So we
+
+can only cast votes for nodes, oh, sorry-
+
+WE can only cast votes for nodes with logs
+
+that contain at least as many entries as our
+
+own. SO if we go back to this example,
+
+when that follower over there tried to become leader,
+
+this follower would not vote for him, because it
+
+has more entries in his log.
+
+So, so eventually both of them would time out,
+
+and both of them would try to become candidates.
+
+But this follower on the left would always get
+
+the vote because it has more entries. So that's
+
+how we, we handle that problem. But even then,
+
+once that follower becomes leader, it's still not gonna
+
+have the entry committed at the bottom.
+
+So the way we handle that is with the
+
+second part of safety. And that's, new leaders must
+
+commit a log entry from their term before committing
+
+old entries. So they need to make sure that
+
+they can commit their own entries before they are
+
+trying to commit entries from an old leader.
+
+And that just, it prevents entries from being committed
+
+if they weren't supposed to be. So let's say
+
+the leader only replicated it to one other node
+
+in like a ten node cluster. It shouldn't be
+
+committed because they didn't have consensus on replicating that
+
+log entry.
+
+So those are the two safety situations. And that
+
+really covers everything that keeps everything consistent. There are
+
+a few more things that the paper talks about,
+
+that I pro- I probably don't have time to
+
+go over, but there are basically ways to -
+
+everything we've done so far is really just with,
+
+you know, one cluster that doesn't change.
+
+So if we wanted to add new nodes or
+
+just change things at all, they, they go through
+
+a way to do that without, without potentially having
+
+more than one leader or anything like that. So
+
+check that out in the paper. They do a
+
+really good job explaining it.
+
+There's also, they also explain how to do log
+
+compaction, if you're, you don't want, if you're running
+
+your, your cluster for like more than a year,
+
+you don't want to have to be storing all
+
+of these commands in a crazy log. So they,
+
+they have some really good ways of doing that
+
+as well, kind of cleaning up after yourself.
+
+And they also, they recently added client specifics, so
+
+you, they'd show you how to implement the client
+
+and guard against certain things like if your request
+
+time's out, being able to retry it without having,
+
+you know, duplicate entries and stuff like that.
+
+So it's pretty cool. You should check it out.
+
+So, again, why, why give this at RubyConf? And,
+
+I thought it, I thought it was pretty interesting.
+
+I looked on GitHub yesterday and there are over
+
+ten Ruby implementations of Raft already. That's, I don't,
+
+I'm not really sure why there's so many JavaScript
+
+ones. That seems kind of weird to me.
+
+But there's, there's a lot of Ruby ones, and
+
+I thought it - I, I don't know. I
+
+just thought it was really cool that a bunch
+
+of Rubyists are taking Raft and trying to implement
+
+it on their own. Cause there's not that many
+
+- I mean if you look for Paxos implementations,
+
+there's not that many. And so it's kind of
+
+interesting to me.
+
+And I really think it's, it comes down to
+
+Ruby is just really good at expressing problems. It,
+
+it just, your logic is really readable. And it,
+
+it just makes dealing with these really hard problems
+
+kind of fun. I don't, I don't know. I
+
+really enjoy it, but the problem is that I
+
+don't, and I still don't really know why, I
+
+think it might have just been an accident. But
+
+it seems like the academic community doesn't really like
+
+to program in Ruby.
+
+I was in college, I would write some things
+
+in Ruby and people would be like, oh, well
+
+you should, you should rewrite that in Python. And
+
+I'm like, well, why would I, I mean, it's
+
+not - it's not that much different. But people
+
+just like Python better and other languages as well.
+
+And I think, I think it comes down to
+
+three major things that we can kind of identify,
+
+I guess. So the first one is the community.
+
+So the Ruby and academic communities don't overlap very
+
+much. I mean it's not, it's not either one's
+
+fault, we just don't have a lot of communication
+
+channels to talk about things. So I would definitely,
+
+I have, on my next slide I have some
+
+examples of what we can do to fix that.
+
+But I don't know. I just think that those
+
+communities should be able to talk a lot better.
+
+The next one is understandability. I think Rubyists really,
+
+really like to be able to understand things easily,
+
+like that's why we have those blog posts that
+
+spec everything out and it's really simple.
+
+But, and I think this is changing in the
+
+academic world, but the problem is a lot of
+
+the people who write, who, you know, are successful
+
+in the academic world, write papers so that other
+
+people can reference those papers, and so they had
+
+to be, like, super ground-breaking discoveries and stuff.
+
+And a lot of the time, someone coming in,
+
+maybe it's their, like, third paper they've read, they're,
+
+but they're never gonna be able to understand it
+
+because they have to read like fifteen other papers
+
+to, you know, get through the first paragraph.
+
+But this is changing. So they're, the Raft paper
+
+is awesome and they, they actually, I think they
+
+specifically didn't do that reference craziness, just to make
+
+it more, more easy to understand, and at the
+
+end they even have a whole section on how
+
+they taught everyone Pasos and they taught everyone Raft
+
+and did, like, an analysis of which one was
+
+more understandable.
+
+So it's, it's really cool. You should check it
+
+out. but yeah, this is under, this is changing
+
+in the academic community but it's still something you
+
+have to deal with if you're trying to get
+
+involved.
+
+And the third one is learning material. There's, there's
+
+not a lot of ways to really, I mean,
+
+like I said, you have to read all these
+
+papers just to get basic understanding of previous topics
+
+before you can move on. So, and I think,
+
+and I don't think this is just the academic
+
+community's fault or anything. I think the problem is,
+
+like, once Rubyists or other people read these paper,
+
+they should just write a blog post on it
+
+or, you know, just share it with people in
+
+a kind of condensed format.
+
+So more, more stuff like that would be awesome.
+
+So if you want to help out and try
+
+to merge these two communities, just get more involved
+
+in the academic community, have them know more about
+
+Ruby, go read a bunch of papers. There's, there's
+
+actually some really good ones. If you've never read
+
+a white paper before, you know, go on Google
+
+Scholar or something and type in a topic that
+
+you're super interested in. Check out a paper.
+
+You could also just look for, or you could
+
+start with the Raft paper or even just look
+
+for, like, top computer science papers of 2012 or
+
+something like that. And, and go to conferences. I
+
+mean, it's awesome that you guys are here at
+
+RubyConf. This is a great conference.
+
+If you're looking for any other kind of conferences
+
+to go to, there are also industrial tracts at
+
+a lot of academic conferences, and those are really
+
+for, they, they have all the new papers and
+
+everything that people have submitted and keep talking about
+
+that. But they also have people from the industry
+
+who have tried to implement these new algorithms and
+
+stuff talking about the problems they had. And it's
+
+really just kind of a, it's good conversation back
+
+and forth. It's good feedback for the people writing
+
+these papers so they can deal with these problems
+
+in the future.
+
+And also talk to people. Just, you know, ping
+
+these people on Twitter. They're super nice people and
+
+they want to hear from you. If you enjoy
+
+their paper, sort of the work that they're researching,
+
+they, they want to know about it. So even
+
+though they're in a different kind of academic community,
+
+go, go talk to them and tell them that
+
+you wrote this thing in Ruby and it's awesome.
+
+So that's my advice to you. There's also some
+
+other, other stuff you can do. The Raft paper
+
+is great. I recommend reading it. It's a pretty
+
+quick read, too. There's also a bunch of Raft
+
+implementations that you can check out. And the, Raft
+
+also has a new website up on GitHub if
+
+you want, if you want to look at it.
+
+There's, ThinkDistributed is a podcast that some guys at
+
+Basho did and their first episode is on Raft,
+
+if you want, like, a really in-depth study and
+
+Diego even answers some questions and stuff. Diego also
+
+gave a talk at Ricon I think last week.
+
+It's not in its own video yet but you
+
+can check it out on the live feed that
+
+they recorded.
+
+And yeah, check out Google Scholar. There's some other
+
+cool websites to check out papers and stuff like
+
+that, so. So that's, I guess it's time for
+
+questions.
+
+All right. Well I guess that's it. Thanks so
+
+much guys.
