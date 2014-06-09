@@ -1,0 +1,5432 @@
+1
+00:00:00,883 --> 00:00:05,883
+(bouncy music)
+
+2
+00:00:17,867 --> 00:00:19,288
+Rob:Hello, gophers.
+
+3
+00:00:21,368 --> 00:00:22,774
+Hello, gophers.
+
+4
+00:00:24,899 --> 00:00:26,494
+There's lot of ways to say hello gophers.
+
+5
+00:00:26,494 --> 00:00:29,866
+Here's another way to say hello
+gophers, and I can prove it.
+
+6
+00:00:32,973 --> 00:00:36,115
+This is an amazing historic occasion.
+
+7
+00:00:36,585 --> 00:00:39,646
+I'm not used to success so this
+is a strange feeling for me.
+
+8
+00:00:40,786 --> 00:00:43,087
+It's incredible to me that Go has achieved
+
+9
+00:00:43,087 --> 00:00:45,377
+a level of success that
+makes people want to
+
+10
+00:00:45,377 --> 00:00:47,197
+get together and have
+a conference about it.
+
+11
+00:00:47,627 --> 00:00:49,878
+I think that's wonderful
+and I want to thank
+
+12
+00:00:49,878 --> 00:00:52,068
+the organizers for putting this together,
+
+13
+00:00:52,348 --> 00:00:54,208
+all of you for coming
+and especially the entire
+
+14
+00:00:54,208 --> 00:00:57,659
+community for making Go
+the success that it is.
+
+15
+00:00:58,904 --> 00:01:01,534
+A lot of factors I think
+contributed to that success.
+
+16
+00:01:02,540 --> 00:01:04,572
+You could argue that it's
+the features of the language,
+
+17
+00:01:04,572 --> 00:01:06,693
+it's the lack of features of the language,
+
+18
+00:01:06,904 --> 00:01:10,165
+it's the combination. I also think it has
+
+19
+00:01:10,165 --> 00:01:11,783
+a lot to do with the
+design, the way we went
+
+20
+00:01:11,783 --> 00:01:13,696
+about designing it and how it turned out.
+
+21
+00:01:13,936 --> 00:01:15,836
+Of course a huge part of it is the people
+
+22
+00:01:15,836 --> 00:01:17,527
+who worked on it and what they did.
+
+23
+00:01:18,357 --> 00:01:21,258
+And the passage of time, refining
+and making things happen.
+
+24
+00:01:23,040 --> 00:01:25,336
+Today I'd like to take
+a look at that whole
+
+25
+00:01:25,336 --> 00:01:28,261
+timeline and see what
+happened. How Go came to be
+
+26
+00:01:28,261 --> 00:01:32,273
+and where we are today as
+a result of that process.
+
+27
+00:01:32,918 --> 00:01:34,666
+To do that I'm going to take a look,
+
+28
+00:01:34,666 --> 00:01:38,148
+a fairly detailed look at two programs.
+
+29
+00:01:38,554 --> 00:01:40,789
+They're both historic.
+One of them is probably
+
+30
+00:01:40,789 --> 00:01:44,465
+the first Go program most
+of you ever saw and the
+
+31
+00:01:44,465 --> 00:01:46,668
+other is essentially the
+first Go program of any
+
+32
+00:01:46,668 --> 00:01:50,305
+interest that we ever saw.
+Both of those are historic.
+
+33
+00:01:51,038 --> 00:01:53,476
+The first one is the old hello world.
+
+34
+00:01:54,356 --> 00:01:56,680
+Here's the original hello world.
+
+35
+00:01:57,149 --> 00:02:00,821
+It was written in B by
+Brian Kernighan in 1972.
+
+36
+00:02:01,435 --> 00:02:03,416
+This is the first hello
+world anybody ever saw.
+
+37
+00:02:04,290 --> 00:02:05,603
+This is what B looked like.
+
+38
+00:02:05,603 --> 00:02:08,491
+It was an interesting
+language compared to today.
+
+39
+00:02:08,491 --> 00:02:11,932
+It was a typeless, word-based
+interpreted language.
+
+40
+00:02:11,932 --> 00:02:13,867
+Of course it was the predecessor to C,
+
+41
+00:02:13,867 --> 00:02:16,274
+you can see intonations
+of C in the syntax,
+
+42
+00:02:16,274 --> 00:02:20,008
+but you can also see strange
+things like putchar of a
+
+43
+00:02:20,008 --> 00:02:25,266
+where a is this weird four
+character integer by name,
+
+44
+00:02:25,266 --> 00:02:27,946
+and then putchar of bang
+star n as a quoted string.
+
+45
+00:02:27,946 --> 00:02:30,617
+The question is why is there
+a quoted string for new line
+
+46
+00:02:30,617 --> 00:02:33,918
+but a is four characters.
+You might wonder about that.
+
+47
+00:02:33,918 --> 00:02:35,788
+I wonder too. I have no idea.
+
+48
+00:02:37,589 --> 00:02:39,361
+Some people think that
+hello world came from
+
+49
+00:02:39,611 --> 00:02:41,381
+BCPL but I asked Brian
+about this and he said,
+
+50
+00:02:41,381 --> 00:02:43,392
+"No," he asked Martin
+Richards about it and
+
+51
+00:02:43,392 --> 00:02:45,633
+Martin Richards said it
+wasn't him, it was Brian.
+
+52
+00:02:45,633 --> 00:02:49,423
+As far as we know this is the
+first ever hello world, 1972.
+
+53
+00:02:50,470 --> 00:02:52,376
+Here's the 1974 hello world.
+
+54
+00:02:52,376 --> 00:02:54,207
+This is the first hello world I ever saw.
+
+55
+00:02:55,169 --> 00:02:58,518
+This was in the Programming
+in C tutorial, again by Brian,
+
+56
+00:02:58,518 --> 00:03:02,980
+written in 1974 and came as part
+of the Unix v5 distribution,
+
+57
+00:03:03,300 --> 00:03:06,001
+and you can recognize that
+this is C program now.
+
+58
+00:03:06,001 --> 00:03:08,762
+It starts to look a lot like
+what I think, even those
+
+59
+00:03:08,762 --> 00:03:11,372
+of you who don't know C would
+recognize as a C program.
+
+60
+00:03:11,372 --> 00:03:12,623
+There's printf, there's quoted strings,
+
+61
+00:03:12,623 --> 00:03:14,293
+there's braces, there's main.
+
+62
+00:03:15,581 --> 00:03:19,909
+Huge leap forward in 1978, C had a book
+
+63
+00:03:19,909 --> 00:03:21,799
+and there was a big change between the
+
+64
+00:03:21,799 --> 00:03:23,923
+hello world there and
+the hello world there,
+
+65
+00:03:23,923 --> 00:03:25,331
+which is it got a new line character.
+
+66
+00:03:27,551 --> 00:03:30,239
+This is the full source.
+For those of you in
+
+67
+00:03:30,239 --> 00:03:32,319
+the know this is still
+missing some pieces.
+
+68
+00:03:33,254 --> 00:03:36,379
+In fact it wasn't until the
+ANSI standardization effort
+
+69
+00:03:36,616 --> 00:03:40,082
+which happened around '88 that
+it started to look more like
+
+70
+00:03:40,082 --> 00:03:46,644
+the C of today. An include
+with an angle bracketed stdio.h
+
+71
+00:03:46,644 --> 00:03:51,035
+on it is a mark that the
+library is now something
+
+72
+00:03:51,035 --> 00:03:53,316
+you talk about instead of being implied.
+
+73
+00:03:55,327 --> 00:03:58,060
+This was actually written
+to the draft ANSI C.
+
+74
+00:03:58,060 --> 00:03:59,843
+It hadn't quite been
+finalized yet when Brian
+
+75
+00:03:59,843 --> 00:04:02,885
+and Dennis rewrote the
+book for the ANSI C.
+
+76
+00:04:02,885 --> 00:04:05,911
+There's actually a book
+copy, came out in early 88.
+
+77
+00:04:05,911 --> 00:04:08,469
+It was reworked slightly for later in that
+
+78
+00:04:08,469 --> 00:04:11,109
+year when the ANSI C
+standard was finalized,
+
+79
+00:04:11,109 --> 00:04:13,410
+and there was actually
+a change to the program,
+
+80
+00:04:14,127 --> 00:04:18,156
+which is the appearance of
+void in the arguments to main.
+
+81
+00:04:18,738 --> 00:04:20,868
+I was standing next to Ken
+when he learned about this and
+
+82
+00:04:20,868 --> 00:04:23,398
+he said out loud, "You've
+got to put a void there?"
+
+83
+00:04:25,052 --> 00:04:28,616
+But you do, you did, and it
+was probably the one thing
+
+84
+00:04:28,616 --> 00:04:31,850
+at the time where I thought
+C++ was better than C.
+
+85
+00:04:36,767 --> 00:04:39,330
+I said C99 it's really C89, I'm sorry.
+
+86
+00:04:39,657 --> 00:04:41,766
+It's just a typo on the
+slide. But this is C89.
+
+87
+00:04:44,907 --> 00:04:46,508
+Okay, that's a lot of
+little hellos. Let's get to
+
+88
+00:04:46,718 --> 00:04:48,758
+Go which is the one that
+we're here to talk about.
+
+89
+00:04:49,593 --> 00:04:52,414
+Skipping ahead a few
+generations of languages,
+
+90
+00:04:52,414 --> 00:04:54,454
+every language now starts
+with a hello world.
+
+91
+00:04:54,454 --> 00:04:55,874
+That's basically where the world begins.
+
+92
+00:04:55,874 --> 00:04:58,163
+I guess maybe certain communities
+look at it differently
+
+93
+00:04:58,163 --> 00:05:01,114
+but certainly in this branch
+of language hello world
+
+94
+00:05:01,114 --> 00:05:03,505
+is the starting point of
+your learning a language.
+
+95
+00:05:04,369 --> 00:05:09,197
+The discussions for Go
+started in late 2007 and in
+
+96
+00:05:09,197 --> 00:05:13,384
+early March 2008 we started
+writing the draft spec.
+
+97
+00:05:15,024 --> 00:05:17,001
+There was actually a compiler
+already under way by then
+
+98
+00:05:17,251 --> 00:05:20,565
+just to have a play pen and
+Ken was working on that.
+
+99
+00:05:20,565 --> 00:05:22,299
+It was actually generating C output,
+
+100
+00:05:22,768 --> 00:05:25,157
+which was problematic because
+of various interactions,
+
+101
+00:05:25,157 --> 00:05:27,735
+but it was good enough that
+the very, very first Go
+
+102
+00:05:27,735 --> 00:05:30,392
+program was written with
+that although it was so buggy
+
+103
+00:05:30,392 --> 00:05:33,032
+and hard to make work that
+it almost doesn't count.
+
+104
+00:05:33,657 --> 00:05:35,659
+But once the specs
+started to come together
+
+105
+00:05:35,659 --> 00:05:38,157
+we could actually write a proper compiler,
+
+106
+00:05:38,157 --> 00:05:40,938
+generate native code and
+it was time to write tests.
+
+107
+00:05:41,486 --> 00:05:44,236
+The very first checked in
+tests included this example.
+
+108
+00:05:44,705 --> 00:05:48,392
+This is the first hello.go
+and it's dated June 6, 2008,
+
+109
+00:05:48,392 --> 00:05:51,487
+and it looks different
+from the hello.go of
+
+110
+00:05:51,487 --> 00:05:54,003
+today and that's what
+I'm going to talk about.
+
+111
+00:05:55,266 --> 00:05:57,647
+You can see it looks a
+lot like it but notice
+
+112
+00:05:57,879 --> 00:06:00,488
+that for instance print
+has no parentheses on it,
+
+113
+00:06:00,488 --> 00:06:04,597
+it was actually a keyword,
+and main was an integer value
+
+114
+00:06:04,597 --> 00:06:07,129
+function and you had to
+explicitly return a zero.
+
+115
+00:06:09,567 --> 00:06:12,430
+We had no printing mechanism
+other than this built-in print,
+
+116
+00:06:12,430 --> 00:06:14,990
+it's a bootstrapping thing and
+that's where it's still there.
+
+117
+00:06:15,381 --> 00:06:16,601
+I think if it hadn't
+been for bootstrapping
+
+118
+00:06:16,601 --> 00:06:17,851
+it wouldn't be there at all.
+
+119
+00:06:19,932 --> 00:06:23,323
+By June we decided that
+since main was always going
+
+120
+00:06:23,543 --> 00:06:25,933
+to return, you could call
+that the clean return,
+
+121
+00:06:25,933 --> 00:06:27,854
+so we got rid of the argument to main.
+
+122
+00:06:28,134 --> 00:06:31,854
+Made it just be a [nil-attic]
+function that returned
+
+123
+00:06:31,854 --> 00:06:35,305
+nothing and when it returns
+you get an exit call.
+
+124
+00:06:36,421 --> 00:06:40,034
+That's what June, but it's still
+got no parens on the print.
+
+125
+00:06:40,985 --> 00:06:45,056
+The parens came a couple
+months later in August where
+
+126
+00:06:45,056 --> 00:06:47,516
+we were starting to clean
+up the language a lot,
+
+127
+00:06:47,516 --> 00:06:50,356
+we wanted to get rid of these
+magic words and print became
+
+128
+00:06:50,356 --> 00:06:53,807
+just a pre-declared identifier
+as a built-in function,
+
+129
+00:06:53,807 --> 00:06:56,417
+not really any special status beyond that.
+
+130
+00:06:56,778 --> 00:06:59,108
+This version I think actually runs.
+
+131
+00:07:01,541 --> 00:07:04,809
+That's the first workable, by
+today's standards, hello.go.
+
+132
+00:07:05,348 --> 00:07:08,411
+But we're not done yet. On
+October 24th 2008 I checked
+
+133
+00:07:08,411 --> 00:07:11,872
+in a CL that read, "printf
+as we know and love it,"
+
+134
+00:07:12,645 --> 00:07:15,052
+so from now on we're talking
+about the printf version
+
+135
+00:07:15,286 --> 00:07:17,708
+rather than the built-in
+print version hello world,
+
+136
+00:07:17,708 --> 00:07:20,770
+which is not actually
+the test version runs
+
+137
+00:07:20,770 --> 00:07:22,192
+but it's what I'm going to talk about it.
+
+138
+00:07:22,901 --> 00:07:25,980
+This is very close to today
+except for two details.
+
+139
+00:07:26,405 --> 00:07:30,385
+One is there's a lowercase p on the print
+
+140
+00:07:30,385 --> 00:07:32,388
+and there's a semicolon,
+but they went away.
+
+141
+00:07:33,248 --> 00:07:36,032
+On January 15th, 2009
+after a long discussion,
+
+142
+00:07:36,032 --> 00:07:39,003
+I'll talk about more in a
+minute, casing went in to
+
+143
+00:07:39,003 --> 00:07:43,703
+specify visibility and so
+capital p came to printf.
+
+144
+00:07:43,983 --> 00:07:48,594
+For the first day or two that
+looked so strange and weird.
+
+145
+00:07:48,594 --> 00:07:51,915
+We were kind of
+uncomfortable, but about two
+
+146
+00:07:51,915 --> 00:07:54,465
+days later we realized
+this is one of the best
+
+147
+00:07:54,465 --> 00:07:56,356
+decisions we'd ever made,
+this case for visibility.
+
+148
+00:07:57,027 --> 00:07:59,678
+That was a big step.
+And this one runs still.
+
+149
+00:08:02,530 --> 00:08:07,296
+On December 11th, 2009 after
+the open source release,
+
+150
+00:08:07,529 --> 00:08:09,732
+which was in November,
+we finally got rid of the
+
+151
+00:08:09,732 --> 00:08:12,796
+semicolons so this is
+the printf hello world
+
+152
+00:08:12,796 --> 00:08:14,828
+version that we all know and love.
+
+153
+00:08:17,589 --> 00:08:18,964
+It took us a while to get here.
+
+154
+00:08:18,964 --> 00:08:21,386
+I've gone through it in
+about 5 minutes but there's
+
+155
+00:08:21,386 --> 00:08:24,728
+really 32 years worth of
+hello world refinement.
+
+156
+00:08:25,400 --> 00:08:27,368
+I want to talk a little
+bit more about that,
+
+157
+00:08:27,368 --> 00:08:29,355
+because there's a lot of
+history in that sequence.
+
+158
+00:08:30,255 --> 00:08:33,160
+I want to make sure you
+understand that although talking
+
+159
+00:08:33,394 --> 00:08:36,285
+about C, and the hello world
+timeline starts with B and C,
+
+160
+00:08:36,285 --> 00:08:38,679
+Go is not just some variant of C,
+
+161
+00:08:38,895 --> 00:08:41,207
+it's actually profoundly different from C.
+
+162
+00:08:41,594 --> 00:08:45,505
+We started from C. The first
+mail ever between us about
+
+163
+00:08:45,735 --> 00:08:48,456
+Go was from Robert and started
+with, "We start from C,"
+
+164
+00:08:48,844 --> 00:08:52,365
+but it's got ideas from
+so many other languages,
+
+165
+00:08:52,365 --> 00:08:57,516
+so many other threads of thought,
+some original things that
+
+166
+00:08:57,516 --> 00:08:59,396
+I wanted to make sure that I
+made it clear that there's a
+
+167
+00:08:59,396 --> 00:09:02,538
+lot of influences on the language,
+both direct and indirect.
+
+168
+00:09:03,421 --> 00:09:05,461
+It looks most like C
+because that's where the
+
+169
+00:09:05,681 --> 00:09:07,920
+statement and expression
+syntax comes from but
+
+170
+00:09:07,920 --> 00:09:10,353
+most of the semantics
+comes from other places.
+
+171
+00:09:10,571 --> 00:09:12,385
+The declaration syntax of Pascal;
+
+172
+00:09:12,385 --> 00:09:15,963
+The [unintelligble] which is
+modular, the various modules that
+
+173
+00:09:15,963 --> 00:09:18,324
+Oberon has delivered something
+close to the package form,
+
+174
+00:09:18,324 --> 00:09:20,277
+although again it's a little different;
+
+175
+00:09:20,692 --> 00:09:23,347
+Of course the whole CSP
+branch of concurrent
+
+176
+00:09:23,347 --> 00:09:25,410
+programming has a huge effect on Go.
+
+177
+00:09:25,644 --> 00:09:28,722
+The semicolon rule was lifted
+right out of BCPL which most
+
+178
+00:09:28,722 --> 00:09:30,755
+of you have never even seen
+let alone [unintelligible];
+
+179
+00:09:32,780 --> 00:09:34,262
+The way that methods work is much closer
+
+180
+00:09:34,500 --> 00:09:37,232
+to Smalltalk than say Java or C++;
+
+181
+00:09:38,182 --> 00:09:41,457
+My great contribution is the
+two magic tokens left arrow
+
+182
+00:09:41,457 --> 00:09:43,597
+and colon equals, they
+came out of Newsqueak.
+
+183
+00:09:44,657 --> 00:09:47,460
+The iota keyword came out
+of APL kind of sort of.
+
+184
+00:09:48,070 --> 00:09:49,251
+And there's lot of other
+languages that were in
+
+185
+00:09:49,251 --> 00:09:51,281
+the room we're talking
+about that influenced
+
+186
+00:09:51,281 --> 00:09:53,741
+it either because of
+ways to do things or ways
+
+187
+00:09:53,741 --> 00:09:55,662
+not to do things or how
+to think about things.
+
+188
+00:09:56,545 --> 00:09:59,385
+I really don't want you to
+think that this is some C thing.
+
+189
+00:09:59,385 --> 00:10:01,275
+It gets called that a lot
+and I think it's a mistake.
+
+190
+00:10:01,275 --> 00:10:03,986
+It's actually a language
+influenced by tremendous,
+
+191
+00:10:03,986 --> 00:10:07,247
+rich history of languages
+but unique unto itself.
+
+192
+00:10:08,638 --> 00:10:09,889
+Which brings us up to today.
+
+193
+00:10:10,824 --> 00:10:14,418
+Here's the hello.go that you know.
+
+194
+00:10:14,418 --> 00:10:16,137
+I changed a couple of things here.
+
+195
+00:10:16,435 --> 00:10:18,785
+First of I went back
+to println from printf,
+
+196
+00:10:18,785 --> 00:10:21,065
+I'll talk about why I
+did that in a minute.
+
+197
+00:10:21,926 --> 00:10:25,537
+And I also put in UTF8
+in an interesting way by
+
+198
+00:10:25,767 --> 00:10:29,268
+acknowledging Japanese
+gophers, there are quite a few.
+
+199
+00:10:29,568 --> 00:10:31,178
+Are there any Japanese gophers here today?
+
+200
+00:10:32,139 --> 00:10:33,639
+Yes, good. Okay.
+
+201
+00:10:34,299 --> 00:10:36,870
+I'm going to break this program
+down because it's trivial,
+
+202
+00:10:37,090 --> 00:10:39,623
+you all know it, you've all
+seen it and yet there's actually
+
+203
+00:10:39,623 --> 00:10:44,197
+a lot of thought behind every
+single piece of this program.
+
+204
+00:10:44,762 --> 00:10:46,825
+It has 16 tokens, you can probably
+
+205
+00:10:46,825 --> 00:10:48,292
+figure out what those tokens are.
+
+206
+00:10:48,614 --> 00:10:49,980
+I'm going to talk about every token.
+
+207
+00:10:49,980 --> 00:10:51,681
+Don't worry there's more
+here than you think.
+
+208
+00:10:52,770 --> 00:10:56,273
+First of all package. Actually
+I think packages might have
+
+209
+00:10:56,273 --> 00:10:58,974
+be the thing we spent the
+most time talking about in
+
+210
+00:10:58,974 --> 00:11:01,606
+the design with Go because
+we knew how important it was.
+
+211
+00:11:01,867 --> 00:11:06,218
+We knew that wrapping up things
+into a library in a way that
+
+212
+00:11:06,218 --> 00:11:08,969
+was controlled and stable
+gave you a chance to do things
+
+213
+00:11:08,969 --> 00:11:11,990
+like solve build problems,
+deal with dependency issues.
+
+214
+00:11:12,290 --> 00:11:13,890
+You had to control dependencies
+in order to get the
+
+215
+00:11:13,890 --> 00:11:16,531
+build times to be fast,
+which was critical to us.
+
+216
+00:11:16,741 --> 00:11:18,941
+We had to make the
+packages be clean because
+
+217
+00:11:18,941 --> 00:11:21,111
+that makes programming at
+large possible with lots of
+
+218
+00:11:21,111 --> 00:11:23,902
+groups sharing code and
+working together but without
+
+219
+00:11:23,902 --> 00:11:26,700
+breaking through the walls
+between the components.
+
+220
+00:11:27,728 --> 00:11:30,959
+You wanted the package system
+to somehow express all of the
+
+221
+00:11:31,193 --> 00:11:33,351
+information needed in order
+to build. You didn't want to
+
+222
+00:11:33,351 --> 00:11:36,866
+have makefiles or other fancy
+build systems necessary,
+
+223
+00:11:36,866 --> 00:11:40,339
+you wanted the Go source to
+express what was really going on.
+
+224
+00:11:41,013 --> 00:11:42,888
+We wanted to make sure that
+circular dependencies didn't
+
+225
+00:11:42,888 --> 00:11:45,359
+happen because that controls
+the size of binaries,
+
+226
+00:11:45,359 --> 00:11:47,919
+the speed of compilation, how
+much linking has to happen.
+
+227
+00:11:48,895 --> 00:11:50,521
+There are no subpackages.
+
+228
+00:11:51,314 --> 00:11:52,891
+There was a little talk about that,
+
+229
+00:11:53,123 --> 00:11:54,155
+I don't really remember
+what the thinking was,
+
+230
+00:11:54,155 --> 00:11:56,436
+but even though there are
+subdirectories in the hierarchy
+
+231
+00:11:56,436 --> 00:11:58,358
+they aren't subpackages,
+there's no such concept.
+
+232
+00:11:58,655 --> 00:12:01,063
+Every package is a
+unique standalone thing.
+
+233
+00:12:01,453 --> 00:12:03,843
+We've separated the idea of
+package name and package path.
+
+234
+00:12:03,843 --> 00:12:05,484
+Pretty simple, turns out to be
+
+235
+00:12:05,484 --> 00:12:07,344
+profound in what effect that has.
+
+236
+00:12:07,564 --> 00:12:09,424
+The whole idea of visibility
+being package-level
+
+237
+00:12:09,424 --> 00:12:13,678
+rather than type-level,
+the way it is say in Java
+
+238
+00:12:13,678 --> 00:12:16,429
+with public and private
+is a pretty big deal
+
+239
+00:12:16,429 --> 00:12:18,143
+and I'll talk about that more in a minute.
+
+240
+00:12:18,703 --> 00:12:21,125
+Most important I think,
+something that I don't
+
+241
+00:12:21,125 --> 00:12:23,488
+think most people think
+about, you just use it.
+
+242
+00:12:24,095 --> 00:12:26,777
+Within a package you have the
+whole language at your disposal.
+
+243
+00:12:26,777 --> 00:12:28,560
+This is because the
+visibility rules work the way
+
+244
+00:12:28,560 --> 00:12:30,950
+they do but also because
+we made it this way.
+
+245
+00:12:30,950 --> 00:12:32,752
+When you're writing a
+package you're basically
+
+246
+00:12:32,752 --> 00:12:34,774
+writing a standalone Go
+program and all of its
+
+247
+00:12:34,774 --> 00:12:37,885
+pieces and you define the
+boundary of the package,
+
+248
+00:12:37,885 --> 00:12:39,556
+which is what your
+clients are going to use,
+
+249
+00:12:39,556 --> 00:12:42,759
+but inside all the information
+is available to everybody,
+
+250
+00:12:42,759 --> 00:12:45,587
+there's no so-called information hiding.
+
+251
+00:12:45,587 --> 00:12:47,457
+As Bruce Ellis once wrote,
+"Who am I supposed to
+
+252
+00:12:47,691 --> 00:12:49,660
+"be hiding it from exactly?
+I wrote both pieces."
+
+253
+00:12:52,448 --> 00:12:54,603
+I think that's actually an
+interesting design point,
+
+254
+00:12:54,603 --> 00:12:57,088
+and of course it came out of
+the modular branch of languages
+
+255
+00:12:57,088 --> 00:12:59,748
+but it's very different from
+many of the other common
+
+256
+00:12:59,748 --> 00:13:02,946
+languages in use today so I
+think it's worth recognizing.
+
+257
+00:13:02,946 --> 00:13:05,411
+Package is actually kind of
+special to the way Go works.
+
+258
+00:13:06,319 --> 00:13:09,281
+The next token is main. Now
+this is not the function main,
+
+259
+00:13:09,281 --> 00:13:12,367
+this is the package main to
+me. It's one place in the
+
+260
+00:13:12,596 --> 00:13:14,397
+whole thing where the C
+legacy really shines through.
+
+261
+00:13:14,397 --> 00:13:18,288
+That word just flowed from
+B to C to Go directly.
+
+262
+00:13:18,997 --> 00:13:22,218
+It was originally called capital
+main, I have no idea why.
+
+263
+00:13:22,218 --> 00:13:23,960
+I think it was my fault
+but I don't remember why,
+
+264
+00:13:23,960 --> 00:13:25,440
+I thought you wanted
+that to be capitalized.
+
+265
+00:13:25,660 --> 00:13:27,961
+Anyway it went away,
+so there was originally
+
+266
+00:13:27,961 --> 00:13:30,271
+a capital main package
+and a lower main function.
+
+267
+00:13:30,876 --> 00:13:34,958
+Initially that's how
+program execution began but
+
+268
+00:13:35,168 --> 00:13:36,458
+what really matters is
+it's special because the
+
+269
+00:13:36,458 --> 00:13:39,607
+main package is the root
+of the initialization tree.
+
+270
+00:13:39,607 --> 00:13:41,561
+It has nothing to do with
+where the program starts
+
+271
+00:13:41,561 --> 00:13:44,686
+execution proper, it's actually
+how initialization works.
+
+272
+00:13:44,686 --> 00:13:46,387
+I'll talk about that in a minute.
+
+273
+00:13:47,693 --> 00:13:50,505
+Import, import is the next token.
+
+274
+00:13:50,505 --> 00:13:52,691
+Import is the mechanism
+you use to load a package,
+
+275
+00:13:52,691 --> 00:13:54,677
+it's how you get a
+library into your world.
+
+276
+00:13:55,597 --> 00:13:58,377
+Unlike a lot of other ways
+it could be done in Go
+
+277
+00:13:58,613 --> 00:14:01,315
+we decided right up front,
+almost implicitly I think,
+
+278
+00:14:01,315 --> 00:14:03,581
+that import would be
+defined by the compiler.
+
+279
+00:14:03,581 --> 00:14:05,612
+The compiler would actually do
+the work of doing the import
+
+280
+00:14:05,612 --> 00:14:09,073
+as opposed to say a text
+processor or some other mechanism.
+
+281
+00:14:09,995 --> 00:14:11,485
+We worked really hard to make sure
+
+282
+00:14:11,715 --> 00:14:13,936
+that the design made it very efficient.
+
+283
+00:14:14,186 --> 00:14:16,826
+For instance the export data
+in a package is right at
+
+284
+00:14:16,826 --> 00:14:21,121
+the beginning of the object
+code for the package so the
+
+285
+00:14:21,121 --> 00:14:23,496
+compiler only has to read the
+very beginning of the file,
+
+286
+00:14:23,496 --> 00:14:25,138
+it doesn't have to read the whole library
+
+287
+00:14:25,138 --> 00:14:27,018
+in in order to do the compilation.
+
+288
+00:14:27,609 --> 00:14:28,948
+We worked hard to make it linear.
+
+289
+00:14:29,169 --> 00:14:30,779
+I've talked about this a lot before.
+
+290
+00:14:30,779 --> 00:14:33,590
+This is the notion that
+you pull the dependency
+
+291
+00:14:33,590 --> 00:14:36,341
+information up into the
+packages from your dependencies
+
+292
+00:14:36,341 --> 00:14:39,011
+so that someone compiling
+against your package
+
+293
+00:14:39,011 --> 00:14:41,284
+doesn't have to talk to
+the packages you depend on,
+
+294
+00:14:41,284 --> 00:14:43,607
+it can get it all from
+doing the single import.
+
+295
+00:14:44,127 --> 00:14:45,797
+That means that the number
+of files you open when
+
+296
+00:14:45,797 --> 00:14:47,857
+you compile a program
+is just the number of
+
+297
+00:14:47,857 --> 00:14:50,658
+packages you import plus
+the source file itself.
+
+298
+00:14:51,108 --> 00:14:53,839
+It's also interesting that
+you don't import a set of
+
+299
+00:14:53,839 --> 00:14:56,279
+identifiers, you actually
+import an entire package.
+
+300
+00:14:56,589 --> 00:14:58,690
+The concept of package
+being the thing you get
+
+301
+00:14:58,690 --> 00:15:02,089
+is not exactly unusual but it's different
+
+302
+00:15:02,089 --> 00:15:05,527
+from the way a lot of other things work.
+
+303
+00:15:08,324 --> 00:15:09,340
+I'd also like to point out that
+
+304
+00:15:09,340 --> 00:15:10,811
+there used to be an export keyword.
+
+305
+00:15:11,139 --> 00:15:13,495
+That was how we originally
+controlled visibility. It was
+
+306
+00:15:13,495 --> 00:15:15,782
+pretty unwieldy and of course
+you know what we did to
+
+307
+00:15:15,782 --> 00:15:18,574
+fix that. But it was there
+for probably about a year.
+
+308
+00:15:19,325 --> 00:15:20,870
+There's actually a CL that deletes it.
+
+309
+00:15:20,870 --> 00:15:22,591
+That was fun to watch go by.
+
+310
+00:15:23,515 --> 00:15:26,949
+Then we come to fmt, the string
+that is the package path.
+
+311
+00:15:26,949 --> 00:15:28,766
+This is a very short
+package path of course,
+
+312
+00:15:28,766 --> 00:15:31,948
+it's in the core libraries,
+but it is just a string.
+
+313
+00:15:31,948 --> 00:15:33,683
+It has no special meaning to the compiler.
+
+314
+00:15:33,683 --> 00:15:38,101
+It was deliberately decided very
+early on that the import path
+
+315
+00:15:38,338 --> 00:15:42,741
+separate from the package
+name would be just a string
+
+316
+00:15:42,741 --> 00:15:44,953
+and the language would not
+define the meaning of that
+
+317
+00:15:44,953 --> 00:15:47,504
+string so that we could
+change the meaning or put
+
+318
+00:15:47,504 --> 00:15:49,984
+interesting information in it
+later if we chose to do so.
+
+319
+00:15:50,282 --> 00:15:53,143
+Of course URLs were what we
+had in mind but who knows,
+
+320
+00:15:53,363 --> 00:15:55,677
+maybe some other mechanism
+will come up. There's already
+
+321
+00:15:55,677 --> 00:15:58,985
+talk about doing versioning
+through the package path string.
+
+322
+00:16:00,140 --> 00:16:03,334
+That was always planned to
+be an open thing, it was not-
+
+323
+00:16:03,584 --> 00:16:04,884
+It was just an explicit decision.
+
+324
+00:16:04,884 --> 00:16:06,465
+This allows for future growth which of
+
+325
+00:16:06,465 --> 00:16:08,465
+course is exactly what's happening.
+
+326
+00:16:09,701 --> 00:16:14,112
+Then the func keyword.
+This was a big step from C.
+
+327
+00:16:14,112 --> 00:16:15,642
+It's actually borrowed
+much more from the Pascal
+
+328
+00:16:15,642 --> 00:16:17,333
+side of things because
+that's where most of the
+
+329
+00:16:17,333 --> 00:16:21,364
+declaration syntax comes
+from in rough strokes.
+
+330
+00:16:22,224 --> 00:16:24,955
+Having an actual keyword
+introduce a function
+
+331
+00:16:25,175 --> 00:16:27,505
+is very different from the C family.
+
+332
+00:16:27,505 --> 00:16:29,452
+Of course it's very common
+to a lot of other languages.
+
+333
+00:16:29,730 --> 00:16:32,153
+It makes it a lot easier
+to parse the language
+
+334
+00:16:32,153 --> 00:16:34,402
+because a keyword really
+starts things going.
+
+335
+00:16:34,402 --> 00:16:36,074
+When you're going to do
+a declaration you don't
+
+336
+00:16:36,074 --> 00:16:37,502
+have to deal with
+figuring out whether it's
+
+337
+00:16:37,502 --> 00:16:41,011
+a type or an identifier, what's going on.
+
+338
+00:16:41,670 --> 00:16:43,420
+It's really important
+that Go be easy to parse.
+
+339
+00:16:43,670 --> 00:16:45,311
+It makes tooling easier,
+it makes it easier to
+
+340
+00:16:45,311 --> 00:16:47,341
+understand the programs when
+you see them on the page.
+
+341
+00:16:47,341 --> 00:16:49,872
+It also makes it a lot
+easier to have things like
+
+342
+00:16:49,872 --> 00:16:52,354
+function literals or
+closures because the grammar
+
+343
+00:16:52,571 --> 00:16:55,384
+inside a function body is
+a lot easier to understand.
+
+344
+00:16:56,398 --> 00:16:58,695
+By the way the original
+keyword was not func,
+
+345
+00:16:58,695 --> 00:17:01,837
+it was function, because that's
+what it is, it's a function.
+
+346
+00:17:02,290 --> 00:17:04,089
+And it went away on a well-known date.
+
+347
+00:17:06,357 --> 00:17:08,623
+This is a mail thread
+on February 6th, 2008.
+
+348
+00:17:08,623 --> 00:17:10,561
+Ken mailed Robert,
+[unintelligble] and myself.
+
+349
+00:17:10,561 --> 00:17:12,261
+"Larry and Sergey came by tonight,
+
+350
+00:17:12,479 --> 00:17:13,798
+"we talked about Go for more than an hour.
+
+351
+00:17:13,798 --> 00:17:15,432
+"They both said they liked it very much.
+
+352
+00:17:15,432 --> 00:17:17,516
+"P.S. One of Larry's comments was,
+
+353
+00:17:17,516 --> 00:17:19,152
+"'Why isn't function spells func?'"
+
+354
+00:17:21,214 --> 00:17:23,558
+I responded, I mean why
+not, that sounds good.
+
+355
+00:17:23,558 --> 00:17:25,324
+We already have type and
+const, why not just shorten
+
+356
+00:17:25,324 --> 00:17:27,104
+function down to func,
+it will fit right in.
+
+357
+00:17:27,608 --> 00:17:29,153
+Robert objected a little
+bit because he thought
+
+358
+00:17:29,153 --> 00:17:31,543
+it wasn't important but
+he rapidly came around.
+
+359
+00:17:31,903 --> 00:17:34,854
+I think the next day function got shorter,
+
+360
+00:17:34,854 --> 00:17:37,875
+so you can thank Larry for those
+keystrokes [unintelligble].
+
+361
+00:17:40,752 --> 00:17:43,109
+The next main token, this
+is the function main.
+
+362
+00:17:44,069 --> 00:17:46,257
+It is where the program
+starts executing of course
+
+363
+00:17:46,492 --> 00:17:49,304
+except it really isn't. What's
+important here is initialization.
+
+364
+00:17:49,304 --> 00:17:53,056
+That happens before main starts,
+and in fact the whole story
+
+365
+00:17:53,056 --> 00:17:55,856
+about how initialization
+works in Go had been rattling
+
+366
+00:17:55,856 --> 00:17:58,527
+around, particularly in
+Ken's mind, for a long time.
+
+367
+00:17:59,185 --> 00:18:02,187
+Before Ken left Bell Labs,
+which was about the year 2000
+
+368
+00:18:02,432 --> 00:18:05,135
+maybe a little before, the
+last thing he did to the
+
+369
+00:18:05,135 --> 00:18:08,338
+Plan 9 C compiler was try
+to inject some notion of
+
+370
+00:18:08,338 --> 00:18:11,360
+control initialization into
+the compiler and language.
+
+371
+00:18:11,733 --> 00:18:13,925
+I don't know if that code
+still exists in the compiler
+
+372
+00:18:14,154 --> 00:18:17,845
+but it was there for a long
+time. It didn't quite work.
+
+373
+00:18:17,845 --> 00:18:20,405
+It's actually difficult
+to retrofit into C.
+
+374
+00:18:20,405 --> 00:18:23,549
+But he kept thinking about it
+and when Go started it was one
+
+375
+00:18:23,549 --> 00:18:25,497
+of the things we wanted to
+get right because initializing
+
+376
+00:18:25,497 --> 00:18:28,780
+your program is very important
+to getting it to run well.
+
+377
+00:18:28,780 --> 00:18:31,130
+It's a trivial point but
+a lot of languages don't
+
+378
+00:18:31,130 --> 00:18:33,611
+spend any time thinking
+about it and you can get very
+
+379
+00:18:33,611 --> 00:18:36,451
+difficult states with
+unclear initialization order,
+
+380
+00:18:36,451 --> 00:18:39,512
+random initialization order
+and strange behaviors.
+
+381
+00:18:40,952 --> 00:18:44,188
+The key point about that main package is
+
+382
+00:18:44,436 --> 00:18:46,186
+that it is the root of
+the initialization tree.
+
+383
+00:18:46,186 --> 00:18:47,641
+Although it took a long time to figure out
+
+384
+00:18:47,641 --> 00:18:50,391
+how to do it the mechanism for getting the
+
+385
+00:18:50,391 --> 00:18:52,937
+dependency tree to be
+executed correctly with
+
+386
+00:18:52,937 --> 00:18:55,407
+initialization turned out
+to be very easy to do.
+
+387
+00:18:56,374 --> 00:18:59,701
+We had a lot of thoughts
+about much more sophisticated,
+
+388
+00:18:59,919 --> 00:19:01,733
+fancy ways to do it
+that we later abandoned,
+
+389
+00:19:01,733 --> 00:19:03,827
+including doing
+initialization in the linker.
+
+390
+00:19:04,279 --> 00:19:07,530
+What happens now instead is
+the compiler generates little
+
+391
+00:19:07,530 --> 00:19:11,999
+bursts of code that execute
+the inits recursively,
+
+392
+00:19:11,999 --> 00:19:14,967
+almost, resolving them
+in the correct order.
+
+393
+00:19:15,390 --> 00:19:17,826
+It's pretty trivial but it
+took a long time to get there.
+
+394
+00:19:18,389 --> 00:19:20,218
+As I said we thought
+about it for a long time.
+
+395
+00:19:20,218 --> 00:19:22,154
+It also has a pretty big
+effect on how packages work
+
+396
+00:19:22,154 --> 00:19:25,486
+because inits are one of the
+ways you can get around the
+
+397
+00:19:25,486 --> 00:19:27,968
+strict requirement that there's
+no circular dependencies.
+
+398
+00:19:28,170 --> 00:19:29,841
+It gives you a foothold for that.
+
+399
+00:19:30,279 --> 00:19:32,921
+Initialization isn't
+talked about much in Go but
+
+400
+00:19:32,921 --> 00:19:35,268
+it's actually a really
+important feature for
+
+401
+00:19:35,268 --> 00:19:37,889
+how programs are built
+that's often neglected.
+
+402
+00:19:40,120 --> 00:19:42,041
+I folded two tokens together here.
+
+403
+00:19:42,334 --> 00:19:44,635
+Look ma, no void, we got rid of void.
+
+404
+00:19:45,391 --> 00:19:47,562
+When you have really good
+function syntax you don't need
+
+405
+00:19:47,562 --> 00:19:50,443
+that kind of crutch. It
+was there in C because of
+
+406
+00:19:50,443 --> 00:19:53,234
+course the difficulties
+introduced by the change
+
+407
+00:19:53,234 --> 00:19:56,064
+to declaration syntax but
+it's not [unintelligible].
+
+408
+00:19:58,208 --> 00:20:00,768
+There's nothing after this parameter,
+
+409
+00:20:00,768 --> 00:20:02,539
+there's no return value from main,
+
+410
+00:20:02,539 --> 00:20:04,405
+it just exits when the program exits.
+
+411
+00:20:05,101 --> 00:20:08,411
+There's also therefore
+no arguments to main in
+
+412
+00:20:08,411 --> 00:20:10,727
+a related point because
+the runtime handles it.
+
+413
+00:20:10,727 --> 00:20:14,675
+It's an operating system
+dependent feature so we put
+
+414
+00:20:14,675 --> 00:20:16,785
+them in the operating
+system dependent component.
+
+415
+00:20:17,468 --> 00:20:20,325
+Put no return value in to make
+the function nicer to look at.
+
+416
+00:20:20,546 --> 00:20:22,981
+It also make the hello world
+program shorter, always a benefit.
+
+417
+00:20:24,661 --> 00:20:26,302
+Although this problem
+doesn't have any return
+
+418
+00:20:26,517 --> 00:20:28,816
+values or interesting
+function argument syntax
+
+419
+00:20:28,816 --> 00:20:30,957
+let me spend a moment talking about that.
+
+420
+00:20:30,957 --> 00:20:34,038
+We spent a long time and
+many versions and iterations
+
+421
+00:20:34,038 --> 00:20:36,928
+sorting out what function
+syntax would look like.
+
+422
+00:20:36,928 --> 00:20:38,098
+How you specified the arguments,
+
+423
+00:20:38,098 --> 00:20:40,069
+how you specified the return type.
+
+424
+00:20:40,069 --> 00:20:41,709
+There were arrow operators and strange
+
+425
+00:20:41,709 --> 00:20:43,980
+groupings as we tried various experiments.
+
+426
+00:20:45,213 --> 00:20:47,325
+Finally, I don't remember
+the exact order but around
+
+427
+00:20:47,325 --> 00:20:50,386
+the time that we finally
+decided what method syntax would
+
+428
+00:20:50,386 --> 00:20:54,196
+look like, which was to put the
+receiver inside parentheses,
+
+429
+00:20:54,196 --> 00:20:57,087
+the functions then just became
+three parenthetical things:
+
+430
+00:20:57,087 --> 00:20:59,608
+the receivers, the arguments
+and the return value.
+
+431
+00:20:59,608 --> 00:21:01,009
+It took several months to sort
+
+432
+00:21:01,009 --> 00:21:02,670
+through that because we're stupid.
+
+433
+00:21:04,417 --> 00:21:07,149
+Brace. The opening brace of course puts it
+
+434
+00:21:07,399 --> 00:21:09,129
+firmly in the C family of languages.
+
+435
+00:21:09,129 --> 00:21:11,989
+We never considered using
+white space for indentation.
+
+436
+00:21:12,795 --> 00:21:15,589
+I just think it's a profound
+mistake in programming language
+
+437
+00:21:15,807 --> 00:21:18,688
+design to have your semantics
+depend on invisible characters.
+
+438
+00:21:19,665 --> 00:21:21,307
+(laughter)
+
+439
+00:21:21,307 --> 00:21:23,354
+(applause)
+
+440
+00:21:23,885 --> 00:21:28,000
+There's a reason for that.
+I've been burned badly by bugs
+
+441
+00:21:28,000 --> 00:21:32,354
+introduced by invisible characters
+causing changes in things.
+
+442
+00:21:32,354 --> 00:21:33,962
+Particularly when you combine for instance
+
+443
+00:21:33,962 --> 00:21:36,779
+Python through SWIG
+embedded into C and C++
+
+444
+00:21:36,779 --> 00:21:39,166
+and various other combinations like that.
+
+445
+00:21:41,540 --> 00:21:43,461
+It never occurred to us.
+We're going to make it a nice,
+
+446
+00:21:43,701 --> 00:21:47,211
+controlled syntactically
+structured language.
+
+447
+00:21:47,869 --> 00:21:49,883
+There's also no square
+brackets. We had a meeting
+
+448
+00:21:49,883 --> 00:21:52,120
+with Sergey after the meeting
+with Larry and Sergey,
+
+449
+00:21:52,120 --> 00:21:55,523
+several months later. I think
+Russ was at that meeting too.
+
+450
+00:21:56,621 --> 00:21:59,845
+Sergey asked why he had to
+type a shift when you wanted to
+
+451
+00:21:59,845 --> 00:22:02,135
+start a new block, why not
+make it square brackets.
+
+452
+00:22:02,418 --> 00:22:04,007
+He didn't win every argument.
+
+453
+00:22:06,272 --> 00:22:08,799
+A good point about this is
+that there's no newline after-
+
+454
+00:22:08,799 --> 00:22:11,381
+There's a newline after the
+brace, it's not before the brace.
+
+455
+00:22:11,381 --> 00:22:13,010
+You can't put it before the brace.
+
+456
+00:22:13,214 --> 00:22:15,492
+This is an unintended
+consequence of the semicolon
+
+457
+00:22:15,492 --> 00:22:18,902
+injection rules which went
+in in December of 2009.
+
+458
+00:22:19,192 --> 00:22:21,613
+As I said that notion, the way that works,
+
+459
+00:22:21,613 --> 00:22:24,473
+which is that the grammar has semicolons,
+
+460
+00:22:24,473 --> 00:22:27,864
+the lexical analyzer injects them
+
+461
+00:22:27,864 --> 00:22:29,834
+for you under certain conditions.
+
+462
+00:22:29,834 --> 00:22:31,895
+That came directly out of BCPL although of
+
+463
+00:22:31,895 --> 00:22:33,286
+course the rules were a little different.
+
+464
+00:22:34,572 --> 00:22:36,766
+It meant that you couldn't put
+the brace on the next line.
+
+465
+00:22:36,766 --> 00:22:38,950
+That was kind of an, "Oh sorry," but on
+
+466
+00:22:38,950 --> 00:22:41,119
+the other hand we do get no semicolons,
+
+467
+00:22:41,119 --> 00:22:43,728
+and we also have to choose
+where the brace goes anyway.
+
+468
+00:22:43,728 --> 00:22:46,357
+This forces our hand.
+We consider that a win,
+
+469
+00:22:46,357 --> 00:22:48,307
+and gofmt can fix it anyway.
+
+470
+00:22:49,787 --> 00:22:51,676
+The next token is actually
+inside the body of
+
+471
+00:22:51,926 --> 00:22:54,769
+the function now which
+is the fmt identifier
+
+472
+00:22:54,769 --> 00:22:57,035
+which of course came via the fmt import.
+
+473
+00:22:57,444 --> 00:22:59,772
+It is not a coincidence that it's the same
+
+474
+00:22:59,992 --> 00:23:01,385
+word but of course it didn't have to be,
+
+475
+00:23:01,385 --> 00:23:02,600
+it could have been a different name.
+
+476
+00:23:03,089 --> 00:23:05,117
+This brings up the point about readability
+
+477
+00:23:05,117 --> 00:23:07,007
+that I think's important
+to the way Go works.
+
+478
+00:23:07,918 --> 00:23:10,248
+Again it flowed out of the design process.
+
+479
+00:23:10,248 --> 00:23:13,451
+Every identifier in a Go program is either
+
+480
+00:23:13,451 --> 00:23:16,422
+local to the package or it's a qualified
+
+481
+00:23:16,422 --> 00:23:18,113
+identifier with a dot in the middle.
+
+482
+00:23:18,932 --> 00:23:21,503
+That is a profound effect on readability.
+
+483
+00:23:24,165 --> 00:23:26,085
+You don't get this idea
+that when you do an
+
+484
+00:23:26,325 --> 00:23:28,587
+import the identifiers
+come into your namespace.
+
+485
+00:23:28,587 --> 00:23:31,478
+What happens is one identifier
+comes into your namespace,
+
+486
+00:23:31,478 --> 00:23:34,179
+which is the package name,
+and all of the package
+
+487
+00:23:34,179 --> 00:23:37,960
+components are bound to the package name.
+
+488
+00:23:38,419 --> 00:23:41,449
+That's a namespace or if
+you like pseudo-structure.
+
+489
+00:23:42,120 --> 00:23:44,000
+That means that you never
+have to look very far to
+
+490
+00:23:44,000 --> 00:23:47,281
+figure out what an identifier
+is inside a Go program
+
+491
+00:23:47,281 --> 00:23:49,385
+and that's a really
+important aid to readability.
+
+492
+00:23:51,216 --> 00:23:52,808
+I also should probably point out that this
+
+493
+00:23:53,027 --> 00:23:55,467
+word is fmt, not format. That's my fault.
+
+494
+00:23:55,838 --> 00:23:58,449
+I will tell you right now it
+never occurred to me to make it
+
+495
+00:23:58,449 --> 00:24:03,495
+format because I knew that you
+were going to type this word,
+
+496
+00:24:03,495 --> 00:24:06,073
+however it was spelled, in
+probably the majority of
+
+497
+00:24:06,073 --> 00:24:08,729
+all Go programs ever
+written because it was the
+
+498
+00:24:08,729 --> 00:24:11,311
+formatted print generator,
+and by the second or
+
+499
+00:24:11,311 --> 00:24:13,091
+third time you typed it
+you knew what it meant,
+
+500
+00:24:13,091 --> 00:24:15,591
+it did not have to be
+the full format word.
+
+501
+00:24:15,892 --> 00:24:17,312
+There are people who disagree with that.
+
+502
+00:24:17,312 --> 00:24:19,854
+I respect their opinion and I move on.
+
+503
+00:24:20,154 --> 00:24:22,185
+(laughter)
+
+504
+00:24:23,686 --> 00:24:26,167
+The next token is a period.
+
+505
+00:24:26,167 --> 00:24:28,980
+There's actually a lot of uses
+for the period token in Go,
+
+506
+00:24:28,980 --> 00:24:30,891
+it means a lot of different
+things. It could be accessing
+
+507
+00:24:30,891 --> 00:24:35,121
+a package, a structure,
+method call, function call.
+
+508
+00:24:36,556 --> 00:24:38,120
+Early on I remember
+Ken complaining than we
+
+509
+00:24:38,120 --> 00:24:41,090
+had too many uses of dot
+and he wanted syntactically
+
+510
+00:24:41,090 --> 00:24:43,340
+to have a different
+character there to split the
+
+511
+00:24:43,340 --> 00:24:46,264
+uses for something. It might
+have been [unintelligible].
+
+512
+00:24:47,417 --> 00:24:50,828
+We pushed back, we convinced
+him it was okay, he acquiesced.
+
+513
+00:24:51,904 --> 00:24:54,030
+But it does mean that
+when you just see a dot b
+
+514
+00:24:54,579 --> 00:24:57,204
+in a Go program you don't
+actually know what it
+
+515
+00:24:57,204 --> 00:25:00,062
+means unless you look up
+a and understand the type.
+
+516
+00:25:01,329 --> 00:25:03,586
+You can parse Go without a
+type system but you can't
+
+517
+00:25:03,796 --> 00:25:05,597
+analyze it semantically
+without a type system.
+
+518
+00:25:06,006 --> 00:25:08,337
+That's fine, but it does mean
+that you have to understand
+
+519
+00:25:08,577 --> 00:25:10,808
+what the types are of an
+expression to know what it means.
+
+520
+00:25:10,808 --> 00:25:13,559
+I don't consider that a
+problem, particularly because
+
+521
+00:25:13,559 --> 00:25:16,259
+in practice humans seem to
+have no trouble with this.
+
+522
+00:25:16,259 --> 00:25:17,820
+When they see the dot they know what kind
+
+523
+00:25:17,820 --> 00:25:19,601
+of a dot it is, it doesn't bother them.
+
+524
+00:25:20,200 --> 00:25:22,371
+One thing that does come up
+here though is that there's no,
+
+525
+00:25:22,371 --> 00:25:25,181
+what would C would be called
+the arrow operator, the points
+
+526
+00:25:25,181 --> 00:25:30,553
+to operator, because if the
+thing on the left side of the
+
+527
+00:25:30,553 --> 00:25:35,276
+dot is a structured pointer and
+the right hand side is a field
+
+528
+00:25:35,276 --> 00:25:41,198
+name you don't want to have
+to type star thing dot field.
+
+529
+00:25:41,767 --> 00:25:44,380
+We automatically insert
+indirection operators
+
+530
+00:25:44,595 --> 00:25:47,287
+for you in order to avoid
+having that operator.
+
+531
+00:25:47,549 --> 00:25:49,129
+That adds yet another meaning of dot
+
+532
+00:25:49,129 --> 00:25:51,113
+but one that we're quite happy with,
+
+533
+00:25:51,113 --> 00:25:53,143
+we think the programs
+look nicer as a result.
+
+534
+00:25:54,565 --> 00:25:57,159
+Println. Notice it's got
+[unintelligible] p instead of
+
+535
+00:25:57,159 --> 00:26:00,987
+the lowercase p. That's
+because capitals are there for
+
+536
+00:26:00,987 --> 00:26:02,830
+export, you all know
+that, [unintelligible].
+
+537
+00:26:04,156 --> 00:26:05,736
+I'd like to talk for a minute
+about the design of this
+
+538
+00:26:05,946 --> 00:26:08,877
+thing though because it's
+actually a little bit of a story.
+
+539
+00:26:08,877 --> 00:26:11,438
+We always knew that formatted printing
+
+540
+00:26:11,438 --> 00:26:13,058
+was going to be reflection driven.
+
+541
+00:26:13,058 --> 00:26:15,401
+It wasn't going to be like
+in C where you have to
+
+542
+00:26:15,401 --> 00:26:17,454
+explain the arguments
+because that's not type safe.
+
+543
+00:26:17,860 --> 00:26:19,230
+You have to actually understand the
+
+544
+00:26:19,230 --> 00:26:20,920
+dynamic type of the object you're printing
+
+545
+00:26:20,920 --> 00:26:23,641
+in order to safely be able to print it.
+
+546
+00:26:25,134 --> 00:26:28,405
+Also maybe even more
+important, because you know the
+
+547
+00:26:28,405 --> 00:26:30,402
+type of the thing when
+you're printing it because of
+
+548
+00:26:30,402 --> 00:26:33,102
+access to reflection you
+also don't need a format,
+
+549
+00:26:33,102 --> 00:26:36,180
+so you can actually have
+a Println in Go which
+
+550
+00:26:36,180 --> 00:26:39,486
+you can't have in a more
+weakly-typed language.
+
+551
+00:26:41,311 --> 00:26:42,401
+We knew that reflection would get us
+
+552
+00:26:42,401 --> 00:26:44,011
+there so Println made it possible.
+
+553
+00:26:44,011 --> 00:26:45,752
+I think in fact most of the time people
+
+554
+00:26:45,752 --> 00:26:47,542
+don't use format strings unless they're
+
+555
+00:26:47,542 --> 00:26:49,513
+formatting a fancy error
+message or something.
+
+556
+00:26:49,743 --> 00:26:51,293
+Print or Println does the work for you.
+
+557
+00:26:51,763 --> 00:26:54,155
+That's a consequence of
+knowing from the beginning,
+
+558
+00:26:54,155 --> 00:26:57,126
+even before we understood how
+reflection was going to work,
+
+559
+00:26:57,126 --> 00:27:00,357
+which was itself a very
+long story, we knew that
+
+560
+00:27:00,357 --> 00:27:02,727
+that's how it was going to
+work so we designed for it.
+
+561
+00:27:03,307 --> 00:27:07,197
+Println and his friends,
+they're all variadic functions.
+
+562
+00:27:07,197 --> 00:27:09,419
+Go is very strong in variadic functions.
+
+563
+00:27:09,419 --> 00:27:12,049
+The original form of a
+variadic function just had
+
+564
+00:27:12,049 --> 00:27:14,414
+dot dot dot there which
+actually came right out of C,
+
+565
+00:27:14,414 --> 00:27:17,133
+there was no type on the dot dot dot,
+
+566
+00:27:17,133 --> 00:27:19,775
+it was always an empty
+interface implicitly.
+
+567
+00:27:19,775 --> 00:27:21,337
+Then one day Russ said,
+
+568
+00:27:21,337 --> 00:27:23,107
+"Why don't we just make a type there?"
+
+569
+00:27:24,165 --> 00:27:26,885
+We didn't quite know
+what to do with that yet,
+
+570
+00:27:27,132 --> 00:27:28,568
+of course it turned out
+to be a really great idea,
+
+571
+00:27:28,568 --> 00:27:31,663
+took us a while to get there
+but on February 1st, 2010 the
+
+572
+00:27:31,663 --> 00:27:35,376
+empty interface went on
+to the dot dot dot so the
+
+573
+00:27:36,065 --> 00:27:39,128
+signature of Println became
+properly defined then and
+
+574
+00:27:39,331 --> 00:27:41,956
+the relationship between dot
+dot dot and slices became
+
+575
+00:27:41,956 --> 00:27:44,816
+general and actually quite
+powerful and very easy to use.
+
+576
+00:27:46,744 --> 00:27:49,103
+Open paren, not much to say.
+Traditional function syntax,
+
+577
+00:27:49,103 --> 00:27:52,385
+no messages, no function
+application with space,
+
+578
+00:27:52,385 --> 00:27:54,775
+it's just old school open paren.
+
+579
+00:27:56,092 --> 00:27:59,483
+Then we have a string. I picked
+a string here with unicode
+
+580
+00:27:59,703 --> 00:28:02,654
+characters in it that says,
+"Nihongo," Japanese language.
+
+581
+00:28:02,934 --> 00:28:05,685
+Pardon my pronunciation Japanese gophers.
+
+582
+00:28:07,756 --> 00:28:10,756
+One of the most important
+things about Go that was settled
+
+583
+00:28:10,756 --> 00:28:15,397
+very early is that the input
+source is defined to be UTF8.
+
+584
+00:28:15,397 --> 00:28:17,788
+Since Ken designed UTF8 and I helped roll
+
+585
+00:28:17,788 --> 00:28:19,848
+it out with him you knew it was going to
+
+586
+00:28:19,848 --> 00:28:22,009
+be a UTF8 language, when knew very strong.
+
+587
+00:28:22,273 --> 00:28:24,070
+I think it's really important
+to point out that we just
+
+588
+00:28:24,304 --> 00:28:27,148
+declared up front, Go is
+a UTF8 language, period.
+
+589
+00:28:27,548 --> 00:28:28,826
+There's no encoding
+question, you're not allowed
+
+590
+00:28:28,826 --> 00:28:31,202
+to write in some other
+language because that
+
+591
+00:28:31,202 --> 00:28:33,702
+means one thing happens
+beautifully smoothly,
+
+592
+00:28:33,702 --> 00:28:37,233
+that if you don't define that
+doesn't work very well at all.
+
+593
+00:28:37,453 --> 00:28:40,999
+That is this string here,
+this thing with nihongo in it,
+
+594
+00:28:40,999 --> 00:28:44,436
+you know the representation
+of those characters in
+
+595
+00:28:44,436 --> 00:28:48,452
+the source code is UTF8
+so it is well defined what
+
+596
+00:28:48,452 --> 00:28:51,047
+non-ASCII characters look
+like in the source code.
+
+597
+00:28:51,047 --> 00:28:53,312
+It just falls out automatically that the
+
+598
+00:28:53,312 --> 00:28:56,580
+representation of
+strings outside the ASCII
+
+599
+00:28:56,580 --> 00:28:59,644
+plain is UTF8 characters
+in the source code.
+
+600
+00:28:59,644 --> 00:29:01,225
+It's kind of magic driven, there's
+
+601
+00:29:01,225 --> 00:29:02,735
+nothing there and yet it just works.
+
+602
+00:29:02,735 --> 00:29:04,426
+It's hard to explain in a way that makes
+
+603
+00:29:04,426 --> 00:29:07,049
+it sound interesting but it's true.
+
+604
+00:29:09,984 --> 00:29:11,495
+I think it's really
+important to understand that.
+
+605
+00:29:11,495 --> 00:29:14,275
+No other language that I
+know of actually does this.
+
+606
+00:29:14,275 --> 00:29:16,495
+I'm sure there is one but all
+the predecessors that I know
+
+607
+00:29:16,495 --> 00:29:19,046
+of certainly did not define
+this this way, and so they
+
+608
+00:29:19,046 --> 00:29:22,387
+struggled with the meaning
+of a large character [value].
+
+609
+00:29:22,849 --> 00:29:24,480
+Then of course there's
+the whole question of
+
+610
+00:29:24,710 --> 00:29:26,570
+what a string is. It
+turns out it's an array
+
+611
+00:29:26,570 --> 00:29:28,300
+of bytes with a couple
+of special properties.
+
+612
+00:29:28,300 --> 00:29:30,350
+The string literals are the
+most important part of it.
+
+613
+00:29:31,461 --> 00:29:32,751
+It was actually one of
+the very first things we
+
+614
+00:29:32,991 --> 00:29:35,641
+wrote in the Go spec, it
+was written probably that
+
+615
+00:29:35,641 --> 00:29:38,595
+first week and it's hardly
+changed at all since then.
+
+616
+00:29:38,595 --> 00:29:40,518
+Every detail of that was understood very
+
+617
+00:29:40,518 --> 00:29:42,112
+well up front because of course we've
+
+618
+00:29:42,112 --> 00:29:43,892
+played in this space for quite a while.
+
+619
+00:29:43,892 --> 00:29:45,472
+If you want to know more
+about it, a few months ago
+
+620
+00:29:45,472 --> 00:29:48,047
+I wrote a detailed blog post
+which is probably a better
+
+621
+00:29:48,047 --> 00:29:50,751
+place to read about it
+than have me blabbing on.
+
+622
+00:29:51,752 --> 00:29:54,764
+Then you get to the closing
+paren of the function call.
+
+623
+00:29:54,764 --> 00:29:56,103
+Of course there's no semicolon there.
+
+624
+00:29:56,103 --> 00:29:58,685
+The semicolons went away
+shortly after the release.
+
+625
+00:29:58,685 --> 00:30:00,685
+It just made a wonderful change to
+
+626
+00:30:00,685 --> 00:30:02,236
+the language, we loved when it happened.
+
+627
+00:30:02,236 --> 00:30:04,097
+I should point out that before then
+
+628
+00:30:04,097 --> 00:30:06,751
+semicolons were optional
+in a very confusing,
+
+629
+00:30:06,751 --> 00:30:09,808
+hard to understand,
+constantly changing way.
+
+630
+00:30:09,808 --> 00:30:11,140
+We struggled with the grammar.
+
+631
+00:30:11,140 --> 00:30:12,782
+I think at one point there
+were more productions
+
+632
+00:30:12,782 --> 00:30:14,120
+in the [unintelligible]
+to deal with optional
+
+633
+00:30:14,322 --> 00:30:16,205
+semicolons than with the language proper.
+
+634
+00:30:16,205 --> 00:30:18,216
+It was really difficult
+to sort that out and
+
+635
+00:30:18,216 --> 00:30:20,527
+one day we just said, I think Ken actually
+
+636
+00:30:20,527 --> 00:30:22,167
+came and said, "Why
+don't we just fix this?"
+
+637
+00:30:22,167 --> 00:30:24,729
+So we went back to Martin
+Richard's idea from BCPL.
+
+638
+00:30:24,729 --> 00:30:27,811
+Got rid of semicolons by
+injecting them in the lexer.
+
+639
+00:30:28,651 --> 00:30:30,242
+It changed the language a
+little bit because you had
+
+640
+00:30:30,471 --> 00:30:33,162
+to format differently but
+I think it was a huge win.
+
+641
+00:30:35,231 --> 00:30:38,312
+And closing brace. There we are.
+That's the end of hello world.
+
+642
+00:30:39,768 --> 00:30:40,729
+There's a whole bunch of things
+
+643
+00:30:40,729 --> 00:30:42,249
+I didn't talk about in this program.
+
+644
+00:30:42,249 --> 00:30:43,409
+I didn't talk about the types very much;
+
+645
+00:30:43,409 --> 00:30:45,590
+What constants are, they're
+kind of magic in Go.
+
+646
+00:30:45,590 --> 00:30:47,762
+Methods, interfaces.
+How the libraries work.
+
+647
+00:30:47,762 --> 00:30:49,902
+How memory management is.
+It was garbage collected
+
+648
+00:30:49,902 --> 00:30:52,372
+from day one, we never
+considered any other option.
+
+649
+00:30:53,234 --> 00:30:55,278
+Concurrency of course, which is coming up.
+
+650
+00:30:55,765 --> 00:30:58,246
+Then there's the various tools,
+the ecosystem, the community,
+
+651
+00:30:58,246 --> 00:31:00,746
+the outside world and the ecosystem
+that develops around that.
+
+652
+00:31:03,294 --> 00:31:04,074
+I want to point out that
+although I've talked entirely
+
+653
+00:31:04,540 --> 00:31:06,633
+about the language so far,
+the language is central
+
+654
+00:31:06,852 --> 00:31:09,555
+to this story but it's really
+only a small part of it.
+
+655
+00:31:09,555 --> 00:31:11,057
+It's the entire thing that builds around
+
+656
+00:31:11,057 --> 00:31:13,508
+the language that makes success happen.
+
+657
+00:31:14,079 --> 00:31:17,156
+The factors that bring
+that success in are,
+
+658
+00:31:17,156 --> 00:31:20,329
+I think building on history,
+understanding through
+
+659
+00:31:20,329 --> 00:31:22,844
+a lot of other languages, of
+years and years of working
+
+660
+00:31:22,844 --> 00:31:25,350
+in software development
+what matters in a language,
+
+661
+00:31:25,350 --> 00:31:26,829
+what doesn't matter in a language.
+
+662
+00:31:26,829 --> 00:31:30,111
+The experience that comes
+from working for a long time.
+
+663
+00:31:30,111 --> 00:31:35,140
+The process of design. Almost
+all of Go was defined in the
+
+664
+00:31:35,370 --> 00:31:38,840
+first year, year and a half
+or so by Ken and Robert and
+
+665
+00:31:38,840 --> 00:31:43,481
+myself huddling down, arguing,
+debating, disagreeing a lot.
+
+666
+00:31:44,141 --> 00:31:45,512
+Nothing went in until
+all three of us agreed
+
+667
+00:31:45,512 --> 00:31:47,732
+that it was a good idea and that's because
+
+668
+00:31:47,732 --> 00:31:49,825
+we all came from very
+different backgrounds.
+
+669
+00:31:49,825 --> 00:31:52,671
+It was important to
+understand that if the three
+
+670
+00:31:52,671 --> 00:31:54,982
+of us agreed it was
+probably a rock-solid idea.
+
+671
+00:31:55,667 --> 00:31:57,747
+I think that's a really
+important part of the Go story.
+
+672
+00:31:57,747 --> 00:31:59,807
+Later of course for us in
+the end others came in and
+
+673
+00:31:59,807 --> 00:32:02,968
+helped us make it much,
+much better but I think this
+
+674
+00:32:02,968 --> 00:32:05,792
+idea that you have a small
+team designing it and
+
+675
+00:32:05,792 --> 00:32:09,515
+not taking a suggestion box
+and making things happen
+
+676
+00:32:09,515 --> 00:32:11,856
+was a huge part of why
+Go works the way it does.
+
+677
+00:32:12,156 --> 00:32:15,518
+Once we'd got to where we
+thought it was right, we stopped.
+
+678
+00:32:16,249 --> 00:32:17,968
+We said, "This is it,
+this is the language."
+
+679
+00:32:17,968 --> 00:32:21,239
+Go version one comes out
+and locked it all down.
+
+680
+00:32:21,239 --> 00:32:22,649
+That's a huge part of the story,
+
+681
+00:32:22,649 --> 00:32:23,710
+I'll come back to that point.
+
+682
+00:32:24,861 --> 00:32:26,351
+Now I want to go through a second program.
+
+683
+00:32:26,351 --> 00:32:29,752
+That was hello world, now we
+need to talk about concurrency,
+
+684
+00:32:29,752 --> 00:32:32,203
+and I think a good way to
+do that is to somewhat more
+
+685
+00:32:32,203 --> 00:32:34,564
+quickly go through the first
+concurrent program that
+
+686
+00:32:34,564 --> 00:32:39,165
+I ever saw period and then
+the first one written in Go.
+
+687
+00:32:39,648 --> 00:32:41,939
+It came out of a paper
+written by Tony Hoare in
+
+688
+00:32:42,159 --> 00:32:44,371
+1978 called Communication
+Sequential Processes
+
+689
+00:32:44,371 --> 00:32:46,571
+and the problem is of
+course the prime sieve.
+
+690
+00:32:46,912 --> 00:32:49,993
+What we want to do is print
+in ascending order all primes
+
+691
+00:32:50,213 --> 00:32:53,054
+less than 10,000 that
+uses an array of processes
+
+692
+00:32:53,054 --> 00:32:56,071
+called sieve and each
+process generates a prime,
+
+693
+00:32:56,071 --> 00:32:58,696
+passes it down to the next
+one and there's a chain that
+
+694
+00:32:58,696 --> 00:33:02,413
+develops of filt processes
+that filter out the details.
+
+695
+00:33:06,794 --> 00:33:08,794
+In 1978 this paper appeared,
+
+696
+00:33:08,794 --> 00:33:10,437
+it actually showed this whole thing.
+
+697
+00:33:11,334 --> 00:33:14,602
+Hoare credits David Gries
+with this beautiful solution.
+
+698
+00:33:14,602 --> 00:33:16,239
+I should mention in
+passing this is not the
+
+699
+00:33:16,239 --> 00:33:18,177
+sieve of Eratosthenes,
+it's not very efficient,
+
+700
+00:33:18,177 --> 00:33:20,897
+but it is beautiful, look at it.
+
+701
+00:33:22,067 --> 00:33:24,340
+This is the original
+one. This is the complete
+
+702
+00:33:24,340 --> 00:33:28,276
+presentation of the program
+in the CSP paper. There's
+
+703
+00:33:28,276 --> 00:33:31,380
+no description how it works,
+you have to puzzle it out.
+
+704
+00:33:32,387 --> 00:33:35,058
+I won't go through it all I'll just
+point out two important points.
+
+705
+00:33:35,058 --> 00:33:36,969
+Everything is in here. There's actually a
+
+706
+00:33:36,969 --> 00:33:39,979
+big select statement down the left column.
+
+707
+00:33:40,390 --> 00:33:42,500
+The star is a loop over
+all of the sieve processes.
+
+708
+00:33:42,500 --> 00:33:44,670
+There's an array of
+processes which is instead an
+
+709
+00:33:44,670 --> 00:33:46,860
+interesting idea and it's
+fundamentally the same
+
+710
+00:33:46,860 --> 00:33:49,550
+program that you probably
+know but it's just
+
+711
+00:33:49,550 --> 00:33:51,295
+structured a little
+differently on the page.
+
+712
+00:33:51,781 --> 00:33:53,406
+The other important
+point is that there are
+
+713
+00:33:53,406 --> 00:33:55,657
+no channels in this,
+it's a rigid structure.
+
+714
+00:33:57,020 --> 00:34:00,082
+There's just a fixed set of
+a hundred sieve processes.
+
+715
+00:34:00,082 --> 00:34:01,148
+A hundred is known to be enough
+
+716
+00:34:01,148 --> 00:34:02,958
+because it's the square root of 10,000.
+
+717
+00:34:02,958 --> 00:34:05,972
+It's a theory paper, he's
+proving a point, that's fine.
+
+718
+00:34:06,237 --> 00:34:07,612
+But because the original CSP had no
+
+719
+00:34:07,612 --> 00:34:10,112
+channels this is the best you could do.
+
+720
+00:34:10,377 --> 00:34:12,597
+It's still an interesting program
+but it's not very flexible.
+
+721
+00:34:14,908 --> 00:34:17,985
+10 years later I had been
+futzing around with some of these
+
+722
+00:34:18,222 --> 00:34:19,690
+ideas for a while and decided
+I wanted to play with them
+
+723
+00:34:19,690 --> 00:34:22,647
+for real so I wrote a little
+toy language called Newsqueak.
+
+724
+00:34:24,264 --> 00:34:26,717
+Tom Cargill wrote the prime
+sieve in Newsqueak first.
+
+725
+00:34:27,657 --> 00:34:29,248
+I think he credited Doug McIlroy for
+
+726
+00:34:29,498 --> 00:34:31,358
+it but it's a longer story than that.
+
+727
+00:34:32,158 --> 00:34:34,049
+This one however uses channels,
+
+728
+00:34:34,049 --> 00:34:35,282
+Newsqueak had channels in it.
+
+729
+00:34:35,692 --> 00:34:39,953
+So the length of the run of
+primes is entirely programmable.
+
+730
+00:34:39,953 --> 00:34:41,393
+The program is much more flexible.
+
+731
+00:34:41,393 --> 00:34:43,764
+For modern eyes it's a little
+easier to read I think,
+
+732
+00:34:43,764 --> 00:34:45,373
+even though it's a weird little language.
+
+733
+00:34:45,844 --> 00:34:47,004
+I will point out that I don't actually
+
+734
+00:34:47,224 --> 00:34:49,074
+know where the idea of channels came from.
+
+735
+00:34:49,074 --> 00:34:52,146
+I don't claim I invented it,
+I really don't think I did,
+
+736
+00:34:52,146 --> 00:34:53,536
+but I don't know where I got it from,
+
+737
+00:34:53,536 --> 00:34:55,300
+it was floating around somewhere.
+
+738
+00:34:55,300 --> 00:34:58,050
+The later CSP book has channels in
+
+739
+00:34:58,050 --> 00:34:59,723
+it but the original paper does not.
+
+740
+00:35:01,693 --> 00:35:03,784
+Anyway Newsqueak had channels.
+You can probably read this
+
+741
+00:35:03,784 --> 00:35:05,974
+program and pretty much
+understand what it does.
+
+742
+00:35:05,974 --> 00:35:09,785
+It's adumbrating a lot of Go's properties.
+
+743
+00:35:10,246 --> 00:35:12,465
+You can see a couple of key points here.
+
+744
+00:35:13,315 --> 00:35:18,190
+The left pointing arrow operator
+for communication, and the
+
+745
+00:35:18,409 --> 00:35:20,425
+next slide you can see the
+colon equal guy squeaking in.
+
+746
+00:35:20,865 --> 00:35:23,586
+And keen eyes will also
+notice a mk which became
+
+747
+00:35:23,586 --> 00:35:26,136
+make in Go but that's just
+a coincidence, sort of.
+
+748
+00:35:26,956 --> 00:35:28,398
+This program runs by the way.
+
+749
+00:35:29,955 --> 00:35:32,156
+It's a very long line
+going off to the right.
+
+750
+00:35:32,156 --> 00:35:33,766
+You should fix that,
+Andrew, wherever you are.
+
+751
+00:35:34,317 --> 00:35:35,737
+But it prints them all.
+
+752
+00:35:37,236 --> 00:35:40,358
+Jumping ahead, 2008, March
+5th. We actually started
+
+753
+00:35:40,588 --> 00:35:43,409
+writing the spec in
+Syndey on March 3rd, 2008.
+
+754
+00:35:44,119 --> 00:35:45,920
+Two days later Robert said,
+"Let's write a program,"
+
+755
+00:35:46,380 --> 00:35:49,870
+and so into the spec we typed
+this version of sieve.go
+
+756
+00:35:49,870 --> 00:35:52,861
+which I think is correct
+but it's very different from
+
+757
+00:35:52,861 --> 00:35:55,872
+the language today. You can
+notice that there are pointers,
+
+758
+00:35:55,872 --> 00:35:58,402
+an issue that we struggled
+with for a long time.
+
+759
+00:35:58,402 --> 00:36:00,512
+They're pointers to a built
+in structure that gets --
+
+760
+00:36:00,512 --> 00:36:02,901
+They still are, they just
+don't look like that anymore.
+
+761
+00:36:03,371 --> 00:36:05,275
+The operators for send and receive came
+
+762
+00:36:05,275 --> 00:36:07,590
+from the shell, greater
+than and less than.
+
+763
+00:36:09,410 --> 00:36:11,552
+You can recognize the program
+but it's a little different.
+
+764
+00:36:14,894 --> 00:36:16,597
+One other thing, you'll notice that
+
+765
+00:36:16,597 --> 00:36:18,473
+main is uppercase, the early days.
+
+766
+00:36:18,990 --> 00:36:20,676
+Might have been my fault,
+I think I was typing.
+
+767
+00:36:22,852 --> 00:36:24,496
+You can recognize it, you
+can actually understand this
+
+768
+00:36:24,713 --> 00:36:28,165
+program in modern Go terms and
+translate it pretty easily.
+
+769
+00:36:28,635 --> 00:36:32,900
+It mutated quickly. In July
+we decided that greater than,
+
+770
+00:36:32,900 --> 00:36:35,112
+less than didn't work
+because it was confusing to
+
+771
+00:36:35,352 --> 00:36:37,472
+have unary operators and
+then binary ones with
+
+772
+00:36:37,472 --> 00:36:39,792
+a completely different
+meaning, so we changed them to
+
+773
+00:36:39,792 --> 00:36:42,143
+be these weird little funny
+sort of pseudo-arrows.
+
+774
+00:36:42,786 --> 00:36:45,356
+That helped a little bit.
+Channels were still the
+
+775
+00:36:45,356 --> 00:36:47,616
+pointers but at least we got
+rid of the capital on main.
+
+776
+00:36:49,006 --> 00:36:49,926
+It's a little closer to current
+
+777
+00:36:50,146 --> 00:36:51,597
+Go but it's still kind of weird.
+
+778
+00:36:52,707 --> 00:36:56,438
+Then about a month after that
+there was a discussion where
+
+779
+00:36:56,438 --> 00:37:00,084
+Newsqueak's operator came
+it. It got a lot nicer.
+
+780
+00:37:00,084 --> 00:37:04,445
+We now had prefix arrow for
+receive, infix for send.
+
+781
+00:37:05,022 --> 00:37:07,709
+Channels were still pointers
+though so there's still some
+
+782
+00:37:07,709 --> 00:37:10,912
+confusion about how you make
+a channel and what it does,
+
+783
+00:37:10,912 --> 00:37:14,429
+but you can still see
+the change happening.
+
+784
+00:37:15,022 --> 00:37:16,290
+Notice that, for instance, chan is a
+
+785
+00:37:16,290 --> 00:37:19,539
+new chan int here, rather than a make.
+
+786
+00:37:21,399 --> 00:37:24,759
+Early January 2009 we
+finally figured this out.
+
+787
+00:37:25,260 --> 00:37:27,132
+We split new into new and make.
+
+788
+00:37:27,616 --> 00:37:29,647
+The things that were pointers
+to built in structures were
+
+789
+00:37:29,647 --> 00:37:33,368
+called make so channels
+were made rather than newed.
+
+790
+00:37:34,962 --> 00:37:38,213
+Some people still struggle with
+that concept. I don't think
+
+791
+00:37:38,213 --> 00:37:42,320
+it's hard but it is clunky,
+I admit, but it does the job.
+
+792
+00:37:43,305 --> 00:37:45,233
+The code however is wrong in
+this example, this is out of
+
+793
+00:37:45,233 --> 00:37:48,073
+the spec on that day because
+there's still a star left and
+
+794
+00:37:48,073 --> 00:37:51,273
+the channel types on the
+filter function are completely
+
+795
+00:37:51,273 --> 00:37:55,384
+garbage. We didn't run it
+because, again, we were idiots.
+
+796
+00:37:56,526 --> 00:37:57,524
+This doesn't work.
+
+797
+00:37:59,369 --> 00:38:00,976
+Just before the release I finally said,
+
+798
+00:38:00,976 --> 00:38:01,796
+"You know, we should probably make sure
+
+799
+00:38:01,796 --> 00:38:04,057
+"the sieve program
+actually runs in the spec."
+
+800
+00:38:04,507 --> 00:38:06,198
+I went through and sure
+enough it was broken.
+
+801
+00:38:06,198 --> 00:38:08,449
+The capitalization now is gone.
+
+802
+00:38:08,449 --> 00:38:11,010
+I brought in fmt. This guy actually runs.
+
+803
+00:38:15,361 --> 00:38:17,982
+This is modern go except for
+the semicolons which went
+
+804
+00:38:18,232 --> 00:38:21,592
+away on December 10th, 2009
+in the great semicolon purge.
+
+805
+00:38:23,266 --> 00:38:26,306
+This is the program that you can recognize
+
+806
+00:38:26,516 --> 00:38:28,947
+it all the way back to Newsqueak, really.
+
+807
+00:38:29,497 --> 00:38:32,838
+It mutated very slightly but
+converged really quickly.
+
+808
+00:38:33,384 --> 00:38:36,165
+The piece that's important
+here is that the historical
+
+809
+00:38:36,385 --> 00:38:38,479
+refinement through languages,
+through thinking about the
+
+810
+00:38:38,479 --> 00:38:41,526
+ideas that are there is
+again this process of history
+
+811
+00:38:41,526 --> 00:38:44,729
+and decision process and
+time to get us to here.
+
+812
+00:38:45,104 --> 00:38:46,417
+This beautiful solution was contributed
+
+813
+00:38:46,417 --> 00:38:48,635
+by a decades-long process of design.
+
+814
+00:38:49,899 --> 00:38:51,320
+One thing I did not discuss that's
+
+815
+00:38:51,541 --> 00:38:53,681
+extremely important to Go is select.
+
+816
+00:38:53,987 --> 00:38:56,409
+A lot of people read about
+Go or knew about concurrency
+
+817
+00:38:56,409 --> 00:38:59,131
+from other languages and will
+play in their language of
+
+818
+00:38:59,131 --> 00:39:02,270
+choice and implement channels
+and coroutines and say,
+
+819
+00:39:02,270 --> 00:39:03,960
+"Look, it's Go-like." It's not.
+
+820
+00:39:03,960 --> 00:39:05,832
+If you don't have select
+you don't have concurrency.
+
+821
+00:39:05,832 --> 00:39:07,486
+You don't have real concurrency,
+
+822
+00:39:07,486 --> 00:39:10,300
+because [unintelligible] for channels.
+
+823
+00:39:10,300 --> 00:39:13,068
+Without select all you can
+build is linear structures.
+
+824
+00:39:13,068 --> 00:39:15,169
+You can't build the
+interesting trees and loops
+
+825
+00:39:15,169 --> 00:39:18,380
+and other complex structures
+which are the key to
+
+826
+00:39:18,380 --> 00:39:21,010
+building true systems
+that use concurrency well.
+
+827
+00:39:21,490 --> 00:39:24,121
+Also I'd like to point out
+that select is the only
+
+828
+00:39:24,121 --> 00:39:26,881
+part that's really hard.
+Everything else is easy.
+
+829
+00:39:27,101 --> 00:39:28,992
+Channels are just queues,
+what's the big deal.
+
+830
+00:39:29,718 --> 00:39:31,779
+Select though, that's tricky to get right.
+
+831
+00:39:31,779 --> 00:39:33,419
+It's also tricky to design right.
+
+832
+00:39:33,766 --> 00:39:36,736
+Go's select again was
+the process of refinement
+
+833
+00:39:36,956 --> 00:39:38,877
+through a series of predecessor languages
+
+834
+00:39:38,877 --> 00:39:42,318
+originating with CSP to
+get the semantics right
+
+835
+00:39:42,318 --> 00:39:46,148
+and in Go we specced it
+out on March 26th 2008.
+
+836
+00:39:46,368 --> 00:39:49,599
+At that point we knew some of
+the things that needed to be
+
+837
+00:39:49,599 --> 00:39:52,994
+fixed for the select in Go
+included making sure it could be
+
+838
+00:39:52,994 --> 00:39:55,130
+implemented efficiently,
+making sure it scaled right,
+
+839
+00:39:55,130 --> 00:39:57,360
+getting rid of some of the
+features of select from other
+
+840
+00:39:57,360 --> 00:40:00,071
+languages that were nice
+to use but made things too
+
+841
+00:40:00,071 --> 00:40:03,462
+complicated or too hard
+to make highly efficient.
+
+842
+00:40:06,670 --> 00:40:11,577
+That aside, the sieve program
+that I just showed you from
+
+843
+00:40:11,831 --> 00:40:14,203
+2009 is exactly the same as
+the one in the spec today.
+
+844
+00:40:16,390 --> 00:40:18,561
+That's almost five years
+with no changes whatsoever.
+
+845
+00:40:20,139 --> 00:40:23,201
+Open sources systems are
+usually not that stable.
+
+846
+00:40:23,201 --> 00:40:25,748
+They get tweaked and worked,
+certainly once they're used,
+
+847
+00:40:25,748 --> 00:40:27,670
+they're always being adapted, changing.
+
+848
+00:40:29,230 --> 00:40:31,390
+That's a good thing because
+you can make them better but
+
+849
+00:40:31,390 --> 00:40:34,708
+I think it's important to
+recognize that one of Go's key
+
+850
+00:40:34,708 --> 00:40:38,461
+elements of success was stopping
+the change at some point.
+
+851
+00:40:39,648 --> 00:40:43,945
+We just said, "Go's done well
+enough now. It's not perfect,
+
+852
+00:40:44,165 --> 00:40:45,807
+"it's still got a lot of
+problems. We know we screwed up a
+
+853
+00:40:45,807 --> 00:40:48,963
+"bunch of things but it's better
+to just say we're done than
+
+854
+00:40:48,963 --> 00:40:51,712
+"to say we'll fix that and keep
+breaking people's programs."
+
+855
+00:40:52,542 --> 00:40:54,273
+It's a really important
+reason for Go's success.
+
+856
+00:40:54,273 --> 00:41:00,325
+This is the trends graph from
+trends.google.com for the keyword golang.
+
+857
+00:41:01,211 --> 00:41:05,573
+Down the bottom those two
+dates are 2011 and 2013.
+
+858
+00:41:06,118 --> 00:41:08,915
+Go 1.0 came out in
+mid-2012 and I think you
+
+859
+00:41:08,915 --> 00:41:11,010
+can see there's a distinct
+bend in the curve.
+
+860
+00:41:11,010 --> 00:41:13,527
+It got suddenly much steeper
+when Go one came out.
+
+861
+00:41:13,884 --> 00:41:15,712
+I think that's evidence
+that people really need that
+
+862
+00:41:15,712 --> 00:41:18,323
+stability in order to trust
+that they can use this system
+
+863
+00:41:18,323 --> 00:41:21,666
+and make something out of it.
+It's a really important point.
+
+864
+00:41:24,221 --> 00:41:27,115
+Looking back, what are the
+factors for Go's success?
+
+865
+00:41:27,115 --> 00:41:29,017
+I'm obviously biased. I was in the middle.
+
+866
+00:41:29,017 --> 00:41:31,925
+I don't know why you guys
+like it. I know why I like it.
+
+867
+00:41:32,160 --> 00:41:35,441
+I can take a guess at what matters.
+
+868
+00:41:36,034 --> 00:41:38,095
+The features and tools
+are obviously important.
+
+869
+00:41:38,095 --> 00:41:41,947
+Everybody talks about how great
+gofmt is and things like that,
+
+870
+00:41:41,947 --> 00:41:44,117
+that the concurrency is a huge draw.
+
+871
+00:41:44,117 --> 00:41:47,298
+Having a nice statically-typed
+language where nice
+
+872
+00:41:47,538 --> 00:41:49,938
+and statically-typed don't
+often go together is nice.
+
+873
+00:41:50,870 --> 00:41:52,870
+The concurrency is a huge
+win, people love that.
+
+874
+00:41:52,870 --> 00:41:55,100
+It's also I think one of the draws that
+
+875
+00:41:55,100 --> 00:41:56,460
+brings people in for the first time.
+
+876
+00:41:56,460 --> 00:41:58,311
+Having a strictly garbage
+collected language
+
+877
+00:41:58,311 --> 00:42:00,543
+has its issues, there's
+no question about it,
+
+878
+00:42:00,543 --> 00:42:02,773
+but it makes the language
+very attractive to start in.
+
+879
+00:42:03,740 --> 00:42:06,910
+The compiler is fast, the
+binary is running quickly.
+
+880
+00:42:07,671 --> 00:42:09,921
+The notion of static type and dynamic
+
+881
+00:42:09,921 --> 00:42:11,165
+feel that we tried to get right.
+
+882
+00:42:11,905 --> 00:42:13,850
+Having a really good standard
+library but limiting what
+
+883
+00:42:14,068 --> 00:42:17,397
+it is so outsiders can bring
+in more stuff, we don't
+
+884
+00:42:17,397 --> 00:42:19,632
+have to put everything in
+the core. Works really well.
+
+885
+00:42:19,896 --> 00:42:23,943
+The tools are critical. The go command,
+
+886
+00:42:23,943 --> 00:42:26,338
+gofix, gofmt, things like that.
+
+887
+00:42:26,662 --> 00:42:29,804
+But also the factors which
+were part of the design process
+
+888
+00:42:29,804 --> 00:42:32,505
+all along to make sure
+those tools could be built.
+
+889
+00:42:32,505 --> 00:42:35,116
+That the grammar is easy
+to parse, fast to compile.
+
+890
+00:42:35,116 --> 00:42:37,303
+That the language doesn't
+have fancy semantics.
+
+891
+00:42:37,303 --> 00:42:39,508
+That it's easy to read,
+easy to understand,
+
+892
+00:42:39,508 --> 00:42:42,493
+easy to translate. Those are
+all important factors too.
+
+893
+00:42:42,493 --> 00:42:44,396
+I mentioned gofmt many times.
+
+894
+00:42:44,396 --> 00:42:45,960
+This other concept which I talked about in
+
+895
+00:42:45,960 --> 00:42:48,772
+the splash talk a year or so ago that Go
+
+896
+00:42:48,772 --> 00:42:51,444
+was always designed for Google internally.
+
+897
+00:42:51,444 --> 00:42:53,272
+We're a big company with
+a lot of programmers
+
+898
+00:42:53,272 --> 00:42:55,225
+and we want to make sure that the language
+
+899
+00:42:55,225 --> 00:42:57,491
+works for large teams
+working on large programs.
+
+900
+00:42:57,491 --> 00:43:00,897
+That's an intangible thing
+but I think Go has a lot
+
+901
+00:43:00,897 --> 00:43:04,443
+of features, or lack
+thereof, or design elements
+
+902
+00:43:04,443 --> 00:43:07,039
+to make sure that programming
+large really works.
+
+903
+00:43:09,537 --> 00:43:11,971
+Less obvious than those
+things I just listed
+
+904
+00:43:12,190 --> 00:43:15,393
+is the process by which Go came to be.
+
+905
+00:43:16,923 --> 00:43:19,374
+We started with the idea
+that we needed a language
+
+906
+00:43:19,374 --> 00:43:21,784
+to make it easier for
+us to get our jobs done,
+
+907
+00:43:21,784 --> 00:43:24,495
+and our job is writing server software.
+
+908
+00:43:25,778 --> 00:43:27,829
+We stayed and focused on
+that idea. We're trying
+
+909
+00:43:27,829 --> 00:43:30,079
+to solve the problem of
+writing server software.
+
+910
+00:43:31,029 --> 00:43:34,786
+There's this process we
+went through of concentrated
+
+911
+00:43:34,786 --> 00:43:37,767
+development, really intense
+for several years followed
+
+912
+00:43:37,767 --> 00:43:40,478
+by a freeze. We planned for
+the freeze, we worked hard
+
+913
+00:43:40,478 --> 00:43:43,429
+to get there but then we
+stopped, the language is done.
+
+914
+00:43:45,553 --> 00:43:47,923
+That was a huge, concentrated effort.
+
+915
+00:43:47,923 --> 00:43:49,404
+Understanding and really
+being involved but
+
+916
+00:43:49,404 --> 00:43:51,404
+then saying knowing when
+to stop is important.
+
+917
+00:43:52,285 --> 00:43:54,976
+This idea that it was a
+consensus driven design
+
+918
+00:43:54,976 --> 00:43:58,820
+by a very small team
+is not unusual exactly
+
+919
+00:43:58,820 --> 00:44:00,240
+but it's not how everything gets built.
+
+920
+00:44:00,503 --> 00:44:03,395
+It really is important to the
+clarity of the vision the language.
+
+921
+00:44:04,557 --> 00:44:06,432
+Then of course we went open source.
+
+922
+00:44:06,432 --> 00:44:08,436
+We got incredibly important
+contributions from the
+
+923
+00:44:08,436 --> 00:44:10,746
+community, a community that
+I'm happy to say seems to
+
+924
+00:44:10,746 --> 00:44:13,998
+get what this is all about
+and appreciate what it's for.
+
+925
+00:44:14,919 --> 00:44:18,329
+Go wouldn't be anywhere
+if it wasn't for you guys.
+
+926
+00:44:20,809 --> 00:44:22,729
+The consequence of all this
+is we've got this really rich
+
+927
+00:44:22,729 --> 00:44:26,050
+ecosystem of externally
+provided libraries and tools.
+
+928
+00:44:26,050 --> 00:44:27,860
+The port to Windows was done entirely in
+
+929
+00:44:27,860 --> 00:44:29,840
+the open source world, that's fantastic.
+
+930
+00:44:29,840 --> 00:44:31,841
+That's a consequence of all of
+
+931
+00:44:31,841 --> 00:44:33,416
+these other things tying together.
+
+932
+00:44:33,818 --> 00:44:36,912
+In other words Go succeeds because there's
+
+933
+00:44:36,912 --> 00:44:38,318
+an open source community
+that understands our
+
+934
+00:44:38,318 --> 00:44:41,365
+mission and helps us
+achieve what we want to do,
+
+935
+00:44:41,365 --> 00:44:44,444
+which is to build something
+good for today's world.
+
+936
+00:44:46,625 --> 00:44:48,840
+That brings me to my final point here
+
+937
+00:44:49,075 --> 00:44:50,762
+which is what I call fitness to purpose.
+
+938
+00:44:51,888 --> 00:44:56,079
+In March, a month ago, this
+guy Donnie Berkholz, maybe he's
+
+939
+00:44:56,297 --> 00:44:59,422
+here, I don't know, wrote this
+article on RedMonk entitled,
+
+940
+00:44:59,422 --> 00:45:01,829
+"Go:the emerging language
+of cloud infrastructure."
+
+941
+00:45:01,829 --> 00:45:04,062
+The emerging part is cool, I love that,
+
+942
+00:45:04,062 --> 00:45:05,659
+but if you drop that it would say,
+
+943
+00:45:05,659 --> 00:45:07,450
+"Go:the language of cloud infrastructure."
+
+944
+00:45:07,690 --> 00:45:10,110
+That doesn't really surprise me because Go
+
+945
+00:45:10,360 --> 00:45:12,481
+was designed to be a language
+for cloud infrastructure,
+
+946
+00:45:12,481 --> 00:45:14,762
+that's why we did it.
+That was the whole point.
+
+947
+00:45:14,762 --> 00:45:16,762
+We used to call those things servers,
+
+948
+00:45:16,762 --> 00:45:18,182
+now it's called cloud infrastructure.
+
+949
+00:45:18,182 --> 00:45:20,262
+It will be called
+something else next year.
+
+950
+00:45:20,262 --> 00:45:21,678
+(laughter)
+
+951
+00:45:21,678 --> 00:45:24,948
+That's what we did. I think
+he did write a really nice
+
+952
+00:45:24,948 --> 00:45:28,507
+article about why Go is
+succeeding and defining that it
+
+953
+00:45:28,507 --> 00:45:30,835
+is succeeding. He's got this
+lovely little graph here.
+
+954
+00:45:30,835 --> 00:45:33,683
+Again it shows that distinct
+kink in the curve and very
+
+955
+00:45:33,902 --> 00:45:36,809
+steep lines to the right which
+I think is very encouraging.
+
+956
+00:45:37,582 --> 00:45:41,097
+That brings us to the next
+phase, which is the future,
+
+957
+00:45:41,331 --> 00:45:43,362
+and that's where you guys come in.
+
+958
+00:45:43,692 --> 00:45:46,051
+We're passing the torch off
+to the open source community.
+
+959
+00:45:46,625 --> 00:45:49,496
+Make something exciting
+happen. Thank you very much.
+
+960
+00:45:49,496 --> 00:45:53,577
+(applause)
+
+961
+00:46:07,009 --> 00:46:10,913
+Q&A? Do we have questions?
+Time for questions, okay.
+
+962
+00:46:13,149 --> 00:46:15,289
+Does anyone have any questions?
+There's a microphone roaming.
+
+963
+00:46:19,320 --> 00:46:21,321
+Audience:Are there any
+plans for a debugger?
+
+964
+00:46:21,806 --> 00:46:23,586
+Rob:There are plans for
+a debugger but they're
+
+965
+00:46:23,586 --> 00:46:26,351
+very sketchy. It's hard
+because the operating
+
+966
+00:46:26,351 --> 00:46:28,430
+systems today don't want
+you to write a debugger.
+
+967
+00:46:28,918 --> 00:46:30,679
+(laughter)
+
+968
+00:46:30,679 --> 00:46:31,916
+I'm serious, it's really hard.
+
+969
+00:46:32,149 --> 00:46:34,773
+We're playing around but I
+can't promise anything because
+
+970
+00:46:34,773 --> 00:46:37,884
+it might fail. We're trying,
+we've got some ideas.
+
+971
+00:46:39,508 --> 00:46:41,680
+Audience:I have a pair of questions here.
+
+972
+00:46:41,680 --> 00:46:46,745
+The first one is having Go
+be a target for embedded use.
+
+973
+00:46:46,745 --> 00:46:49,869
+Obviously there's some operating
+system issues around that.
+
+974
+00:46:49,869 --> 00:46:53,101
+The second is supporting DSOs or
+
+975
+00:46:53,101 --> 00:46:55,868
+DLL kind of shared object support.
+
+976
+00:46:56,523 --> 00:46:58,445
+Rob:They're closely related.
+
+977
+00:47:00,202 --> 00:47:02,995
+We never expected Go to
+be an embedded language.
+
+978
+00:47:02,995 --> 00:47:04,979
+It's got serious problems because it
+
+979
+00:47:04,979 --> 00:47:07,093
+needs a fairly large heap to work well.
+
+980
+00:47:07,093 --> 00:47:09,793
+The binaries aren't very
+small because of all
+
+981
+00:47:09,793 --> 00:47:11,703
+the type information they need at runtime.
+
+982
+00:47:12,238 --> 00:47:14,708
+It might work in- I mean modern
+embedded machines are enormous
+
+983
+00:47:14,916 --> 00:47:19,940
+so it can be done. You can
+run Go as NDK on Android.
+
+984
+00:47:20,777 --> 00:47:23,139
+But it's clear that we
+have to do something
+
+985
+00:47:23,139 --> 00:47:25,590
+about DLLs in order to
+make this world work.
+
+986
+00:47:25,590 --> 00:47:28,111
+There is effort underway in
+the open source community.
+
+987
+00:47:28,111 --> 00:47:30,092
+It's not clear where
+it's going, whether it's
+
+988
+00:47:30,092 --> 00:47:31,811
+the right answer, what's going to happen.
+
+989
+00:47:31,811 --> 00:47:35,562
+But for things like Android
+I think something has
+
+990
+00:47:35,562 --> 00:47:37,279
+to happen and we're
+trying to make it happen.
+
+991
+00:47:38,497 --> 00:47:40,948
+For the general question of embedded it
+
+992
+00:47:40,948 --> 00:47:43,249
+depends what you want,
+what exactly you need.
+
+993
+00:47:43,249 --> 00:47:47,186
+In some situation it might
+be a financer. It's never
+
+994
+00:47:47,186 --> 00:47:51,391
+going to be a real-time
+language, so I don't know yet.
+
+995
+00:47:52,138 --> 00:47:54,574
+It wasn't the design so it's
+always going to be a weird fit.
+
+996
+00:47:54,915 --> 00:47:56,447
+It wasn't the intent.
+
+997
+00:47:58,791 --> 00:48:01,649
+Audience:First of all thank
+you for the awesome language.
+
+998
+00:48:02,863 --> 00:48:05,703
+After you deprecated net
+chan is there a first class
+
+999
+00:48:05,944 --> 00:48:07,954
+replacement for that, have
+you come up with that yet?
+
+1000
+00:48:08,504 --> 00:48:10,064
+Rob:I would love something like that.
+
+1001
+00:48:10,064 --> 00:48:13,955
+The original thinking around
+channels for about two days it
+
+1002
+00:48:13,955 --> 00:48:16,175
+was trying to make them coupled
+to the network directly.
+
+1003
+00:48:16,175 --> 00:48:18,076
+We kind of gave up on that. And there was
+
+1004
+00:48:18,076 --> 00:48:20,116
+discussion about trying
+to have types flow through
+
+1005
+00:48:20,116 --> 00:48:23,828
+channels and that didn't
+work out, so we backed down.
+
+1006
+00:48:24,707 --> 00:48:25,939
+There are a lot of issues with
+
+1007
+00:48:26,173 --> 00:48:27,958
+doing channels over the network.
+
+1008
+00:48:29,890 --> 00:48:32,222
+It's very difficult to get
+the synchronous semantics,
+
+1009
+00:48:32,453 --> 00:48:35,282
+for instance. They pretty
+much have to be asynchronous.
+
+1010
+00:48:35,282 --> 00:48:37,484
+That's a good thing and a bad
+thing. Erlang works really
+
+1011
+00:48:37,484 --> 00:48:39,828
+well but they only have
+asynchronous message passing.
+
+1012
+00:48:41,093 --> 00:48:43,609
+There's a talk, I think in
+this session, anyway sometime
+
+1013
+00:48:43,609 --> 00:48:46,548
+today about someone who's tried
+to play around in that game.
+
+1014
+00:48:46,548 --> 00:48:49,422
+He's done some work in the
+runtime to support that.
+
+1015
+00:48:49,422 --> 00:48:52,109
+I have sketched out about
+20 different ways of doing
+
+1016
+00:48:52,109 --> 00:48:55,875
+it but haven't implemented
+any more of them. One day.
+
+1017
+00:48:56,192 --> 00:48:57,891
+I think you need a little
+more power from the language
+
+1018
+00:48:57,891 --> 00:49:00,110
+in order to make it work and
+we don't have that power yet.
+
+1019
+00:49:05,238 --> 00:49:07,305
+Audience:Hi. I was
+interested really quick.
+
+1020
+00:49:08,246 --> 00:49:10,017
+Going all the way back to
+the beginning of the talk
+
+1021
+00:49:10,017 --> 00:49:13,167
+obviously you talked about what
+you guys were designing for,
+
+1022
+00:49:13,167 --> 00:49:17,938
+your consensus and all that.
+Can you speak to even a little
+
+1023
+00:49:17,938 --> 00:49:23,109
+bit more or give one or two
+examples of you personally where
+
+1024
+00:49:23,109 --> 00:49:25,869
+you were trying to use those
+other tools and what you
+
+1025
+00:49:25,869 --> 00:49:28,731
+rammed your head into where
+you decided that you needed
+
+1026
+00:49:28,731 --> 00:49:33,512
+a new language. What were
+the problems you were facing,
+
+1027
+00:49:33,512 --> 00:49:36,624
+what didn't you like and
+what were those moments of
+
+1028
+00:49:36,624 --> 00:49:38,885
+inception where you had finally
+beaten your head against
+
+1029
+00:49:38,885 --> 00:49:41,015
+the wall to the point where
+you said, "Okay, this isn't
+
+1030
+00:49:41,015 --> 00:49:43,716
+"going to work. This is failing
+here, this is failing here."
+
+1031
+00:49:43,946 --> 00:49:46,867
+Rob:I've talked a lot about
+this before [unintelligible].
+
+1032
+00:49:46,867 --> 00:49:51,819
+We were writing in mostly
+C++ and some Java and both of
+
+1033
+00:49:51,819 --> 00:49:56,100
+those languages seemed to
+be too ponderous to work in.
+
+1034
+00:49:57,168 --> 00:50:01,700
+C++ you have to separate
+dot h and dot c, you end up
+
+1035
+00:50:01,951 --> 00:50:03,991
+writing the type specifications
+over and over again.
+
+1036
+00:50:03,991 --> 00:50:06,124
+In the environment I
+was working at the time,
+
+1037
+00:50:06,124 --> 00:50:08,795
+the binary I was working in,
+builds were taking 45 minutes.
+
+1038
+00:50:08,795 --> 00:50:10,735
+I considered that painful.
+
+1039
+00:50:10,735 --> 00:50:12,275
+When builds take that
+long you have a lot of
+
+1040
+00:50:12,275 --> 00:50:14,015
+time to think about what
+you might make better.
+
+1041
+00:50:14,015 --> 00:50:16,026
+(laughter)
+
+1042
+00:50:16,026 --> 00:50:21,197
+Java isn't really that
+ponderous but its ponderousness
+
+1043
+00:50:21,197 --> 00:50:25,577
+comes in a culture of
+long-windedness that's exhausting.
+
+1044
+00:50:27,558 --> 00:50:30,433
+The understanding the error messages from
+
+1045
+00:50:30,667 --> 00:50:34,719
+compilers with a weird
+type system are confusing.
+
+1046
+00:50:34,719 --> 00:50:36,480
+It just seemed like we weren't productive.
+
+1047
+00:50:36,799 --> 00:50:39,813
+I'd gone from an environment working with
+
+1048
+00:50:40,033 --> 00:50:42,683
+a bunch of tools that
+we built at Bell Labs.
+
+1049
+00:50:42,683 --> 00:50:44,124
+I went to Google and we
+built some amazing stuff at
+
+1050
+00:50:44,124 --> 00:50:47,685
+Google and we got it to
+work but the actual process
+
+1051
+00:50:47,685 --> 00:50:50,218
+of building it seemed
+to be too heavyweight.
+
+1052
+00:50:51,444 --> 00:50:54,855
+The language wasn't helping,
+the compiler wasn't helping,
+
+1053
+00:50:55,056 --> 00:50:57,146
+the tooling wasn't helping.
+It just seemed like it
+
+1054
+00:50:57,146 --> 00:51:00,037
+had to say the same things
+over and over again.
+
+1055
+00:51:02,332 --> 00:51:03,548
+We looked into a language that we could
+
+1056
+00:51:03,766 --> 00:51:05,974
+compile faster and look nicer on the page
+
+1057
+00:51:05,974 --> 00:51:09,282
+and be closer to the way we used to work.
+
+1058
+00:51:09,282 --> 00:51:12,828
+There's no question that
+relative to the modern
+
+1059
+00:51:13,008 --> 00:51:17,695
+big languages like C++,
+D or Java, Go looks like
+
+1060
+00:51:17,915 --> 00:51:19,605
+a bit of a throwback,
+at least to those people
+
+1061
+00:51:19,605 --> 00:51:22,992
+who love those languages,
+but I'm okay with that.
+
+1062
+00:51:26,399 --> 00:51:28,524
+Audience:During the language
+design what were your
+
+1063
+00:51:28,524 --> 00:51:32,387
+discussions or thoughts about
+a macro system so that things
+
+1064
+00:51:32,387 --> 00:51:36,665
+like if error not nil return
+error didn't have to be-
+
+1065
+00:51:36,931 --> 00:51:38,945
+Rob:I think the first
+mail said, "No macros,"
+
+1066
+00:51:38,945 --> 00:51:40,254
+and that was the end of the conversation.
+
+1067
+00:51:41,305 --> 00:51:42,053
+Audience:Fair enough.
+
+1068
+00:51:45,848 --> 00:51:48,048
+Audience:Looking to the
+future are there any
+
+1069
+00:51:48,268 --> 00:51:51,549
+plans for more analysis
+and concurrency to be
+
+1070
+00:51:51,549 --> 00:51:55,039
+able to take common idioms
+like producer consumer
+
+1071
+00:51:55,039 --> 00:51:57,459
+and special case that
+to bypass the scheduler?
+
+1072
+00:51:58,760 --> 00:52:01,240
+Rob:There's two parts to
+that. One is the runtime
+
+1073
+00:52:01,240 --> 00:52:02,960
+needs to know, or the
+runtime and the language have
+
+1074
+00:52:02,960 --> 00:52:05,861
+to cooperate more to
+understand patterns better.
+
+1075
+00:52:05,861 --> 00:52:08,771
+We talked a lot about doing
+some things along those lines.
+
+1076
+00:52:08,771 --> 00:52:12,251
+Not too much has happened but
+I'm not claiming it never will.
+
+1077
+00:52:13,379 --> 00:52:16,299
+One thing I'd like to be able
+to see, it's the one argument
+
+1078
+00:52:16,540 --> 00:52:21,110
+that I think makes the current
+type system not quite good
+
+1079
+00:52:21,110 --> 00:52:23,892
+enough is that it's very hard
+to write concurrency libraries.
+
+1080
+00:52:23,892 --> 00:52:26,462
+You can't write a statically-typed mux or
+
+1081
+00:52:26,462 --> 00:52:28,783
+a statically-typed fan-in
+or fan-out structure.
+
+1082
+00:52:28,783 --> 00:52:30,334
+It would be nice to be able to do that
+
+1083
+00:52:31,205 --> 00:52:33,126
+but I'm not sure the cost is worth it.
+
+1084
+00:52:35,001 --> 00:52:37,037
+We talk about these things a lot but
+
+1085
+00:52:37,267 --> 00:52:38,876
+there's no plans to do anything yet.
+
+1086
+00:52:39,765 --> 00:52:41,405
+Audience:[unintelligible]
+
+1087
+00:52:41,405 --> 00:52:42,766
+Rob:You should have a microphone
+
+1088
+00:52:42,766 --> 00:52:44,265
+so they can hear it at home.
+
+1089
+00:52:48,512 --> 00:52:50,466
+Audience:Corollary to that
+you mentioned language and
+
+1090
+00:52:50,466 --> 00:52:53,969
+the runtime working together.
+Would the team really be
+
+1091
+00:52:54,217 --> 00:52:57,279
+willing to make language
+changes just for special casing?
+
+1092
+00:52:58,075 --> 00:53:00,574
+Rob:You don't necessarily have
+to do it in language changes.
+
+1093
+00:53:00,574 --> 00:53:03,681
+It could be that if you write
+this it works this way which
+
+1094
+00:53:03,899 --> 00:53:05,853
+is consistent with the current
+language but runs faster.
+
+1095
+00:53:06,196 --> 00:53:07,637
+We already do things like inlining
+
+1096
+00:53:07,637 --> 00:53:10,352
+and magic tricks in the runtime.
+
+1097
+00:53:11,966 --> 00:53:13,919
+The language semantics are not going
+
+1098
+00:53:14,124 --> 00:53:15,216
+to change, we're can't do that.
+
+1099
+00:53:15,577 --> 00:53:16,794
+I mean unless Go 2 happens.
+
+1100
+00:53:18,059 --> 00:53:20,684
+Audience:What is the status
+on library versioning?
+
+1101
+00:53:23,670 --> 00:53:25,731
+Rob:Go 1.3 beta is cut.
+
+1102
+00:53:26,387 --> 00:53:31,607
+Audience:No I mean dependency
+management and then version-
+
+1103
+00:53:31,607 --> 00:53:33,825
+Rob:That's something that
+the open source community
+
+1104
+00:53:33,825 --> 00:53:36,153
+is working on, we're not
+doing anything about that.
+
+1105
+00:53:39,374 --> 00:53:41,513
+Audience:What is your
+philosophy around making
+
+1106
+00:53:41,747 --> 00:53:44,107
+breaking changes in the future for Go?
+
+1107
+00:53:45,243 --> 00:53:46,770
+Rob:It's written down: We won't.
+
+1108
+00:53:48,422 --> 00:53:51,171
+If we're going to break
+things, other than for security
+
+1109
+00:53:51,171 --> 00:53:54,515
+issues, which may come up,
+it's going to have to wait
+
+1110
+00:53:54,515 --> 00:53:57,093
+until there's a thing that's
+not called Go version one
+
+1111
+00:53:57,093 --> 00:53:58,860
+We could call it Go
+version two or something.
+
+1112
+00:54:00,080 --> 00:54:02,550
+That stability is really important.
+
+1113
+00:54:02,550 --> 00:54:05,081
+Breaking changes are called
+breaking changes for a reason,
+
+1114
+00:54:05,081 --> 00:54:07,081
+they break stuff. We don't
+want to break people.
+
+1115
+00:54:08,831 --> 00:54:10,785
+Seems like a sensible things to do.
+
+1116
+00:54:12,178 --> 00:54:15,160
+Any more questions? Where's
+the microphone flowing?
+
+1117
+00:54:16,534 --> 00:54:17,695
+Somebody in the front here.
+
+1118
+00:54:19,553 --> 00:54:21,878
+How many of you have your gophers here?
+
+1119
+00:54:23,215 --> 00:54:24,589
+Can you hold them up for me?
+
+1120
+00:54:29,097 --> 00:54:30,454
+I want to see if I can get over
+
+1121
+00:54:30,688 --> 00:54:31,954
+a thousand gophers in a room.
+
+1122
+00:54:32,228 --> 00:54:34,008
+Staff:Derek Collison if you're here would
+
+1123
+00:54:34,008 --> 00:54:35,398
+you go back to the corner please.
+
+1124
+00:54:36,164 --> 00:54:38,853
+Maybe last question? Yep.
+
+1125
+00:54:41,041 --> 00:54:42,602
+Audience:Are there any plans for generics?
+
+1126
+00:54:43,445 --> 00:54:46,148
+(laughter)
+
+1127
+00:54:46,148 --> 00:54:47,743
+Rob:There are no plans for generics.
+
+1128
+00:54:48,644 --> 00:54:50,537
+I said we're going to leave
+the language, we're done.
+
+1129
+00:54:51,282 --> 00:54:52,787
+Okay. I think I should probably stop
+
+1130
+00:54:52,787 --> 00:54:54,548
+and let the next speaker come up.
+
+1131
+00:54:54,548 --> 00:54:56,787
+Staff:Yeah, we have Derek on the way.
+
+1132
+00:54:58,947 --> 00:55:00,197
+Staff:You had a last question?
+
+1133
+00:55:01,752 --> 00:55:03,568
+Rob do you have time for one more question
+
+1134
+00:55:03,784 --> 00:55:05,740
+while we work on getting Derek up here?
+
+1135
+00:55:08,877 --> 00:55:09,892
+Do you have time for one more question
+
+1136
+00:55:09,892 --> 00:55:11,815
+while we get Derek up here?
+
+1137
+00:55:11,815 --> 00:55:12,863
+Rob:Yeah.
+
+1138
+00:55:16,445 --> 00:55:19,425
+Audience:Rob, what's the
+languages that led you to choose
+
+1139
+00:55:19,425 --> 00:55:21,628
+to do errors the way that
+we're handling them now?
+
+1140
+00:55:22,662 --> 00:55:23,709
+Rob:The thing about errors is
+
+1141
+00:55:23,941 --> 00:55:25,128
+that they're not anything special.
+
+1142
+00:55:25,398 --> 00:55:27,445
+They're just values in the
+language like anything else.
+
+1143
+00:55:31,669 --> 00:55:35,591
+The thing about errors is they're
+errors but they're just values.
+
+1144
+00:55:35,591 --> 00:55:37,466
+You have the entire
+programming language at
+
+1145
+00:55:37,466 --> 00:55:39,670
+your disposal when you want
+to program around an error.
+
+1146
+00:55:39,941 --> 00:55:43,907
+Since errors are a common
+feature of any program you
+
+1147
+00:55:43,907 --> 00:55:45,547
+should have the entire
+language at your disposal.
+
+1148
+00:55:45,547 --> 00:55:47,470
+You shouldn't need some special
+mechanism like a try catch
+
+1149
+00:55:47,470 --> 00:55:49,203
+or something. You should
+just be able to write an
+
+1150
+00:55:49,203 --> 00:55:51,600
+if statement or compare
+or print them or whatever.
+
+1151
+00:55:52,702 --> 00:55:55,808
+Errors are not special, that's
+the defining point of them.
+
+1152
+00:55:56,045 --> 00:55:56,903
+They're not special.
+
+1153
+00:55:58,668 --> 00:56:00,183
+All right, thank you.
+
+1154
+00:56:00,794 --> 00:56:02,373
+(applause)
+
+1155
+00:56:02,873 --> 00:56:07,761
+(bouncy music)
+
