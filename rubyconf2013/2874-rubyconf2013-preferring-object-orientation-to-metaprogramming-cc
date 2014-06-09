@@ -1,0 +1,1357 @@
+RubyConf 2013 - Preferring Object-Orientation to Metaprogramming - Steven G. Harms
+
+STEVEN G. HARMS: Hi. Good afternoon everyone.
+
+We're starting a little bit late, I think,
+
+because of AV issues. So I think we're gonna have to breeze through.
+
+So you are in the right place if you wanted to hear
+
+about preferring object-orientation to metaprogramming.
+
+My name is Steven Harms, just a brief rundown.
+
+I live in San Francisco like a great many
+
+of you. You can Tweet at me @SGHarms. I'll
+
+also supply an email address if you like to
+
+interact in a slower form of communication.
+
+What I'd like to do is talk to you
+
+about preferring object-orientation to metaprogramming. Now I have to
+
+admit I'm a little bit scared to be up
+
+here, because two years ago I was extolling the
+
+virtues of metaprogramming left and right in New Orleans.
+
+So, well thank you very much.
+
+But I, you know, you can all tell your
+
+significant other that, apparently, one time, a programmer did
+
+admit that he or she was wrong. So I
+
+was wrong. And I hope to light, guide you
+
+on that journey, sitting up here, or, rather, standing
+
+up here and saying you're wrong is a very
+
+interesting experience. But I have been advised that I
+
+should take my fear out of my back pocket
+
+and put it into me.
+
+I would like to say, I love metaprogramming. It's
+
+a fascinating topic. It's rich. It's something very special
+
+to Ruby and I first got exposed to it
+
+at RubyConf 2007, hosted by the, our friend Dr.
+
+Jim Freeze - Jim might be here. I don't
+
+see him.
+
+But I can't remember who it was, but somebody
+
+at lunch showed me this thing here, this thing
+
+on line four, where I- I don't know where
+
+you are, but when I saw that I was
+
+like, this is crazy. What, what language is this?
+
+At the time, I was coming from Perl and,
+
+regrettably, Perl made solving some problems exceedingly painful.
+
+So I was pretty much on, I was undecided
+
+between Python and Ruby, but when I saw that
+
+thing, I was like, whatever language uses that to
+
+do something like define methods, I, I was won
+
+over.
+
+And then I saw something crazy like this, is
+
+that you could create instances and just put methods
+
+only on that instance and not let other classes
+
+have access to it. I was thinking, this is
+
+why my Perl has sucked so bad. The reason
+
+Perl sucks is because Perl sucks and it doesn't
+
+have awesome constructs like this. It is not because
+
+I'm an ignorant, uninformed programmer. It's because Perl sucks.
+
+And if you're looking for something that was absolutely
+
+about to prove to you how bad Perl sucked
+
+and how awesome I was, it was that I
+
+could basically invoke methods that didn't exist, and Ruby
+
+would help me out. It would let me just
+
+keep stringing that noose along so that I could
+
+hang myself good and proper later on. It would
+
+not blow up on me and I could say,
+
+hey, don't blow up, I want you to do
+
+something else. In this case, summon hateful spirits of
+
+the netherworld as inspired by H.P. Lovecraft.
+
+But time passed, and thanks to my tools that
+
+I showed you, the metaprogramming tools, I was able
+
+to build really, really complex software. And I was
+
+so proud of what metaprogramming made possible that I
+
+went to New Orleans in 2011 and told all
+
+of you - some of you - how great
+
+metaprogramming was and what it could provide you.
+
+I had to live with that code for two
+
+years. Which involved me having to refactor it, having
+
+to own it, and some of my opinions might
+
+have changed. So that's what this talk is about,
+
+is how might your opinions change if you are
+
+the maintainer of the heavily metaprogrammed library.
+
+We're gonna be guided by three questions here.
+
+The first question is, when should I use metaprogramming?
+
+The second is, when should I prefer something else?
+
+And if something else, what is that something?
+
+Regrettably, every time you talk about metaprogramming, you have
+
+to define it first. Ruby Rogues number twelve, Ruby
+
+Rogues number eighty, my talk in 2001, you always
+
+have to define the terms, or else you're liable
+
+to get cited and get kicked out of RubyConf
+
+to come.
+
+So my definition - oh, excuse me, wrong button.
+
+My definition, definition is that you're writing code that
+
+redirects passed messages at runtime. Or you're altering the
+
+structures that do the passing at runtime. At runtime.
+
+You see, Ruby is an interpreted language. So there's
+
+really no difference between compile time and execution time.
+
+Everything lives in the space of runtime. But I
+
+would like to ask everyone's indulgence for a moment
+
+to imagine that there is a magical phase right
+
+before runtime called parse time. And parse time is
+
+where your constant tree is established. It's where all
+
+of your libraries are required. And then there's something
+
+else that happens once you enter the main thread
+
+of execution.
+
+It's that main thread part is runtime, the part
+
+that happens before is parse time.
+
+So redirected parse, past messages at run time, providing
+
+and altering those structures at runtime.
+
+That's metaprogramming. If we've all agreed that that's the
+
+standard base of reference, the question that I asked
+
+in 2011 was how will I know that I
+
+should use metaprogramming? And I took that question and
+
+that time to be a reflection on, how do
+
+I know I'm smart enough to use metaprogramming?
+
+And at that time I was feeling pretty damn
+
+smart, and I wanted everyone else to feel that
+
+smart and to jump off that metaprogramming cliff.
+
+I think the question now is, when should I
+
+ever use metaprogramming? And I think I have a
+
+new answer for that one. I think the answer
+
+is never.
+
+Oh, all right, all right, I'm gonna hedge my
+
+bets. Practically never. On the cons- in the contrary
+
+case, the question should be, well, when should I
+
+use something else? Always. Eh, practically always.
+
+The trouble I said in 2011 was that we
+
+had unclear guidance about how to move forward in
+
+metaprogramming. It tended to be something that was kind
+
+of showed by people at conferences and something that
+
+was kind of obliquely referred to. But it was
+
+never really explained as, here's a technique. Here's how
+
+you can grow better in it. Here's how you
+
+can learn more about it.
+
+And there's a good reason for that. I'll quote
+
+Tim Connor, who I also quoted in 2011, was
+
+the first rule of metaprogramming is you don't talk
+
+about it, because you'll get people to use it.
+
+Accurate.
+
+And then the second rule is that, when you
+
+do introduce it, you introduce a level of complexity
+
+that most people, due to just unfamiliarity, will not
+
+understand how to parse. And now here's the sentence
+
+that kills me, is that unfortunately, you cannot simply,
+
+sorry, that was a typo, be told not to
+
+metaprogram. You must see it for yourself.
+
+That's the part I take issue with. I can
+
+show you, I believe, in the remainder of this
+
+presentation, of why you should not use metaprogramming. In
+
+short, I want you to say no to metaprogramming.
+
+In fact, if you're from the Pacific Northwest, I
+
+want you to say cacao to metaprogramming.
+
+Now, I'm gonna take a bit of a, a
+
+side long step here, and I'm going to kind
+
+of fall in the spirits, follow in the spirit
+
+of the philosophers Gilles and Guattari. I'm going to
+
+take apart the term metaprogramming itself. It is a
+
+bad term.
+
+First of all, it's hard to define. Every speaker,
+
+every time they use the word metaprogramming, has to
+
+come in and define what they mean in order
+
+to try to establish some sort of consensual basis.
+
+If the term has to be renegotiated all the
+
+time, what is its value? Nothing.
+
+Secondarily, I, I have a theory that it gets
+
+by a lot of time because it has this
+
+really awesome Greek prefix at the beginning of meta.
+
+When I was that young programmer in Austin, somebody
+
+showed me metaprogramming, and I thought, my gosh I
+
+am so stupid. I am so ignorant. I don't
+
+know what metaprogramming is. I, I, I missed that
+
+class in the CS curriculum. I don't know what
+
+it's about.
+
+And, and having dug into it, I've dug into
+
+it and I understand it now and it's just
+
+a bad idea. And it skates by because it
+
+has this cool topic. Write a CFP, include the
+
+word metaprogramming, you'll get a speaker slot. I know.
+
+It's a bad term. But it's also a bad
+
+technique. Recall, well, foremost, let me say that it
+
+has a bad conceptual framework, and I will demonstrate
+
+this. The code itself, Ruby will tell you don't
+
+do this. You can choose to ignore it, like
+
+me, but Ruby will try to help you avoid
+
+this trap. And lastly, I want to talk a
+
+little bit about normative social standards visa vis metaprogramming.
+
+So recall that when we talked about my definition
+
+of metaprogramming, is we focused relentlessly on this concept
+
+of runtime. And here's the interesting this is that
+
+runtime specifies a temper, a temporarily to these clauses,
+
+but here's the thing. Check out the verb -
+
+alters, redirects.
+
+These are verbs that express surprise. These are verbs
+
+that express something not doing what was expected. Metaprogramming
+
+is writing code that willfully does something that's surprising
+
+and contrary to convention. I think there's a special
+
+word for that, right. You write code sometimes and
+
+it does something that you don't expect, right.
+
+That one. Yeah. Metaprogramming, in effect, is engineering bugs
+
+that do the right thing. Not only that, but
+
+they do it adventitiously. I'm including this, not because
+
+I'm talking down to you, but I do realize
+
+English isn't the first language of some people in
+
+the audience.
+
+Adventitious - coming from another source. Not inherent or
+
+innate. If your code does not innately do the
+
+right thing, that means that it's more likely to
+
+do the wrong thing. So you are quite literally
+
+putting yourself in a position of possible accident.
+
+Or, in short, metaprogramming is a series of aberrations
+
+that just happen to produce the right output most
+
+of the time. Or, at least, as much as
+
+your test coverage says that they produce the right
+
+output.
+
+Missing image. Again, another form of bug. It's a
+
+reminder of that when you think things are OK,
+
+they are, in fact, not OK. So let's talk
+
+about how a, whoa, it's a broken image. Well,
+
+that's a, that's a new bug for me too.
+
+Let's see. OK. Well, I'm sorry. I can't show
+
+you this one cause the image isn't on this
+
+asset.
+
+But the point being is that if you try
+
+to use a heavily metaprogrammed library, you know that
+
+thing in IRB or Pry where you can do
+
+tab tab to complete a method name? Metaprogrammed methods
+
+do not appear as part of that. That is
+
+Ruby trying to tell you, hey, I don't know
+
+what you're talking about, and the conventions and expectations
+
+that I have, you are not following. If you
+
+choose not to follow those conventions, it's on you.
+
+And because it's on you, you have the obligation
+
+to write extensive amounts of test coverage. In this
+
+case, I had to write one thousand six hundred
+
+and forty-six assertions to feel like my library was
+
+doing the right thing, whereas if I had chosen
+
+smaller, more constrained scopes of my objects, I would
+
+have felt more comfortable having fewer of them.
+
+As it stands, I had to write near two
+
+thous- well, all right, near sixteen hundred assertions to
+
+feel comfortable in my code. You should never have
+
+to write that many assertions to feel comfortable in
+
+your code.
+
+I'd also like to point out that, as I
+
+showed in the earlier sample, when you have metaprogrammed
+
+code hinging on method missing, if something blows up,
+
+you're catching the method missing error. Instead of your
+
+error bubbling up to something saying hey, you messed
+
+up, you need to backwar, backtrack this and fix
+
+it. Instead now you bear the responsibility for handling
+
+how method missing works.
+
+And because of that, you're taking on an additional
+
+cognitive burden, and you're taking on an additional -
+
+that you just should not have to take on.
+
+I spoke about social conventions. You don't have to
+
+listen to me and you don't necessarily have to
+
+listen to the code, but you could listen to
+
+some dude on Twitter, which is what a lot
+
+of people do apparently. Joshua Timberman said, well actually,
+
+he didn't say, he metasaid, somebody- he metaTweeted that
+
+someone said that his amount of disdain for Ruby
+
+projects is directly proportional to the amount of magic
+
+it contains.
+
+Metaprogramming and intercepting method missing, bolting on behavior onto
+
+instances. All of these things, in sum total, account
+
+for magic.
+
+So, what I would like to do is put
+
+an end to quote metaprogramming. What I would like
+
+for us to do is to retire the term,
+
+retire the talks, and move on. I would like
+
+for this to be, you know, apologies to Francis
+
+Fukiyama, I'd like to be the, the last man
+
+standing on the topic of metaprogramming. I think we
+
+all need to move on and let's just close
+
+the door.
+
+Now the question is, if you're going to say
+
+that something is bad, what do you recommend you
+
+replace it with? So what I would like to
+
+do is talk about the replacement to metaprogramming. The
+
+replacement to metaprogramming would, of course, be something like
+
+anti-metaprogramming. It would be taking out all of that
+
+magic. It would be taking out all of your
+
+method missing calls, your conts get calls. It would
+
+be taking out all those instance evals, class evals.
+
+It would be taking out all these weird clojure
+
+things.
+
+Anti-metaprogramming code would be deducible from the parse time
+
+state, that is to say, you could look at
+
+the code at rest and figure out what's going
+
+on. I alluded earlier that I considered metaprogramming often
+
+to be a type of bug. Often to understand
+
+the state of the application at the time, you
+
+wind up having to use debugging tools.
+
+As you're saying, well why is this not doing
+
+what I expect? What do you have to do,
+
+you have to drop in a Pry binding or
+
+you have to put in ByeBug or a debugger
+
+statement just to figure out what's going on. And
+
+the reason is is because you're doing weird stuff
+
+at runtime. Don't do it.
+
+I also believe that code, anti-metaprogramming code, also known
+
+as good code, demonstrates its reason and its purpose
+
+in itself. That is to say, it's obvious. So
+
+let's take a look at some anti-patterns that I
+
+implemented around metaprogramming.
+
+First one - def - oh man, that's really
+
+unfortunate. Hmm. Let's see here, what can I do
+
+about this? I want to know why it's showing
+
+up on my screen. Is that? Is it? I
+
+don't know. OK. Yes!
+
+AUDIENCE: Yay!
+
+S.G.H.: Thank you. Thank you all. Whew. Yeah, master
+
+debugger back here. Thank you. Wow, OK. Thanks so
+
+much. That was really helpful. Go team. Obviously some
+
+garbage collectors in the audience.
+
+I would like to point out define method. Define
+
+method - Rubyists new to, Rubyists who are new
+
+to language may be surprised to find out that
+
+you can define methods based on taking out terms
+
+and then, and creating them dynamically at runtime. Don't
+
+do this. This is bad. And you may say,
+
+oh well, this isn't so bad, and you have
+
+this thing called prefix. You have an inner and
+
+an outer. I get what's going on here.
+
+But the trouble you're gonna have is that it's
+
+not grep-able. And by grep I mean you can
+
+use Ack or Rack or some sort of search
+
+or, through your code. If you're looking for the
+
+method that's called tear_down_the_pop_singer, you're not gonna find it,
+
+because it's somehow being fabricated at runtime. You basically
+
+made your code opaque to other introspective tools. Don't
+
+do that. It's so much better just to write
+
+it out.
+
+And if you're complaining about writing it out, get
+
+a better editor. Because, really, your editor should be
+
+able to take care of this amount of pain
+
+for you.
+
+Again, it has low grepability and it has very
+
+poor graspability. An alternative I propose is just to
+
+use plain old, good old def, right. Here it
+
+is. Where is tear_down_the_pop_singer defined? Right there. Or excuse
+
+me. Right, right there. Yeah.
+
+The ability to resolve problems is so much easier
+
+when you have this available to you.
+
+I'd also like to talk about another anti-pattern that
+
+I've seen recently discussed is the junk drawer module.
+
+Now if you took my previous recommendation that you
+
+actually define your methods, you may say, well I've
+
+created a large class. I don't like that. So
+
+what I'm going to proceed to do is I'm
+
+going to bubble that out into a module and
+
+then I'm gonna include that module into the class.
+
+Don't do this.
+
+This is a classic bad anti-pattern. Because what you've
+
+basically done is you've created a name space that
+
+has absolutely no purpose for its existence. It is
+
+important that we, as programmers, when communicating with other
+
+programmers who will read our code and not our
+
+comments, we need to be able to understand what
+
+is going on in this module. What is the
+
+relationship? Why is raise_the_roof with tear_down_the_pop_star? There is no
+
+good reason. We have no intentionality behind that module.
+
+And as a result of it, our class and
+
+our module name will be entirely opaque to any
+
+other programmer who comes along.
+
+Again, it's obvious, moderately, because it's grepable. But the
+
+graspability is it is poor, and as you add
+
+additional modules, that graspability will go down precipitously.
+
+So don't create junk drawer mixins using Ruby's modules.
+
+I think Sarah may have brought this up recently.
+
+She said, you know, modules may solve the size.
+
+You've got fewer lines of code. But you've done
+
+nothing to illuminate, to open the mind of a
+
+programmer who's coming along to this particular bit of
+
+code.
+
+You could get slightly better. What if you change
+
+those mixin names and gave them something like, some
+
+hint of what they are. But really, you're not
+
+getting much for that level. You still have the
+
+greppability. Moderate graspability. But it's trending down.
+
+Here's a nifty pattern that totally sucks. I did
+
+this one heavily and I'm so embarrassed to show
+
+it. I'm gonna show it right now.
+
+What would happen if, instead of actually creating modules,
+
+you decided to create anonymous modules? Wow. You just
+
+completely hung yourself. That was awesome. And the reason
+
+you've hanged yourself is because, look, you get this
+
+really nice thing by looking at Ruby's ancestor chain.
+
+Cause you can ask an object, or rather, ask
+
+an object's class what the inheritance chain of it,
+
+of it is.
+
+We'd say, where'd you get methods? Where do you
+
+get properties? So I can see class, method deffer,
+
+gets modules from pop_singer_moves and housing_moves and object and
+
+kernel and basic object. That's great. Guess what? When
+
+you use anonymous modules, you get none of that.
+
+So congratulations. You got to use a really, really
+
+cool stylistic invocation that made your code more opaque.
+
+That one hurt.
+
+So, again, there is really no hope at this
+
+point. You've really, really shot yourself in your foot.
+
+Here's another anti-pattern that I completely committed. How about
+
+this one? What if you wanted to make a
+
+class that's including a module do something crazy when
+
+it included that module? Wouldn't that be completely opaque?
+
+Wouldn't that be impossible to understand? yes.
+
+Look at this. This is, this is humiliating. You
+
+may not be aware that module implements a, a
+
+call-back method, so that when you include a module,
+
+magic happens. And what if, in that silent bit
+
+of magic, you decided to do magic back on
+
+the thing that included the module?
+
+This is just pure insanity. I don't even know
+
+what I was thinking. I, I don't do drugs,
+
+but I don't know what I was thinking. I,
+
+I can kind of see, like, a bit of
+
+nobility in here. There's a hint of the desire
+
+to want to invert dependencies, but if you choose
+
+to invert a dependency, which we'll talk about in
+
+just a moment, there are many more obvious ways
+
+of doing it. So don't do this.
+
+So, again, low greppability, abandon all hope. Low graspability.
+
+Abandon all hope. Do not do this.
+
+Here's an interesting pattern. Here's where things start getting
+
+a little bit better. What if you chose to
+
+use the strategy pattern to apply behavior to the
+
+inverted class? So let's take a look at this.
+
+So what if I decided to put those housing
+
+moves in a module that I'm gonna call a
+
+strategy? Now I realize someone's gonna take me to
+
+task on Twitter and say, you're dumb. You don't
+
+understand what the strategy pattern's about. It's not modules,
+
+it's classes. OK, I get it.
+
+But for the sake of this argument, let's kind
+
+of keep with the idea that what, what is
+
+happening in these strategies is that I've basically given
+
+this mixin a meaningful name. I've said, this mixin
+
+isn't just a mixin of some random mod- rad-
+
+random methods that you want to throw into your
+
+class. What I'm saying is that there's an intention
+
+behind it. It's that if you're interested in housing
+
+moves, you're going to have some relationship with this
+
+particular strategy.
+
+So here's how I chose to invert that dependency.
+
+Is what happens is that when you create a
+
+method deffer class, it then proceeds to instantiate a
+
+class called apply_core_strategies, passing itself. The apply_core_strategies then looks
+
+at the essential strategies, intelligible for the next programmer,
+
+of housing_move strategy and pop_movesto_strategy, then it proceeds to
+
+bolt those on, on the calling class.
+
+So I feel like, at this place, we're actually
+
+getting a hint of the, of, we're starting to
+
+tease apart some of the metaprogramming. We're starting to
+
+create small, tiny classes that bear responsibility for certain
+
+tasks of thinking. And I can definitely say the
+
+woman who taught me to start thinking this terms
+
+was Sandy Metts. So I can't say enough about
+
+how she dug me out of my conceptual bad
+
+spot by introducing me to some of these ideas.
+
+Again, the obviousness is moving, is moving upward. The
+
+reason is is that we can always take a
+
+look, you say oh well he implemented this method
+
+poorly or this method poorly, or this strategy is
+
+poorly named, or why are we doing this with
+
+modules? Why don't we use classes so that they
+
+can have a meaningful state? We're trending in a
+
+good direction. We're trending out of opaqueness and difficulty
+
+that we normally associate with metaprogramming, and we're moving
+
+to something that's more deducable, that has smaller scope
+
+that's greppable.
+
+It's also more graspable. Again, fewer lines of code,
+
+higher graspability. that's it.
+
+On the topic of good O-O, I, I don't
+
+have to say Sandy taught me everything I can
+
+stand to know on the topic. The heart of
+
+what makes metaprogramming so bad is that it will
+
+pry- that it puts a very heavy cognitive burden
+
+on the developer. And what I like to say
+
+is that it puts a mind of god burden
+
+on the developer.
+
+Specifically, if you look at metaprogramming techniques that break
+
+object incapsulation, you can actually start to see that
+
+metaprogramming is the last refuge of the procedural programmer.
+
+You have to hold in your mind all of
+
+the possible methods and all of the possible variables
+
+that could be called and all the possible code
+
+paths.
+
+If you're saying no, Ruby, don't do your default
+
+blow-up behavior on Method Missing, you're saying, I'll take
+
+that responsibility on. If you're cracking over someone else's
+
+class, you're saying, don't worry, thread class, I'll take
+
+responsibility in making sure that all your interfaces always
+
+work in all the possible code.
+
+And if you basically say, oh I need to
+
+define core methods within the Ruby language by defining
+
+a kernel method, what you're saying is, don't worry
+
+Ruby, I got you on this one. You are
+
+deficient, I know better. Am I really ever gonna
+
+say that to Matz?
+
+No. I'm not.
+
+Loveable angry panda Rein Henrichs has this pretty, pretty
+
+succinctly said, is if you can go around monkeying
+
+with the core object class or the core fundaments
+
+of the Ruby universe, he and his loved ones
+
+should be under no obligation to maintain your level
+
+of insanity.
+
+In fact, what I love about RubyConf is that,
+
+as you write your talk, you write it in
+
+a vacuum. Then all of the sudden you come
+
+into RubyConf and you pick up these pneumatic currents
+
+that are floating about. And what I've seen in
+
+a number of talks, particular yesterday, was Ruby is
+
+maturing. And as a result of it, we now
+
+have a nice variety of gems where people have
+
+shared their solutions to famous problems that other developers
+
+might encounter.
+
+But when you metaprogram, you make it so that
+
+your code can't interact predictably with other peoples' libraries.
+
+Jason Clark talked about extending gems. He's talking about
+
+problems that he had at New Relic with other
+
+developers stomping on his name space. I mean, these
+
+are developers who sit, you know, in San Francisco,
+
+so it's not a very big place.
+
+So he could see these developers every day and
+
+they still managed to step on each others' toes.
+
+What happens in the case that your gem does
+
+something where it overrides some poor kernel functionality, or
+
+it overrides the core functionality of thread or module
+
+or object? Your mind of god is going to
+
+be put in direct contention with someone else's mind
+
+of god, and I'm not sure how that ends,
+
+depending on your theology, but I'm pretty sure it's
+
+bad for us.
+
+Also, Emily, yesterday, talked a lot about writing good
+
+APIs for other developers to be able to make
+
+use of your gems. Again, metaprogramming requires that everyone
+
+else enter your mind of god in order to
+
+code around the barriers that you built. So I
+
+really, really discourage any pattern which looks anything like
+
+taking on the mind of god, taking on the
+
+full level of responsibility for managing all levels of
+
+interaction.
+
+Again, these three particular recipes, and the metaprogramming cannon,
+
+are extremely dangerous. Greppable? Eh, I don't know. Sometimes.
+
+In, depending on how things are made. Are they
+
+graspable? Not really. They usually have very unpredictable behavior.
+
+What I prefer instead are these two bread and
+
+butter solutions out of the object-orientation playbook. Strategies and
+
+delegates. I showed strategies a little bit earlier, where
+
+what would happen is that you say, OK, well
+
+including class, I want you to take on some
+
+behavior, but managing that bolt onto the behavior can
+
+be handled somewhere else.
+
+And this is a type of a interaction that
+
+should be intimately familiar to all of us. As
+
+Americans, well, those of us who are Americans, we
+
+are bred on the model of the assembly line.
+
+The Henry Ford model. The great innovation of Ford
+
+was not the car but the assembly line.
+
+We think about the chassy coming down that assembly
+
+line, it stops at a little station. That station
+
+puts on wheels. The next station puts on windows.
+
+The next station puts on doors. Hopefully it puts
+
+on the doors before the windows, but, yeah. Depending
+
+on which car you have, I suppose.
+
+But the point being is that the idea that
+
+you need to have the chassy go hey, I
+
+need wheels and bolts it on itself. Hey, I
+
+need windows, hey I need doors. You're making that
+
+chassy participate in the mind of god type behavior.
+
+You should think of the classes as you construct
+
+them as being on an assembly line, delegate that
+
+big piece you're building to a station. Ask for
+
+it back. Move down to the next station. Ask
+
+it back.
+
+One other anti-pattern is laziness lookups. Oh, excuse me,
+
+whoops.
+
+Constant_get and constantize. These make your code virtually ungreppable,
+
+as it's very hard to find that place where
+
+somebody chose to, why did they constantize some string
+
+that came from the user? Who knows. It's ungreppable.
+
+Don't do it. I like to type it out,
+
+and I'll just ask the simple question - what's
+
+wrong with a hash? I mean, a hash is
+
+so greppable, a hash is so friendly. You look
+
+at it, you know what's going on. Why do
+
+you need to use constantize? Just, to be cool?
+
+Don't. Don't do that. Don't do it.
+
+So I'd like to talk about principle techniques for
+
+happier programmer. Make lots of small, greppable classes. Lots
+
+of them. There's nothing wrong with lots of classes.
+
+A lot of people say, well, it requires me
+
+to open up a lot of files. If that's
+
+the problem, learn your editor better. Because editors are
+
+now very good at cutting vertically as well as
+
+horizontally.
+
+Things like C-tags, I know, Sublime, FuzzySearch. Be more
+
+comfortable creating lots and lots of tiny classes. Prefer
+
+composition and delegation. That is to say, don't look
+
+to have a mind of god object that rigs
+
+itself together. Look for collaborators within your object space
+
+to provide small, little objects, which are experts in
+
+singular particular fields.
+
+The pattern, or the, the fancy name for this
+
+is, is injection. That's when you create a something
+
+special and then pass it in to an obect
+
+that will create a, a concert of those passed-in
+
+objects.
+
+I encourage you to love dep- inversion. Inversion is
+
+just, it opens up so many pathways of thought,
+
+is that if you think that you need to
+
+manually bolt everything on yourself, participate in that god
+
+pattern, inversion is, is freedom from that. When you
+
+engage in the god pattern delusion, what you are
+
+basically saying is that I don't trust anyone. You're
+
+being a totalitarian. Build small objects. Yield to those
+
+objects. And trust those tiny objects to do the
+
+right thing.
+
+Lastly, a, a thing that's kind of been in
+
+the, in the medics of this conference is well,
+
+what to do about comments. Should we have comments
+
+or not comments? If you embrace the strategy patterns,
+
+your strategies will usually reflect that thing you're commenting.
+
+Like, deal_with_bobs_brain_dead_hack_for_dead locks. If you name a strategy that
+
+way, it's very obvious why you did it, what
+
+it's for, and it turns out that the object
+
+name space can teach other readers of your code
+
+as much about your code as a comment could.
+
+Further, comments age rapidly. Code is always gonna be
+
+executed. So keep in mind that your code will
+
+always speak louder than your comment.
+
+For further reference, practical object-oriented design with Ruby. I
+
+can't sing it highly enough. I was, as a
+
+programmer, I was very frustrated. I was very painted
+
+into a corner. In seven chapters, Sandy Mets can
+
+help you out of your particular corner and will
+
+invite you beyond. By beyond, the next book that
+
+helped me get further out was refactoring the Ruby
+
+edition. And thirdly, the design patterns in Ruby book.
+
+I don't know if they intended it, but Adam
+
+and Wesley have basically built a stack of free
+
+books that are superb at moving you from a
+
+beginner to intermediate Rubyist to maybe an intermediate advanced
+
+object-oriented, object-loving Rubyist.
+
+So winding up, metaprogramming. Don't write more of it.
+
+But let's just stop. Do understand it. The reason
+
+you have to understand it, is well there's a
+
+whole lot of legacy code out there that needs
+
+some refactoring. And the other part is that it's
+
+also a very helpful technique when you're in a
+
+really, really difficult debugger situation. If you need to
+
+live update something it's very handy. Although, that said,
+
+I saw some things in Pry yesterday that make
+
+this less and less of a necessity, so.
+
+Use it only to refactor. It seems to be
+
+the future direction.
+
+I'd like to thank everyone I work with at
+
+Shop it To Me. All of them have dealt
+
+with my kooky ideas about metaprogramming for a long
+
+time, and some of them have let me know
+
+quite noisily that they don't like it. I want
+
+to thank the Addison Wesley authors who have really
+
+tren, a great transitional series for developers. I thank
+
+my lovely girlfriend Lauren who put up with me
+
+yelling about this sort of stuff at dinner. And
+
+I want to thank everyone here because you are
+
+all my favorite garbage collectors.
+
+There is no shame in garbage collecting. It is,
+
+it is a great and noble profession. You have
+
+to keep in mind that the scarab was holy
+
+in Egypt so, and that's the lowliest of the
+
+garbage collectors of all. So I hope that you'll
+
+take forward a lot of the object-oriented techniques that
+
+I've presented to you. I hope that you'll use
+
+them to attack code and furthermore, hope that you'll
+
+forgive me for spreading a bad meme that metaprogramming
+
+was an awesome thing to do.
+
+Thanks so much, and I'll say one last word
+
+is that I hope all of you always have
+
+the courage to face your problems, and when they
+
+feel a little bit too large, just remark to
+
+your heart, all is well. And be ready to
+
+give those talks. I'm ready to hear some new
+
+garbage collectors next year. So thank you again.
