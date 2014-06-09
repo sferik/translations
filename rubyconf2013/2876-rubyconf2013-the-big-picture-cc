@@ -1,0 +1,1937 @@
+RubyConf 2013 - The Big Picture - Jim Weirich
+
+JIM WEIRICH: I think that means it's about time to start.
+
+Are you guys enjoying Miami? Awesome!
+
+So why are you in here and not down at the beach?
+
+AUDIENCE: Cause you're cool!
+
+J.W.: Oh, yes, thank you. Yeah.
+
+How many people recognize this picture, right here? Yeah.
+
+Can you name it?
+
+Nighthawks yeah by Edward Hopper. It was painted in
+
+1942. If you recognize it, it might be because
+
+it's one of the standard Mac backgrounds that you
+
+can select on your desktop. And I had this
+
+on my desktop for a long time. And I
+
+really, really enjoy this picture. This is a really
+
+cool picture.
+
+Just a little bit of details about it. It
+
+was painted in 1942, I believe. It was sold
+
+to the Chicago Art Institute for about $3,000 just
+
+a few months after it was painted. It's hanging
+
+up in the Institute since that time.
+
+My daughter, who is a, goes to art school,
+
+said she took a field trip to Chicago and
+
+actually saw the actual painting up there. So while
+
+I was describing it to her, she immediately recognized
+
+it, said, oh yeah that's, that's the Hopper picture.
+
+But this is, this is fascinating to look at.
+
+And because it was on my background, I would,
+
+I would open my laptop up and I would
+
+see this and I would think about, maybe the
+
+story behind it. I mean, look at this. It's
+
+a diner. It's in New York somewhere. It's got
+
+a cigar add at the top - it's hard
+
+to see in the washed-out lighting here - for
+
+five cent cigars. It's dark outside but the inside
+
+of the diner is bright light and there's a
+
+couple characters in there.
+
+I mean look at this couple. Look at their
+
+body language. What is their body language telling you
+
+about them? They're sitting together. They're some kind of
+
+couple. But notice how closed off they are. Their
+
+hands are almost touching but not touching. Look at
+
+her face - how serious she looks, the dark
+
+eyes. Maybe she's been crying. Maybe she's sad.
+
+I can't quite tell what she's holding in her
+
+hand, but it looks like it might be a
+
+wad of money of some type. Maybe a little
+
+bit of money. Maybe this, these two people are
+
+a couple that are having problems. Maybe it's money-related
+
+problems. That's why she's looking at the money so
+
+hard.
+
+Look at the guy's face. He is not a
+
+happy camper. Someone wrote a poem about this picture,
+
+and she says, and the poem says, I bet
+
+she wrote him a letter and he is no
+
+longer the guy that reads her letters twice. Wow.
+
+Wow.
+
+Night Hawks, probably so named because the Hawk beak
+
+of the nose for this guy actually. That's an
+
+interesting little tidbit. So there's something wrong there. You
+
+know, a couple problems. Money problems, maybe something about
+
+other kinds of problems. But definitely tension in that
+
+couple.
+
+Now from a distance, I looked at this guy
+
+and I thought, oh wow, he looks like he's
+
+really happy to have these customers late at night
+
+in his diner. But when I zoomed in and
+
+looked closer, that's not a smile he has on
+
+his face. That's a grimace.
+
+And he's looking at that couple. So what is
+
+going on with the couple that is making the
+
+waiter unhappy? You know, is, did they just get
+
+done with a fight and they're sitting there sullenly
+
+and he's like, OK, what's gonna happen next? You
+
+know, it's, it's, you know, there's some interaction going
+
+on there as well.
+
+And then this guy. What's he doing there? He's
+
+sitting alone. He's all by himself. He's got a
+
+newspaper under his left elbow there, I believe that's
+
+a newspaper. You can see it just a little
+
+bit in the photo. It looks like he's holding
+
+a glass of water. He's got a cup of
+
+coffee right by him.
+
+I don't actually see any food in front of
+
+him but it looks like he's drinking something. And
+
+he's sitting there all alone kind of in the
+
+shadows, his hat's kind of down over his eyes
+
+so you can't see what's going on. Is he
+
+watching the other couple? Is he tailing them? Is
+
+this a gangster type thing, where maybe they're involved
+
+in some kind of gangster thing and that's the
+
+money problem and he's an enforcer and he's fo
+
+- I don't know.
+
+I mean the possibilities of this are, are wild.
+
+And notice he's got- his pocket, his coat pocket
+
+right down there, is, is open. He's got something
+
+in it. Is that his, is that his gun
+
+that he's got in his coat pocket? I don't
+
+know. I don't - there's all kinds of possibilities
+
+with this picture.
+
+That's why I love this picture. I don't know
+
+what it's about exactly, but the possibilities of the
+
+stories behind this is really interesting. Now this painting
+
+has been referenced in, in literature. There's been stories
+
+about it. Speigal did a - published five short
+
+stories based upon what author's thought might be going
+
+on in this picture. So five different stories. At
+
+least one of which ended in a massacre.
+
+It's used in movies, I think, Pennies, Pennies from
+
+Heaven reproduced this scene when, oh the guy's name
+
+escapes me. Who did, who did Blade Runner?
+
+AUDIENCE: (indecipherable guesses)
+
+J.W.: No, the director.
+
+AUDIENCE: Ridley Scott.
+
+J.W.: Ridley Scott. Ridley Scott. Thank you.
+
+When Ridley Scott did Blade Runner, he would take
+
+a reproduction of this film and shove it under
+
+the noses of his production team and saying, this
+
+is the feel that I want for my movie.
+
+This kind of dark noir feel. And that's kind
+
+of what pushed Blade Runner, the feel of Blade
+
+Runner was inspired, very much, by the feel of
+
+this picture as well.
+
+Art says a lot. Pictures speak a lot. Now
+
+they don't say exactly what's going on but they
+
+open up so many other questions. And I find
+
+it fascinating to look at pictures.
+
+So I'm Jim Weirich. I am Chief Scientist for
+
+Neo and I'm here to talk to you about
+
+the big picture. People have been asking me this
+
+week, Jim, what are you gonna talk about at
+
+RubyConf? What's your talk about? And I say, I'm
+
+going to talk about UML at a Ruby conference.
+
+Yeah. Yeah. I get two reactions from that. Oops.
+
+Yeah, like, huh, what's UML? I do not know
+
+of this UML of which you speak. The other
+
+reaction is - this is probably the Java developer
+
+who has been immersed in UML for so long,
+
+he is sick and tired of it and never
+
+wants to see it again.
+
+Truthfully, as I work with other Rubyists, I discover
+
+that they have not used diagramming to any great
+
+degree, and they're not aware of what UML can
+
+do for you. So I'm here to give you
+
+some very basics in UML.
+
+What I'm gonna do is I'm gonna give you
+
+a vocabulary. A vocabulary in pictures that you can
+
+use to build diagrams. And then I'm going to
+
+talk about three or maybe four of my own
+
+libraries and the diagrams that I drew of those
+
+libraries, and then what I learned from those diagrams
+
+that I did not see by just looking at
+
+the code.
+
+So it's kind of my plan for this talk.
+
+That's a road map. That's where we're gonna go.
+
+So let's start talk, and just mention UML just
+
+a little bit. There are basically three ways people
+
+use UML.
+
+One is the sketch language, to capture quick ideas
+
+and to get them down on paper so they
+
+can communicate with each other. UML as sketch omits
+
+details. UML as a sketch will lie about the
+
+software, because the lie is better than what the
+
+reality is there. You want to convey an idea,
+
+you know, the idea's what's important, not necessarily the
+
+details. So UML as sketch.
+
+You can use it in both ways. You can
+
+sketch up an idea before you implement it, just
+
+to kind of get an idea of the roadmap
+
+you want to go to. You can take an
+
+existing piece of code and draw the diagrams afterwards
+
+to kind of get a better understanding of what
+
+the software's doing. That's what I've done on the
+
+examples that follow.
+
+UML as a blueprint is probably what most, gives
+
+most Java developers the eh feeling. It's when you
+
+use UML down to such a detailed degree that
+
+a designer- architect can take the UML diagram and
+
+hand it off to a coder and the coder
+
+just implements it.
+
+I don't believe that works very well at all,
+
+and I'm not a fan of UML as a
+
+blueprint. Even worse than UML as a blueprint is
+
+UML as a programming language. I used to work
+
+for a company called CompuWare. We had a product
+
+called OptimalJ, and the salesman for CompuWare, they said,
+
+Jim, you gotta push OptimalJ for us, you know.
+
+It's so great. You just draw the pictures, and
+
+then you push a button and you get an
+
+application out of it.
+
+Yeah. That's exactly what I did. I said, uh-huh,
+
+yeah. I laughed. But Jim it really works. It's
+
+got to work. We use it. Patterns. And I
+
+said, you don't, guys, really don't know what patterns
+
+are, do you?
+
+No, but we know they're good.
+
+So I was never a big believer in OptimalJ.
+
+It turns out that when you dig deeper, for
+
+every diagram you draw, you have to accompany it
+
+with something called the expression language, to kind of
+
+tie it down and kind of map it into
+
+a programming language. I, and I told my sales'
+
+guys, this kind of looks like programming right here.
+
+He says, oh no, no, it's not. It's not.
+
+Don't worry. It's nothing like programming. OK.
+
+So UML as a programming language, no. I'm not
+
+a big believer in that. But UML as sketch,
+
+I am still a big fan of.
+
+So let's go ahead and start. Let's start with
+
+the first example. And this is talking about dependencies
+
+in my software. I think this is one of
+
+the strongest features of UML is to get a
+
+broad overview of what your code depends on.
+
+Before we do that, I got to build up
+
+the vocabulary of the diagram so you know what
+
+I'm talk about.
+
+First of call, if you have a class in
+
+Ruby, such as a Car class, you can represent
+
+it as a diagram. It's just a simple box
+
+with the name of the class right in here.
+
+This represents this bit of code right here.
+
+If you wish to get more detailed and you
+
+wish to include the methods in it, you can
+
+add a second box. Divide your box in too.
+
+The name goes on the top and the methods
+
+go down here into this second box. So you
+
+talk about particular methods on that particular class.
+
+And like I said, UML, a sketch means that
+
+you include the methods that you wish to talk
+
+about right now. You don't include every single method.
+
+You just include what's important to the idea that
+
+you wish to convey in that particular diagram.
+
+If you want to get even more detailed, and
+
+I rarely do this, is that if there are
+
+internal attributes, you can list them in a third
+
+box that goes between the name and above, below
+
+the name and above the actual methods.
+
+I, like I said, I rarely go to the
+
+attribute level.
+
+If one class uses another class, and you can
+
+always tell it uses it because it will reference
+
+the class by name, here, if so, then you
+
+could create a dependency between this class and that
+
+class. The direction of the array goes in the
+
+direction of the dependency, and this is always, always,
+
+always true in UML. Whenever you draw an arrow,
+
+it means it's a dependency, and it goes in
+
+the direction of the thing that's doing the depending
+
+towards the thing that it is being depended on.
+
+This means that if I use an Engine object,
+
+I can use it independently. But if ever I
+
+used a car object, I also need to drag
+
+in an engine object along with it. And we
+
+can see that because, man, we're referencing Engine right
+
+here in the code base. That's a dependency, and
+
+UML is great for capturing these dependencies.
+
+Here's a dependency for cars also using wheel, and
+
+you can say on your dependency line, you can
+
+say one car has many wheels. In this case,
+
+four wheels. You could put a four here for
+
+the star, or you could just say star, it
+
+says x, one to many. So it's kind of
+
+a one to many relationship right there. Again. Dependency
+
+goes from Car to Wheel.
+
+If you inherit, the inheritance relationship is also an
+
+arrow. This arrow is an open triangle pointing from
+
+the subclass to the superclass. So, again, I can
+
+use car by itself, but if I want to
+
+use a SportsCar class, I get Car automatically because
+
+it's dragged in by that dependency.
+
+Ruby has modules. And this is how I designate
+
+modules in a UML diagram when I'm using, talking
+
+about Ruby, is essentially the same as a class,
+
+but I put this, it's called a stereotype. I
+
+say it's a module in this, I use angle
+
+brackets, but what they really should be are French
+
+quotes, which I cannot pronounce the real name for.
+
+But that's a stereotype right there, and that says
+
+it's, it's kind of like a class but it
+
+has these special properties and it's a module. And
+
+if you're doing Ruby programming, you know what a
+
+module is. And that's all it's telling you, that
+
+Driveable is a module.
+
+I use the same arrow to indicate include as
+
+inheritance here, because essentially it's the same relationship. The
+
+difference between inheritance and including a module in Ruby
+
+is very subtle and I don't really call out
+
+the difference in a UML diagram because of that.
+
+OK. So there's one more thing I want to
+
+show you and this is really important. Here, Car
+
+is being passed an Engine object. And so there
+
+is no longer a direct reference to the Engine
+
+class inside my Car class anymore. So Car no
+
+longer depends upon the Engine class, but it does
+
+depend upon some kind of object that behaves like
+
+an Engine does.
+
+In other words it does, it's duck-typed to an
+
+Engine. I capture this in U- in Java. If
+
+you're doing this in Java, this would be an
+
+interface. And you have to actually write code that
+
+had the start and stop method on it and
+
+say this is an interface and that the Engine
+
+implements the interface. In Ruby, the stuff for this
+
+thing right here doesn't exist. There is no source
+
+code for this box right here. But it's an
+
+important concept, which you need to capture and be
+
+able to talk about.
+
+Car does not depend upon Engine, but it does
+
+depend upon an object that obeys this protocol, this
+
+start and stop method on it.
+
+Engine implements that protocol. So it gets, it's kind
+
+of like the inheritance line, but dotted instead of
+
+solid. And so I'm saying Engine implements this car
+
+independence- uses it, Car does not depend upon Engine.
+
+That means if I want to test a Car,
+
+I can just drop anything in that acts sufficiently
+
+like a Car- or, sufficiently like an Engine for
+
+my testing, and I can test Car without having
+
+an Engine available at all.
+
+And this is an important concept in drawing these
+
+dependency diagrams is to recognize that, hey, that dependency
+
+no longer goes all the way to Engine, but
+
+is just using a protocol at that point.
+
+All right. So now we got some basic vocabulary
+
+to talk about dependencies in our programs.
+
+So this is a pretty standard Rails application right
+
+here. This is actually an implementation of the pay
+
+employee problem that is common in literature. You probably
+
+run into it. You have three kinds of employees.
+
+Hourly, salaried, and commissioned.
+
+Hourly employees are paid according to the time cards
+
+they turn in. Salaried employees are paid a yearly
+
+salary, paid once a month. So they get one
+
+twelfth of their annual salary once a month. Commissioned
+
+employees get a salary plus a commission based upon
+
+the sales receipts that they turn in. So there's
+
+three different ways of calculating their pay check.
+
+Here, what's important to notice, is that in this
+
+Rails version of this solution, we have an employee
+
+controller. It inherits from application controller, which inherits from
+
+action, action controller base.
+
+The red classes are Rails classes. They are part
+
+of Rails. The pink classes are our application classes
+
+that depend upon Rails. So, if I want to
+
+test my employee controller, I've gotta bring in Rails
+
+to do it. If I want to test my
+
+employee object, I gotta bring in ActiveRecord to do
+
+that testing.
+
+So they are dependent upon the framework. However, the
+
+way I chose to implement the salary calculation was
+
+as a set of strategies that the employee picks
+
+a strategy based upon what type of employee he
+
+is and then just calls the strategy. Hourly paycheck,
+
+salaried paycheck, commissioned paycheck, with all implement the protocol
+
+that includes calculating pay amount and gets passed in
+
+an employee object.
+
+There is nothing in these guys that directly reference
+
+the employee class. They just depend upon something that
+
+acts like an employee. That means these guys can
+
+be tested very simply by - like, if I
+
+want to test Salaried Paycheck, I just need to
+
+pass in an object that has an annual salary
+
+field on it and I can test that without
+
+loading Rails at all. That's why they are green.
+
+These can be tested, the green things can be
+
+run very quickly and very safely.
+
+And we can tell that by examining the arrows.
+
+Notice that in this dotted box here, all of
+
+the arrows are pointing inwards. There is nothing pointing
+
+outwards from this box. That means I do not
+
+depend upon the framework and that tells me I
+
+can test those very efficiently and very quickly.
+
+However, if I want to test the employee object
+
+directly, I've got to load Rails. If I want
+
+to test controller directly, I've gotta load Rails again.
+
+I'm teaching a class with Bob Kauss right now,
+
+on testing in Rails and refactoring in patterns and
+
+things like this, and we use this example in
+
+our class.
+
+One of the things we do is to push
+
+this system. You see how much we can get
+
+decoupled from the Rails framework. So we can test
+
+as much logic as we possibly can without invoking
+
+Rails.
+
+One of the techniques we use is, some of
+
+the techniques from the hexagonal architecture concept Matt Winn
+
+does, and Kevin Rutheford has done.
+
+And if you look at that, they have basically
+
+take this approach. And this concentrates on the controller
+
+now. They take the employee controller, and they say
+
+some of the logic in the controller is Rails
+
+dependent. Things that say redirect to this URL. Render
+
+this template. Here is the params hash. Those are
+
+our Rails things.
+
+However, some of the logic is really business logic.
+
+Even in the standard dumb Rails controller, there's still
+
+business logic in there. How do I create an
+
+employee object? How do I save an employee object?
+
+What ha- how do I validate and how do
+
+I, what, you know, how do I detect whether
+
+it's saved or not? Validated or not? It's all
+
+really kind of business logic.
+
+So they very carefully picked that controller apart into
+
+two pieces. One piece remains here in the controller.
+
+The other piece, they pull out and, I'm calling
+
+it a runner, cause they, they tend to give
+
+it the method called run. And the run, into
+
+the run they pass in a couple things.
+
+They pass in a protocol that is essentially the
+
+context object, which is the controller. They pan, and
+
+I have also pulled out a repository object here,
+
+so all the database related stuff is done through
+
+a repository. And it's, it's a little tedious but
+
+it's really not hard, at all. You can almost
+
+automate that piece very easily.
+
+So the runner now depends upon something that has
+
+save and find_employee type methods on it. It depends
+
+upon some call backs the context provides. But there
+
+is no direct reference to Rails anywhere in the
+
+runner anymore.
+
+That means I can test the business logic in
+
+here very carefully. Now I've got a whole bunch
+
+more logic that is totally free from Rails, and
+
+then I can easily test.
+
+There's one more stage I like to do, and
+
+this - I'd like to get most of the
+
+business logic in here free from Rails as well.
+
+There's many ways to do this. Here's one.
+
+Let's treat employee, the ActiveRecord employee object, as a
+
+dumb data holder. I'd, I'm gonna let three things
+
+go in there. Number one, I let database fields
+
+be in that object. I let relationships be in
+
+that object, cause Rails is really good at defining
+
+relationships. Doesn't make sense to pull those out.
+
+Likewise, validations are in that object. You can make
+
+an argument, you could pull validations out - yeah,
+
+OK, you can do that too. I tend to
+
+leave them in.
+
+So it tends to be dumb, without any business
+
+logic in it. Then I create a business employee
+
+object. I usually just namespace that, put it in
+
+a module called biz or whatever. And then key
+
+proxies to the employee object and all he needs
+
+to do is assume that he has an object
+
+that supports the dumb data portions of employee.
+
+That means he knows about the employee name. He
+
+knows about the annual salary. But that's all. There's
+
+no business logic in here, or represented by this
+
+protocol at all. Now my whole application can use
+
+this business employee as if it were the ActiveRecord
+
+object. But he himself doesn't actually depend upon ActiveRecord,
+
+he just depends upon the protocol for dumb data.
+
+This is pretty easy actually.
+
+And now, with that, the whole thing here actually
+
+my entire application is now inside the red box.
+
+I can test stories here at this level, cause
+
+the, you know the, create a employee stories is
+
+actually implemented by this code here. The employee specific
+
+business is in here, and all I have to
+
+do, you know, so I can test all of
+
+this very easily. I can actually run unit tests
+
+at this level.
+
+If I want to, I can go ahead include
+
+the ActiveRecord part of this, and do story-level testing
+
+all the way to the database without going through
+
+the web interface, cause I'm hitting this guy right
+
+here. And then I can do just a little-
+
+the only thing outside the box is now is
+
+just a little bit of wiring that happens in
+
+the controller. I can easily test that at a
+
+integration level test by hitting the web UI.
+
+So my web UI testing is light-weight and small
+
+and just enough to make sure the connections are
+
+made. My story-level testing gets here and can go
+
+all the way to the database. And then my
+
+unit tests - excuse me, my unit tests are
+
+this level here, and they can be fast and
+
+very fine-grained and have a lot of them to
+
+really exercise the logic.
+
+I think that's a good division of labor between
+
+your tests. And I really like the architecture that
+
+I've been experimenting here with this idea. But notice
+
+how the diagram tells you all that information. I
+
+can look at this diagram. I can tell, here
+
+are the arrows, and this is the direction they
+
+poi- are pointing and this green stuff has no
+
+arrows leaving it, going after any of my ActiveRecord
+
+stuff.
+
+So the diagram really helps convey that information without
+
+me going through and showing you a lot of
+
+code, code, code.
+
+OK. Next example, let's talk about structure.
+
+Excuse me.
+
+This is a diagram I drew based on Rake.
+
+I was actually rather surprised when I got done
+
+with this thing, diagram. This had, has very little
+
+mapping in, in how my mind thinks about Rake.
+
+So the diagram, to me, was very interesting.
+
+First of all, the first thing that kind came
+
+out to me is that Rake has a lot
+
+of large classes with lots of methods on it.
+
+So few classes, but the classes have lots of
+
+meth- and you don't see all the methods here
+
+because this is sketch. And I omitted the methods
+
+I wasn't interested in showing.
+
+But as I was going through the diagram, I
+
+saw, oh, this task manager's got a bazillion methods
+
+on it. Application has a lot of methods on
+
+it. Task has a bazillion and a half methods
+
+on it. They're just not being shown here.
+
+So that was kind of odd. I was kind
+
+of surprised by that. The other thing I miss-
+
+noticed, is there's lots of things in here, domain
+
+knowledge about Rake that is not represented anywhere by
+
+a class. This bothers me just a little bit.
+
+Rake has a concept of rules. There is no
+
+rules class in Rake at all.
+
+That's kind of odd.
+
+Rake also attacks locations where a task is defined
+
+so you can find it easily in your source
+
+code. There's no domain object representing locations in Rake.
+
+And this is kind of bothersome to me as
+
+well.
+
+And this one's really odd. So what is happening?
+
+Your task manager is the guy who contains the
+
+tasks. And the way Rake is designed, task manager
+
+is a module that is included into your application
+
+so your application is the thing that holds the
+
+tasks. It attracts the current scope. There are name
+
+spaces in Rake. And that's represented by the scope.
+
+But I really like this part about, this has
+
+worked really well here, but it's a little bit
+
+odd in that, as you read a Rake file,
+
+the scope is constantly changing, and I'm defining a
+
+task in this name space, I pop out of
+
+the name space, and as you're doing it, the
+
+current scope keeps changing.
+
+And as you define a task, he gets, he
+
+grabs whatever current scope the task manager has at
+
+that point. And that works fairly well, but what
+
+I end up with is a flat list of
+
+all the tasks in the system, and there's nothing
+
+that captures the structure of the name spaces at
+
+all. And I was kind of surprised by that,
+
+when I went back and actually looked at how
+
+I implemented it, it seemed a little bit weird.
+
+The other weird thing is that file_task essentially ignores
+
+scope, because they're defining files and files have no
+
+idea of what the name space are, so they,
+
+they kind of ignore scope when they're do- being
+
+defined. So why does file_task inherit from a task
+
+which has a scope?
+
+That struck me in, in reading this diagram as
+
+something a little bit odd. So maybe I should
+
+rewrite Rake. Version 20, yeah.
+
+And here's an idea, here's one way I might
+
+approach it. So this is now UML as a
+
+sketch, kind of exploring an idea that we could
+
+go in. So here's your application, but rather than
+
+inheriting from task manager, make task manager a object
+
+in and of itself. And task manager is now
+
+responsible for managing all the tasks in that scope,
+
+but no other scope.
+
+The scope object kind of goes away, and rather
+
+than a linked list, the task manager now becomes
+
+a tree of name spaces. Now I can represent
+
+the name space structure of your Rake file explicitly
+
+in my code base. Seems to me that would
+
+be a good thing.
+
+Tasks still have - and this is mis-labeled, this
+
+should say scope right here. That's another problem with
+
+UML. It doesn't always accurately reflect your code base.
+
+I would, this would actually be scope not task.
+
+But there would have one task would point to
+
+a particular scope. Task manager would have many tasks.
+
+And then task and rule and file_task would all
+
+implement some kind of task protocol that's there.
+
+And I think that might be an interesting way
+
+to go. It might be worth exploring through. The
+
+problem, of course, is Rake is a well-defined application
+
+and if I change the internal structure too much
+
+I might break somebody's code, so. Gotta treat this
+
+with care.
+
+But here's an idea of a direction to go.
+
+So, so how am I representing scopes now in
+
+here? So I gotta give you some new vocabulary.
+
+So now, let's talk about objects rather than classes,
+
+we'll talk about objects. So here is a Car
+
+object, my car, and we can represent that in
+
+UML as my_car colon Car, and we underline the
+
+whole thing. And it looks a lot like a
+
+class box except it's got an underline thing in
+
+it that means it's an object, not a class.
+
+If we don't care what the thing is called,
+
+we can leave off the name. If we don't
+
+care what class it is and we just want
+
+to talk about this object with this name, we
+
+can leave off the colon and the class name.
+
+So either way works. Any three of these are
+
+valid.
+
+So here is a car with an engine and
+
+four wheels. So this object diagram, so, so a
+
+class captures kind of a static nature of the
+
+class relationship. An object diagram captures a snapshot in
+
+time of an object and what it has. At
+
+this point in time, this car has an engine
+
+and a wheel.
+
+If I leave it out on the street and
+
+somewhere steels the hu- the wheels off of it
+
+and all of the sudden it's got less wheels.
+
+So that would be a different snapshot in time.
+
+Or someone takes out the engine and replaces the
+
+engine. Well that would be a different snapshot.
+
+So an object diagram captures, this is how your
+
+objects look right now at this point in time.
+
+So this is how Rake might look at a
+
+point in time. Here we have a top-level task
+
+manager name space and we have a test name
+
+space here and he has a task called units,
+
+so test colon units would be the name of
+
+this task. DB test prepare would be the name
+
+of this task. DB migrate would be the name
+
+of this task.
+
+So I'm representing the scopes and the name spaces
+
+of Rake in a data structure inside of Rake
+
+as well. So object diagram can capture that kind
+
+of snapshot idea of your program. And I really
+
+like that. OK.
+
+Let's talk about creation of objects.
+
+I have a goal this year to talk about
+
+flying robots in every single talk I give. I-
+
+Thank you. Thank you. I think I've only missed
+
+on talk so far, and I slipped it kind
+
+of in in the comments so then at the
+
+end.
+
+So here. So let's talk about the flying robot
+
+that we're playing with back in the office. This
+
+is a parrot AR drone. It's a quadacopter. It
+
+has two cameras on it. It runs Linux on
+
+the copter itself. And it talks to your laptop
+
+via wifi.
+
+I have written a library called Argus that you
+
+can use to control an AR drone. And here's
+
+a simple program where we create a drone, we
+
+tell it to start, all its subprocesses up. We
+
+tell the drone to take off, tell it to
+
+turn right, turn left, hover, and then land, and
+
+then shut down.
+
+So let's see if that program works. K. Take
+
+off. Turn right. I think I actually turn right
+
+for five seconds instead of two. Turn left. Hover
+
+and then land.
+
+OK. So cool. So that's, that's, that's all controlled
+
+by Ruby.
+
+A good way to talk about the Argus library
+
+is to use an Argus diagram. I can show
+
+you this diagram and I can talk about the
+
+pieces of this architecture and how, what the responsibilities
+
+for each piece is. The drone object is the
+
+drone that the application plays with. It is the
+
+front facing object that you send all your commands
+
+to. You don't have to worry about anything behind
+
+the drone.
+
+The controller is responsible for, for translating these high-level
+
+commands like go up, go down, turn left, turn
+
+right, into lower-level drone commands. And then taking those
+
+commands and then calling the right commands on the
+
+AT commander. AT, AT because every command on the
+
+drone begins with the letters AT. It's like the
+
+guy who wrote this protocol was really hung out
+
+up on the haze modem protocol.
+
+It's AT star, the name of the command, and
+
+then strings after that, yeah. So, so the high-level
+
+commands here, like turn left, get turned into a
+
+progress command, a key command here, with a particular
+
+amount of data. This class is responsible for generating
+
+the stream of text messages that get sent to
+
+the drone and then the UDP sender class is
+
+responsible for actually sending this packet over the wire.
+
+So it's very clear division of responsibility. I really
+
+like this design.
+
+On this side we have a nav naviga- nav
+
+monitor, which monitors the navigation coming back from the
+
+drone. So it watches for commands like saying, OK,
+
+I am now this high. Oh, my battery is
+
+running out, somebody do something, you know, a little
+
+messages like that come back over the navigation data
+
+stream. And then the nav streamer is responsible for
+
+handing timeout issues on that navigation stream.
+
+We'll get more on the nav streamer here in
+
+a moment.
+
+But this is an object diagram. So I thought
+
+it would be interesting to look at the class
+
+diagram for this, and it looks like this.
+
+We can still see the seven objects listed here,
+
+but now we're showing them at a protocol level.
+
+Protocol's the implement. So the drone uses, assumes something
+
+with this protocol. The controller implements the protocol. The
+
+drone also then uses a AT commander protocol, which
+
+the controller also uses.
+
+The nav monitor uses this protocol and so on
+
+and so forth. And so this is really nice.
+
+This seems I can test each of these concrete
+
+classes very easily, despite providing something that responds to
+
+the protocol, and they can all be tested independently.
+
+It's a little weird, though, looking at this diagram,
+
+because I have these objects hanging out here that
+
+nothing connects to. And so this diagram lies just
+
+a little bit. What's really going on is that
+
+I have code that looks like this in the
+
+drone. It says, OK, create these concrete objects here,
+
+unless you override it with something. So I can
+
+override any of the concrete implementations very easily. So
+
+it's a really cheap kind of dependency injection technique
+
+that you can use in Ruby.
+
+So that makes it easier to test, but makes
+
+it so that if I just use it by
+
+default, the right things get built up and used.
+
+So let's go ahead and draw these relationships in
+
+and let's mark it with a style that says
+
+create, and I'm gonna, I'm gonna do these lines
+
+in red so we can see them. So the
+
+drone will create the monitor, will create the controller.
+
+It'll create the AT sender. Now everything is attached
+
+by lines.
+
+Notice anything really unusual in this diagram?
+
+The drone does almost all the creation, but almost
+
+all the creation, except for this guy right down
+
+here. And for some reason nav monitor thought it
+
+was his responsibility to create the nav streamer down
+
+here. I'm not sure why.
+
+And it wasn't apparent to me, looking at the
+
+code, this did not stand out to me looking
+
+at the code, until I kind of drew the
+
+diagram and saw the create lines pop up here
+
+that was different from all of the others. So
+
+again, the diagram helped me see things that I
+
+did not see in the code itself.
+
+I think, I want talk about that nav streamer
+
+thing that handles time outs. but then to do
+
+that we need to be able to talk about
+
+dynamic behavior. So here is a UML diagram that's
+
+different than we've seen before. This is a state
+
+diagram and essentially says this class here, this toggle
+
+class has two states, on and off, ands when,
+
+OK so you start in the off state so
+
+the black dot indicates where you start.
+
+The arrows are transition from state to state and
+
+the transition happens when you hit a trigger. The
+
+trigger here is called button push and we implement
+
+triggers as methods on objects. When you're in the
+
+off state and you hit a button, then the
+
+action you want to take is called turn on.
+
+So the trigger happens, button, you look at your
+
+state you say oh we're off, then we want
+
+to turn ourselves on then we switch the state
+
+to being on as well. So thats the next
+
+state there.
+
+So you can look at this, this is a
+
+pretty simple state implementation here, but looking at the
+
+diagram here gives you a lot more information. OK,
+
+here is another one, I just wanted to show
+
+this, this is a recognizer for an imager, you
+
+start here on the empty state if you get
+
+a digit, then you're good as you move to
+
+the integer state as long as you keep getting
+
+in digits you get that. If you get non-digit
+
+then you say, oh yep, we're done, we got
+
+our integer. It's just a little recognizer here. The
+
+dot with the circle is the stop state.
+
+So let's talk about the nav streamer now. Nav
+
+streamer is responsible for handling time outs. This is
+
+how it works: we start up, we go into
+
+the wait state. In the wait state everything, unless
+
+the thing we expect to get is a start
+
+command. The start will issue a reconnect that will
+
+essentially go out and create a UDP socket and
+
+will start listening on it right away. It also
+
+requests the nav data as well. Going to a
+
+wait state and as soon as we receive data,
+
+we go into a run-state. This is the expected
+
+place to be in. If we time out during
+
+the run state, either with a short time out,
+
+we ignore it.
+
+We receive data in the run state. We stay
+
+in the run state. But if we get a
+
+long time out, long time out is, I think
+
+a second or so. Short time outs are like
+
+fifty milliseconds, the longer timeouts are like a second.
+
+So if we get a long time out then
+
+I need to reconnect, I need to clobber my
+
+UDP socket object, recreate it, re-request the nav data
+
+and go back to the wait until I receive
+
+data again.
+
+And in the wait state, if I get a
+
+short out, short time out, I gotta keep requesting
+
+the nav data because the UDP, it might have
+
+missed it. I gotta resend it. So this very
+
+succinctly tells me exactly the algorithm used by the
+
+time out mechanism in UD... in nav streamer. So,
+
+I like state diagrams, I think we should use
+
+more of them.
+
+Let's see, what are we dong on time here?
+
+You know what? I'm in trouble because I didn't
+
+hit the start button on my timer up here.
+
+So we've got 10 minutes? Thank you. All right,
+
+interactions. We'll go through this really quick.
+
+Here's flex-mock, a library I wrote for mocking. It
+
+contains a mock container. Mock containers are responsible for
+
+managing mocks within a test. This is the mock
+
+object right here, so a mock container contain many
+
+mock objects. The mock object records by method names,
+
+a set of expectations here, and particular detailed expectations
+
+here.
+
+Describing this whole thing here and how these interact
+
+is very hard to do in words. It's even
+
+harder to look at the code and figure out
+
+what's going on, so we need a new vocabulary
+
+to talk about these. And these are sequence diagrams.
+
+They're essentially objects here, so it's like a object
+
+diagram with life times on it. So here in
+
+this class we call def drive, def drive calls
+
+go_faster, go_faster calls accelerate.engine. def drive is- so this
+
+is the method called def drive, this is how
+
+long its alive. Def drive calls go_faster, so this
+
+is go_faster right here. Inside of go_faster we call
+
+accelerte.engine. accelerate.engine returns the result. Returns here, go_faster returns
+
+to def drive and then def drive returns to
+
+the bottom here. It's just a sequence of calls
+
+and kind of timing related. So here is the
+
+interaction in flux-mock.
+
+This is, let's walk through this. A mock gets
+
+a message called foo. That triggers a method, a
+
+message missing, which goes into here. So this is
+
+message missing right here. Message missing immediately creates a
+
+call record to record the fact that foo has
+
+been called. So we can query it later to
+
+see what messages have been called, and then goes
+
+and locates the proper expectation director. That's based upon
+
+the name foo. So that's just a hash look
+
+up.
+
+I didn't record the hash look up in my
+
+sequence director because the detail I don't want to
+
+talk about right now. So then we call call
+
+on the hash expectation director and give in the
+
+arguments to foo and the call record . So
+
+then expectation director immediately calls find_expectation on itself, passing
+
+in the arguments. And then it goes to each
+
+of the expectations that it's managing and says oh,
+
+expectation one, do you match the argument that just
+
+got passed in and expectation one says, nope, false,
+
+return.
+
+Director says let's go to expectation two. And do
+
+we match the arguments for this? And this expectation
+
+says yes, I expect to be called with no
+
+arguments, and thats exactly how we're calling foo. So
+
+yes, I match and I return true and then
+
+the director says, oh so you match the arguments.
+
+Now are you eligible to be called? We ask
+
+eligible because some expectations expect to be called once
+
+or twice or three times and so have we
+
+run out of times you're allowed to call this
+
+expectation or not, are we eligible? And says yeah,
+
+yeah you can still call on me. So eligible
+
+returns true. Find_expectation returns expectation two here. That's the
+
+return value to here, to our call thing.
+
+Call then sets the expectation field on the call
+
+record to indicate which expectation we called, and then
+
+it calls verify_call and then it asks the expectation
+
+to calculate the return value for this mocked call.
+
+And then it returns here to call. Call returns
+
+for Message Missing and foo returns from there. So
+
+that's how we find the expectations in flux-mock.
+
+That's a lot of details there, but when I
+
+walk you through this, and kind of walk you
+
+through it, it's a very easy way to describe
+
+it. I like , I like and dislike sequence
+
+diagrams. They are the most fragile diagram to write
+
+because they break all the time. As soon as
+
+I change anything, this diagram will be critically wrong
+
+in some manner. They're also a pain to draw.
+
+There's lots of details in here and getting everything
+
+to match up right, ehh, thats a pain. This
+
+took me probably the longest diagram of anything to
+
+call and to draw it. I have to run
+
+through the code myself to understand it.
+
+However, the process of walking through the code to
+
+draw this diagram is worth everything. This is one
+
+case where I feel the diagram, eh, I have
+
+ambivalent feelings about it. But the process of writing
+
+the diagram means I really gotta understand what's going
+
+on down underneath the covers and that, to me,
+
+is the big win of this kind of thing.
+
+So UML, you, I find, I draw diagrams, not
+
+so much for the diagram's benefit, but a lot
+
+for the learning that happens when I draw the
+
+diagram. So lets summarize here, just really quickly. UML
+
+is great for detecting dependencies, and that's my favorite
+
+thing about UML all together. Yeah, lets knock down
+
+the sign. I guess my favorite thing about UML
+
+is doing the dependency looks there, looking at structure,
+
+looking for anomalies in structure when I draw the
+
+diagram there, it's good for that. It's good for
+
+denoting dynamic behavior in a way that the code
+
+kind of obscures sometimes. And then object iteration is
+
+another feature of UML that is, probably, a less-used
+
+feature of UML that I personally use, but well-worth
+
+knowing about.
+
+Some tips, if you want to start drawing diagrams,
+
+here's some ideas. Decide what idea you want to
+
+communicate with this particular diagram and draw it with
+
+that in mind. Don't worry about capturing all the
+
+details, capture only enough detail so that the diagram
+
+makes sense to the audience that you're addressing, so
+
+they can understand the idea that you wish to
+
+convey.
+
+Explore ideas, like I did with that rake re-design
+
+thing. Maybe we could re-do it like this. Now,
+
+that diagram is probably wrong, I probably missed some
+
+details somewhere, but it was worth exploring, gives me
+
+an idea of where I might want to go
+
+in the future. I recommended you draw the diagram.
+
+Don't depend upon automated drawing tools that examine your
+
+source code and put up diagrams. They put way
+
+too many details in the diagram, they don't convey
+
+an idea, they convey exactly what the source code
+
+conveys, so you might as well just look at
+
+the source code at that point. It's the editing
+
+process that makes the diagram useful.
+
+And keep the ephemeral. Don't try to generate lots
+
+and lots of diagrams for your application, thinking, oh,
+
+its going to help lots and lots of programmers
+
+in the future. A few well-designed, high level UML
+
+diagrams, placed in the document directory: excellent. Lots of
+
+detailed diagrams, placed in the document directory: gonna get
+
+out of date before you know it. It's just
+
+not worth it. So, keep the ephemeral. And I
+
+love white boards for drawing UML.
+
+Presentation tips. If you're going to do a talk
+
+and you're putting UML documents up, make the lines
+
+two pixels. Who knew they look so much better
+
+like that? They look like, oh they mean something.
+
+This is, ah, this is wimpy. A good book
+
+on UML is UML Distilled. It's this thin book,
+
+unlike the thick books you've been buying on UML
+
+that go into all the gory details. UML Distilled
+
+talks about just the essentials of UML and can
+
+get you going in getting your diagrams up and
+
+running. It's still pretty good. Some tools? White boards,
+
+get a white board. We have an office that
+
+has three walls of white boards. Humm, I love
+
+it. If you want to do it programmeticlly, on
+
+the cheap, I recommend UMLet. It is a Java
+
+application. It's really lightweight, it's got a really unusual
+
+editing feature, but you can get good looking diagrams
+
+up and running fairly quickly with UMLet.
+
+All the diagrams I did for this talk were
+
+done with OmniGraffle, which is, does really pretty diagrams.
+
+If pretty is important.
+
+I think sometimes making them pretty makes you feel
+
+like you need to keep them around longer than
+
+you need to. So I'm not actually recommending UML
+
+for your day to day UML diagram. White boards
+
+is my first choice, UMLet is my second choice.
+
+If you're doing a presentation and you want it
+
+to look pretty, OmniGraffle then is a good choice
+
+for that.
+
+OK, so you're all gonna go and start drawing
+
+diagrams instead of writing ruby code?
+
+CROWD: Woo-hoo!
