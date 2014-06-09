@@ -1,0 +1,209 @@
+RubyConf 2013 - Mangling Ruby with TracePoint - Mark Bates
+
+MARK BATES: Good. I'm, anyway, I'm Mark Bates. In case you couldn't tell by the sign on the wall. You probably all are a bit surprised that I actually am Mark Bates. You all thought I was this man, by my awesome stache that I've been growing. See? You're all envious, I know. I've got to pick up a little mustache wax, it's getting a bit out of control.
+
+Actually, I haven't shaved since I got here, so I look a little bit more like, like this man. At least, I definitely looked like him last night. That's hysterical.
+
+So, real quick, like why, why am I growing a stache, this killer stache that you see before you? It's for Movember. I know PJ and Katie talked about Movember yesterday in their keynote. So if you're not familiar with Movember, it's, you grow mustaches to raise awareness and money for men's health issues, like testicular cancer and prostate cancer, both of which have effected my family greatly.
+
+So if you want to, I highly encourage you to donate to my Movember campaign at mo dot markbates dot com. In a related note, I am the voice behind a screencast site called metacast dot tv. We do weekly screencasts series on all sorts of different stuff, like Go and Ember and Angular and Ruby and Reddis and PosGres.
+
+And this month, if you sign up I'm donating a dollar to Movember as well. And to make it even better, use RubyConf13 and you get the month for free. So it's kind of a win-win for everybody except for me, who has to pay the dollar. But it works out well. It's good.
+
+OK, so we're here to talk about mangling TracePoint. At least that's what it says in your folders, anyway. So what is TracePoint? TracePoint came out in Ruby 2, and it kind of superseded SetTraceFunc if anybody's ever used SetTraceFunc before.
+
+And the whole purpose of TracePoint is to allow us to instrument our applications, right. Gives us all these nice little hooks into Ruby life cycle events that we can use to figure out what is happening in our application, what things we're doing, what it's doing. Some really fun stuff like that.
+
+And we're gonna use that here today, we're gonna do a couple different demos. And one, the first demo we're gonna build is actually in instrumentation for an application. Let's do a quick look at what kind of TracePoint looks like really quickly. This is from the documentation. I believe this was written by Zach Scott, who spoke the other day and who's probably not here because he never attends any of my talks.
+
+The bastard. Probably at the bar. If you're looking for Zach he's at the bar.
+
+Anyway, so this is what some TracePoint looks like. We're gonna listen to the :raise event, so every time that a :raise, an exception gets raised in our application, this block of code up here is gonna get called. And this example, all it's gonna do, it's gonna print out the line number, the event, the exception that gets raised. We enable the TracePoint, we do some silly math, and you can see that we get this nice little stuff printed out here.
+
+Right, so, in essence, this is really what TracePoint is all about. You hook into an event, you give it a block of code. The block of code runs and you can do really cool shit with it.
+
+So I said there's different events we could listen to. There's about eight or nine. I can't remember the exact number. The first one is, the first set is :class and :end, and :class listens for class and module, the beginning of class and module definitions, and :end listens for, to the end of class and module definitions.
+
+And we'll use the :end one a little bit when we do some really terrible things to Ruby that we shouldn't be doing. But it's really nice. But what the end doesn't do, it doesn't listen to method definition ending, so that's an important thing to note, and that's actually one of the things missing from the life cycle hooks of TracePoint. We can't listen to when a method definition ends.
+
+But we can get class and module methods, which is cool.
+
+:call, :return, :c_call and :c_return - I loop, I lump these together cause they all kind of behave the same. :call and :c_call listen to Ruby method calls that happen. The :call one, the :call event listens for Ruby, Ruby method calls. So anything that happens in the Ruby layer. And :c_call listens for anything that happens in the C part of Ruby.
+
+And the same thing for :return. So :return gets called whenever a method returns, so basically on every method, and :c_return, whenever a method gets returned in C. So I put them together cause they're really useful. So if you're gonna instrument, you want to listen to every method call in an entire application, you want to use both :call and :c_call, which we'll do later.
+
+If you're just instrumenting your application, your application's probably written all in Ruby, so you just use :call.
+
+:raise, we saw :raise earlier. One of the things I like about :raise is think about the, I was talking to, like, New Relic, one of the guys from New Relic earlier, Jason - you here? Jason, there he is. We talked about this over lunch, and I was saying you could rewrite something like AirBrake or Exceptional or any one of those error tracking using TracePoint.new(:raise) and give it a block of code, and then have it take that exception and post it to anywhere you want.
+
+So in about, like, five lines of code you could build a gem that listens to every exception in your entire application, regardless of where it's called. All right, that's pretty cool. That's some really cool stuff.
+
+Let's see, :b_call and :b_return. These listen to block calls and block returns. So whenever a block ends. There's no a_call or a_return, in case you guys were wondering. Just doesn't exist, which is a shame, cause it'd be fun.
+
+And then there's :thread_begin and :thread_end, which do exactly what you think they do. They listen to the beginning of a thread when a thread gets spawned up and then when a thread ends you get :thread_end.
+
+So now the fun part. We're gonna write a little demo here.
+
+I'm gonna write a demo but it's going to listen to a Ruby application, and whenever a method gets called, I'm gonna keep track of it to find out exactly how many method calls happen, which class they happen on, which, which methods are gonna get called in our application, right.
+
+So here's a little quick example of what this is gonna look like. I'm gonna require my little tracer program, and we'll build the tracer program in a second here. And I've got a nice foo class because a demo wouldn't be complete without a foo class.
+
+I was gonna do a Fibonacci generator, but, I just, it's a bit too much. And I call foo dot new dot bar, and this is what dumps out from my tracer program. And we'll look at that a little bit more in a second here.
+
+So to do that, right, I'm gonna require, I'm gonna build the little trace collector. And this is gonna hold the information about what we're building, OK. The things we want to capture are the class name, the method on that class that gets called, and the amount of times it gets called.
+
+So build this little simple singleton here. It's gonna hold onto all the calls for me. Give us a nice little way to iterate over each of them. Build a nice little method_missing cause I hate calling dot instance on my singleton classes. Let that catch up here.
+
+And go a little faster, go a little faster. By the way, don't you like my typing. I'm like, I'm pretty good. So our collect method is our big method, right. It's gonna take our TracePoint object, like it yields it up whenever one of these events happen, all right.
+
+And the first thing I need to know is the name of the class. So to do that, I can do TP dot self, and I think this is a poorly named method, but, what self returns when you call it on TP is the objects that the event occurred on. So in our case, foo.
+
+It's a little poorly named, but very useful, right. So now, with that we can get access to the class name. I do a little math because nilClass won't print out, obviously. We need to try to print it out.
+
+And then finally I'm calling the method ID, TP dot methodID returns back the name of the method that gets called, and I instrument, increment it by one.
+
+All right. So now we just need to create our tracers. So that's just, remember I said all it's doing is holding onto this information for us. Our tracers are even simpler, right. We got two tracers, one listed as :c_calls, see the list here, you know, and regular call. We want both Ruby and the C stack.
+
+We want to trace both of those. So what happens is we just, when that happens, we're gonna create a tracer and it's gonna just take that TracePoint object that gets returned to the block and we're gonna send it to our collect on our tracecollector. And then finally we enable it.
+
+That's it. That's all we do.
+
+And then, I believe, oh here's an at_exit. I'm not gonna explain the at_exit, but it's just formatting and dumping out all the shit, so the screen that we saw a second ago.
+
+So it's just there for completeness so that you don't think some magic thing was happening that TracePoint gives you. So now when we run our example again, this time we'll actually look at the output for a- I'll let you look at the output for a second. Very simple little program. Just foobar.
+
+There we go. We get an output that looks like this. This isn't all the output. This is some of the output. All the output looks like this. All right, so we can see that in that program I had fourteen method calls, once I enabled the tracers.
+
+Now, there's some information here I could have stripped out. Certainly the TracePoint stuff itself. If I really wanted to I could strip that out. Same thing with some of the object stuff here, I'm just printing stuff out to the screen. But we, so we, but, you now, it's like, screw it. It's just a demo. But you get the idea, right.
+
+So we can find out some more information. So in our foo, if we look at our foo model here, we see that bar and initialize get called once, right. That's the, in this case, in our case, that's the information we're really interested in.
+
+We can do more than this. It's a very simple program. What if we built something just a little bit more complex.
+
+What if we instrumented this in a Rails application? Now I'm just, I'm gonna, I'll tell you what the Rails application is, and I'm gonna ask you guys to tell me how many method calls you think occur in this Rails application. So it's a hello world application, right. And I'm gonna build the application here, you'll see the entire application. It has one controller - hello controller. It has one index action and it has one line inside that index action that calls render 'text:', "Hello, world!"
+
+That's the entire program. I will hit Hello World one time and then close it out and we'll see the instrumentation kick out all the method calls in the system. So my question is, how many people think it's under ten thousand method calls?
+
+One person. How many think it's over ten thousand? OK, everybody. Good. How many think it's over twenty thousand? Over fifty thousand? Over one hundred thousand? OK. Over two hundred thousand? I'll go crazy. Who thinks over two hundred thousand? OK, no one thinks it's over two hundred thousand.
+
+Well, let's see what the answer actually is.
+
+The answer may surprise you. So, here we go. Rails new Hello World. This is a standard Rails 4 application. I'm not doing anything funky. This is the entire process, as you see it. Generating controller hello, and let's see it spit out some stuff - there we go. It spat out all its stuff. I open the controller and define my index action, right. And I'm gonna render the text "Hello World" to the screen.
+
+None of this should be surprising. Open up the routes file, add our route for it, in this case the root route. All right. Nothing fancy here. Nothing up my sleeves.
+
+And finally, I'm gonna, at the boot rb file, I'm gonna add my tracer program. It's the same tracer program we just used to do foo, that foo example. Nothing is changed here. You can even see the dis, the directory structure I used for when I write my talks. There we go.
+
+And I save it. Now I'm gonna start the Rails server. And you can see I'm using Webrick. I'm not using any fancy web server here to inflate these numbers. I go to Chrome, I hit it, Hello World - fantastic. You see it hit once. Boom. Ran down.
+
+One hundred twenty-two thousand five hundred thirty-eight method calls.
+
+Now I'm not trying to slam Rails here. I just, I just, I, I, that number blew my mind away. I was like, I can't believe how many - and wait until you see some of the other numbers. So here are the top method, here are the top classes. I'll show you the top classes and their top method calls. It's kind of scary.
+
+So class has almost twenty-six thousand method calls on it. Rails initializable initializer has sixteen and a half thousand calls. I don't know what that class does. It seems a bit excessive for something that says initializer in it twice. That seems like a, a bit much, or excessive.
+
+Now module and string and array, you expect to see a lot of method calls. now notice that they're like, close, but I mean like, object only has forty-five hundred, or fixnum, right. I'm, and you make a lot of those in, in a Ruby program. So I expect to see a lot of method calls in there.
+
+But this one really does scare me a little bit. But let's look at the Hello Controller. Now, I mean, another little quick question. So, you saw I hit the, I hit the hello controller how many times? Once.
+
+How many times should initialize get called on that? Come on. You would think once. How many times you guys think it actually gets called?
+
+Oh, come on, throw it a number. Sixteen and a half thousand? That would be awesome.
+
+Actually it's called four times.
+
+I don't know. Like I said I'm not here to indite Rails. I'm just, just, I just think it's quite funny.
+
+You know, and if I really wanted to take this a step further, I was thinking about this last night in my hotel room, maybe I should take this demo a step further and use TracePoint to then pin, to dig into that and find out which files were calling initialize four times on my Hello controller, right. So we could do that. I'm not going to cause that's just kind of beating a dead horse, right, and this is not about figuring out why Rails is slow or why Rails calls these methods so many times or whatever. That's not the point. That just, I was just showing an example of a complex application here.
+
+But we could do that. We could use TracePoint to do that. And you see we had the start of a program that is doing that for us, right. It uses instrumentation that's built in, built right into Ruby in 2.0 and above to let us do that. And we could use this to build, you know, kind of, you know, bench marking metrics. We could look at the beginning and end of the method definition, of, beginning and end of a method call.
+
+See how long it takes to return and then say, OK, these we all the methods that take over a second. These are the methods that take over a certain amount of time. Print those out. We could gather all sorts of really incredible information with just a few lines of code. The largest amount of code I wrote in this example was the code to print it out at the end.
+
+You see the rest of the code I wrote. It was just a few lines to actually capture all this information.
+
+I promised you a little bit of mangling. I promised you I was gonna do something really terrible to Ruby. And I'm going to. I was not joking. I'm gonna real, this is, yeah, this is terrible.
+
+Anybody here like Java? Ah huh, OK, there you go. Anybody like when you put Java and Ruby together? OK. And I don't mean JRuby. We're not gonna talk about JRuby, right. SO I came form a Java background. I did, I've been in Ruby since 2005. Before that I was doing Java for years.
+
+And one of the things we had in Java were these terrible things called abstract interfaces. You see where this is going, don't you?
+
+Yup.
+
+I, I have to say that. Please do not actually try this at home. All right, I wrote a blog post a couple years ago where I talk about this. I was bored one day, as you do, and I said, jees, I wonder if you could do, like, abstract classes and interfaces in Ruby. And so I wrote this blog post kind of hypothesizing the different ways you could potentially do this. It was just a thought experiment. Just kind of playing around with some stuff.
+
+And I got two different types of people responding to it. I got one group of people saying, oh my god that's awesome you should write a gem! And then, and then other people were like, oh yeah, also, I actually wrote the gem! Don't worry about it! They were responding to each other, like, oh, I got your back! I wrote the gem for you.
+
+Don't. And another group of people who yelled at me. Like, like were really violent with me on, on, on my comments section. Like how dare you do this in Ruby? And if you want interfaces, go use Java you dick! And I was like, whoa! Like, that seems like overly hostile. Like I'm just talking about interfaces.
+
+So I just wanted to make sure I got that out in advanced that I am not actually advocating this. But if you take it away and do something with it, it's all on you.
+
+So here are, here is an example of an interface in Java.
+
+Right, we have a bicycle interface, and it says, anybody who implements me has to define these three methods. These three methods are required by me, by me the bicycle, to be considered a bicycle, right. And then I have a class down here that implements that bicycle, the acting bicycle here, and it has to define those three methods.
+
+If I don't define those three methods, what happens is the JVM, when it's compiling, will kick up an error at compilation time and say, whoa, ACMEBicycle, you're missing a method or two. You have to implement these things. And execution stops. Like, it won't even get past compilation.
+
+So I want to do that in Ruby, right. I don't want it to happen that when I'm using a library it says oh, you're missing a method. I want it to have happened at boot time, when Ruby starts actually looking at the method definition and it stops and it says, you're missing methods.
+
+And that's, that's the goal here. I want to be able to do something like this. All right, I want to have an API interface include an AbstraceInterface module, define a couple abstract methods, and then have another class down here, the HTTPLibrary in this case, that should spit up errors as soon as Ruby parses this class definition and says, you are missing shit.
+
+Now, one, one place you would try to do that is here, right, is the include line. You'd say, OK, when this is included, let me try and figure out if HTTPLibrary has these missing methods. Now here, this would work fine. This example, that would raise an error, and you'd be, you'd be golden.
+
+however, in this case, if I try to do it here again, I am defining get and put, the problem is at the include line, get and put have not been defined yet on my class because it's not finishing parsing the class definition. So it would stop execution and yell at me that you're missing these methods, and then you spend, you know, three hours trying to figure out, you know, well what the fuck is going on? I've defined them!
+
+But they don't exist at that, at that point in time, though.
+
+So here's what we're gonna do. I'm gonna show you a little example of this here working. I like doing that. I'm gonna require my interface's library that I've built, and I'm gonna define the exact same code we just saw here, our ApiInterface. Include the AbstractInterface.
+
+By the way, these robes are really hot. I don't know if anybody's worn one of these things yet. They are really, really hot. But I'm not wearing any pants.
+
+I'm kind of stuck wearing it for the rest of the, for the rest of the talk. That's a, that's a thing with me. Apparently I suck, I've stopped wearing pants to talks. I did the keynote in a half tuxedo this summer cause I forgot my pants. As you do. But anyways, we get this-
+
+WE get this great class here, and when we run it, we get this. WE get an error, as soon as we try to run it, that says you must implement the following methods get and put.
+
+That's what we're going for. That's the, that's the end goal here. That's the dream, right. Notice I wasn't trying to use the library. I was just defining it. Just defining my class in this, this got called.
+
+So how do we build this?
+
+Let's see, we skipped over that. Oh, here's the, here's it actually running successfully, just in case you don't believe me. So get and put. We're in there. I run it. It ends successfully. Nothing blows up. So. That's the dream, right. That's the goal that we all want in our lives.
+
+So to do this is actually pretty simple. We build this abstract interface and it's just gotta couple things on it, I think, important. It has a standard error, a nice little not implemented error here just so we can print it out to the screen. I realized, I was like, oh, I could have made this more verbose.
+
+That happens when you start doing these demos, like these kinds of talks. You're like, oh, I could actually add this to it, and I could add that to it. and you missed the whole point of don't do it, not doing this.
+
+But you can say, oh this class requires these methods and what have you. But anyway, so, I have an error there. And then I'm just calling the extend, the included hook on module. So when somebody includes the abstract interface into it I add some class methods. And the only class method I add is the abstract method call we saw, which takes a splat of methods.
+
+And that's gonna just pass that off to an abstract method manager, which we haven't written yet. I'm big on singletons in case you haven't noticed. I even used manager, cause it's very Java-esque. I was gonna have a service and an IMPLE that generated the manager for me.
+
+And a factory as well. But I thought that was a bit too, a bit too much.
+
+So the abstract method manager takes, has a method called add, and it's gonna take two arguments. The class that's requiring them, that is requiring these methods- so ApiInterface for this example, and then the methods that it, it wants, get and put.
+
+So to build that abstract method manager, this is even simpler than our trace collector earlier, which is a little bit more complex.  This is even simpler. Again, it's a singleton. We just have an adder for the methods and the key is going to be the class name. And the values are going to be those methods that we want, the get and put here.
+
+And you can see that in our add method here.
+
+Should have sped this up a little more.
+
+And there we go. OK. That's our entire abstract method manager. The real fun, obviously, comes in our trace.
+
+SO we're gonna define new TracePoint. It's gonna listen to the end keyword. So whenever the module or class gets define it's gonna run this code.
+
+As soon as it runs this code, first thing it's gonna do is it's gonna grab all the ancestors for that class or module. And then it's gonna delete itself, and the reason we delete itself from the ancestor tree is, in the case of ApiInterface, right, I say here are some abstract methods for ApiInterface, and then if I call end, if I didn't do that line, if I didn't do that third line of deleting myself, it's going to, when you see the rest of the program, it's going to look at the ancestor, it'll loop through the ancestor tree, see itself, look for abstract methods, gonna find some, it doesn't define them, and it's gonna blow up.
+
+So we have to take ourselves out of the equation to do this. So anyway, once we take our selves out we're gonna have an array that's gonna hold onto any method, missing methods that we need, and at the end of our block here, we're gonna raise that error if we have any missing methods we're gonna point them all out here.
+
+But now we're, the real meat of it is actually looping through all the ancestors. So you loop through each of the ancestors, and then we ask the abstract method manager, do you have any methods? If it has methods, we then use that TP dot self, I'm getting ahead of myself here.
+
+Here we go. We're gonna use that TP dot self call again to ask the object, hey, in, on your instance methods, do you include these couple methods we need? Do you include get, do you include put, and if not we're gonna add them to our missing methods.
+
+That's it. That's all the code I wrote to make that work. That, that little bit of code, and this is really the bulk of the code, that and the last, the last file, so what, maybe about two dozen lines of code, and I've built abstract methods in Ruby.
+
+I built this.
+
+Using TracePoint.
+
+I think it's pretty cool. And it's really fun. So there's a lot we can do with TracePoint, and I'm just kind of touching the surface of it here. I'm not gonna go into much further detail, much further examples, but really the docs say it all, and you can see there, there's lots of fun thing you can do with instrumentation, with mangling Ruby and other great stuff.
+
+And that is it. Told you it was gonna be a quick one. So thank you very much.
