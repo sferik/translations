@@ -1,0 +1,1471 @@
+RubyConf 2013 - API Design for Gem Authors (And Users) - Emily Solfo
+
+EMILY SOLFO: My name is Emily Solfo.
+
+I work for MongoDB, where I co-maintain the Ruby driver to the database.
+
+It's the Mongo in JSON gem, if you've used the Ruby driver at all.
+
+And I'm gonna talk about gem API design for gem authors and users.
+
+Even if you're not a gem author, this will
+
+cover a bunch of concepts that are relevant to
+
+software engineering in general as well.
+
+So why am I talking about this? Well, I
+
+do co-maintain these, this Ruby driver at MongoDB. But
+
+I also realize that many of us have become
+
+gem authors through one of two ways: one way
+
+we could have become a gem author is by
+
+working on a Rails application at our company and
+
+realizing, over the course of time, that our application
+
+has become unwieldy, really complex, trying to do too
+
+many things, and we've decided as a team to
+
+break up our application into multiple services and tie
+
+everything together with a gem.
+
+Put all of the business logic in one place,
+
+centralize all of our data models, and maintain this
+
+gem internally at our company along with our colleagues.
+
+That's one way.
+
+The other way is by adopting a gem and
+
+becoming a gem maintainer, or by building a gem,
+
+opensourcing it, and becoming a gem author or opensource
+
+gem maintainer.
+
+So the point of this, though, is that there
+
+was a transition at some point. You are, were
+
+a web-developer before, and then you transitioned into becoming
+
+a gem maintainer, a gem author.
+
+And before your code was serving people who were
+
+using a browser and a mouse. So it was
+
+good enough that your code worked. Didn't really matter
+
+what you called your variables. If you wanted to
+
+use curse words, that was fine as well. It
+
+was sort of funny. But now it's not the
+
+same thing. Your code, now, serves other developers. It
+
+serves other people who are looking to your gem
+
+to provide some kind of functionality in their own
+
+applications.
+
+And these other developers are your future self, your
+
+future colleagues, your current colleagues, opensource users. Regardless of
+
+whether you're gem author inside a company, and the
+
+gem you're working on is proprietary, or it's an
+
+opensource gem, the things you need to think about
+
+are the same. And they're not quite the same
+
+things you need to think about as a web
+
+developer.
+
+So my personal story is that, I was a
+
+Rails developer about two years ago, and we had
+
+this, this web application that was serving up pages
+
+to customers, they were buying things on our site.
+
+But this Rails application was also serving us internally.
+
+It was helping our third party vendors print things
+
+and move them around. It was helping us to
+
+run analytics on user behavior. It was helping us
+
+run analytics on financial data. It was helping us
+
+manage inventory. It was doing all of these things,
+
+all in one application.
+
+And it was super complex and just really horrible
+
+to maintain. So, as I said, like along with
+
+a lot of you, I'm sure, we split it
+
+up into two different applications, and we created a
+
+gem that had all of the business logic, all
+
+of the data models in one place. And then
+
+we maintained it amongst ourselves and managed dependencies and
+
+versioning and all of that.
+
+And the other transition that I went through was
+
+that as I moved on from being a Rails
+
+developer to working at MongoDB where I now co-maintain
+
+these, this Mongo in JSON gem, I realized that
+
+it's not quite the same thing, in the same
+
+way that it wasn't quite the same thing maintaining
+
+this gem at the, at my past company.
+
+I need to think about users. I need to
+
+think about other developers, like myself, using my code.
+
+This is a gem, a quote from someone commenting
+
+on a gem, that a lot of people use.
+
+It's really popular. I didn't want to put the
+
+gem on the spot and say it sucks, but
+
+the point here is that this gem is used
+
+by, I'm sure, the majority of people in this
+
+room, and someone said, I love the contribution to
+
+opensource. But it's not very obvious what's going on
+
+when I look at the code. It's an example
+
+of poor OOP design, poor documentation. It's sort of
+
+a black box. It seems like there's a lot
+
+of magic. I don't really know what's going on.
+
+But as I said, I appreciate the contribution to
+
+opensource. So people will appreciate your contribution. But if
+
+you want your gem to be used, if you
+
+want people to contribute to your gem, if you
+
+want it to be this living, breathing thing that,
+
+that people like and use, you need to think
+
+about something beyond just, does my code work, do
+
+my tests pass.
+
+So gem API design is UX design. Is user
+
+experience design - it's about users. And that's the
+
+fundamental difference between writing a web application and maintaining
+
+a library that other people use.
+
+So why is it important to think about things
+
+as user experience tasks? Or why is user experience
+
+important?
+
+So there was something called a UX Fund experiment
+
+that was run in 2006 to 2007 by a
+
+design firm in Toronto. And what they did was
+
+they decided, they made up a list of ten
+
+companies that they deemed to have superior user experiences.
+
+These are companies like Google, Apple, JetFlew - all
+
+of the, the companies that you probably think of
+
+when you think of a great user experience.
+
+And what they did was, they wanted to prove
+
+a theory that they had, that great user experience
+
+is directly reflected in stock prices, or directly reflected
+
+in revenue and profit.
+
+So what they did was, was they invested fifty
+
+thousand dollars in each one of these, or, not
+
+each one, but, in all of these companies. And
+
+watched over a year each one of those companies
+
+stock price go up.
+
+And they concluded that great user experience is directly
+
+reflected in stock price. So they proved their theory.
+
+Now, we as Rubyists don't have a stock market.
+
+We're not talking about money. But we do have
+
+the community and we do have RubyGems. We have
+
+different libraries that we can choose from when we
+
+want to do certain things. We have numbers and
+
+metrics. We have people maintaining these projects. We have
+
+a number of ways that we can determine whether
+
+or not a gem is successful or not.
+
+So one example is RSpec. RSpec became really popular
+
+because it had a great UI. Another example is,
+
+I can never say this, HTTParty. Was a, is
+
+another example of a gem that was doing something
+
+similar to what some other gems did, but it
+
+sort of became popular because the UI, the user
+
+experience was superior to some of the others.
+
+So user experience is extremely important as you're building
+
+a gem.
+
+And even beyond that, at MongoDB, arguably, MongoDB became
+
+really popular really quickly, because we really focused on
+
+the, the developer experience. And it's known for this
+
+great user experience. We still focus on this, even
+
+as we grow.
+
+I'm on a team called the Driver's Team. We're
+
+about twenty-two people, and we support, officially, twelve different
+
+languages. And on this Driver's Team, I'm on a
+
+bigger team called the Developer Experience team that consists
+
+of docs, tools, and some other things.
+
+And it is our focus, on this team, to
+
+make sure that no matter what product you're using
+
+or what interface, entry point you have to using
+
+MongoDB, it's consistent across each one of those products.
+
+And, and we've found that, like, MongoDB, like, everybody
+
+knows what MongoDB is. And it's been, it's become
+
+so, like, popular just because we've really focused on
+
+the community in this way.
+
+Another good example of how we focus on developer
+
+experience is the shell. So for those of you
+
+who have used the MongoDB shell, what language do
+
+you use in the shell?
+
+JavaScript, right? So JavaScript is a great entry point,
+
+or a great way to allow developers to interact
+
+with the database, because many of us are familiar
+
+with JavaScript. And so this is one way that
+
+we are able to get so many users so
+
+quickly.
+
+So more specifically, gem API design is UX design.
+
+So how is it UX design? Let's talk about
+
+some UX design concepts. User experience concepts.
+
+Well, first of all, obviously, you have users, right.
+
+So what do you do with your users? You're
+
+not coding in a vacuum. You have users who
+
+are consuming your code. How do you think about
+
+your users?
+
+Well, one thing is that you should really know
+
+your users. Who are these users? As I said,
+
+they could be opensource users. They could be your
+
+future colleagues, your future self, your current colleagues. Who
+
+are these users and how are they going to
+
+use their gem - your gem?
+
+How do you want them to use your gem?
+
+You need to listen in. So how do you
+
+listen in? There's so many channels through which you
+
+can find out how people are using the Ruby
+
+language, and what projects people are building - what
+
+needs they have and how your gem can fulfill
+
+those needs.
+
+Read blogs. Use Twitter. Talk to users. Give presentations.
+
+I come to a lot of conferences. I do
+
+really enjoy giving presentations. But I also really like
+
+just listening to conversations. And watching other presentations, listening
+
+to what you guys don't like, what you do
+
+like. How are you using the language, what, what's
+
+the future of Ruby and what do people see
+
+themselves doing with the language in the future?
+
+This is extremely important input, as you maintain a
+
+gem. Get to know your users. They're people.
+
+And, as you get to know your users and
+
+you build this gem, you want to establish trust
+
+with them. So what does that mean?
+
+If they're relying on your gem in their application,
+
+you want to make sure that changes you make
+
+to the software they depend on is not going
+
+to break their code. That seems sort of obvious,
+
+right. But we have this set of principles called
+
+semantic versioning that we all preach, and we say
+
+that we stick by, but I can't emphasize enough
+
+how important this is.
+
+So we had an experience once where we were
+
+exposing something, and we didn't mean to expose. And
+
+someone had sort of started to use it. It
+
+was supposed to be private but it wasn't marked
+
+as private. And then we had changed it in
+
+a patched version and it broke in their code.
+
+And it didn't go over so well. We didn't
+
+intentionally do that, but the user was disappointed in
+
+the gem, disappointed in us, because the, we had
+
+broken this contract and this trust we had with
+
+the user.
+
+Extremely important.
+
+The other way that you can get to know
+
+your users, and have this sort of open communication
+
+with your users, is identifying star users, or super
+
+users, and maintain an open communication channel with them.
+
+So for example, a couple weeks ago, well, so,
+
+at MongoDB, the Ruby team is building a new
+
+driver. We call it Ruby 2 point 0. And
+
+we're trying, so the driver is like pretty old.
+
+It's a couple years old. And we want to
+
+rebuild it and use an architecture that's more consistent
+
+across some of the other drivers at MongoDB.
+
+And we have some customers who are very active
+
+and like to give us a lot of feedback,
+
+either positive or negative. And so we were, this
+
+one customer, a couple weeks ago, had asked for
+
+a specific time mount on a socket. And we
+
+didn't provide this specific timeout. And so we were
+
+talking about this, we were trying to decide whether
+
+or not this was something we should support. But
+
+after this whole conversation was concluded, I said, actually,
+
+you know what, like, in Ruby Driver 2 point
+
+0, what do you want? What kind of timeouts
+
+do you want to see in the driver?
+
+And then we just had this discussion about what
+
+he would want. So you don't have to pull
+
+like twenty thousand people or, like, you know, hundreds
+
+of users, but if you just ask a couple,
+
+you'll find that even with three user feedback, or
+
+like, five users even, you'll have a pretty good
+
+idea of what users want.
+
+So make sure you, like, really keep- maybe, like,
+
+identify, like, three particular people who are willing to
+
+test out your gem in a test environment, or
+
+your RCs, and just give you feedback as you
+
+develop and as you release.
+
+Which I, I skipped this, but releases also. Like,
+
+make sure you stick to that in your semantic
+
+versioning. Like, if you're going to add features and
+
+you, you've released an RC one, don't continue adding
+
+features in RC two. Like, stick to that really
+
+well as well. It doesn't just go for breaking
+
+peoples' code.
+
+OK, so that's users. So obviously user experience involves
+
+users. Get to know your users. Identify star users.
+
+The second thing is concepts. So we have a
+
+number of user experience concepts that, I'm not a
+
+user experience expert, but there are a couple of
+
+them that do apply to gem API design and
+
+development. So we're gonna focus on three of them
+
+- consistency, simplicity, and mapping.
+
+Consistency is what you might think of as maybe,
+
+like, a symbol in your system or an interface
+
+element that a user interacts with that has a
+
+specific effect on the system. And every time you
+
+show that symbol, or provide that thing, that interface
+
+component, to a user, you want to make sure
+
+it has a similar or parallel effect, if not
+
+the same effect on the system.
+
+So a great example of this is button colors.
+
+So we all know that red buttons mean danger
+
+or cancel. Blue buttons mean information. Greyed out buttons
+
+mean something not important or defaults. And green buttons
+
+mean success. And every time you see these buttons
+
+everywhere, you probably don't even read them. You just
+
+look at the color. And that's because these interfaces
+
+are consistent.
+
+We recognize these symbols and we know what's go-
+
+what they mean.
+
+Another interface component, or user experience concept, is simplicity.
+
+Simplicity is not exposing implementation details or too much
+
+information to a user. You, as the gem designer,
+
+and the gem developer, know way more than the
+
+user. And the user doesn't need to know everything
+
+you know. You only want to expose the user
+
+what concerns them and what concerns their code.
+
+So this, this is, especially relevant at MongoDB, as
+
+we developer the driver. There are so many little
+
+things that we know about the server that the
+
+user doesn't need to know about. The user- we
+
+need to focus on the, the little things, the
+
+little knobs that the user can actually play with,
+
+and that would have an effect on their own
+
+code or their own understanding what's going on.
+
+That's, it's actually really difficult to divine- to design
+
+something super simple to someone who only needs to
+
+know a certain amount of what you know.
+
+And mapping. So mapping is the, the last concept
+
+that I'm going to show through user, user experience
+
+design for gem APIs. This example, I think, is
+
+really great. Mapping is where you have interface components
+
+that have effects on the system, and it's obvious
+
+what effect it has based on how you interact
+
+with the interface.
+
+And the state of the system is really obvious
+
+to the user after the user makes them change.
+
+So a great example here is a stove. So
+
+there's both a bad example and a good example.
+
+The top example shows a number of burners on
+
+a stove and they're arranged in some fashion, and
+
+then you have all these knobs that manipulate these
+
+burners, but the knows are in a row. So
+
+it's not obvious to a user which knob goes
+
+to which burner. And then the stove on the
+
+bottom shows a layout of burners and then knobs
+
+that are in the same exact layout.
+
+So there's a really good mapping here. This knob
+
+has an effect on this burner, because I can
+
+make an association between where it's placed in the
+
+mini mapping and the greater mapping. And then it's
+
+really obvious to me when a burner turns on
+
+that this state has changed and what effect that
+
+knob has had on the system.
+
+OK. So consistency, simplicity, and mapping. How does this
+
+relate to gem API design? What do you need
+
+to consider as you maintain or develop a new
+
+gem?
+
+We're going to talk about three consistency considerations, four
+
+simplicity suggestions, and five mapping mantras, and look at
+
+examples using the MongoDB Ruby driver to see how,
+
+over the course of the last year and a
+
+half, we've changed some features and developed the API
+
+to adhere to some of these user experience concepts.
+
+Three consistency considerations.
+
+Consider consistent naming. This might seem super obvious, but
+
+as I said before, variables are really important. People
+
+are going to look at your code and want
+
+to understand just by looking at it what's going
+
+on.
+
+Use consistent variable names across classes. Use consistent module
+
+names. Use consistent method names. Use consistent ops names,
+
+like option names. If you have a class that's
+
+called something, and then you create an instance of
+
+it in some other class and refer to it,
+
+refer to it by the same name, or refer
+
+to it as some name that evokes what that
+
+thing is. Don't, don't get too creative with your
+
+variable names. You want your code to be as
+
+clear as possible, and consistent.
+
+Consider consistent style. So there are a number of
+
+things - someone gave a talk this morning about
+
+winters and ways that you can run your code
+
+through some sanitization cross-use to figure out if your
+
+code is consistent in style. We, on the Ruby
+
+driver 2 point 0, have chosen to Rubucop. There
+
+are a number of other ones out there.
+
+This goes for spacing in hashes. This goes for
+
+method length. This goes for how you're doing argument
+
+chaining. There are a number of configurations you can
+
+do with RubuCop. But the reason we do this
+
+is so that amongst our team, which is fairly
+
+small in number, but amongst our team we have
+
+a consistent style, as well as when people want
+
+to make a contribution to our gem, they have
+
+the same style as us.
+
+And we want to make sure that over the
+
+course of time, this style stays in tact, and
+
+consistent, so you don't have these, these sort of,
+
+like, bits of your code that, like, really exude
+
+one personality over another. You want to keep it
+
+as consistent and smooth as possible across all elements
+
+of your code base.
+
+The third thing with consistency is consider consistent behavior.
+
+I think a good example of this is how
+
+you raise warnings and exceptions, or how you alert
+
+the user about something. So there are a number
+
+of behaviors that you can think about to keep
+
+consistent, but in this case, I can think of
+
+a particular example a couple weeks ago, where we
+
+have, you can do a map produce in your
+
+replica set in MongoDB. And you can choose a
+
+particular node in that replica set to do that
+
+map reduce on.
+
+You can't do, under some conditions, you can't do
+
+your map produce on the secondary, but if you
+
+say to do it on the secondary, in the
+
+past, we would just raise an exception, say hey,
+
+you can't do it on a secondary, choose, a
+
+- we call it re-preference - choose a re-preference
+
+of primary.
+
+And then we were doing something else, an aggregation
+
+framework, which is similar to map reduce, and then
+
+you can choose a secondary there. And it had
+
+a similar problem to map reduce. And then we
+
+realized, according to spec, that we needed to actually,
+
+behind the scenes, reroute the query to the primary.
+
+And then we were like, wait a minute, this
+
+is not consistent style. We can't raise an exception
+
+for one case, and then something very similar just
+
+raises a warning, or do something sort of behind
+
+the scenes that the user's not aware of and
+
+may be surprised later on when they find this
+
+job's running on a node they didn't expect.
+
+But the point here is not that, whether or
+
+not you're warning the user or raised an exception,
+
+it's just that you need to be consistent with
+
+the behavior of your gem and how the user
+
+interacts with it.
+
+So those are consistency considerations.
+
+Simplicity suggestions. So as I said, simplicity, remember, it's
+
+not giving the user over-exposing implementation details to the
+
+user. It's giving the user access to certain interface
+
+components that are relevant to the user and the
+
+user's code.
+
+So first - give classes a single responsibility. We
+
+hear this all the time. I think it pretty
+
+much speaks for itself, but to give you a
+
+concrete example in Ruby driver 2 point 0, I
+
+don't know about you but client, cluster, collection, cursor,
+
+database, errors, node - it's super clear to me
+
+what each one of those classes does, what their
+
+functions are, and how they interact with each other.
+
+You want to stick to this, cause when people
+
+open up your gem, they start looking at the
+
+source code, you want them to be able to
+
+know where to go to lear- to look for
+
+certain functions, and they want to know how things
+
+sort of work together. And it gives them an
+
+idea of the architecture as well.
+
+It's, it's really clear, and there's a lot of
+
+transparency, when you keep classes having a single responsibility.
+
+Another example is, I was refactoring some code recently,
+
+and, along the lines of read preferences, which I
+
+mentioned before, which is where you choose a particular
+
+node to do a certain operation in your replica
+
+set, I realized that, actually, I was refactoring the
+
+code having to do with the, the map reduce
+
+problem, and I was looking for the code that
+
+could determine if you could do something on a
+
+secondary, and I found some code - we had
+
+this re-preferences module where if, but I found some
+
+relevant code in a utils module as well.
+
+So, single responsibility doesn't just go for classes. It
+
+goes for modules, also. People are going to look
+
+for specific functions in specific modules, and you need
+
+to make sure that that's centralized and clear as
+
+possible.
+
+This wasn't necessarily bad design, it was just a,
+
+just a, an oversight when we were refactoring at
+
+some point and extracting some code out into a
+
+read-preferences module. So it made more sense to put
+
+this code all in one place called read_preferences, because
+
+as a user, when I look at the code
+
+base, I will look at a read_preferences module for
+
+all the logic having to do with read_preferences.
+
+Second thing - hide implementation details. This goes along
+
+the same lines. Don't expose all of your knowledge
+
+to the user. The user doesn't need to know
+
+all of the knowledge. Only give them access to
+
+certain things that are relevant to them.
+
+So use the protected keyword private. Only expose things
+
+to your user that they should be interacting with.
+
+I realize, though, that there is going to be
+
+a public API within your gem itself, and sometimes
+
+you may unintentionally expose something that the user could
+
+use, but the user shouldn't be using.
+
+And this is actually a case in which you
+
+need to be really careful with your documentation, and
+
+make sure you say never use this method as
+
+directly to the user. And only allow your, and
+
+emphasize that it's an internal public API.
+
+Be frugal with helpers. You may feel like, in
+
+the beginning, that an API is really great if
+
+you abstract everything, and you provide all of these
+
+different methods to the user that are, that are
+
+wrapping all these underlying concepts. What you want to
+
+do, instead, is really think about how the user
+
+is going to be using your gem, and only
+
+provide helpers for the things that they will be
+
+doing.
+
+So an example of this in the Ruby driver
+
+is, we have lots of different types of indexes
+
+in MongoDB. We have geospacial indexes, we have text
+
+indexes, we have ascending, descending, unique, goes on.
+
+Instead of providing a helper for each one of
+
+these different types of indexes in MongoDB, we've chosen
+
+to keep it simple and say, create_index, and then
+
+we have a constant corresponding to the string that
+
+determines which index is which type, and then you
+
+can just use it as the user.
+
+Why did we choose to do it this way,
+
+and not provide a helper for each one?
+
+Well, I don't think the number of indexes, or
+
+the types of indexes we have, is going to
+
+remain the same forever and ever. They are going
+
+to be indexes added over the course of time.
+
+We might need to update indexes for backwards compatibility.
+
+We're just going to have the number of methods
+
+growing and growing. If we change the name of
+
+the, the, the string constant of one of the
+
+indexes.
+
+This is where something really simple, like create_index, and
+
+then you just do something like that, that's simple
+
+enough for a user. You don't need to over
+
+abstract everything and provide helpers where it's not necessary.
+
+And the other thing is, this is a great
+
+exercise. Design your API first. Pretend you're the user.
+
+Build a little app. And actually write some lines
+
+where you're using the gem that you're building. And
+
+then do the implementation later on.
+
+So at MongoDB, we as at the Driver's Team,
+
+as I said, we're twelve different languages, and we,
+
+we talk amongst ourselves all the time, regardless of
+
+whether it's Java or Scala or Python, Ruby, Perl,
+
+or PHP, we couldn't be any different in terms
+
+of what languages we use on a daily basis,
+
+but we all talk amongst ourselves and try to
+
+make sure that this user experience at MongoDB is
+
+consistent and that the API between all these drivers
+
+is as consistent as possible.
+
+So we have this initiative to try to take
+
+some of the, the commands that you can run
+
+in MongoDB that are potentially really confusing or overly
+
+complex and not super transparent to a user, and
+
+try to build these helpers around them that, in
+
+one, in reading, just even the name of this
+
+helper, it is immediately apparent to the user what
+
+that thing does.
+
+So for example, we have a command called find_and_modify.
+
+I only put three parameters here, or options here,
+
+and there are actually seven, and so, for example,
+
+new => true, what does that mean? That means
+
+that when you, when you do a find_and_modify, it
+
+will do a find and get a certain number
+
+of results, choose one of those results to either
+
+remove, manipulate, or do an upstart - there are
+
+a bunch of things that you can do. New
+
+=> true means return the document after it has
+
+been modified or created or removed.
+
+You can do new => false, which obviously will
+
+return the document before it has been modified, removed,
+
+or upstarted.
+
+And so in this case, like, as I said,
+
+there are seven options you can pass to find_and_modify.
+
+So it's not, it doesn't really make a lot
+
+of sense to force the user to use this
+
+command, and then go consult the documentation, maybe on
+
+MongoDB's site where it lists out all the intricacies
+
+of each one of these parameters. It's much easier
+
+and much better experience for the user to provide
+
+something like update_one_then_get.
+
+It's, like, really simple, and it says just in
+
+one reading what that does. So think about, like,
+
+it's sort of this nice balance between, like, when
+
+you want to expose implementation details or allow the
+
+user to do things as, as hands-on or directly
+
+as possible, and where you want to add helpers,
+
+where there might be some, some convolution or some
+
+complexity that's just not even worth exposing to the
+
+user.
+
+So those were simplicity suggestions.
+
+Mapping mantras. So again, mapping is where you have
+
+an interface component that is very obviously related, or
+
+direct, has a direct effect on some element of
+
+the system. And you want to make sure that
+
+whenever there's a change in the system, the user
+
+gets some feedback and knows what effect that interface
+
+component has had on the system.
+
+So first of all, monkey-patching is mean.
+
+Monkey-patching is a bad idea. I don't think there's
+
+ever a good case for monkey-patching. I don't want
+
+to embarrass a past colleague, but I think this
+
+example is too good not to share. We found,
+
+in our code, at some point, I'm gonna breeze
+
+past this really quickly, we found a method called
+
+lock_with_hack, that was - that was really quick -
+
+lock_with_hack that was aliased on lock in a mutex.
+
+Not a good idea.
+
+So use refinements instead. We've just support back to
+
+1.8.7, so we can't actually use refinements. So it
+
+might not, it might not be an option for
+
+you. People sometimes say use inheritance, if you find
+
+that you need to monkey-patch something, maybe you're design's
+
+a little off and you need to re-evaluate your
+
+design, there's no quick fix or, like, quick answer
+
+to getting around monkey-patching but, in general, if you
+
+can avoid it, avoid it like the plague.
+
+Two. Side effects are surprising. That sort of speaks
+
+for itself. But, to give you a concrete example,
+
+if someone is passing in ops to a method
+
+that they potentially could be using over and over
+
+again, don't mutate their op. So, for example, here,
+
+if I pass in ops to a map reduce,
+
+it could, as going back to read_preferences, it could
+
+say use a secondary node for this map_reduce, and
+
+if you, if you extract or you delete one
+
+key from that hash, the reference is going to
+
+be used over and over again and future map_reduces
+
+in their own code and potentially be su- have
+
+surprising effects to the user.
+
+So make sure you do something here, like, do
+
+the opts that you're working with a local copy.
+
+So avoid side-effects that, that's breaking the trust that
+
+you have with your user.
+
+Requiring method chaining is impolite. Why is it impolite?
+
+Because you make your user's code look ugly. Make
+
+sure that, this is, this is a train-wreck violating
+
+the law of demand (?? - 00:29:19) or whatever
+
+you want to call it. If you are, if
+
+you are not giving your users access to the
+
+right things, their code might end up looking super
+
+ugly and you want to avoid this. You want
+
+to make sure that the API you're providing to
+
+the users allows them to work with your code
+
+in the cleanest, most elegant way possible.
+
+Information error messages are imperative. I know, I love
+
+MongoDB, blah, blah, blah, but I think Mongoid is
+
+one of the best examples of great error messages.
+
+This is an error message, not a blog post.
+
+So, user dot find, with a certain ID, you
+
+get the, the like basic error. It says error:
+
+document not find. Then you have problem: document not
+
+found for class user with IDs 123. Summary: When
+
+calling user dot find with ID blah, blah, blah
+
+- so you have this nice summary, even, of
+
+what happened.
+
+And then, what's even better, it tells you resolution.
+
+It tells you what to do. It gives you
+
+two options of what you can do. This is
+
+the best error message ever.
+
+So think about your users, like what - they're
+
+gonna be frustrated when they get an error. You
+
+want to give them as many, as much information
+
+as possible, so they can solve the problem on
+
+their own. Because, otherwise you're going to get issues
+
+logged against your gem that you're gonna have to
+
+go through and write out an answer and tell
+
+them what to do.
+
+So save yourself the time. Save your users the
+
+frustration and write nice error messages.
+
+And the last thing is documentation. So I went
+
+to a presentation recently, and someone said inline comments
+
+are a code smell. I totally disagree. I think
+
+inline comments are extremely important, in particular if you're
+
+writing a gem against something like a database, for
+
+example, that might have some obscure, obscurities, or like
+
+some weird things about it that you need to
+
+write some fancy code around, or some, something that
+
+might not be totally obvious to a user looking
+
+at the code.
+
+If you find yourself writing lines of code that
+
+seem sort of confusing to you, you have to
+
+stop and think about it really hard before you
+
+write it, write an inline comment for anybody looking
+
+at their code. It might even be you in
+
+a couple of weeks when you forget what you
+
+did.
+
+So, for example, the, the server, the MongoDB server,
+
+a couple weeks ago decided to create this option
+
+called digest_password. And what digest_password is, in the context
+
+of authentication, is tells the server that you need
+
+to digest the password because I haven't on my
+
+end.
+
+So the, the driver has to, we digest the
+
+password driver-side, but then we set this, this field
+
+saying digest_password false, because when it's sent to the
+
+server, it's telling the server that you shouldn't digest
+
+the password. But a user looking at this code
+
+is gonna see, OK, digest_password, digest_password equals false. That
+
+doesn't seem to make any sense at all.
+
+So, my colleagues who did a code review, kindly
+
+told me, why don't you just put an inline
+
+comment here so that someone looking at it is
+
+not like, why are you digesting the password and
+
+then setting digest_password to false?
+
+So inline comments are great. Not, you know, not
+
+like paragraphs, like the Mongoid exception or the Mongoing
+
+exception summary, but make sure that inline comments are
+
+just little notes for yourself that are super clear.
+
+Think about them actually as notes to yourself. Make
+
+them super clear because other users will find them
+
+really useful.
+
+Documentation tools - we use Yard. It's really great.
+
+I think the documentation looks great. It's really easy
+
+to use. All the tags are wonderful. Readme -
+
+Readmes should be short and sweet. They should not
+
+be guides. They should not be tutorials. They should
+
+be sort of like an abstract for your gem.
+
+So someone who is looking to evaluate your gem,
+
+just quickly decide if it fulfills a need that
+
+they have, if it's something that they want to
+
+use, if they like the API, make sure you
+
+put these things in your, in your readme, because
+
+this is what people are gonna look at quickly
+
+when they want to decide whether or not to
+
+use your gem.
+
+So those were mapping mantras. We talked about consistency.
+
+We talked about simplicity. And we talked about mapping.
+
+These are user experience concepts that are super relevant
+
+to gem API design as well as software design,
+
+whether you're a gem author or user.
+
+And if you're looking, you haven't authored a gem
+
+or maintained, had the opportunity to maintain a gem,
+
+and you just want to try it out, there's
+
+a blog post by Daniel Doubrovkine, where he -
+
+it's called Your First Ruby Gem. And it's really
+
+excellent. He goes through sort of this checklist of
+
+things that you have to do as you're building
+
+a gem. Like check the name, create a readme,
+
+add a license, a gem file. It's really useful
+
+for if you just want to even try it
+
+out personally on your own, you know, on your
+
+own time, and not even share it with anybody.
+
+It's a great resource for getting started. So think
+
+like a UX designer. It's not just about writing
+
+code in a vaccuum. And I want to end
+
+on a quote from Golden Gate Ruby Conference. James
+
+Edward Gray the second gave a phenomenal presentation about
+
+what it's like being a programmer, and his own
+
+personal experience being a programmer.
+
+And he said, Programming is easy. Anybody can program.
+
+But to be a programmer, that's what gets you
+
+to the next level. So get social. Get to
+
+know your users and talk to me about the
+
+Ruby driver.
