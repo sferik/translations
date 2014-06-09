@@ -1,0 +1,1375 @@
+RubyConf 2013 - That's Not Very Ruby of You - Ernie Miller
+
+ERNIE MILLER: Good morning. Wow. Now it's all downhill from here.
+
+I am really, really excited and blessed to be
+
+here with you all today. I'm, I just started
+
+doing talks this year. You may know that if
+
+you've seen any of the other ones. And I
+
+never in a million years thought that, when I
+
+made a New Years resolution to speak that, by
+
+the end of the year, I would be here
+
+with some of the best minds in the community
+
+that I call home.
+
+So I'm really psyched about that. It's weird, because,
+
+in previous years, I had always found myself being
+
+asked, like, what's your talk on. I'm like, I
+
+don't speak, what are you talking about?
+
+For whatever reason, this year, most people have been
+
+asking me two questions. Who are you? And, oh,
+
+you're speaking? And, so yesterday morning, I had the
+
+opportunity to meet one of our Opportunity Scholars, and
+
+her guide. And I was talking to the guide,
+
+and I introduced myself. He says, oh, Ernie Miller.
+
+I know you. Why do I know you? And
+
+I'm thinking, yeah, yeah, finally somebody actually knows, like,
+
+what I'm doing here.
+
+And he says, you're the bird guy! So I
+
+may be the bird guy to you. That's OK.
+
+I think that's pretty cool. Lord of the birds.
+
+Lord of the gulls.
+
+You should totally ask me about Appriss. I just
+
+started working there about three weeks ago, and it's
+
+a very meaningful job that I'm doing. We literally
+
+save lives. And they were so awesome to be
+
+like, two and a half weeks into my employment,
+
+sure, yeah, we'll send you to RubyConf, no problem.
+
+I would very much like them to continue to
+
+do things like this for me. So ask me
+
+about Appriss.
+
+So if you were at RailsConf, you saw Erin's
+
+keynote. It was A flat. And it really, let's
+
+just say, it struck a chord with me. I
+
+mean it, it really set the bar. It made
+
+me want to. It made me want to be
+
+a better coda.
+
+All right. All right. More, more than fugue of
+
+you look to be getting tired of this. I
+
+better stop fiddling around before I beat it to
+
+death. OK. Let's duet.
+
+So this is my, gonna be my keynote. I
+
+really thought, really long and hard about it. It's
+
+C#. You, you may have heard of it. I
+
+think it's gonna be huge. It's gonna be, it's
+
+gonna be awesome.
+
+So what is Ruby? That seems like a really
+
+kind of silly question to ask a room full
+
+of Rubyists. So I ask it, because, like, is
+
+this Ruby? No? That looks like C to me.
+
+It looks like C written by somebody who sucks
+
+at it.
+
+How about now? Is it Ruby?
+
+How about now?
+
+It runs. Oh, it gets worse from here, guys.
+
+How about this? Is this Ruby? I think we
+
+all can agree we're thankful that it's not. What
+
+about now? What about now? Is it Ruby?
+
+So, so one thing, this is obvious very different
+
+from PHP. The, the method naming and argument order
+
+is much more consistent in this. So.
+
+It runs.
+
+How about this? What's this look like? Is this,
+
+is this Ruby?
+
+What if I change the function keywords to stabby
+
+lambdas and I add a period before that check
+
+over there? How about now? I'm especially proud of
+
+this comment.
+
+All right, one more. I think I'm making my
+
+point. How about this? So I learned something about
+
+Python. I haven't spent a lot of time doing
+
+Python. That it's basically just a bucket of attributes.
+
+You can assign anything to anything, essentially. I was
+
+kind of surprised by that. There's no, like, real
+
+instance variables.
+
+OK, you might say, you might say that using
+
+a one, I'm not sure if you can tell,
+
+these are ones now. You might say that's cheating.
+
+I say it makes it extra leet, personally.
+
+Is it Ruby now? This tiny little bit of
+
+code here. It makes it work.
+
+One more question for you. If your code has
+
+a syntax error, does it stop being Ruby?
+
+So I guess the point I'm trying to make
+
+is that I don't believe that it's the interpreter
+
+that decides what is and isn't Ruby, right. I
+
+think it's the people.
+
+And that's cool, because Matz designed Ruby to increase
+
+programmer happiness, right. Interpreters don't get happy, right. People
+
+get happy. So then the answer to what is
+
+Ruby is, duh, Ruby is a language.
+
+But what is a language, really? A language is
+
+a tool for telling stories. And so by extension
+
+then, that makes us storytellers. And, I mean, even
+
+when you think you're not telling a story, you're
+
+telling a story.
+
+For instance, anybody that's working on a team has
+
+probably opened a file in their repo to something
+
+like this. It tells a story.
+
+Or this one. This one, this one here just
+
+cries out, like, I have no idea how I'm
+
+gonna make this work. All kinds of puts statements
+
+all over the place commented out and left in.
+
+And if there was any doubt that Ruby was
+
+a language, it also has dialects, right.
+
+So you all may be familiar with this style
+
+of coding. It tells a story as well.
+
+So before we go any further, I want to
+
+talk a little bit about some knits that I
+
+want to pick. I don't want to waste anyone's
+
+time, but you know, they did let me come
+
+up here on stage, so I definitely have to
+
+pick a few knits.
+
+Does this make you recoil? It makes me recoil
+
+when I see it, right. So one thing that
+
+defines Ruby, for me, is the way that we
+
+format our code, in a lot of ways.
+
+This makes me feel a lot better, like, just
+
+seeing it like this, right.
+
+Soft tabs and two spaces. That's the way we
+
+format. The, the train has left the station. Sorry,
+
+people that want hard tabs. And also, if you
+
+can use vertical space to separate ideas, you'll make
+
+life much, much easier for your coworkers.
+
+Here's another thing that really drives me nuts. Really
+
+makes me crazy. I'm not sure if there's like
+
+a byte shortage or something like we need to,
+
+we need to save the bytes, but if it's
+
+not self-explanatory, your variables are definitely not x, unless,
+
+you know, right.
+
+OK. Here's another one. I'm sure you guys now
+
+are, like, oh you don't want short variable names,
+
+I'll show you. Yeah.
+
+You're very original.
+
+Though, to be fair, I would much rather see
+
+that than x and i.
+
+Oh, how about this one. You seen Ruby code
+
+like this? Uh-huh, every day is hump day, right.
+
+So we have a lot of refugees from Java
+
+in our community. I don't know why they would
+
+really want to bring that baggage along with them,
+
+but, also there's a link down in the bottom.
+
+It'll be in the slides when we put them
+
+online. It's a study about how CamelCase is actually
+
+slower to read.
+
+And we read, we read and pick out parts
+
+of code much more frequently than we write it.
+
+So optimizing for readability - again, we're storytellers.
+
+This is another one. Explicit return. I don't know
+
+why it makes me so crazy. It's just like,
+
+extra words. Not necessary. Everything has a value. Simplest
+
+case, you can remove it. More likely, if you're
+
+a Rubyist, you're gonna say something like this. You're
+
+gonna actually just return 100 at the begin, say
+
+OK, we're gonna normalize zero to a hundred, and
+
+avoid that more expensive normalized_distance calculation.
+
+Everything's backwards but it's gonna be all right. So
+
+those are my nitpicks. Let's go on to some
+
+baggage that we bring.
+
+I came to Ruby from Perl, which is a
+
+much more procedural style language.
+
+A good friend of mine, and you know, it's
+
+not uncommon for us to write things like this,
+
+in more procedural style languages, if we're making our
+
+life miserable for good reason. And a friend of
+
+mine used to describe my code, back when I
+
+was writing Perl, as looking like a space ship.
+
+And he's right. It, it, it does. It totally
+
+looks like a space ship.
+
+If you zoom out, especially, it really does.
+
+You know, that tells a story, too. It's trying
+
+to decipher, trying to decipher this code is like
+
+reading a which way book or choose your own
+
+adventure book from front to back. It, it's very,
+
+very difficult to make sense of.
+
+So I guess my point there would be that,
+
+you know, in procedural languages, we tend to just
+
+kind of create these buckets of logic, and we
+
+just throw them in a method and that's all
+
+we do.
+
+You can't have that. That's not good. One thing
+
+that I've used, and this is gonna get some
+
+mixed response I assume, is 80-column lines. That's a
+
+constraint I put on myself. Not because, like, screen
+
+real estate is that expensive, but it's an early
+
+warning system.
+
+And also, again, I talk about making code more
+
+readable, we are storytellers. Do you open up a
+
+newspaper and look at it like this? I mean,
+
+I don't. I, I read things much easier when
+
+I can scan lines and, and so I think
+
+that short lines help.
+
+If nothing else, it stops you and makes you
+
+think, do I, am I really, if it starts
+
+to get uncomfortable, am I really doing the right
+
+thing here?
+
+Here's something else I used to do. We create
+
+these sort of buckets of methods because we don't
+
+know where the things need to live, and we
+
+make a utility module or utility class. You can't
+
+have buckets of methods. That's not OK.
+
+And class is a descendant of module. So it's
+
+important to remember that what applies to module also
+
+applies to class.
+
+Something else that we tend to do. We think,
+
+and I'm not gonna name names here, certain, certain
+
+libraries maybe have hashes that they use for, for
+
+lists of attributes that respond to a particular object.
+
+That works out OK at first, and then you
+
+decide you need to type cast those attributes and
+
+so now the type casting logic lives in the
+
+thing that's holding the hash.
+
+You can't have buckets of data, either. And something
+
+that you might want to do instead is to
+
+have an attributes object, right, because that's what we
+
+do. And then it can handle that casting for
+
+you.
+
+But we don't normally see it in these kind
+
+of isolated cases. Usually we get to some place
+
+like this, first. Don't read it, it's just gonna
+
+hurt you. We normally catch ourselves around this point,
+
+and thinking in terms of objects helps us to
+
+get from this to this.
+
+Now I'm not saying this is a good refactoring,
+
+necessarily, but it does at least mean that someone
+
+has given some thought to, at creating some objects,
+
+right. I'm not sure this is the right level
+
+of refactoring, I guess is what I'm saying.
+
+But, it's certainly better than the alternative.
+
+So you may be saying that's way too many
+
+objects. And I'm, again, I'm not arguing the modeling
+
+is perfect, but we are working in object-oriented programming,
+
+are we not? If we were doing awesome-oriented programming,
+
+would you be telling me, that's just too much
+
+awesome. We can't, we can't have that much awesome.
+
+And, and modeling is really where the magic happens.
+
+It's where you move from these buckets of things
+
+and you start to begin to, to describe things
+
+in terms of objects. You go from a descriptive
+
+description of the situation to being prescriptive, to being
+
+able to say, here is my mental model, right.
+
+It's, the value in doing this modeling activity is
+
+that you get to go ahead and re-frame the
+
+problem, right.
+
+And it's all about naming things. So we all
+
+know Sandy's got a list of rules that is
+
+about creating more maintainable code. And we love rules,
+
+as a community. I think one of the biggest
+
+pay-offs of following rules, like having short method names,
+
+having short class names, is that it forces us
+
+to give names to the code.
+
+Any Game of Thrones fans out there? Yeah? How
+
+many of you actually read the books? All right.
+
+I'm gonna find out if you're lying later.
+
+All right. So, have you ever tried discussing the
+
+Song of Ice and Fire series with someone?
+
+It's, it's tricky, right. There's a lot going on.
+
+You want to do it in hard mode, try
+
+having a conversation about a Song of Ice and
+
+Fire without using any names. Just describe the, you
+
+know, this guy over here who's the son- you'd
+
+have to go all the way back to the
+
+beginning, right, to describe anything.
+
+But, the names are what we attach characteristics and
+
+relationships to. I can say Terrian Lannister - you
+
+know who it is. I can say Red Wedding.
+
+You know what I'm referring to, and if you're
+
+just watching the show, I'm not gonna explain it.
+
+We are storytellers. Putting things in random buckets doesn't
+
+work. You need to name your characters, your classes,
+
+your modules. You need to name their actions, the
+
+methods that they perform.
+
+We find it hard to name things because naming
+
+something requires us to have some idea of what
+
+we think it's going to be. But the naming
+
+often comes before the knowing. Don't get too hung
+
+up, early on. We all know you can change
+
+names. Ah, OK, a few of you actually read
+
+the books. You know what I'm talking about.
+
+So if we are storytellers, here's a, here's a
+
+book for us. We've all probably had to look
+
+at it. Oh, hey. Wow, it has fans. OK.
+
+Who would have thought?
+
+There is a, there is a paragraph in that
+
+book that I think applies to coding as much
+
+as it applies to, to any other kind of
+
+language. Vigorous writing is concise. A sentence should contain
+
+no unnecessary words. A paragraph, no unnecessary sentences, for
+
+the same reason that a drawing should have no
+
+unnecessary lines and a machine no unnecessary parts.
+
+This requires not that the writer make all sentences
+
+short, or avoid all detail and treat subjects only
+
+in outline, but that every word tell.
+
+We get really, moving on from baggage from other
+
+languages, in the Ruby community, we get very, very
+
+focused on expressiveness. We like to throw that term
+
+around, right. And it's an extremely powerful language. We
+
+can redefine things to do exactly what we want
+
+them to do, with mixed results.
+
+Ruby reads beautifully out of the box. And it
+
+also gives us this power to extend the language
+
+that we require. In fact I think that it's
+
+flexibility is one of its most endearing qualities. It
+
+gets out of the way and lets you tell
+
+the story that you want to tell. It's, one
+
+of the things that makes me really happy. But
+
+if there's one thing we've learned from Peter Parker's
+
+Uncle Ben, it's that, with great power comes- right.
+
+Great responsibility.
+
+So let's talk a little about monkey patching.
+
+Yeah. Evan sighs very loudly. All right.
+
+So, somewhere along the line, we started to get
+
+the idea that expressiveness is the same thing as
+
+making it English-like. The thing about it is, is
+
+Ruby is a language of its own. Just like
+
+English, right.
+
+In English, we borrow words, like cappuccino, like espresso,
+
+right, but it doesn't mean that for the entire
+
+time that we're in the coffee shop we must
+
+speak Italian. Ruby borrows language from English when it
+
+makes sense.
+
+So we know arrays have a first and a
+
+last method, right. We can refer to the first
+
+or last element in our array. It's handy. So
+
+along comes someone and says, well, if first and
+
+last are good, let's have second and third and
+
+fourth and fifth and forty-two, not forty-second. Because that
+
+gotta be, that has to be better, right.
+
+I say why stop there? I mean, array penultimate.
+
+Array ante penultimate. Why not? I mean, it works.
+
+Look how expressive.
+
+If only there were some way that we, as
+
+people, could, could index into any element in the
+
+array, so we wouldn't have to define all these
+
+methods. I mean, I don't know, like we could
+
+use, like positive numbers to go forward and negative
+
+numbers to go from the back. It would be
+
+really handy, wouldn't it?
+
+So we all know we can ask an array
+
+to tell us if it includes an object. Some
+
+point along the line, we decided it would be
+
+better to ask the object whether or not it's
+
+in something. This is simplified from the real code.
+
+And, I mean, I guess it reads like English,
+
+right. Second in array. But there's one problem with
+
+this, right. Objects should be in the dark about
+
+where they're living, right. You ask an object to
+
+tell you whether it contains something. You don't ask
+
+an object to know what - I mean, this
+
+sounds like, super like, philosophical, right - for an
+
+object to find itself, right.
+
+The container knows what it contains. So here are
+
+a couple of questions you might want to ask
+
+yourself before you monkey patch.
+
+Does it address a real problem? You know, maybe
+
+it simplifies a pattern you see all over your
+
+app. Symbol to proc is a great example of
+
+this, right. I love that. That came from a
+
+monkey patch.
+
+Does it follow OO principles, right? Does it make
+
+sense for the method to live in the class
+
+you're patching? Are you adding functionality to a class
+
+in order to use it as the stand-in for
+
+a real object? That's a no-no, that's a really
+
+smelly smell.
+
+And this is pertaining to applications, right. If you're
+
+writing gems on top of that, you also want
+
+to be very careful that you're not stomping all
+
+over, you know, namespaces that other people might want
+
+to use.
+
+So with that in mind, let's talk about class
+
+macros. This is something that we love in the
+
+Ruby community, right. The fun thing about metaprogramming is
+
+that the problem is boring, writing the program to
+
+solve the problem makes it more interesting, and we
+
+like interesting, right.
+
+And it's, it's been said that good programmers are
+
+lazy. So if we can write code that writes
+
+code for us, it's a win, right. I mean,
+
+plus let's face it, class macros, they're just plain
+
+cool. They really feel like they're cheating. And when
+
+you first discover you can do it, it's so
+
+natural to get carried away with it, right.
+
+And Ruby comes bundled with a perfect example of
+
+a class macro, right. Attr_reader, writer, accessor. These are
+
+great class macros. I mean, they save us a
+
+lot of busywork, right. And they're very declarative, all
+
+right.
+
+It's a good thing.
+
+ActiveRecord has class macros. has_many :posts. I'm actually OK
+
+with that - I mean, something has_many :posts. I'm
+
+OK with that syntax. I'd even give a pass
+
+to inverse of user, right. OK, you're still kind
+
+of describing what it is.
+
+But we all know that that's not what happens,
+
+right. This is what happens, right. I'd like to
+
+point this part out, particular. That's fun.
+
+All right, this is not, not a good class
+
+macro, when it has to do this, right. Here's
+
+another example. We have delegate. This is the ActiveSupport
+
+version of delegate, not forwardable or simpledelegate.
+
+Pretty straightforward. Delete :work, :to => :owner, which is
+
+what cat's do. You can prefix it. Still describing
+
+what it is, I think, at that point. It's
+
+a little iffy but I'll, I'd say OK.
+
+But then there's option :allow_nil, where a whole bunch
+
+of extra behavior comes in, right. For instance, if
+
+you say :allow_nil, if the option's not set and
+
+you have a nil there, it immediately raises an
+
+error. If it is set, it delegates to nil
+
+if nil happens to respond to the method, but
+
+otherwise it just returns nil.
+
+And you can see this kind of indecision in,
+
+in the implementation. Again, this is small for a
+
+reason. You don't want to read it. I'm protecting
+
+you. I'm gonna put some arrows in here.
+
+These are all the branching points in the code.
+
+These are all the places where the code branches
+
+off to, to make a decision, right.
+
+If prefix is true instead of a string, for
+
+instance, it'll use the value of two as the
+
+default prefix. But only if you're delegating to a
+
+method name, not if you're delegating to an object
+
+that's an instance variable or a constant.
+
+It also checks explicitly for a two of class
+
+and prefixes it with self, so you're not referencing
+
+the keyword.
+
+All right. If we were to make a few
+
+minor changes to this API, and again, for, for
+
+parody with the one that was there, we'll just
+
+keep it in module, we can reduce the number
+
+of branches necessary to something like this.
+
+We split out the :allow_nil behavior to a different
+
+macro and we say, OK, this is a different
+
+thing, right, it's, it's different. And, and we can
+
+kind of simplify the method that we actually use.
+
+I mean it's, it's, it's now, it's now one
+
+line. This is a one-line method that we generate.
+
+And the main thing is we can dog-food it
+
+inside an object to delegate those things to nil
+
+that nil responds to. We keep the same behavior
+
+and I'm not arguing this is the right behavior,
+
+I'm arguing this is, you know, equivalent.
+
+So it's something to think about when you're writing
+
+class macros. Maybe you actually have more than one
+
+thing.
+
+So how about this one? Right, this must be
+
+great, because it has no options, right. This is
+
+horrible, right, because Ruby already has class macros that
+
+do this for us.
+
+This is what they're called. And if you really
+
+read, really need to make use of the hooks,
+
+go ahead and make use of the hooks as
+
+well. It's OK. I mean, it's better than adding
+
+new vocabulary that's nobody's gonna know. And they don't
+
+know where the file is to look for.
+
+So everybody loves rules, right. We talked about it
+
+earlier. In the Ruby community, we love rules. So
+
+here are five rules that we can apply whenever
+
+we're considering whether or not something needs to be
+
+a class macro, and how to implement it.
+
+In my opinion, they let me give my opinion
+
+while I'm up here, it's cool. Class macros should,
+
+first off, describe what, not how. They should be
+
+idempotent. If you run them multiple times, running the
+
+same class macro is not going to change things
+
+repeatedly.
+
+They should be order independent. If you run the
+
+same macro with slightly different options, then it should
+
+be building some aggregate amount of information, versus changing
+
+what you had said earlier. Because that way you
+
+can reason about each thing independently.
+
+They should be straightforward. What you, what you see
+
+should be as close to what you get as
+
+possible. You shouldn't necessarily get surprised by what happens,
+
+is a better way of saying it. And you
+
+shouldn't have to comb through pages and pages of
+
+documentation just to understand how to use a class
+
+macro. That's a really good sign that this would
+
+be better, better factored into some objects.
+
+And lastly, both the definition and the implementation should
+
+be free of branching, if possible. So if you're
+
+branching a lot in the macro implementation, there's a
+
+good chance you have more than one macro, which
+
+I mentioned earlier.
+
+Or maybe a macro that takes a class or
+
+an object to be a strategy. SO here's the
+
+rules again. And most of you probably are saying,
+
+that's impossible. I would say, it's not necessarily impossible,
+
+and that those built-ins that I said, the attr_reader,
+
+attr_accessor and so forth, they actually do this today.
+
+They, they satisfy all those criteria.
+
+But I'll admit, I'm kind of screwing with you.
+
+Obviously, like, any set of rules, it's OK to
+
+break them if you have a reason, right. That's
+
+what makes it fun. I'm breaking the rules. Look
+
+at me, I'm wild.
+
+It's really about happiness, right. A good reason to
+
+break the rules is if you're going to increase
+
+the happiness of the users of your code. Short-term
+
+is good. Long-term happiness is better.
+
+Think about the people that are come, gonna come
+
+along and read this stuff later. Not just the
+
+fact that you saved some keystrokes on the writing.
+
+And, you know, there are, there are two kinds
+
+of surprises, right. There are good surprises - OMG
+
+this works so well! It's so intuitive! Right.
+
+Let's talk about callbacks.
+
+We love callbacks. And, you know, I hate to
+
+keep harping on callbacks, but the thing is, is
+
+there are a lot of libraries out there that
+
+have actually taken the ActiveSupport style of callbacks and
+
+begun to re-implement that functionality, right, and it, you'll
+
+see, it's like, these callbacks are inspired by ActiveSupport
+
+style callbacks. So this is, this is happening frequently
+
+enough that I think it probably needs to be
+
+reiterated.
+
+So here's someone using callbacks. Oh, here's a before
+
+save. You know, here's an after safe. Around safe.
+
+Holy heck, what is this? Why is my code
+
+all awful? Everything is terrible. Everything is miserable. I
+
+don't even understand.
+
+Right?
+
+Right - that's not funny at all. All right.
+
+So let's assume we have a base class. For,
+
+of course, the only real reason we should ever
+
+have a base class - to model a military
+
+base with lasers. Right.
+
+So, with callbacks, you call one macro to name
+
+the callback chain. Then you add callbacks to the
+
+chain with set callback. And then, in the methods
+
+that actually want to take and use the callbacks,
+
+you have to wrap everything in a black, a
+
+run, a run, a run callbacks call.
+
+And then it yields to your code, right. So
+
+let's compare that to the rules.
+
+All right, so, if you're pointing at a method,
+
+it might actually describe what if the method is
+
+well-named, you may be describing what, right.
+
+But if you make two calls to set callback,
+
+you're gonna get two identical callbacks, you're gonna repeat
+
+the work. So they're not idempotent, right. And the
+
+order you define the callbacks in is the order
+
+they're gonna get called, unless you're doing an after
+
+callback, in which case it's the reverse order, or
+
+an around callback, in which case they wrap each
+
+other in ways that look like the before and
+
+the after.
+
+And, I mean, straightforward, definitely not. And you've seen
+
+some of the implementation. By the way, Erin did
+
+an amazing amount of work refactoring the callback implementation
+
+in ActiveSupport. If you saw the ActiveRecord talk that
+
+I gave before, where we talked about the implementation
+
+being very string-heavy, building up these strings, he refactored
+
+it to be probably about as good as something
+
+like that is ever going to be. Thank you
+
+so much Erin for, for that hard work, because
+
+it was not easy. Can we give him a
+
+hand?
+
+He's over there hanging his head. He's like, oh,
+
+it's horrible.
+
+All right, so here's where it gets really interesting,
+
+right. I talk about how it's branching, it, it's
+
+branching so much it's an honorary tree. We can
+
+say, sorry, go back, we can say - and
+
+I took my own advice and said :arm_weapons instead
+
+of giving a lambda there - but we can
+
+say :if => :not_armed?, we can say, :unless =>
+
+:training_mode?, right. And then we won't auto arm.
+
+And then we can have other cards, and say
+
+subclasses like SecretBases. And they can skip callbacks, again,
+
+with an unless or an if controlling whether or
+
+not the callbacks get skipped.
+
+So we're treating this code as kind of a
+
+big blob of stuff, right, and we're, we're, it
+
+turns out really, that it's not just tricky to
+
+rock, to rhyme, to rock a rhyme that's right
+
+on time.
+
+It's, it's also tricky to use callbacks in a
+
+way that doesn't ruin your life. And we have,
+
+we have alternatives, right. We have, we have these,
+
+these, these wonderful things. Inclusion, extension, prepension.
+
+And, you know, it's OK, it's OK for your
+
+characters, that characters in your stories, to have demands
+
+and expectations of one another. Have you ever included
+
+a numerable and defined an each? All right, you
+
+benefited from this. You're defining an interface. You're just,
+
+you have an interface and you, you, you conform
+
+to it and you get all this great functionality
+
+for free.
+
+So we might potentially consider, apparently this thing's a
+
+little crazy - we might consider doing something like
+
+this. It's gonna blow your, blow your method cache
+
+by the way, don't do this, like, for real.
+
+But like, it is an option. You can extend
+
+something, like you can have an AutoArming method that
+
+simply calls super, or an AutoArming module that simply
+
+calls super and its fire_lasers method.
+
+You implement fire_lasers on the thing that extends it.
+
+You can get that behavior, that same behavior that
+
+we, we just had before.
+
+Better, in Ruby two, which you're all running now,
+
+right? Yeah. Is, it's so much better. You can
+
+simply prepend, prepend AutoArming. Get the same behavior. And
+
+if you have rules, like, about, whether something should
+
+AutoArm, you can, again, define an interface, right, and
+
+you can say like, OK, so when you, when
+
+you extend or you prepend AutoArming, you get this
+
+should_autoarm? that's automatically set to true, but if you
+
+want to override that in a subclass, you're totally
+
+cool to do that.
+
+It's gonna determine whether or not, you know, you
+
+should actually do the thing or not. You can
+
+get that same behavior in a way that's readable.
+
+So if we compare the rules that we looked
+
+at again, it definitely defines what, not how, because
+
+all you can do is say the name of
+
+thing that you're, you're extending or you're, you're prepending,
+
+right. It's idempotent - you include, you extend, you
+
+prepend. If you do it a second time, it's
+
+not gonna change the inheritance hierarchy of your object.
+
+And, speaking of, it does sort of depend on
+
+the order. Like, I mean, it might - if,
+
+depending on the implementation, right, certainly it could be
+
+order dependent. What you're calling in super is gonna,
+
+again, because it's, it's related to the inheritance hierarchy.
+
+It's straightforward, though. I mean, you know exactly where
+
+to go look for that code, right. No surprises
+
+there.
+
+And it's about as, as free as you're going
+
+to be as branching, in that you have the
+
+keyword, you have, you have the, the class or
+
+the, or the class module that you're extending or
+
+prepending or whatever. That's about as much as you're
+
+gonna be able to do. Now certainly implementations can
+
+vary. But that's not my problem.
+
+So the other huge win with this, right, is
+
+like with callbacks, how do you really know the
+
+behavior that's attached to something? I mean, you can
+
+ask for the callbacks and you get this, like,
+
+array-like thing, callback chain. But if you're actually adding
+
+things to the inheritance hierarchy of the object, you
+
+can start to ask about what that object has.
+
+And you can see, for instance, the order that
+
+things are being executed very easily. And it's just
+
+Ruby, right. Like, it leverages stuff, it leverages stuff
+
+that we already know. We just, it brings us
+
+back to, you know, making every word count, right.
+
+Like, if somebody already understands a concept, why create
+
+an artificial learning curve for them? Is there, is
+
+there value there?
+
+I don't know. I mean, to me, I think
+
+that's really what it comes down to. You can
+
+reduce the cognitive load for understanding, for understanding code,
+
+and that is a bigger win. Like, if, if
+
+good programmers are lazy, then, I mean, this is,
+
+this makes you a great programmer, right. Because you're
+
+gonna read this code much more often than you're
+
+gonna write it.
+
+And if you make it more readable, then every
+
+time you go back to it, you won't have
+
+to wonder, oh, how was that macro implemented, again?
+
+Now look, it's obvious that not one pattern is
+
+going to apply everywhere, OK. I'm not advocating that
+
+you just blindly go, oh Ernie said do this
+
+so I'm gonna go do this, right. It's totally
+
+OK, it's really fine that - and stories, stories
+
+would be really boring if they were all the
+
+same. What I'm asking you to do is think.
+
+Think about the story that you're trying to tell.
+
+We're storytellers, right. I mean, and Ruby is such
+
+a wonderful language, a wonderful tool for telling stories.
+
+I love it. I mean, I, I am a
+
+little bit, maybe too passionate about it at times.
+
+I mean, I go to other languages and I'm
+
+just like, ah, I wish I had what I
+
+had in Ruby.
+
+It's an awesome tool for telling stories, and I'm
+
+so grateful that we have it. So put thought
+
+into what you're trying to say, and make every
+
+word count.
+
+That's all. That's it.
