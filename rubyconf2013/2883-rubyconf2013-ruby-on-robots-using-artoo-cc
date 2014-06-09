@@ -1,0 +1,1531 @@
+RubyConf 2013 - Ruby on Robots Using Artoo - Ron Evans
+
+RON EVANS: Good afternoon everybody.
+
+AUDIENCE: Good afternoon!
+
+R.E.: This is RubyConf 2013!
+
+AUDIENCE: Whoo!
+
+R.E.: Yeah! So before we get started, we just
+
+want to say a very special thank you to
+
+the organizers of Ruby Central and to all the
+
+conference staff, the sponsors, and to all of you
+
+for being here. Thank you so very much, let's
+
+give a big round of applause for everybody.
+
+So I am @deadprogram, aka Ron Evans in the
+
+real world. I'm the ringleader of the @hybrid_group. This
+
+other guy over here is @adzankich, aka, Adrian Zankich.
+
+He is the serious programming guy at the @hybrid_group.
+
+So he does all the work and I take
+
+all the credit. Yeah.
+
+I love how that gets applause.
+
+So we're with the HubridGroup. We are a software
+
+development consultancy based in sunny Los Angelos, California. And
+
+among other things, we are the creators of KidsRuby.
+
+How did you guys like my new boss this
+
+morning? She's awesome, right. The funny part if you're
+
+kid- you think I'm kidding. Yeah. So, but here
+
+today we are here to talk to you on
+
+Ruby on robots. Zzzz-zzzz.
+
+This robot is not with us today.
+
+So let me ask you, is innovation dead?
+
+AUDIENCE: No! Yes!
+
+R.E.: I mean, William Gibson said the future is
+
+already here, it's just not very evenly distributed. Isn't
+
+that really true? I mean, many of us have
+
+been doing web development for years, and yet we've
+
+been seeing a very interesting thing happening as we've
+
+been creating all these different technologies.
+
+We've discovered that innovating is really hard. I mean,
+
+doing something genuinely different. And, in fact, it's especially
+
+hard when you're dealing with hardware. So about six
+
+years ago, my younger brother Damien and I started
+
+building unmanned aerial vehicles using Ruby. A number of
+
+people remember that. And we had to source parts
+
+from literally all over the globe, AKA China. And
+
+they would ship us these really amazing microcontrollers and
+
+we would put them in blimps and they would
+
+burn up and we would order more.
+
+Nowadays though you can go to the Apple store
+
+and buy several different kinds of robots. I mean,
+
+the robot revolution is already here. So we're here
+
+to introduce to you Artoo, which is Ruby on
+
+robots. It is a Ruby framework for robotics and
+
+physical computing. It supports multiple hardware devices, different hardware
+
+devices, and multiple hardware devices at the same time.
+
+In Ruby?
+
+I mean, are we serious?
+
+Yes! We are extremely serious, and the reason for
+
+that is a remarkable piece of technology called Celluloid.
+
+Tony, are you here, by any chance? You bailed
+
+on my talk? What's up with that?
+
+So anyway, a bunch of the committers from Celluloid
+
+are here, and actually this is probably the, one
+
+of the most important technologies to occur in the
+
+entire Ruby community in years, and if you're not
+
+paying attention to this, you need to be.
+
+In fact, you're probably using it right now, if
+
+you use SideKiq, which is another great project. So
+
+it runs on the MRI Ruby, of course. It
+
+runs far better, however, on JRuby, thanks to the
+
+concurrency of the JVM - excellent piece of software.
+
+You probably saw Charles and Tom's talk earlier. Great
+
+work.
+
+But, we're gonna be showing most of our demos
+
+today on Rubinius. The Ruby of the future. If
+
+you love any of these projects, please go help
+
+them. Bryan Sharrai is here. Bryan, are you, are
+
+you here? Oh, he's probably with his daughter.
+
+Where are all my friends? Anyway, these -
+
+AUDIENCE: I'll be your friend!
+
+R.E.: Aww! Giant hugs!
+
+Channeling my inner tenderlove.
+
+So, anyway, this is an amazing project. It just
+
+reached the 2 point 0 release, and Rubinius X
+
+has been announced. There's really exciting things happening to
+
+it, and it's an important part of, really a
+
+pillar of the future of Ruby.
+
+Anyway, back to Artoo. So Artoo is to robotics
+
+like Rails is to web development. I'm gonna say
+
+that again cause it's really, really important. Artoo is
+
+to robotics like Rails is to web development. Actually,
+
+it might be a little bit more like Sinatra,
+
+as you can tell from this code example.
+
+So you see, first of all, we require Artoo.
+
+Then we're going to declare a connection to an
+
+:arduino that's going to use an adapter called :firmata,
+
+which is a serial protocol that you can use
+
+to communicate with various arduinos and arduino-compatible microcontrollers. Then
+
+we're gonna connect on a particular port. Then we're
+
+gonna declare a device.
+
+This device is an LED. It's gonna use the
+
+LED drive and be connected to pin thirteen.
+
+Then the work that we're going to do is
+
+every one second, we're going to led dot toggle,
+
+which is going to turn the LED either on
+
+or off. So this is kind of the canonical,
+
+make an LED blink. So we'll show you that
+
+in a minute.
+
+So, Artoo's architecture. We have a couple of very
+
+important design patterns that we're utilizing within Artoo. Here's
+
+a little bit of a outline. So the main
+
+entity in Artoo is, of course, the robot.
+
+And we have two things underneath that. We have
+
+the connections, as you saw before, and we have
+
+devices. Now, we are using the adapter pattern in
+
+both of these cases. So connections use an adapter,
+
+we can use, similar to the way ActiveRecord or
+
+other ORMs work, we can actually use this adap-
+
+these different adapters to talk to different kinds of
+
+hardware.
+
+So where connections control how we actually communicate, whatever
+
+protocols with the device, then the devices control behaviors.
+
+LEDs know how to blink, drones know how to
+
+fly, et cetera.
+
+And then we are also using the polish and
+
+subscribe pattern via events. Devices, by their drivers, can
+
+detect events and then tell the robot about them.
+
+So it also has an API in Artoo. I
+
+mean, what good is a robot unless you can
+
+control it via an API across the intertubes, right?
+
+So here's a, an example of both a restful
+
+API and a web sockets API that could be
+
+used by two different applications to talk to the
+
+MCP or the master control program, which will then
+
+control all of the different robots. And there you
+
+have it.
+
+Of course, test-driven robotics is very, very important. I
+
+mean, we are Rubyists and we test first, right.
+
+Well, traditionally in robotics, the way you do testing
+
+is you would turn on the robot and jump
+
+back really fast.
+
+I have scars.
+
+However, this is Ruby, and we can do a
+
+little better. Here's an example of TDR, or test-driven
+
+robotics, as we call it. In this case, we're
+
+actually using mini-spec, we're using mocha and we are
+
+using timecop. So let's take a quick look.
+
+First, we're gonna declare :start right now. The robot
+
+is going to be the main robot, which is,
+
+as you'll remember, very similar to the Sinatra syntax,
+
+and then before this test, we're going to Timecop.travel
+
+to the start. Then we start our robot's work.
+
+It must roll every three seconds. So we travel
+
+to three seconds after the start. We're going to
+
+expect a roll command, and then we process messages
+
+to give Celluloid's mailboxes a chance to catch up
+
+with its actors.
+
+So this way we do not have to wait,
+
+just a little over three seconds to test something
+
+that takes three seconds. Because otherwise if we wanted
+
+to test something like turn the sprinklers on once
+
+a week, we would have to wait a week.
+
+And that's not good. You think your CI is
+
+bad, try it with robots.
+
+So, of course, Artoo also has a command line
+
+interface, because, two, well one of the important patterns
+
+that we've discovered, as we call it RobotOps, is
+
+that you definitely want to use commands to connect
+
+to all the devices. You do not want to
+
+do these sort of things manually.
+
+Anyway, though, I've done enough talking. How about a
+
+demo? You guy's want to see a demo?
+
+All right.
+
+So, the - oh, first thing I'm gonna take
+
+a look at is the Digispark microcontroller. So the
+
+Digispark is what we might call the minimum via
+
+microcontroller. Oh yeah, please. It's very small. We have
+
+to get it very close. Oh. It would help
+
+if you had the camera. All right.
+
+So this is it. It's extremely small. Oh, can't
+
+see it. I can see it.
+
+Hey. There it is.
+
+So this is it. It's a, it's a rather
+
+small device, as you can tell. It actually, let's
+
+take the shielf off. This is the Digispark itself.
+
+It's a very small, well, thank you, it is
+
+very small, itty-tiny powered microcontroller that actually uses another
+
+protocol called littlewire, similar to fermanta but it runs
+
+on even smaller microcontrollers.
+
+We're good? All right, we're in focus. And we're
+
+going to use this LED shield that plugs into
+
+it, it. It's better when it's over here. All
+
+right, so the program that we're gonna run -
+
+well, that's not it. That's definitely not it.
+
+OK, so the program we're gonna run here is,
+
+the first thing we're gonna do is we're gonna
+
+connect to the Digispark using the little wire adaptor
+
+with the vendor in ID since it's a USB
+
+device. We're gonna connect to the boad to retrieve
+
+it's device info, which we're gonna display on this
+
+screen that you won't be able to see. Then
+
+the LED device, we're going to, again, toggle it
+
+every second.
+
+So you see it's exactly the same code as
+
+we were using with the arduino. See a pattern
+
+forming? All right. Let's run this.
+
+Oh, right. The video.
+
+Executing code. So it should start to flash. A
+
+three thousand dollar lamp!
+
+All right. And, and you're applauding. Ha ha ha
+
+ha! I should be Apple. All right.
+
+So moving on. So what do you do with
+
+a flashing LED? Well, we are software developers, and
+
+of course what we do is we check our
+
+Travis build status notifications. Yes, the, the build notifier
+
+is to physical computing like the blog engine was
+
+to website development. That's the thing you do. All
+
+right.
+
+So let's take a look at some code, real
+
+fast.
+
+All right. So in this case, we're gonna require
+
+Artoo, we're gonna require Travis. We're gonna connect to
+
+the Digispark and its different LEDs. Then we're gonna
+
+connect to a broken repo that we've called broken
+
+arrow, in the tradition of flying things that don't
+
+necessarily work. We're gonna connect to the Travis repo,
+
+then every ten seconds we're gonna check the repo.
+
+If the repo is green, we're gonna turn on
+
+the green LED. When we're tasking it, it's going
+
+to turn blue, when we're check either the build
+
+is running or we're checking the Travis status. And
+
+then if the build fails we're gonna turn red.
+
+And then last we have a couple of functions.
+
+One turns on one particular LED and the other
+
+turns them all off. All right.
+
+So if this actually works, across the internet, it
+
+will turn blue that we're checking the Travis build
+
+status, and it will turn red since broken arrow
+
+is a broken build. Working. Working. Working. Fail.
+
+Now, we could go in and fix the build
+
+but in the interest of time let's just move
+
+on to the next thing. All right, so what
+
+is the next thing?
+
+Oh yes. So one of the greatest things on
+
+the internet are cats. And the only thing better
+
+than cats are internet enabled cats. For example, internet
+
+enabled cat toys. So in this case, we have
+
+a cool little device that we've made, kind of
+
+homebrew, but we like it. It's got two servos
+
+and it plugs into the Digispark, and then is
+
+connected to this fun little toy. Whoops, get the
+
+right angle.
+
+Can you guys see this OK?
+
+We don't have a cat. They wouldn't let us
+
+bring one in. We have a robot cat but
+
+it's not the same.
+
+All right, so let's take a look at the
+
+code. Wait, that's something else. Where is the code?
+
+I forgot to load it. All right. Well, in
+
+any case, we're using this leap motion. Yes. This
+
+leap motion is going to allow us to, with
+
+nothing more than his hand waves, control these servos,
+
+moving this cat toy to the invisible internet cat
+
+on the other side.
+
+Oh, wait.
+
+K, let's see the toy.
+
+O.V.: What it's this. There it goes.
+
+R.E.: All right.
+
+AUDIENCE: Oh! Whoa!
+
+R.E.: Ah, we broke it.
+
+I don't know how long this would last with
+
+a real cat, but it's still cool.
+
+Look ma! Just hands!
+
+Thank you.
+
+OK. So, so now let's switch to something else.
+
+The Beaglebone Black. So one of the important robot
+
+ops patterns that we want to share with you
+
+is, you do not want to think you are
+
+going to develop robotics on your notebook computer unless
+
+you plan on duct taping it to a drone,
+
+which you might try. It might work. For you.
+
+On the other hand, there are amazing single board
+
+system on chip, or SOC Linux computers that are
+
+very, very inexpensive. The Raspberry Pi is one. Another
+
+one, though, that is a little bit more powerful
+
+but is also opensource hardware, is the Beaglebone Black.
+
+Where is my video? There we go. So the
+
+Beaglebone Black is a very, very cool, also arm
+
+coretex powered single board computer. It has a one
+
+gigahertz processor and 512 megabytes of RAM. In this
+
+particular case, we are running an Arch Linux distro
+
+that we have built that is also available on
+
+the Artoo, a link from the Artoo dot IO
+
+website where it includes everything you're going to need,
+
+software wise, to turn this into a complete, full
+
+physical computing and robotics platform.
+
+Can you see this OK? There, we need it
+
+on the other side.
+
+OK. So let's take a, a closer look.
+
+It's, it's naked. We have cases, but.
+
+So, you see that it has a lot of
+
+different pins that you can plug into for digital
+
+IO, for analog IO, for pulse with modulation and
+
+for I2C. Now, I might mention, you saw before
+
+that we had difference between drivers, and connections. Well,
+
+we have generic drivers for general purpose IO and
+
+for I2C devices. So you can actually use these
+
+same drivers on arduino, on a Raspberry Pi, on
+
+the Beaglebone Black, on the Digispark, or on any
+
+other platform that supports Linux GPIO.
+
+Think about that. Kind of fun.
+
+So what we're gonna do here is we're going
+
+to show our - there we go. The blink
+
+program that we showed before with a slightly different
+
+syntax, but same idea. Except in this case, we're
+
+gonna use the connection to the Beaglebone using the
+
+Beaglebone's adaptor. And we have a slightly different pin
+
+numbering scheme, because the Beaglebone Black's pins are different
+
+in a similar fashion that Raspberry Pi pins.
+
+This is actually what the pin is labeled on
+
+the device. That way you're not trying to, go
+
+to a lookup table. Man, there's software for that.
+
+It's called Artoo.
+
+All right. Back to the camera. So and now
+
+we're going to - he's actually SSH pin to
+
+this Unix computer and is going to make our
+
+gigantic LED start flashing.
+
+If all goes well.
+
+Blink on the Beaglebone. Yes. It's real.
+
+All right. So that was cool, but can we
+
+get a little more exciting? Like, yes. So let's
+
+bring in another toy. Another robotic device. The Sphero.
+
+So the, the Sphero is from Orotix. Oh, yeah.
+
+The camera. Oh, camera.
+
+So the Sphero is a small robotic sphere from
+
+Orbotics based out of Boulder, Colarado. Fantastically interesting toy.
+
+It might be the minimum viable robot, because it
+
+actually possesses input. It has accelerometers that can detect
+
+collisions. It has output. It can change its color.
+
+And it can move around on its own volition.
+
+It is a bluetooth device. So we're gonna connect
+
+up to it using another Artoo program.
+
+Which, let me show you the code for that.
+
+All right. So in this case, we're gonna require
+
+Artoo. We're gonna make a connection to the Sphero
+
+using the Sphero adaptor on a particular IP address.
+
+Another one of the lessons from the robot ops
+
+toolbook is you definitely want to use serial to
+
+socket connections. You don't want to try to connect
+
+directly to the serial ports. You know, well, that
+
+way we can use nice TCP and UGP style
+
+software development.
+
+In this case, the work that we're gonna do
+
+is every one second, we're going to display a
+
+little message, and then we're gonna set the Sphero's
+
+color to a random color - RGB color -
+
+and then we're going to roll at the speed
+
+of 90 in a random direction. Crazy Sphero.
+
+So let's go and see what happens.
+
+So blue means we are connected to the bluetooth
+
+device. Oh, by the way, we are running this
+
+off of the Beaglebone Black as well. Go, go,
+
+Sphero!
+
+It is alive.
+
+So one thing we did want to mention before
+
+we go any further is, choose your own hardware
+
+adventure! What good is this stuff if you don't
+
+have some hardware? Well, luckily we have a lot
+
+of wonderful friends, and these friends said please give
+
+away hardware to the awesome Ruby community. So you
+
+get to choose your own hardware adventure!
+
+Now, not everyone is gonna get hardware today. Only
+
+those who go to the Twitterverse and appeal to
+
+the magnificent of the robotic overlords, and say please
+
+give me a microcontroller. So, if you Tweet @digistump
+
+and @artooio you can win one of our Artoo
+
+Digispark starter kits that comes with the microcontroller, it
+
+comes with an RGB LED shield. It comes with
+
+all the little connectors that you will need to
+
+connect it to motors or servos or other things.
+
+So @digistump and @artooio to win the Digispark.
+
+If you want to win a Beaglebone Black starter
+
+kit that includes a Beaglebone Black, SD card, jumpers,
+
+preg board - everything you need to build your
+
+own robot - Tweet @beagleboardorg - kind of long,
+
+sorry - and @artooio to win that.
+
+And if you want to win a Sphero 2
+
+point 0, the hot new item, then you Tweet
+
+@gosphero and @artooio. All right, so to run through
+
+that again.
+
+@digistump and @artooio to win that. @beagleboardorg and @artooio
+
+if you go in that direction. And if you
+
+go north, you get to try to win a
+
+@gosphero and @artooio.
+
+So again our criteria is whichever Tweet we like
+
+most, so, beg. It's OK.
+
+All right. Onto the demo!
+
+So Conway's Game of Life. Who knows about Conway's
+
+Game of Life? A decent percentage. But let's just
+
+to a quick mathemagical review. So John Conway was
+
+a mathemagician who invented something that we call cellular
+
+automata. It basically says by using very, very simple
+
+algorithm we can get interest emerging behaviors. It's absolutely
+
+kind of like a swam of robots.
+
+And we thought, let's just do the, do the
+
+rules here real fast. So it's usually played on
+
+graph paper using a paper and pencil. By the
+
+way, I highly recommend graph paper for doing creative
+
+work. It's fantastic.
+
+All right. So with graph paper, you would draw
+
+some cells, which are the dots, and then the
+
+rules are, if a cell has less than two
+
+neighbors, it dies on the next turn. If a
+
+cell has exactly two neighbors, an empty space, a
+
+new cell is born into it. And if where
+
+a cell is there are more than three neighbors,
+
+it dies from over population. So that would be
+
+the second move. So first move. Second move, and
+
+so on.
+
+Well, we thought it would be really cool to
+
+do Conway's Game of Life with robots. But we
+
+realized we'd have to do things a little tiny
+
+bit differently.
+
+One of the differences is that the Sphero does
+
+not possess the ability - you might want to
+
+start connecting - the Sphero does not possess the
+
+ability to see other Spheros. However, it does an
+
+accelerometer to detect collisions. So by doing a little
+
+bit of an inverse fourier transform, we can basically
+
+turn the collisions into an estimation of proximity within
+
+a slice of time. And thereby we can make
+
+a decision about whether or not this is actually
+
+collided and whether it should live or die.
+
+So let's watch artificial life with Artoo and Sphero.
+
+And it begins.
+
+They have become alive. Now they're wandering around looking
+
+for love in all the wrong places. They need
+
+just a little contact. Not human. Sphero.
+
+Actually human contact would probably work, but. Oh. Two
+
+died.
+
+I feel traumatized even when artificial life loses it.
+
+They can come back to life. We call that
+
+zombie mode.
+
+Well, so, and eventually they might all die, or
+
+it might just go on for long periods of
+
+time. It's very hard for me to kill off
+
+any life form, artificial or natural. So let's give
+
+it a brief moment. Oh. It's so lonely. The
+
+last, the last Sphero.
+
+There's something kind of epic. Maybe someone will compose
+
+a ballad. Ooh!
+
+Anyway, I think you guys kind of get the
+
+idea. Let's take a quick look at some code.
+
+So in this case, we're actually using Artoo's modular
+
+mode, where we're declaring a class, which is the
+
+Conway Sphero robot, so the connecting to a Sphero,
+
+the device is a Sphero. The work it's gonna
+
+do is first it's born, then on the Sphero's
+
+collision - and here we see an example of
+
+Artoo's event syntax - every, on a collision we're
+
+gonna call the contact method.
+
+Every three seconds we're gonna make a move, and
+
+if we're alive, and every ten seconds a birth
+
+day if we're still alive. Life is short, hard,
+
+and colorful in Sphero land.
+
+So then you see some of our helpers, check
+
+if we're alive, rebirth. If we actually follow the
+
+rules we can be born, life, and death. So
+
+you kind of get the idea.
+
+Oh, wait, there's one last thing that's kind of
+
+important here. So then we declare a hash with
+
+all of our different IP addresses and the names
+
+of Spheros, and then each Sphero we create a
+
+new one and then tell all of them to
+
+go to work at the same time. A swarm
+
+of Spheros.
+
+All right.
+
+So now let's do something completely different.
+
+This is the time to put on your protective
+
+gear if you have some.
+
+So we're gonna demo the ARDrone and we're moving
+
+over there so we have some space. Oh, yeah,
+
+we forgot to set this up before. Whoops! Oh,
+
+the Sphero.
+
+I mean, sorry, the ARDrone, yeah. That thing.
+
+AUDIENCE: Sphero is funnier.
+
+R.E.: Many people got to see Jim Weirichs Argis
+
+gem. We're actually using the Argus gem wrapped up
+
+inside of the Artoo ARDrone adapter and we've done
+
+a few contributions to it ourselves. It's very, very
+
+cool. Thank you Jim. We really appreciate it.
+
+Standing on the shoulders of giants is awesome.
+
+All right, so what we're gonna do here is
+
+take a quick look at some, some code. All
+
+right. So in this case, we're gonna make require
+
+Artoo, we're gonna make a connection to the ARDrone
+
+via its adapter. The device is gonna be the
+
+drone - you seeing a pattern forming?
+
+So the work we're gonna do is first we're
+
+gonna start the drone. Then the drone's gonna take
+
+off. After fifteen seconds, it's going to hover and
+
+land, and then after twenty seconds stop. So a
+
+little bit of automated drone flight.
+
+So this is the drone.
+
+Hello.
+
+ARDrone in Artoo!
+
+So now, for this next demonstration we're going to
+
+need a courageous volunteer from our studio audience. I
+
+mean courageous, like this is kind of dangerous. And
+
+you have to be tall.
+
+Oh, yeah, let's just use of the Hybrid group
+
+members cause I believe we are insured for them.
+
+And if not I can just drive them home.
+
+Daniel Fisher, HybridGroup strongman!
+
+All right.
+
+DANIEL FISHER: (indecipherable - 00:26:47)
+
+R.E.: Oh, OK. Yes, thank you. All right. So
+
+what we're going to do - recently, we added,
+
+there we go. Recently we added openCV support to
+
+Artoo. If you're not familiar with it, openCV is
+
+probably the most important computer vision library. It's open
+
+source. It has, it's, it's a very deep and
+
+rich platform, and so what we're gonna do here
+
+is we're gonna make a connection to the capture
+
+device, then we're gonna make a connection to the
+
+video device, and we're gonna make a connection to
+
+the ARDrone.
+
+We're gonna use a facial recognition set of data
+
+and then the work that we're gonna do is
+
+we're going to capture each frame and display it
+
+on a window, which we'll see in a moment.
+
+We're gonna start the drone and take off. After
+
+eight seconds it's gonna boost up to about face
+
+hugger level. After ten seconds it will hover again
+
+and then at the mysterious thirteen second mark it
+
+will begin its facial recognition mission.
+
+It should detect Daniel's face and then, as he
+
+tries to evade it, it should follow him.
+
+I think you see now why we chose our
+
+own volunteer.
+
+All right. So without further risk to us, cause
+
+it's gonna be over there - get behind me
+
+man. All right.
+
+This is how you know it's real.
+
+We swear.
+
+All right.
+
+Wanna enlarge the window please?
+
+V.O.: Why would do this?
+
+R.E.: Well, when we say customer service drone, we
+
+mean customer service drone. Evasive.
+
+We put in code to stop it before it
+
+got too dangerous.
+
+So thank you Daniel. I owe you a drink,
+
+man.
+
+All right. So we promise new hardware every time
+
+we do a show and basically we cannot disappoint.
+
+So why is it getting dark?
+
+AUDIENCE: (indecipherable - 00:29:30)
+
+R.E.: Oh. That explains it. I'm like, it's all
+
+getting dark in here. Around the edges especially.
+
+So we have a, some really awesome new hardware
+
+- where is it? It's really small, so it's
+
+hard to find.
+
+AUDIENCE: Are we gonna do the- (indecipherable - 00:29:47)
+
+R.E.: Oh, OK, yeah let's do that first. All
+
+right. Actually we do have two kinds of new
+
+hardware today. So the first thing is, many of
+
+you might have seen us fly the ARDrone around
+
+with a Wii classic controller using an arduino. But
+
+even Nintendo has stopped dealing with Wii.
+
+So we thought, hey, it's time to get in
+
+the modern generation. So we now support the PS3
+
+controller and the xBox 60, xBox 360 controller. So
+
+Adriane, who is serious programming guy and test pilot,
+
+is going to use this generic GameStop PS3 style
+
+controller to fly this ARDrone around. Let's see if
+
+- take a look at the code here.
+
+No, I went the wrong way. There we go.
+
+So we can see that we're gonna declare connection
+
+to the ARDrone. We're gonna declare the device of
+
+the drone, a connection to the joystick, and then
+
+we see that we're gonna - whoops.
+
+We're gonna handle a bunch of these controller events
+
+- for example, when he hits the square button
+
+it will take off, the triangle button, it will
+
+hover. The x button it will land - et
+
+cetera.
+
+And so now if all goes as expected -
+
+oh yes, reset the drone.
+
+If it comes really close to you, please duck.
+
+This is human-powered flight, so blame him.
+
+ADRIENNE: I just work for this guy.
+
+R.E.: No, it all comes here. Blame me. I
+
+have band aids. I think.
+
+Standing by.
+
+This is Tower. How you doing control?
+
+ADRIENN: (indecipherable - 00:31:45)
+
+R.E.: Still trying to connect to the wifi on
+
+the drone. We're, we're standing by ground control. There's
+
+a certain cadence to this.
+
+ADRIENN: There we go.
+
+R.E.: If you don't do it right, it literally
+
+won't take off. I mean if you don't say
+
+it right. If there's anybody from Rocket City here,
+
+please correct my English. American.
+
+ADRIENN: All right, ready?
+
+R.E.: Standing by.
+
+Yeah, get some altitude. Get some altitude!
+
+ARDrone, PS3 controller!
+
+Ah, you're not gonna buzz the back row? No,
+
+don't do it. Don't do it. If I want
+
+you to.
+
+It's tempting, but no. Not today.
+
+OK. So now the grand finale. What you've all
+
+been waiting for.
+
+The Crazyflie, ARDrone, and PS/3 Controller. So, what is
+
+the Crazyflie? Are we crazy? We are. Extremely. If
+
+you hadn't noticed that. It's probably the minimum viable
+
+quad copter. This is the Crazyflie from BitCrazy out
+
+of Sweden. It's a, it - it's gonna hurt,
+
+yeah. It's really small - how bad can it
+
+hurt?
+
+So this is actually a very, very impressive piece
+
+of technology. It also has an armcore tox processor
+
+running a realtime operating system. It's got a accelerometer
+
+- three axis accelerometer. It's got a magnitometer, a
+
+to a compass, and it also has a barometer
+
+for altitude detection. It's actually quite an acrobatic drone.
+
+It's very, very hard to control.
+
+Luckily it's very small. Also luckily it only has
+
+about a seven minute life span on that battery.
+
+So there's that. If you can get away from
+
+seve- six and a half minutes, you're fine. Actually,
+
+in about five minutes, the sensors start going off.
+
+So if you throw some, like, tin foil and
+
+run that way.
+
+All right. So what we're going to do, the
+
+first time ever anywhere seen, is we're actually gonna
+
+control both of these drones with the same code.
+
+Which, let's take a look at it.
+
+All right, so first we're going to require Artoo.
+
+Then we're gonna make a connection to the Crazyflie
+
+using its adapter, and we're going to then connect
+
+to the joystick. Then we're gonna connect to the
+
+ARDrone.
+
+So the work that we're gonna actually do here
+
+is we're gonna use the controller to control the
+
+Crazyflie, and then we're gonna use the ARDrone to
+
+do automated take-off. And if this all goes as
+
+expected, the ARDrone should take off and hover, and
+
+then Adrienne should be able to kind of fly
+
+around it manually using the Crazyflie.
+
+Should be interesting.
+
+Let's do it. Standing by. Multidrone. Two drones, one
+
+code.
+
+V.O.: Watch out!
+
+R.E.: They live!
+
+We so crazy.
+
+Adrienne, our test pilot!
+
+So was that fun? I love this stuff.
+
+AUDIENCE: ( indecipherable - 00:35:58)
+
+R.E.: Yeah. Let's, the question was, is it possible
+
+to control them both with one controller? The answer
+
+is yes, however, because there's a significantly different vector
+
+of thrust in the Crazyflie versus the ARDrone, we
+
+didn't really have time to get that perfected with
+
+the amount of space we had in the hotel
+
+room here. And we kind of didn't want to
+
+spoil all the surprise, cause as soon as you
+
+start flying something around, people start coming in and
+
+swarming on it.
+
+So, we'll get to that. Come and see us
+
+at Robots Conf in December, here back in Florida.
+
+But wait, there's more!
+
+There's always more. We, we heard that, you know,
+
+some people really, really like JavaScript these days, and
+
+so we thought, we'd like to put some robots
+
+on JavaScript. So Cylon dot JS is a project
+
+we just announced last month. And it lets you
+
+use CoffeeScript or JavaScript with node.js to do basically
+
+the same exact thing that you just saw, except
+
+in those languages.
+
+And so it's actually available now. It doesn't have
+
+all twelve platforms supported. The Artoo does, but it's,
+
+but we're getting there. And then, today we announce
+
+GoBot!
+
+Because we heard that the Go programming language was
+
+something you guys were kind of interested in, too,
+
+and we sort of liked it ourselves. And we
+
+thought, Go, Go Robot! so, actually GoBot is this
+
+month's project announcement. It's literally very, very hot and
+
+fresh. In other words, it barely works, but it
+
+kind of does.
+
+And I-
+
+ADRIENNE: It runs Conway's Game of Life.
+
+R.E.: Exactly. We have artificial life with GoBot already.
+
+So, so check it out. Join the Robot Evolution!
+
+Because we need all of you to help us
+
+build this future. So artoo dot io, or follow
+
+us @artooio on Twitter. cylonjs dot com or follow
+
+us @cylonjs on Twitter. Or gobot dot io and
+
+follow us @gobotio on Twitter. So once again -
+
+those numbers again.
+
+Artoo dot io, cylonjs, and gobotio.
+
+All right. So I, for one, say welcome to
+
+the machines. But there are a few questions that
+
+we have. One of them, perhaps, has to do
+
+with robot economics. So when machines are doing the
+
+jobs that humans do now, what will we do?
+
+Kurt Vonnegut in Player Piano kind of posited a
+
+future where the satisfaction that we have would be
+
+greatly lacking because of a meaning and purpose that
+
+we needed in our lives. And what about the
+
+pay that people need for jobs?
+
+Well, and what about robot ethics? Do robots actually
+
+have ethics, or do they only have the ethics
+
+that we give to them? So what is going
+
+to happen? The answer is - I don't know.
+
+However, I know some actual professional futurists, and Daniel
+
+Rasmus is a very dear friend of mine. He
+
+wrote a book called Listening to the Future where
+
+he talks about something called scenario analysis.
+
+So we're gonna do a little scenario analysis of
+
+what we think's gonna happen, and we're gonna use
+
+two axis. The first one is robot sentience -
+
+will it become intelligent or not? And the other
+
+one is robot friendliness - will they be friendly
+
+or hostile?
+
+And because we are a Los Angelos based company
+
+at HybridGroup, we look at everything in terms of
+
+Hollywood movies. So a, if the robots become non-intelligent
+
+and they're not friendly, we get the movie Brazil.
+
+In other words, life today.
+
+Now, if the robots become intelligent but they're not
+
+friendly, we get Terminator. Enough said.
+
+Now, if the robots are not sentient but friendly,
+
+we get Power Rangers. And then if the robots
+
+are both sentient and friendly, we get singularity.
+
+So this guy spent a lot of time thinking
+
+about what was gonna happen in the future. I,
+
+I hope every one knows that this is Isaac
+
+Asimov.
+
+AUDIENCE: Oh yeah.
+
+R.E.: You didn't know Conway's Game of Life, but
+
+thank you know Asimov.
+
+So he wrote the three laws of robotics, and
+
+I'm gonna read them to you now. Number one:
+
+a robot may not injure a human being or,
+
+through inaction, allow a human being to come to
+
+harm.
+
+Number two: a robot must obey the orders given
+
+to it by human beings, except where such orders
+
+would conflict with the first law.
+
+And then number three: a robot must protect its
+
+own existence, as long as such protection does not
+
+conflict with the first or second laws.
+
+So, how's that been working out for us guys?
+
+But I don't think it's fair to blame the
+
+robots, because this in fact is not a robot,
+
+it is a drone, and it is being controlled
+
+by a person in a hidden bunker, where they
+
+are far, far away from the battlefield where these
+
+weapons are actually being utilized against real humans.
+
+So we propose a small change - just a
+
+little patch revision to Asimov's first law. Version one
+
+point one. A human may not injure a human
+
+being or, through inaction, allow a human being to
+
+come to harm.
+
+Imagine that future. Let's make that future. Thank you.
