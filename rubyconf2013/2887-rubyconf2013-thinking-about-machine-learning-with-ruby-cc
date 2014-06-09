@@ -1,0 +1,1663 @@
+RubyConf 2013 - Thinking about Machine Learning with Ruby - Bryan Liles
+
+BRYAN LILES: So, hello. Welcome. I'm Professor Liles.
+
+You can address me as Professor Liles.
+
+And this is CD-612 - A Data Mining Exploration.
+
+Get out here. There we go. And the objectives
+
+here, and because I'm a professor at a accredited
+
+university, I'm just gonna read the slides. We're gonna
+
+explore the facets of machine learning. We're gonna have
+
+a data scientist check list. We're gonna also talk
+
+about the practical applications of converse inductive integrals in
+
+the context of epsilon.
+
+This is real exciting stuff here.
+
+There's some prerequisites for this class. Basic understanding of
+
+statistics. You have to know statistics to do machine
+
+learning. And data mining. You need to know linear
+
+algebra. You need to know a little bit of
+
+calculus. And you also need to have the ability
+
+to embiggen factorials in a cromulent fashion.
+
+So let's start off with the review of stuff
+
+you should know.
+
+Anyone know what this is? And I feel bad,
+
+because I gave this, I gave this talk a
+
+little while ago, and let me - let me
+
+actually profess this. This is actually supposed to be
+
+Jeff Prudner's spot. I work with Gus in the
+
+thunderbolt labs, and he got sick. With some third
+
+world disease. And we thought it would be best
+
+if he just not show up.
+
+We like Guston. We wish Guston the best. And
+
+I'm stepping in just to help him out. Go
+
+through the labs.
+
+So does anyone know what this is, right here,
+
+besides math?
+
+By the time I'm done with this talk, you
+
+will know what this is. Yeah. Math sucks.
+
+So let's talk about something else. Let's talk about
+
+some background. This is an introduction to machine learning.
+
+Machine learning is one of those really overloaded topics
+
+that I prefer to not use that word. So
+
+let's not talk about introduction to machine learning.
+
+Let's talk about an introduction to data mining. Because,
+
+you know what, statisticians have been data mining for
+
+the past forty years. This talk is depth versus
+
+breadth. I'm not gonna go in deep. I'm just
+
+gonna slide across the top. I think it's better
+
+for all of us if I do that.
+
+Let's talk about machine learning or data mining. What
+
+can we do with this kind of, with this
+
+kind of technology? Everyone in here has problems that
+
+can be solved with data mining. I was talking
+
+to a gentleman earlier from DigitalOcean and he kept
+
+me, and he was thinking, oh yeah, machine learning.
+
+I want to be able to detect abuse.
+
+You can actually have applications of classification to detect
+
+abuse. What you can do is you can have
+
+your logs come through, and you can actually start
+
+classifying your logs as good traffic or bad traffic.
+
+You see this stuff all the time. Spam assassin
+
+came out - I think in the 90s.
+
+This is an application machine learning. You have spam,
+
+you have ham. So these are the kind of
+
+problems you can have. And, and I've written things
+
+in the security context where we were detecting anomalies
+
+and I didn't know it was machine learning at
+
+the time because, you know, I learned everything, I
+
+got a internet degree - that's about what I
+
+have. So I learned it all off of wikipedia.
+
+I don't know it was machine learning, but come
+
+to find out these are kind of things we're
+
+gonna talk about in machine learning. One thing I
+
+need to tell you about is I'm gonna, I
+
+might use these words supervised versus unsupervised in machine
+
+learning. This is very simple.
+
+You'll see people talk about, this is an unsupervised
+
+algorithm. This is a supervised algorithm. This is very
+
+simple. In machine learning, you can train, you can
+
+train these models your algorithms with data. There is
+
+supervised. Or you can have a model that can
+
+actually gain inference just by applying the data. That's
+
+unsupervised.
+
+Simple, simple.
+
+I work at Thunderbolt Labs. They're pretty awesome. You
+
+guys should at least go to our website. Actually,
+
+yeah, go to our website, because yeah, our website's,
+
+I'm pretty proud of it because-
+
+Let's see here, where are we? All right. Ah,
+
+someone put my face on it.
+
+So yeah. Anything with my face on it has
+
+got to be awesome. I'm bryanl on Twitter, and
+
+the standard disclaimer is I do not represent Thunderbolt
+
+Labs. Except for I do.
+
+I do use bold, vulgar words. I'm never misogynistic
+
+or anything like that, but I might offend you.
+
+So follow with me with, just, be careful.
+
+And Thunderbolt Labs here, @thunderboltlabs. Follow us. We Tweet
+
+there sometimes. Here's a really cool thing. And this
+
+is me getting on my soapbox and stepping on
+
+machine learning for just a couple seconds.
+
+You see at the bottom of RubyConf's website, we
+
+are actually sponsoring as a gold sponsor at RubyConf
+
+this year. And I'll tell you the reason why.
+
+I've been - this is my eighth RubyConf. I
+
+am not an old-timer, which is crazy. I've been
+
+coming to RubyConf for eight years and I'm not
+
+an old-timer. Never once have I, as a black
+
+guy, felt intimidated by anyone at any talk at
+
+any time. So any one saying that RubyConf isn't
+
+diverse is out of their mind. So off my
+
+soap box.
+
+And let's move on.
+
+So let's talk about required knowledge for machine learning.
+
+There's a couple things you're gonna need to know.
+
+You are gonna have to know math. I've presented
+
+that equation earlier, which was actually an equation for
+
+k-means clustering. Actually really simple when I explain it
+
+to you.
+
+You will have to know math. You will have
+
+to know a little bit of Calculus. You will
+
+have to know a little bit of algebra. You
+
+might have to dive into statistics. You will need
+
+to know these things. But guess what? There is
+
+easy ways to learn this kind of stuff.
+
+You will have to read papers. And I'm, I'm
+
+not a fan of papers because I- I went
+
+to ClojureConf last year, and every talk was like,
+
+so I read this paper. Whoa! I mean this
+
+is a good paper right here. This is a
+
+paper on transactional memory. This is STM. This is
+
+one of the tenants of Clojure. And it's actually
+
+pretty famous - it's actually pretty crafty. Cause look
+
+at it. Look at the authors. They're like, wow,
+
+we're not even gonna put two emails on here.
+
+We're gonna put them in little curly brackets.
+
+You will have to read papers. But you know
+
+what, there's nothing wrong. A little tech in your
+
+life never hurt anyone.
+
+You're gonna have to have persistence. This is the
+
+interesting science. There are different facets of machine learning,
+
+and depending on who you talk to - you
+
+could talk to a statistician, versus more of an
+
+applied math, math, an applied mathematician, you're gonna get
+
+different answers about what machine learning is.
+
+You're just got to be very persistent in the
+
+whole entire topic. Because, guess what? This is hard.
+
+So let's get started.
+
+And today I'm going to introduce three topics. Regression,
+
+classification, and clustering. These are three of the bigger
+
+tenants of machine learning, and you can solve all
+
+the problems. I'm here to solve all your problems
+
+today.
+
+So let's talk about regression.
+
+Yes.
+
+So does anyone know what regression is? Besides black
+
+guy in the back? Anyone else? Anyone else? You
+
+guys know what regression is?
+
+Regression is a weird word to me. Cause, you
+
+know what, I take, I take the base of
+
+this word, regress, and, and regressions really are not
+
+regressing. Regressions are really just trying to figure out,
+
+you're trying to predict the value of something given
+
+some data.
+
+A good example of, of regression would be, you
+
+have a list of data of housing prices, of
+
+houses being sold, and you know that the house
+
+for $100,000 had 1,000 square feet and two bedrooms
+
+and the house had, that sold for $150,000 had
+
+1,500 feet and three bedrooms. And you have many,
+
+many samples of this.
+
+So what you can actually do is you can
+
+take this data and you can actually somewhat accurately
+
+predict price based on common criteria.
+
+But the, we're gonna focus on linear regression. And
+
+what linear regression is, is basically we're just going
+
+to have it move laterally.
+
+So let's talk about this. Does anyone know what
+
+that at the top is? What that equation is
+
+at the top?
+
+It's the slop of a line, yes. And actually
+
+here's a problem that I have, and I have,
+
+I have a huge problem with mathematics in general.
+
+When you are taught this in middle school, I
+
+think you learn one slope formula in middle school,
+
+you were not taught anything that looks like this.
+
+You were taught something that looks more like y
+
+equals mx plus b. And they have y equals
+
+alpha plus beta x. Come on. This is the
+
+problem I have with mathematics.
+
+Depending on the branch of mathematics you're in, they
+
+will actually use different symbols for the same thing.
+
+Talk about persistence. Just gotta bare with these guys.
+
+And for doing regressions, all you're going to do
+
+is solve this equation. Come on - this is
+
+simple. You're just, you're minimizing the functioning tube of
+
+a and b, or alpha, beta, where the functioning
+
+two alpha, beta equals e squigly e with another
+
+kind of e with a hat. It has a
+
+hat. Why does it have a hat?
+
+All right. This is funny.
+
+Really all you're trying to do is, is this.
+
+So talk about the line slope formula. You have
+
+y equals mx plus b, and then I just
+
+go through the permutations to get to y equals
+
+beta of chai plus alpha.
+
+Really all you're doing, is you're drawing a line.
+
+And what you're going to do in this line,
+
+and I'll show you in a second.
+
+First you're gonna take this data, and actually this
+
+data right here is - I, I, I just
+
+went for linear, I looked, looked on the internet.
+
+I used Google for linear regression data sets. And
+
+I come across this cool one of the size
+
+of brain, the body weight, versus the size of
+
+a brain. And I plotted. Because that's what you
+
+do. You plot stuff.
+
+I'm just use gonna plot here [00:09:58]. This is
+
+not Ruby. Sorry there's no Ruby yet in this
+
+talk. But I, I just plotted this data. And
+
+this is a very interesting data set, because it
+
+says that it was, it says that it was
+
+a real data set, but I don't know. Because
+
+if you look over here, I mean. I got
+
+a big brain. I'm not gonna lie. I'm a
+
+smart dude. But jees.
+
+I want to meet this person right here.
+
+In a linear regression, well all you're trying to
+
+do is find, is trying to draw a line
+
+that actually goes through the middle of all this
+
+data. And it's like, well, we can infer that
+
+pretty easily as humans because we're, we're linear regression
+
+monsters.
+
+But how do you do that mathemet- or algorithmically?
+
+So what you're trying to do is you're trying
+
+to calculate something called the error, and what this,
+
+what that is is the error is the distance
+
+between a point and a line. Remember before when
+
+we were, that minimizing function?
+
+You're just trying to find a line that minimizes
+
+the distance between this and this for all the
+
+points on here. This is not the right answer.
+
+And just to simplify that a little bit more,
+
+this is all you're doing. You're just basically trying
+
+to find the line that is between the middle
+
+of all those points. And we can do it
+
+with math.
+
+But better yet, we can do it with Ruby.
+
+And I put code slides in so I could
+
+actually remember to go to my code. So let
+
+me hide this bad boy. And there's that pretty
+
+guy again.
+
+AUDIENCE: [whistles, cat-calls]
+
+B.L.: You know what, I like this jacket. There
+
+we go. We'll just mirror to this place of
+
+getting, little difficult for me to look backwards.
+
+So you know what happens is, I had never
+
+given this talk with mavericks. And Mavericks would get
+
+you - it's nice but it'll get you.
+
+So we're talking about regression. So what I've done
+
+here is I've provided some examples, and we will
+
+look- let's look at the Ruby code. No, actually,
+
+let's look at the, the new pot code first,
+
+[00:11:50] because this is new pot conf, right. Let's
+
+look at some gnew plot.
+
+So I'm using vem this week. If you know
+
+me I actually, I use a lot of editors.
+
+And I know this is a Confreaks talk, and
+
+there's sometimes some, some like clipping on the sides,
+
+so what I'm going to do is move this
+
+slightly over so we can see everything.
+
+So. So let's look at this regression. So what
+
+it is, is I've written some, some gnew plat
+
+code, and really all I'm doing is making a
+
+ping called brain dot ping, and I'm taking, I've
+
+just setting the x labels and the y labels
+
+and I'm setting in a grid and I'm plotting
+
+the second and third columns of this brain dot
+
+csv.
+
+Simple, simple.
+
+So when I run this gnew plot, and this
+
+is how you run gnew plot stuff, you don't
+
+even need to type that crap in. And I
+
+did it, and it ran really fast cause it's
+
+not Ruby - I'm just kidding.
+
+And I plot, I type plotted that. So let's
+
+go one step further. If I want to actually
+
+- let's, let's see if we can do this
+
+in Ruby. So, so if we look in this
+
+regression dot rb - there we go. This is
+
+actually the code for doing regressions in, in Ruby.
+
+And what you'll notice here is that we have
+
+this y-intercept, and we have this slope that mx
+
+and the b part. And we're just calculating those.
+
+I actually was gonna write this code, but I
+
+just searched for simple linear regression in Ruby and
+
+there was a gist for it. So guess what?
+
+Our wall - here's your credit.
+
+Why write code that's already been written? So all
+
+it does, it does the same thing, and at
+
+the end, I like to call this train Ruby,
+
+because you'll notice that I usually start in classes
+
+and I end in just a mess. And the
+
+reason why is because I wrote this on a
+
+train and I was like, typing and then I
+
+start looking out the window and got distracted. Yeah.
+
+AUDIENCE: Ruby in Rails.
+
+B.L.: Yeah, this is my, yeah. So this is
+
+actually, this file is not too bad. There's only
+
+like ten lines at the bottom that are kind
+
+of crazy. So we'll run this. Regression one dot
+
+rb.
+
+And really what we're looking for are this, if
+
+you want to plot the line you just need
+
+the slope and the y-intercept. So we have this
+
+number six point six four and six point six
+
+seven. Can someone remember those numbers for me please?
+
+Cause I'm gonna ask for them in a second.
+
+And then what we'll do is, because, what we'll
+
+do, the last thing we'll do, is we'll actually
+
+look in the second regression text file that I
+
+have here. This is more of the new plot
+
+code. And what it's actually doing is, gnew plot
+
+has linear regression built in. So we'll just use
+
+theirs. And what their- and all I'm doing is
+
+instead of writing tests, the message is just, I'm
+
+using gnew plot to actually figure out, or tell
+
+me if I have the right answer.
+
+So if we look at the bottom of this
+
+file, we have an m and a b, right
+
+here. And gnew plot does a whole bunch of
+
+the craziest things too, but, we actually told it
+
+to fit the data.
+
+And you'll notice the number here is six point
+
+six two and six point eight eight. Close to
+
+our numbers. I mean our numbers could have been
+
+better. These numbers are actually a lot better because
+
+gnew plot actually goes through and figures out if,
+
+first if the data's linear, and also it gives
+
+you error numbers. So this is actually the real
+
+answer, but our Ruby code is pretty close.
+
+And that brings me to a little point here.
+
+You will not do a lot of machine learning
+
+in Ruby. But because group Ruby is so approachable,
+
+and so easy to use, Ruby is a great
+
+learning, language to learn how to do machine learning
+
+before we get to go plot some more later.
+
+So just to show you one more thing, we'll
+
+plot the output of our, we'll plot the outputs
+
+of our files here, and. OK.
+
+And we'll open brain regression and there's our, that's
+
+our file. This is from gnew plot. And we'll
+
+open brain_regression_ruby. And there you go. They look similar.
+
+Actually we'll put them right next to each other
+
+so you can inspect for yourself. Simple linear regression
+
+in Ruby. This code will be on GitHub, or
+
+actually is on GitHub. You probably can find it
+
+now if you're, you know, I'm BryanL. But you'll
+
+notice that these are the same.
+
+And one's with Ruby and one's with, and one's
+
+with gnew plot. And this is how simply, and
+
+you'll notice if we go back to our file
+
+here, linear regression one dot ruby.
+
+It's not many lines. Actually it's, it's like forty-seven
+
+lines. Let's say it's forty-two lines. It's forty-two lines.
+
+So that's regression. And when I, what I've basically
+
+shown you is that it's easy in Ruby to
+
+plot lines and, because you can plot lines you
+
+can do simple linear regression.
+
+Let's talk about classification next. And before we talk
+
+about classification, I want to show you something here.
+
+I'll go to my web-browser - that guy, keeps
+
+on coming back.
+
+I want to show you something. There we go.
+
+Let's make this a little bit smaller. My computer's
+
+pretty smart. I, I wrote this Sinatra app called
+
+the number game, and I'll, and I'll reload it
+
+a couple times so you can see what's going
+
+on. So here's once. Here's again. And so what's
+
+happening here is there's a dataset called the inthis
+
+dataset, and all it is is a collection of
+
+60,000 hand-written numbers. And what I did was I
+
+wrote a simple app to actually go through and
+
+recognize numbers.
+
+Simple application on machine learning. This is what you
+
+call classification. We are classifying these bit, these pixels
+
+as a number. And, you notice that for most
+
+part, I believe that this classifier is sixty-five percent,
+
+maybe seventy-five percent correct. I don't really remember.
+
+So how do we do stuff like this? Well
+
+first of all, with classification, let's just go back
+
+to my slides.
+
+How do we classify? Well, a classification, classification's actually
+
+really simple. We're basically doing the same thing we're
+
+doing in regression, but we have way more dimensions.
+
+So in that, in that other file here we
+
+have an image, and this image I do know
+
+is 28 by 28.
+
+And I gave this talk before, I asked somebody,
+
+does anyone know what 28 by 28 is? 28
+
+times 28?
+
+When I was in Boston, someone yelled the answer
+
+out before I finished typing it. He must have
+
+a special mind.
+
+But it's, so, this, this particular file has 784
+
+pixels. So, that we have 784 pix- 784 features
+
+that we can classify this document against. And really
+
+what we're doing is we're, in memory, just drawing
+
+a line and trying to find out, we're just
+
+predicting, basically, what our image is.
+
+So without further ado, this is RubyConf. Let's see
+
+some code.
+
+Let's see, classification.
+
+So what I have here, I'm actually gonna run
+
+- I wrote this classifier. I'll run it real
+
+quick and then I'll show you what's in there.
+
+SO what it's doing is I have sixty thousand
+
+images that are twenty eight by twenty eight, and
+
+I have sixty thousand labels, and that's the reason
+
+I know is I'm right or- that's what I
+
+know what it is.
+
+Because it, the data is labeled.
+
+What I'm doing right now is I'm running a
+
+trainer on it. And in this case, I'm using
+
+something called support, support vector machines. I find this
+
+easier to use it and then tell you what
+
+it is. So really what I'm doing here, is
+
+I'm classifying this data using a support vector machine.
+
+And then I'm predicting the data. So I have
+
+a sixty thousand dollar- or, sixty thousand, a sixty
+
+thousand count training set convert - this is supervised
+
+learning. And I have a ten thousand count test
+
+set. And what it's doing now is it's actually
+
+going through and seeing how accurate the classifier was.
+
+And what we find here is that I'm only
+
+about sixty-five percent accurate.
+
+And, and the reason why is because you would
+
+actually, I would actually have to go through, if
+
+I can actually train all sixty thousand of those
+
+things, and Ruby, because of my global interpreter block,
+
+I only have one core of usage. So I
+
+actually tried to do it - I stopped three
+
+days cause it was just so slow, cause it
+
+was just using one core.
+
+Really, but what it's doing is actually, is going
+
+through and it's saying, this is the name. The
+
+computer says, OK. I know that. This is a
+
+four. OH, that's a nice four. I know that.
+
+This is the four. And then they're all looking
+
+different. And when I go back through with the
+
+test set, all I'm doing is going, then, is
+
+saying well I think this is, and I think
+
+this is.
+
+So let's look at some more train Ruby. So
+
+this is, and I'll show you a good example
+
+of this. I was really into this code when
+
+I was starting and what I - I'll just
+
+go through and I'll talk about it. I have
+
+a data set, and then I have this loader
+
+which actually just loads the data from the files.
+
+The files, it's a binary format and it's called
+
+gsub, so ignore all this.
+
+And then what I do is I load the
+
+labels, and the labels are along with the file
+
+and it basically says this blob of data is
+
+a four, this blob of data is a five.
+
+And then I start looking out the window on
+
+the train.
+
+So really what I've done here is, so the
+
+line at the top is I'm, I'm basically setting
+
+a timer and I'm loading the data and then
+
+I'm, I'm actually going through and I'm using something
+
+called libsvm, which I'll talk about in a second.
+
+And I'm classifying all the data. This is a
+
+really, really important lesson. If anyone in here is
+
+writing machine learning algorithms, you don't belong here. You
+
+belong doing something very important. We have to, you,
+
+in machine learning you will stand on the back
+
+of giants. You will not write machine learning code.
+
+You will use things like shark and spark.
+
+Or you will use mahout, or you will use
+
+libsvm, or you will use ar4r, but you will
+
+not write this code. And I'm, what I'm doing
+
+today is I'm trying to introduce that to you
+
+so that you can see how easy it is
+
+to write something like this.
+
+This took me about twenty minutes to write. Really
+
+it's just a Sinatra app. Not even, it's not
+
+even a Rails app. It's a Sinatra app. And
+
+it just throws an image up and, and that's
+
+it.
+
+I'm pretty proud of this. I'm sorry.
+
+So moving on. So we talked about, we, we're
+
+talked about - what we did here is linear
+
+classification. And we use a support vector machine, and
+
+there was code. I jumped ahead.
+
+And there's also something called classification with the decision
+
+tree, and I was gonna talk about this, but
+
+I was looking through RubyConf talks last year -
+
+I actually don't go to the talks at RubyConf
+
+for some reason. But I saw, I actually watched
+
+this whole talk. This guy, Chris Nelson did a
+
+talk in Denver at this same conference last year,
+
+and this is actually a pretty good talk on
+
+decision trees. He goes to forty minutes on one
+
+topic, and it's pretty good.
+
+So basically decision trees are this. You basically learn
+
+how to divide your data into else clauses. And
+
+you do it as a tree, and you just
+
+go down until you get more and more specific.
+
+You'll find that there's actually software out there that
+
+builds huge nested trees and that's how they're doing
+
+their classifications.
+
+So here, let's talk about clustering. What can we
+
+use clustering for? Well we can use it to
+
+group documents. Group like documents. We can use it
+
+to detect plagiarism.
+
+This is actually a new part of the talk.
+
+And I wanted to do some live coding. So
+
+what I'm going to do here is go backwards
+
+in my Pry session and there's something called Jacquard's
+
+constant, or coefficient.
+
+And what it does is it allows you to
+
+take a set of data and classify it again
+
+- or, or compare it against another set of
+
+data. And basically what we can do with this
+
+is we can actually do- build a tool that
+
+can detect plagiarism. And let me show you how
+
+easy this is.
+
+Start require Jacquard, and what I went and did
+
+on the internet is I went and search for
+
+some text. So what I'm going to do here
+
+is I'm gonna cut and paste this text on
+
+this web paste, plagiarize it, and I'm going to
+
+put it in a variable. And then what I'm
+
+going to do is make a variable called a
+
+chunk.
+
+This is another little quibble I have about Ruby.
+
+So you have a two, you do a whole
+
+bunch of underscore case, you can't tell me that
+
+doesn't look better than this - I'm sorry. I
+
+like this better. Maybe I, I must have done
+
+Java and Scala too much.
+
+But, so what we're going to do is we're
+
+gonna chunk up that a, so we can do
+
+a dot split and we can do like this.
+
+This is what we'll call poor man's nlp. And
+
+now we have an array with, with our data
+
+in it. And what we'll do now is we'll
+
+cop- we'll go down here in another example and
+
+we'll copy, this is supposedly plagiarized text. So we'll
+
+just go b equals this - I'll consider it
+
+a function to do this. I did not.
+
+And this is live. We're on tv here. So.
+
+We'll do it all at one time. So now
+
+we have this. And now for c, I'm just
+
+gonna say- that's my new paper. So we have
+
+a, b, c, and we gotta chunk up c
+
+too into- so, so now what we're going to
+
+do is, I have to go back here.
+
+There we go. Is we're going to find which
+
+two papers match each other. Oh. This is live
+
+coding, and I'm not cheating this time.
+
+Thank you.
+
+Now see this is a group effort.
+
+There we go. All right. So what it did
+
+is it, it actually returned the whole entire array.
+
+But if I go through this code and, cause
+
+I'm in Pry, you'll notice that it returns two
+
+arrays, and the two arrays are the, is the,
+
+is the original copy and the plagiarized copy. Notice
+
+that my copy, it's saying that these two documents
+
+are similar. And what we can also do here,
+
+and I'll move this to the top in a
+
+second-
+
+Yes, sir.
+
+AUDIENCE: indecipherable - 00:26:17
+
+B.L.: Oh, sorry about that. So we'll, we'll, we'll,
+
+we'll to the com- coefficients, and this is Jacquard's
+
+coefficient, we'll generate coefficients for, so notice these numbers
+
+are point o one five and, and if we
+
+go and see, you notice that this number is
+
+a lot lower - point oh one. What we
+
+can do with Jacquard's coefficient is we can actually
+
+compare documents based on how similar these numbers are.
+
+Once again, simple plagiarism detection. We call it classification
+
+in machine learning. Yes sir.
+
+AUDIENCE: indecipherable - 00:26:53
+
+B.L.: Man, I don't know.
+
+I actually, I do know, but I'm not gonna
+
+tell you. Go look on Wikipedia. But, no, we
+
+can talk about it in a second. I mean
+
+after this talk.
+
+So the next thing is kmeans clustering, and this
+
+is the fancy topic that, that formula that I
+
+showed you earlier was k-means clustering. And what you
+
+can do with k-means clustering is something neat. So
+
+imagine that you have a scatter plot of data.
+
+And I have a scatter plot of data.
+
+Uh-oh. Uh-oh.
+
+I'm having technical difficulties. All right, I mean like
+
+seriously. Keynote thirteen crash going-
+
+All right, so we'll reload keynote.
+
+Mhmm. So imagine we have some dots. And pretend
+
+these dots right here are star-filled maps. So pictures,
+
+you know, two-dimensional pictures of distant galaxies. And we
+
+want to take those galaxies, and we want to
+
+cluster them into groups, because we're gonna say that
+
+the despars that are in post group are a
+
+galaxy. So this is not Ruby, this is actually
+
+Javascript.
+
+but so let me show you this. I'm gonna
+
+show you what the computer can do. So I'm
+
+gonna reload this page, and you're gonna notice that
+
+the, the, the colors are a little bit off,
+
+but just wait a second here.
+
+There you go. Did you see that? So what
+
+I've done here is, and you're gonna like, Bryan
+
+what'd you do? So what I've done here is,
+
+you see these bigger dots? These bigger dots are
+
+called centraler in k-means plus three. And what I've
+
+done, doing, is I've put them on the screen
+
+randomly. And what I've done is I colored the,
+
+the little dots based on the closest big dot,
+
+and then what I do is I move the
+
+big dot to the center of all the, all
+
+the similar colored dots.
+
+And then I do it again. And then I
+
+do it again. Then I do it again. Until
+
+it stops moving. And then when it stops moving
+
+I've detected things that are similar. So you'll notice
+
+that down here in the bottom corner here that
+
+we can detect with our eyes that this is
+
+a different group, and we can detect with our
+
+eyes that this is a different group. With k-means
+
+clustering, you actually - usually what they'll do is
+
+they'll run it hundreds, if not thousands of times,
+
+and they'll actually generate a good sample here.
+
+Yup.
+
+We'll generate a good sample here and what we'll
+
+be able to do is use averages over time
+
+to actually determine what the probability of a group,
+
+of a, a little dot being in a group
+
+with a big dot.
+
+So, let's see something here. So let's go up.
+
+And we're talking about clustering. And let's just get
+
+k-means.
+
+This app is actually not, this is actually a
+
+j, a ds, a d3 app.
+
+I'm not gonna talk about the code. I just
+
+want to show you how much code it is,
+
+and this is why we use Ruby, cause, come
+
+on. Yup.
+
+Come on. Yup.
+
+Come on. Yup. Right. We're almost there - wait,
+
+wait, wait, wait, wait.
+
+Yup. OK we're there.
+
+So the reason I show that is because this
+
+brings me into a new topic. And like I
+
+said, I'm not - oh, my gosh. It did
+
+crash.
+
+I'm not here to show you how to do
+
+machine learning. I'm trying to show you what machine
+
+learning is. And practical applications of machine learning. So
+
+I have nine minutes and forty-four seconds, and let's...
+
+go... to here.
+
+So let's talk about doing machine learning in Ruby.
+
+God. There. There is a practice called AI4R. You
+
+could gem install AI4R right now. It implements a
+
+lot of things that I was talking about earlier.
+
+Here's a picture of their web page. There's something
+
+called, there's a project called SciRuby out there, and
+
+it is a lot of scientific stuff. So a
+
+lot of linear algebra things that you would need
+
+for machine learning.
+
+But the problem with SciRuby is that it's more
+
+like a science experiment and it doesn't have the
+
+funding it needs to be complete. So people are
+
+using it but there's much better things out there.
+
+You can use JRuby and Mahout. Apache Mahout is
+
+actually one of the defacto machine learning packages out
+
+there, but it's written in, on, in Java on
+
+the JVM. If you use JRuby you can actually
+
+get pretty easy access to it.
+
+And because it's so popular, someone wrote a JRuby
+
+Mahout plugin, but you can tell that they were
+
+really interested in it, because the last time they
+
+looked at it was eleven months ago.
+
+So. What I'm gonna do now is I'm gonna
+
+rail on Ruby for just a second. I love
+
+Ruby. I write Ruby every day in some fashion
+
+or another, and I use it for a lot.
+
+But Ruby is not good for machine learning because
+
+Ruby is not fast when it comes to math.
+
+The project and some of the things inside of
+
+there were kind of, are trying to fix it,
+
+but the problem is, even getting to that stage
+
+of installing this stuff is hard. Cause to install
+
+SciRuby you need an install called Atlas.
+
+Which is damn near impossible if you have a
+
+Mac.
+
+We also don't have easy plotting in Ruby. You
+
+notice that I used gnew plot and d3 for
+
+all my, my, my plotting examples. There is a
+
+Ruby gnew plot gem out there, and you can
+
+use it. But Ruby does not have great native
+
+plotting stuff like map plot let in Python.
+
+There is no integrated environment. Ruby has py- I
+
+mean, IRB, and you, I was using Pry earlier.
+
+But there's not a great, there's not like a
+
+Math lab or a Mathematica, or NI Python for
+
+Ruby. We really do need this.
+
+And also, I want to be able to do
+
+what I need to do as a scientist. I
+
+want to be like a scientist. As a scientist,
+
+I don't want to be a programmer. Ruby just
+
+still does not have the maturity in the idioms
+
+to allow scientists to be scientists. This is why
+
+all the scientists either use snap plot or they
+
+use, not math plot, mount lab or they use
+
+Python. Because it allows them to still be scientists
+
+while letting them get stuff done.
+
+So I don't want to rail on Ruby. What
+
+do you want to do if you want to
+
+learn more? Because really I cannot give you guys
+
+an advance talk. I could actually talk on one
+
+subject, like, classifiers, for this whole entire time. But
+
+if you, I want you to learn linear algebra.
+
+And you know I've probably said this three times
+
+already. You need to learn linear algebra. It's not
+
+hard. There's a coursera class on it - it's
+
+actually, it's not hard.
+
+You need to learn calculus. You notice I had
+
+a minimizing function earlier. You need to learn how
+
+to minimize. You need to know some kind of
+
+statistics. My friend Randall in the back will tell
+
+you that you need to know statistics just in
+
+general.
+
+But you need to learn some statistics. You at
+
+least need to know how mean, min, max work,
+
+how standard deviation works, and a few things around
+
+there.
+
+There's a coursera class on machine learning from the
+
+guy at Standford. I would say watch it. It's
+
+kind of dry. But at least it'll give you
+
+some of the, it'll give you some of the
+
+things you need to know. My partner in the
+
+back, Randall, has actually written a great blog post
+
+on getting into machine learning that he's gonna post.
+
+He has to now because I just said it
+
+in public.
+
+And another thing you want to do is use
+
+Wikipedia. I tell you what. I gotta show you
+
+this. Five minutes. We'll show you this.
+
+So Wikipedia is amazing. Anything you want to know,
+
+some smart dude or lady has written it on
+
+Wikipedia. So if you want to look up support
+
+vector machine, yes.
+
+There it is.
+
+Some nice person has written how it works. If
+
+you want to look up, k-means clustering, some smart
+
+person has, has written how it all works. You
+
+need to- Wikipedia is better than any textbook, I'm
+
+not lying.
+
+You also need to read this book by Peter
+
+Flach. There's a lot of books on machine learning
+
+out there, and this one's hard to buy on
+
+Amazon and it might be, like, I don't know
+
+how much it is. Maybe it's fifty, sixty bucks.
+
+There's not many books that will say are great.
+
+The first chapter of this book is probably the
+
+best reference on machine learning out there.
+
+And I'll, I'll wait for a second so you
+
+guys can take this in. This first chapter of
+
+this book by Peter Flach is the best thing
+
+I've seen on machine learning.
+
+But if you want to get serious, I want
+
+you to find a data set, find another language,
+
+unfortunately. If you're really serious about this you're not
+
+gonna be doing any Ruby. Then you'll want to
+
+do the dot dot dot dance, and then maybe
+
+you'll profit.
+
+But I'll tell you what. We haven't even scratched
+
+the surface. Sidekiq, which is, Sidekiq learn which is,
+
+in Python land, actually has this huge chart of
+
+all the things you can do in machine learning,
+
+we only talked about three things on this list,
+
+and look at all these little circles and lines.
+
+There's so much more you could talk about in
+
+machine learning.
+
+I want you to go look at BigML. It's
+
+actually a great machine learning platform, and it's a
+
+lot of tutorials on there. And Dundas. This is
+
+this website. Their blog has interesting every once in
+
+awhile. Kaggle has contests, data sets, and an interesting
+
+blog.
+
+You might want to go look in Python land.
+
+NumPy, SciPy, ScikitLearn and MapPlotlib are godsends. And on
+
+Python look at Apache Mahout. And there's a newcomer
+
+on the block - I'm just throwing things out
+
+there for future reference. Shark with Spark. PredicitionIO -
+
+this is a newcomer. It does prediction tools. It's
+
+actually pretty neat. I got a data set in
+
+there and I was not unimpressed.
+
+But the cool thing about it is that it's
+
+only building on, on technologies we already have. I
+
+mean it's not a new thing. It is using
+
+Padu. It is using Mahout.
+
+Here's some slides. Here's where the, the code for
+
+this talk is, if you're really into that kind
+
+of stuff. No one really loves this stuff, so
+
+I'll put it up there for posterity.
+
+But I want to show you something with the
+
+last couple minutes I have here.
+
+So this is what Ruby needs. If, If I
+
+were to walk around to everyone and say, you
+
+know what, I can tell you what Ruby needs.
+
+Ruby needs IPython. Has anyone here seen IPython?
+
+All right, I'm about to blow your guys's minds.
+
+So IPython is basically Pry on a webpage. And
+
+because I'm so awesome, I'm just gonna type in
+
+some Python.
+
+I'm just kidding.
+
+I'm not gonna do that.
+
+So one plus one equals two. You're actually writing
+
+Python in your web browser here. This is, this
+
+is a transformational tool. We could actually do this
+
+better, and I'm not saying that we should just
+
+go steal this, but you know what, rack got
+
+us really, really far. And you nice guys know
+
+where Rack came from, right? From Python.
+
+Another thing I want to look at, and this'll
+
+be the last thing, is - oh actually, you
+
+know what, I'm done.
+
+Thank you.
