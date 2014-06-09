@@ -1,0 +1,157 @@
+RubyConf 2013 - A Lightweight SOA Framework using Ruby, Apache Thrift, and AMQP - Stephen Henrie
+
+STEPHEN HENRIE: Hi. So my name is Stephen Henrie, and I'm the manager of application development over at Sony Computer Entertainment of America. And one of the things I wanted to discuss at this conference is something that I went through, going through a project myself recently. Evaluating some different technologies, and what we came up with uses as a base architecture. A lightweight SOA framework, we just say, using Ruby, Apache Thrift, and AMQP.
+
+But before we get started, I knew that my talk here was right after lunch, so a lot of us are probably in a food coma or whatnot. So I wanted to make my graphics a little visually stimulating. And I also just wanted to let everyone know who Sony Computer Entertainment of America is, in case you just weren't sure.
+
+So hopefully this'll wake everybody up.
+
+VIDEO
+V.O.: Hello world.
+
+[song lyrics]
+
+CRITTER: Oh, dude. Totally freaked me out. You scared the crap out of me, man.
+VIDEO
+
+S.H.: So we are the Playstation people. And as you can imagine, we have a pretty big week, some of you might know, coming up is our Playstation 4 console coming out this week. So what I want to do is cover a little bit of background on what it is we do.
+
+So I manage a group of software developers, which, we all use Ruby, and we work on internal applications that support the development and the hosting of the titles. And so the, of the game titles. And so this can be internal tools that manage the Q-A process, for example, when we get software, or games from both internal Sony Studios as well as external companies, to doing business intelligence, business mapping, data mapping, and also hosting.
+
+And so one of the things that I always have to do is, I'm a fairly new-to-Ruby over in the last year here, and one of my recent tasks has been to come up and work with some of the other hosting engineers to develop a new architecture for doing some, you know, cloud management software. The titles can be a little bit tricky, the games themselves, cause they're not standard, out of the box applications, as you might imagine. So they have a lot of intricacies involved.
+
+And so I was evaluating with others and different technologies, and I just kind of wanted to share with the group here what some of those technologies were and what we ended up coming up with as the basis for what we're doing.
+
+So what I'm going to cover today, just to make sure everybody's kind of, we're on the same page, if you will, what service-oriented architecture is. A very high-level background. What remote procedure calls are, just so we're on the same terminology. What messaging means. What advanced messaging queueing protocol is - AMQP, if you're not familiar with that, and then Apache Thrift. And then we're gonna bring all that together to, to do what it is that, as an application.
+
+So, so what is service-oriented architecture? It's an evolution of distributed computing. Most of you know, or are familiar with that from the internet and what that all means. The, it's a collection of loosely coupled, independent system components. And what that means is, all of these components should be able to operate independently, without having to know what each other is doing.
+
+Each op- each component should, itself, encapsulate some business logic, and the communication between those is typically using RPC. I don't know if that's gonna mean anything to anybody else.
+
+And one of my favorite quotes about SOA is right here, what it says. If we build our systems as components, we can build and maintain them independently. SOA is a set of design patterns, effectively, that guide us in building and integrating these mini-application.
+
+So rather than sitting around and building a giant, monolithic, old-school application, we can build these things as components, and then over time, as the system evolves and the needs of the business evolve, we can, you know, work on individual pieces.
+
+Where it gets a little tricky, of course, is when you're talking about, well how do these things communicate with one another? And that's where messaging comes in. It, and, as you'll see, it forms a nice abstraction layer between how you communicate between these components.
+
+So what are, exactly, service components? They should be single-purpose. They should be encapsulated, in terms of, I shouldn't care what, how this service does its work. There should be a publicly defined contract that we both agree to - that's the protocol, if you will. With the API and the message types, the data that gets passed back and forth is agreed upon.
+
+It should be context free, in terms of, when I'm ready to pass something off to you to do as another service, you should be able to handle that on your own without needing anything extra from me. And of course these things should be independently deployable and testable, so that they can follow standard development practices of test-driven development and things like that.
+
+Communication between SOA components should just be, like, as I was saying, support both things before, so they should be decoupled and have contracts that can communicate between them to find the end points.
+
+The end points themselves should be decoupled, in terms of, I shouldn't have to know exactly where my message is going if I'm sending it. The underlying system can do some of that work for us through routing. The, it should support temporal decoupling, in that, I can be able to bring up and bring down services, and the system as a whole should continue to function, if you will.
+
+And the messaging between components should be low-latency and, of course, follow open standards.
+
+So, as I said, most SOA systems depend upon something called remote procedure calls, which are, of course, should be, like, function calls from the business logic's point of view. What typically happens in RPC process is that you have a caller on one machine that is, is unaware of where the actual service is being fulfilled, so there's a representative of, representation of that code in the form of a stub that exists on the same machine.
+
+So the local business logic is calling that stub. The stub itself is going to marshal that data onto the network using the infrastructure that we're talking about later. And then that data's sent across, sent to a skeleton, which is the API interface, if you will, to the underlying framework, which then, itself, is going to call the business logic handling on the second machine.
+
+The functionality is gonna occur. The data's gonna be sent back, following the same pathway. This is typically how most RPCs work.
+
+So messaging to the rescue, right. So messaging provides an easy way to communicate between distributed and loosely-coupled components. It also allows, with the framework, for developers to focus on the business logic, whatever it is that they're trying to do in each service, and not on the underlying infrastructure, as long as the framework is the same, then, and, and set out there and common across the infrastructure, it will do all the messaging for you.
+
+You can also move services around and messages will follow. The business logic itself doesn't have to care about things like that. It doesn't have to care about, typically, governance and, and how you do security, because hopefully your infrastructure is going to handle all that for it. This also allows for message formats can evolve over time with the business logic. So as you decide, three months later, you need to add a new parameter to a function in some business logic function, you message format itself can change along with it, and the underlying infrastructure should be able to marshal that data and handle all the conversions as well in the versioning.
+
+Messaging is secure and scalable, and, of course, it supports the RPC pattern amongst many others.
+
+So this is an example of an SOA architecture that I'm putting together with some others at Playstation that we're using for some hosting operations. And, really, I'm not gonna get into the details of that, but what I wanted to kind of showcase here is that, the boxes in the light blue represent kind of services themselves, that are operating independently as the loosely-coupled components, and they all communicate with each other through the AMQP messaging broker.
+
+Now of course they're doing routing, is happening inside that broker, so if I'm calling, if service a is calling service b, it's passing that off to the broker and the broker's doing that transfer. But it also allows for service, for service messaging as well, so if I'm sitting on GUI and I say I want to provision the new VM in the cloud, there's gonna be a message that's gonna come through the API gateway down through the broker, maybe goes to the environment service to get some information from the database. Then it's gonna go ahead and send a message over to the provisioning service, and we have a workflow service in there which is, of course, delegating out all kinds of messages and doing orchestration.
+
+But the idea here is that all of these components work independently and there's messaging going on between all of them. The other thing I like to point out is, we have services over here, which, as you can see, are like Amazon, OpenStack, whatnot, and you can put a facade service following the facade design pattern, just on top of anything externally, and then, and be able to invoke that using your internal messaging.
+
+It's, it's, it's an easy way to bring other functionality into the system over time as the needs of your, your business evolve.
+
+So what is AMQP? The advanced message queueing protocol. It's an open standard for doing messaging. Just a quick background here.
+
+The message in AMQP is very simple. It basically has a header and a body. The header contains, basically, like a dictionary of name-value pair keys, and it's used for contextual information to describe the message or whatnot. And it's also used for routing and other things that the broker itself can use.
+
+AMQP in particular, what I like about it, is it's, it's got a nice abstraction to it with the concept of the exchange of where you send messages to is kind of broken away from the actual queues, by a binding mechanism. And so it allows for a lot of different flexible configurations. And you could do a whole talk just on AMQP and the benefits of that as well.
+
+But, at its very simple core, what you see is a publishing process. It sends a, or publishes a message to exchange, and based upon the routing that's put into the message, the exchange will route it into the appropriate queue, and there's gonna be a process sitting on the other end, hopefully, that is subscribed to that queue, and it's gonna be receiving messages. And in a nutshell, that's basically how it works.
+
+It supports basic pub sub messaging, RPC and content-based writing. It's secure, reliable, and, quote on quote, transactual in nature, in terms of how the transfer of data happens. Because it's a binary wire protocol and it allows for that, it's, it can even operate across languages and platforms, because ultimately it's just a bucket of bits, and it's up to the application how you want to use those bits.
+
+Centralized broker is also scalable, clusterable, and easy to configure, and, of course, open standards and all that.
+
+So how does the RPC over AMQP work? Well it's quite simple. A client sends a message to an exchange and it sends a routing key of what service, for example, that it wants to send to. On the other side, there's a service process running somewhere off in the cloud, let's say, we don't know where. And it's going to subscribe to the queue, named OPQ, here, for operation queue. So when the client sends a message and it's, let's say, we'll assume it's a blocking call, it will also create its own queue for receiving responses, and then sit and wait and block.
+
+Meanwhile, the service is just sitting there, waiting to hear for messages. When the broker receives the message and is routed to that queue, it will notify the subscription process that there's a queue waiting, and it'll push the data out to it. The service can do its business logic or whatever, come up with a response, and then, in the keys, in the header section of the message, there's a reply to that it's set to the response queue. So it'll send and publish the message back into the exchange. It will get routed the response queue, and then the broker will once again notify the client process that, hey, you have a response. And there's RPC.
+
+Of course we build timeouts into all this stuff, so that, you know, make sure that processes don't stick around.
+
+The other nice thing about it is there's automatic load balancing can be built in by, you can scale out, by just having more subscribers sitting on your queue. And in that case you'll have additional worker processes that'll handle the load as you need to.
+
+So I've used the term wire protocol - what does that mean? Well, you're sitting around a bucket of bits, and one side is writing- is written in Python, and another side is written in Ruby, how are you gonna know how to communicate?
+
+So the wire protocol is just that - it defines what data's being sent in what format. Typically it's built around, you know, base data types, ints, strings, things like that, that are common across most programming languages. And so then it allows for me, as a service or client, to communicate with another service, and I don't care what language it's written in. And this is where thrift comes into play.
+
+So where Apache Thrift comes in is a project that was, I believe, it's an evolution of the Google protocol buffers, and it was started by the Facebook people and made into an opensource project. It's got some benefits that it's language independent. It's a binary communication protocol. It allows you cre- it comes with an interface definition language, which allows you to define those contracts that we talked about earlier between components.
+
+It also includes a code generator and a service framework, so it's a lot of stuff for free. If you assume that, in a networking stack, you've got the raw transport of TCP or whatnot underneath it, where Apache Thrift comes in is it allows you define a protocol, whether it be in binary, JSON, whatever. It's, how that data is being structured and used across the underlying transport.
+
+It, it generates out a processor, which of those skeleton stubs that we talked about earlier, and then it provides for a ability to have a server mechanism built on top that can handle requests as they come in and be able to marshal the data, decrypt it, whatever is involved.
+
+And so just a cover, make sure we're still covering a lot of backgrounds here cause we're built on the shoulders of giants, is the power of an interface definition language. And so this is the language that is typically, even though it's a language in itself, is the programming language independent. It allows you to specify your APIs, message specification, validation. Of course, like I said, it's strongly typed, because you have to know what data is being sent and what type it is.
+
+And, this is what is used to generate those stubs and skeletons as I showed in that previous slide.
+
+And so here's a, kind of a, like a high-level example of the tutorial. The Apache Thrift comes with a calculator tutorial, so I've just kind of extended that with an AMQP transport to show us, to demo this, but what you can see here is that the service that is in the calculate service, basically has a few operations, such as add, calculate - and I've added one for updating JSON, because we found that the strongly typed transport becomes a little bit restricting sometimes, and it's nice to be able to send back flexible amounts of data. And of course JSON can be string-i-fied, so it makes it really easy for things like that.
+
+But this is an example of an IDL, where you specify the contract, if you will. So this service says, these operations are what I support, and these are the messages, if you will, these, the parameters and the return types become the messages of the operations that gets passed back and forth. And it can also throw exceptions, if you will.
+
+So Thrift supports the ability to define a exception, so when things get back, it can be sent back in itself and it becomes a message. You can also do non-blocking, using like a one-way modifier, which says basically I'm gonna fire the message off and then move on with my life.
+
+So just to make sure that we're all on the same page of what I'm gonna demonstrate here in a minute. This is the Apache Thrift tutorial, if you will, kind of broken out. The area, the boxes in blue are what the developer would write. So they would write the client-side, how they're gonna call the operation, what they're gonna do with it. They wold oper- they would write that thrift, like I showed you, the thrift IDL, and then they would write the handler on the back, and that would show the, the code that would handle the messages when they're actually being received.
+
+And then they'd write the surrounding server code, to run it as a service. The boxes in yellow represent the generated code. So when you write the IDL, you'll see, if you run the Apache Thrift tutorial itself, you generate - there's a compiler that comes with it. That's the biggest part of the installation is generating and creating the compiler.
+
+And it will generate these stub files that are used to transfer the data around. And then the underlying pink are what would come normally with Thrift. Now Thrift doesn't come with AMQP out of the box. This is something I wrote and I'm putting out there for anyone to use if they want. But the idea is that you can choose the binary protocols or JSON protocols or whatever that come with thrift, and the AMQP transport just becomes yet another transport you can use along with anything else.
+
+But the idea behind the, the calculator tutorial is if I'm a client application and I'm gonna call one of those operations, like add or calculate or whatnot, I make those calls, the data flows down through the generated client code, gets put into the protocol binary as the end of the message. Put on the AMQP transport, which writes the message out to the service queue. The server is over there listening on the other end, it receives the message, goes up the stack, comes up with the result, writes another message back out to the response queue, and then it's, it's heard from the client return, so.
+
+So, now I want to look at some code here.
+
+So basically, this would be the Thrift IDL, if you will, as I kind of already showed. Get rid of this guy.
+
+And, it's pretty much like I showed earlier. You have operations, and you define pretty much what the base types are. Integer thirty-twos if you will. Or you can also do structures, which are nice. An example of a work structure I think is above.
+
+Yeah. So you can pass in, this is, their IDL is in C format, of course. But you can do optional parameters as well. And that code you would normally just generate, and it would come up with, this would be generated code, which represents the calculator class. And you'll see in the way they're doing it, both sides of the skeletons and stubs are generated, so on the client side, you'd have a class, which is called, there, call client, and it's, and it includes all the Thrift client base stuff, but then you'll see for every operation there's a send and receive function that comes along.
+
+So from the client's point of view, the developer client's point of view, you call the ping operation, for example, it internally then generates all this stuff to do a send-receive of the ping, and then you get your data back. And there's one of those generators for every single operation, on this, on the service side there's the same thing. There's a process ping, thrift does everything in turns of streams. So you got a protocol for your inter, for your incoming stream and your outgoing stream.
+
+So it kind of follows the same pattern. You read the arguments out of the string which is your message format. And it calls the handler, it calls a function in the handler that will ultimately delegate out to the business logic that the developer's responsible for writing. And then it writes the results back that it receives onto the stream that gets sent back.
+
+And it includes all kinds of other built-in arguments, checking, validation, the fields and all that stuff. And this is, like I said, all generated. Ultimately, the developer's responsible for writing the handler. So in the calculator handler, what do I do when I get a ping. What do I do when I receive an add. What do I do when I receive a calculate.
+
+And so what happens when it, when that message comes into the, the generated code, ultimately it's going to be passed out through here. And then on the, when you start up the service object itself, I haven't, have examples for doing sockets for HTTP in here, as well. But effectively all you're doing is starting the server, and then it just sits there and runs.
+
+And so what's happening under the surface in the AMQP code is, when the service starts up it's obviously making connections to the, to the broker. Then it's gonna come down here in the serve and it's gonna just basically hit this queue subscribe method, and it's gonna just block. And only when a message is received from the broker then is it gonna enter into this block, and then proceed to do something.
+
+In this case, if it, if it, can handle it, it's gonna spawn up a new thread, and then from there it's going to, down here at the very bottom here, you can see, it's gonna delegate off to the processor, which was generated. The data that was received in the message.
+
+One thing that's interesting about, this is using the bunny gem, is that, with AMQP, is you cannot share conn- you can share connections across chi, threads, but you can't share channels. So the idea is that every time you spawn up a new thread, you create a new channel and then you'll be fine. Once the process is done with its thing, it, we rewind the stream and pull the response back, and then you go ahead and write and publish out a message back under the queue, or onto the exchange, and it gets forwarded on to the client.
+
+So the same thing is happening on the other side. So the caller basically starts up and it's gonna just simply, this is where it gets real easy for a, for a developer, is you're creating - if I can find it right here - you're creating the client, the calculator client, and then you're just calling functions on it, as if you're doing anything else, and you're passing your parameters, and you're gonna get your results back.
+
+So the logic is very simple. You don't even know that messaging is happening under the covers. And that's pretty much what's going on with the client. And so you're dealing with it like normal function programming.
+
+On the AMQP side of things, what's happening is Thrift is ultimately boiling all this down to this flush operation. And it's publishing a message out onto the exchange, sending the appropriate data, saying what queue does it want to go to for the service in general. And then the reply-to is what queue am I going to be listening to on the way back, and so then, if it's a blocking call, it'll go ahead and do the same thing. It'll subscribe to that reply queue, and it'll just wait for the response to come back.
+
+Of course we've got timeout stuff built into all this so that things, you know, key threads and processes aren't stuck. And then that's pretty much it. So what does that look like in real time, is that I can just basically start up my Ruby server, that Ruby calculator server, and I run the Ruby client, and so what you're seeing here is the operations are going off the simple calculator operations. And I have debugging on to help see this, but what you can see here is that a message gets received, these are the headers that come across in it. And the data's in binary form so you can't really see it too well.
+
+But you can see that for ping it's, it's just doing basically a ping. For adding, it's taking the 101 and then its response will be - I guess I didn't print that part out. But that's pretty much what's going on there. And so if you wanted to do then load balancing, you'd basically just start up a second version of the software and so running it again just means both of them are now handling messages.
+
+So it's a pretty simple, straightforward.
+
+So one of the nice things about Thrift is that it does allow for handling versioning and compatibility issues as you're business logics evolves over time, because functionality evolves over time. Your protocols need to evolve over time. And again, protocols here mean the wired protocol. So Thrift supports the ability to add additional parameters to your messages, and it will handle situations where if you have older code still running, it'll still handle that data.
+
+Your old code obviously won't do anything with it, but then when you start up new code, it'll, it'll handle it as well. And if you follow some of the key things that they point out in their documentation, there's some best practices. You can handle versioning pretty straightforward.
+
+And as I always- already pointed out, you can do server-load balancing by having multiple worker processes that sit there and subscribe to the same queue so those messages come onto the queue. It'll distribute them across workers and you get some load balancing based in. The, this does require your services to be built stateless so that you can handle messages, but that's pretty much it.
+
+So I'm gonna end up with just showing some references. If you download these slides, I'll put them up and post it somewhere. There's some interesting documentation online that kind of helps backup some of the things I've been talking about, if you can get into that.
+
+And that's pretty much it. If you have any questions I'd be glad to take them. I did bring some Playstation swag to encourage questions, so. That's it then. That's it for me. Thanks.
