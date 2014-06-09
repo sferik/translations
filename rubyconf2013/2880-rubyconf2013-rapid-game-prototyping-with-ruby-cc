@@ -1,0 +1,1115 @@
+RubyConf 2013 - Rapid Game Prototyping with Ruby - Michael Fairley
+
+MICHAEL FAIRLEY: Hi everybody.
+
+My name is Michael Fairley,
+
+and I'm gonna talk to you a little bit about
+
+making computer games with Ruby.
+
+A little bit, before I get started though, I'm
+
+gonna tell you about my employer. I work at
+
+BrainTree Payments, and we make it possible for businesses
+
+of any size to easily take payments online. We
+
+work with thousands of really awesome merchants, including some
+
+of these that you probably recognize. And we're love
+
+to work with you, too.
+
+So if you have any payment-related questions, please come
+
+find me later.
+
+I'm assuming that most people in here are web
+
+developers that, the Ruby you get paid to write
+
+is part of a Rails app or a Sinatra
+
+app. And the libraries you work on intend- you
+
+intend to end up inside of a web application.
+
+Or to be used to test a web application.
+
+And I'm in the same camp. As long as
+
+I've been doing Ruby professionally, I've mostly been working
+
+on Rails applications.
+
+But computer games are what got me into programming
+
+as a kid, and even though I have sort
+
+of given up on my professional aspirations of doing
+
+that, there's still something that I've been exploring as
+
+a hobby, and something I do sort of nights
+
+and weekends, and I have a lot of fun
+
+with. So I'm gonna tell you a little bit
+
+about what game programming is in the abstract, show
+
+you some of tools we have in Ruby for
+
+doing game programming, take you through a brief demo
+
+of building a game up from scratch, and then
+
+leave you with some pointers for next steps to
+
+take if you found this interesting.
+
+But first I have to answer the question, is
+
+Ruby really the right tool for doing game development?
+
+Isn't Ruby slow, and don't games need to be
+
+fast and not have long GC pauses in them?
+
+And, yes, but, most of the Ruby libraries are
+
+actually wrappers around C libraries that are quite fast,
+
+and if you don't believe me, I have a
+
+small existence proof here of a pure Ruby Minecraft
+
+clone I've been working on.
+
+This is eight hundred lines of Ruby, and it's
+
+plenty fast. And so if that's possible, then just
+
+about anything you want to make is possible. And
+
+obviously the next Grand Theft Auto or Call of
+
+Duty, won't be written in Ruby. But if you
+
+just want to have some fun, Ruby's a great
+
+tool for doing it.
+
+So at a very high-level, almost every game has
+
+what's called the game loop at its core. The
+
+game does a little bit of initialization at the
+
+beginning, just to get the state of the game
+
+set up, and then as long as the game
+
+is running, it repeatedly updates the state of the
+
+game world based on player input or timing. And
+
+then it takes this state and renders it out
+
+onto the screen so that your human player can
+
+see it.
+
+And I'm gonna dive into each of these steps
+
+in a little more detail.
+
+So the setup is where you things, where you
+
+get the game ready to go. And while you're
+
+prototyping, you'll probably just hardcode some Ruby. And, you
+
+know, construct some classes directly and assign instance variables.
+
+But as your game grows and you have different
+
+levels or different maps, you'll probably want to load
+
+your set up code from some sort of external
+
+file format, where you declared what sort of items
+
+and enemies to place in the game, and what
+
+the map layout looks like.
+
+And once you let your players save their games,
+
+you'll need to be able to serialize the game
+
+out, and then load it back up later in
+
+a different instance of the game. And these are
+
+all different forms of set up. The update part
+
+of the loop is where the real meat of
+
+the game happens. It's where you, all of your
+
+game logic lives. It's where the player interactions and
+
+timing and all sorts of other things come in,
+
+come into play.
+
+So I'm gonna show you a couple different things
+
+that you can be doing during the update portion
+
+of the loop.
+
+So one of the biggest factors that comes into
+
+play is the previous state of your game. So,
+
+in a world with gravity, every, every tick through
+
+the loop, you probably update the players position based
+
+on some sort of vertical velocity they have, and
+
+then also you can change that vertical velocity with
+
+some sort of gravitational affects.
+
+And so here, the new state of the game,
+
+is deterministically derived from the previous state of the
+
+game. User input is also a huge factor of
+
+taking actions during the update step. So here, maybe
+
+your user presses a, and that causes their character
+
+to jump. Timing is also something that you use
+
+during the game loop to cause things to happen.
+
+So if you have a fire-breathing turtle that's supposed
+
+to spit a fireball every two seconds, every time
+
+through the game loop you can check and say,
+
+is the last time I spat fire more than
+
+two seconds ago? If so, spit fire. And that
+
+will give you a nice fireball coming out every
+
+two seconds.
+
+And most games also have some sort of random
+
+component to them. So if our Italian plumber hero
+
+hits a block and a random item is supposed
+
+to come out of it, we might randomly pick
+
+among possible outfits that could pop out of the
+
+top of it for him to wear.
+
+And finally, the rendering is how your, the human
+
+playing your game actually gets to see what's going
+
+on.
+
+In a simple 2D game, you probably have something
+
+like this, where you just draw a bunch of
+
+images to fixed locations on the screen that are
+
+based on some of the current state. But you
+
+could also draw a text or 3D models or
+
+simpler shapes. And what's important to note is that
+
+the render method doesn't modify the state of the
+
+game at all.
+
+You can call it over and over again and
+
+you should always get the same image out of
+
+it, without modifying the state at all.
+
+So we have an awesome tool in libr- in
+
+Ruby for making mostly simple 2D games called Gosu.
+
+And Gosu, in its entirety, is about a hundred
+
+five methods, so you can master it in almost
+
+a weekend, and I'm gonna give you a brief
+
+tour of Gosu right now.
+
+At the core of Gosu is the Gosu::Window class.
+
+You're expected to sub class it and implement three
+
+methods on it: initialize, update, and draw. And you'll
+
+notice that these are the three methods from the
+
+game loop. Here, the setup is called initialize and
+
+render is called draw, but Gosu handles all of
+
+the hard work of getting the window to show
+
+up and managing the timing of the game loop.
+
+And you're just responsible for implementing your actual game
+
+logic in these three methods.
+
+And Gosu also provides a bunch of helpers for
+
+actually implementing parts of these methods. So Gosu has
+
+a bunch of drawing helpers. A commonly used one
+
+is draw_quad, where you pass it four points, consisting
+
+an x, a y coordinate, and a color, and
+
+it draws a quadrilateral on the screen.
+
+And there's also draw_triangle and draw_line. Similarly, you can
+
+construct an image with the window you're gonna end
+
+up drawing it onto, and a file name of,
+
+say, a PNG file, and just draw that image
+
+out to a given point on the screen.
+
+And you can also construct a font with the
+
+name of the font and a size and render
+
+text out onto the screen. Gosu also makes getting
+
+input from your player pretty easy. So the button
+
+down method will return true if a given button
+
+is being held down, whether it's a button on
+
+the keyboard, a mouse, or a gamepad or joystick.
+
+And if you have mouse interaction in your game,
+
+you can both set and read the positions of
+
+the mouse through mouse_x and mouse_y.
+
+Sounds are pretty simple, pretty similar to images. You
+
+can construct a sample with a window and a
+
+file name of the sound file, and then every
+
+time you call play, the sound will come out
+
+of your speakers.
+
+And then Gosu also includes some math helpers for
+
+a lot of 2D geometry you'll find yourself doing
+
+while making 2D games. So, offset_x and offset_y. If
+
+you traveled distance units across angle, it'll tell you
+
+how much of that traveling was on the x
+
+axis versus the y axis. Gosu.distance will give you
+
+the distance between two points.
+
+I've written a library called Hasu that makes rapid
+
+iteration on Gosu games possible, and it does this
+
+in a couple of ways. The main one is
+
+hot code loading. So normally with Gosu, if you're
+
+playing your game and you see something that you
+
+want to change, even after you change the code,
+
+you have to exit the game, start it back
+
+up again, and play again until you get to
+
+the point where you can see your change take
+
+effect.
+
+With Hasu, it watches all of your Ruby files,
+
+and as you change them, it reloads them into
+
+your running game, and you'll see the effect on
+
+the next cycle through the loop.
+
+Similarly, if you cause an exception in your Gosu
+
+game, it crashes out and you have to fix
+
+it, then start the game back up, find your
+
+way back to where you were when you caused
+
+the exception, and make sure it doesn't happen again.
+
+Gosu, or Hasu on the other hand, will catch
+
+your exceptions, pause your game, and then after you
+
+fixed them, resume the game and let you keep
+
+playing right from where you left off.
+
+And because Gosu does its initialization, it does its
+
+setup in its initialize method, you only get one
+
+shot at it, because you're only constructing the window
+
+once. Hasu, on the other hand, lets you define
+
+your initialization in a reset method that you can
+
+call at any time by pressing the r key,
+
+letting you iterate on your setup as well.
+
+And with that, I've shown you probably a solid
+
+quarter of Gosu's API and told you a little
+
+bit about Hasu, so now I'm gonna show you
+
+how to stick all the pieces together and make
+
+a complete game. And we're gonna do a pseudo
+
+live-coding demo of building pong from scratch.
+
+And I say pseudo cause most the typing is
+
+pre-recorded, so you don't have to watch me make
+
+a grievous typos or get lost or get stuck
+
+in some funny emax mode.
+
+So we'll start off by installing Hasu, which will
+
+also install Gosu.
+
+And we'll put our code in pong dot rb.
+
+And our pong class is going to sub class
+
+Hasu::Window, and I'll give it a width and a
+
+height that are about 75% of this screen.
+
+In our constructor, we're gonna have to call up
+
+to Gosu's constructor to give it the size of
+
+our window and the fact that we don't want
+
+it to be full screen.
+
+And at the bottom of the file, I'll run
+
+this class.
+
+In a new tab, I can run that file,
+
+and we end up with a blank window. So
+
+it's time to get some things showing up here,
+
+and I'm gonna start with the ball.
+
+So for Hasu hot code loading, you have to
+
+use Hasu dot load instead of require. And in
+
+our setup, we'll just construct a ball and assign
+
+it to the instance variable.
+
+And in the draw method, we can tell the
+
+draw, the ball to draw itself onto the window.
+
+And our ball's gonna start out being pretty simple.
+
+It's gonna have two attributes - x and y
+
+- that represent the center of the ball. And
+
+they'll default to the center of the window.
+
+And for drawing, I'll use the draw quad method
+
+that I showed you back during the slides. Here,
+
+x1 is gonna be the left edge of the
+
+window, of the ball. Y1 will be the top.
+
+X2 will be the right side of the ball
+
+and Y2 will be the bottom. And we'll define
+
+those in just a few seconds.
+
+And we'll use the Gosu red constant for the
+
+color of the ball. So the left edge of
+
+the ball is just gonna be the horizontal center
+
+of the ball minus half its size, which we
+
+have to define. And x2 and y1 and y2
+
+are all pretty similar. They're just half the ball's
+
+size offset from their center.
+
+And after we reset, we have a ball on
+
+the screen. And it's a little small so I'm
+
+gonna bump the size up. And as soon as
+
+we tabbed back, the larger, the new code was
+
+taking effect and we see the larger ball. And
+
+it's time to make this move.
+
+So we'll add the update method to our window.
+
+And each update we'll just tell the ball to
+
+move itself. And so the ball's gonna need an
+
+angle and a speed, and I'll default the angle
+
+to up and to the right, and the speed
+
+be four pixels per tick.
+
+And that move method will be pretty simple. We'll
+
+use the offset x and offset y that we
+
+saw earlier to calculate deltas for the x and
+
+the y position. And then we can add those
+
+deltas to the actual x and y position, and
+
+that'll give us our movement.
+
+And it's a little slow, so I'm gonna bump
+
+the speed up just a little bit. And this
+
+is cool, except that the ball is moving off
+
+the top edge of the screen. So let's make
+
+it bounce.
+
+At the bottom of the move method, we'll check
+
+and see if we've just moved the ball off
+
+the top edge of the window, we should move
+
+it back down, and then flip the y component
+
+of the ball's angle to give us a natural
+
+bounce. And same thing for when the ball's heading
+
+towards the bottom of the screen. We'll check if
+
+the ball's moved off of the bottom of the
+
+screen, and if it has we'll nudge it back
+
+up to where it belongs, and, again, flip the
+
+y component of its angle.
+
+And I'm gonna extract out this flipping of the
+
+y component of the angle into a new method
+
+called bounce_off_edge. This dries up our code a little
+
+bit, but it would also be a great place
+
+to hook in a sound effect.
+
+And it looks like we don't have access to
+
+dx and dy in this method. So we'll need
+
+to pull them out of move into their own
+
+methods, and they'll prove useful as we move on.
+
+And so it looks like the refactoring worked. It's
+
+a little boring that the ball is headed in
+
+the same direction each time the game starts. So
+
+I'm gonna randomize it just a little bit.
+
+These numbers will cause it to start somewhere in
+
+a cone facing to the right, so it never
+
+is moving straight up or straight down. And then
+
+half the time I'll also flip it so that
+
+it heads to the left.
+
+OK, so now we need to do something about
+
+the fact that the ball is flying off the
+
+left and right edge of the screen, and in
+
+pong, the left player and the right player will
+
+each have a score. And any time they hit
+
+the ball across their opponent's line, they get a
+
+new point and the game starts over.
+
+So back in our reset method, we'll start off
+
+each player with the score of zero. And we'll
+
+construct a font object that we can use to
+
+draw these scores onto the screen.
+
+And we'll draw the left player's score in the
+
+top left corner of the window, and we'll put
+
+the right player's score in the top right corner.
+
+And then each time through the update method, we
+
+can ask the ball if it's moved off the
+
+left edge of the screen, and if it has,
+
+we should increment the right player's score and reset
+
+the ball, and if the ball's moved off the
+
+right side, we should give the left player a
+
+point.
+
+And so I'm gonna pause here for a little
+
+bit and point out something about my development work
+
+flow when I'm doing games. You'll notice I'm not
+
+writing tests like you normally would in a Rails
+
+application, but I am writing my code outside in,
+
+and I still get this outside in feedback, like
+
+I would while doing outside in TDD.
+
+So here, this exception is telling me that I
+
+haven't defined off_left, and then that's the next thing
+
+to do. So off_left and off_right are incredibly straight-forward.
+
+Basically, is the left-edge of the ball hanging off
+
+the left-edge of the window. Or is the right-edge
+
+of the ball hanging off the right-edge of the
+
+window.
+
+And now we have the score going up every
+
+time the ball crosses the opposite side of the
+
+screen, which is exactly what we want. But it's
+
+a little mean to give these players scores when
+
+they don't really have much control over the course
+
+of the game.
+
+So we need some paddles.
+
+Unsurprisingly, the paddle code will go in paddle dot
+
+rb. And we'll start the game with, with two
+
+paddles. One on the left and another on the
+
+right.
+
+And like we did with the ball, we'll tell
+
+the paddles to draw themselves onto the screen. And
+
+the paddle will have two attributes. Its side and
+
+its vertical center. And we'll use the side that
+
+was passed in. And like the ball, the paddles
+
+will start off centered in the window.
+
+And I'm gonna cheat here and copy the ball's
+
+draw method, cause this is actually a generic rectangle
+
+drawing method. But if we had more time, we
+
+could extract this out into a common superclass or
+
+a mixin that both paddle and ball would use.
+
+And so the left edge of the paddle is
+
+actually gonna depend on which side of the screen
+
+its on. So the left paddle's left edge is
+
+gonna be flush against the left edge of the
+
+window, and the right paddle's left edge is gonna
+
+be, the right edge of the window minus the
+
+paddle's width.
+
+And I'll give paddle a width and a height
+
+that I think look pretty decent. And the right
+
+edge of the paddle is just gonna be th
+
+left edge plus the width. And like the ball,
+
+the top will be its center minus half its
+
+height and the bottom will be the top plus
+
+the height.
+
+And we reset and half some decent looking paddles.
+
+And it's time to make them move.
+
+So I'm gonna have the left paddle be controlled
+
+by the w and s keys on the keyboard.
+
+So while the w key is being held down,
+
+the left paddle will move up. And up is
+
+pretty simple. We just add, or we subtract a
+
+little bit off of y, and whenever I hit
+
+w the paddle will move up.
+
+And down is the same thing, but we add
+
+instead of subtract. And I'll wire the s key
+
+up to control down.
+
+And the right player will use the up and
+
+down arrows to control their paddle. And so our
+
+paddles are moving, but there's a problem.
+
+Actually I'm gonna extract out this magic number into
+
+a constant and bump it up just a little
+
+bit so that our paddles are a little zippier.
+
+But there's a small problem with the paddles' movement,
+
+and that's that they can move off the edges
+
+of the screen. But this is easy enough to
+
+fix. When we're moving down - when we're moving
+
+up, if the top edge of the paddle has
+
+crossed the top edge of the screen, we push
+
+the, the paddle back down to where it belongs.
+
+And if its bottom edge has crossed the bottom
+
+edge of the window, we can bump it back
+
+up.
+
+And now it's time for the real meat of
+
+the game. Getting the ball and the paddles to
+
+interact. So every tick through the game, we'll ask
+
+the ball if its intersecting the left paddle, and
+
+if it is, we'll tell it to bounce off
+
+of the left paddle. And same thing for the
+
+right paddle.
+
+And it's not important to understand exactly what this
+
+intersect method is doing right now, just know that
+
+it's the generic formula for determining if two rectangles
+
+are overlapping. I don't really have enough time to
+
+dive into the details of exactly how this works,
+
+though.
+
+And when it hits the paddle, we don't have
+
+our bounce_off_paddle defined yet, so that's the next task.
+
+So when the ball hits the left paddle, we'll
+
+need to move the ball a little to the
+
+right, so that it's no longer overlapping the left
+
+side of the paddle, or possibly hanging off the
+
+edge of the screen, and conversely when it hits
+
+the right paddle, we'll have to move it back
+
+to the left.
+
+And then similarly to when the ball hit the
+
+top or the bottom, we can flip the x
+
+component of the angle so that the ball heads
+
+back in the other direction. And this works, but
+
+it leads to a slightly boring game, where the
+
+ball doesn't do much interesting.
+
+So to fix this, when the ball hits near
+
+the center of the paddle, I'm gonna have it
+
+come off at a very steep angle. But when
+
+it hits towards the edges, I'll have it come
+
+off more shallow.
+
+So to do this, we can take the difference
+
+of the vertical position between the ball and the
+
+paddle and divide it by the paddle's height, and
+
+this'll give us a number between negative point five
+
+and point five. And we can multiply that by
+
+120 to get us a cone, and then tilt
+
+that cone to the right. And then if we're
+
+hitting the right paddle, we actually want to flip
+
+the cone back so it's facing the left.
+
+And so now the ball's doing what we want.
+
+When it hits near the center of the paddle,
+
+it comes off in a horizontal direction. But when
+
+it hits near the edges of the paddle, it
+
+comes off much more vertically.
+
+And to make things a little more interesting, we
+
+can also speed up the ball every time it
+
+hits the paddle. So after ten or so bounces,
+
+the game actually gets pretty challenging.
+
+And I'm a little tired of having my left
+
+hand play against my right hand. So I'm gonna
+
+build a simple AI that I can play against.
+
+So we'll have the left paddle be the AI.
+
+And so if the left paddle is the AI,
+
+then it'll control its own movement, rather than letting
+
+the human control it with the keyboard.
+
+And we'll pass in a new argument to the
+
+paddle's constructor noting that it should be controlled by
+
+the computer. We'll add the new field and take
+
+it in in the constructor, but have it default
+
+to false so that the right player is still
+
+human controlled.
+
+And the AI movement is gonna be pretty simple.
+
+If the paddle is below the ball, it should
+
+move up. Otherwise it should move down. And after
+
+we reset and have the left paddle controlled by
+
+the AI, it works, but we get this weird
+
+sort of jittering, which is easy enough to fix.
+
+I jumped past that, sorry. So, I've shown you
+
+enough for now, but we still don't have a
+
+way to quit the game. So we can define
+
+a button down call back in the window, and
+
+when the escape key is pressed, you can tell
+
+the window to close itself and end the game
+
+loop.
+
+And that was pong in fifteen minutes.
+
+So we didn't necessarily end up with the prettiest
+
+looking code, and the update method got pretty unwieldy.
+
+But you saw how easy it was to notice
+
+a bug or find a feature you wanted to
+
+add, and write ten or twenty lines of code
+
+in a minute or two and build the game
+
+up from nothing.
+
+I've put all of the code for this on
+
+my GitHub, and the commits are roughly ordered in
+
+vid - with the videos I just showed you.
+
+So if you want to see it get built
+
+up again, you can just follow the commits.
+
+So if you found this interesting, I have a
+
+few more pointers of other things to look into.
+
+And this link in the top left will, top
+
+right, sorry, will take you to a git that
+
+has links to everything else I'm about to talk
+
+to you.
+
+So Gosu actually has a decent ecosystem going on.
+
+Metra, Gamebox, and Chingo, are all frameworks built on
+
+top of Gosu that provide you a little more
+
+structure and help you deal with common tasks like
+
+mapping keys on the keyboard to method calls on
+
+your models, or dealing with menus or pausing.
+
+Chipmunk is a Ruby wrapper around the Chipmunk's physics
+
+library, so the physics in pong wasn't too complex,
+
+but as you start getting into gravity and having
+
+dozens or hundreds of objects all interacting, getting the
+
+math right is really hard, especially for corner cases.
+
+And the Chipmunk library has this all taken care
+
+of for you.
+
+The Releasy gem makes it easy to package Ruby
+
+applications, including Gosu games, up into Windows executables or
+
+Mac apps. So you can put them online for
+
+people to download and not force them to install
+
+Ruby and RVM and a bunch of gems.
+
+And Gosu also lets you drop down to sort
+
+of raw, open GL code, when you're interested in
+
+learning about 3D graphics, which is exactly what I
+
+did in the Minecraft demo I showed earlier.
+
+And then Gosu also has some somewhat active forums,
+
+where people are showing off games they've made and
+
+pointing to their Gosu source code, and showing off
+
+tools that they've built to help them make games
+
+more quickly.
+
+So game programming patterns is a freely available online
+
+book that I think is really awesome. When I
+
+started doing game programming, the patterns and best practices
+
+I knew from web development didn't really translate over
+
+to help me structure my games. So game programming
+
+patterns is written by a veteran of the games'
+
+industry, and he talks about a lot of the
+
+common problems that games face as they grow in
+
+size, and what the, what the industry has learned
+
+over the decades on how to structure those solutions,
+
+and sort of the trade-offs that come into place
+
+while, while taking advantage of these patterns.
+
+And if you need an excuse to take a
+
+weekend to learn how to make a game, you've
+
+got one coming up in about a month. Ludum
+
+Dare is a forty-eight hour game development contest. Saturday
+
+at midnight, they announce a theme, and thousands of
+
+people all over the world start developing games, and
+
+by Sunday night you turn it in and there's
+
+an online gallery of all the games that were
+
+made that weekend, that all follow the same theme.
+
+And I think Gosu and Hasu are perfect tools
+
+for just trying to learn something over a weekend
+
+and finish a game from, finish a game from
+
+start to finish.
+
+And with that, thank you and please go have
+
+some fun with Ruby.
