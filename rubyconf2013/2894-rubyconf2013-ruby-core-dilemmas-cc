@@ -1,0 +1,1549 @@
+RubyConf 2013 - Ruby-Core dilemmas - Marc-Andre Lafortune
+
+MARC-ANDRE LAFORTUNE: So I'm gonna start by the most difficult thing.
+
+First of all, everyone should have these
+
+little query cardboard things. If you don't,
+
+well, grab some next to you,
+
+cause there really should be plenty for everyone.
+
+This is gonna be for the second part of
+
+the talk, so. If you stay that long.
+
+All right. So my name is Marc-Andre Lafortune, and
+
+that's, I'm sorry, it's not my fault. I'm from
+
+Montreal, the French part of Canada. And we, you
+
+know, most people speak French there. So you can
+
+call me Marc. That's pretty easier for most of
+
+you.
+
+And today I'm going to talk about some Ruby-core
+
+dilemmas I think might be interesting. And we're gonna
+
+delve into a bit of code. Ruby, a lot,
+
+and some, even C code. Don't be too afraid.
+
+So that's the title of the talk, but really
+
+it could be, you know, Ruby-core dilemmas and I
+
+became a garbage collector. So actually I'm gonna first
+
+start as to how I became a garbage collector,
+
+and then we're gonna look at some potential garbage
+
+together.
+
+So let's go back five years ago, when I
+
+fell in love with Ruby. And I was having
+
+some weird difficulties, you know, playing around with it,
+
+and just asking forty-two if it was odd or
+
+calling methods like find_index. It was giving me NoMethodError,
+
+and I was like, what's going on?
+
+Well, on my Mac, there was Ruby 1.8.6 installed,
+
+and these were actually features only available in 1.8.7
+
+or 1.9, because 1.8.7 actually introduced quite a bit
+
+of new features. I mean, it's officially just a
+
+point release, but you know, 1.8.5 introduced two changes
+
+to the API. 1.8.6 three changes, and 1.8.7 a
+
+hundred thirty-seven.
+
+And, of those hundred thirty-seven changes, many of them
+
+are quite fun, quite interesting, and I wanted to
+
+use them. So what do I do? This was
+
+before RVM. Now with RVM, it's so cool, you
+
+can juggle, change versions as you see fit. Try
+
+JRuby. Rubinius. But at the time, I was like,
+
+oh my god, there's already Ruby installed. Do I
+
+override it? Do I do another one? How do
+
+I do with my paths? I'm really bad with
+
+the terminal. I just didn't want to touch any
+
+of that.
+
+So I was just lazy and I said, screw
+
+that. I'm not gonna, I'm not gonna override anything.
+
+I'm gonna find another way. So of course another
+
+way is just not use the new functions, and
+
+if you have a library that uses them then
+
+don't use the library. I was like, no, that's,
+
+that's not the Ruby way. It's, you know, there
+
+is a beautiful feature for me, I want to
+
+use it.
+
+So I did what you're not supposed to do.
+
+I monkey patched the basic classes to try to
+
+replicate the behavior. So, for instance, here I'm defining
+
+the odd method for fixnum, and find_index with array.
+
+And I did a couple of those for my
+
+first project. This was cool. It worked.
+
+Then I did a second one. So, you know,
+
+I didn't want to copy the whole thing so
+
+I said, oh, let's create a gem. So I
+
+start with my first gem, and I released my
+
+first version on April 1st, 2009, and it had,
+
+like, twelve of the back ports I wanted and
+
+had written.
+
+So today the back ports gem has over 250
+
+back ports, and quite a bit of some, some
+
+gems uses it, so I get a whole bunch
+
+of downloads.
+
+BUt back then, nobody knew about it. So a
+
+friend of mine on my blog said, well, is
+
+it gonna work with Rails? And, answered, duh. I
+
+mean, Rails at the time targeted 1.8.6, so I'm
+
+just adding new functionality. There's no way it should
+
+break Rails.
+
+Now, the nice thing is Rails has this really
+
+huge, massive test suite. So I just ran it,
+
+but including back ports first. And it wasn't supposed
+
+to change anything, but of course I was wrong,
+
+and there were major, many, many failures.
+
+They were mostly due to gsub. So this was
+
+the code I had for gsub. It looks a
+
+bit complicated, but in 1.8.7 if you call gsub
+
+without a block and with no arguments, it returns
+
+an enumerator. I wanted to do the same thing
+
+here. So, let me simplify it for you. Imagine
+
+that you monkey patched gsub this way.
+
+Should this change anything?
+
+The answer is, it's not gonna work. And this
+
+is an example where instead of giving you the
+
+results you wanted, it's going to give you an
+
+error on nil. I was like, what is that?
+
+What's going on here? I mean, the other one
+
+is one of those funky global variables I never
+
+use, but I mean, you know, anything started with
+
+dollar is just, you know, you're not supposed to
+
+use them. I don't use them. I'm a good
+
+Ruby citizen. But, I mean, some people do. What's,
+
+what's up with that?
+
+Well, actually dollar one is not really a global
+
+variable. If you try to set it, for instance,
+
+it will, it will tell you you can't. So
+
+I was like, OK, let's go into the C
+
+code cause I've got no idea what's going on
+
+with this. And if you do, you'll find that
+
+there's a whole bunch of virtual variables, and they're
+
+defined like this in the C code.
+
+So OK, I can't play around with the dollar
+
+one and, because of the block context it doesn't
+
+work anymore.
+
+So I removed the gsub backport. There's really no
+
+way around that. And every other feature basically of
+
+1.8.7 I was actually able to, to back port.
+
+But the question was, now, I think I'm not
+
+breaking anything. But maybe I'm breaking stuff in JRuby
+
+or Rubinius. And so I was curious, what test
+
+suite did these guys have? Well, Rubinius has this
+
+really great suite called Ruby spec, and RubySpec is
+
+really testing Ruby the language. And it's really meant
+
+actually for all implementations of Ruby, including Ruby MRI.
+
+So I thought, I should be able to run
+
+RubySpecs for my back port, and it should, ideally,
+
+pass, right. OK, there's an example when you run
+
+RubySpecs, just to show you that, today there's over
+
+a hundred fifty thousand expectations when you run the
+
+full suite, and it runs pretty quickly.
+
+There's still some errors today, I don't know why,
+
+but anyway.
+
+So I, here we're gonna see a bit what
+
+RubySpec is about and what writing a simple back
+
+port is about. This is a stackoverflow, a real
+
+overflow question. This guy is stuck with 1.8.7 and
+
+he wants to use rotate on an array. And
+
+he says, I want this, and you know, I
+
+don't want to upgrade. He's lazy, like me.
+
+What can I do?
+
+So the best answer was just shift, call shift,
+
+you're gonna get your element and push it back,
+
+so it's gonna push it at the end. All
+
+right. So this gives us our version one of
+
+the rotate back port.
+
+And let's see what the RubySpecs are saying. So
+
+the first test is usually a very, very basic
+
+test. So in this case, you take a very
+
+simple array and you try to rotate it and
+
+you see that it, you know, what, what result
+
+it gives you, and if we actually try to
+
+pass it with our simple implementation, we pass.
+
+But do we pass all the specs? Well, no.
+
+The first one we get is, it tells us
+
+that we are, should return a copy of the
+
+array when the left is zero or one. And
+
+the example here is with an empty array, if
+
+you tried to rotate, then rback for it just
+
+doesn't work.
+
+So, oh yeah, we didn't think of this, but
+
+if you shift from an empty array, you get
+
+nil, which you're pushing back to the array and
+
+you get an array containing nil instead of the
+
+empty array you were expecting. OK, so version two
+
+of rotate, you can even make a gem release.
+
+You just don't do anything if it's empty because
+
+you're, you're happy with your solution.
+
+OK, so now we pass this test, but we
+
+have another test that fails. Array rotate with an
+
+argument n returns blah, blah, blah. Oh, yeah, right.
+
+Rotate takes an argument.
+
+So let's do, let's add an argument. Default is
+
+one. And it's quite nice, because shift access an
+
+argument, so we get an array, and we use
+
+concat instead of push. We should be good.
+
+No, we're not really good, and actually the test
+
+says that we should really do a mod on
+
+the size, because if the number's negative or if
+
+it's too high it should still work, but shift
+
+won't.
+
+So, OK. This gives us the solution. WE add
+
+mod, we're at version four of our rotate. Surely
+
+we must be pretty close to passing our specs.
+
+Well, we still have a failure. We're not supposed
+
+to mutate the receiver. Oh, right, there's two rotates.
+
+There's rotate bang and rotate without the bang. And
+
+it's only rotate with the bang that's supposed to
+
+mutate the receiver. So, OK, now we have two
+
+back ports for the price of one. We're at
+
+version five, pretty proud of our work.
+
+So, you see what I did with rotate. I
+
+just called dump, and then I called a rotate
+
+bang version. OK, now we pass that test, but
+
+there's another spec we fail. We're supposed to return
+
+a runtime error on a frozen array.
+
+So the example that we fail actually is on
+
+an empty array, because on an empty array we
+
+don't do anything. So we now raise an error.
+
+If the array is not empty we're trying to
+
+shift and this will raise an error. And Ruby
+
+will raise an error for us. But in the
+
+case it's empty, we have to do something.
+
+The reason we have to do something is Ruby
+
+in general wants to fail early. So in theory,
+
+you should be able to call rotate bang on
+
+a frozen array, but because it's not really doing
+
+anything, but in practice we, we prefer to raise
+
+an error because normally we expect that the array
+
+is probably not going to be empty and in
+
+those cases you would get an error.
+
+So we have to modify this a bit, and
+
+try to shift zero if it's empty, so this
+
+will also raise the error for us. So we're
+
+at version six, have we passed the specs yet?
+
+No.
+
+OK. We have to return it, we should not
+
+return a subclass instance for array subclasses. now what
+
+the hell is this?
+
+I need to talk about covariance. Imagine that you
+
+decide to subclass array. Now, in practice, I don't
+
+know. Have you ever subclassed a base class? Maybe
+
+a hash. I think I've subclassed hash a couple
+
+of times. And Rails actually subclasses string for the
+
+safe buffer.
+
+But in general, you don't typically do this. but
+
+imagine you did, and we're not even adding any
+
+method, we're just doing this for fun. We're creating
+
+an instance of that subclass. If we call rotate
+
+and ask what's the class of the returned value,
+
+it's actually array. And that's our problem. We called
+
+dub, and dub will really make a duplicate. It
+
+will give us an instance of sub.
+
+So just for the fun of it, do you
+
+guys know if we call flatten, if it will
+
+return sub or if it will return array?
+
+I hear, I heard one sub, and he's right.
+
+So I think everyone agreed with him. That's why
+
+everyone was silent. Really good job.
+
+All right. If you ask the first two elements
+
+of an array of, of an instance of class
+
+sub, it returns array. if you ask for the
+
+first two elements but with the slice option, you
+
+get sub.
+
+If you add two sub instances you get an
+
+array and if you multiply an instance by two
+
+you get sub.
+
+All right. SO that's, that can be a little
+
+bit counter-intuitive, but the funny part is that, in
+
+RubySpecs, this kind of behavior is actually tested, because
+
+when you're reimplementing Ruby, you're saying, OK, I don't
+
+really know why, you know, the CRuby does this,
+
+but we might as well try to do exactly
+
+the same thing, so if ever someone depends on
+
+that, we're compatible.
+
+And the covariance question is, you know, goes for,
+
+for a lot of things. Just comparing two things,
+
+like substring versus a, an actual string, hash time.
+
+Usually CRuby will check that you are a string,
+
+but you don't have to be a string, you
+
+have to be just a, not instance of, but
+
+kind of, if I'm not confusing the two.
+
+And, but I noticed, when writing the specs, that
+
+if you do that range, it didn't work. So
+
+I was like, wow, that's, that's got to be
+
+a bug. So that was my bugger feature, and
+
+I was like, I think there's something wrong here.
+
+So I submitted a, my first bug report. I
+
+went to the C code, try to find where
+
+the hell this was happening. It was pretty simple
+
+to change. Actually there were two lines in my
+
+patch, and I was like, oh yeah, I'm gonna
+
+get my first patch accepted in CRuby! And I
+
+had to wait six months.
+
+And I had to convince Matz and everyone else,
+
+yeah, it's a bug, because look at other the
+
+cases it works and it really should be working
+
+and that's how it is. So I, in one
+
+1.9.1 and over, it actually, it returns true.
+
+OK, so if we go back to our version
+
+6 of rotate and we want to be a
+
+good citizen and return just an array, we ret-
+
+we just need to replace the dup with array.new(self)
+
+and call rotate bang, and now surely we must
+
+be, we are our super version of rotate 7
+
+passing specs.
+
+We don't.
+
+So, and we actually have two more failures, and
+
+the argument that is passed needs to be cursed
+
+with calling to_int. So basically MRI always uses duck
+
+typing. It doesn't require you to pass an integer.
+
+You can pass any object and it is gonna,
+
+if it needs an integer, it's gonna call to_int.
+
+If it needs a string it's gonna call to_str.
+
+And make sure that what you return in those
+
+cases are an actual string or an actual integer.
+
+And we also have some cases where we don't
+
+actually look at what is passed, so for instance
+
+it, again in the empty case, here we're just
+
+disregarding whatever was passed and we're writing zero, but
+
+if whatever was passed was complete garbage, we actually
+
+need to raise an error.
+
+So this is left as an exit science for
+
+all of you, or you can look at the
+
+backwards code that actually goes through the trouble of
+
+doing the recursion and checking the result and, and
+
+everything, to actually pass the RubySpecs.
+
+And this is the, the spec example of what
+
+it's trying to do if ever you want to
+
+contribute to RubySpecs. It's using mSpec, which is a
+
+version of rSpec, and this is the kind of
+
+thing it, it looks like.
+
+All right, so we're getting in the second half
+
+of the talk, and this is where I, I'm
+
+gonna want you to use these things. I'm gonna
+
+present a couple of examples of Ruby code and
+
+I'll want you to tell me if you think
+
+that the behavior you see is possible, should be
+
+possible, and if it's correct, if it's a feature
+
+or it actually is a bug that needs to
+
+be fixed and we need to post on bugs
+
+at ruby-lang dot org.
+
+So this is an example with covariance, where we're
+
+not passing a string to partition, we're passing an
+
+object that has a method to_str. And if we
+
+do that, we get actually different results. Is this
+
+a bug or is this a feature, raise whichever
+
+you think is a feature or bug? I, aw,
+
+come on. I want more, more than that. Even
+
+if you don't know, just take a wild guess.
+
+You're an camera and the whole internet will know
+
+that you were wrong, OK.
+
+OK, so in this case, there's a really, in
+
+all cases of - did I say covariance before?
+
+it's not covariance. That's just duck typing. In all
+
+cases of duck typing, CRuby must behave exactly the
+
+same way if you pass an object that is
+
+string-like or if you pass an actual string. So
+
+in this case, this is a bug, and twenty
+
+minutes later, after I submitted a patch, it was
+
+merged in by Nobu.
+
+And Nobu, I don't know if you've been to
+
+Koichi's great talk, he had this really awesome, yeah,
+
+Nobu is with us, so Nobu is the.
+
+So I could say that Nobu is the number
+
+one committer in CRuby, but that wouldn't really be
+
+fair, because if you've been to Koichi's excellent talk,
+
+there was this huge pie graph of the number
+
+of commits, and one third are from Nobu. So
+
+all the others are like boop, tiny slices all
+
+around, and Nobu is just taking the whole bulk
+
+of things. So thanks Nobu for merging this so
+
+quickly. This was easier to, to show that it
+
+was a bug, because you could actually crash Ruby
+
+in this case when you were playing with the
+
+results.
+
+It was, it was fun.
+
+All right, so bug or feature? You take an
+
+array, you call values_at with a range that extends
+
+past the array. So if you ask the range
+
+from one to forty-two conclusive, you get to and
+
+three, and if you ask for one to forty-three
+
+exclusive, right that's what the three dots mean, you
+
+get two, three, and nil.
+
+Bug or feature?
+
+All right. I see, it's, I think a little
+
+bit more red than green. But there's a bit
+
+of mix here. Well don't be, don't be ashamed
+
+because when this was submitted by Mark Radaj on
+
+the mailing list, first response was from Yui from
+
+Naruse, he's, again, another C committer. He's responsible for
+
+the, the upcoming Ruby 2 point 1, he's the
+
+release manager. He worked a lot on multi-lingualization and
+
+he does a whole lot of stuff. And he
+
+actually commits also a lot to RubySpec.
+
+So he's like, is this a bug? I'm not
+
+sure.
+
+Nobu said, it's definitely not a bug. Everyone that,
+
+that raised the green check mark can feel confident
+
+that, you know, Nobu agrees with you. But I
+
+was like, no, no way, this has to be
+
+a bug, right. So, in those cases, what do
+
+we do? We do nothing. We do nothing, and
+
+we wait. And one day, Matz comes in and
+
+says, hmmm.
+
+I've thought about this very well and the trailing
+
+nil must be a bug. OK.
+
+So the nil is, is not good. There's something
+
+wrong going on. Next question, of course, is OK
+
+do we want it to have any nils, or
+
+do we want a bunch of nils, right?
+
+So is this a bug? If, if we modify
+
+Ruby so that it returns this, or is it
+
+a feature?
+
+Oh, lots of green. Lots of green. This is
+
+really good. So, it's a feature, since Ruby 2
+
+point 0. And why is it a feature?
+
+Because Matz says so.
+
+That's really the definition, right. It's a bug or
+
+a feature depending on what Matz decides. And in
+
+this case it was actually something that could change
+
+potentially some code, but we include it in use
+
+file, but some others are not so clear.
+
+All right. I've got a cute on. You have
+
+a string of, you have a string that's nine
+
+characters long - OK, so now I'm cheating a
+
+bit. K, the question mark is not an actual
+
+question mark, it's a character. I'm not telling you
+
+which. I'm just, you know, adding a bit to
+
+the mystery. OK, so I'm just telling you that
+
+you have a string. It's nine characters long, exactly.
+
+And I call to_sym, so I'm getting a symbol,
+
+and I call to_s on it, and I get
+
+plus.
+
+Bug or feature?
+
+Oh, lots of red. Lots of red. Well, you're
+
+wrong, OK. If you try this with any version
+
+of Ruby you have on your computer, including JRuby
+
+and Rubinius, Ruby 1.8, 1.9, and 2.0, with plus
+
+in parenthesis, binary, you're gonna get plus, all right.
+
+And you can check in RubySpecs, I don't actually
+
+know who wrote the spec, but someone went and
+
+said, oh, there are these special cases we have
+
+to include them in the RubySpecs.
+
+And it also works for minus binary if you're
+
+really interested and you get the symbol of minus.
+
+Now, this actually was brought to me by Kenichi
+
+Kamiya, who said he was gonna be here today.
+
+Is he here? Ah. He's here, and shy probably.
+
+So I brought this up and I said, Matz,
+
+this makes so sense. He agreed with me. So
+
+this is no longer going to be the case.
+
+There's no longer gonna be these, well, bugs or
+
+features. I'll leave it up to you.
+
+All right, zero plus one plus zero plus two
+
+is equal to zero plus three. You get false.
+
+Is that a bug or is that a feature?
+
+OK, lots of green. Couple of reds. Well, I'm
+
+very happy for you, those people that raised the
+
+red flag. That means that you don't deal too
+
+much with floats. This is, this is probably very
+
+good for your sanity, OK, cause there's so many
+
+little bugs with the floats it's not even funny.
+
+Actually, this is a feature. It's called, it's called
+
+iso something, and this is an actual website. I'm
+
+not inventing that. You can go there. It has
+
+a small explanation, some links to wikipedia, and solution
+
+hints for, depending on your language, you know. And
+
+it's gonna tell you that in Ruby, to avoid
+
+these kinds of issues, you can use big decimal
+
+or rational, depending on what you need to use.
+
+So this is because floats are actually not exact
+
+numbers. They really represent very, very tiny ranges of
+
+real values. And when you actually play with them,
+
+they're gonna give you sometimes unexpected results.
+
+All right. I'm getting back with my question marks
+
+here. So, I'm writing this float number, and if
+
+I ask for the string representation I get zero
+
+point two one. Does it seem like a bug
+
+or does it seem like a feature?
+
+OK. Lots of green. That's a feature, because if
+
+you ask too many, if you store too many
+
+decimals in your float, you know, Ruby uses the
+
+normal double sixty-four bits of resolution and it's gonna
+
+say, well, really you're talking about zero point two
+
+one. That's where it fits in the range. I'm
+
+gonna simplify it for you and we're just gonna
+
+talk about zero point two one.
+
+It's good.
+
+Bug or feature? I have less decimals this time.
+
+And I ask Ruby to get me a string,
+
+and, and give me back my float. But it
+
+doesn't give me back the float I started with.
+
+Is that a feature or is that a bug?
+
+Oh, lots of green. Well, that's a bug.
+
+Because in, in most versions of Ruby 1.8, there
+
+were specific float values that wouldn't round trip like
+
+this. But really you can type in a whole
+
+bunch of numbers, but when Ruby prints to you
+
+a number, it should always be the minimum representation
+
+that has all the information about that float. So
+
+it should contain all the information, enough to round
+
+trip, but no more.
+
+And in some cases, Ruby was not giving you
+
+enough information, so if you tried to round trip
+
+it would fail.
+
+All right, so let's, did you know that you
+
+could round integers? You have to, it doesn't make
+
+sense to give positive values, I mean it's gonna
+
+give you back your integer. But if you give
+
+negative values, it's gonna strip off some of the
+
+information. So if you stow away 221, you get
+
+220, you get 300, and then you get zero
+
+because there's no thousand, because, you know.
+
+And then if you go down, down, down, down,
+
+at some point you get zero point zero. Bug
+
+or feature?
+
+Ah, lots of red. Couple of greens. So yeah,
+
+ideally you would want to have always zero, because,
+
+it it doesn't make sense that at some point
+
+it starts to be a float. I mean, you
+
+start with an integer, you ask it to be
+
+rounded up you want a fixnum.
+
+So this was fixed. And where actually, that's because
+
+I was back porting rounds. I was writing some
+
+RubySpecs, and in writing the RubySpecs, they were actually
+
+failing in Ruby. I was like, what's going on?
+
+And I was trying to test the extreme cases,
+
+and then I looked at the code and then
+
+found some other bugs. So I'm, I'm gonna be
+
+going a little bit quicker here.
+
+But these are, are kind of funny, funny examples
+
+where, you're like, what is going on with this?
+
+You know. And if you delve in the code,
+
+well, you see that sometimes you need to, you
+
+can't, you know, exponentiate to, with too high values
+
+and so you take some short cuts and if
+
+you, if you make some small mistakes then it
+
+could bite you.
+
+Another funny example.
+
+And even some basic, basic arithmetic, with arguments, no
+
+nothing, would give you the wrong results on some
+
+platforms. So if you have a behavior that changes
+
+from platform to platform, that's a really, really big
+
+sign that this is what you should be raising.
+
+All right, bug or feature. We have three objects,
+
+n, o, and p, and they are all equal
+
+to one another, but if you do one over
+
+n, one over o, or one over p, you
+
+get three different results.
+
+Bug or feature?
+
+I'm impressed. Lots of green check marks. So yeah.
+
+If you have zero, zero point zero, and minus
+
+zero point zero, they're all equal with the equals
+
+sign, but if you inverse them you're gonna get
+
+different results.
+
+There's actually a, the equal, the eql question mark
+
+method just to distinguish zero point zero from zero
+
+and one point zero from one, and it doesn't
+
+even distinguish minus zero point zero from zero.
+
+As far as I know, the only, the best
+
+way to distinguish them, if ever you need to
+
+distinguish them, and then I, I really pity you,
+
+is to take the inverse and check for the,
+
+for the sign.
+
+All right. So x is equal to something, and
+
+s equals, x equals x returns false. Bug or
+
+feature?
+
+Oh, lots of red! It's actually a feature!
+
+So, congratulations to the few green, green check marks,
+
+because actually, not the number is the, as far
+
+as I know, only, well, it is the only
+
+built-in object that is not equal to itself.
+
+All right.
+
+Foo and bar are two very simple objects, and
+
+I ask the modulo of foo and bar, or
+
+I send the modulo symbol with bar as an
+
+argument, and I get different results. Is that a
+
+bug or is that a feature? Oh, yeah, cool.
+
+I'm very happy that most people found it. It's
+
+a bug. You really should give you the same
+
+result. I mean, if you call a method and
+
+you send it, there's really no reason to get
+
+a different result.
+
+So when I saw that, I actually couldn't believe
+
+my eyes. I was like, I didn't see how
+
+this was even possible. I mean, what's going on
+
+in the C code that it knows if its,
+
+if it was called with send or if twas
+
+called, like, directly with the, you know, the, the
+
+operator.
+
+And, well, a second question, is what's the right
+
+result? Is it not a number or is it
+
+four point two. So I'm gonna start with the
+
+second question cause that's the easiest to, to find.
+
+If you ask four point two and you take
+
+the modulo with big numbers, you get four point
+
+two. So at the limit, you really should be,
+
+should be getting four point two.
+
+And we can even think of what's going on
+
+a bit, because when you actually want to calculate
+
+the modulo, the, the, like, easiest way is to
+
+make the division, truncate the result to an integer,
+
+and then substract that number from what you start
+
+from.
+
+But if you do that, then you get, with,
+
+with infinity, you got a problem. You are multiplying
+
+zero with infinity. This gives you another number. And
+
+not a number is gonna propagate to basically any
+
+mathematical expression you have.
+
+All right, so let's get to how is this
+
+possible? And to that we have to delve in
+
+the C code. So this is the method that
+
+actually does both the division and the modulo in
+
+CRuby. And you see there's this if def, have
+
+f mod and there's two things.
+
+So you either call this f mon, f mod
+
+method, which is a method from math dot h,
+
+or you do it by yourself in exactly the
+
+same way I said. You first divide, then you
+
+re-multiply and you remove that from what you started
+
+with. You get your modulo.
+
+And we, f mod is actually the built-in method
+
+of C, but only on some machines, and Ruby
+
+wants to be compatible with really a lot of
+
+platforms. So that's why there's an if def.
+
+That still doesn't explain anything. What, what it really
+
+means is, on some platforms that have f mod,
+
+you might not get the same result as on
+
+platforms where you don't. But on my platform, it's
+
+not gonna decide that it has f mod or
+
+not depending on if I call send or not,
+
+right?
+
+So there was something else going on. And I
+
+found the solution in a file called INS NS
+
+dot def. Now, this is not even real C
+
+code. There's kind of weird stuff going on here.
+
+And I'm not gonna go too deep into this,
+
+but if you want to learn, here we're actually
+
+in yarv. We're in the byte code interpreter of
+
+Ruby. And if you call the modulo operator before
+
+calling the method, it is going to check is
+
+the receiver a float, is the argument a float,
+
+and was the modulo method redefined? If it's not
+
+been redefined, then we know what to do and
+
+it goes on and does the simplistic version of
+
+calculating the modulo.
+
+So that's what happens actually. Because yarv optimizes the,
+
+when you call directly, a plus an equal and
+
+a couple of methods, some of the code might
+
+be duplicated. So the solution here was just to
+
+call the same code and actually be a little
+
+bit more careful with the highlighted code to check
+
+for infinities and we're back to sanity.
+
+All right, a little example here. X and Y,
+
+you call, x smaller than y and you get
+
+neither true nor false.
+
+Bug or feature?
+
+You guys are good. A lot of green. And
+
+yeah, I cheated a bit. We're off the floats.
+
+If you ask that for classes, it could return
+
+nil if the classes are not related. So we
+
+just have to remember that some of the operators
+
+are actually not, they're just method calls in the
+
+end. And yarv will not optimize that.
+
+All right. X and Y are some objects, and
+
+X is equal to Y or Y is equal
+
+to X. Do not return the same thing.
+
+OK. Well, I'm putting big question marks here, and
+
+I'm cheating a little bit because, you know, the
+
+question marks were replaced by actually two expressions. I'm
+
+building, here, an array called x, you know, and
+
+I'm adding x to itself. And I'm comparing it
+
+to an array containing an array containing x, and
+
+I'm getting true and false.
+
+So I think in general, equals should be reflexive
+
+- I'm not sure what the word is. But
+
+it really should be independent of the order.
+
+So I delved into the code and was wondering,
+
+what's going on. SO I need to talk a
+
+bit about recursion. You all know the definition of
+
+recursion. See recursion from the hacker's dictionary.
+
+Usually we talk of recursion for functions or methods,
+
+and it's recursion is the calling of a function
+
+from within that same function. But we have recursive
+
+structures, like arrays here, and we, these are, are,
+
+can be quite fun to play with. So here
+
+I'm just giving an example where my array contains
+
+one, two, and then I'm adding myself and I'm
+
+adding x to x, and I can go on
+
+in asking for the last element, last element, last
+
+element, last element, last element, and I can go
+
+on forever and I'm still gonna get x.
+
+And Ruby is actually really good in handling recursion.
+
+If you ask a string representation, I don't know
+
+if you've ever seen the little three bots saying,
+
+you know, I'm not gonna go there cause otherwise
+
+I'm just never gonna finish, and you can actually
+
+serialize recursive structures, both with Marshal and YAML. And
+
+if you try to do something and be crazy
+
+like flattening it or joining, it is gonna tell
+
+you, I can't do it, and it's gonna tell
+
+you why.
+
+But for comparison, I was ensured that the behavior
+
+was a bug. So let's see exactly how Ruby
+
+does it. This here is the array inspect function,
+
+and it calls RB exec recursive, with a function,
+
+argument, inspect array. So RV exec recursive will pass
+
+an argument to detect recursion, and gives the chance
+
+to the function to do something special if we're
+
+in the recursive case. So in this case we
+
+have the little three dots signifying that we are
+
+in a recursive structure.
+
+Otherwise, it just builds the, the inspect as you
+
+would think it would, and it has to call,
+
+of course, RV inspect to call inspect on each
+
+element, and this is how you could get a
+
+recursion.
+
+Now, to get into what RB exec recursive does,
+
+I'm gonna simplify it a bit for you. We're
+
+gonna go in Rubinius, where the implementation is in
+
+Ruby, so it's gonna be, it's going to be
+
+a bit easier to understand. And the to_s and
+
+inspect version are exactly, very, very similar to the
+
+C version, and the equivalent here is thread.detect_recursion.
+
+So let's see what's the definition of thread.detect_recursion. I
+
+don't know if you guys play with Rubinius, but
+
+if you ask the source location of a method,
+
+even if it's a built-in method, it actually gives
+
+you the right place to look at. So that's
+
+really, really cool compared to having to dig through
+
+the CRuby code to know where there, each methods
+
+and functions are.
+
+So, the idea is quite simple. When we visit
+
+an object, we're gonna remember, we're gonna store that,
+
+that we have been here, and then we're gonna
+
+let the flow of instruction go. If we ever
+
+go back and we encounter ourselves, we've seen ourselves,
+
+we stop and we just return, yes, we are
+
+in a recursive mode.
+
+So this doesn't actually work for comparing, because you
+
+might detect recursion at the wrong time. In one
+
+case, we're calling it, we're detecting it early, so
+
+we stop and in the other case we don't
+
+detect it before, at the same time.
+
+So the right way to do that for comparison
+
+is actually to stop the behavior when you've encountered
+
+both objects being verified at the same time. You
+
+don't just store the ID of one of the,
+
+of the, the caller.
+
+And when you do that, you're gonna get the
+
+same results, because you're gonna detect recursion at the
+
+same time. Now, I'm gonna ask you one last
+
+question. Should these two arrays be the same or
+
+not?
+
+So if we had x and bracket, bracket x
+
+be false, would that be a bug or a
+
+feature.
+
+I think half of the room is sleeping right
+
+now. OK. There's an evenly matched thing.
+
+So you have to think of it in the
+
+other way. Why, when are they not equal? And
+
+they're not equal if the signs are different, or
+
+if when you go through them you get to
+
+a different element.
+
+And the right solution is to return true. And
+
+you have other cases where the, the structure might
+
+seem a bit different, and you still want to
+
+be true. So this is a little graph of
+
+what we have here.
+
+The top box is x that contains itself, and
+
+if you put that in an array and in
+
+an array you get this thing here, cause this
+
+one, this one is this, and this is the
+
+other example I gave. And you might say, oh,
+
+the graphs look very different, but if you actually
+
+try to enfold them, and imagine that you have
+
+got infinite time, they all give you the same
+
+straight line.
+
+And the shape is the same, so they really
+
+should be equal. And after that patch, Ruby really
+
+supports recursion perfectly for serialization and comparison.
+
+That was my second bug report. There's been quite
+
+a few in the mean time.
+
+I'm gonna conclude by quoting Matz, that Ruby is
+
+quite simple when you use it, but if you
+
+dig a little bit further, you get some strange
+
+and weird cases and behavior. I invite you to
+
+question what you see in Ruby, is this really
+
+a feature? Is this really a bug? Is this
+
+what I expected? Why didn't I expect that and
+
+why has it been designed this way? It might
+
+actually be a bug. It might be a feature.
+
+You can ask Matz.
+
+Thank you.
