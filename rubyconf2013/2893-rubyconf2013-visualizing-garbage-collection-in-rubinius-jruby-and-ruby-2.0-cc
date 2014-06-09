@@ -1,0 +1,1723 @@
+RubyConf 2013 - Visualizing Garbage Collection in Rubinius, JRuby and Ruby 2.0 - Pat Shaughnessy
+
+PAT SHAUGHNESSY: So I'm Pat. My name's Pat Shaugnessy.
+
+I'm really excited to be here.
+
+Today I'm gonna talk about garbage collection.
+
+It's almost like the theme of the conference this
+
+weekend. So Matz, I actually stole Matz's slide. Complete
+
+coincidence, as a matter of fact. But Matz told
+
+us all to be garbage collectors, and then Koichi
+
+Sasada did a great talk yesterday. It was a
+
+lot of fun to hear about what's coming in
+
+Ruby 2 point 1 with garbage collection.
+
+And I want to talk about garbage collection, how
+
+it works in, in three different versions of Ruby.
+
+Standard Ruby or MRI. MRI stands for Matz's Ruby
+
+Interpreter. I also want to talk about two alternative
+
+implementations of Ruby called JRuby and Rubinius. I, I
+
+know a couple of those guys are here, so
+
+you guys can correct me whenever I get, when
+
+I get into trouble.
+
+But before we get into the technical stuff, like
+
+what is garbage collection, how does it work, why
+
+do we want to talk about garbage collection? Why
+
+are we talking about it so much at this
+
+conference? It seems like a boring, dry technical topic.
+
+You know, there was a blog post recently in,
+
+it's been a couple months now, where someone said
+
+if you Tweet your garbage collection settings, you could
+
+get your test suite to run twenty percent faster.
+
+You know and that's great. I certainly admit that
+
+garbage collection is important. It's important that we run
+
+our tests fast. It's important that our apps run
+
+fast and users don't have to wait for long
+
+pauses while garbage collection is going on. But is
+
+it really interesting? Is it really exciting? Like how
+
+many of you here are getting excited by garbage
+
+collections?
+
+AUDIENCE: Whoo! Yeah! Whoo!
+
+P.S.: That's not what I- you guys all need
+
+to get a life, all right. This is really
+
+boring stuff. This is like computer science text book
+
+stuff. But, of course, I agree. I actually think
+
+garbage collection is really exciting and interesting. I think
+
+it's one of the most fascinating parts of computer
+
+science theory.
+
+And, you know, that's why, I think there's two
+
+real good reasons why to study garbage collection. One
+
+is, it's a great way to sort of go
+
+back to the classroom. You know, if you majored
+
+in computer science a long time ago, it's a
+
+great way to go back and sort of relearn
+
+what you already know, or if you're like me,
+
+maybe you came into Ruby and you never majored
+
+in computer science. You came from some other place,
+
+some other pack. So studying, so then like this
+
+can be a great way to sort of get
+
+your feet wet with real computer science theory.
+
+And there's another interesting reason why we should, I
+
+think, look at garbage collection. The way I like
+
+to put it is, you can learn a lot
+
+about someone from their trash, from their garbage. You
+
+know, if you go outside of a house, like
+
+a big fancy mansion and you look at what
+
+they throw out, you can get a sense of
+
+what's going on inside the house. Or, you know,
+
+archaeologists, when they go study ancient civilizations like ancient
+
+Greece or ancient Rome or whatever. You know, what
+
+are they doing? They're going into, they're pulling stuff
+
+out of the ground that people threw out thousands
+
+of years ago. And from that trash they can
+
+sort of figure out what was going on in
+
+that culture, in that city.
+
+And so even with Ruby, I think we look
+
+at how Ruby handles trash and garbage, we can
+
+get a sense of, at least, how the rest
+
+of that Ruby implementation works. But even the name
+
+garbage collection is a little bit of a misnomer.
+
+Garbage collectors don't just collect garbage. In fact they
+
+do three things. They allocate memory for new objects,
+
+so new values, so every time you create a
+
+Ruby object you're actually interacting with the garbage collector.
+
+It's kind of interesting and, and unexpected, but true.
+
+The second thing is they identify garbage objects. So
+
+they figure out which objects you're actually using in
+
+your code and which ones you're not. The garbage
+
+objects. And then they reclaim memory from those garbage
+
+objects.
+
+And just how do they do that? How do
+
+you get memory back from garbage and, you know,
+
+reuse it again for allocating more objects? It's cool
+
+if you think about it, it makes perfect sense
+
+that garbage collectors both allocate memory for new objects
+
+and reclaim memory from garbage objects. It's sort of
+
+two sides of the same coin so it works
+
+really well.
+
+So, an analogy I like to draw about this
+
+is if you're application is the human body, you
+
+know, let's say all of your code, all of
+
+your business logic, your beautiful algorithms, everything that you
+
+do is the brain, right, the intelligence of the
+
+body. So what part of the body do you
+
+think the garbage collector is?
+
+Kidneys. Liver.
+
+AUDIENCE: Gallbladder.
+
+P.S.: Gallbladder. Wow I'm getting a lot interesting answers.
+
+What was that? The heart.
+
+AUDIENCE: The heart. Right.
+
+P.S.: That's my answer. The heart.
+
+But one other interesting answer I got last few,
+
+last month at another conference is somebody said it's
+
+the immune system. You know, the white blood cells
+
+that go looking for viruses and bacteria. But yeah,
+
+I think it's the heart. I agree with you.
+
+I think that garbage collectors are actually the beating
+
+heart inside your application.
+
+You know, just as your real heart, if your
+
+heart stopped beating you'd be dead in seconds. You
+
+know, if your garbage collector stopped working, your application
+
+would be dead. You know, just the way that
+
+your heart provides blood and nutrients to the rest
+
+of the body, the garbage collectors provide a memory
+
+and objects for your application to use. And what,
+
+you know, if you had heart disease, if your
+
+heart slowed down, if you've had clogged arteries inside
+
+your garbage collector, your application would slow down and
+
+slow down and eventually die.
+
+OK, so what I want to do today is
+
+talk about how garbage collection works and just to
+
+give us something to talk about, I'm not gonna
+
+use really a lot of code today or actually
+
+very, almost, almost no code. I'm not gonna show
+
+any C code details. But I, what I do
+
+want to do is put a little class on
+
+the screen that we can use as an example
+
+as something to talk about.
+
+So the node class, kind of a boring name,
+
+I apologize. Initialize method - it just saves a
+
+value in an instance variable. And that's just a
+
+way for me to, you know, remember which node
+
+is which. So I can say, node dot new
+
+one. Node dot new two. And, you know, we
+
+would know which node is no. Which node is
+
+which.
+
+So let's start with allocation. So what happens inside
+
+of Ruby when I allocate a new object? You
+
+know, what kind of work does Ruby need to
+
+do? And the amazing thing about this is when
+
+I learned this is Ruby actually does very little.
+
+The reason why is that ahead of time, Ruby's
+
+actually creating thousands of objects when it starts up.
+
+So before your application ever runs, before a single
+
+line of your code runs, Ruby has, while it's
+
+starting up, created actually around ten thousand objects and
+
+put them in a linked list.
+
+So I'm gonna show you a bunch of diagrams
+
+today. What these squares are, representing are objects, there's
+
+actually C structures inside of Ruby. By the way,
+
+when I talk about standard MRI Ruby I'm gonna
+
+put a red Ruby at the top of the
+
+slide so we don't get confused about which one
+
+we're talking about.
+
+So each one of these squares is a, is
+
+an object that's been cre- pre-created ahead of time,
+
+and it's sort of ready and waiting for me
+
+to use it. So when I call the new
+
+method and I create an object and I say
+
+n1 is node dot new of ABC, right, so
+
+here I have this n1 variable, this is like
+
+a pointer or a reference up to a node
+
+object, and I'm gonna draw this one in gray
+
+now, because this is a live, active object that
+
+I'm actually using in my code.
+
+The other ones remain white, because they're not being
+
+used yet. They're wai- they're waiting for me to
+
+use them. So they stay on the linked list.
+
+And so what you can see is, Ruby actually
+
+doesn't do anything. When I create a new object,
+
+all it has to do is pull one off
+
+the list and give it to me. So it's
+
+very cool.
+
+If I create another one - n2 is node
+
+new of DEF, same thing. Ruby does very little.
+
+It just gives me one up ahead of the
+
+list. The list gets a little shorter. I have
+
+now two objects. And, you know, if I do
+
+it again, I have node new GHI. Same, same
+
+story.
+
+So this algorithm is called the free list. This
+
+is the free list algorithm, algorithm, and it's actually
+
+nothing new, nothing new to Ruby. It was invented
+
+a long, long time ago by this man here.
+
+Is this actually Mike Bernstein from Code Climate? Wait.
+
+It, ladies and gentlemen, I think Mike Bernstein is
+
+in the audience somewhere today. There he is. There
+
+he is. All right. Fantastic. So we have a
+
+legendary computer scientist with us today. Well, actually, while
+
+it's true that Code Climate has some legendary computer
+
+scientists working there, this is actually a man named
+
+John McCarthy. He is a professor, he was a
+
+professor at MIT. Actually spent most of his career
+
+at Stanford.
+
+While he was at MIT he invented a programming
+
+language called Lisp. You've probably all heard of that.
+
+It's famous for being the first, or one of
+
+the first functional programming languages, and a lot of
+
+what's in Ruby comes from Lisp. All the ideas
+
+around blocks and closures and, and other things as
+
+well. Functional techniques.
+
+But what I want to talk about today is
+
+garbage collection. And in fact John McCarthy invented garbage
+
+collection in 1960, when he built Lisp. So Lisp
+
+is not only famous for the language itself, it's
+
+famous for how it was built and what John
+
+McCarthy put inside of it.
+
+So he invented the free storage, he called the
+
+free storage algorithm. He wrote about it in his
+
+academic paper from 1960. So this is 53 years
+
+ago. Re- it's called recursive functions of symbolic expressions
+
+and their computation by machine part one. The cool
+
+thing about this is part one was good enough.
+
+There was never a part two or a part
+
+three. Like, he got it right the first time.
+
+And you could read all about this. You could
+
+stop right here. You could see Lisp stands for
+
+List-processor. And lots of cool stuff in here. One
+
+of the things that he mentions is the free
+
+storage list algorithm. And so he, you know, for
+
+good or for bad, Ruby actually uses exactly the
+
+same algorithm that John McCarthy invented 53 years ago.
+
+I'll just give you a sense of how long
+
+ago that was. This is the first computer that
+
+ran Lisp. This is called the IBM 704. This
+
+photo was taken in 1963. And you can see,
+
+there it is, up in the back, that whole
+
+cabinet is the computer. And, of course, you know,
+
+all of us have cell phones and smart phones
+
+in our pockets that have thousands or millions of
+
+times as much memory and CPU power.
+
+but the point here is, that computer ran the
+
+same algorithm that Ruby uses today for garbage collection.
+
+Pretty amazing.
+
+Now, I'm gonna switch gears and talk about the
+
+other two alternative versions of Ruby. One is JRuby.
+
+I'm gonna put a little red bird for JRuby
+
+- I think that's the JRuby icon, or logo.
+
+And for Rubinius we'll have a black R. So
+
+just to keep track of which is which so
+
+we don't get confused.
+
+And so what happens, how does allocation work for
+
+these versions of Ruby? So they work very differently.
+
+They also create things ahead of time, but what
+
+they do instead of creating a linked list of
+
+different objects of all the same size, they allocate
+
+this big stretch of continuous memory called the heap.
+
+And then when I allocate new or whe I
+
+create new objects, it allocates memory from the heap
+
+using a pointer. I'm calling it next, I don't
+
+know what it's called inside of the JVM.
+
+Remember, JRuby is Ruby implemented with Java, so I'm
+
+really talking about how the JVM works here. And
+
+Rubinius also, Rubinius is Ruby implemented with Ruby, but
+
+it uses its own virtual machine written in C++.
+
+So both of them actually allocate this big heap,
+
+and then as I create new objects, you know
+
+ABC, DEF, or GHI, same story, what happens is
+
+you can see this next pointer moves across from
+
+left to right. And they allocate adjacent bits of
+
+memory one after the other from the same heap
+
+in this way. This algorithm is called bump allocation.
+
+Cause we're, you know, bumping this pointer along from
+
+left to right. So kind of a cool idea.
+
+Now, of course, my diagrams are super simple simplifications
+
+of reality. So what's actually going on here is
+
+a lot more complicated, you know, back to standard
+
+Ruby, when I create a new node I'm actually
+
+creating a lot of different things. I have the
+
+object over here and some of the C structure
+
+names down here. I don't really want to get
+
+into this sort of detail today, but what's interesting
+
+here is, or what I want to point out
+
+is, you know, I have the object here and
+
+then the string I saved inside of it is
+
+over here. And then there's something else over here
+
+- this is the node class called the R
+
+class structure.
+
+The point I want to make is that all
+
+the things that we use in standard Ruby might
+
+be located in different places. And there are pointers
+
+that point from one to the other. So it's
+
+likely that these values or objects are not all
+
+together in the same stretch of memory. But if
+
+we look at, oh in fact if I create
+
+a new node and I put in more than
+
+23 characters, in fact, those letters don't even fit
+
+inside of the R string anymore. It puts them
+
+out, it has to allocate a different str, stretch
+
+of memories and put the letters somewhere else. So
+
+once again we see that, in order to use
+
+these values, Ruby has to go get stuff from
+
+different places in memory.
+
+And that's different, and again, this is oversimplifying, but
+
+it's different from how JRuby and Rubinius work, because
+
+they're allocating things from the same heap. It's more
+
+likely that these things are gonna be located nearby
+
+each other, that have similar memory addresses. But that's
+
+important for is that when your CPU actually caches
+
+RAM, and it's faster, it runs faster if it's
+
+getting values repeatedly from the same area of memory.
+
+So if it's hitting that cache more often. And,
+
+you know, even the, the letters of that longer
+
+string are gonna be located in the same net,
+
+same initial heap.
+
+OK. So let's move on to identify, how do
+
+garbage collectors identify garbage objects and, later, what do
+
+they do with them? But how do they find
+
+them in the first place? So let's go back
+
+to standard Ruby, the red Ruby icon. I have
+
+my free list. I've got three nodes already. So
+
+let's say I continue to run my program. I
+
+create some more objects. OK, this time I say,
+
+n1 is node new object JKL. OK, we've seen
+
+this before, we kind of get it pat.
+
+All right, let's move on. Get the, get to
+
+the point. All right, I'm creating more and more
+
+nodes. You can see what's happening here is I'm
+
+using up the free list. And eventually, you know,
+
+obviously the free list will run out. Something has
+
+to give.
+
+But there's another interesting detail here I want to
+
+point out, which isn't as obvious. You know, since
+
+I'm changing the value of n1, that variable or
+
+reference over here, I'm moving it over here, repeatedly
+
+to point at different nodes. Different objects. But the
+
+old objects are still there. They remain behind. So
+
+Ruby actually doesn't clean up after itself. No. Working
+
+as a Ruby collector, you need to get used
+
+to the fact that you're sort of, it's sort
+
+of like living in a really messy house.
+
+You know, when I got out of college, I
+
+lived with a few graduate students for about a
+
+year in a shared apartment. You know, I've been
+
+there. I know what that's like. They didn't clean
+
+the dishes. They didn't, like, they threw dirty clothes
+
+all over the floor. It was a disaster. You
+
+know, I'm not a neat-freak by any means, but
+
+it was a painful experience. And you know with
+
+Ruby, the same thing is going on. As I'm,
+
+you know, using objects, they're just left behind when
+
+I'm done with them. So eventually the free list
+
+runs out. Then what happens?
+
+You know, life can't go on. The house fills
+
+with trash and something has to give. So what
+
+Ruby does at this point is something called stop
+
+the world marking. So it stops your program. Your
+
+program is no longer running. And instead Ruby starts
+
+to do garbage collection, which means it starts to
+
+mark all the objects that your application is using.
+
+So, again, oversimplification, but it goes to all the
+
+different variables in my code, different references. It has
+
+a lot of its own references inside the virtual
+
+machine inside of Ruby. And it goes to the
+
+objects that these things point to and it marks
+
+them. I'll put a little m here for mark.
+
+In fact, there is, the way this works technically
+
+is there is a bit, so there's zeros and
+
+ones that indicate whether objects are marked or not.
+
+This is actually saved, starting with Ruby 2 point
+
+0, this is saved in a separate stretch of
+
+memory called the free bit map, and I think
+
+the author, the inventor of that system is here
+
+with us too. Nari San, I know he's here
+
+at the conference.
+
+So this is called bit map marking. This is
+
+new in 2 point 0. It allows Ruby to
+
+run faster and take advantage of something called Unix
+
+copy-on write optimization, so. I'm not gonna get in
+
+to that today. If you're interested in that sort
+
+of thing, I wrote an article about that you
+
+can check out online.
+
+But the point today is all the objects I'm
+
+actually using, what are called live objects, I'm showing
+
+here in gray, are marked. And the remaining objects,
+
+the white ones, since I'm not using them they're
+
+not marked. So they're, they must be garbage objects.
+
+So, by marking the live objects, Ruby has indirectly
+
+identified all of the garbage objects. Now, like I
+
+said, there's a, this is a big oversimplification, so.
+
+An actual program has, you know, hundreds and thousands,
+
+many thousands of objects that are all pointing to
+
+each other, in complicated ways. So there's actually, you
+
+can think of it as what's called an object
+
+graph. So there's a big network, or, you know,
+
+tree of objects, and they're all referencing each other.
+
+And so the code, the marking code inside of
+
+Ruby has to traverse this tree somehow and mark
+
+all these different things. So it's a very complicated.
+
+And this is why Ruby stops the world. So
+
+that it can do this without getting confused. Now,
+
+let's go and shift over to JRuby and Rubinius.
+
+So they do something similar. They also mark their
+
+objects so they know which are garbage and which
+
+are not, but they can do it while your
+
+application is running, at least some versions of the
+
+garbage collector in the JVM, and Rubinius does as
+
+well.
+
+So let's talk about how this works. So I'll,
+
+I'll put the word collector in this big blue
+
+arrow. This represents the garbage collector, OK. So the
+
+code that's inside of, of the JVM or inside
+
+the Rubinius VM, that's going through this object graph
+
+and marking all the different objects. So in this
+
+example it's marked the three along the top, it's
+
+come down to this one and in a moment
+
+it's, you know, in a microsecond it's gonna move
+
+on and mark these other two ones here that
+
+remain.
+
+So what happens next? So let's suppose that my
+
+application or your application is actually running at the
+
+same time as the garbage collector, maybe in a
+
+different thread. So let's say it comes over here,
+
+and I'm gonna represent this application with this other
+
+blue arrow, and I'm labeling it the Mutator. So
+
+this is one of the funny things if you
+
+read garbage collection literature, like academic papers from computer
+
+science, they refer to, you know, the nice innocent
+
+garbage collector over here, which is trying to do
+
+its work, and the evil mutator, which comes in
+
+at the last minute and starts changing things while
+
+it's trying to do garbage collection.
+
+But it's a little bizarre. But it's how computer
+
+scientists see the world. It's like its backwards. But
+
+what they do is, so imagine your application runs
+
+and it create an object, let's say, that one
+
+over there is a hash or an array, and
+
+I stick something into that array, a new object
+
+over here. But the new object, notice it's white,
+
+it's not marked yet. It's just been created.
+
+So since I'm running my app while the marking
+
+is going on, the collector, the poor innocent collector's
+
+over here, it doesn't know that happened. So it's
+
+gonna, well, what is it gonna do? It's gonna
+
+continue and mark these last two ones. And it's
+
+done. It's marked all the objects.
+
+So now it knows that everything that's marked is
+
+live. But what about this one? This wasn't marked.
+
+It's not garbage, though. If it collects that, if
+
+it releases that, then this is a huge problem,
+
+and actually Koichi Sasada, talked about this yesterday in
+
+a different context for generational garbage collection.
+
+But if we free that it's gonna be a
+
+huge big problem. We're gonna blow away validate on
+
+your application. So what do we do about this?
+
+So we go back to computer science theory. So
+
+this is going back to the 1960s again. I'm
+
+gonna get this pronunciation wrong. This is another legendary
+
+computer scientist called Edsgard Dykstra. I hope that's right.
+
+So he's also from Ho- he's from Holand, and
+
+he invented this idea called tri-color marking, which I'll
+
+explain in a second. He wrote a, he wrote
+
+an interesting paper about it. He called it On-the-fly
+
+garbage collection: an exercise in cooperation.
+
+So, well, on-the-fly, we kind of get that. It
+
+means you're doing garbage collection while your application is
+
+running. But what is cooperation? What is that all
+
+about? So he's talking about cooperation between the garbage
+
+collector and the application that's actually running.
+
+So again this is a very old idea. None
+
+of this is new to Ruby or to the
+
+JVM or anything like that. This is from the
+
+1960s. And how does it work? So again in
+
+JRuby and Rubinius, certain versions of the garbage collector
+
+in JRuby and also Rubinius use this tri-color marking.
+
+So the way it works is we divide up
+
+objects into three colors. White, gray, and black. We'll
+
+get to black in a minute. But initially all
+
+the objects are considered white. That means we haven't,
+
+we don't know anything about them. In the middle
+
+we'll have some gray objects. Initially we put what
+
+are called root objects here. These are like the
+
+roots of those, of that object rack tree.
+
+So these are objects that we know are live,
+
+that the virtual machine itself is using or your
+
+code has, you know, in a global variable or
+
+something. And then the collector, again, the blue arrow
+
+is gonna go through these gray objects and process
+
+them one at a time. And as it goes
+
+through those, it's going to mark them.
+
+And then it, when it marks them it'll move
+
+them over here to on the left and it'll
+
+color them in. Of course nothing is really going
+
+on, but colors is just a metaphor for describing
+
+the algorithm. but it will consider them black and
+
+put them over here on the left. And they're
+
+marked. So these are the objects that we know
+
+are marked. And on the right are the remaining
+
+objects that we don't know anything about. And the
+
+gray objects, think of these as the objects that
+
+are in the list or in the process of
+
+getting marked. So that you can call this the
+
+marked stack. It's like a list of objects we
+
+need to mark.
+
+And the other important detail here is, every time
+
+we mark one of these, we also check to
+
+see if it has a child object or objects
+
+over in this category. So the idea, as the
+
+process runs, the idea is that objects move gradually
+
+from the right and from the white to the
+
+gray over to the black. And then when we're
+
+done, we have a bunch of marked objects on
+
+the left that are black and we have some
+
+other garbage objects left behind that are white.
+
+So, you know, what's the big deal. Why are
+
+we doing all this stuff with colors? What's neat
+
+about this is it allows you to do concurrent
+
+marking. So what do I mean by that? Let's
+
+suppose that while I'm marking the gray objects in
+
+the middle, the mutator comes along and, and does
+
+something. It changes one of these things.
+
+This was, let's say this was over here. I
+
+had already marked it. It was black. But then
+
+I modified it by adding a reference from it
+
+to some other new object. So at the moment
+
+that I do that, the collector, what it can
+
+do is it can move it back into the
+
+marked stack. Or it could move the new object
+
+into the marked stack. Either way, I think Rubinius
+
+does the second thing.
+
+And what's neat about that is that we allow
+
+the application that second blue arrow to continue to
+
+run and go about its business. But the trick
+
+here is somehow the garbage collector needs to know
+
+that this happened. It needs to know when to
+
+move one of these black objects and make it
+
+gray again. So how does it do that?
+
+What it does is - actually there's a great
+
+article by Dirkjan Bussink from, from the Rubinius team
+
+about this exact issue. And it's a fantastic read.
+
+Check this out online on the Rubinius blog. Well,
+
+what he talks about is how you use write
+
+barriers. So I'll represent that with this sort of
+
+conceptual dotted line around the object. In fact it's
+
+around every object.
+
+A write barrier is just a little piece of
+
+code that allows the garbage collector to know when
+
+we, when the application, when you modify some object.
+
+And when that, when you do that, when you
+
+modify something, this calls the garbage collector and gives
+
+it a chance to move this one back into
+
+that gray category. So that's how concurrent marking works
+
+and how, with certain versions of the JVM and
+
+with Rubinius, you can run your application without or,
+
+at least, with very short runs and few minor
+
+GC processes.
+
+OK, so now we've identified our objects as garbage.
+
+What do we do with them? How do we
+
+reclaim memory from these things?
+
+So let's go back to standard Ruby with the
+
+free list. We have these three live objects and
+
+we have five garbage objects. So what do we
+
+do? How do we give those back to your
+
+program to use again? Well it's actually quite simple.
+
+We've done the marking, now we do what's called
+
+sweeping. So the, the standard Ruby or CRuby algorithm
+
+is called mark and sweep.
+
+This is the sweep part. So we copy all
+
+these objects and put them back on the free
+
+list. And I just said copy but that's not
+
+true. The neat thing about this is we're not
+
+actually copying anything. Since this was a linked list,
+
+all we have to do is sort of modify
+
+these pointers inside those objects to re- to put
+
+them back on the linked list, to reform the
+
+list.
+
+So it's actually quite fast and there's not copying
+
+involved.
+
+Now what about, back to JRuby and Rubinius? How
+
+do they work? How do they reclaim memory from
+
+garbage objects? So this is actually a really cool
+
+algorithm. Let me take a couple minutes and explain
+
+this. I was really impressed by this when I
+
+learned about it.
+
+So what I said earlier is actually not true.
+
+The JVM and Rubinius don't allocate just one big
+
+stretch of memory for allocating objects. It allocates two.
+
+One is called the from space. The other is
+
+called the to space. it's not called that in
+
+the code but it's called that in, you know,
+
+academic literature.
+
+This algorithm again this is a algorithm from the
+
+1970s. This is not, not anything new even for
+
+the JVM. SO the way this works is once
+
+I've identified all the live objects - those are
+
+the gray ones - and all the white spaces
+
+in between are the garbage objects, what I do
+
+is I copy those ones. I copy the live
+
+objects, not the garbage objects, from the from space
+
+and to the to space.
+
+So what that means is that I copy the
+
+live objects and actually physically copying memory around at
+
+this point. This idea is called copying garbage collection.
+
+And I put them in the other heap which
+
+is of the same size, just in case everything
+
+was live and in that case there'd be enough
+
+room to copy everything. And then I move that
+
+allocation pointer over so if I want to allocate
+
+more memory I know where to allocate it from.
+
+Now, here's where the elegant part comes in. So
+
+what the JVM and Rubinius do is then they
+
+swap the two spaces. So they swap the from
+
+space, I'm sorry, the to space up to be
+
+the new from space and they swap that old
+
+from space down to be the to space. And
+
+so now what we're end, what we end up
+
+with is a new heap with all of just
+
+the live objects in it and the remaining space
+
+is now ready for me to start allocating more
+
+new objects efficiently.
+
+now what's beautiful about this algorithm is that it's
+
+a very elegant way of compacting the heap. So
+
+when I did the copying, notice that all these
+
+objects, you know, went from different places in top
+
+feed and all ended up in the left side
+
+of the new one. SO it's not only getting
+
+rid of all the garbage, it's, it's moving the
+
+live objects together. It's a really elegant way to
+
+do this.
+
+And, like I said, this is from 1970. It
+
+was invented by the guy C.J. Cheney. Another computer
+
+scientist worked in garbage collection. We won't read all
+
+his stuff. And there's a variation on this called
+
+the baker algorithm that does the same thing but
+
+also works concurrently.
+
+Yes?
+
+AUDIENCE: (indecipherable - 00:25:23)
+
+P.S.: Conceptually. Theoretically, yes. So there's a lot more
+
+going on here. In fact one of the details
+
+is, there's a third heap I didn't mention called
+
+the Eden Heap. It means like the Garden of
+
+Eden. So this is where, I love this stuff,
+
+it's like out of fantasy land. So, so this
+
+is the Garden Eden because it's where we create
+
+all new objects. So life begins in the Garden
+
+of Eden, and then things are copied down. SO
+
+that's a third heap, and actually we'll get to
+
+generational garbage collection in a moment. SO there's even
+
+more heaps. So the answer is it's really complicated.
+
+But I lo- I like to get rid of
+
+the complicated stuff and focus on sort of the
+
+basic ideas and theories behind what's going on here.
+
+Cause it's really cool stuff to understand this. So
+
+it's, so let's get to generational garbage collection right
+
+now.
+
+So Koichi Sasada talked about this yesterday with MRI
+
+Ruby. But let's start with JRuby and Rubinius. SO
+
+how does the JVM and Rubinius do generational garbage
+
+collection?
+
+So one of the things about copying garbage collection
+
+- so we just saw how its copying these
+
+objects down. It seems like this would be really
+
+slow, doesn't it. Like it seems like a really
+
+bad idea, like why would you want to be
+
+copying objects around in memory, back and forth, and
+
+you know, we're swapping these, we're repeatedly copying things
+
+back and forth and back and forth. It doesn't
+
+seem like that would be a very fast way
+
+to do stuff.
+
+But the, the cool thing here is it only
+
+copies the live objects. SO this will work very
+
+well when there are very few live objects. When
+
+most of the objects are in fact garbage. And
+
+that's actually the case quite often. So if you
+
+create a new object, chances are you're not gonna
+
+use this for very long. Chances are that this
+
+is some sort of intermediate value inside a calculation
+
+or your uses, you create this and use it
+
+inside of one method. The method returns and you
+
+pop the stack and the object is released or
+
+it becomes garbage.
+
+So most of the time, most objects live for
+
+a very short period of time. So, and Koichi
+
+talked about this yesterday, this is called the weak
+
+generational hypothesis. If you didn't see that, check out
+
+his slides. He had some great graphs of actual
+
+data of how long objects typically live inside of
+
+Ruby. but this is a fancy way of saying,
+
+new objects die young. That's just the way object-oriented
+
+programming tends to work, and that's why they say
+
+this is a hypothesis. It's hard to prove this
+
+is the case and you can make pathological examples
+
+where this is not the case. But most of
+
+the time what happens is here is that there's
+
+very few objects that have to be copied down,
+
+and when some objects do live on for a
+
+longer period of time - so some objects do
+
+become old objects or mature objects, these might be,
+
+you know, configuration values or class objects, classes that
+
+you create, you need for the entire lifetime of
+
+your app.
+
+So what the JVM and Rubinius do is they
+
+promote, they get rid of those objects that last
+
+longer than a certain number of slots. A certain
+
+number of copy operations. So in fact what happens
+
+is for these, for this, this is called the
+
+young generation. For young objects or new objects, they're
+
+frequently not copied because they only live for a
+
+short period of time.
+
+So it's a really cool thing. Not where do
+
+these promoted objects or mature objects go? So it
+
+turns out, so this is called the young generation.
+
+This is where the garden of eden was and
+
+all this copying is going on, and on the
+
+top is the mature generation where we need to
+
+deal with these, you know, pesky old objects. How
+
+do we get rid of these?
+
+So what happens up there? So the answer is
+
+it depends. It depends on which garbage collector you're
+
+using. Well, what do you mean which garbage collector?
+
+Well it turns out in JRuby and, and if
+
+you use the JVM for any Java application, you
+
+can actually pick which garbage collector you want to
+
+use. I never knew this until recently when I
+
+started studying this stuff. It has this sort of
+
+plug-in play API for garbage collection.
+
+So in the JVM you can say I want
+
+to use the good-old-fashioned serial garbage collector, and that
+
+actually works. That uses stop the world. It stops
+
+your application and it sort of works similar to
+
+how standard Ruby works. You could, you can decide
+
+to use the parallel GC. This means, really the
+
+same thing as a serial GC except during that
+
+stop the world phase, while it's doing the marking,
+
+it does that at least in parallel in different
+
+threads. It speeds it up a little bit.
+
+Then there's a really cool new one called -
+
+it's not new actually, but -there's another one called
+
+the concurrent mark and sweep GC. So this one
+
+is designed to do the concurrent marking, what I
+
+talked about earlier for Java programs. And so with
+
+JRuby, of course, the nice thing about JRuby is
+
+you're using the JVM. So you can take advantage
+
+of, even though you're writing Ruby code, you can
+
+take advantage of the years and years of work
+
+that have gone into the JVM.
+
+So you can choose to use that concurrent mark
+
+and sweep GC if you want. You just turn
+
+it on. There's even a new one, this other
+
+experimental garbage collector. This one's called G1GC. This stands
+
+for garbage first garbage collection. I'm not gonna get
+
+into the details. I don't even pretend to understand
+
+how it works.
+
+But like anything there's these great academic papers you
+
+can go and read about all this stuff. So
+
+like I said this is a chance, an excuse
+
+for you to go back to school. You know,
+
+Loren Segal was talking about this yesterday, how, you
+
+know, I think for generally for Ruby tools and
+
+I think he was talking about security stuff, there's
+
+all kinds of academic papers out there. You can
+
+go and read this and learn about it. So
+
+it's really great. So use this as an excuse
+
+to go back to school and read about this.
+
+This is how the, the third one here concurrent
+
+mark and sweep GC. That algorithm is described here.
+
+It's actually mostly concurrent GC cause it does still
+
+stop your app for brief periods of time. There's
+
+another article called, about the garbage first garbage collection.
+
+You're, you'll read about that one here. This one's
+
+from 2000. This is 2004. So you know we're
+
+getting into at least the same century that we're
+
+in now.
+
+And what about Rubinius? You know, let's not forget
+
+about Rubinius. They actually use an algorithm from 2008.
+
+This is called Immix. Again, I don't pretend to
+
+understand this. It's quite complicated. But you can read
+
+about it here. And these two people invented that
+
+recently. I think for both this one, Immix, and
+
+this garbage first stuff they kind of divide up
+
+the memory to different regions, and I think they
+
+call them cards, and it's very complicated. The idea's
+
+to efficiently manage where objects are and move them
+
+around so you can give memory back to the
+
+operating system effectively.
+
+OK, so what about standard Ruby? You know all
+
+this great stuff with generational garbage collection. We're now
+
+getting, you know, all the work that Koichi is
+
+doing in the core team, it's coming to your
+
+regular old standard Ruby with the 2 point 1
+
+release.
+
+He went through this yesterday and he really explained
+
+it very well. So I'm just gonna blow through
+
+these slides super fast and just repeat the same
+
+stuff.
+
+So with standard Ruby, we have, we're gonna have
+
+two generations - young and mature. So we'll do
+
+the marking the way that we saw earlier. But
+
+once something's been marked, once an object's been marked
+
+once it will never be marked again. So if
+
+an object lives long enough so that the marking
+
+process occurs, it'll get moved over here to this
+
+mature generation.
+
+now, again, it's not getting moved. It's not getting
+
+copied, like things are getting copied in the JVM.
+
+In, in MRI Ruby, there's no copying. It's just
+
+consit- I'm just conceptually considering these to be in
+
+a different category. And it just means that once
+
+something's been marked it won't be marked again.
+
+And so what happens is every time the garbage
+
+collector runs, it'll do at least a young generat-
+
+a young garbage collection or minor one, it'll mark
+
+all the young objects, the way that it normally
+
+does. But they'll just skip these ones. And so
+
+by just skipping them it speeds it up and
+
+runs faster. Doesn't take as long and it reduces
+
+the amount of time you're waiting for your garbage
+
+collector to work.
+
+But we have the same problem the Koichi talked
+
+about yesterday, and actually the same thing, a very
+
+similar problem to what I just talked about with
+
+concurrent marking. What happens if you create, and this
+
+doesn't have to be concurrent, it can happen at
+
+any time between one garbage collection and the next
+
+one - what happens if I create an object
+
+and I, you know, modify a mature object? And
+
+so this again might be a hash or an
+
+array and I'm inserting something into it.
+
+So the problem is with only marking the ones
+
+over here, I'm not marking these ones again. This
+
+won't get marked. It's a very similar problem and
+
+actually Dirkjan - I don't know where he is
+
+- his blog post describes some of this stuff.
+
+And it's really cool how the same solution applies
+
+cause it's a similar problem.
+
+So by using, again, write barriers, by putting a
+
+write barrier around these mature objects, I can detect,
+
+Ruby can detect when you modify one of those.
+
+And so by notice, by noticing that, by using
+
+this write barrier, and by telling the garbage collector
+
+that something happened, it can include, you know, this
+
+particular object can include that one in the marking
+
+and therefore mark that one in the middle, too.
+
+So, actually this is what I said is not
+
+true. I just learned a couple days ago that
+
+Koichi just committed something to Ruby that is going
+
+to use three generations. So this, these diagrams are
+
+actually not accurate anymore. We need to see what
+
+they, what these guys do, and I think Koichi
+
+said that they're still evaluating this, whether this is
+
+a good idea or not, so, I'll let you
+
+talk about that when you figure out what to
+
+do.
+
+So, but this is still under development and might
+
+change in the next few weeks or months.
+
+Anyway, that said, my name is Pat Shawnisee. I
+
+just wrote a book called Ruby Under a Microscope,
+
+which describes how Ruby works under the hood internally
+
+and this actually was a synopsis of chapter twelve,
+
+which is the last chapter on garbage collection. The
+
+book describes really everything going on inside of Ruby,
+
+so. That's it. I don't know if we have
+
+any time for questions, I might have run on.
+
+I hear noise outside. We're probably way over time.
+
+I'm happy to hang around, chat to anyone who
+
+wants for the rest of the afternoon. Thank you.
