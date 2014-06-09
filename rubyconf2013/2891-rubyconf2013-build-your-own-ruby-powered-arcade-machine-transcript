@@ -1,0 +1,183 @@
+RubyConf 2013 - Build your own Ruby-powered Arcade Machine! - Andrew Havens
+
+ANDREW HAVENS: Welcome to my talk, build your own Ruby-powered Arcade Machine. Thanks for being here. Before I start, can I get a show of hands who is here because they're interested in arcade machine hardware? OK.
+
+And how many of you are here because you're interested in writing games with Ruby? OK.
+
+And who's here just because they thought this talk sounded cool? OK.
+
+And how many of you, how many - I'm curious, how many of you feel that you're proficient in C or C++ programming? OK. That's more than I thought.
+
+So, let me introduce myself. My name's Andrew Havens. I'm a senior software engineer at a company in Portland called Copious. Copious is a user-center digital product development firm. We build web and mobile applications that focus on user experience. Many of our apps we build are written in Ruby but we actually have nine officially supported languages. One of the things I love about working at Copious is the variety. I'm getting to work on all sorts of different projects.
+
+Copious made it possible for me to be here today so I'm grateful for their support and Portland is a great place to be a Ruby developer so if you're interested in moving to Portland, we have a number of job openings available. You can check out our website, copio dot us, or you can talk to me directly.
+
+So before I start my talk, let's play a game. I need two volunteers. You and you.
+
+Choose a player.
+
+All right. So the way this works is you're gonna push these outside buttons - don't do it yet. And you're gonna blow up the balloon as fast as you can until it pops. When I say go.
+
+On your mark, get set, go!
+
+AUDIENCE: Whoo!
+
+A.H.: All right. Good job.
+
+All right. So playing games is fun. That's the reason why we're here. We want to build games. Game programming is fun. And maybe you want to make some money making games, so I'll talk a little bit about all those different things.
+
+So first of all, first step is to build the arcade machine. First part is planning it out. If you're gonna be going to work building an arcade machine, you might as well plan it out. The first step is deciding on a, a cabinet format. So there's all sorts of different arcade cabinet formats.
+
+The first, probably the most popular, is the upright cabinet. You could build one from scratch. You can find a used on Craigslist and refurbish it. Maybe you want to create a sit-down cockpit cabinet for driving games or flight simulators. You could re-purpose an old two-player cocktail cabinet, or maybe you want to build a big four-player cocktail cabinet, invite all your friends over to play. Create this cute little bar-top arcade. You can just put a sunburst background on your, a picture of your arcade - make it so much cooler. Or if you're feeling really generous, you can build an arcade for your mom.
+
+The next step is to plan out the control panel layout. So this will largely depend on what kinds of games you want to play. A game like Pac Man is a one-player game with only one joystick, so that's really simple to build. Maybe you want to build an arcade machine for fighting games, so you need two joysticks and six buttons or a four-player game that might not have as many buttons but it has more joysticks.
+
+There's lots of different types of buttons. So there's concave buttons and convex buttons. There's lighted buttons. Player start buttons. Custom, exit, and pause buttons. My favorite is the, the lighted insert-coin button. And I've got one of those on mine and I just think it's so cool.
+
+The next part is switches. So, some people go to great lengths to emulate the actual feel of a retro arcade machine and the type of switches that they used were called leaf switches. So people have created leaf switches to be able to provide that, the similar feel. But they're a little bit more expensive to get that kind of a feel, so maybe you just want to go with the plain micro switch. That's what I did.
+
+My arc- my arc- the goal of my arcade machine was to build something cheap and get something working right away.
+
+Joysticks - there are technically three different types of joysticks, but the most common are the four-way joysticks are the eight-way. A game like pack man is four-way. So having a four-way joystick is sort of important, because you don't want to get caught in a corner and not be able to move because it only supports four different directions. A game like Street Fighter - a fighting game - has fluid circular movements with the joystick so you actually don't want to feel the corners. You can get joysticks with convertible restrictor plates or ones that are motorized to be able to switch between the two. Those cost a little bit more, so I, I got one that was sort of in between. It has an octagon restrictor plate, so it feels a little bit more round but you can still feel the corners.
+
+And there's all sorts of extras. You can get track balls or flight sticks, light guns, steering wheels, shifters.
+
+Now, when you're laying out your control panel, you might feel like being creative. But I might suggest against that because you might go a little crazy.
+
+Slagcoin dot com has arcade layout templates based off of some of the most popular arcade games of all time, and I really suggest you check them out because there's great resources on that website.
+
+The next thing is a keyboarding coder. So you've chosen a format, buttons and joystick. You need something to be able to convert the button presses into something that the computer can read.
+
+A keyboarding coder encodes your input and turns it into basically keyboard input. So you can think of it as your arcade is basically an external USB keyboard. The I-Pac is probably the most popular. It's a little bit more expensive but it's really easy to use and all they, all the inputs are labeled. You can see, basically, player one on one side, player two on the other side.
+
+The value edition of the I-Pac only supports two players. But it comes with free airmail for thirty-five bucks. It ships from the U.K. so that was something that I didn't want to have to pay a lot for shipping.
+
+Back in the old days, people had to solder wires to a keyboard and they're a lot much easier tools now available.
+
+The next part of building an arcade machine is the computer. The brain. The thing that powers it all. So the nice thing about building a retro arcade game machine is that it doesn't require much computing power as a more modern game might require.
+
+So you can reuse an old computer. That was my plan. I wanted to build an arcade machine that was powered by my old Dell laptop. That thing was a beast. It was a big, heavy, seventeen inch laptop, and one time I was helping my friend move a piano in a mini-van, and my bag's in the back and my friend was driving and he had to slam on the breaks for some reason and the piano fell over and landed on my laptop and it go crunched on the outside but it actually survived and it could still function, so. I, I always remember that story.
+
+But the problem that I had with my Dell laptop is that - well, one feature was that it had S-Video. So I thought, that's great. I'm gonna be able to connect it to a TV. But the problem was that the S-Video required the proprietary Dell Dongle and you had to run this custom software on Windows XP and you have to manually click to activate it and- and that wasn't gonna work. It wasn't kiosk-friendly.
+
+So when you're building an arcade machine, what you want to do is you want to build a kiosk experience. SO you walk up to your arcade machine and you're not fishing around for a mouse to click into the operating system to launch your game. You want it to be controlled by the controllers on your ke- on your arcade machine.
+
+So I started building mine about a couple years ago. So there wasn't really much I could do about that besides maybe find another video-graphics card. But then, lucky for me, the Raspberry Pi came out. And one of the great things about the Raspberry Pi is it has composite video built in. So you can connect it to a TV.
+
+And if you're building a Raspberry Pi arcade machine, I want to see you making use of the GPIO pins. I want to see you making games that make use of external hardware because I think that would be super cool.
+
+So now you've got all the parts you need and you want to start building it. MDF or plywood are the most common types of wood to use when building your arcade machine. Three-quarter inch is a thick, is the right thickness. One and one-eighth inch hole saw. That's basically the standard button-size. One twenty-two, twenty-eight gauge electrical wire, spray paint, nails, screws, you know, the standard stuff.
+
+So when I started building mine, I just used some scrap plywood I had in the garage, drilled the holes - I ended up making it more difficult for myself because I chose a shape that wasn't square, so I'm building a box that's not square. That's harder to do.
+
+But the top, the, the sides are held on to the top using nails. I used a neumatic nail gun and wood glue. So, normally when people put a layer on top of their control panel they use, they cover it with artwork and they cover it with Plexiglas to protect the artwork. But that involves drilling more holes in the Plexiglas and more money to buy the Plexiglas. So I just came up with an idea to use contact paper. And it actually worked out pretty nice. It was cheap, covered up the nail holes, gives it a nice texture.
+
+There's a picture of me putting the buttons in. No switches yet. Here's the, the crown-jewel of my arcade machine. And here's a picture of all the buttons and the joysticks put in. And here's the underside, all wired up. So it's pretty simple. You can save wiring by chaining all the grounds together. You can use quick disconnects to make it easier to wire up. And, in this picture I don't have the Raspberry Pi mounted in here, but eventually I'll put it in there.
+
+So we've conquered level one. We've built our arcade machine and now we're ready to build some games. So, remember when I said we're building a kiosk? Well, we, we - unless we're only running one game, we need some sort of application to launch our games. So this is, this is called a front-end. This, essentially acts as our arcade machine's operating system. It's what we interact with using our arcade controls.
+
+There are a handful of different front-ends available. They're all built to work with game emulators. Here's a, a nice one. Some of them focus on having nice graphics like this one. Some are built to be customized. The problem with this one is that it's running on Flash. So it's got nice animations but running this on my old Dell laptop was super slow. It just didn't look as, as nice as this and- plus this one costs money. It's not free.
+
+So I decided I wanted to build my own. So the first step in building an arcade machine emulator that's running on Ruby - or not an emulator, a front-end for launching games - is to build a desktop application. But I'd never built a desktop application with Ruby. So I did a little research and first thing that I came across was Curses.
+
+And Curses is part of the standard Ruby library. It's designed for creating text-space GUIs. So it's meant to be used on the command line. And I started using this, cause it gave it a sort of a retro feel. But you reach a point where your options are pretty limited. You can't, you can't, you don't have a lot of control over some different types of things. So it wasn't really gonna work out. Can't control the font-size. That was the biggest problem. Plus I wanted to build a cross-platform application, so this wasn't a good fit.
+
+So if you att- if you attended the talk yesterday using DRb to create a Pirate Game, then you got a taste for what Shoes can do. Shoes basically provides a, a Ruby DSL for creating desktop applications, but, again, it's not really designed for creating full-screen applications that are controlled by the arrow keys. So this wasn't gonna work.
+
+The next thing I found was QT. There are QT Ruby bindings available. You can create cross-platform applications similar to Shoes, but it's basically in the same boat. You don't have a lot of control and it's not really designed for the purpose that I wanted.
+
+Then I came across Gosu. And Gosu is perfect for this. Gosu is full- built for, is designed for building full-screen graphical applications. It is powered by C++ library which abstracts the OpenGL calls and provides a Ruby wrapper to interact with the underlying C++ layer. It runs on Windows, Mac, and Linux.
+
+So if you search for Ruby game programming on the web, you will find people saying that Ruby's too slow and you can't use it for game programming. But I think it's important to realize that while you might not be using Ruby for the actual OpenGL calls, you can interact with some lower-level C and C++ libraries.
+
+And if you were, if you attended Michael Fairley's talk about Gosu yesterday, then you're already pretty familiar with this, and if you're not then I suggest you go online and watch his talk cause it was really good.
+
+So I'm just gonna fly through some of the basics. So Gosu provides hardware abstractions so you don't have to interact with the, the graphics rendering yourself. It provides a run loop which is used to redraw the screen when events happen. Handles keyboard and mouse input. Provides some APIs for shapes, images, audio and text.
+
+Here's a basic Gosu structure. You, you extend from Gosu Window. You define these methods. Gosu will then call these methods every time through the run loop so, so that you can handle your game, game state changes through each iteration of the run loop.
+
+Gosu provides some abstractions for interacting with keyboard input. Keyboard and mouse input. It provides some, some nice APIs for creating images on the screen, so if you want to create just one image and render that one or if you want to have a sprite that's made up of multiple images -basically used for animations - you can use Gosu image load tiles and it provides an array of images that you can iterate through.
+
+Sounds. You can load music that is played through multiple iterations or you can, you can create sound samples that are used for short-term sound-effects and provides APIs for drawing shapes. This is pretty basic here. Basic - it really just abstracts the, the underlying OpenGL calls. Once you start getting into game programming like this you, you see that these methods end up taking like a huge amount of arguments and it gets kind of messy.
+
+Gosu provides two different ways of drawing text to the screen depending on how often it needs to be updated. So if you have a big block of text that's displaying, you know, the rules of your game or something like that, then you'll want to use that text and draw it into an image. Or if you've got the points on the screen that are, is updating frequently then you'll use a different approach there.
+
+So I don't think that I have time for, to show the source code of the game that we played earlier. So I put it online so you can find it on GitHub. And you might have noticed it's in this Ruby dash arcade organization. So this is the GitHub organization that I created when I started by Ruby front-end project. The goal was to build an arcade front-end that allows you to download and run games that other people have created, written in Ruby.
+
+but I got a little sidetracked along the way so it's not done yet. But you can check out that repository and it's got a lot of Ruby game programming-related gems and projects in there that you might want to check out.
+
+And one of those projects is rcade_controls. So this just provides a, a simple, simply provides some aliases to the Gosu keyboard constants. So instead of typing Goson colon colon KBA for the, the a key on the keyboard, you can type player two button one and that is a lot easier to read.
+
+Another lofty goal of mine was to run this, this presentation using a gem that I created called the presentation gem. So you can try it all. I wanted to be able to write my slides in mark down and automatically apply syntax highlighting and has it running as a full-screen application like this. But I ran out of time so I switched to using keynote, but.
+
+The presentation gem, it's pretty, it provides the basics out of the box so you could try it out. It'd be cool to improve on this in the future but it's not what I'm working on at the moment.
+
+Gosu is one of the few different game engine options available in Ruby. Gosu is designed for building desktop games. In Ruby motion we have Joybox. Joybox is really cool. But it only runs on iOS right now.
+
+In JRuby you can take advantage of LibGDX and Slick2D, which are two popular game libraries written in Java. So compared to these other two, Joybox and these Java libraries, Gosu seems pretty basic. And that's by design. Gosu is only really designed to provide a basic layer of abstraction.
+
+So there are other libraries that are built on top of Gosu that provide more game engine logic. Three examples are Chingu, Gamebox, and Metro. And Gamebox and Joybox have two very similar names, so don't get confused. Joybox is for iOS, Gamebox is for Gosu.
+
+And once you start interacting with more advanced physics, collision, detection and gravity and things like that, you want to start - you could either write all the math yourself to do this if it's pretty basic, but you might want to take advantage of some other options that are available like Chipmunk.
+
+Chipmunk, I think, is a C library, and there's a Chipmunk gem that abstracts that an provides a Rub API.
+
+OK, so, started building my Ruby-powered front-end for my arcade machine and I want it on- wanted, want to run it on my Raspberry Pi. So first step is to install Ruby on my Raspberry Pi. I installed it from source, which took about three hours. And I installed my gems and then I tried to run Gosu and it didn't work. I figured I was probably missing some sort of dependencies so I turned to Google and asked Google, how do I run Gosu on Raspberry Pi?
+
+And then I came across the Gosu forum, and in the forum Mat, here, he, he - I noticed that is, said he was working on something called Raspian, which is a Debian-Linux distribution designed for running on the Raspberry Pi. And he'd like to get Gosu running on Raspian so that his kids can get started with game programming.
+
+But as I scroll further down in the post, months have gone by and, found out that Raspian has launched and it's so popular it has become the default operating system and that they decided to go with Python instead.
+
+No!
+
+So the problem is that Python is now installed by default on the Raspian on, the, so basically on the Raspberry Pi. It comes with PyGame on Raspian, you even got a directory for your Python games in there, and Pyth- PyGame works on the Raspberry Pi, and that's because PyGame uses the SDL library instead of custom C++ code like Gosu uses.
+
+SDL stands for simple direct media layer. And essentially Gosu and SDL are almost competing. But the thing that concerned me is that I'm wondering, are kids learning Python instead of Ruby? Game programming is a great way for kids to get into programming. So this kind of made me wonder about the future of Ruby. If the next generation is building games with Python, they're already gonna know Python. Are they gonna be interested to switching to Ruby or, or is Ruby gonna die out?
+
+So what can we do? We can help improve Gosu so that we can get it running on the Raspberry Pi. Gosu's basically maintained by one person and it's the most popular Ruby library for creating graphical applications like this. So I feel like we can either support Gosu as a community, help, help maintain it with him so that he's not the only one having to work on it. Cause there's a lot of open issues that you can, you can help out with.
+
+I think the problem is that a lot of people don't know C or C++ and so they have a hard time jumping in and helping. So all of you that are familiar with C++ I encourage you to look to, look to some areas like this.
+
+Or we can swap out the custom Gosu C++ for SDL so that we have one less dependency to maintain. I should also mention that Gosu has been around since 2001, so it's actually been around a long time. And at the time, SDL was not a good option. It did not use hardware accelerated graphics and Gosu was a much nicer library. But over time, SDL has gained a lot of contributors and so they're able to keep up with changes and new technology.
+
+The next thing is to get involved in teaching kids game programming. Game programming is a great way for kids to get into programming, so if we get involved with helping to teach them using Ruby, we can stack the deck in our favor. One organization that I came across while preparing for this talk is, back in Portland we have an organization called GameEducationPDX dot com, and they provide workshops for kids to get involved in game programming. I just learned about the Coder Dojo concept and that sounds like a great opportunity, too, so I encourage you to try to start one of these programs, organizations in your area.
+
+Make use of KidsRuby. Create tools and tutorials to help kids gain pro- get into game programming. And help change perceptions. So I think some people think that programmers are just nerdy guys who don't shower and live in their parents' basement and that game programming is just for guys and that's really a bad thing. We need to help change perceptions, get people interested in game programming.
+
+I went to college for graphic design. In high school, I wasn't interested - or I was interested in creating art and creating websites. I wanted to work with the web. But my perception of computer science wasn't, it wasn't even on my radar because my perception was that computer science was boring and it involved a lot of math. Eventually I got into programming cause I realized how fun it was, but computer science does not mean you will spend your life working on applications that look like Microsoft Excel, because that was my perception. SO we can help change perceptions.
+
+The next is to improve neglected areas of Ruby. There are some areas of Ruby that could use some love. Game programming is one of those areas. People are using things like JavaScript to create commercial games and it's, it kind of boggles my mind, like. We have Ruby, like this really nice programming language, and game programming is sort of seen like a toy. So one of the things that I've done is I've created a website called RubyGameDev dot com, which I hope will be a central hub for communication and discussion around game programming with Ruby to help really improve the game programming community as it relates to Ruby, and so that discussion around Ruby game programming isn't silo'd to specific gems but really it can, we can cross-collaborate and improve the discussion there.
+
+So this website is really rough right now, but I've, I plan to really build this out and, with your help, we can turn this into something really cool.
+
+The next thing that I'm working on, which I'm really excited about, is compartment CMS. So I feel like CMS's in Ruby - we have CMS's in Ruby but nothing, in my opinion, that can compete against, like a PHP CMS. And so I feel like how Ruby on Rails was this great web framework that brought people away from other languages to learn Ruby, we can do that with things like game programming and CMS's. People will see, wow, these tools are so much easier to use and they're so much fun that, and they're so professional that they want to switch to using Ruby, so.
+
+But I digress. Let's talk about professional game programming. So like I said, right now game programming in Ruby feels more like a toy or a hobby. If we really want to legitimize game programming in Ruby, we need to be thinking about how it can be used professionally. So game programming is actually kind of a lucrative business. It's the top app store category. The ga- the global game programming industry is valued at seventy billion dollars. The average iOS Indie game, in a survey for 250 independent iOS game developers, they were making eighty-six thousand in revenue per game in a twelve month span. So that's kind of cool.
+
+And these were independent game developers, most of which this was not their full-time job. This was something that they were doing on the side. So we can build tools like Joybox to help make game programming faster and more efficient.
+
+Just checking my time to see how much time - I got ten minutes.
+
+The next thing is multi-platform support. So we sort of have desktop taken care of. We sort of, you know, we're dabbling in the mobile space. Really console is not even on our radar. And if we wanted to write our games and have them run on these different devices, we would have to rewrite them to work on different platforms and that's not as efficient as we could be.
+
+But what do they all have in common? They all run C or C++. And C++ is basically the standard in professional game programming. There are a ton of C++ game libraries available. So, am I encouraging you to write your games in C++? No. Lucky for us, we've got mRuby. MRuby is a minimal Ruby implementation. You might have heard about it in the past or heard about it yesterday. There are some great talks that involved MRuby. It's built to be small, embeddable, and modular.
+
+And you compile it with your C or C++ code. So this will allow us to write some Ruby code that executes C or C++ code and package it all up to be able to distribute on these different platforms. So we can leverage existing C++ game libraries.
+
+So I just started learning C a month ago. So for me, getting started with MRuby was kind of a hurdle. It was more difficult than, than I thought. And that's because there aren't a whole lot of tutorials available, and the ones that are available are written in Japanese. So it was hard for me, as an English speaker who didn't know how to compile something at the command line.
+
+So here's a really basic tutorial on how to get started with MRuby. You can clone the MRuby GitHub repo and just run make, and the interesting thing about how you compile MRuby is that make just calls to rake and all of the compilation steps are written as rake tasks. So I thought that was interesting.
+
+A basic MRuby example is including standard library stuff - I don't even know if you need to do that. Include MRuby. Open up MRuby game, or, MRuby state. Create a string with some MRuby or some Ruby code, and you can load the string using mrb_load_string, and we compile that. You can use GCC, the name of our C file, and include the MRuby archive library, and then include the MRuby include directory. By default, since we didn't specify an output format, it'll create an a dot out file, and we can execute that and we can see our Ruby code has run.
+
+So, more complicated example. We include the MRuby compile header and we define our C method here that runs some C code. I learned that puts is actually in C, so, in Ruby when I type puts, like oh, this came from C. So we create our main loop here, or, open up, create an MRuby state here. We define our module. We define a class method on our module. So we're essentially writing C code that will call our C code and define some Ruby classes or modules or methods that become available from the Ruby side. And at the bottom here, we open up our Ruby file and we call mrb load file.
+
+In our mrb, in our example dot rb file, we say running some code in Ruby. We call to our module that we defined in the C code. We compile it. We run it. And we see we called our C method in Ru- in MRuby. Now I just got started a month ago, and this is like super cool. And it's super easy, I mean. That is pretty readable to me, I mean. Wow.
+
+It, we can abstract this, you know, create reusable methods, things like that. But it's, it, it's clear to me how we can start making use of external C libraries and, and C++ libraries in defining abstractions that are available in the Ruby environment.
+
+So if you want to get more examples, I started this repository. I don't think I've pushed any code to it yet cause it wasn't ready. But I plan to, so if you, if you start or watch this repository, it's also in the Ruby arcade organization. I found MRuby dot S-H is a great website for finding out news about MRuby, and I don't know what else is out there, so if you do you know, more English tutorials for people who are getting started with C and MRuby, then email them to me or post them on RubyGameDev dot com, because they would be really useful.
+
+So what's next? Join RubyGameDev dot com. I encourage you to learn C programming cause it's really not as hard as I thought it was and it would be really useful to you. Get started with MRuby, if you, if this all seems really easy to you then help others get started with MRuby. You know, by writing tutorials and things like that. Help build MRuby-powered game libraries. And here are just a bunch, a list of resources that I mentioned a little bit in my talks.
+
+ArcadeControls dot com is a great website. All right, I think that's the end of my talk. Thank you.
