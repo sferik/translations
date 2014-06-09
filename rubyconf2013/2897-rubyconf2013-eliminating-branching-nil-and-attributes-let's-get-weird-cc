@@ -1,0 +1,1775 @@
+Ruby Conf 2013 - Eliminating branching, nil and attributes - let's get weird - David Copeland
+
+DAVID COPELAND: All right. Has everyone enjoyed their lunch?
+
+Ready to talk about some really strange and weird code?
+
+So thanks a lot for coming. My talk is
+
+called eliminating branching, nil, and attributes - let's get
+
+weird. So we're gonna see some really strange code.
+
+Briefly, about me, I work at a company called
+
+Stitch Fix. We're a personal styling service for women's
+
+clothes. I'd love to talk about all the cool
+
+things that we're doing, but that's not what this
+
+talk is about.
+
+I wrote this book about writing command-line apps in
+
+Ruby, which you should buy and read and do.
+
+Also, not really what the talk is about. I
+
+also wrote another book about how to do everything
+
+to be a great programmer except for the actual
+
+programming part. Again, it's not really what I'd like
+
+to talk about.
+
+I'd like to talk about Top Chef. Anybody watch
+
+Top Chef? All right. My wife and I have
+
+watched it for years. It's one of my favorite
+
+shows. I'm very excited when it shows up. I
+
+haven't been home for about a month, so no
+
+spoilers about the current season.
+
+What I love, and if you're not familiar with
+
+it, it's a reality show about cooking, so these
+
+chef's will compete each week and, at the end
+
+of each episode, a chef will be eliminated, and
+
+at the end of the season, one chef wins
+
+a bunch of money and some kudos and other
+
+things like that.
+
+What I like about it is that, unlike a
+
+lot of reality shows that are about dramatic personalities
+
+arguing in some house that they live together, on
+
+Top Chef, you're watching experts execute things that they're
+
+good at. You're watching these people cook this amazing
+
+food under intense pressure and just watching experts work,
+
+I always find fascinating.
+
+So what's also fascinating is that the show's format
+
+hasn't really changed over the years. And so when
+
+you see experts doing things in a very similar
+
+format over many years, patterns start to emerge that
+
+I find interesting.
+
+So the beginning of each show, there's what they
+
+call the Quick Fire challenge. So the chefs are
+
+given a short amount of time to make a
+
+dish. So, for example, they may have to make
+
+an Asian inspired dish that features the dycon radish,
+
+and they might have thirty minutes to do it.
+
+And so it's very intense watching them try to
+
+do this. Now, what always happens in the show,
+
+and if you watch Top Chef, you watch it
+
+for years, you'll know exactly where I'm going, they're
+
+will always be one chef who works in an
+
+Asian restaurant, who makes Asian food. This chef grew
+
+up on a dycon radish farm, knows everything about
+
+everything in this particular challenge. So he is very
+
+confident. He is, like, I got this. I know
+
+how to do all these things. No one's gonna,
+
+no one's gonna beat me. I'm gonna get the
+
+advantage later in the show by winning the Quick
+
+Fire challenge.
+
+And, of course, there's always another chef, and she
+
+is a French pastry chef. She doesn't know what
+
+a dycon radish is. She doesn't like Asian food.
+
+She's never cooked Asian food. And she's very worried
+
+that not only is she not going to win,
+
+but she's going to lose the Quick Fire challenge,
+
+which comes with a disadvantage later, which means that
+
+her chance of getting eliminated is very high. So
+
+she's very upset about this particular challenge.
+
+Now what happens is our chef who works in
+
+the Asian restaurant will do what he always does.
+
+Produce what he always produces. And he will produce
+
+a mediocre dish, because the level of competition is
+
+so high, when he just executes these things that
+
+he knows how to do, he's not really rising
+
+to the level of his competition. Which is kind
+
+of unsurprising.
+
+But what's more surprising is that our French pastry
+
+chef will, invariable - oh, I forgot to hit
+
+start on this thing. Will invariably win the competition,
+
+even though she technically has no idea what she's
+
+doing, right. Because she has the abilities of a
+
+chef, she understands the basic tools of cooking, and
+
+even though she doesn't know how Asian food is
+
+supposed to be made, or what you're supposed to
+
+do with the dycon radish, she's forced to get
+
+creative.
+
+This happens all the time on the show, and
+
+I think it's interesting to note the, being, being
+
+constrained and being forced to work without the things
+
+that are comfortable to you can force people to
+
+become creative and can force people to do something
+
+that they wouldn't have thought of because they're outside
+
+of their comfort zone.
+
+So that's what this talk is about. We're going
+
+to talk about some things, like nil, like branching,
+
+like attributes, that we use all the time and
+
+are very useful, and are comfortable to us, and
+
+we're gonna take those away and see what the
+
+code looks like without those and see if that
+
+kind of makes us get a little more creative
+
+or think of things that we wouldn't normally have
+
+thought of.
+
+So I want to first talk about the billion
+
+dollar mistake. Anybody familiar with this term? So it
+
+was coined by Tony Harr, who is a luminary
+
+in the world of database research. If you've ever
+
+used a relational database, you have him to thank
+
+for how it works.
+
+And in 1965, before most of us were probably
+
+born, before most of us were probably programming, he
+
+was working on an object-oriented programming language. He has
+
+this to say.
+
+"I was designing the first comprehensive type system for
+
+references in an object oriented language-" Remember, 1965. "I
+
+couldn't resist the temptation to put in a nul
+
+reference, simply because it was so easy to implement.
+
+This has lead to innumerable errors, vulnerabilities, and system
+
+crashes, which have probably caused a billion dollars of
+
+pain and damage in the last forty years."
+
+I think it's probably been fifty years since, since
+
+that happened, and it's interesting to think about. The
+
+whole time I've been programming, there's been nul. There's
+
+nul everywhere. Nul's in SQL, it's in C, it's
+
+in C++, it's in Java, it's in JavaScript, it's
+
+in Ruby, it's in Python. It's just everywhere. Like,
+
+and you always use it for, I don't know
+
+or unassigned or nothing.
+
+So what if he hadn't done that? What if
+
+he had resisted that temptation? So what if Ruby
+
+didn't have nil at all, right?
+
+Specifically, that would mean that every single variable would
+
+have to have a value, cause there is no
+
+default stand-in value. And it would also mean that
+
+there's no handy global system you can reach for
+
+everywhere that means nothing.
+
+So let's say Ruby didn't have this at all.
+
+Would we be able to get our work done?
+
+So here's some code. It is a person. A
+
+person has a name and a birth date, and
+
+as you can see in the little highlighted line
+
+here, it's title, person may or may not have
+
+a title. So typically we'll, we'll default that to
+
+nil so that you can create people without specifying
+
+explicitly nil or anything like that.
+
+So you can see how this optional title affects
+
+our code. Title is nil. We say, "Hello, Bob."
+
+But if Bob has a title, we say, "Hello,
+
+Mr. Bob."
+
+This is, you know, it's very simplistic, but it's
+
+pretty typical of code that we write around nil.
+
+So if we don't have nil, we can't do
+
+this. So how would we solve the problem of
+
+having people, some of whom have titles and some
+
+of whom don't have titles?
+
+Well, why don't we use the type system, right?
+
+So we can make a person that just has
+
+the attributes that all people have. A name and
+
+a birth date. So we can see the greeting
+
+method is very simple: "Hello, Bob." And then we'll
+
+make a subclass called TitledPerson, and that will have
+
+a title, and then the, it will override greeting,
+
+to say, "Hello, Mr. Bob."
+
+So now we know, everywhere we have a titled
+
+person, we know there's a title. If we don't
+
+have a titled person, we don't have a title.
+
+So we didn't need to check for nil. Unfortunately,
+
+this technique is - it's great for giant slides
+
+with giant fonts on them. But, in reality, right,
+
+think of an object in your system that has
+
+a lot of optional values.
+
+It would be super complex to do this with
+
+lots and lots of optional values. You could use
+
+modules. It gets kind of weird, but it also
+
+kind of shows, like, a, this is not really
+
+the most Ruby way to solve this problem, right.
+
+Ruby, yes, you make classes and they create objects,
+
+but having lots of finegrained types like this is
+
+not as helpful as it might be in, like,
+
+a statically typed language.
+
+So if we were doing Scala we might want
+
+to write a routine that says, I need a
+
+person that has a title, so I'm gonna require
+
+you to pass in a titled person and the
+
+compiler will refuse to compile your code if you
+
+don't do that. Ruby doesn't work that way, and
+
+it's, no offense, I'm glad it doesn't work that
+
+way. The point is, if we're using types like
+
+this, we end up having to check the types
+
+of things, or have our tests check the types
+
+of things, and that's just kind of strange to
+
+be adding these degenerate type systems to our tests
+
+and code.
+
+So we really do need some concept of nul
+
+or some concept of, like, there is no value
+
+here or I don't know. Like, we do need
+
+that concept. We can't skirt it just by using
+
+types and modules.
+
+So we could do this, right. But let's think
+
+harder than this. Let's try a little harder than
+
+just recreating nil. Let's think about what nil means.
+
+So nil means a variable hasn't been set. It
+
+could mean that we don't know the value of
+
+a variable yet, but we might later. It could
+
+mean that there is no value. We know that
+
+there is no value. We know someone doesn't have
+
+a title. It could mean some vague concept of
+
+empty.
+
+So if we want to model these four things,
+
+I don't think nil would be the way we'd
+
+go about it. I don't think we'd want to
+
+have a single symbol represent all of these four
+
+concepts, because they're different, and there's no way to
+
+tell the difference between a unset variable and a
+
+variable whose value we don't know, if they're both
+
+nil.
+
+So let's, let's create four symbols - sorry about
+
+the zoom here. So four symbols, each one represents
+
+one of those concepts. So now we can tell
+
+the difference. And so if we look back at
+
+our person code, again, we're going back to the
+
+kind of the original version, but here, you'll notice
+
+we're giving title the default value of unknown. So
+
+because now there are four different things we've created,
+
+we can make a design decision about what title
+
+should default to.
+
+We could decide that a title has no value
+
+by default. We could decide that it's unknown by
+
+default. So that's a design decision that we get
+
+to make that expresses something about our person that
+
+we couldn't do before. So we're gonna call, we're
+
+gonna just say a person is unknown. A person's
+
+title is unknown by default.
+
+So our greet method, you know, we could do
+
+it like this, and, you know, this is not
+
+gonna work. Obviously this is buggy, right, because if
+
+we give no value, then, "Hello, No Value Bob."
+
+Like that's not right.
+
+But more, moreso, since there's so many different symbols
+
+that represent some type of no value, we can't
+
+just get away with comparing it. Like, with nil,
+
+it's handy. We know there's only one nil. And
+
+even though we know we should be calling the
+
+dot nil method, we tend to compare it to
+
+nil a lot. But that's OK because there's only
+
+one of them.
+
+Well, in this world of no nil, there isn't
+
+one of them, there's four, and it would be
+
+pretty darn ugly to be checking title against all
+
+four values. What we really need is some sort
+
+of API around this, some messages that we can
+
+send to make this a little simpler.
+
+So what if we had something like this? We
+
+had a message called when_value that everybody responds to,
+
+and if the person we're sending that message to
+
+happens to be a value, it will execute this
+
+code, "Hello, Mr. Bob." And if title isn't a
+
+value, is some sort of nil-like thing, it will
+
+execute this: "Hello, Bob."
+
+So this is pretty easy to implement. BasicObject, right,
+
+is the root of all objects in Ruby. And
+
+all objects are values, by default, so when_value will
+
+just call the block given to it, and, or_else
+
+is a nil-op? cause since our basic objects are
+
+values, we don't want to do this or_else thing.
+
+Now for these four special nil-like things, we'll make
+
+the superclass called NilLikeSentinal, which is the best name
+
+I could come up with without using one of
+
+the names of these objects, and it does the
+
+opposite, right. So when value is nothing, it's a
+
+no op, but or_else, because these are not actual
+
+real values, will execute. And then we give all
+
+these guys a new superclass.
+
+So that makes that work, which is kind of
+
+interesting. It's a little bit strange-looking, right, because we've
+
+got this method called or_else, but Ruby also has
+
+this else thing, it's kind of like we're branching,
+
+but we're not. It's, it's a little bit weird,
+
+and it's kind of the same lines of code
+
+as our nil-checking thing.
+
+So, you know, I would probably want to know,
+
+is there any advantage to doing it this way?
+
+Well, let's consider if our greeting method gets a
+
+little more complex, and now what we want to
+
+do is, if we have a title, we want
+
+to say, "Hello Mr. Bob." But if we don't
+
+have a title but we know that a person
+
+has no title, right, we know you have no
+
+title, we'll say, "Hello Bob," but if we're not
+
+sure, if the title is unknown or we haven't
+
+been told what the title is, we want to
+
+say, "I'm not sure how to greet you Bob."
+
+So these are, these are different things, right. We
+
+know a person doesn't have a title is different
+
+from not knowing what a person's title is.
+
+So with Nil, this would be very hard, but
+
+now it's kind of, let's expand our little Nil-like
+
+API to have this concept of when_known. So does
+
+this value, this thing we have is a value
+
+or not, is it something known? Do we have
+
+knowledge about something? So, of course, BasicObjects, since they
+
+are values, we know they are that value.
+
+Nil-like objects, again, are not known by default, and
+
+then we'll have our known Nil-like sentinel, which will
+
+represent things that are not values but represent knowledge
+
+that we have. So no value at empty, represent
+
+that, and now, our code looks like this.
+
+And this is what I love about Ruby. title.when_value,
+
+"Hello Mr. Bob." when_known, "Hello Bob" or_else, "Not sure
+
+how to greet you Bob."
+
+I can just read you the code and it
+
+sounds like a sentence. It sounds like what it
+
+does.
+
+So this is actually a little bit more interesting.
+
+It's definitely strange-looking, but you'll notice that we've lost
+
+all of that deep nesting that we might have
+
+had. Everything's kind of typographically the same, which it
+
+should be because these are all equally likely to
+
+happen in our world. And it's just, you know,
+
+it kind of reads nice.
+
+And it's important to point out, if we were
+
+using Nil, we probably would never have come up
+
+with any of this, and to be able to
+
+tell a Nil title, does that mean unknown or
+
+does that mean I know that there is no
+
+title? Like, you'd have to have some boolean flag
+
+to keep track of that or some magical symbol.
+
+So, instead what we've done is we've just created
+
+objects and messages to model the actual thing we
+
+want to do.
+
+So that's kind of cool.
+
+Now, you'll notice that I didn't make methods called
+
+is_value or is_known or anything like that. And that
+
+leads to the next -oh, also, this is the
+
+best part of this so I can't believe I
+
+forgot.
+
+Wouldn't it be nice to get that in your
+
+stackTrace, or that, instead of no such value for
+
+nilClass? Like, who knows what that means? But this,
+
+right, this means I didn't handle some logic, and
+
+this means that I screwed up. So that's another
+
+kind of side-benefit of, of doing this.
+
+So, to get back to the Nil method or
+
+the value method or is_known method like, you, you
+
+might think that I should have added those, and
+
+based my logic on that. So I want to
+
+talk about attributes.
+
+Those are kind of a form of attributes. And
+
+so, what I mean is attr_accessor, attr_reader, attr_writer. These
+
+give the appearance of being able to access the
+
+internal state of our objects and the ability to
+
+change, directly, the internal state of our objects.
+
+Ruby helps by allowing this method named foo equals
+
+to be cooled with foo space equals, so it
+
+really does give the appearance that our objects are
+
+these dumb structs that we can just kind of
+
+change willy-nilly.
+
+Because it's so darn handy and so easy, and
+
+especially when we're manipulating things in a database, we
+
+tend to write code like this a lot. But
+
+I think that is potentially bad. So let me
+
+try to make that point by describing how you
+
+might buy something by using attributes.
+
+So you take out your wallet. Hand your entire
+
+wallet over to the clerk. The clerk will then
+
+rifle through your wallet to find whatever combination of
+
+cash, credit cards, gift cards he decides that you
+
+should use to pay to oversee the transaction, and
+
+hands you back your wallet in whatever state he
+
+felt like leaving it in.
+
+So, right? Some countries don't even take your credit
+
+card. They give you a machine to run your
+
+credit card through, right. No one buys things like
+
+this. This is crazy.
+
+But when you write code that makes heavy use
+
+of attributes, it's kind of like how you're coding,
+
+right? So let's say that Ruby doesn't allow this
+
+sort of thing. Let's say that Ruby doesn't have
+
+this little nice equals method deal and that the
+
+standard library doesn't provide attr_accessor or attr_reader or attr_writer.
+
+It doesn't provide any of that stuff.
+
+So if you've ever coded in JavaScript or Java,
+
+you know what that's like, cause they, those languages
+
+don't provide that.
+
+Ooh boy, that got really zoomed.
+
+OK, that's not too bad. So here's some code
+
+that, that, that we, that we will not be
+
+allowed to write. So we have a very sophisticated
+
+greeting method now that is going to give you
+
+a casual greeting: "Hi Bob" if we know your
+
+first name. If we don't, but you have a
+
+last name, then we're gonna see if you have
+
+a gender, and if your gender also has a
+
+gender-specific salutation, and if all that is true, we
+
+will say, "Hello Mr. Jones" and if not, we'll
+
+say "Hello Jones," and if all else false, we'll
+
+say, "Hello."
+
+So this is convoluted, but I'm sure we've all
+
+written code that looks more or less like this.
+
+Asking things for their things and checking their things
+
+against other things.
+
+So if we can't do any of this, if
+
+we can't create easily an API like this, right,
+
+what would we do? So, getting back to the
+
+Java and JavaScript part, we all know what those
+
+languages do. They make methods called getters and setters
+
+that look like crappy versions of attributes.
+
+And the, that makes sense for those languages cause
+
+those languages aren't terribly powerful compared to Ruby. But
+
+Ruby has more features available to us that might
+
+not lead us down that path.
+
+So what if we did something like this? We
+
+have a method called with_attributes - hang on, I'm
+
+sorry these are so small. There we go.
+
+And so if the first name is there, then
+
+we'll run this bucket code. If we didn't, but
+
+we have a gendered salutation and a last name,
+
+run this block of code, et cetera. So I
+
+should point out, this absolutely works. A lambda has
+
+access to not only the number of parameters, but
+
+the names of those parameters. So you could just
+
+look at the parameter list to figure out what
+
+attributes are being asked for.
+
+So this is kind of strange, right. But you
+
+could imagine, if the standard library provided something like
+
+this, this would start to look kind of normal,
+
+and again, right, we've lost, we've lost that big
+
+huge cone of nesting, and now we have a
+
+nice, nice little typographically organized thing for each thing
+
+that could possibly happen. It's nice.
+
+But there's another couple things that are nice about
+
+this that we wouldn't have gotten with this craziness.
+
+One is that we have an API that differentiates
+
+a request for information and actually being given that
+
+information. So that allows us some more flexibility. So
+
+if we wanted to have logic that says, you
+
+know, maybe someone has a gender salutation and they
+
+have a last name, but if someone asked for
+
+them both at the same time we want to
+
+do something else.
+
+Like, we could do that with a structure like
+
+this. We couldn't do that by just allowing people
+
+to have access to whatever they wanted. So that's
+
+kind of interesting. But what's more interesting is, when
+
+you think about the scope of some of these
+
+variables.
+
+So here, the, the, the scope over which first
+
+name, last name, gender, all this stuff, it's all
+
+global to this method, right. All those values could
+
+be accessed anywhere, and although this is a very
+
+short method, I think we all know that the
+
+larger the scope of a variable is, the harder
+
+a routine is to understand, because you have to
+
+keep a lot of things in your head to
+
+understand what is going on and what might happen.
+
+Here, the scope of first name is just here.
+
+The scope of gender_salutation and last_name is just here.
+
+Now, even though these are one-liners, each of these
+
+blocks, each of these alternatives, is still going to
+
+be smaller than the entire routine.
+
+So we've actually made the code a little simpler
+
+to understand by reducing the scope of the variables
+
+that we need to do our job. But we
+
+haven't taken away any power. You still have access
+
+to these things. And it's kind of the same
+
+lines of code. So that's kind of interesting I
+
+think.
+
+Where it gets really interesting is when we want
+
+to change the internal state of an object. So
+
+again, we might want to change a person's city
+
+to normalize it or something like that. And you
+
+know whatever your feelings are on mutable state and
+
+changing things like, our programs do need to make
+
+changes to something somewhere sometimes, so we have to
+
+have an ability to change something about something.
+
+So if we can't do something like this little
+
+magic, magicness here, and we're not doing setters cause
+
+setters are weak, what are we gonna do? Well
+
+what if we made, we'll follow along our with_attributes
+
+concept and we'll make a method that records all
+
+of the changes a caller might want to make
+
+to us and then we can decide what to
+
+do with that.
+
+So maybe that looks like this. Person has this
+
+update method, takes a block, and inside that block
+
+we will use the update object to record, let's
+
+say a bunch of requests of changes and, you
+
+know, I'd like to update the city to this
+
+and blah, blah, blah.
+
+So again it's the same lines of code but
+
+now we have a level of indirection between what
+
+we would like to do and having those changes
+
+actually made, which is kind of interesting, right. Because
+
+it gives us some, a little bit more power
+
+that we wouldn't get with these, these equals methods
+
+that we use so often.
+
+So, you know, a naive implementation might just be
+
+to just do what equals methods do, right, so
+
+we could kind of default to that if we
+
+wanted to. So we're getting the exact same thing
+
+with about the same lines of code. And, but
+
+we could do more interesting things. What if we
+
+wanted to run this in a database transaction?
+
+Well, if you've done Rails programming, then the way
+
+to do this is either you, the caller, must
+
+put everything in a transaction, or you have to
+
+use a Rails-specific magic method that only some objects
+
+have that is known and documented to put things
+
+in a transaction.
+
+So me, being the object who's being changed, I
+
+don't really have a lot of control over that.
+
+So this would allow me to do that if
+
+I wanted. What's more interesting is that since we
+
+have all of the changes that we want to
+
+make to an object in one place without them
+
+haven't actually being made, we can examine them before
+
+doing anything.
+
+So we could decide that if you're changing the
+
+zip code and city together at the same time,
+
+then we want to make sure that those are
+
+consistent with each other, and we want to blow
+
+up if not. So doing this with equals methods
+
+would be tricky. It would be really hard to
+
+get it exactly right in every case.
+
+But it's, you know, it is kind of, it's
+
+kind of strange looking, but I, you know, I
+
+think, like, I would be used to this if
+
+this was just kind of how you did things.
+
+And it's kind of interesting that by not using
+
+these handy things that we think are easy, we
+
+get a lot more power available to us.
+
+So, you may have noticed that the before and
+
+after, the after didn't have any if statements in
+
+it. And that was sort of intentional but sort
+
+of a kind of side-effect of just the way
+
+we went about solving those problems. But that makes
+
+me wonder, right. What if we don't have if
+
+statements? Which is a crazy notions, right. I kind
+
+of feel like programmers jobs are to write if
+
+statements, right.
+
+If I didn't need to write an if statement,
+
+programming would be easy. And if you think about,
+
+like, what are the features of assembly language, that
+
+are also in Ruby. If statements is one of
+
+them, right. You can't write an assembly language without
+
+some method of branching the code. You have to
+
+direct the code to go one place in a
+
+certain case and another place in another case.
+
+So what if Ruby didn't have if statements? There's
+
+no if. There's no unless. No else. No switch.
+
+None of that stuff. How in the heck would
+
+we get anything done without if statements? Let's find
+
+out.
+
+So here, so we're gonna get away from the
+
+exciting world of greeting people to a little bit
+
+more of the real world of getting their money
+
+from them. So here is an imaginary routine, so
+
+let's so we've been given this credit card service
+
+and the idea here is we want to charge
+
+somebody some money, and then if anything goes wrong
+
+we're gonna give them a reasonable explanation.
+
+And so this is a pretty typical pattern, right.
+
+We get back some blob of data. We ask
+
+the blob of data some stuff and do things
+
+based on that stuff. Right, that's pretty reasonable. Like,
+
+if it's a success, fine. If it's not we
+
+compare the error code to some magic value and
+
+that means expired and, and I, and else must
+
+mean declined, and because we're doing network programming we
+
+gotta, you know, we gotta rescue everything. Cause, you
+
+know, that might, something might go wrong there.
+
+So without if statements, how might we implement something
+
+like this?
+
+Well, if there were no if statements, I would
+
+bet that the creator and designer of the credit
+
+card service might design an API a little differently,
+
+right. This design of passing back a blob of
+
+data and hoping you know what to do with
+
+it is a lot more difficult if you don't
+
+have these branching structures.
+
+So the credit card service might be designed in
+
+a way that doesn't require having if statements. So
+
+let's see what that might look like, right.
+
+What it might do instead is map every possible
+
+thing that could happen to some code. SO I'm
+
+the caller. I'm gonna say, for every possible outcome,
+
+here's the code I'd like you to run if
+
+that happens, and then the credit card service will
+
+sort out what outcome actually did happen and call
+
+the right code.
+
+So that might look something like this. Right, on
+
+success do nothing, on decline, on expiration, on exception.
+
+So this is kind of interesting, right. What, for,
+
+for one thing, again, typographically, everything's together. It's kind
+
+of nice. We, we've brought this exception up to
+
+where it belongs, because exceptions are just as likely
+
+to happen, so it should, it doesn't deserve its
+
+special place down at the end.
+
+And this also reads a lot clearer, right. I
+
+don't have to make that mental shift of like,
+
+if some field equals some magic value then that
+
+means the concept of expiration. I can just call
+
+a method that says what it is.
+
+So that's kind of cool, right. We skirted the
+
+issue by redesigning the API to not need if
+
+statements. And, but this, there's some negatives, right. Like
+
+this is totally custom, totally proprietary to this service.
+
+So this isn't like a generalized language construct that
+
+we might be able to use. It's, it's very
+
+one-off.
+
+If statements are, are handy, because when we talk
+
+about what code is supposed to do we use
+
+the word if. That's why it's in the language.
+
+SO this gets rid of that. So you could
+
+say that, that if you have a large code
+
+base, had lots of things that worked like this,
+
+it could be kind of strange.
+
+So I'm gonna ask again, what does this let
+
+us do that this if statement approach didn't let
+
+us do? So let's say I screw up when
+
+I'm implementing my credit charge handler, and I forget
+
+to handle the case where someone's card is expired.
+
+SO I just have this code. And again, it
+
+looks nice. It reads nice. Everything is good. My
+
+tests all pass.
+
+The failure was that I didn't understand every possible
+
+outcome that could happen when I'm using the credit
+
+card service, right. So I am living in the
+
+fantasy world where I can charge credit cards, and
+
+the garbage collector who has made the credit card
+
+service for me has, has to explain to me
+
+at some level what I need to do.
+
+And I haven't, I haven't understood that. Now, if
+
+I did make this mistake, it's really hard to
+
+find out that this happened, right. You might have
+
+people buying things and being told that they successfully
+
+purchased, but then they never get their item, which
+
+is bad. Or worse, they could be told that
+
+they successfully purchased and then they did get their
+
+item. So we're giving away things for free.
+
+This is a very hard mistake to find. And
+
+it has disastrous consequences. And so the hope, right,
+
+the way that we prevent ourselves from making a
+
+mistake like this is we hope that our garbage
+
+collector, who created our credit card service wrote enough
+
+documentation and explained things well enough that we understand.
+
+And that we read that documentation and totally understood
+
+how to use this API.
+
+So with the way that we normally do thing,
+
+that's what we have. We have hope. Here we
+
+could actually check, right. Because what we're doing, this
+
+code isn't actually running. This code is mapping outcomes
+
+to code. But it's not actually running the code.
+
+This guy, the credit card service is actually running
+
+the code.
+
+So before the credit card service runs the code,
+
+it could check to see if I handled everything.
+
+It could check and it could notice, I didn't
+
+provide any code for the on expiration case. And
+
+it could decide, dude, you did not understand how
+
+to use me. I'm not gonna go forward because
+
+you, something is broken. You have failed. If you
+
+want to give away products, that is cool with
+
+me, the credit card service, but you need to
+
+tell me explicitly that you knew that there was
+
+this case to handle and that you handled it
+
+in some way.
+
+That's kind of cool, right. You can't do that
+
+with if statements. It's impossible to do with if
+
+statements, unless you remember to call some magic method
+
+or something. And here, instead of relying on documentation
+
+and my ability to read and understand how to
+
+use this credit card service, the API itself can
+
+bake in all of this safety. It can, it
+
+can encapsulate the knowledge that our garbage collector has
+
+so that we can live in fantasy land.
+
+Which is kind of cool. So it's something, and
+
+I should point out, I didn't come up with
+
+this, this little pattern and then write a talk
+
+around it. I just came up with the talk
+
+and I just tried to, tried to write this
+
+code without if statements, and that's kind of what
+
+I came up with. So it's kind of interesting
+
+that that is something that fell out, that I
+
+can do more things.
+
+But I've skated the issue of the if statement,
+
+right. I've, I've changed the rules so I didn't
+
+need an if statement to implement this. But somebody,
+
+somewhere, is gonna have to figure out, did the
+
+credit card succeed or not, and do something or
+
+do something else. So somebody has to do that
+
+somewhere.
+
+So let's delve more into our imagined credit card
+
+service. And, and see where that, see where that
+
+leads us. SO we can imagine that the way
+
+this works is it'll sort out some URL. It'll
+
+call the URL over the internet, get some status
+
+back, and then we'll have the outcome class kind
+
+of handle figuring out what that result means.
+
+So the outcome class, since it has all these
+
+blocks of code that we gave it, it's going
+
+to look at the results of our restful API
+
+call, figure out what it means and figure out
+
+what block of code to call.
+
+That sounds like a job for if statements. So
+
+taking a step deeper, right, our, our method has
+
+kind of three parts. It gets status from result,
+
+it'll call on the private method that, that sorts
+
+out what that status means. It returns the name
+
+of a method and then we will call that
+
+method on ourselves.
+
+So the what to call method is where we
+
+have these if statements. So this might be how
+
+we would do it if we, we had if
+
+statements. But we don't. So we could do this
+
+outcome type thing again, we could just keep doing
+
+outcomes within outcomes and all that, but somebody somewhere's
+
+gonna have to compare two values and decide to
+
+do one thing or the other.
+
+So let's not do the outcome thing here. Let's
+
+try to do this a different way.
+
+The result is gonna be super strange.
+
+So we made a little pseudo code here. So
+
+we, what we have is we have some expressions
+
+and if this expression is true we want to
+
+do this, and if this is true we want
+
+to do this, and all else we could do
+
+that. Right, that's the basic logic that we want.
+
+So since we don't have these if statements, how
+
+can we capture these expressions in some way that
+
+we can evaluate them. Well, we could wrap them
+
+in a lambda. So now we have a mapping
+
+of a lambda representing our expression to some symbol.
+
+So what we want to do is we want
+
+to go through all of these lambdas that we
+
+have and find the first one that's true.
+
+So if we had them in a list, say,
+
+right, so now we have a list of pairs.
+
+Each pair is a lambda representing our expression and
+
+the method to call. So we want the first
+
+one in this list, so that's detect. And so
+
+detect, if you don't know, it, it finds the
+
+first element in a list for which a particular
+
+condition holds.
+
+So in that case, that condition is to call
+
+our lambdas and see if they return true with
+
+our input. So that is going to return one
+
+of our pairs. Our pair being the, the lambda
+
+and the method. Of course, we don't care about
+
+the lambda. So we destructure it and we get
+
+the method.
+
+And if detect didn't find anything, it's going to
+
+return nil, which means we will return call on
+
+exception. So that is how you do that without
+
+any if statements.
+
+That is weird, right. I mean, does this look
+
+normal to anyone? If I came across this, it
+
+would take me a long time to learn that
+
+this was an if statement and I would venture
+
+to say a language for which this was the
+
+primary way to direct logic would probably not be
+
+a successful language.
+
+Cause this is very strange.
+
+So I must ask myself, is there something I
+
+can do with this, is there some advantage to
+
+this that I didn't get with these if statements?
+
+So let's suppose I made, I made an error.
+
+Now, this is very simplified, right. You can see
+
+here that two hundred is less than five hundred.
+
+So this code is never gonna be called. Now
+
+this is super simple. You can kind of see
+
+by inspection that there's a problem, and it would
+
+be very simple to write a test that reveals
+
+this and you would probably have those tests.
+
+So I'm asking you to remember that code that
+
+you have fully tested but yet was buggy, because
+
+there is something you forgot, or a bunch of
+
+if statements that were very hard to understand all
+
+at once, right. And that you have totally tested,
+
+and it went to production and then it didn't
+
+work because of something like this.
+
+So the only way, right, the only way to
+
+solve this is to have a lot of tests
+
+and just be diligent, right. Just try harder. But
+
+is there a way with this other crazy structure
+
+that we could do that? And so you might
+
+be wondering why, you might have noticed that I
+
+used a list, right, instead of a map between
+
+the map and all that stuff. That's because the
+
+list retains the order. And so the order in
+
+which we evaluate these things is very important.
+
+So how could we, how could we detect this
+
+error? So, since our logic is not encoded in
+
+the programming language, but is actually encoded in a
+
+data structure, we could examine this data structure and,
+
+and find out things about it. So if we
+
+assumed that our crazy version of Ruby that has
+
+no if statements and requires us to do this
+
+exists, it seems logical that it might have a
+
+class that helps us write this weird if statement.
+
+So, and, again, all of this code works. There's
+
+a link at the end. This all absolutely works.
+
+So let's say this logic class here handles all
+
+that mumbo jumbo with going through the list and
+
+detect and all that crap. So all we have
+
+to do is this. Now, I'm not saying this
+
+is not weird - this is still strange. But
+
+it kind of creates a class concept here.
+
+So when we evaluate the logic, given an input,
+
+the logic could say, hey, that input is true
+
+for more than one expression. So I don't know
+
+which one you meant. I don't know what to
+
+do. I'm just gonna assume that you haven't thought
+
+this through, you've screwed something up, and I'm just
+
+gonna, I'm just gonna blow up.
+
+With a nonexclusive disjunction error. That's the best name
+
+I could come up with for that, for that
+
+concept. It took a lot of Wikipedia sleuthing to
+
+figure that out.
+
+So that's kind of handy, right. So if every
+
+crazy set of conditionals I ever wrote could be
+
+evaluated by someone smarter than me and tell me
+
+that I didn't think it through and things aren't
+
+mutually exclusive, that would be useful to me.
+
+So to fix it, we have to do this,
+
+right. Now these two things are mutually exclusive. They
+
+will never be true for the same input. But,
+
+but, right, everybody's bothered by this repetition I hope.
+
+Cause this bothers me. Like, I don't like having
+
+to say the same thing twice. That's what the
+
+if statement gave us - the else concept.
+
+But this is just blocks and, and lambdas, so
+
+we could extract them and reuse them. And now
+
+look at our code, right. Logic on success, then
+
+return call and success. Logic on decline, then return
+
+call and decline. Logic evaluate status or else call
+
+on exception.
+
+It has that awesome Ruby-like quality where you can
+
+just read the code out and it's like, executable
+
+pseudo code. Like that's kind of cool. Even though,
+
+like, it's kind of weird what we're doing, it's
+
+pretty easy to understand. And this is a lot
+
+easier to understand than that crazy list of, and
+
+detect and all that.
+
+So I could see a language that had this
+
+as the way of branching. That might be a
+
+little more successful than, than our other one.
+
+So, yeah, that's, that's, that's, that's kind of crazy.
+
+So that was a lot of weird stuff, and,
+
+like I said, it all works, and, and I
+
+can, I'll show you the link at the end.
+
+I'm not telling you you should do that ever.
+
+I'm not saying you should put that in your
+
+production code base. I certainly haven't.
+
+But what you should take away is that sometimes
+
+more interesting things can come if you remove tools,
+
+if you remove techniques. If those things that you
+
+are really hold dear or think that there's no
+
+way I could ever do without X - well,
+
+try solving the problem without X and see what
+
+happens. You might be surprised. You might come up
+
+with something that is actually really useful, and maybe
+
+gives you more power.
+
+I mean this, this business with the credit card
+
+service where you map the outcome to the code
+
+and it blows up if you haven't thought of
+
+everything, like, that seems actually kind of useful, like,
+
+especially for something as critical as like taking money
+
+from people. Like I kind of want to get
+
+that really right.
+
+So it's kind of interesting. So I'd encourage you
+
+to do the same things.
+
+That's all I've got. I do want to pitch
+
+from my company, we are small. We have a
+
+business model that works and is easy to understand,
+
+which I hope you find interesting. If you're interested
+
+at all, come talk to me. Here's the links
+
+for everything. The book, Senior Software Engineer, that I
+
+told you I wouldn't talk about cause it's not
+
+relevant, well, you can buy it today for $10
+
+if you'd like. That's all I got.
+
+I think we have a few time for questions
+
+if anyone, if anyone has them.
+
+Cool. Well, if you got any other questions, come
+
+up and talk to me and I really appreciate
+
+you guys coming. Thanks.
