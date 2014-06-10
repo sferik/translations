@@ -1,0 +1,227 @@
+RubyConf 2013 - Promiscuous: A robust service-oriented architecture framework - Nicolas Viennot and Kareem Kouddous
+
+KAREEN KOUDDOUS: All right. Let's get started. Hi, I'm Kareem Kouddous. I'm currently CTO and founder at Crowdtap. I'm also a side project addict. You can find me on GitHub and Twitter at kareemk.
+
+So Ruby is cute. And what I mean by that is, you know, it's optimized for developer joy. I mean, anyone who attended Matz's keynote, you know, can, can feel that. I personally wanted to go up and hug him after the keynote. It's so clear that, you know, the genesis of Ruby came from a place of wanting to create joy in what you do every day. Happiness in web development.
+
+You know, and Rails, arguably could be cuter. You know, Rails took those same principles of really loving what you do every day as a web developer or software engineer and taking that to the web stack. And, I'm sure all of you remember the, you know, blog in fifteen minutes. And that was magical, because it was so painful before to get a web application up and running.
+
+And Rails changed everything.
+
+But, I'm sure, as a lot of you also know, over time as your team grows and you start to actually build very interesting features, you, you tend to, things start to get difficult. You know, tests start to take a long time. You know, there's great testing ethos in the Ruby community, but, you know, you have a lot of tests, you build a lot of features and things start to get slow.
+
+And what does that do, you know, instead of being able to push out code into your staging or production environment immediately, you have to wait, you know, minutes, maybe even hours, before that gets in there and you lose flow. You have to context switch. That's horrible. You know. Your fat models become obese.
+
+You know, suddenly, you know, you have six engineers touching your user model and people are repeating the code all over the place, because they're trying to do, you know, something that's the same but slightly different. And, you know, instead of trying to refactor the app, you know, you want to push features out. They're duplicating code. And then these things become really hard to work with and less joyful.
+
+You know, you start to use a lot of gems, and that's great. You know, that's one of the wonderful things about the Ruby community is there's a lot of us and we've contributed so much to it. But then you, your app starts to take a long time and, you know, you're building an interesting application so it has a lot of features and you have a lot of gems and that takes a long time. And you stop experimenting. You stop just putting up console and trying stuff.
+
+That joy of, that first experience with Rails or Ruby, you know, starts to erode. And then hugs turn into yelling, right. You, you're in the, you know, you're in your chat room, just trying to figure out what's going on, and yelling at each other. It's, it's, it's no longer joyful.
+
+And fundamentally what that means is you've lost your agility. And I think that's what Matz was really trying to say is, agility is about happiness, right. If you're happy and free to do what you want with your code, you're gonna take, you're gonna innovate. You're gonna do interesting things. You're gonna be creative.
+
+And, as your app, though, this, this starts to change, and you lose your agility, and we're back to, you know, waterfall, but, you know, same pain points, but just manifested in a different way. So.
+
+So, you know, what was really cute, you know, suddenly is this really scary, ugly thing that has appeared in your life, and you don't know what to do with it. You know, you, you want to figure out a way to solve this, and so you need to figure out what the root cause is, right. That's how you solve problems.
+
+So you need to figure out the root cause and solve this problem. You want this guy out of your life.
+
+So to illustrate that, I'm gonna go through how this manifested itself, this problem, this beast in, at Crowdtap, and, and walk through that to show how we got to where we are now. And, I'm gonna start by just giving you a quick overview of what Crowdtap is. You know, it's, we're the leading social influence marketing platform. You know we, we ally with big brands, collaborate with their customers which inspires advocacy and drives unmatched social activity.
+
+And what all this marketing speak boils down to is we create awesome tasks, engaging fun tasks, for the brand's launch that users complete to help brands market. And those tasks span the full marketing life cycle. Everything from completing a poll to taking a photo of doing something fun and sharing that on Facebook, to getting free product from the brand, sharing that with friends, throwing a party around it. And we're constantly adding different tasks, engaging, fun, engaging tasks, so that the brands can collaborate with their consumers to market, instead of just shouting at them.
+
+And that's what our vision is for, for Crowdtap. So let's, let's take a look at this and you know, a screenshot. And this is one of our more popular actions, which is a poll. Brands can get real time feedback on whatever they want. And here they're asking, specifically, you know, what Cable networks do, does, do the users currently watch, or receive.
+
+And the really powerful thing with Crowdtap is we take all this data that a user, that, that users generate from answering all these questions and participating with the brand, and we give the brands very rich and deep targeting ability, so that not only can they target based on all the demographic data on the user: their age, income, et cetera, which we collect. We, they can also target based on everything that user has done. The entire history of what that user has done with, with that brand.
+
+And they can also target based on what they haven't done. So, it's a very, very rich targeting engine. But as you can imagine, this becomes a performance bottleneck very quickly, because on every page load, we need to know which tasks are available for a user, and, if targeting, we need to - you can target based on anything that user has done. You have to load up the entire history of that user.
+
+And so, to be clear, this is a really big performance bottleneck. And this was the first painpoint that we encountered. Or, or, a major painpoint that we encountered, along with everything I was discussing. So we need, you know, we needed to solve this.
+
+And the way to solve this is, you know, we need to tailor our data structure for the problem at hand. So, what I mean by that is, we're generating data, everything that that user is doing, and we're collecting it in a way from our main application that makes sense, you know, when you're doing just basic CRUD. But then we want to take that data and we want to have the freedom to denormalize the data. Maybe put in caching. Maybe use a different database technology.
+
+We want the freedom to experiment and explore with this data to be able to solve the problem. And at the same time, we want to do it in a way that takes us back to the joy. Back to the little cute, fuzzy animals we had in our lives and not these beasts, right.
+
+So how do you do this? So, you know, the first thing we thought was, OK, we've been reading, people have blogged about the services. What about just extracting and, you know, this functionality in services? But that doesn't work, right. Because even if you extract your functionality into services, what you really care about is your models. Right, that's your data.
+
+So if you, there, we're not talking about extracting business logic, you know, into, you know, single purpose files. We're, we're talking about being able to work with our data in a flexible way. And so extracting it to services doesn't really help.
+
+And, you know, Rails, what about a Rails engine or gem extraction. Essentially this is all the same thing. It's just moving furniture around. What you really want to do is be able to mutate your data. You want to be able to play with your, your data structure, and have freedom there.
+
+And this brought us to, you know, what about app extraction? Why don't we extract this into a separate app? You know, we can go back to the, the little cute animal because it's a smaller app and solve all of those other painpoints. But at the same time, have, you know, some freedom to solve the performance problem which was a very big business problem for us.
+
+And so the first thing we considered is, how about extracting the app and sharing the database? Well, this def, this doesn't work, right. Because all, everything you need to do with your data is in your main app. Your main app holds that model. And so if you're gonna do anything interesting with your data, you're gonna have to do it in your main app, so what have you done?
+
+Your targeting app isn't, the splitting up of the app is not solving anything, right? OK. So let's do this. Let's to synchronous API. And this is, this is probably what most people think of as SOA, right. SOA is some RPC mechanism between apps. But, again, this does not solve this problem, because, if you're gonna do anything interesting with your data and you want to mutate your data, you're gonna have to do that in your main app.
+
+And so you're, you're adding complexity to your main app. We want to remove complexity from the main app and put it somewhere else, right, and, and deal with it somewhere else. So this doesn't, this doesn't solve the problem. This just adds more layers.
+
+So I hope, by now, it's clear what the right way to do this is. And for us, it was.
+
+You, we need to have a separate database for this, for our targeting application, and we need to replicate data from our main application into this separate app, and have the freedom in our main application to mutate the data as we wish, experiment with different databases, really go back to being agile in solving, in solving the problem.
+
+And that's what we did. And it's at that point that the heavens parted and Nico fell into our laps. And, and helped us take this architecture to the next level. So I'll just, just pass this onto Nico.
+
+NICOLAS VIENNOT: Hello. How are you? My name is Nico. I'm a PhD student at Columbia University in the system department. I love, I love opensource, and you can find me on Twitter and GitHub at nviennot.
+
+So last year, I came at Crowdtap, and they just extracted that targeting logic to its own separate app that we call Sniper. So that was a great win, because we were able to finally see the big picture of this application, of that logic, and that, and so when we extracted that it was like ten, I mean, five thousand, five thousand lines of code. And since we, we were on that app, we could really refactor it quickly because the tests were running in, like, you know, thirty seconds.
+
+And, and we, we got to a point where the app was just less than a thousand lines of code, because now, because it, it, it got really intuitive - oh, look, we should put our data structure like this. What if, what if we generalize this way around and all? Which we couldn't do in the main application because everything was kind of coupled together and it was really hard to see, you know, the big picture of things.
+
+So, performance went really well after that. We went from, you know, a second or two to fifty milliseconds. That was like, yay! Big win!
+
+But, we came to another problem, which was data replication. And it's actually hard. So, so what we did first was something pretty naive. So, on the main application, the publisher's side, we're like, well, let's just add some callbacks and post the, the data to Sniper. And then Sniper, the subscribers can be like, oh, I can take that data and save it to its database.
+
+But things started to break down in production. We're like, it's funny, these two databases don't have the same user count. It's weird. Because, so, we realized, wait, it's in a different system. Things fail all the time.
+
+So, for example, if your web server, right after writing its data to the database, dies, and is not able to the callback, then, oops, Sniper doesn't know about it. What if Sniper is down? Well, it won't receive some updates for five minutes.
+
+So that's a problem.
+
+So we're like, OK, so this is, this is a problem. And, and at the same time, we're looking at this. We're like, oh, that's funny. That looks really like an observer, like in the Rails sense, right, like, the Sni- the subscriber is really like observing the data that's changing on the other app. And we're like, well, that's, that's a cool concept. What can it do, then? And what we really want to do with that is to have, to split our app in a lot of different services, right.
+
+Like, if we could have this remote observer and, and rip the data around, we're like, well, why don't we apply the same thoughts to the email service. But we couldn't just add callbacks and see the production system kind of like blowing away like this.
+
+Which is why we introduced Promiscuous. Promiscuous is a transparent application level causally consistent data replication framework for service-oriented architecture. And, I'm gonna explain to you what it all means.
+
+So Promiscuous is essentially the glue between all of your services. So you can think of it as a message bus, where you're gonna have services publishing their data, and then you're gonna have subscriber apps that are like, oh, I'm intruding that model and this one and that, and it's gonna do something interesting.
+
+And Promiscuous sits at, on your models, between the models and the database layer. So everything that the publisher would do, it's gonna propagate those changes down to the subscriber models that have a view to anything.
+
+So that's Promiscuous in a nutshell.
+
+And, and because we are really trying to get back that joy and the simplicity of Rails and Ruby, Promiscuous had to, like, to, to provide those three key features.
+
+So first, it tackles data replication in a novel way, which scales and is actually consistent. It provides a very simple API, because as a developer, like, we just want to write one line of code and be done with it. And, of course, since we're Rubyists, we want a good testing framework.
+
+So I'm gonna go through all these three points.
+
+So data replication. It's pretty hard to, to get your head around this. But let's go through an example. So say you have some sort of Facebook app where you have users and they can send messages to each other.
+
+And, and so here, like, say I want to implement an email service that sends an email to whoever receive a message, right. Simple. So here, if, if you would to subscribe to the data that is interesting, you would see, oh, our user just signed up. So create user.
+
+And then, that guy just sent a message to another guy. OK. Create message, great. So when you create message, you're gonna be like, oh, fetch from my database. Oh, OK, I have that user, I can send random a email. OK, hi, whoever, oh hi and all that.
+
+But since we need to scale, because, you know, we have a lot of users, we're gonna add some more curves. So that's what's gonna happen. On your email service, we can have, say, two workers, and now, since we need to process this message in parallel, what's gonna happen? Well, if worker one is a bit slow sometimes, maybe it's not gonna process that create user quick enough to put in database, and so the worker two is gonna be like, oh, who is, who is that user? Oh, well I don't find it in my database. Boom exception. So that's a problem.
+
+And that's, that's a consistency problem.
+
+But promiscuous, it is going to solve this problem for you, under, transparently, without you having to do anything. And so it's going to try to paralyze as much as, messages that it can, but still serialize the messages that are important.
+
+For example, the create user happens before the create message. And that's what we mean by causal consistency. So as in cause and effect.
+
+So let's see how that kind of works. So why, how is the, is doing this transparently?
+
+So when you send, so when you have a user that wants to send a message to another user, it's gonna hit your controller in some ways. In your controller, what you're gonna do, you're gonna interact with your models. So what you gonna do? You're gonna fetch, first of all the current user, from his cookie, and then you're gonna do user find on his friend, and then you're gonna finally create the message with the frame keys that go by.
+
+And, since Promiscuous sits at your model, on your models, it can be like, oh, that's what you did. So he going to infer that the message create depends on those two piece of data. And that's how it's able to serialize the messages that are important and paralyze the ones that are not.
+
+So you could say, well, that's a bit overkill. Because why don't I just retry until, you know, the user is in my database because it would have an exception, right? But it's, it's actually moreso than that. SO let's take another example to illustrate this.
+
+SO say you're on Facebook and you have people posting pictures and you want to provide an email service that send an email of the picture to your, all of your friends. So say you have a user, consider that scenario where you have a user coming back from spring break, and he deletes his parents from his friends list and then he posts a compromising picture, K.
+
+So what happens if you reverse the processing of the two messages? Well you're gonna send the picture before having to remove the parents. And you're not gonna have an exception, you're gonna have a funk up.
+
+So, so this is how, so, Promiscuous has you covered. And you don't want to, when you're developing event-driven services, you, you don't want to, to think about all the races you could have and all that. Like, it's way too complicated. But we still want a very simple API. So.
+
+So essentially, Promiscuous is, is your main databus, right. And it does, so, so under the cover you have, you have RabiitMQ which is, which is a message broker, so you're gonna have publisher applications that are gonna send their messages on RabbitMQ, and then you're gonna have subscriber applications that are gonna connect to RabbitMQ and each of the services can have their own queue, I think, going to, to receive those messages through RabbitMQ.
+
+So no subscriber actually talk to the publisher app directly. So you're gonna have some good decoupling mechanism. And because we need to synchronize all the workers together, we use Reddis. So for example, that worker's like, oh wait, so before I can create that message I need for you to wait to create the user, OK. I'm gonna wait for you a little bit. Oh, you died. Well, in that case I'm going to process that message. So all of that is done through Reddis.
+
+So let's, let's see a bit of the API of Promiscuous. So on the top, I have a publisher application running with ActiveRecord on PosGres, for example, and on the bottom I have a subscriber application running on MongoDB.
+
+So all I need to do as a developer is to include the Promiscuous publisher mixin and publish the field that I'm, I'm interested in, for example, email and name.
+
+On the subscriber's side, I'm going to include the Promiscuous subscriber mixin and, and, in my subscribe block, I'm going to put the fields I'm interested in, too. And that's it.
+
+That's all you need to do. That's the entire API. That's it.
+
+So, of course, once you start developing this, you want to start testing that. And Promiscuous provides you with a testing framework. So, for us, we leave that interpretation tests are extremely important, and we, we have to, to test our subscribers in a way that is decoupled from the publishers.
+
+So the publishers actually, so Promiscuous allows publishers to, to create a gem to publish a gem with factories that represent the kind of data that, if you were to subscribe to their model, you, the kind of data that you would get.
+
+So to illustrate this, I'm going to show you, an, a real test of Sniper, and you can see, on the top, like, we just do create Crowdtap member instead of the regular Crowdtap create member.
+
+And so by doing this, Promiscuous is going to take the factory of Crowdtap and, and package the payload that you have received for real in production and send it through your, your cloud client. And so you're gonna be able to test a really well your application as if it was in production. 
+
+So to really demonstrate how easy it is to use Promiscuous, Kareem is going to show you a live demonstration.
+
+K.K.: Hello. Thanks Nico. All right. Let's, let's show you guys how awesome this is.
+
+OK, so what I'm gonna do is I'm gonna show, show you guys adding, taking one of our existing models on our, on, on one of our apps, and subscribing to it in another. So on the, on the left side, we've got Crowdtap. And I've got the, one of our models that we're actually not publishing yet, which is Package, and so we're gonna take this and we're going to publish this model, and then, on the, on the other side, which is Sniper on the right side, which is the targeting app we were discussing, I'm going to subscribe to that model so that any changes to the publisher app are reflected to the, to, on the subscriber app. And I'm also gonna put some callbacks in there to bind to any changes that are happening.
+
+So let's, let's go ahead and do that. So, all you need to do first is just include, you know, the Promiscuous publisher, which Nico showed you in that API example. And then just wrap, you know, whatever fields you want to publish in a publish block. And so this case, you don't need to publish everything. And, and that's important, you want to figure out what's your public, what's your API, right, and doesn't need to be the entire model.
+
+So you publish what you want, so in this case, let's publish name and features. And that's it on the publisher's side, and so let's go ahead and do the, or, write the subscriber. So the only thing you need to do is create a model with exactly the same name - so, Package. You know, we're gonna store it in Mongo.
+
+Include the Promiscuous subscriber, so we're, you know, reflection of the Promiscuous publisher. And then mirror, again, the publish block with the subscribe block. And let's only subscribe to the, the name. Just for this example.
+
+And then let's print out the name every time the name changes. OK.
+
+So that's it. So that's all the code you have to write. So let's start up the Promiscuous subscriber and take a look at RabbitMQ.
+
+So RabbitMQ, it's an awesome admin AP- UI, and we just started the subscriber. There are no queues here. We should see a queue any second now. 
+
+I type bad.
+
+There we go.
+
+So we have a queue in, in Rabbit. We're gonna kill the worker. Let's go back to Rabbit, and this is a reason that we, we, we chose Rabbit is it supports persistent queues. And what that means is, even if a worker dies, your queue is still there. It's pers- it's durable. And any messages that would be consumed or buffered by Rabbit, and when you start the worker up again you get those messages.
+
+So you guarantee that those messages are gonna be delivered.
+
+And that's a property that Rabbit gives you. It's awesome. So let's go back and let's, let's publish some of these. So first let's make sure we save this. Let's reload. Just to get those changes. And then I want to also illustrate how dependencies are tracked, so let's do a read, so I'm just gonna read the last member that we have in our database, and then let's actually create a package.
+
+Ok. So there we go. We've created that package on Crowdtap. Let's, let's pop over back to Rabbit and take a look at the payload of that message.
+
+And so here it is. So you can see a lot of metadata here. Types is, you know, the class we support inheritance, so you can, you can publish an entire inheritance tree. You can publish embedded documents. If you're using Mongoid, that's all supported.
+
+Which, you know, is very powerful. Obviously, the ID, the attributes that changed, the operation, here's some more metadata. Importantly in the namespace so it's the name of the app. Crowdtap. Some more information helps debugging, like the host that was published from. Current user if you're in a controller and you're, you're logged in. Publish that. That's really useful for debugging, and then, the most interesting part is the dependencies.
+
+So we did a read in, in console, and here's the associated dependency on that user. So here's the ID and the version. WE use versioning to make sure that when this message is consumed on the subscriber's side, that user exists in that exact state.
+
+So that's how we manage all the dependencies and do causal consistencies, and here's the right dependency which is the, the creation, the object that we just created.
+
+So that's it. That's the payload. So let's, let's go ahead and subscribe. And so what we should see here is you know, hello world being printed out. Drum roll.
+
+Magic!
+
+OK, so let's, you know, let's show that, let's show update. OK. Much easier to type when you're in your room than in front of people. OK.
+
+OK.
+
+All right. Sorry guys.
+
+OK. Well. For some reason this isn't working. But, we, let me try once more.
+
+OK.That's weird. I'm like typing. OK. Let's, if, if, if I had typed any change, it would be immediate propogated over to the publisher's side and trust me, it works. I can show you after.
+
+So let's, you know, so, so, let's, you know, what did this to us? So we started, you know, with these two applications. The main app, which is Crowdtap, and the targeting app, which is, you know, Sniper, because it's targeting. And then we pulled out all of our analytics in fiancé. You now fiancé because it's tracks engagements, obviously.
+
+And Bobby, you know, because he's the policeman that makes sure that, you know, when people are posting stuff, that you know, it's not spam or, and if it's awesome, that it gets starred. So, you know, we can iterate on using, you know, AEI techniques here to, to moderate our, our, our posts.
+
+And then Paparazzi, you know, is out there scraping Facebook and Twitter and gathering, you know, data, so that we can report on that for our clients. And then Casanova, you know, generates CSVs and it's Casanova because, because it works, because it spreads the love. I still don't, I still don't get that name.
+
+But. You know. WE have creative developers. And then email service, Iris, which is the, the, the nor, the notification God, and then most interestingly is, at least in my perspective is Captain Planet. And Captain Planet came out of a two day hack-a-thon that we recently had, where a developer was able to, on his, on his laptop, subscribe to the production database, production Rabbit, and generate ten reports off of that data to solve a really big pain point that we have that our account team has, and actually do that in a completely isolated way that didn't impact the production system at all.
+
+And was actually running that on his laptop, just like the fire hose of production data, on his laptop, and did that in a couple of days and worked with it. That is, that's joy, right. That's back to the joy of the fifteen minute blog. That's taking a really complex system and making it,  you know, easy to use, and it took, you know, this, and went back to something ugly to a lot of little cute fun cuddly apps that we, that we now have.
+
+And with that, I'm gonna pass it back to Nico to wrap things up.
+
+N.V.: So to wrap things up, we've seen that Promiscuous is very useful to do event-driven services. So you can trigger callbacks realtime. For example, you want to send emails when some piece of data is changing. You want to keep your caches warm. Whenever, or, say, you know, whenever some piece of data changes, you wanna is, instead of invalidating your caches, you can actually reconfig the, the right thing.
+
+You could push data asynchronously to your browsers to improve the user experience. And we want to do all that also by, and also doing database replication, but different kind of databases, right. So I want to be able to replicate my PosGres database to ElasticSearch and maybe MongoDB and maybe Riot - whatever it is. And I want this to be decoupled, and I want this to be, do this at scale and with good consistency.
+
+So that was gonna allow you to, to really see the data that you want for the feature that you need to implement. And so real time is really, really important these days. And, and if you can embrace the arch, the, the asynchronous layer of your application and to really, to really unleash the power of your data, right. So you can really  innovate now. You can hire some interns for a summer and get them to do some matching learning project directly in production without having you to be worrying about, oh my god, they're gonna drop my system and they're gonna pollute the code and all that.
+
+Like, if you don't like their stuff, eventually you just delete their app and you're done, right. So, so you can really go back to being agile and try things really with, without having, oh my god it's, I need to change so much things. Like, you, you get back to, to really the, to the agility of, of, of your team.
+
+So that's, that's about it. So we invite you to try it out. It's on GitHub, on Promiscuous dash io slash Promiscuous. So we've been using it in production for a year now and we're very happy with it. But it requires a bit of babysitting for now.
+
+So we're still working on it, and we're trying to make it really a hands-free experience. So that you can just plug it in and you have nothing to worry about and you have all the different recovery mechanism that kicks in at the right time and everything.
+
+So if you feel adventurous, you can try to extract your email logic out of your main application because that's, like, the obvious, like, you have no, it's an observer, really.
+
+And, and perhaps build some reporting service, also, for some, some of your fancy clients. So, if you try it out, we'll be super happy to help you with the, to go, with Promiscuous. And we, you can find us on Twitter and GitHub, kareemk and nviennot.
+
+Thank you. And now we'll take questions.
