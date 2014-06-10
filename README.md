@@ -17,6 +17,7 @@ http://www.i18nguy.com/unicode/language-identifiers.html
 
 Under the langauge folder we want to add a file for each presentation.
   - check the conference directories readme for file format names.
+  - srt files with timestamps unnecessary - txt files will sync with videos on youtube so long as lines are roughly 40-50 characters
 
 Conferences Under Translation:
 ------------------------------
