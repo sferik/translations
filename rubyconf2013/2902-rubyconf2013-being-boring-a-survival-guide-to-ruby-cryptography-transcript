@@ -1,0 +1,177 @@
+RubyConf 2013 - Being Boring: A Survival Guide to Ruby Cryptography - Tony Arcieri
+
+TONY ARCIERI: We ready to go here?
+
+So it used to be you didn't have to think about security when you're writing a Ruby program. Well, guess what, pall? Times have changed! There's all sorts of bad people out there, and you gotta know how to stop them!
+
+All right. I'm not gonna do the entire talk as Crocket impressions. Sorry.
+
+So I am Tony Arcieri, or @bascule on Twitter. I work on the, or work at the inform- I work at Square on the information security team. And my talk today is about cryptography and, you know, I just want to encrypt something. How hard could it possibly be?
+
+The answer to this is definitely hard. So how hard is it? Well, today you're gonna drink from the fire hose, and I'm gonna show you exactly how hard it is.
+
+So quick itinerary here. We're gonna talk about attacks. We're going to talk about how to defeat them using something called authenticated encryption. And then we're going to learn how to completely avoid all these problems by just letting cryptographers do all this stuff for us.
+
+So, I think Ruby's traditionally been in a pretty bad situation when it comes to cryptography, and the main reason for this is the OpenSSL library has been the only game in town for quite some time.
+
+So I think we can change this. I think this is a fixable problem. But to do that, we really need to know, how the hell does crypto actually work?
+
+So, the answer to this is magic. But, not really magic. It's actually just math. So there's two types of encryption cyphers I'm gonna talk about today. We'll show how one builds on the other. The first is called Symmetric. So here we have Alice who just wants to send a message to herself, or rather, just put this message away in a box and lock it, and then she can use the key to open it again and get the original message out.
+
+The other is asymmetric. So Alice wants to send a message to Bob. Same idea here. She's gonna put it in a box and lock it with one key, and then Bob magically has another key that lets him get the message out.
+
+The big problem with encryption is it lies at the intersection of math and security. So, like, math is hard and security is hard, and when we put all these things together, especially when we're talking about doing this in a programming language where we have bugs, things are gonna get pretty hard.
+
+And this is one of my favorite quotes from Cryptonomicon. So, this is kind of the situation we're in, I think, in the Ruby world. That most of the encryption gems out there aren't designed by cryptographers, they're designed by amateurish people who are trying to, trying to put everything together but maybe just don't quite know how.
+
+So I'm gonna go through all the attacks on symmetric crypto. Unfortunately, I don't think I have time to do asymmetric crypto. So I left a bunch of those attacks out. But, guess what, it's even worse. So we're gonna talk about AES today. AES is a symmetric encryption cipher. It's great. I would recommend you use AES, but it's sort of like aim away from face, read all instructions before proceeding kind of thing.
+
+So this is how AES works. It's a block cypher, so it works on fix-sized blocks. So we're gonna take a sixteen byte piece of plain text and we're gonna use a key, which can either be sixteen, twenty-four, or thirty-two bytes. You want to generate that randomly.
+
+And from that we're gonna get a sixteen byte block of cyphertext.
+
+So, that's all well good. AES works great. There's just this little problem. How do we encrypt something that is large than sixteen bytes?
+
+Well, one solution to this, PHP decided to use a different ver- so AES is derived from a cypher called Rijndael. PHP should be the version of Rijndael with the 256 byte block size. So this is awesome. It's a completely non-standard version of AES that only PHP uses.
+
+So let's not do that.
+
+So let's figure out how to do this, right. So the naive solution to this is to use something called ECB mode. So there's this guy here, he apparently couldn't find out how to use, do encryption with OpenSSL itself, so he went off and he made his own gem to encrypt stuff with ECB mode.
+
+You see there, he has C security nodes, ECB mode only. The problem with the ECB mode is it's really, really bad. So what ECB mode would have you to is just take all these blocks of plain text and encrypt them under the same key.
+
+So what's the problem with that? Well, it leaks information. So let's say this is our plain text we want to encrypt. If we run that through ECB mode, we get something that looks like this.
+
+So I think you can all see from this that this thing isn't very well-encrypted. We can totally, can totally see what it is.
+
+So what's the solution to this? So, we need to use a different block cipher mode of operation. There's lots of these guys. We just kind of have to pick one. There's all sorts of various trade-offs. The one that people mostly settled on today is countermode.
+
+So counter mode is fairly easy to understand, I think. It's sort of similar to a one-time pad. So what we're gonna do is take a block cypher, like AES and try to turn it into a stream cypher. So what we're gonna do is effectively generate a bunch of pseudo-random numbers.
+
+So we feed in a nance, which is some secret starting place, and a key, which is the same as what we were putting in before. And then there's this little counter, and every time we crypt a block, it's just gonna count it by one.
+
+So what we're actually gonna do is combine the nance and the counter, and encrypt that with AES, and what we're gonna get is a little bit of pseudo-random pad for each part of the plain text. And for each of these paths, for each of these blocks, we're gonna x over the pad with a plain text, and that's gonna give us our cypher text.
+
+So if we go back to our little Ruby gem image here, what we're gonna do is combine this with a pseudo random pad, and what we're gonna get is the cypher text. So I hope you can see that little subtle change there. So this is actually encrypted, right. We can no longer see that gem and now we're done. Success!
+
+We've, we've obtained confidentiality. Except a problem.
+
+Our repeating nonces will leak information. So we can't ever use the same nance and key. So the solution is just don't do that.
+
+So we've got another problem here. Support for counter mode in Ruby OpenSSL is spotty. So unfortunately we can't use sort of the industry best practices here. And what we're gonna use is CBC mode. CDC mode is fine. There are a few small issues with it, but unfortunately I don't have time to go into them.
+
+So, next problem. Attacker, who we hand this message to, can manipulate, with something called malleability. So let's say our plain text is attack at dawn, and we encrypt that and we have a cypher text and we hand that to an attacker. Let's say this attacker is able to guess what the plain text was.
+
+So what this attacker can then do is x over part of the cypher text with what he thinks the original plain text is, and then x over that again with what he wants it to be. So what you get is sort of this like manipulated cypher text, and now when we decrypt it, it gives us the wrong thing. This isn't what we expected it to be.
+
+So the solution to this is to use something called a message authentication code. When we combine this with a encryption cypher, what we get is something called authenticate encryption.
+
+So with a Mac, what we do is we take the message and then we have a key, and when we combine the message and the key, we get this fix-lengthed tag. So we know we have the right message when we take the same message and the same key and then we get the mac we expect.
+
+So once again, there's a whole lot of these. Like, HMAC is the one I'm sure you've heard of if you've heard of one of these. The others are somewhat less common.
+
+So now we have yet another problem. What order do we combine the encryption and the mac? So there's effectively three ways to do this, and common internet tools have all sort of chosen their own different way. So the first is called mac-then-encrypt. This is what's used by SSL and TLS. So the idea is you take the plain text and you compute the mac to the plain text, and then you sort of combine those together and encrypt both.
+
+Another way to do it is called encrypt-then-mac. This is used by the IP sect protocol for, like, yeah. So we have plain text. What we're gonna do is encrypt it first, and then we're going to calculate the mac of the cypher text. So the third way, which is used by SSH, we take the plain text and we encrypt it, then we get the cypher text, and then we take the original plain text and we compute the mac of that and then we put the cypher text and the mac of the plain text together.
+
+So which, which of these sort of three standards or three approaches got it right? Anybody want to take a guess which of these is actually the right way?
+
+None. There's actually a right answer. One of them did get it right. So the answer is encrypt-then-mac used by IP sect. So why? What's wrong with these other methods?
+
+So SSL/TLS, you might remember there was this attack called Beast. It's using something called a padding oracle. I didn't really go into how padding actually works, but it's how you deal with, when your plain text isn't actually aligned to a block.
+
+So, using Beast, they were able to get a little bit of information out of when it decrypts and it does this padding check and you can tell if it got through the padding or not before it hit the mac.
+
+So the solution TLS uses now is to make sure it always checks the mac, even if the padding fails. So that's a little bit of a band aid.
+
+Encrypt-and-mac, used by SSH, is vulnerable to chosen cyphertext attacks. There's a fun little paper on this. Fortunately the SSH protocol was extensible enough they managed to avoid, they managed to effectively fix this retroactively.
+
+So in review here, if we were trying to build our own authenticated encryption scheme, what we have so far is sort of using AES in CBC mode, since Ruby OpenSSL doesn't support countermode. We're gonna do the IP sect thing and encrypt-then-mac and I showed HMAC. HMAC is really nice cause it takes a lot of the sharp edges off some of the other macs.
+
+So what this actually ends up looking like is what's in Rails. The ActiveSupport message encrypter. So this is definitely a cool thing to use if you just need to encrypt something and you're using Rails. It's definitely a way to go.
+
+So let's talk about what else could go wrong. Not done yet.
+
+So the next thing is timing attacks on. So speaking of that ActiveSupport message encryptor, it used to be vulnerable to these. So this is a patch by Koda Hail to implement a constant time comparison of the mac. And the problem is if you don't do this, the attacker can use this sort of, like, infinitesimal timing information, especially if they're on the same LAN as you or on the same host, to just try to guess at the mac a byte at a time.
+
+So you see before what it was doing was not equals. So the problem with not equals is it'll sort of bail fast and exit early as soon as it sees something that doesn't match. So by using the timing information off of that, an attacker can effectively guess the mac a byte at a time.
+
+So the solution is all that nonsense you see down there at the bottom, where they're doing xor between the two bytes and doing or equals and doing this over all the bytes and then looking at the actual value of the result.
+
+So this is all pretty crazy stuff, right. And we haven't even talked about pubkey. So really, I don't think amateurs should be trying to put all this stuff together. Unfortunately that's sort of been the state of the world in Ruby.
+
+So what can we do better? We can have more boring crypto constructs. So what, what qualifies as boring? Well, to do that, let's talk about what isn't boring.
+
+So this has been how most things have worked in the Ruby world. So OpenSSL is kind of a terrible library to begin with, and then pretty much every Ruby gem you see that deals with encryption just layers on a bunch of amateur code, trying to put all this stuff I just described to you together.
+
+And typically, they'll get at least one thing wrong. So, I'm not gonna name anymore names besides that Fast APS gem, because I think that one was just pretty crazy and dangerous. But pretty much every gem out there, if you go through and you try to look for all these things to make sure they got it all right, they will generally get something wrong. Oftentimes they will not use a mac at all, so they'll just use encryption, and the attacker can screw with your cypher text.
+
+And then there's all sorts of other little things that they can get wrong which I didn't even cover here.
+
+So the boring approach in my opinion is to use a crypto library written by cryptographers. And when I talk about a cryptographer, who am I talking about? And it isn't someone like me, right. I'm a crypto enthusiast, but I'm not a cryptographer. I cannot design my own cyphers that will be secure yet. It's something I aspire to maybe, but not quite yet.
+
+So what we really want is to bind to a library that was actually written by cryptographers, people who spend all their time thinking about these kinds of attacks.
+
+So I have written a library like this that is actually a FFI binding to an actual library written by cryptographers. So the name is, unfortunately, a little bit confusing. I call it RbNaCl, but you may also know there is Google native client. It isn't that. And there's also a, a, an ACL organization that, in Japan, you might be familiar with. It isn't that.
+
+So this is a library by this guy Dan Burnstein. You may know him for libraries like, or projects like Qmail, DJBDNS, and DaemonTools. And if you haven't been paying attention to him for the past decade or so, what he's really going hardcore for is cryptography.
+
+So he has designed quite a few of his own cyphers. And all sorts of algorithms and created this NaCl library, which is slowly gaining a little bit of popularity. And you see the URL down there. It's under the cryptosphere organization, slash rbnacl.
+
+So to make things even more confusing, this isn't actually binding to nacl, it's binding to a portable repackaging of nacl called libsodium. So the best description I've heard of this, is it's de-Burnsteinized. A lot of, a lot of people don't like DJB's bold system, and it's kind of crazy cause the way it works, once you bolt the library it's completely non-relocatable, so you can't really package it as a binary for a distribution.
+
+So libsodium took nacl and added a standard automake style build system. So it's easy to install, it is in Mac ports, and you can install it with brew install libsodium. There are packages for various Linux distributions. Some of them, you know, you'll have to actually build yourself from source, but the basic work is there, and it's getting more and more widespread option.
+
+So nacl has many primitives. I'm only gonna talk about two here. So these are the symmetric and asymmetric encryption I was referring to earlier. But it also has a ton of other stuff, so it has HMAC. It has digital signatures. It has all sorts of fun stuff for elliptic curve cryptography.
+
+So I definitely recommend checking out. You can go to the rbnacl wiki and it has all the features listed out for you.
+
+So first I'm gonna talk about the symmetric encryption primitive it provides. So this is authenticated symmetric encryption and it is called secretbox.
+
+So this may be a little hard to see. But it should be fairly straightforward to follow, I hope. So what we're gonna do is we're gonna make a key that is the size of a secret box key. It's actually thirty-two bytes.
+
+So you get a random key and that is using rbnacl's own random number generation. On Unix-like operating systems it upholds from devurandom and on Windows it uses, I forget what it's called. Yeah. Windows.
+
+Anyway. It does work on Windows.
+
+So after we've done that, we're gonna make a new secret box with the key, and then here's the fun part. We need to make a nance. So this is just generating a random nance of the secret box's nance byte's length.
+
+There's also another feature in rbnacl called random-nance box that'll do all this stuff for you. The important part is a nance is a single-use value. So every time you encrypt something with this box, you need to make a new nance.
+
+So it doesn't actually have to be random. It could just be a counter. The nice thing about it being random is it's long, so it's twenty-four bytes, so if you just do a random number every time it's hard to screw up. You don't need to keep track of the state of how many nances you've used.
+
+So after that you hand the nance and the message to the secret box. It'll make the cypher text for you. And to decrypt it, you give the same nance and the cypher text and it will decrypt. And behind the scenes, this is doing all the authenticate encryption stuff. So it's adding a mac, it's checking it, and it's using an encrypted mac.
+
+And then down there at the bottom, you see if you try to open the box and something is wrong, either the nance is wrong or the cypher text has been corrupted, it'll raise an exception for you reliably.
+
+So this is using a couple of algorithms designed by Dan Burnstein. So the encryption cypher is called the XSalsa20, and the Mac is called Poly1305. So probably right now, you're thinking, what the hell is XSalsa20. Like, never heard of this. That can't be boring, right.
+
+So I think this is boring because it is a cypher that has sort of been standardized through this contest in Europe called ecrypt. And the goal of ecrypt is sort of like when there is an AES contest. They're trying to produce better stream cyphers so the Salsa20 cypher was one four they selected for inclusion in what they call the estream portfolio.
+
+I say this is boring because things have gotten very not boring in the cryptography world lately. So you may have heard nist standardized a random number generator designed by the NSA called duel EC DRBG, and turns out that thing had a back door.
+
+So there's still open questions about the nist elliptic curves as well and whether or not they contain possible NSA backdoors. I mean, if you're asking one layman's opinion, I'd say it's probably unlikely they have backdoors in nist elliptic curves, but it's hard to know, and I think the boring thing is to use cyphers that are beyond reproach.
+
+So to take, to do asymmetric crypto using the same sort of primitives, we have this thing called box. And here is an example on how to use box. So this time we have to actually generate a random key.
+
+So this is using that elliptic curve stuff I was talking about earlier. I'll get into how that works a bit later. So we take a private key and, unlike RSA, with elliptic curves we can calculate the public key from the private key. I think I spot a typo there. Awesome. Oh no.
+
+So yeah. So once we've done that, we have a public key and you'll notice here when we make a new box we're giving it both somebody else's public key and our private key, and the neat thing about this is it's performing something called mutual authentication.
+
+So all these boxes are based around a set of keys. It's who you're sending the message to, and your private key, so that way when somebody opens up the box, they'll know they got it from the right person.
+
+So make a new box. They'll also have a box on the other side. It is effectively the same box, just computed from the irreversible keys.
+
+So then after here it's pretty straightforward, just like the symmetric crypto. So what we're gonna do is make a nance again. We have the message and we're going to encrypt the message under that nance and under that pair of keys. We get a cypher text again and then the person on the other side can open it, and once again, like before, if it has been tampered with it will raise an exception.
+
+So box is built on the same primitives as secret box, so it's still using the xSalsa20 cypher and the Poly1305 mac. The main difference here is we're adding in a Diffie-Hellman function. So that is called curve25519. And that is an elliptic curve algorithm designed by Dan Burnstein.
+
+So one of the big worries about elliptic curve cryptography, in addition to possible NSA tampering has been patents. So DJB has designed this curve specifically to side-step all the patents. It's pretty awesome. If you go to the website for it you'll also add the patent, and he lists out the prior art saying this patent is bullshit, anyway. But then he's like, here I completely avoided that problem entirely.
+
+So really quick, here's how Diffie-Hellman works. SO it's pretty simple. What we do is a thing called scalar multiplication. So we take Alice's private key and perform a scalar multiplication operation with Bob's public key and we get a shared secret.
+
+And Bob is able to calculate the same secret by multiplying his private key by Alice's public key. So these two, two operations are sort of like a reflection of each other.
+
+So secret, box works by taking that shared secret and using it to drive a symmetric key.
+
+And that's all I got. Keep it boring.
