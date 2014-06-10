@@ -2,7 +2,8 @@
 
 ##day1:
 
-  d1-01-keynote
+  d1-01-keynote - subtitles added to video
+  https://www.youtube.com/watch?v=4LMWsFbj6js
 
   d1-02-lessons-learnt-building-indias-largest-ecommerce-supply-chain-in-ruby
 
