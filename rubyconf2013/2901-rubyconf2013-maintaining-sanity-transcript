@@ -1,0 +1,235 @@
+RubyConf 2013 - Maintaining Sanity - Nathaniel Talbott
+
+NATHANIEL TALBOTT: All right. About time to get started. Thanks everybody for coming out on a Sunday afternoon. I knew one friend who did a fair amount of speaking, and he said he always told the conference organizers that he had to leave before the last, before the last day to make sure that they would schedule him earlier in the conference. So, but somebody has to go on the last day, and I appreciate you coming out for this talk.
+
+My name is Nathaniel Talbott. I work at a company called Spreely, and we do a lot of payment stuff. We process payments and make it really easy to work with multiple gateways, vault credit cards, this number is like ticking down in a way, like, I mean, no pressure.
+
+I'm gonna put it over there.
+
+So we process payments and do a lot of work with payments and I've been in the Ruby community for a long time. Way back when I made this little project called testUnit in the early days of Ruby, and that somehow ended up in Ruby itself. And thankfully somebody else took over maintaining that. And I'm one of those groupies that's been to every Ruby Conference. So that's, that's how much I'm into Ruby.
+
+But this thing happened as I was going along, and suddenly I found myself a maintainer of a rather large project. I don't, it's one of those things that I don't remember exactly how it happened. All the sudden. But, no, I was working along on the ActiveMerchant project. Who's used ActiveMerchant?
+
+OK, so actually a fair amount of the room. Which is awesome. And I was working along an ActiveMerchant project. Spreely uses ActiveMerchant a lot. A lot of our functionality is built around it. And I was committing, I was doing pull requests and generally the, like, I was sort of insistent enough that my pull requests were getting merged. But there was like five pages of old issues and pull requests, or more, and it just started to bug me that they were all there, and I didn't want to wait for people to, for the current maintainers of ActiveMerchant to merge my stuff.
+
+I'm like, hey guys, maybe you guys could just give me commit privileges and then I could take care of my own stuff. And then I got commit privileges. Then I got annoyed that there were so many things in the issue tracker and I started actually dealing with other peoples' issues, and all of the sudden I was a maintainer of ActiveMerchant. And one of the primary maintainers.
+
+And I didn't realize it until Matz's keynote, but I had become a garbage collector. Which is actually pretty awesome. And we're gonna talk about that a bunch, and why being a garbage collector is actually pretty cool.
+
+But, before we get into that, you might be saying to yourself, well, Nathaniel you're gonna talk about how to be a good maintainer, but what if I'm not a maintainer? Well, the thing is, understanding the issues that the maintainer has to deal with, the, the things that they run into as they're taking in contributions and trying to maintain a project will make you a better contributor.
+
+So even if you're not a maintainer, you can be a better contributor by understanding these things. And being a better contributor means it's more likely that your patches and the things, your issues get resolved.
+
+And I don't know about you, but when I go to the trouble of submitting something to an opensource project, it's really nice when something actually gets done with it. And so if you understand what maintainers are dealing with, you're much more likely to get your stuff merged.
+
+And also, you could be like me and just be going along, and all the sudden, you're like, what happened? And you're the maintainer on a project.
+
+So this could happen to you too. So listen up.
+
+Now, one of the things about becoming an opensource maintainer is you didn't, like, for me, I didn't think about, oh, OK, this is a big life decision and I really need to think this through. What does it mean to be a maintainer? And actually putting this talk together was a really great opportunity to think about, what is a maintainer's job? What is it, as an opensource maintainer, that you're trying to do? What are your responsibilities? What makes you effective.
+
+So let me just go through a few things here.
+
+First of all, I think it's a maintainer's job, every maintainer's job, to maximize the contributions to their projects. Opensource works because many eyes make for small bugs. And the more people that we can bring in and, the more contributions and the more contributors we can get involved, the better our projects will be.
+
+However, that has to be balanced with the second job of a maintainer, and that's the ensure that the code improves over time. It's not enough to just say, oh great, another patch, let me hit that merge button. Fantastic! Another patch, hit the merge button. Because before long you've got a big bloated mess.
+
+Cause there's a lot of different forces that are coming to play on your project, and it's the maintainer's job to ensure that that code gets better over time and isn't just - you don't count as a maintainer if you just merge every patch.
+
+You've got to, your job is to make sure that it gets better. Because you are in context to that project.
+
+Thirdly, I think that it's a maintainer's job to ensure that the users of their opensource project are happy. And it's really important to understand that this isn't happy contributors. This is happy users. Because opensource is just like anything else that takes in input from a crowd of people.
+
+And that is you'll have ten percent of people who actually contribute stuff back, and you've got this great, a mass of people who are using your code, you don't even know about, you've never heard about them.
+
+And you've got to be thinking of them, not just of the people who are coming in and contributing to your project. You've got to balance that out and, and ensure that everyone that's using your code and the project you're maintaining is happy.
+
+And then fourth, I think it's really important, and it's part of an opensource maintainer's job, to actually enjoy the process of maintaining opensource. Because it really stinks when there's a good maintainer of an opensource project and then they quit because they get burned out. And it does the community no good for that to happen.
+
+So, but we, I, as an opensource maintainer, am responsible for managing that and making sure that I can actually do this for the long haul. So this is definitely a, a critical piece of my job.
+
+So here's the thing. This is hard.
+
+It's not something that you're gonna go and take a course on in school. It's not something even, like, you can go and talk to open, other opensource maintainers and they'll kind of throw some anecdotes at you, and that's great, but it's hard, it, it's context dependent, and so what I want to try to do today is say, OK, great, now you're a maintainer, so as you're starting to do your job, what are the hurdles that are gonna pop up in front of you? What are the things that you're gonna run into, and what are the things that I've learned that have helped me make me more effective, and I hope will make you more effective as an opensource maintainer.
+
+Now, I'm gonna make some assumptions. First of all - and these are assumptions for the sake of the narratives, not assumptions that you can't tweak and apply to your own situation. I'm gonna assume that you're a maintainer right now. So everybody in the room, you're now an opensource maintainer, whether you are or not.
+
+I'm going to assume that you've created a project and that that project actually has users. I know that we probably all have those projects we pushed up to our GitHub repos, public repos, and we're like opensource, and it's us using them. That's fine. I mean we all do that. We all have those repos. But that's not really what I'm talking about.
+
+I'm talking about projects that actually have some users and, and a few contributions rolling in at least. And I'm also gonna make the assumption that you're using Git and GitHub. I'm actually a little curious. Who in the room today maintains an opensource project that's not on GitHub? It's OK, you can admit it. So, like, two people.
+
+And just for context, who maintains an opensource project on GitHub? OK. Yeah. So I'm gonna make that assumption. I think these things are adaptable. Other than a few of the more technical details that I'm gonna get into the middle where we talk a little bit more about git and how it enables maintainers to do their job.
+
+So let's start talking through the issues. This talk is kind of a little bit of a sandwich. We've got sort of people stuff, and then we've got, is the bread on one side, we've got meaty technical issues, a few meaty technical things in the middle, and then we've got the, some more people stuff on the bread on the other side.
+
+So here we go.
+
+So the first thing that I ran into when I started maintaining ActiveMerchant was the big pile o' issues problem. And you'll see this on opensource project after opensource project as you go out and look at them.
+
+Issue trackers that are chock full of like five to ten to twenty to, like, so many pages of issues. And a lot of them are like, the issues are like three years old, and you're like, what is this even? I don't even know.
+
+And this was, this is, I think, especially common if you are becoming a maintainer on an existing project, which was my scenario when I started maintaining ActiveMerchant. It, it had maintainers, and they were, they were making sure that it continued to work, but they weren't really spending much time integrating things that contributors were bringing in and, and gardening and taking out the trash, as it were.
+
+And so there's a really simple solution to this. And it is triage without mercy. Like, when it comes down to it, as an opensource maintainer, I have so much time. And if there's an issue that's been there for three years and no one else has even come in and commented on it, that sucker's dead. Like, why, I wouldn't spend another minute on him. Close it out with a nice comment. Say, hey, thanks for this, if you have anything else - and they're probably going, I don't even remember submitting that issue.
+
+But you close it out and so really fast, if you triage really aggressively, especially in a project that's built up a lot of this history, you can, you can quickly slim that list down to a manageable list of things that are really active and really, really need attention.
+
+The second thing that I've seen as a big problem is low quality contributions. And a, I find that, well, this isn't necessarily low quality coders. Sometimes it's just people not understanding the project. And so my first solution is just to take responsibility for it. I'm the maintainer of the project. I'm in the context of the project, you know, several times a week. I know what the code standards are. I know what the design patterns are. I know how to interact with the project. I've got to take responsibility for the contributions that are coming in.
+
+And if all of them are crappy, I need to take responsibility for the fact that that might be my fault. I might need to put up some contributing guidelines. I might need to clean up the code so that, you know, the, it, it's more obvious how to contribute to it, or it engenders better code and better contributions.
+
+I've got to take responsibility for the fact that, if these contributions are coming in. And also take responsibility for the fact of, if it's a two-line change and it's slightly crappy, who cares? Like, I'll just fix it. Like it's not, like, it solves a problem. I can take it in, make a tweak and change it.
+
+And that kind of gets to the second thing that I do to help manage low-quality contributions, and that is, I rewrite history all the time when I'm taking in contributions. So I'll get a pile of commits of like four commits, and I look at the diff and it's like one-line change. cause they like tried something and then, no, that didn't work. And let me try this, and oh, this is what it is.
+
+Well, I mean, that's cool, but I don't need all those commits in my history, and so I leverage git, regularly, and we'll talk about that a little more later, to rewrite history and just make it look good. And it's cool because I get to make the contributor look good, cause it actually, like, squashes all their stuff down. I change and fix some stuff. it goes in with their name on it and just says contr, committed by me.
+
+And I don't need credit for that. I just want clean code.
+
+Communicate expectations. I covered this earlier. Have a, have a contributing guideline. If a low-quality contribution comes in, just clearly say, hey, here's the issue, can you correct this? And that kind of goes to making it their problem, if it is.
+
+If, if I get something that's really like, like for instance, sometimes I'll get a issue, so it's the, it's the hey, this thing doesn't work. I'm not actually gonna tell you what doesn't work and I'm not gonna give you any details as to how it doesn't work, but could you please fix it for me? Well, no. But if you give me more details, so I'll push it back on them and say give me more information. Tell me more. And I'll try to help you. BUt I, I have no trouble pushing it back, you know, if it comes in and it's a big change that has no tests, I'm gonna say hey, can you give me some tests for this?
+
+If I can't, if I've tried, like, five times to merge it in and there's so many conflicts I can't figure out how to do it, hey, look, can you get this cleanly applying to master? So it, there's no trouble pushing it back to people.
+
+The next problem, and, this is a really good problem to have, you want this problem. But that's the overwhelming volume. When you've really got a lot of changes coming in really fast. And you're trying to keep your issue tracker from ending up at ten pages.
+
+And you know, the first, the first thing I do for that is I adapt effort to volume. So some months, ActiveMerchant gets, like, you know, three contributions. And some months it gets twenty. And depending on which of those months it is and how much time I have to spend, I will, I will push things back onto contributors more if there's more stuff to do.
+
+Like, normal, I might be like, oh I could write a test for this, but I've got like ten other patches that might be more complete that I need to spend time on. Hey, contributor, can you, can you give me more on this.
+
+So really just adapting it, recognizing that it's not your responsibility to do everything. You're trying to, again, going back to the goal, is you're trying to maximize the contributions you can take in. And that means doing what you can.
+
+And, of course, you can always add contributors. Like, look for those people who are coming in over and over again with high quality stuff. Cause if somebody comes back multiple times, it generally means that they're using it for something really actively, and they're gonna have, they're gonna have the context and they're gonna be able to contribute to it. And don't hesitate to add contributors once you see high quality contributions from them.
+
+Now, what about when it's not so much the volume, even, it's just that you've got a lot of stuff to do, opensource or otherwise? And, but there are also contributions to take in. This is, this is an ongoing struggle, I think for every opensource maintainer. Cause we typically have day jobs and we, we have a limited time to do opensource end, and I know, for me, there are definitely - I feel sorry sometimes, cause I get this, I get this chance and I go through and I add comments and ask for feedback and stuff, and then people are like, oh great, he's paying attention! And they come in and they're like, yeah, and I'm, and then like, ten days later, they're like, hey, are you still there? Did you forget about me? And I'm like, no, I'm coming back. I'm coming back.
+
+So the first thing that I try to do is try to have some focused time. It doesn't, there's some kinds of things you can do in terms of giving immediate feedback on patches, et cetera. But to actually merge, to actually get in and take in contributions, you gotta have focused time. For me, it's like, thirty, at least thirty minutes, an hour is better, of time when I can put my headphones on and be like, I've got some internet here and I'm just gonna look at patches. I'm gonna merge the ones that I can.
+
+And I put that together with a getting things done workflow. And just a really simplified one that allows me to process through things, make sure I'm making more progress, not getting hung up on things and, and really moving through things.
+
+So what I'll do is I'll hop into GitHub issues on GitHub, on the project, sort by updated. First, I really try to be really good about first in first out. So if you contri, if it's been, like, two weeks since I worked on stuff, I want the guy who submitted something two weeks ago to get feedback first.
+
+The guy who submitted something yesterday, I hope to get to you today, but you're gonna have to wait. I gotta, I gotta really respect the contributors who have been waiting longer.
+
+I do a quick review of the submitted info, and the diff on GitHub. And then I'm basically trying to figure out, look, is this something I can merge, like in five minutes? Does it look ready to go and I just need to load it up, right a README, or a changelog entry, and it's good? Is this gonna be a bigger contribution?
+
+Like, for ActiveMerchant, that to me is somebody added a gateway. When I need to add a whole new gateway, that's like a big process. That's gonna take me a half hour or forty five minutes. SO I want to go through and try to get the smaller fixes first. And then I'll queue it up, queu up those bigger things. And by queue it up I basically mean skip to the next thing, and then when I get to the bottom then I go back to the top again and start working on longer things, but I know I've knocked out the smaller stuff.
+
+Now the next thing, in terms of time management, that I've done that has been a huge help - like when I first started, I really sucked at being an opensource maintainer. Like, I was just spending so much time working, like, doing busywork. Doing stuff that I didn't need to be doing. But I didn't know I didn't need to be doing it.
+
+So the first thing is, hub is your friend. If you're using GitHub, hub is awesome. Who's used Hub? OK. If you haven't used HUb, like, even if you're just, like, you just work on private repos for your company, hub is amazing. It basically wraps the git command in all kinds of GitHub specific goodness. it allows you to clone a repo off of GitGub without having to figure out the whole url. You just like, ntalbott slash whatever and boom, it, it'll clone that for you.
+
+And the really cool part if it wraps the, so git am is what the linux kernel maintainers use to take a mailbox directory and pull the patches out of it and ply them.
+
+And hub wraps the git command to adapt that where you can pace, you can say git am and paste to GitHub url. Pull request url. And it'll apply that locally, just like it would apply a patch off of a mailing list.
+
+it's awesome. And then you can go in and edit it. You can rebase, et cetera. You don't have to like go and like add a branch for that pers, like that person's branch and try to muck around with it. It just takes in the stuff for their PR.
+
+So let me actually show this to you. Let's do a little live coding, which is always fun. We're gonna actually contri, like, take in a contribution and merge it for ActiveMerchant. So I've got a few here. I'm gonna, let's try, 896. So.
+
+So this is the ActiveMerchant GitHub repo. I'm gonna hop over here into issues, which of course includes pull requests.  I'm actually gonna skip over a bunch of stuff cause there's a bunch of more involved stuff here that I need to work on later.
+
+Eight, which one was it? 896. Yeah, this one.
+
+So this is a really easy one. I like really easy, especially for live coding. SO basically all this does is fix some docs. Awesome. You know what, honestly, this is the one time when I will actually use the merge pull request button on GitHub. I do not usually use it, but this is the one time we're just gonna do that. Done.
+
+There you go my man.
+
+OK, I've got another one though. 898. I'm actually just gonna do this.
+
+OK, so somebody's contributed something for the Mercury Gateway. I'm loving they're, they're following the convention that we have in ActiveMerchant of referencing the Gateway.
+
+You'll notice I've already had interaction with him. I asked him to change something. He came back in and changed it, so we've got two commits in this pull request, which is great. We'll just go over and look at the diff real quick. He's basically added a, a store method and the backing code for that. He added a test, which is awesome.
+
+And so what I'm going to do is really cool. Oops, that's not what I want. GitHub, you broke the back button. OK, so check this out.
+
+So we're gonna go over here. I've already got Git- ActiveMerchant checked out. I'm actually gonna do a pull cause we just merged that thing. And now check this out. Git am, and I paste the pull request url, and it applies those two commits, right there on top of my master branch here.
+
+And then what we're gonna do is hop over, well first, we're gonna run rake and make sure our tests pass. Which I expect them too. No reason for them not.
+
+Sweet. All good.
+
+If you look at the git status, you'll notice there aren't any local changes. There's just the two commits from this, from this guy. I'm gonna go over and actually add something to the change log now. So this is another thing. I ask people who contribute to ActiveMerchant to actually not change the changelog. It turns into merge craziness, because everybody changes it and then it becomes this point of conflict whenever you're trying to merge in, especially if you're doing a bunch in a row. And so it works much better for me to just come in, make that change and then merge it into their change.
+
+So I'm actually just gonna go over here, since he has this awesome message already, and let's give him some credit here, Casey Dragon, you're awesome. And we're gonna save that and then I want to go over here. Now you'll notice I have another commit here, so I'm just gonna git ci dash a, it'll pop up my editor here. Oops.
+
+So I'm gonna add that and he had this nice comment here, too. Just take that in, paste it in here.
+
+K. Now, the other trick I'm gonna do here is I'm actually gonna add magic comment to close this out automatically. Because what's gonna happen is when I merge this in, because I'm gonna do a rebase, it's not going, GitHub won't know that I am actually merging that pull request. So I'm gonna put that there.
+
+So now if I go over here, you'll see I've got three commits. Well, I don't want three commits. This is one logical change. There's absolutely no reason to have multiple commits here. And I like, I, call me pedantic, but when I want to go back and figure out why something's broken, I don't want to be looking through peoples' work in progress commits, or even my work in progress commits, especially in a library like this. So what I'm gonna do is I'm just gonna git rebase dash i origin/master.
+
+And I'm going to fix up this one and squash this one. And that's basically gonna pop me in here. I'm gonna delete that. Now, check out the git status. One commit. So now I've got clean history to work with. I'm just gonna do a git push. Now, if we go over here to GitHub, that's cool. Is that cool? It like knows that I just closed that, and automatically updates the page.
+
+And if we go over now and look at ActiveMerchant, you'll see Casey Dragon still gets full credit for that, and I'm just the committer, which is exactly how I like it.
+
+All right.
+
+So to run over that again really quick, I do a sanity review on GitHub. I use git am to pull that thing in, resolve conflicts. There's even a little dash three option you can pass to get am, that does a three-way merge. And we'll sometimes merge stuff that basic git am will not. Sanity test run, review it, clean/tweak - I'll go, like, I'll do everything from nothing, except adding a change log line, or maybe even not even that if it's really minor, to completely changing the code and cleaning up the Gateway because I understand how Gateways should be.
+
+Do a final test run, add a changelog entry, do a Git CI. if it's just one, and I'm just like adding a, a changelog entry, I'll just to an amend. If it's multiple stuff, I'll go ahead and do the rebase and squash it all together. And sometimes, not very often, but sometimes, there are actually multiple logical changes in one pull request. Sometimes I'll ask the contributor, actually, to split those up, but sometimes I'll take them together and actually have two, two commits, and then push it up.
+
+So that's, that's a big part of how I've managed to just manage my time and make it so that I'm really effective when I'm in the mode of, it's time to take in contributions.
+
+So next problem. Original poster does not deliver. This happens a lot. Somebody comes in, they're like, this is a problem, or like, here's this awesome PR, and you're like, OK, well that's cool, but I need this or I need that. And silence. And more silence. And you're like, awhile later you're like, hey anything? Silence. It's just like they disappeared off the face of the earth. And, and, that's cool.
+
+I have a thirty day rule for that. Look, if I've given you feedback and you haven't gotten back to me in thirty days, this must not be important to you. And it's not important enough to me to, to want to work through the issues that I brought up, and I don't think it's serious enough for that. I put a nice comment on there, say, hey, if you have more for me on this, please reopen. I invite them to reopen it, but I'm gonna close this out for now.
+
+Nasty contributors. Thankfully, this isn't one I've had to deal with too much. I've had a few heated sort of exchanges, but nothing really major. But I've seen them. Oh, have I seen them. I mean, we've all seen the ultra opensource maintainer versus contributor flame wars, right. Like, yeah. I could name some from like Rails history and I think Ruby dramas has like a nice little history of them.
+
+You know, the first thing that I try to do with anything like this is I try to make it about the code. Or about the problem. It's like, there's no personality here. I don't even want it to be about my style versus your style. I just want to talk about the code. What works best in the context of this project and what makes sense.
+
+You know, a project like ActiveMerchant, it's about getting stuff done with Gateways. it's not the prettiest thing. It's plumbing. So there's not really like tons of stylistic things. It's really about, hey, does this make it simpler to maintain. Does it make it simpler to contribute to, et cetera. So I try to make it about the code.
+
+Secondly, I will like, I will squash people with civility. Like, you will not get me mad. I dare you to try. No, don't. But no, when people come in and they're kind of heated, it's like, I'm just nice. I'm just like cool, chill, like, I don't care if you're like heated. I'm just gonna tell you, it's cool. I'm not, I mean, honestly if people get really heated I'll just, like, patronize them to some extent. It's like, it's OK.
+
+So I just, I don't find that huge amounts of return anger is very productive as a maintainer. And then the third thing, I think it's really important as an opensource maintainer, is you are a volunteer. This is not, like, you do not have this huge responsibility to the contributors. Your real responsibility is to the project. You getting all heated at a contributor and going off in a huff, that's bad for the project. Don't do that. Just be like, I'm a volunteer. I'm gonna back out of this. Maybe there's another contributor you could, or another maintainer you can hand it off to and say, look, I just need to back away from this. Can you take this guy and deal with him?
+
+Hopefully your other maintainers have your back and they'll just hop in and do that for you anyhow. But be a volunteer. If you need to walk away from it for a week or two, that is fully your prerogative, and it's better that you do that than that you get burnt out and leave the project.
+
+Now, other maintainers can be a problem. Again, I haven't had too much trouble with this. My fellow maintainers mostly do just what they need for the project. They, but they don't really, like, create new messes or anything like that. But I think it is really important to communicate expectations to fellow maintainers, especially when you're bringing somebody new on.
+
+Just be like, look, here's how we do stuff. You've been contributing for awhile, and that's awesome, here's some things that you should know about the way that we maintain the project, and just make sure everybody knows what's up. Secondly I think it's really important to open up channels of communication with your fellow maintainers.
+
+A lot of times, this means a channel other than GitHub, like, a private channel. You need a back channel with your fellow contributors. You need their email addresses so you can just, like, email everybody and be like, hey, this flame war has opened up on this issue, we should probably talk about this a little bit. Not so much to gang up on anybody but just so that we're all on the same page and aren't working at cross purposes to each other.
+
+So, it's more like, if something happens, and you're like, oh, why did he do that? You don't have to like, call them out in public and be like, hey, you idiot, fellow maintainer, why did you do this? You can say that in a private email instead.
+
+Now, these are my, but what about x's, and these are the things that I haven't figured out yet. I'm still trying to figure out this maintainer game. It's not, there's always new stuff to learn and there's always ways to get better. These are things that I haven't figured out.
+
+The first one is mailing lists. Mailing lists for opensource projects suck. And, especially if you're not a big enough project like the Linux kernel or something, that has like dedicated sysadmin neck beards to manage archaic mailing list software for you.
+
+GitHub issues are cool. I find, like, you can use them sort of like a mailing list, but it's not quite the same. Sometimes you just want to like, open up a topic and see what people say. And it's also challenging, too, cause it's so disconnected from sort of the GitHub work flow. You can have, like, this thing over here, and, but people don't know about it and they, like, they don't, and you kind of have to reach a certain size before you have enough people signed up where you're having interesting conversations and stuff.
+
+So mailing list, is like, that's an open painful thing. I think if you want to get acquired by GitHub, you should go and write a mailing list awesome thing that latches onto GitHub and they'll just buy you. I promise.
+
+No, I don't. I don't know. But I would think that - and I've dropped this in a few different circumstances now with GitHub people around, and they always just give me this knowing look and they're like, yeah, we're working on it.
+
+I'm like, come on. Give me something.
+
+Another one that's, can be really hard as a maintainer. Like, a lot of time you're down in the plumbing. You're fixing stuff. And you're taking in contributions from other people. but sometimes a project needs a big sweeping change. This is hard. Like, and I still don't know how to do it really well. ActiveMerchant needs some significant changes, and some of it's just time, it's like, when I have time, it's like I'm spending it taking in contributions from people, and I need some time and, and probably I just need to add, we need to add two more contributors and some more people doing maintenance stuff so that we also have time to work on some of the big sweeping stuff.
+
+But this is a hard one, and, and it's something that I'm still thinking about a lot.
+
+Forks could be a problem. I feel like GitHub's made them less of a problem. It's never been a problem that I've had so much. And since I haven't had to deal with it I haven't really sort of figured it out, but it could be a problem for you. I don't know. I threw it in there, cause you have, you can't talk about maintaining opensource without talking about forks. it's what they tell me.
+
+Now, the payoff. So great, wow. You told us about all these problems. Why would I ever want to be an opensource  maintainer? It sounds really hard. It is really hard. But there is a big payoff.
+
+You know, for me, the multiplication of value that you get out of opensource is amazing, and it's why we see so many companies now, even opensourcing things that are sort of a core competency. I mean, Shopify, opensourcing ActiveMerchant. I mean, I remember Toby said, at one point, I think, he was just kind of amazed at how many of his competitors were using ActiveMerchant.
+
+And, and kind of like, thought that was awesome, too, just like, that they'd been able to do this thing that was so useful, even to competitors. But there is so much value, I mean. Spreely currently supports fifty-three payment gateways, all via ActiveMerchant. And ActiveMerchant even has even more of those, cause we only add them as customers request them.
+
+And we wouldn't be able to do that, like we wouldn't have nearly that many gateways if not for the contributions that come in via opensource. So it's totally worth it from that perspective. It's awesome to get to be a hero. I don't know exactly what the garbage collector super hero costume looks like, but it is pretty fun.
+
+And it's, it's pretty, like, when you, like, to me, I take in a patch, I merge it, I'm like, OK, like I'm just doing my job. BUt then people come along and they're like, thanks so much! I got that in! That makes my life better, simpler, whatever. And that feels good, man.
+
+Accelerated learning. I've learned so much from being an opensource maintainer. Even just about git, but then about code, and you're taking in all these contributions from wicked smart people, and getting to, to review them and change them. You get to start to understand some of the things that make it easier for other people to contribute to code, which is a useful thing no matter what project you're working on.
+
+It's a really great way to learn stuff really fast. Sometimes the hard way, but really fast.
+
+It's an opportunity to give back. We've all benefited so much from, from opensource. There is definitely, and this is maybe, actually my favorite one. There is just this amazing thing of working on something that's so much bigger than anything you could have done yourself, and getting to be a part of that. Like, being like, wow, there are all these people writing this awesome code, and I get to be, like a part of bringing that together and making it happen and getting it out there. And there's just something really thrilling to me about that.
+
+Maybe, maybe I'm just odd that way, but I, I think it's really pretty amazing.
+
+So that's all I have. Thank you so much. I'm not gonna take questions right now, but feel free to come up and ask me whatever you want to.
