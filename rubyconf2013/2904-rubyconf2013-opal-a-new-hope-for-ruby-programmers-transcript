@@ -1,0 +1,481 @@
+RubyConf 2013 - Opal, A new hope (for Ruby programmers) - Forrest Chang
+
+FORREST CHANG: All right. You're coming in here. OK, so I'm Forrest Chang. This is Opal - A New Hope.
+
+This presentation has been rated R for Ruby. I want to call out that, for optimum viewing experience, please wait until the text hits the middle of the screen before you read. This will make sense when you see it. All right.
+
+[audio silence due to copyright reason]
+
+All right, so. Thank you.
+
+So, quick show of hands. Who works with web? About eighty percent there. Who codes in Ruby? Surprisingly still only eighty percent.
+
+Who has to work with JavaScript? Seventy percent there. Of you guys, who likes Ruby better?
+
+More than the last slide, amazingly. All right, so you are my target audience. But everyone else is welcome.
+
+So, for the crawling text. It is a time of JavaScript Revolution, right. JavaScript is everywhere. It's on desktops, it's on the mobile browsers. We have it in the backend now. So performance, what used to be slow is no longer. V8 kind of leads this charge. It powers Chrome and Node.
+
+But the other engines, some of which you probably never heard of, they're all getting faster, right. And you can't ignore the libraries and frameworks that are there. You know, we started out with Dom libraries, jQuery, prototype and then GUI stuff, XJS, YUY, et cetera.
+
+These days, the rage is all in the MV star frameworks, and there's just so many more libraries. D3, Ging frameworks, charts, all kinds of stuff, right. It's truly an exciting time in web technology.
+
+A lot like it was for Ruby, mid, late 2000s there. I love this Dude! I'm at RailsConf! picture from O'Reilly.
+
+But there's a problem. The language is JavaScript.
+
+-VIDEO-
+LUKE SKYWALKER: What a piece of junk!
+
+F.C.: I repeat. That language is JavaScript.
+
+-VIDEO-
+YOUNG LUKE SKYWALKER: What has that got to do with anything?
+
+YODA: Everything! JavaScript is the path to the dark side! JavaScript leads to anger. Anger leads to hate. Hate leads to suffering.
+
+F.C.: So if you've done any substantial amount of JavaScript, you may have felt the way Yoda did.
+
+So when I look at the Ruby community, I think of it as a forward-thinking group of polyglots. Like, we like Erlang, we like, you know, whatever, whatever the thing is. We look at what's appropriate for the job. So you really can't ignore the possibilities and opportunities that are happening in the JavaScript revolution.
+
+All this momentum behind JavaScript, there's clearly a strong pressure to adopt or switch over, you know. And it feels something like this to the Ruby programmer.
+
+-VIDEO-
+EMPEROR PALPATINE: If you will not turn then you will be destroyed.
+
+C.F.: And no one wants to be destroyed. So let us segue now to Ruby. Matz wrote this once: "For me the purpose of life is partly to have joy. Programmers often feel joy when they can concentrate on the creative side of programming. So Ruby is designed to make programmers happy."
+
+So, you might infer, then, the purpose of Ruby is what? Anyone? Bueller?
+
+To make you happy, right. And so then the Ruby way would be to do more of what makes you happy. Which in my mind is not this, so. You can't read that. That's OK. You can't read it normally, anyways.
+
+So, ultimately, this is a talk about happiness. So the pitch that I have for you today is that Opal will make you happy. The premise is this:
+
+Ruby makes me happy. Probably you too. You're at RubyConf, right. It would be kind of odd for you not to like Ruby and be here.
+
+So if Opal is Ruby, then Opal makes me happy, and thus should make you happy.
+
+Does JavaScript make me happy?
+
+Not as much. I still like to code regardless of language, but it's just not as fun. So a quick background: my journey with Opal is what I call JDD.
+
+Joy-driven development.
+
+So the background on that is that I don't really need Opal. My day job, vanilla Rails and some moderate amount of Ajax is perfectly adequate. I don't need to have these crazy super Ajax-y, you know, nothing in the backend sort of thing there.
+
+In my life, I have four kids. I have no time, right. But, I'm having so much fun, I can't put it down. AJeff Spicoli lot like a good book. So like, it's just too fun for me. So purpose of this talk is to share this joy with the rest of you guys.
+
+So what is Opal? Opal is a Ruby to JavaScript source-to-source compiler. And in that fashion, it's similar to CoffeeScript. There is a small runtime, and this allows us to support method missing, operator overloading, error dechecking, all these things that you can do Ruby that you can't do in JavaScript.
+
+In short, it's Ruby in the browser, which is-
+
+-VIDEO-
+JEFF SPICOLI: Awesome! Totally awesome!
+
+C.F.: We can con concisely describe Opal as code. So you can see here, Opal is a subclass of Ruby. It includes browser access JavaScript interaction. Runs in the browser. Runs in Node. Makes you happy.
+
+So, a quick look at the GitHub page, you can see there's thirteen projects and I'll be talking about a good many of these, just to give you a feel that, you know, there's a body of official repo work.
+
+So now I'm gonna switch gears to my David Letterman mode. I have the Opal Show Top Ten minus two reasons Opal will make you happy countdown.
+
+Eight, seven, six, five, four, three, two, one:
+
+Top ten minus two Opal, reasons Opal will make you happy.
+
+Number one: It's just Ruby, and a viable one.
+
+Number two: Greenspun's 10th Rule, Opal Edition.
+
+Three: solves things the Ruby way, making the programmer happy.
+
+Four: Frameworks, we don't need no stinking frameworks. But we have some.
+
+Five: Tools you already know and love.
+
+Six: Easy integration with web frameworks. Oh, thank you for the-
+
+Seven: Awesome in-browser tools.
+
+And number eight: New possibilities.
+
+So let's look at each one of these.
+
+Number one: It's just Ruby, and a viable one. So the first question you probably have is, is Opal viable? Or is it another one of these toy compiles-to-JavaScript languages?
+
+So you should know that there are six, at least six apps in production now. There's two more coming, I believe, at the end of this month. Of these, the biggest apps are the store and the mobile site for a high-end fashion/luxury brand, because of the client confidential agreement the developer has with the company I can't say who it is, oddly enough.
+
+But we can look at some stats for that. So globally, this company has about two million unique visitors and twenty million page views a month. The parts that involve Opal - not the whole thing.
+
+The store and the mobile part both get about two million views a month. So not unreasonable amount of load. Certainly, I think, more than our site.
+
+Store is responsive, the mobile works well. So, it kind of shows that Opal is not too heavy for mobile devices. And from this site's battle tested for IE8, plus Chrome, Safari, Firefox.
+
+So Opal is real Ruby. It's 1.9.3 compliant - mostly. So as of two days ago, it passes about 3,200 Ruby specs. And the goal is to pass all, or nearly all of them. Some things you just can't do cause you're the browser. But it is the desire to be compatible.
+
+It's capable of running complex Ruby. Asciidoc gem runs unmodified, and spec runs unmodified. Rspec runs with some small modifications, and that's primarily due to the fact that Opal has immutable strings, and rspec does not. So, but that's, so that's a big testament, cause those of you guys who've looked at rspec know there's a lot of crazy Ruby on that. So for it to pretty much run that with some small modification is substantial.
+
+It can compile itself. That means something for some people.
+
+And much of the standard lib is in place.
+
+So let's look at the testimonial to. So this is a thread on the Google Group, and they're talking about performance. Wow, I can't read that. And so Dan Allen says this:
+
+"I can attest to the speed and the feather weightness of Opal. The performance is astonishing, actually. I originally expected the conversion of my library, Asciidoctor from Ruby to be just an experiment. Instead, it created a viable port and eliminated the need to write JavaScript manually for the client-side usage. So much so that NeoforJ is using it for one of their online tools. See graph gist, blah, blah, blah."
+
+And just last month Sam Ruby was playing around with Opal and he says it looks very promising. So those of you guys who come to RubyConf, you know about that guy. That guy might say, well, what does DHH think?
+
+So, a year ago, Ashton J asked DHH, he said, hey, what, what do you think about Opal, given all the hot stuff that's going on there? And long story short, DHH says, well, you know, I'm not into it. It's just vanilla Ruby. It's not like you have ActiveSupport available, which kind of defeats the purpose for me.
+
+But wait. Two stars there, but, there is Active, Opal ActiveSupport there.
+
+So Ruby language features in Opal. So I'm not gonna read this. A lot of bullets there. But the point is to give you a feeling of, look, we support all this stuff, and some of this stuff is really handy and often not in JavaScript, right. And the point of all this is you can't underestimate the power of a better programming language in the browser.
+
+Those of you guys who have chosen Ruby over other languages in the backend, you know what I mean. It's just more fun, right. And so these two tools which I'll mention many times before I actually demo them - easy to write, easy to read, very little code, which takes us to our next point.
+
+Which is Greenspun's 10th Rule Opal Edition.
+
+So who knows Greenspun's rule?
+
+Oh, good. Then my slide is useful here. So he wrote this: Any sufficiently complicated C or Fortran program contains an ad hoc, informally specified, bug-ridden, slow implementation of half of Common Lisp. And so this is really a testament to the power of Lisp and as you're programs, and as your programs get more and more complicated, you start to do stuff that Lisp had in the first place. You know, it's a Lisp advocacy thing.
+
+And to complete my StarWars circle, here's a cartoon that connects Lisp to Star Wars. Is that big enough to be read? All right. Chuckle. Chuckle means you read.
+
+So, what then is Greenspun's Rule, Opal Edition?
+
+It is this: Any sufficiently complicated JavaScript program contains an ad hoc, informally-specified, bug-ridden slow implementation of half of Ruby.
+
+So let's look at Greenspun in action, also known as, some attempts inspired by trying to imitate Ruby or emulating Ruby-like features using JavaScript.
+
+So we start off with Prototype. Everyone pretty much knows Sam Stevenson wrote this to make JavaScript more like Ruby. And underscore, you know. So I'm gonna go through this quick. There's a lot of slides and, and not a lot of time.
+
+So Ruby here, RubyJS. There's no surprise that Ruby is mentioned, you know, in this one. So - animation too slow.
+
+OK, Strukt, Ruby-inspired structs for JavaScript. String.JS, doesn't call it out, but if you look at the API it's like making Ruby strings. JSClass, you know. Ruby. Joose - they don't mention Ruby by name but if you look at the feature set, Ruby. JavaScriptMVC - Ruby-like classes in JavaScript.
+
+Def.JS, super simple Ruby-style inheritance. Here's a, a good blog post by Jahuda, where he pretty much says JavaScript needs Ruby blocks because JavaScript blocks suck.
+
+Raiya in Humax, again, classes like Ruby's mixin. Here's a first slide of this scatterpoll dot com, making JavaScript more like Ruby. ActiveJS - actually, ActiveJS is more like an Active, or, you know, a Rails clone than a Ruby clone specifically here.
+
+RedScript, Ruby-flavored JavaScript experiment. Forml - so this is worth reading out loud. A contemporary programming language for the discriminating programmer, intended to approximate the safety of Haskel and the expressiveness of Ruby, should such an approximation turn out to exist.
+
+So here's other attempts to do Ruby in JS. You can see Opal's at the top, and there's been, you know, a bunch of these. Some of which I think there have been talks, relating talks about.
+
+Long story short, people want Ruby in the browser. Even if they don't know it, right. Some people know they don't want JavaScript.
+
+So those of you don't know this meme, this is a ripoff of the Smug DHH meme, which there's at least three websites that you can put words to DHH's mouth.
+
+So, instead of the ad hoc, informally-specified, bug-ridden, slow implementation, why don't we use the real thing? And that would be Opal.
+
+All right, slide, or, point number three. Solving things the Ruby way, making the programmer happy.
+
+So this, in itself, could have been the whole presentation. I tried to pick some select examples and, excuse me for any indiscretions that I've done there.
+
+I start off with some comparisons, modular code, namespaces, external templates, automation tasks, scope, and then I just do some stuff that's just, you know, this is what you do in Opal.
+
+All right, let's look at these. So by modular code, I pretty much mean, you know, not having one giant file. Which is sort of the way JavaScript was designed for. And one of the useful bolt-ons is really requiredJS, so you require JS, you define a module, and you have to require it. There's, you know, often a lot more. You have to make shims for a lot of libraries and if you look at, like, tutorials, how to use require JS, it's like, eleven pages to do this and this and this and this, and then we can call these two things.
+
+What do you do in Ruby? You create a Ruby file, or a gem, and you require it. Right, very Ruby-esque. What do you do in Opal? You create a Ruby file or gem and you require it. All right, so here's an example from some code that I will show later.
+
+This is the actual application dot rb. I require some gems - Opal, Opal jQuery, Opal parser comes with Opal. The third one is a gem that I've written, or actually a file, I can't remember. And, you know, document ready. Opal IRB console dot create console, so. Just like you're backend coding.
+
+Namespacing. So you can do this a number of ways. It's typically about, you know, nesting objects in objects that way. You can use namespace functions that you wrote yourself, do it by hand, YUI, Dojo, they all have methods for this one. If you do it by hand, you can see the, the top code there, you know, I make an object and I make a object owning object and this, and of course you can do it nested below if you know what that tree is.
+
+And that gets to be a pain in the but so you can, you know, you can see the top line there, where you have this, something that parse's string, makes namespace, and that function might look something like this.
+
+So how do you do the same thing in Ruby? You use module or class, right. So, what do you do for Opal? You use module or class.
+
+Template, external file - there's a lot of stuff here. So I'm gonna try to make this Apple to Apple, so I picked sort of JST to compare to ERB. You know, you have to make a JST template file, a separate file. You can do this, this is handy.
+
+It's unfortunately JavaScript that you put HTML and strings or otherwise mark it off there. You include the HTML and you call it. That's super ugly.
+
+So, for Ruby, I use Rails cause it's the easiest. You make the template file, and sometimes you have to write ren, render, so, you don't even have to do that sometimes, right.
+
+Template files for Opal, make the external file. You will require it. And then you, you know, do template filename render.
+
+Automation tasks. So once upon a time, I thought Cake was pretty popular. These days it seems like Grunt, Grunt JS is all the rage. They're like reading some, discussions on how it's going down the path of Ant, which, of course, is evil.
+
+So maybe as we talk now there's something new for these guys. What do we do in Ruby? Rake. If Jim's around, thanks. If Jim's not around, thanks.
+
+What do we do in Opal? We use Rake. Scope.
+
+So what, one thing that makes JavaScript painful is that the function is your sole vehicle for scoping. So you have to wrap everything in a function. So this very simple example, where I'm trying to make an array of functions that, you know, first one returns alert zero, second one alert one, et cetera there. For me to store that i in the loop, I have to wrap the function in a function and call it with itself.
+
+And, while you learn to read this pattern over time, it kind of sucks, right.
+
+Scope, I just say in a sentence. You know, Ruby has a lot more flexible scoping, and I, I daresay, same scoping. And Opal has the same. All right.
+
+Defer execution. So here's a bit of code that's not too ugly, right. Window dot setImmediate(function() code that you want. But if we compare it to what Opal browser gives you, you can write this kind of code. So, again, clarity of the code. Ruby versus JavaScript.
+
+So now we're out of the comparisons, and I'm gonna talk about just things that Opal does. So to use JavaScript from Opal, and again, because we support operator overload, method missing - a lot of non-JavaScripty things - we can't do what JavaScript does and just be syntactic sugar.
+
+So we call JavaScript though x-strings the way you call external things in Ruby.  You can use the percent sign x thing, or you can use the back tix, and you use this to get values.
+
+Opal used to do what, what's called seamless bridging. The same way in JRuby, you just call it and then it's like, it's a, a Ruby class. Lately, because of optimization issues, they've switched this to wrapping things in native, so.
+
+You can say like, grab an editor and then I call native over the back tix, but this object, at editor, acts like a Ruby class.
+
+All right. So here's something from Opal browser. At the top here, you can create a DOM. It looks a lot like markup b or other builders, and of course there's a power to this one. I'll grab an, an object by ID, and then I have, like, two ways to append. And again, it's very Ruby-esque. You can see append child, or, you know, less than less than.
+
+And I'll demo this in the next slide, live in the browser there.
+
+So again, CSS, you can also write CSS in Ruby, if you want, so you can see CSS do rule, et cetera. There's cool things like ten dot pixels and, and whatnot here. And then you can append this document head, C dot append do document dot head.
+
+It's all very clear and easy to read. There you go.
+
+Tests and specs. So rspec has certainly influenced a lot of things, and these days, Jasmine, I forgot the name of the other library that looks a lot like Jasmine. With Jasmine in CoffeeScript, you can now write tests in the JavaScript world that look a lot like rspec.
+
+But I'd say this looks more like rspec, right. And this is, in fact, code I submitted when I made a PR for Opal JQuery. And I just love the way it reads. You can see the before is clear, I'm doing this. And actually use a here dot there to say here's the HTML I'm gonna work on.
+
+And those of you who know rspec, you know, it's, it's very clear. It looks, it looks better in my mind.
+
+There are some other examples I choose not to do, partly cause my thing is 46 minutes and I have forty-five.
+
+Things that are easy in Ruby but difficult. There's several ways that you can do monkey patching in JavaScript, all homegrown. Method missing - not really supported. A couple engines are supported but not really.
+
+All right. Next one.
+
+-VIDEO-
+WAYNE: Wayne got no frameworks. Wayne no framework. I don't have to show you any stinking framework.
+
+F.C.: All right. So the point of the no frameworks thing.
+
+Again, I'll call these examples but I promise a demo.
+
+These things were really easy for me to write. Originally I said, I should go learn Vienna, the built-in but highly undocumented MVC framework they have to do this. But I didn't have to. And that's, that's kind of a strength, right. And again, the testament of having a better language, right.
+
+So the second demo I will do, I'll talk a little about the code. It's four-hundred and forty-eight lines of code, including whitespace and debugging lines. It's pretty much plain Ruby. A couple Opal JQuery lines. And that's it.
+
+So I just show some selected code from that and then when I do the demo you can look back and say the code is this way, so. At the beginning, I require gems, Opal, Opal JQuery, and then the gem that I wrote, Opal IRB, or actually I should say, a file in the gem.
+
+Then I have a bunch of erb templates which I'm gonna replace with something else. Require those. So there's a bunch of pains in Opal inspector. Each one is a sub class of Opal id pane. You can see, you just have to redefine four things and write down there, I rendered the template the way I showed before.
+
+And that's how I render it self.
+
+And the way I set up the app, document ready do, I create an IDE, and you can see I have a sub, sub class for each one. So I add all the panes to the IDE and then I use a little JQuery to, to grab some things in the markup and, and hook up a connection like, the second to last line you can see Opal close dot on click, and, and a little lambda there. Or, not a lambda. A block.
+
+Right. So. And, and again, so I was able to write, and you'll see the demo, a fairly impressive stuff with no frameworks.
+
+So Ruby itself is powerful, but you still want libraries. So we have we have a number of select ones. Opal JQuery. So this is JQuery wrapped via Opal, and it's not a straight wrapping. It's very, very Ruby-esque. You see inside of a document dot ready question mark do stuff like that, or element dot find. I think Adam did a really good job of Rubyfying the interface to JQuery.
+
+There's Opal Browser, which gives you all kinds of Opal. All kinds of browser functionality. And to include most of the things most people use during query for. So if you're not using JQuery, you can just use Opal browser, a good interface to that one. But a lot of people use JQuery.
+
+So, Vienna is the MVC framework that comes with it. Looks very backbone-influenced to me. Astonishing to me how little code is in that framework. And there is Lissio. This is a framework that one of the committers is doing on the side that I really like, and I'll give some code for later.
+
+All right. So point number five. Opal is Ruby, right. So then, tools you use for Ruby, like your editor - emacs, textmate, vim, sublime, RubyMine. They all work, right.
+
+Rake, you use rake, you still use rake. Rspec, if you love it, great. If you don't, sorry. You can run mspec.
+
+Guard - I used guard to, you know, when I'm doing the GUI thing I go change and popup and stuff for that one.
+
+It's just Ruby. So whatever tools you use for Ruby, you can still use. But I think even better is that you can reuse all the OO and patterns and knowledge and stuff you've learned to do with Ruby as a programming language on the frontend, no context change, right. And, and that's really good.
+
+-VIDEO-
+LEIA: I love you.
+
+LUKE SKYWALKER: I know.
+
+F.C.: Easy integration with Ruby web frameworks. So, if you use Rails, and I think most people do, you have Opal-Rails. Otherwise, we use Opal-Sprockets directly, which actually is the magic behind Opal-Rails as well. You can use that, you know, in rake files to generate static files. Or, if you want something that works like Rails, where every time you refresh the browser you get the latest Opal code, you can set up Opal server, which is part of Opal sprockets.
+
+So for Opal Rails, the easy way to, to make a Rails app with that is Rails new project dash dash JavaScript equals Opal. Now, if you don't like easy things, you can do it by hand. You can add the gem Opal-Rails to gemfile, you can add the appropriate JavaScript to, and you'll see down there I call it, like, order matters. Which actually is generally true.
+
+Then you make star dot JS dot RB files, put code in there. If you like HAML, Opal-Rails supports HAML filters so you can say I have a colon, colon Opal and then just Ruby, right there, embedded in your template. And specs live under JavaSrcipt slash specs, so you can put, you know, specs there and run those in the browser.
+
+There's a dedicated page Opal Rails gives you for that one.
+
+For a static file, use Opal-Sprockets here. And this is one my Rake tests for the JQ console, so you can see there's a file dot open. This is where you want to write it to. You get an Opal environment and you append paths, and then Opal-Sprockets magically knows your paths, and so you can just require, like I showed you in the code, and it finds where your stuff is and then automatically concatenates the stuff and all three sprockets.
+
+And then you put it up. So, and then you can sort of see my Rake test has, shows me in Chrome afterwards.
+
+If you want the thing I talked about, the server, so there's a little rack-based server that you can come with, or you add Opal, Opal-Sprockets to your gem file, you create the Opal files, typically in app is the pattern, but not required there. You include application.js under assets in your file. Then you make up a simple config dot ru, and then you run rack-up and then refresh at will. So pretty handy for that one.
+
+Number seven. Awesome in-browser tools. Opal-IRB and Inspector. So I've been talking about this, I finally can show them. Opal-IRB, not surprisingly is IRB for Opal. So I have, of course, command history. I have most readline controls, I'll probably add more. So those of you guys who know, a new readline, I'd do that one.
+
+I have a multi-line editor, which actually I think is actually better than real IRB, where you jump into your own editor or, if you use emacs you're using an inferior, when you write to it. But you can do this all over history, so you can go back two lines and edit that one in the multiline editor.
+
+There's a feature I like to call live gist, and I'll demo that shortly.
+
+Opal-Inspector. This is inspired by Amber.JS's in-browser SmallTalk code browser. At this point, I could say it's more than inspired, it's a zerox copy of sorts.
+
+And the idea sort of came to me, it's like, well I'm gonna have persistent live Opal objects in the browser. This is a lot like SmallTalk in its image, right. And the goal of sort of going this way is to change the paradigm of web app development. And if you're familiar with SmallTalk and just changing real things at RunTime, which we love to talk about in like Pry-based development. A lot of those lines, life can be different. You write the code, you push to the browser, you make it work in the browser, you push it back. That's sort of the goal I have with this one.
+
+And down the road I can see that, possibly you have better tools in the browser than outside of the browser. All right, demo time.
+
+So I'm gonna lose my timer, because I forgot to hit that timer, so, hopefully I don't go over.
+
+All right, so, is that showing? All right.
+
+Here's the idea for IRB. So you got your app and you're running in - I got to find my cursor. It is here, OK. And so you can pop up and so, you're here. This is RubyRed, by the way. You know, and so this is just a plane, this is basically IRB, you know. I can do this, I can puts f, right. I one dot dot ten dot each, I puts I, right. Got that one.
+
+So I have command line history, so I can up, you know, control P or up arrow. I have readline, so control A, control D a couple times. Alt F and I'll change this one to alert I, and then return - oops. I made an error.
+
+Thank you.
+
+All right. And then, of course, so, we got stuff, right. And so, you know, when you have multiline stuff, and I hit control M, and now I have a multiline editor so now I can do things much more happily.
+
+Bar, alert bar, end, end, f is foo dot new. F dot bar. And then control enter will execute that. So you get that one. And it's here. So you can see, so now I have the history, this way I can go through. So let's say I'm coding some stuff, oh let me go edit that thing from before. So I hit up and then control M and then I can re-edit this, you know. And so that's kind of cool.
+
+So I think a little more than what IRB does now.
+
+The other thing that you can do, so I was talking about live gist, so hit control l and that gives me a link. So if I open the link in a new window, there you go. This brings up the code and runs it for you. So the idea of this is gist. I can send you this gist and it will bring it up and actually, this right now is local because I don't trust the, the internet. But I have the same thing running off my GitHub IO thing for the project. So you can sit there and it will point to that one in the GitHub. So you'll have the IRB with your code, and then he can monkey with it and send you one back, and then you can do that one. SO I think that's kind of cool.
+
+And again, different than what IRB gives you.
+
+What else? OK, so let's do some, let me get rid of, let me get rid of that one. Let's do some of that dom stuff that I was talking about.
+
+All right. Here you go. So, so I talk about building a dom. So d equals dom do div dot blue do h1 I'm blue, end. And div dot red do h1-
+
+And so, for those of you who do HAML or Jade or Slim, this should be very ops- very familiar to you. OK, sorry. OK. End.
+
+So you can see, I actually have a mydiv equals dollar document, mydiv. And again, this should be similar to my example before. And then mydiv - hopefully this works right the first time.
+
+Oh, you can't see it cause it's much smaller. So, these are added now. They weren't there before, right. And so you can see dom manipulation, pretty, pretty straightforward. Let's do some CSS now.
+
+OK. C equals CSS do, whoops. rule dot blue do color blue and rule dot red do color red end end. C dot append_to - and hopefully, you're seeing, you know, when you look at this - head, right. All very straightfoward for the Rubyist.
+
+OK. And so if I show it now, there you go. Right. So.
+
+So much better than JavaScript.
+
+All right, so let's go over to the Opal Inspector.
+
+So same idea. I've got this program, and so I need to show you the spec here, and this markup is nearly a hundred percent lifted from Amber.js, which is actually very odd markup that I'm very happy to replace.
+
+So I have a number of tabs inspire by then the transcript is there log, everything that goes here. I, I've set up Inspector to have two things where you console dot log will go to, you know, the, the log inspector in your, in your web developer tools, and there's a Ruby specific one. Because there's time when I see everything and I go to that one.
+
+And there's times when I only want to see the stuff I'm spitting out. Cause you can imagine if you look at that one it can be very verbose. That's transcript.
+
+So the IRB I showed you earlier is this tab. For SmallTalk, you know, it's their try-it little browser, which actually works more like TryRuby where you write the code and you can, you try it or inspect it or something, run it I think there.
+
+So this idea of running tests, so this one I haven't done any work on. but the idea is I'll build up the specs out of the browser there. Let's go back so, this is the same IRB as before. You know.
+
+One dot dot ten so, so true to IRB, you know, the output that you have here is here. But you might do a lot of stuff in IRB. So you can still have this one, which you can go back to the transcript and you can clear this. So you can see, you have the history here and the place that you work there. That's somewhat useful there.
+
+I have a test class in, in, inspector here, so - oops, sorry. K, right. And so foo is a class. it has an a and b attribute. So I can type, oh let me see what f dot a is. Oh, that's, OK, that's OK. We can monkey patch that.
+
+Right. Class Foo attr_accessor :a, :b end. So I do that one. Now f dot a has a value. So you know in Ruby we got f dot inspect, which in this case, not so useful.
+
+Control P - I have something called O inspect, Opal inspect. And this pops you over, you see it jumped a tab. So you see now I have a visual tool here, which, you now, you can look at this one. And even better, I can go in here and say, you know, new string, return. Right. So now you can mess with the stuff.
+
+And then we go back over to IRB, cause I'm writing some stuff, and f dot a is, oh sorry. F dot a is a new string. And vice versa. I can change it here and push it there. And so you can see where this goes.
+
+Let me make a couple other variables. Ent equals ten. I apologize for the scrolling. I did this in a much higher resolution when I practiced.
+
+String equals str. So also I keep track of everything that you define in IRB. So look, these things that I've written are here. So a lot of times, you ever do stuff in IRB, and then four hundred lines up was this variable that you wanted that you don't know the name of? Here it is. And the goal here is I grab this, click this, and it would go over to the instance browser.
+
+So this is all tabs, but the class browser. So one of the big things with the class browser in SmallTalk is you can go and look at everything and start to see, there's methods and various, and I have to change this cause this is stolen straight from Amber.js. So we don't quite have the same exact structure, but class - so. You know. Here's the constants. So you can see Ruby Engine. We call it Opal here.
+
+And, and, and the idea is, inspect anything and change it, you know. So I can go here and say, well you know what the RubyEngine is purple, wouldn't that be a mind-blowing kind of activity. Save this and run, just like I did in IRB, you know. So where I'm going with this, and I, and I suppose most of you guys aren't that SmallTalky savvy, but the idea is, the way it used to work is you write your code, get in the browser. Oh. Do this. Change the code. Redeploy. And sometimes it's just refresh your page.
+
+But, no, it's not. Write the code, go in the browser, make it work in the browser, push it back to the server. And it'll all work. And so I'm really looking to paradigm change there.
+
+So back to my slides now. I'm, so, this, this is what I do with IRB and sort of what I did with that one.
+
+There's one remaining feature that I'm trying to get Adam to build for me, and that's the much better support, I, what. In, in SmallTalk you can ask everything about everything. So I kind of drive a lot of these features in Opal now.
+
+So I need this feature now where in the frontend and the backend, all the code changes I could change, so those code changes that I make, I want to report them. So I guess hey, what's this method that I've written since it was written on the server. Or even lambdas. What's the method, what's the code for the lambdas. So let me pull that lambda back up and edit it.
+
+So once we have this feature done, I'll probably then release Opal-Inspector and then I'll feel like this.
+
+-VIDEO-
+EMPORER PALPETINE: Now witness the fire power of this fully-armed and operational battle station.
+
+F.C.: All right, the new possibilities.
+
+So, with the demo in browser development, right. I'm looking to change this paradigm. I think we get better and better. The dev tools get better. You're doing more of this anyways, but we're doing it for Ruby. You know, the example that I used I took mostly from SmallTalk, but the way we do IRB is different than the way SmallTalk does, but that's the way we do it.
+
+So, from Ruby also. I worked on this machine, freshman internship in college. Don't remember much, but I'll have to rediscover it cause there's some really awesome things I want to pull from that, over that way.
+
+Standard UI platform. it's my opinion that, I think, Ruby tools partially stagnated because there's no standard GUIs, right. There's TTK, WX Windows, 2TTK. I wrote this tool, you wrote this tool, you know what, that, and then bring in like JRuby and there's Swing or, I forget, the one that's in Eclipse. SWT. It's like you don't even have a thing there, right. Everyone's got a browser.
+
+We have one platform.
+
+So down the road, you know, these tools, on the front end, we can use in the backend. Anyone use better errors? Better errors is awesome. You, you put in your code, not only does it give you a better navigatable stack trace, but it has a little IRB window if you put, I forget, like, binding Pry or whatever there. And so you can see the broken error and then you can type in that IRB window and it will change it on the server.
+
+So you can sort of do what I'm saying there. So it's like, well if better error's can do this then these cool tools I write for Opal, you could use to run the backend. SO like this class browser, there's nothing for backend Ruby. Well, once we get this working for Opal that's not much that, you know, you set up some kind of JSON server or something and, and push these back and forth to the servers. So the goal is better tools across the board for Ruby, not just for Opal.
+
+So. What's next?
+
+All right, so I think meteor.js is really cool. This same code on the frontend, and, and the really blurring of what, what is what. I think that's a really exciting direction that Opal makes us po- or Opal, Ruby on the frontend, Ruby on the backend. Whether that's MRI backend and on the frontend or Opal on the frontend and Opal on Node backend. There's possibilities. I think that's really good.
+
+EventD safe Ruby libs. So this is another thing that holds Ruby back. We got lots of libs that are not eventd or thread safe. So as Opal matures and we write more and more gems for Opal, which again is Ruby, you'll have gems and libraries that are run on both sides that will be event safe because, of course, written on top of JavaScript.
+
+That's cool too.
+
+So here's something I want to bring up. Component based coding all in one place, for the web in Ruby. So as a long time GUI programmer before I became a web programmer, I hate, oh, I got this thing. So let me dig down into JavaScript and change my, and then they come back up and now I'm gonna go and change a mark - oh, wait, wait, change gears. Now, I got to change the way it looks, right.
+
+And that's, for a guy who wrote X Windows stuff that's like, lame, right.
+
+And how do you do OO with that? Ruby's so OO. How do you do OO with, oh well here's a HAML. WEll, you know, partials are sort of there and, and sass has some things. But each one is so in separate modality, right. So lissio is that MVC framework I talked about. It's Ruby class, all parts in Ruby.
+
+So the HTML, CSS, and the behavior. SO let's look at a very simple lissio component. Is this code readable? I unfortunately can't zoom in anymore.
+
+But, so you can see here's some behavior. on :click, of what I can do this. shekels dot navigate, right. Here's the element I'm associated with. I showed you HTML. It's a builder. You know, here's the markup. Here's the CSS. You can see, you know, the sixty dot pixels, stuff, right. All one place, one language. No jumping three files even if RubyMine makes it real to the easy to do.
+
+It's all here. One place. And then you can see if you do CSS like this, lot less cascading. I hate CSS where you never know what it looks like until you jump into the, the Chrome and try to navigate, ah, it looks like this. You can see that you do a lot less cascading with this and then you can see, well, I'll have a header and I'll have, like, class sexy header, which is subclass of header. And I'm over, you know, I might override just one line of this and do it again.
+
+So all the OO stuff that you can't do now, you can do and it's all Ruby.
+
+So I want to show, just to you know, sass, sass-like nested stuff, and you can see, you can do more than sass. You can put Ruby code. Well define this, look like this, else ook like that. So you can see like, you can, you know, ouv'e got the full power of Ruby.
+
+All right.
+
+So here's the sad question. Can you imagine a world without Ruby?
+
+So, I, I heard Charlie Nutter kind of say, well, it's fudd that Ruby's dying, but in truth there's a possibility. JavaScript Revolution's gotten here, lots of people are saying like, Ruby is dead, Ruby is dead. So maybe with Opal we can stand that one.
+
+So let's fascilitate the fantasy land of Ruby everywhere. Backend, we have options, MRI, JRuby, Rubinius. Mira, I don't know if I have any JRuby guys here. I love this project. Subset of, well. I don't know. Look it up.
+
+You know, we have MRuby for embedded, mobile, you know there's RubyMotion, there's MobyRuby. I don't know if Ruboto is really as viable as these from last time I played with it. And, and then Opal. Which runs everywhere that JavaScript runs, right.
+
+So let's have a dubious history as Star Wars films. Episode one, the Phantom JS Menace. Mesa use JavaScript on the backend. Mesa use JavaScript everywhere. Mesa use JavaScript in ways unintended by founder.
+
+Episode two, Attack of the Clones. Just read.
+
+Episode three, Revenge of the Sith. Evil empire complete. Brings us to now. Episode four, A New Hope. Opal Wan Kenobi. You're my only hope.
+
+Episode five, the Empire Strikes Back.
+
+Episode six, Return of the Jedi. And, like reality, episode seven is to be determined. Question I have is, will it involve you?
+
+So, resist the empire. Join the alliance today. This is my call of arms, call to arms. I would love to have some momentum like Rubinius. For those of you who saw at RubyConf 06, Evan Phoenix gave this talk of just this idea he had, a little code that he wrote on the plane on the way over.
+
+Same time next year, it's a freaking movement. Nine zillion commits, like twenty committers. Anyone can commit, stuff right. Really cool. Opal is yo- I've already showed you, there's a lot in Opal already. So hopefully this brings some attention there. We're alone? Oh no. We've got thirteen repos officially and some side things, code, production apps, two million views page a month. Right. Stuff is good.
+
+So things are pretty good. Can always be better. You know, pretty much Adam and Matt just they, they bang on the language stuff. And I'm glad they do that so then I can work on tool stuff, which I know more about.
+
+You know, so we need more libs, more complete libraries there. Documentation, not surprisingly not great. WE need your help.
+
+Things you can do - one, try it out. See if you like it. There is an OpalIRB dot org. There's a TryRuby. Left is the code. It'll generate the JavaScript. It'll put the results down here. That's cool. My Opal IRB embed thing there. This is the GitHub IO page, and, you know, I'll have, I'll have the slides out. So, you don't have to needlessly try to scribble that down.
+
+Communicate. IRC seems to be the active place. Everyone but me is in Europe, so time's a little odd. There's a Google Group, not super active. Document, yeah. Try things out in Document. I think that's what I'll be doing at some point.
+
+Contribute. It's just Ruby. So this is the whole talk I think Evan Phoenix talked about. Rubinius. You don't have to know C to contribute to Ruby like you do for MRI, you can write in Ruby. And so this is Opal. You know Ruby. You can contribute to Opal, right.
+
+Convert gems. You want a gem you want? Some of them will run, some of them won't. Immutable string, which, they're talking about maybe undoing that, but you can imagine optimization wise it's much better.
+
+Thread, threadsafe wise it's actually better.
+
+But you can imagine there's a lot of existing Ruby stuff that doesn't obey that.
+
+Have fun, right. That's, that's the. Be garbage collectors. Change the world. Have fun. Be happy.
+
+All right. So, my question, will you join the dark side or code with the force? You choose. But, for me-
+
+-VIDEO-
+LUKE SKYWALKER: I'll never turn to the dark side. You failed, your highness. I am a Jedi, like my father before me.
+
+F.C.: So let us change the world. Defeat the evil. Save Ruby. Be happy.
+
+All right. So some quick resources. OpalIRB.org is good. You know, GitHub - thirteen projects, read the code. IRC I think is the best place and they're pretty responsive. Google Groups, not very active, but if that's more your speed.
+
+I'll call my blog cause I have a couple articles when I first got into it and then I will certainly write more now that I'm not writing presentations for RubyConf.
+
+It's not a lot. Better than nothing. Some of it's out of date. But that'll be changed. Otherwise there's really not a lot in the way, for that one.
+
+Thanks, Matz, for Ruby. Thank you. DHH for allowing us to have dayjobs that have Ruby. Adam, Meh, and Elia. They're the committers to Opal, so, they've done a good job. I love the community. In fact, the whole happiness thing, love you guys. George Lucas, thanks for Star Wars, and I'm not as, I'm not as picky as the guys that are all mad at his revisions. And you guys for listening to this presentation.
+
+So lastly, like everyone else, it's unfortunately the last day, we're hiring. Standford, Connecticut, New York if you want to do that. Contact us. Diego's been giving out all his cards, so. That's it.
+
+So you can find me on Twitter. But I Tweet more about food than anything else.
+
+And may the force be with you.
