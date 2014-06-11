@@ -5,11 +5,14 @@
   d1-01-keynote - 
   https://www.youtube.com/watch?v=4LMWsFbj6js
 
-  d1-02-lessons-learnt-building-indias-largest-ecommerce-supply-chain-in-ruby
+  d1-02-lessons-learnt-building-indias-largest-ecommerce-supply-chain-in-ruby - 
+  https://www.youtube.com/watch?v=FXg2n7Uf4DY
 
-  d1-03-native-extensions-served-3-ways
+  d1-03-native-extensions-served-3-ways - 
+  https://www.youtube.com/watch?v=bI5oJr4ueQc
 
-  d1-04-a-bit-of-history
+  d1-04-a-bit-of-history -
+  https://www.youtube.com/watch?v=UPRFRa4vdmk
 
   d1-05-the-rails-girls-summer-of-code-journey
 
