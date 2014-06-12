@@ -31,17 +31,21 @@
   d2-02-the-dark-side-of-ruby -
   https://www.youtube.com/watch?v=-oorcRJ2Kfg
 
-  d2-03-i-ve-got-your-number-machine-learning-in-ruby
+  d2-03-i-ve-got-your-number-machine-learning-in-ruby -
+  https://www.youtube.com/watch?v=aCIoerxtQ3w
 
   d2-04-gcrc-quiz
 
   d2-05-lightning-talks
 
-  d2-06-zero-downtime-deploys-with-docker
+  d2-06-zero-downtime-deploys-with-docker -
+  https://www.youtube.com/watch?v=mQvIWIgQ1xg
 
-  d2-07-pharmacist-or-doctor-what-does-your-code-base-need
+  d2-07-pharmacist-or-doctor-what-does-your-code-base-need -
+  https://www.youtube.com/watch?v=c-AuPryBSZs
 
-  d2-08-ruby-memory-model
+  d2-08-ruby-memory-model -
+  https://www.youtube.com/watch?v=d21z5Croq1I
 
   d2-09-keynote
 
