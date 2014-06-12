@@ -14,11 +14,13 @@
   d1-04-a-bit-of-history -
   https://www.youtube.com/watch?v=UPRFRa4vdmk
 
-  d1-05-the-rails-girls-summer-of-code-journey
+  d1-05-the-rails-girls-summer-of-code-journey - 
+  https://www.youtube.com/watch?v=26DzU6MPr4E
 
   d1-06-panel-discussion
 
-  d1-07-simple-ruby-dsl-techniques-big-project-impact
+  d1-07-simple-ruby-dsl-techniques-big-project-impact -
+  https://www.youtube.com/watch?v=E1rH2bcWN5A
 
   d1-08-keynote
 
@@ -26,7 +28,8 @@
 
   d2-01-keynote
 
-  d2-02-the-dark-side-of-ruby
+  d2-02-the-dark-side-of-ruby -
+  https://www.youtube.com/watch?v=-oorcRJ2Kfg
 
   d2-03-i-ve-got-your-number-machine-learning-in-ruby
 
