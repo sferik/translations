@@ -23,7 +23,8 @@
   d1-07-simple-ruby-dsl-techniques-big-project-impact -
   https://www.youtube.com/watch?v=E1rH2bcWN5A
 
-  d1-08-keynote
+  d1-08-keynote -
+  https://www.youtube.com/watch?v=DwcCwdyLkBI
 
 ##day2:
 
