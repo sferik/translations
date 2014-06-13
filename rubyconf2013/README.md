@@ -8,7 +8,8 @@
 
 ###Track 1
 
-  d1-t1-01-a-peek-inside-the-ruby-toolbox
+  d1-t1-01-a-peek-inside-the-ruby-toolbox -
+  https://www.youtube.com/watch?v=RkTtyo2kydg
 
   d1-t1-02-fault-tolerant-data-surviving-the-zombie-apocalypse -
   https://www.youtube.com/watch?v=iEkeDp70jvo
