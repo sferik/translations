@@ -48,6 +48,7 @@
   d2-08-ruby-memory-model -
   https://www.youtube.com/watch?v=d21z5Croq1I
 
-  d2-09-keynote
+  d2-09-keynote -
+  https://www.youtube.com/watch?v=RvlmVKf-NDs
 
 
