@@ -38,7 +38,8 @@
 
   d2-04-gcrc-quiz
 
-  d2-05-lightning-talks
+  d2-05-lightning-talks -
+  https://www.youtube.com/watch?v=xjCjydbQpI4
 
   d2-06-zero-downtime-deploys-with-docker -
   https://www.youtube.com/watch?v=mQvIWIgQ1xg
