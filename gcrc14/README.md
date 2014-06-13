@@ -17,7 +17,8 @@
   d1-05-the-rails-girls-summer-of-code-journey - 
   https://www.youtube.com/watch?v=26DzU6MPr4E
 
-  d1-06-panel-discussion
+  d1-06-panel-discussion -
+  https://www.youtube.com/watch?v=zmGEUorbkPc
 
   d1-07-simple-ruby-dsl-techniques-big-project-impact -
   https://www.youtube.com/watch?v=E1rH2bcWN5A
