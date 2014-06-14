@@ -38,4 +38,17 @@
 
 ###Track 3
 
+Profiling Ruby: Finding 10x Gains in RSpec and CRuby - 
 https://www.youtube.com/watch?v=h9XzLJK3HVM
+
+Effective Debugging - 
+https://www.youtube.com/watch?v=ri2JcQ4Qp80
+
+How to Roll Your Own Ops Framework in Ruby (if you really have to) - 
+https://www.youtube.com/watch?v=KRuIXiq3eMc
+
+Extending CRuby with Native Graph Data Type - 
+https://www.youtube.com/watch?v=BjGa3dWGXCs
+
+Under the Influence - 
+https://www.youtube.com/watch?v=Ahx4fbLtBNQ
