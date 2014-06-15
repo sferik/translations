@@ -76,3 +76,6 @@ https://www.youtube.com/watch?v=S3OhoWCnlB0
 
 Test-Driven Neural Networks with Ruby - 
 https://www.youtube.com/watch?v=ppf8m-3uXvU
+
+Advanced Concurrent Programming in Ruby - 
+https://www.youtube.com/watch?v=VVmENBTc1jM
