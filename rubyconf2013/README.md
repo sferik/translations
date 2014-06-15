@@ -41,6 +41,9 @@
 Mastering ElasticSearch with Ruby - 
 https://www.youtube.com/watch?v=H81IiLUJavI
 
+Beneath the Surface: Harnessing the Power of Regular Expressions in Ruby - 
+https://www.youtube.com/watch?v=JfwS4ibJFDw
+
 Profiling Ruby: Finding 10x Gains in RSpec and CRuby - 
 https://www.youtube.com/watch?v=h9XzLJK3HVM
 
