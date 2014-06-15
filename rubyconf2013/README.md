@@ -70,3 +70,6 @@ https://www.youtube.com/watch?v=UlG1c3igNM0
 
 A Lightweight SOA Framework using Ruby, Apache Thrift, and AMQP -
 https://www.youtube.com/watch?v=HTVoQ6_iVuc
+
+Preferring Object-Orientation to Metaprogramming - 
+https://www.youtube.com/watch?v=S3OhoWCnlB0
