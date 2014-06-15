@@ -61,3 +61,6 @@ https://www.youtube.com/watch?v=Ahx4fbLtBNQ
 
 Arrrr! Me Hearty: Sailing the Seas of DRb in a Shoe - 
 https://www.youtube.com/watch?v=IlGD8lAUMoA
+
+REPL-driven development with Pry - 
+https://www.youtube.com/watch?v=D9j_Mf91M0I
