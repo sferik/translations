@@ -64,3 +64,6 @@ https://www.youtube.com/watch?v=IlGD8lAUMoA
 
 REPL-driven development with Pry - 
 https://www.youtube.com/watch?v=D9j_Mf91M0I
+
+My KidsRuby Journey - 
+https://www.youtube.com/watch?v=UlG1c3igNM0
