@@ -79,3 +79,6 @@ https://www.youtube.com/watch?v=ppf8m-3uXvU
 
 Advanced Concurrent Programming in Ruby - 
 https://www.youtube.com/watch?v=VVmENBTc1jM
+
+Compilers for Free - 
+https://www.youtube.com/watch?v=n_k6O50Nd-4
