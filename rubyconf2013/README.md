@@ -67,3 +67,6 @@ https://www.youtube.com/watch?v=D9j_Mf91M0I
 
 My KidsRuby Journey - 
 https://www.youtube.com/watch?v=UlG1c3igNM0
+
+A Lightweight SOA Framework using Ruby, Apache Thrift, and AMQP -
+https://www.youtube.com/watch?v=HTVoQ6_iVuc
