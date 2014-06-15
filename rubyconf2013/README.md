@@ -73,3 +73,6 @@ https://www.youtube.com/watch?v=HTVoQ6_iVuc
 
 Preferring Object-Orientation to Metaprogramming - 
 https://www.youtube.com/watch?v=S3OhoWCnlB0
+
+Test-Driven Neural Networks with Ruby - 
+https://www.youtube.com/watch?v=ppf8m-3uXvU
