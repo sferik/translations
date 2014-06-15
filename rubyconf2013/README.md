@@ -82,3 +82,6 @@ https://www.youtube.com/watch?v=VVmENBTc1jM
 
 Compilers for Free - 
 https://www.youtube.com/watch?v=n_k6O50Nd-4
+
+New Ruby 2.1 Awesomeness: Fine-Grained Allocation Tracing - 
+https://www.youtube.com/watch?v=qzNNH2mnp08
