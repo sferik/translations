@@ -38,6 +38,9 @@
 
 ###Track 3
 
+Mastering ElasticSearch with Ruby - 
+https://www.youtube.com/watch?v=H81IiLUJavI
+
 Profiling Ruby: Finding 10x Gains in RSpec and CRuby - 
 https://www.youtube.com/watch?v=h9XzLJK3HVM
 
