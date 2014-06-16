@@ -91,3 +91,6 @@ https://www.youtube.com/watch?v=VyuMWYzl9gM
 
 The Future of JRuby - 
 https://www.youtube.com/watch?v=4TAwkq0aQdE
+
+Unleash the Secrets of the Standard Library - 
+https://www.youtube.com/watch?v=3XdVLv5nqvk
