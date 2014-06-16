@@ -111,3 +111,6 @@ https://www.youtube.com/watch?v=-kyhz_VZMMM
 
 Recommendation Engines with Redis and Ruby - 
 https://www.youtube.com/watch?v=mohCfOJOn6A
+
+API Design for Gem Authors (and users) - 
+https://www.youtube.com/watch?v=ieiAyfTwekA
