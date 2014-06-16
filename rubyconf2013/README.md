@@ -114,3 +114,6 @@ https://www.youtube.com/watch?v=mohCfOJOn6A
 
 API Design for Gem Authors (and users) - 
 https://www.youtube.com/watch?v=ieiAyfTwekA
+
+Mangling Ruby with Trace Point - 
+https://www.youtube.com/watch?v=cxzUrT0slB0
