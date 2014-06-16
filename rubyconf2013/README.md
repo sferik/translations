@@ -126,3 +126,6 @@ https://www.youtube.com/watch?v=763KOr7LU9Y
 
 That's Not Very Ruby of You - 
 https://www.youtube.com/watch?v=OB-xFC8AN_s
+
+Build Your Own Ruby-Powered Arcade Machine - 
+https://www.youtube.com/watch?v=Cru9bq_xPQo
