@@ -94,3 +94,6 @@ https://www.youtube.com/watch?v=4TAwkq0aQdE
 
 Unleash the Secrets of the Standard Library - 
 https://www.youtube.com/watch?v=3XdVLv5nqvk
+
+Rapid Game Prototyping with Ruby - 
+https://www.youtube.com/watch?v=irMfy8I2OVQ
