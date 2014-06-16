@@ -100,3 +100,7 @@ https://www.youtube.com/watch?v=irMfy8I2OVQ
 
 Ruby on Robots Using Artoo - 
 https://www.youtube.com/watch?v=mhXyNGX38mw
+
+
+Extending Gems: Patterns and Anti-Patterns for Making Your Gem Pluggable - 
+https://www.youtube.com/watch?v=Q1mk_9__roI
