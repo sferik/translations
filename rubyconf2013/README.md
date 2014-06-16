@@ -88,3 +88,6 @@ https://www.youtube.com/watch?v=qzNNH2mnp08
 
 The Big Picture - 
 https://www.youtube.com/watch?v=VyuMWYzl9gM
+
+The Future of JRuby - 
+https://www.youtube.com/watch?v=4TAwkq0aQdE
