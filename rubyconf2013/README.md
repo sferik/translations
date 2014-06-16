@@ -129,3 +129,18 @@ https://www.youtube.com/watch?v=OB-xFC8AN_s
 
 Build Your Own Ruby-Powered Arcade Machine - 
 https://www.youtube.com/watch?v=Cru9bq_xPQo
+
+Your Development Machine in the Cloud - 
+https://www.youtube.com/watch?v=PChy7noL-zw
+
+Eliminating Branching, Nil, and Attributes - Let's Get Weird - 
+https://www.youtube.com/watch?v=inU7MEtI51g
+
+Visualizing Garbage Collection in Rubinius, JRuby, and Ruby - 
+https://www.youtube.com/watch?v=yl_zYzPiDto
+
+The Polyglot in the Code: An Elixir/Ruby Mashup - 
+https://www.youtube.com/watch?v=71v21C-zx3Y
+
+Becoming a Software Engineer: Inspiring a New Generation of Developers - 
+https://www.youtube.com/watch?v=fXUMRXa6xf0
