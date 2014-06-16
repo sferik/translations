@@ -123,3 +123,6 @@ https://www.youtube.com/watch?v=cxqjgq4VhgY
 
 The Tricky Truth About Parallel Execution and Modern Hardware - 
 https://www.youtube.com/watch?v=763KOr7LU9Y
+
+That's Not Very Ruby of You - 
+https://www.youtube.com/watch?v=OB-xFC8AN_s
