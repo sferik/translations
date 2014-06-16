@@ -107,3 +107,7 @@ https://www.youtube.com/watch?v=Q1mk_9__roI
 
 Extreme Makeover: RubyGems Edition - 
 https://www.youtube.com/watch?v=-kyhz_VZMMM
+
+
+Recommendation Engines with Redis and Ruby - 
+https://www.youtube.com/watch?v=mohCfOJOn6A
