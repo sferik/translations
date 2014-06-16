@@ -117,3 +117,6 @@ https://www.youtube.com/watch?v=ieiAyfTwekA
 
 Mangling Ruby with Trace Point - 
 https://www.youtube.com/watch?v=cxzUrT0slB0
+
+Thinking about Machine Learning with Ruby - 
+https://www.youtube.com/watch?v=cxqjgq4VhgY
