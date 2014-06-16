@@ -120,3 +120,6 @@ https://www.youtube.com/watch?v=cxzUrT0slB0
 
 Thinking about Machine Learning with Ruby - 
 https://www.youtube.com/watch?v=cxqjgq4VhgY
+
+The Tricky Truth About Parallel Execution and Modern Hardware - 
+https://www.youtube.com/watch?v=763KOr7LU9Y
