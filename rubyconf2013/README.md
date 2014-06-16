@@ -97,3 +97,6 @@ https://www.youtube.com/watch?v=3XdVLv5nqvk
 
 Rapid Game Prototyping with Ruby - 
 https://www.youtube.com/watch?v=irMfy8I2OVQ
+
+Ruby on Robots Using Artoo - 
+https://www.youtube.com/watch?v=mhXyNGX38mw
