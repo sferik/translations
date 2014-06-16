@@ -85,3 +85,6 @@ https://www.youtube.com/watch?v=n_k6O50Nd-4
 
 New Ruby 2.1 Awesomeness: Fine-Grained Allocation Tracing - 
 https://www.youtube.com/watch?v=qzNNH2mnp08
+
+The Big Picture - 
+https://www.youtube.com/watch?v=VyuMWYzl9gM
