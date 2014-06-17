@@ -147,3 +147,6 @@ https://www.youtube.com/watch?v=fXUMRXa6xf0
 
 Bad Ruby Code Doesn't Exist - 
 https://www.youtube.com/watch?v=tVkQATR9P00
+
+Maintaining Sanity - 
+https://www.youtube.com/watch?v=tamk2uMwW8A
