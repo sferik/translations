@@ -144,3 +144,6 @@ https://www.youtube.com/watch?v=71v21C-zx3Y
 
 Becoming a Software Engineer: Inspiring a New Generation of Developers - 
 https://www.youtube.com/watch?v=fXUMRXa6xf0
+
+Bad Ruby Code Doesn't Exist - 
+https://www.youtube.com/watch?v=tVkQATR9P00
