@@ -4,7 +4,8 @@
 
 ###Track 0
 
-  d1-t0-01-keynote
+  d1-t0-01-keynote -
+  https://www.youtube.com/watch?v=4pObcegbMRE
 
 ###Track 1
 
