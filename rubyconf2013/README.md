@@ -150,3 +150,6 @@ https://www.youtube.com/watch?v=tVkQATR9P00
 
 Maintaining Sanity - 
 https://www.youtube.com/watch?v=tamk2uMwW8A
+
+Being Boring: A Guide to Ruby Cryptography - 
+https://www.youtube.com/watch?v=e13irYP6WJA
