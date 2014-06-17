@@ -156,3 +156,6 @@ https://www.youtube.com/watch?v=e13irYP6WJA
 
 Opal, a New Hope (for Ruby Programmers) - 
 https://www.youtube.com/watch?v=GH9FAfKG-qY
+
+Promiscuous: A Robust Service-Oriented Architecture Framework - 
+https://www.youtube.com/watch?v=KsiQXAXsQDQ
