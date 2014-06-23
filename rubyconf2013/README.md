@@ -160,3 +160,6 @@ https://www.youtube.com/watch?v=GH9FAfKG-qY
 
 Promiscuous: A Robust Service-Oriented Architecture Framework - 
 https://www.youtube.com/watch?v=KsiQXAXsQDQ
+
+Lightning Talks - 
+https://www.youtube.com/watch?v=gJOkpP__dY4
