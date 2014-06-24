@@ -1,0 +1,1409 @@
+RailsConf 2014 - Artisans and Apprentices - Coraline Ada Ehmke
+
+CORALINE ADA EHMKE: Those who do not know me,
+
+can you please tell me your name? On the count of three.
+
+One, two, three.
+
+Damn I'm never gonna remember that.
+
+Before we get into the serious stuff, this is
+
+a jackalope. My understanding is that people were giving
+
+them out yesterday. And it followed us around. And
+
+we had a jackalope hashtag going around for a
+
+little while. I will publicly thank on Twitter, and/or
+
+give a hug, to anyone who can get me
+
+a jackalope by the end of the day. So.
+
+AUDIENCE: [indecipherable]
+
+C.A.E.: No, not that one. That's ??, so (00:00:50).
+
+This is not a jackalope. This is me last
+
+year. As we all know, there are three major
+
+problems in software development. Naming things and off by
+
+one errors. I know that I was born to
+
+be a programmer because I got my name right
+
+and my chromosomes are off by one.
+
+So we also had some major problems in tech
+
+in Chicago last year. There were no fewer than
+
+five Corys in the Ruby community. So I often
+
+heard, which Cory are you? And we also have
+
+a problem with not enough women in technology. We
+
+heard a lot of, is that your girlfriend? Or
+
+you must be from marketing.
+
+So I decided to solve both of those problems
+
+this year, cause I'm an activist, and I think
+
+I can do what I can to bring more
+
+women into technology and also eliminate one of the
+
+Corys from the scheme, so.
+
+This is me in IRB. Thank you.
+
+This is me in IRB. Notice there's no created_at
+
+date. That's protected. If you're a frontend developer, this
+
+is me in JSON. I was gonna render it
+
+in JavaScript, but I didn't know how many equals
+
+signs to use.
+
+And if we have any Enterprise developers in the
+
+house, we have some XML here, too.
+
+OK. We're gonna talk about some serious stuff today.
+
+I'm very passionate about learning and teaching. Especially teaching
+
+people who are new to our field. Especially developers
+
+who are coming from underrepresented populations. In my work,
+
+outside of work, I focus very heavily on people
+
+who are from the LGBT community and women.
+
+I've been a mentor at Dev Bootcamp. I volunteered
+
+at Starter League. I've been a teacher's assistant at
+
+Girl Developers Classes. And I also taught inner city
+
+kids an introduction to Ruby class through a program
+
+called I See Stars.
+
+So, these experiences cemented for me how important it
+
+is that we be very deliberate and very thoughtful
+
+about how and why we shephard people into our
+
+profession.
+
+There are things we're doing really well, and there
+
+are things we're doing not very well at all.
+
+We're definitely not close to solving the problem. But
+
+we're intrigued by it. Now, whenever we're in an
+
+interview situation, we say that we're interested in solving
+
+difficult problems. Let's prove it.
+
+There are lots of approaches to understanding the problem
+
+of onboarding and bringing new people in. The one
+
+that we're going to talk about today is apprenticeships.
+
+So, I want to set some context. I wanted
+
+to talk to you about this very unique period
+
+in history. An amazing time. A time of incredible
+
+change. The speed of progress is breathtaking. We're redefining
+
+ourselves and our culture and our values. Boundaries are
+
+breaking down. We're increasingly international in our culture and
+
+our thinking. Food is plentiful. The days of subsistence
+
+farming are far, far behind us. Jobs and population
+
+are moving from rural areas to urban centers. International
+
+trade, booming. Population growing. Expected to double in the
+
+next hundred years.
+
+Market economies are outpacing traditional economies at an astonishing
+
+rate. In our work, we're increasingly specializing. We're getting
+
+narrow but deep skill sets and we're in high
+
+demand. Financiars from across the world are funding our
+
+ideas. There's massive expansion going on. We're radically redefining
+
+what business means.
+
+We still have some problems we have to deal
+
+with. We have poverty. The line between rich and
+
+poor - huge. We have a vanishing middle class.
+
+And increasingly, people are having to turn to civil
+
+and religious organizations for social services, because younger generations
+
+are moving to the city. They're leaving their parents
+
+and grandparents behind.
+
+So the family safety nets are not there. What's
+
+more, small government advocates are bringing their successes with
+
+conservative fiscal policies to social policies as well, further
+
+undermining the social, the social network.
+
+But it's not all dismal. These problems are very
+
+real. But we have incredible opportunities in front of
+
+us. Opportunities for success that were unimaginable two generations
+
+ago.
+
+The definition of what it means to be wealthy
+
+or successful, we're redefining it. The future is ours.
+
+The future was ours.
+
+Until the great famine of 1315, followed by the
+
+arrival of the black death in 1348.
+
+So we're not the special snow flakes we thought
+
+we were. This is not a unique time in
+
+history. This is exactly what happened in the tenth
+
+through twelfth centuries in Europe. So how did they
+
+react to changes in their culture, and their economy,
+
+and the demand for their work force?
+
+That's what we're gonna explore today.
+
+So Artisans and Apprentices: Growing a 21st Century Workforce
+
+Using 12th Century Best Practices.
+
+I want to explore, I want to start by
+
+exploring how we teach young people. In general how
+
+we teach young people. The earliest known form of
+
+society that humans formed is the hunter gatherer society.
+
+It was prevalent across the world and actually still
+
+exists in a lot of places in the world
+
+today. Family and social groups were responsible for passing
+
+down survival skills and culture.
+
+Peter Grey talked quite a bit, but he's a
+
+psychologist, he did a lot of, a lot of
+
+studying hunter-gatherer societies to find out how children learn.
+
+And we all sort of assume that the boys
+
+would learn how to hunt by going out with
+
+the older men and the women would learn how
+
+to do the skills, pick up skills that they
+
+needed to, to take care of the village by
+
+working with the older women.
+
+What actually happens though is that the young people
+
+form parallel villages. They form villages within villages, where
+
+they act out all of the roles of the,
+
+of the adults that they see around them. They
+
+experiment. They try out new things. So by the
+
+time they're ready to be adults, they have possibly
+
+innovated on the survival skills that the tribe already
+
+had. So there's a constant re-examination of what works
+
+and what doesn't work. What's good and not good,
+
+that is constantly happening with the young people in
+
+the tribe.
+
+So this is a great way of transmitting information
+
+and culture, while allowing room for innovation. But as
+
+time went on, most hunter-gatherer societies turned into stationary
+
+communities. Originally organized around farming and later organized around
+
+trade. People began to specialize.
+
+The tools and the technologies that we use became
+
+more complex. Parents could no longer teach their kids
+
+everything they needed to survive and thrive in the
+
+world. So young people started being sent to specialists
+
+for training.
+
+The relationship between newcomers and people who were established
+
+ensured that critical expertise was not lost between generations.
+
+And in time, these relationships were formalized into apprenticeships.
+
+The first apprenticeships that we know about, that we
+
+have documented, were established in the Code of Hammurabi,
+
+where it was actually, by law, as a crafts
+
+man, you were required to teach your craft to
+
+a finite, to an x number of young people.
+
+Apprenticeships continued to be practiced in Egypt for about
+
+1000 years. Scribes and priests especially. Young people were
+
+sent to work with masters of those professions and
+
+learn everything they could so that they could continue
+
+the practice and continue the, the culture.
+
+In the Han Dynasty in China, apprenticeships were actually
+
+passed down from generation to generation. For example, if
+
+you were, if you had doctors in your family,
+
+your mother or your father was a doctor, the
+
+children would be, one of the children would be
+
+selected to be a doctor as well. And some
+
+people actually recommended that you not go to a
+
+doctor with less than three generations of practicing medicine
+
+in their family.
+
+And the apprenticeships, the apprentices that they took on
+
+were very important to them, because the master's reputation
+
+was on the line. What that apprentice did reflected
+
+on them.
+
+And finally, in Rome, apprentices were also, well, families
+
+were responsible for teaching basic morals and basic cultural
+
+values, but for professions, for boys, they were sent
+
+to apprentices to learn their craft.
+
+So by the time apprentices got to twelfth century
+
+Europe, they were pretty well-established. By the fourteenth century
+
+in England, apprenticeships were actually required in order for
+
+you to practice your trade.
+
+We can't really talk about apprenticeships in Europe without
+
+talking about guilds. Merchants were the first professionals who
+
+formed guilds. The word comes from gilden, which is
+
+a saxon word for to-pay, and that actually is
+
+referring to the fees that merchants would pay for
+
+mutual protection. Especially when they were traveling about.
+
+Artisans soon followed suit. By the twelfth century there
+
+were fraternal orders of artisans that had sprung up
+
+all across Europe. So guilds had a few goals.
+
+They wanted to establish standards, so that only crafts
+
+people with appropriate skill sets could actually practice and
+
+have their, and run their, run their businesses.
+
+They wanted to promote high quality practices so that
+
+there was a level-set expectation of the quality that
+
+any given crafts man would produce. That would prevent
+
+people from going to other cities or towns and
+
+hiring their crafts people instead of the local people.
+
+So really, guilds were essentially about protecting their vested
+
+interests. They were a way of dividing up markets,
+
+limiting competition, and ensuring that any practitioner in any
+
+particular urban city was the sole practitioner of a
+
+given craft.
+
+So they were essentially associations of employers that were
+
+banded together to divide markets into monopolies. But they
+
+did have some positive side-effects that were happy accidents.
+
+Not by design.
+
+So, to talk about how those, the, the positives
+
+and negatives of the guild system, I want to
+
+tell the story of a couple of apprentices.
+
+The first one we're gonna meet is, is Peter.
+
+Peter is from a rural area. His dad was
+
+a merchant. And his parents wanted him to have
+
+a better life than he did, so they wanted
+
+him to become a man of the cloth. They
+
+wanted him to enter the priesthood.
+
+But Peter was more interested in building churches than
+
+preaching in them. So after a lot of wrangling
+
+with his parents, he finally talked them into signing
+
+him up for an apprenticeship with Theodore, a master
+
+stone mason.
+
+He had, his parents had to sign an indenture
+
+agreement, which basically said that for two years, Peter
+
+would have to work for Theodore, learn everything he
+
+could, in exchange, he could not leave, he could
+
+not seek another master, and he could not marry.
+
+And in exchange, Theodore would provide him with food,
+
+shelter, clothing, and medical help, and give him the
+
+training needed to start his career.
+
+So this was not an instructor/instructee sort of relationship.
+
+The master did the master's work, and the apprentice
+
+immitated the master's work to the degree that he
+
+could. Starting out very crude at first, and gradually
+
+getting better over a period of many, many months.
+
+So one day, Peter has an idea. He uses
+
+his mallet for, for the stone cutting jobs that
+
+he does, and decides that it's not very, it
+
+doesn't feel very comfortable in his hand and he
+
+doesn't feel like he can weild it effectively.
+
+So he gets an idea for a way to
+
+improve the design of the mallet. And he spends
+
+nights for about a week working on an improved
+
+design of this mallet, and he's very, very proud
+
+of it. And he goes and shows it to
+
+his master the next day. And his master actually
+
+is not happy at all. His master beats him,
+
+because he is not supposed to be innovating. He
+
+is supposed to be learning the craft. He is
+
+supposed to be learning what the master does and
+
+immitating it and perfecting it. Not innovating.
+
+So this guild system, this apprenticeship system, tended to
+
+be very technologically conservative.
+
+So the next winter, Peter gets very ill and
+
+is not able to work. Theodore pays for a
+
+doctor to come and visit him. Pays for the
+
+herbs he needs to break his fever. And eventually
+
+he returns to work. As his last two years
+
+of indenturehood, indentureship come to an end, he's introduced
+
+to the masters' guild.
+
+The masters' guild sends him to another city to
+
+work under another master as a journeyman. There's a
+
+brief ceremony. There's a brief test. And Peter knows
+
+that he is no longer an apprentice. He is
+
+now a journeyman.
+
+He spends the next few years traveling around. And
+
+he works for various masters. He gets to a
+
+particular city and he's given the honor of building
+
+an archway for the priory, which is, which is
+
+a tremendous honor. And he completes it and he's
+
+very proud of his work, and he goes to
+
+the master and he says, I would like you
+
+to consider this a master work.
+
+And what the word master work means is, if
+
+a journeyman completed a master work and got a
+
+master's recommendation, that journeyman would no longer have to
+
+be tested when they moved to a new jobsite
+
+at a local guild. They would have basically a
+
+letter of passage that allowed them to practice their
+
+profession.
+
+Well, the master declined the offer. So, he was
+
+very, very upset about this. He spent the next
+
+few years traveling from city to city, again, wherever
+
+the guild told him to go. Whevever the guild
+
+told him to work. And in time he found
+
+out that his master, Theodore, was on his death
+
+bed.
+
+So he travelled home to say goodbye and to
+
+comfort his master. As a parting gesture, his master
+
+recommended to the local guild that Peter be admitted
+
+as a master craftsman.
+
+So, as a master stone mason, he was able
+
+to take over his master's operation. Take over his
+
+business and practice in the city that was close
+
+to his home. And in time he had his
+
+own apprentices as well and the legacy continued.
+
+So, let's switch to modern day. This is Ethan
+
+Woodwork. He's a kid from Indiana. His parents wanted
+
+him to go to school and be an MBA,
+
+but he wanted to get into software and he
+
+wanted to have a start up. So he dropped
+
+out of college. He moved to Chicago. He got
+
+a job in tech support.
+
+He tried learning to program on his own. He
+
+did some online resources. Got some books. But he
+
+decided he needed something a little more structured. And
+
+he heard that there was a boot camp starting
+
+up in Chicago. So he applied for it. And,
+
+unlike most of the people who applied, he actually
+
+got accepted.
+
+He spent the next month reading everything he could
+
+read, getting his computer set up for development, and
+
+finally the, the boot camp starts.
+
+He spent about eleven or twelve hours a day
+
+in class, and about another four, five, or six
+
+hours with his class mates working on special projects.
+
+He was learning new tools and techniques. He didn't
+
+really have a chance to stop and ask why
+
+or what or how. Everything was very, very rote.
+
+Everything was very, you have to do this next,
+
+you have to do that next, you have to
+
+do that next, you have to master this technology
+
+and that technology.
+
+Weeks went by without a good nights' sleep. He
+
+worked himself very, very hard, and he got sick.
+
+He was down for about a week. His structures,
+
+his instructors were very accommodating, but they didn't think
+
+he could keep up with the class anymore. So
+
+they arranged for him to join the next cohort.
+
+He formed strong bonds with the, with the other
+
+students in his cohort, and he met several promonent
+
+developers from local companies who would come in and
+
+give talks. When he finished the program and they
+
+had their job fair, he got a job at
+
+a local start up for a decent salary.
+
+He got hired on as a junior developer. He
+
+was on a team with two other juniors and
+
+one mid-level developer. Because they were a start up
+
+they were racing to the finish line constantly. They
+
+were always trying to get the product out. Always
+
+trying to get the next revision to the product
+
+out. Always building on new features.
+
+There wasn't a lot of time for him to
+
+train, to work with the mid-level developer, to learn
+
+new things. The pace was just too fast for
+
+any kind of structured mentorship. He worked there for
+
+about a year, and then, of course, they went
+
+out of business.
+
+So he eventually got hired at a larger, more
+
+established company. The team was much larger. The pressure
+
+was much lower. The pace of work was much
+
+lighter. But there was not any support at all
+
+at this organization for ongoing support and learning. So
+
+he'd really have to fend for himself.
+
+He eventually got up to mid-level developer and became
+
+a team lead. And he was relatively satisfied with
+
+his career. He was tired of the long hours
+
+of being a developer. It wasn't really satisfying to
+
+him. So he became a PM. And he left
+
+behind his dreams of building his business. He left
+
+behind his dreams of being a developer. Because he
+
+did not have the support from his peers, from
+
+his community, and from his employer for continued growth
+
+and education.
+
+So apprenticeships today are not the same as they
+
+were in the twelfth century, but there are definitely
+
+some strong similarities.
+
+The initial investment in becoming an apprentice. We think
+
+of midieval apprentices as sort of children who were
+
+sent off to, to work with a master. Actually,
+
+masters had to pay a fee, an indenture fee,
+
+to the master to take their child on, to
+
+take their son on. And this fee was very,
+
+very high. So really only upper middle-class or rich
+
+families could afford to pay the fee at all.
+
+And today we have tuition fees that average twelve,
+
+thirteen, fourteen thousand dollars for software boot camps.
+
+When you were an apprentice in the twelfth century,
+
+you did not have any free time. You were
+
+not allowed any free time. You were not allowed
+
+to socialize. Today, you can, and you could have
+
+a family. But it's very impractical because of the
+
+hours that you have to put in at the
+
+boot camp to get the most out of it.
+
+There is formal training that was provided in the
+
+twelfth century. You knew where you were in the
+
+heirarchy. You knew what you had to do to
+
+achieve the next level. Here, training is WYSIWYG. You're
+
+lucky to get any on-the-job training. You're lucky if
+
+you have a mentor. You're lucky if you're able
+
+to learn and grow as part of your paid
+
+work.
+
+In terms of the material support, during the early
+
+stages of your career, during your apprenticeship, during your
+
+time at a boot camp, you have complete coverage
+
+for everything you needed as an apprentice in the
+
+twelfth century. You had room, you had board, you
+
+had food, you had clothing, you had medical care
+
+if you needed it.
+
+Today we don't do any of those things for
+
+young people who are entering our profession. We have
+
+formal mentoring. Today we have very informal mentoring. A
+
+lot of boot camps will try to set up
+
+a student with a mentor. But it's really hard
+
+to found and forge those long-term relationships that people
+
+really need to guide them all the way through
+
+their careers. That's something that really doesn't happen very
+
+much anymore.
+
+It was kind of interesting a few years ago
+
+I was working with a junior developer. He had
+
+a couple of years of experience, and he got
+
+very angry at me one day and he's like,
+
+why is it that you're a senior developer and
+
+I'm just a junior developer? What's the difference?
+
+And I, I was kind of shocked and didn't
+
+really know how to answer that except, I've been
+
+doing this for a long time and I know
+
+how to do stuff. But it pointed out a
+
+problem. We don't have a clear delineation between levels
+
+of experience and levels of expertise. We, we sort
+
+of guess what job can we get? And, well,
+
+I'll apply for a senior position. See if I
+
+get it. See if they believe that I'm a
+
+senior.
+
+Well, back in the twelfth century, it was very
+
+clear where you are on the heirarchy. You had
+
+a very clear goal and you knew exactly what
+
+you needed to do to achieve it.
+
+So, I want to talk about boot camps. Guilds
+
+provided a formal system for onboarding people into their
+
+careers. Today, we have colleges and bootcamps.
+
+These are responses to increasing demand for developers in
+
+our field. In 2002 there were an estimated 600,000
+
+software development jobs. In 2012 there were over a
+
+million. And the growth is projected to be 22%
+
+by the U.S. government.
+
+As the half life of specific technologies and tools
+
+gets shorter and shorter, universities are less able to
+
+adjust their curriculae to meet the changing needs of
+
+technology. So what's happening increasingly is that students are
+
+coming out of college without the skills they need
+
+to actually perform their job.
+
+According to, again, the Beaurea of Labor Statistics, 27%
+
+of college graduates end up with a job that
+
+is directly related to their degree program.
+
+As technology jobs get more lucrative, a lot of
+
+people are moving out of their existing careers and
+
+into software development. So there's also a large population,
+
+not just of people coming out of college, but
+
+people who are already established in their lives, who
+
+want to get into software development.
+
+So, intensive training programs, bootcamps, having been springing up
+
+over the past few years in the United States
+
+and abroad. The cost is around $1,000 per week
+
+for nine to twelve weeks. And some bootcamps have
+
+estimated over 80% placement rates. So compare that to
+
+the 27% of a university.
+
+Bootcamps have the advantage of short cycles. They can
+
+iterate on their curriculum very frequently. They can adjust
+
+to new tools and technologies. They can adjust based
+
+on the needs of local employers.
+
+Most students to bootcamps look like these guys. They're
+
+young, twenty-something-year-old white guys. Very few women and very
+
+few people of color enter bootcamps. And some of
+
+it is because of the cost. Some of it
+
+is because of the time investment. If you already
+
+have a family, if you have people who are
+
+depending on you, you can't really take twelve, sixteen
+
+hours a day to spend on building your career
+
+for twelve weeks.
+
+If someone is supporting, if you're supporting your family,
+
+you can't afford that time off of work without
+
+pay.
+
+If you can't meet that, that fee, you can't
+
+get in at all. So we're really, bootcamps are
+
+selecting from a privileged class of people, in the
+
+same way the guilds were selecting from a privileged
+
+class of people.
+
+And some bootcamps are starting to offer scholarships. There
+
+are some women-only bootcamps. This is a, a positive
+
+step, but we're really not where we need to
+
+be yet.
+
+There are different pay schedules. Some programs will collect
+
+payment after a candidate, after a student gets a
+
+job. I've seen numbers of, like, 20% of their
+
+annual salary being paid back to the bootcamp. Some
+
+people will refund part of your tuition when you
+
+get a job from a bootcamp. And of course
+
+there are scholarships. So payment is, payment varies.
+
+State regulators are beginning to pay attention to bootcamps,
+
+pointing to the fact that there's no standardization. They
+
+make a lot of claims about their success rates,
+
+but they're not required to document any of them.
+
+And what happens if a student does not get
+
+a job and has spent $12,000? What sort of,
+
+what sort of, what can they do? Is, is
+
+the bootcamp liable for that?
+
+So it's interesting that graduates from bootcamps tend to
+
+favor regulation of that industry, because they want to
+
+preserve the reputation of the organization that gave, that
+
+they went through, and that gave them their opportunity.
+
+Whereas most bootcamps are resistant to the idea of
+
+regulation, because they believe it'll slow them down and
+
+put them in the same position as universities. So
+
+it'll be very interesting to see how that plays
+
+out over time.
+
+So guilds and bootcamps. What do they have in
+
+common?
+
+They both seek to establish baseline standards. What are
+
+the minimum qualifications that are required to perform in
+
+a particular job? And really, these are in response
+
+to local employers, and what local employers are demanding.
+
+Bootcamps are not operating in a vaccuum. They work
+
+very, very closely with the hiring organizations in their
+
+area.
+
+They want to provide a reliable means of transmitting
+
+training information from one generation to the next, preserving
+
+knowledge in a given field. They want to not
+
+just meet demand but manage demand. They want to
+
+impact the local job market. They have a lot
+
+of control over how many people are available in
+
+the job pool. How many people can apply for
+
+the jobs. Are they coming from far away, are
+
+they coming from nearby? What do they look like?
+
+They're carefully calibrated.
+
+So guilds and bootcamps have some common problems. They're
+
+both, in a way, they're both subject to, to
+
+laws of competition that they would probably prefer were
+
+not there. In the guild system, if there were
+
+competing guilds, if you were a stone mason and
+
+you have to choose between guilds. If you were
+
+a consumer and had to choose from the services
+
+of the stone mason, which one do you prefer?
+
+Which one do you use? Which one has the
+
+higher quality?
+
+In the same way, multiple bootcamps in the same
+
+city are producing candidates with different skillsets. So as
+
+an employer, which candidates do you trust? Which bootcamps
+
+do you want to work with?
+
+There's some competition there. There's no standardization there.
+
+Both guilds and bootcamps take a very conservative approach
+
+to competition. Because even though bootcamps can iterate on
+
+their curriculae more frequently, more quickly, there are some,
+
+there's some impact there. They have to retrain staff
+
+or make sure that their staff have opportunities to
+
+learn and grow and adopt new technologies.
+
+So it's in their best interest to really use
+
+the lowest common denomenator most in-demand technologies and thus,
+
+in a way, effect the technologies that candidates entering
+
+the job market in that city are going to
+
+be comfortable using.
+
+I talked about privilege. I talked about both guilds
+
+and bootcamps drawing from populations of people who can
+
+afford to use them. This is a serious problem.
+
+Who can pay $1,000 a week and not get
+
+a salary for nine to twelve weeks? It's not
+
+average people. It's not under-privileged people. It's people from
+
+wealthy families, for the most part.
+
+The social capital of shared norms, social enforcement, the
+
+shared experience of going through a bootcamp. All of
+
+these things create what is a very strong network
+
+affect.
+
+The, the bonds that form between people who go
+
+through the bootcamp process and who enter their careers
+
+at the same time operate to excluse people who
+
+did not go through that same process. That's just
+
+human nature. So that can form a monoculture. They
+
+have the same experiences drawn. They have the exact
+
+same education that they went through. They're not, they're
+
+going to be open to each others' ideas and
+
+hesitant to incorporate other peoples' ideas.
+
+What I think is one of the most scary
+
+parts of a monoculture is that it creates an
+
+oligarchy, ruled by the old, ruled by the senior.
+
+Oligarchies, monocultures, meritocracies. They create artificial distinctions between people.
+
+They perpetuate the idea that mastery of software development
+
+is possible. And they place people at different points
+
+in that spectrum.
+
+Essentially, they create, among developers, a class system. Class
+
+system puts senior members of the community in the
+
+position of great power and gives them a very
+
+powerful voice. It also insolates them from personal responsibility.
+
+Insolates them from criticism. It amplifies their voices and
+
+it doesn't even matter what it is they're saying.
+
+They don't lose their power.
+
+The amplification means that with variable effort, with very
+
+few keywords, keystrokes, you can undo the effort of
+
+people who are working very hard to effect change
+
+in a community. Again, no repurcusions.
+
+Defacto leaders have a platform to say what's on
+
+their minds without really thinking about it. They put
+
+members of the community in the awkward position of
+
+having to defend the community to people who are
+
+on the outside and say, well, he doesn't speak
+
+for me.
+
+Things that are said that are wrong, that are
+
+outdated, that are offensive, without an equivalently powerful social
+
+media platform from which to speak, your voice is
+
+drowned out.
+
+So, what we need is to not only teach
+
+how to do JavaScript, how to use Ember, how
+
+to do Ruby in Rails. We need to teach
+
+citizenship to the new generation of developers that's coming
+
+out. We need to practice values-driven development. Encourage new
+
+people to explore and articulate what their values are.
+
+Help them find ways that they can actually practice
+
+their values as part of their practicing, the practice
+
+in their profession. Show them that it's OK to
+
+be authentic. That it's OK to be wrong. That
+
+it's OK to stop and think.
+
+Show them that they don't have to compromise their
+
+values to be successful.
+
+Healthy communities are about dialogue. If you have a
+
+community where everyone is saying the same thing and
+
+no one disagrees with each other, what you have
+
+is not a community but an echo chamber. Critics
+
+of the status quo tend to be silenced. Tend
+
+to be stifled. Tend to not have a platform
+
+that people representing the status quo have.
+
+So if you see someone that is standing for
+
+something, see someone who's expressing outrage or expressing disappointment,
+
+or calling someone out for their behavior that is
+
+not appropriate for the community, don't just favorite them.
+
+ReTweet them. Amplify their voice. That's all of our
+
+responsibilities.
+
+If one of our leaders says something that's racist,
+
+that's sexist, that's homophobic, that's transphobic, that's otherwise discriminatory,
+
+that's just wrong or just stupid, it's our responsibility
+
+to call them out on it.
+
+No one is above scrutiny.
+
+The most important thing we do, as we shepard
+
+in new generations of developers, is share our values
+
+with them. The things about our community that drew
+
+us to the community will erode. They will go
+
+away unless we very, very actively pass them to
+
+new generations.
+
+Your values are your most important legacy. Not your
+
+code.
+
+So, how can we improve apprenticeships? How can we
+
+improve the process by which we get new people
+
+into our field?
+
+We can establish best practices for helping newcomers master
+
+the tools and technologies they need to do their
+
+job. But also to understand how, why they're using
+
+these technologies, and open them up to contributing back
+
+to the projects that enable them to do their
+
+jobs.
+
+More focus on problem solving. Less focus on specific
+
+tools and technologies and techniques. Make them good problem
+
+solvers.
+
+Make sure that we're communicating empathy and community and
+
+openness as part of our teaching. Make sure that,
+
+as experienced practitioners, we're open to questions. We're open
+
+to new ideas. We're not so set in our
+
+ways that we can't see innovations that younger people,
+
+that newer people are bringing to the table.
+
+We can also establish clear success criteria, so that
+
+as people move through their careers, they know what
+
+the expectations of them are and they know where
+
+they should go next.
+
+We should create long-term - ?? (00:30:53) - long-term
+
+mentoring relationships to guide people through all phases of
+
+their career, not just the onboarding. The manatee has
+
+become the mento, right.
+
+So how can we improve bootcamps? We can increase
+
+diversity. I, pretty sure I worked with that guy.
+
+I'm not positive. We lower financial barriers to entry.
+
+We provide flexible hours for bootcamps. Flexible learning schedules.
+
+Reaching out directly to underrepresented populations and saying, you're
+
+welcome here. We're open.
+
+We can open the door to innovation. Encourage discovery.
+
+Encourage questioning the status quo. Encourage experimentation. Just like
+
+the children in the hunter-gatherer societies.
+
+We can provide sponsorship. As employers, we can sponsor
+
+people who are going through bootcamps. It's in our
+
+best interest, and we can be doing some actual
+
+social good. So many instead of a drinkup, sponsor
+
+ten students who are going through a bootcamp.
+
+We can provide health care to people who are
+
+entering our profession. We can provide health care to
+
+students attending bootcamp. You can't learn, you can't grow,
+
+you can't work effectively if you're worried about how
+
+you're gonna pay for your meds.
+
+And we should finally provide ongoing learning opportunities. Ongoing
+
+opportunities for growth for people who are established in
+
+their careers, so they don't get stagnant. So they
+
+get beyond the job placement stage. They still have
+
+the support of their community and their peers.
+
+So, I'd like us to help each other realize
+
+the potential of the era in which we live.
+
+I'd like us to reach out to people who
+
+are new and offer them our support. I'd like
+
+us to turn to our peers, offer them support,
+
+and recieve support from them as well. I want
+
+us to create institutions and resources for learning and
+
+continued growth and continued experimentation.
+
+And most importantly, I want us to hold our
+
+leaders accountable, as defacto spokesman for our communities, and
+
+make sure that the values that we're passing on
+
+to new people entering our field are the values
+
+that we have very carefully, very thoughtful, and very
+
+deliberately crafted and articulated for ourselves.
+
+Once more, we find ourselves living in a very
+
+exciting era. An era of great change. Let's get
+
+it right this time. Thank you.
