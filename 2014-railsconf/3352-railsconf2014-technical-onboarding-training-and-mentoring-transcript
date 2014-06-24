@@ -1,0 +1,169 @@
+RailsConf 2014 - Technical Onboarding, Training and Mentoring - Kate Heddleston
+
+KATE HEDDLESTON: Hi everyone. Welcome to my talk. I'm Kate Heddleston and this is Technical Onboarding, Training and Mentoring.
+
+So I'm a software engineer out of San Francisco. I do mostly contract work now. Full stack, web apps. And I work with a lot of really early-stage start ups. And this was originally written as a co-presentation with Nicole Zuckerman. She's a software engineer at Eventbrite. And she couldn't be here today because she is vacationing in Italy. So I feel not bad for her at all.
+
+Yeah.
+
+All right. So she's the one on the right. I'm the one on the left. And, and Nicole attended a Code Academy called Hack Brite Academy, which I teach at one day a week. And we came together to write this talk because we work at separate companies and had experiences at these separate companies that were fairly similar.
+
+So, when I was right out of college, I joined a small start up. I was the sixth engineer, twelfth person, and I worked there for a time and it grew a lot, and after awhile, I reached a certain level of proficiancy. I looked back and I thought, I could have gotten here a lot faster with just a little bit of help and a little bit of structure.
+
+And so, I turned around and created the Onboarding program at my company. And Nicole had a similar experience at Eventbrite, and so she has been doing a lot of work there with onboarding. So we wrote this presentation and submitted it. It's important to note that this presentation was written specifically with junior engineers in mind. However, about 90 to 90% of what I say can very, very easily be adapted to people who are more experienced.
+
+All right. What is onboarding? So for the purposes of this talk, onboarding is the process of taking someone from outside of the group, outside the company, outside the team, and making them a productive, independent and confident member of the team.
+
+And I picked these three characteristics because I think they're, they're incredibly important. Productivity seems a bit self-explanatory. It seems kind of like, the goal that we're focusing on. Like, of course we would like productive engineers. And it's about creating efficient employees.
+
+Independence, and another word for independence is autonomy, is about creating engineers that can operate in your organization without needing a ton of oversight, that can make decisions and understand your company structure well enough to not have the overhead of having to go ask four levels of management for something.
+
+Also, independence and autonomy speaks to this, this need that we have to have some control over our own destiny. I was reading an article recently and it was talking about the need for autonomy, and it was citing inmates in prisons. So, in a lot of prisons, inmates are allowed to choose the channel. They're allowed to rearrange their furniture. And they found that this drastically reduced rebellions within prisons. So, independence is important, cause you don't want your engineers to rebel. But it's also important because feeling independent and autonomous helps people feel motivated and invested in what they're doing.
+
+Finally, confidence I think is the most important of the three. Confidence is about creating employees who believe that they are valuable. It's not about the actual act of creating employees that are valuable. The study, which is at, the links are at the bottom actually, that I was reading about recently, they split, this was a gendered study, but what they found didn't really have to do with gender.
+
+They split the participants into six groups. Three groups of men, three groups of women. So there was a control and two test groups for each gender. And, for one of the groups of men, they told them, they're doing some sort of spatial reasoning activity, they told them, men are really good at spatial reasoning. You should be good at this task.
+
+That group performed significantly better than the control. The next group of men they told, men are really bad at spatial reasoning. You'll be bad at this task. And that group performed significantly worse than the control. And they found the exact same thing with women.
+
+And so what this means is that confidence actually affects how well people perform. So confident people will perform better in a measurable way.
+
+So why do you care? I assume that everyone here cares because you came to my talk. But I would like to convince you that you should care now. You should care immediately, and that you should start building an onboarding program at your company as soon as possible.
+
+And I'm gonna talk about four things in this session. I'm gonna talk about the individual who's joining the company, the company that they are joining, the specific team within the company that they are becoming a member of, and then there's a bonus category, which is diversity.
+
+So, the individual. What can go wrong if you don't have onboarding? Or basically if you don't have investment in your employees?
+
+Attrition is something that most companies and most of us are terrified of. And for a good reason. Attrition can cost thousands of dollars per employee. Up to 1.5 to 2x their salary. And it's not that people quit specifically because your company does or not have onboarding. People quit for a meriad of reasons. The number one is actually that they are dissatisfied with their managers. But onboarding can address a lot of the issues that people ultimately quit for, or quit because of, and it can address them really early.
+
+So getting someone up to speed so that they're confident, they have this upward trajectory, they're building their skill set early, is going to set them up for success in the long term, so that eight months to twelve months down the road, they aren't leaving because they never felt like they were part of the team. Or they never felt like they were contributing. Address this early at onboarding is one of the best ways to do that.
+
+For the company. Companies care hugely about the productivity of their employees. This is a graph of productivity decreasing as you add new engineers to the team. And, anecdotally, this actually happened at LinkdIn not too long ago. Every engineer that they added to their team decreased their overall productivity and ultimately affected the company's bottom line.
+
+So, when their new SVP of engineering came on board, Kevin Scott, he had to do a whole bunch of work revamping their organization, building onboarding. And this is, I mean, LinkdIn is thousands of people at this point. So this is a huge amount of work. To try to get the graph to look like this. To try to get each new employee to add value to the company. And this doesn't have to do with the employees. It's not like they're hiring engineers that are then negative in their value. It has to do with their process, and onboarding is one of the great ways to make sure that you're taking a good look at your process.
+
+This speaks to something I like to call team debt. How many of you have heard of the concept of code debt? A lot of people. Yeah, we talk about that a lot as engineers. How if you build something fast and don't think about it, you accrue this code debt, and over time you have to go back through your code base, take a look at things, rewrite them, and ultimately address that.
+
+Well, the same thing happens with people. So if you aren't doing a good job investing in your employees, if you're not onboarding them, if you're not training them, you're going to accrue team debt. And I've seen this a lot. I've talked to a lot of companies that are starting to get into the hundreds of people range. They're starting to hit a hundred engineers. And they're like, oh my goodness, we need onboarding. We need, we need to get these people up to speed. And at, at four hundred people, I mean, yeah. You've accrued a huge amount of team debt.
+
+Every person that you add and try to onboard is going to be increasingly difficult. Your code base is quite large at that point. You have a lot of teams. And so going and making all of those onboarding materials at a hundred people is way harder than starting when you're smaller than a hundred people and then maintaining it incrementally.
+
+The third aspect is the immediate team that the engineer joins. So there's a saying that you don't know something until you teach it. And this is absolutely true for your company's culture and code process. So if you don't know how to explain to a new engineer what your company's culture is or how you ship code or how you decide what features are built or who approves things, who reviews things, then you don't actually know it yourself. And that's a massive red flag for your company if you can't explain your process.
+
+Additionally, when people join small teams, small teams fundamentally change every single time you add a new person to them. So iterating your team's process to the new engineer is not just important for them, it's also important for your existing engineers, so that you get something that looks a little bit more like this, where everyone is on the same page.
+
+And because the team changes every time you add people to it, you're gonna have to reiterate this to everyone pretty much every time you add a new employee.
+
+So, something about me, I love sports anecdotes. I played sports for most of my life. And when I was done playing sports, I coached JV girls water polo at a high school nearby. And I used to have these really deep, philosophical team meetings with them, and I'd come in with these posters, and one day I came in with this, a poster with this written on it. They always just sat there and kind of rolled their eyes at me, like.
+
+But, I was trying to explain to them that their ability to win games was not wholly dependent on their skills. These girls were beginners. They didn't really know how to throw. They didn't really know how to swim. They basically didn't have the skill set necessary to play water polo. But, they were playing all these games. And so I wanted them to understand that their skill set was important, but team work was more important, so they could actually beat teams that were theoretically more skilled than them but didn't work together as well as they did if they all banded together, because teamwork is a multiplication factor.
+
+And this is true in engineering as well. Your productivity as an engineering team is the sum of the engineering talent that you have multiplied by how well you work together. So if your team is working well together, that's great. If not, your team can actually pull itself apart. And, anecdotally, a lot of, a lot of products have been built by teams that are less than ten or five people.
+
+So Gmail is a really great example. It was built by a team of less than five. And now that it's successful it's maintained by a team of over four-hundred, I think.
+
+So our bonus category, diversity. How many of you have read Dr. Seuss's book about sneetches? Yeah? It's a great, it's a childrens' poem, like all of his books are. But it's about this community of sneetches. And sneetches are what I have drawn there. And at some point, some sneetches start developing stars on their bellies. And it's the story about kind of the rifts that happen in the community as a result of some sneetches having stars on their bellies and some sneetches not.
+
+But I like to use sneetches to represent diversity, cause diversity can mean a lot of things. It can be gender diversity, it can be racial diversity, it can be introverts versus extraverts as far as diversity goes. So communication styles. But the idea is that onboarding is gonna be really critical if you want to hire people who are different from each other in any way.
+
+This is pretty typical in tech. Companies are started by a small group of people, and it's homogenous. The phenomenom is called homophaly. We tend to associate and like to be around people who are like ourselves. So companies tend to get started as homogenous groups.
+
+If you don't have any onboarding, the people who are most likely to be successful joining your organization are people who are like the existing group. This is because they likely share similar communication styles, interests and hobbies. There might be tacit acceptance because they look the same as the rest of the group. So what you're doing is you're relying on homopholy and the existing social structure for peoples' success at the company and onboarding.
+
+And what you don't want to have happen is something like this. You hire someone new who's different, and they feel socially ostracized upfront. Not for any particular malicious reason, but just because they're different. They communicate differently. And so what you want is you want an explicit onboarding structure that helps bring people into the fold, that helps people become a part of the team in some sort of systematic way so that everyone who joins, no matter how different they are from the existing group, has a solid chance at being successful.
+
+So, hopefully now you guys are all convinced that onboarding is super important.
+
+Who at your company can onboard?
+
+So anyone of your team can onboard. This is not a, senior engineers have to be paired with junior engineers. They can learn the most. In fact, going back to sports analogies, some of your best people to onboard are going to be people, kind of like if a freshman athelete were to join a team, the sophomore athletes might be the best people to help them out.
+
+This is because they have the most empathy for what they're going through. They also experienced it the most recently, so they have relevant information and stories. So your sophomore engineers might be some of your best onboarders at the company, in addition to the expertise of your senior engineers.
+
+When?
+
+So onboarding can start as soon as an offer is accepted. I'm going to talk about an onboarding plan coming up soon, and we're gonna talk about from the start date to what I call reliable independence, which is where this person can build things and build features to an adequate level and be left on their own to the same degree as other engineers on the team.
+
+All right. How?
+
+So, the how category I'm gonna talk about some concepts to think about, when you're thinking about how to onboard others. And then I'm gonna launch into a four-week plan that goes through some of the specific things that you can do with engineers.
+
+So, first off, the concepts. It's pretty straight forward. You want to maximize your return on investment. You don't really want to be putting more into engineers than you're getting out of them. And most people don't really want more put into them than they're giving back. That's kind of a strange dynamic.
+
+So, a really inefficient but really common way that people try to onboard is this, like, hand-holding model. New onboarding mentors are really prone to this. They think, I'm gonna be the best onboarding mentor ever. We're gonna do everything together. We're gonna do all of these code tutorials. They're gonna watch me code every day, and by the time we're done with three months, they're gonna know everything that I know.
+
+And, in addition to being inefficient, because this is a huge time sink, it's also unrealistic. People do not become senior engineers in three months. You need time. You just, you just do. And so this burns people out and also disappoints them.
+
+A more efficient way to think abou things is, my example is bumper bowling, which is pretty much the only way I should be allowed to bowl. But, you set up an environment that's constrained, where they're able to play freely. They're able to go off and do what they want, come back and ask questions. But you don't have to handhold them through things.
+
+And so the way you do this with a technical environment is automation is huge. So, automating the development environment, automating deploy. Having a lot of testing for your code base, however you decide to do that. Whether it's TDD or not. Will help these junior engineers have a safe space to learn and grow and play.
+
+One of the important things to think about, too, when setting up this environment is that scoping is critical. One of the tenants of expertise is the ability to scope. So, if you're an expert, you understand the landscape incredibly well. So you're able to set these really well-defined boundaries. Junior engineers, by definition, are not good at scoping because they don't know the landscape.
+
+So, when you're thinking about giving them projects and you're thinking about setting up their environment, make sure to set boundaries for them and then slowly move them out as they know more about what's going on. Because they won't be able to set those boundaries for themselves.
+
+So, kind of three onboarding categories that map to the productive, independent, confident thing I was talking about earlier are technical knowledge, company knowledge and process, and personal development. I mention this because people think that onboarding has to do with technical knowledge. They seem to think that that's 90% of what's going on. I'd say it's actually about a third, and it's actually the easiest third, because you can go to the internet and find a ton of tutorials on, on Ruby and how to learn Rails and how to use Rails and blog posts about how to use any number of technology out there.
+
+The harder category, which is another third of what they need to know, is the company knowledge and process. And this is really, really important for them being independent. They can't be independent if they don't know how to operate within the company's infrastructure. This is harder because most companies don't write this down. So it's in someone's head somewhere, and the junior engineer, or the new engineer, is tasked with going and extracting it from whoever on the team knows this. So the more explicit you can be about your company knowledge and process, the better.
+
+And then third, personal development. That has to do with confidence, career trajectories. Again, this is, this is important because confident people are willing to reach. They're willing to be outgoing and they're willing to try new things. They also perform better.
+
+OK. So now I'm gonna talk about a fairly specific plan. This was written with junior engineers in mind. So some of the tasks are very specific to junior engineers, as is the time frame. A lot of these things will be relevant for people with more experience. The time frame just might be more condensed.
+
+So, for week one for a junior engineer, it's all about shipping code and kind of getting to know their immediate team. So dev environment setup is critical for anyone joining an engineering team. The last person who joined the company is going to be the best person to get them up to speed on their dev environment, because they are the one who knows the most about how to set up a dev environment. Someone who started two years ago is probably not going to know the ins and outs of getting started.
+
+Additionally, you should have a goal about how quickly you want someone's dev environment to be set up so that they can reasonably ship code. So like a config file, for example, or something static. A great goal is the first week. An awesome goal is the first day. And, if you want to try to match, I think it's Debian in the opensource world, their goal is five minutes, which is probably a little bit of a reach. But I'd say the first day is a fantastic goal. If someone can be set up with their dev environment and able to ship a config file the first day, that means that you have pretty great automation and a really great onboarding process.
+
+The next thing is shipping code. You should ship small changes and you should teach junior engineers to ship small changes as early as possible. So, give them a task as soon as they've got their dev environment set up and they're ready to go. Maybe have them fix a bug or rewrite tests or a small feature that's really well-scoped, so that they can ship something and be productive and part of the team as soon as possible. This is great both for your onboarding process, but also it helps them feel valuable, which, as we talked about earlier, is really key.
+
+Journaling and note-taking. People will naturally do this. We don't memorize all of the commands that we need to know, and so we'll write them down. Just, just give them a central place to do it. Talk to them about it. Ask them about three things they learned that day or that week. Just kind of put a communication structure around the fact that they're probably already taking notes. It will help you understand what's confusing for them and it will help them remember things.
+
+And then, finally, have a social event. And do this for any engineer that joins your team. No one should join a company and sit off in the corner alone, not knowing their immediate team mates. Have some sort of coffee. Have everyone sit together at lunch. Go out for dinner or drinks. It doesn't matter what it is. They just need to put names to faces and feel comfortable asking questions of, at least, their immediate team. Like, you know, the five people that they work with. If they want to ask someone where a pen is, or the bathroom, or they don't know something really simple and they feel uncomfortable asking, that's gonna be a bad experience right off the bat. And this one is so easy. It's just a gimme.
+
+All right. Week two. Week two is more about the context of the company, and also starting to have them shadow and, and learn from more senior engineers. So, you should tell them the history of your company. The history of your company hopefully is a pretty interesting story. The history of your company is also something they're not really gonna be able to absorb the first week. They aren't gonna know the characters in, in the story as well as they will the second week. So who are the founders? Why did they make this company? Who are the people that were hired early on? It actually is probably gonna tell you a lot about your process and your culture as well.
+
+Additionally, a team map is fantastic. So if you have some place where you can put everyone's picture and name, generally what they do and what they work on, if you can make it a seating chart, even better, or put their names above their computers. People are gonna forget someone's name. They're gonna forget that that guy they talked to five times is Andy. And they're gonna be embarrassed to ask just like I always am when I forget someone's name after talking to them for five times. 
+
+Code labs and shadowing. So code labs are something that Eventbrite started doing, and this is a really awesome idea. It's basically a safe space for an hour once, twice, three times a week, however many times, where they can ask someone that's more senior any kind of question they want. So you can have a code lab for an hour that's on frontend development. Or a code lab for an hour on dev ops. And the most important thing about these code labs is actually not the topic. It's that it's safe. So when you're thinking about picking engineers to run these code labs, think about picking engineers who are going to create a safe space for these junior developers to ask questions. Feeling stupid when asking questions is pretty typical, especially when you're new. You want some place where they don't feel that way.
+
+Shadowing is also a great way to get people up to speed. This actually is a great thing to do at any level. But pair them with someone who's more senior. Have them sit with them for an hour a day or a week. And just watch their process. How do they build code? How do they get things done? What tools do they use? One of the things to think about, though, when pairing people for shadowing, is that we will forgive a lot of bad habits in more mid-level or senior engineers that we won't forgive in junior engineers.
+
+So I've seen this happen a lot where junior engineers are following someone who's more senior, and they're doing a great job, actually, of picking things up. They're learning a ton. And some of the things they're learning are not so good. And so they end up getting punished for these habits that they learned directly from a senior engineer. So make sure that you take a look, whenever you see someone doing something, who's new or young, take a look at where they learned that from. If they learned it from someone else, try to just encourage them to go in the right direction.
+
+There's nothing worse, when you're new, than spending all this time following someone, learning something, and then later being told that you're doing it wrong. You're like, well then why did I follow this person around?
+
+All right. Week three is a lot about communication. Goal-setting. Feedback. Presentations. So for a junior engineer, at this, up to this point, you've probably been doing a lot of high-touch interactions. You've probably been working with them fairly constantly. By week three you can start scaling back. Give them more independence. Give them more free time. But set up weekly one-on-ones. This is a structured, expected thing where they can give you feedback. Maybe they can spend ten minutes talking about something they learned this week. You can start doing goal-setting.
+
+Which, by week three, hopefully they have a better idea of what they want to do next. Maybe not what they want to do with their whole life, but maybe next they want to focus on frontend. They want to get really, really good at implementing features for users. Or maybe they absolutely love dev ops and infrastructure and they want to work more on that.
+
+So you can start setting these short and long-term goals so that they feel like they're moving forward. Feedback is also really important. Give feedback early. Give feedback often. Some of the biggest complaints that people have about their managers is that they don't get any feedback from them. So, as engineers, we tend to be fairly critical and a little bit cynical, which I think is healthy. But when you're giving feedback to someone, especially if they're junior, remember, they don't know what they're doing well, either. They actually don't, they don't really have a good idea of what they're doing that's good or bad.
+
+And I'll give you another sports analogy. When I was coaching, so I'm coaching beginners. Absolute beginners. And I'm standing on the pool deck, kind of yelling things at them. And they'd go to do, like, they'd go to throw the ball, like they'd go to shoot and they'd drop their elbow, and I'd yell don't drop your elbow! And it look like these kids hit a brick wall. They would just stop and sink in the water and look at me. Which I realized was exactly not the behavior that I wanted from them. What I wanted them to do was I wanted them to keep their elbow up.
+
+So I thought about this for awhile, and then I decided to just start yelling at them all the things that I wanted them to do. So I took the words no and don't out of my vocabulary, which is a really, really fun game, if anyone wants a hobby. So I started yelling things at them like, keep your elbow up. Keep your hips up. And I saw the most amazing thing happen. They all started doing exactly what I wanted.
+
+They started, they started moving forward faster. They were excited. They felt confident. And there was no, there was nothing except that I just took all of these negative words and negative phrases out and told them what I wanted and they did it. So, when you're thinking about yelling things at your junior engineers, try yelling at them what you want them to do as opposed to what you don't want them to do.
+
+Presentations are also really great for communication. We don't program in vaccuums. We often work on teams. We need to be able to communicate technical concepts to other people in a really clear and concise way. So make them practice. Give them a topic once a month, a technical topic, maybe it's regexes, maybe it's the ORM layer, and have them give a five to ten minute presentation to the rest of the team on it.
+
+Week four. Week four, you're gonna continue scaling back. You want them to be independent. You want them to be autonomous. So you're gonna continue taking yourself out. Review concepts. Check in regularly in your one-on-ones. You can start to tell them things like, if you hit a bug, I want you to research things for an hour before you come talk to me. So set really clear expectations, but have them go off on their own. Have them do research on their own. Have them get used to that feeling of hitting your head up against a wall because you're super frustrated with a problem. This is good. They need to learn those things.
+
+Also, make shadowing elective. Let them choose who they want to shadow and when. So start off-loading decisions about what they do to the engineer. Also, have them start co-piloting a larger project with someone else. The concept is kind of like drivers' ed in the U.S. In drivers' ed in the U.S., you're paired with an instructor who actually has a break on their side, so if you decide to careen on a cliff or something, they can hit the breaks and stop you. So pair them with someone who still has enough control that they can stop them from doing anything that's really dangerous, but they're also working on bigger projects now and learning from someone who's more senior.
+
+Beyond. So, keep checking in on goals. Keep talking to them. Make sure you have really structured channels for communication. Start tailoring their projects, code labs, et cetera to their progress. And this is the part where you can start doing things like informal apprenticeships and assessing their progress. Although you should be assessing it this whole time.
+
+Apprenticeship is a concept that has worked for many thousands of years in many, many different trade industries. So, blacksmithing, roof-thatching, I don't know. But at this point, they should know more specifically what they're gonna want to work on long-term. So have them be an apprentice to someone who's more senior at this. So if they want to do dev ops, they can go work on the dev ops team with a more senior engineer, and they might do a lot of grunt-work tasks. They might do a lot of the things that no one else wants to do at this point. But they're learning. And as they learn and they grow they get more involved tasks, and they get to solve more exciting problems.
+
+Assessment. So you're gonna see wildly different trajectories with people. And hopefully the more systematic your process gets, the more you're able to deal with this. But some people are just gonna take off running and they're gonna be fine. Other people are gonna have ups and downs. And so you're gonna want to have some sort of way of assessing how they're doing. And when someone's not doing the way you expect, the answer isn't always they're a bad programmer.
+
+In fact, we came up with five assessment categories. Confidence, code quality, communication, judgement, and technical knowledge. And this is just a start. If someone is afraid to ship code, they might lack confidence. And so helping to bolster their confidence will see huge results. Additionally, if they're building features that don't make sense, they might lack judgment. And in order to have good judgment, you need a lot of context about who uses your product and why. So maybe they should go spend more time working with customer support and answering support tickets so that they can learn how people use the product so they have better judgement. Sometimes they just need to learn more about a particular tool, and that one's pretty easy.
+
+OK. Hopefully you guys have had a fair number of take-aways. Hopefully you now know about the concept of team debt.  You're thinking about doing an onboarding plan now. But, if you take away only three things, I hope you take away these three things.
+
+First off, the goal of onboarding is to make people confident, productive, and independent. Reliably independent. And so that can have to do with their level. But it's not about making someone into a senior engineer overnight.
+
+Second, onboarding benefits everyone in the long run. It benefits the individual joining, it benefits your company's bottom-line, it benefits the productivity of the team, and it's also great for diversity.
+
+And finally, anyone at your company can be involved in onboarding. So, as I said before, some of your best onboarders are not gonna be senior engineers. They're gonna be the people who were just junior engineers themselves.
+
+OK. So, start improving your onboarding process now. There's actually a code repository, or not code, but just a GitHub repository that has some assessment rubrics. It has the plan in a lot more detail. It also has some tools for, for learning, like, online tools for learning Ruby and Rails. And if you have questions, feel free to ask them now. If you are terrified of yelling questions out in a pubilc forum, which I absolutely am, you can come find me later. I'll also be around for the rest of the conference. So thank you.
