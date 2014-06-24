@@ -1,0 +1,1233 @@
+RailsConf 2014 - Demystifying Data Science - A Live Tutorial - Todd Schneider
+
+TODD SCHNEIDER: All right. We're, we're good. Thank you.
+
+Sorry for the delay. Classic.
+
+Even in the future nothing works. Welcome.
+
+I am Todd. I'm an engineer at Rap Genius.
+
+And today's talk is going to be about data science with a live tutorial.
+
+And before we get into the live coding component,
+
+I wanted to show you all a project I
+
+built previously, which kind of serves as the inspiration
+
+for this talk. Sort of. So this is a
+
+website called weddingcrunchers dot com. What is Wedding Crunchers?
+
+It's a place where you can track the, the
+
+popularity of words and phrases in the New York
+
+Times wedding section over the past thirty-some years.
+
+And a lot of you might be wondering why
+
+on earth would this be interesting or relevant or
+
+funny or anything, and I hope to convince you
+
+of that very quickly. Here is a, a example
+
+wedding announcement from the New York Times. This one's
+
+from 1985.
+
+If you don't know me, you don't live in
+
+New York, read the New York Times, the wedding
+
+section is a certain cultural cache. It's kind of
+
+an honor to be listed in there and it's
+
+got a very resume-like structure. People get to brag
+
+about where they went to school and what they
+
+do.
+
+So here is an example. You know, Diane deCordova
+
+is marrying Michael Monro Lewis. They both went to
+
+Princeton. They graduated Cum Laude. You know, she works
+
+at Morgan Stanley. He works at Solomon Brothers in
+
+New York and they're gonna go to London. And
+
+this should be a little familiar to a bunch
+
+of you.
+
+Mr. Lewis and associates Solomon Brothers is Michael Lewis.
+
+He's given you Right Lawyers Poker??, famous book about
+
+his experience there. And before, before he was a
+
+famous writer, he was just another New York Times
+
+wedding announced person.
+
+And so what Wedding Crunchers does is it takes
+
+the entire corpus of New York Times wedding announcements
+
+back from 1981 and you can searh for words
+
+and phrases and you can see how common those
+
+words and phrases are, you know, by year. It's
+
+like, this is a good one that's relevant to
+
+people here. You know, banker and programmer. You know,
+
+for example, when you list so-and-so is a banker
+
+or is a programmer in the announcement and you
+
+see, over time, you know, banker used to be
+
+way more commonly used than programmer in these announcements.
+
+And only just this year, in 2014, programmer has
+
+finally overtaken banker as, you know, the, the place,
+
+you know, the people getting married in New York,
+
+who are part of society, come from. Another good
+
+one is, if you look at goldman, sachs and
+
+google- is my internet on? Good.
+
+So here's another good one. So Goldman Sachs, you
+
+know, classic New York financial instition. Google, new kid
+
+on the block. Tech scene. Boom. Taking over.
+
+And, you know, this is obviously fun, and it's
+
+amusing. But it's also actually pretty insightful for a
+
+relatively simple concept. I mean, this one graph tells
+
+a pretty powerful story of, you know, New York
+
+the, the finance capitol of the world. Meanwhile, we
+
+have this sort of emerging tech scene. You know,
+
+Google may be the biggest player in the kind
+
+of new tech world.
+
+And now, when you turn to the society pages
+
+to see who's getting married, you know, there's more
+
+employees from Google than there are from Gullman Sachs.
+
+And that, you know, kind of interesting thing in
+
+the world.
+
+And so what we're gonna do today is build
+
+something just like Wedding Crunchers, except, instead of using
+
+the text of wedding announcements to analyze, we're going
+
+to look at all of the RailsConf talk abstracts.
+
+And so, you know, hopefully this is, this is
+
+interesting to people here and, I always say, you
+
+know, if there's only one thing you take from
+
+this talk, really, what it should be is that,
+
+you know, work on a problem that's interesting to
+
+you. Because, especially when you're dealing with data science,
+
+a lot of it's pretty messy and then you
+
+have to go through scraping stuff as we'll get
+
+into, and it's easy to get frustrated and kind
+
+of lost and like, if you're not working on
+
+something that you care about, and something that you
+
+really want to know, kind of, the final result,
+
+it's just much easier to get distracted and kind
+
+of, ultimately, bail.
+
+So, again, if you take one thing, just work
+
+on something that is interesting to you. So the
+
+particular kind of analysis we're gonna do is something
+
+called n-gram analysis. And I have a little example
+
+set up here. So what is an n-gram? You
+
+may have heard the word before.
+
+Really, all it means is, you know, a, a
+
+consecutive words as part of a sentence. So like,
+
+examples very simple, for one simple. This talk is
+
+boring. What are the, what are the one grams
+
+in this sentence? It's just the words. This, talk,
+
+is, and boring. The two grams are every pair
+
+of consecutive words. This talk, talk is, is boring,
+
+and so on.
+
+And so what we need to be able to
+
+do in order to build, you know, a graph
+
+like this, is we need to take a term
+
+that's, you know, relavent to RailsConf, say something like
+
+Ember or whatever, and we need to be able
+
+to look up, you know, for each year how
+
+many times does this, you know, word or n-gram
+
+appear in the data.
+
+And so that is what we are going to
+
+build. And I have this brief little outline here.
+
+There's kind of three steps. And this is pretty
+
+general to, to any data project. You know, step
+
+one is gonna be just gathering the data, getting
+
+it in some usable form. Step two is gonna
+
+be kind of the analysis part where we do
+
+the n-gram calculation. We store the results. And then
+
+step three is gonna be to create a nice
+
+little front-end interface that lets us investigate, visualize and
+
+see what we've done.
+
+Now unfortunately, you know, in a, in a thirty
+
+minute talk we can't possibly do all of this.
+
+So we're gonna focus more on items one and
+
+two and less so on three, and even then
+
+it's too much. So, you know, I sort of
+
+used the analogy, it'll be a bit like watching
+
+TV on the Food Network, where we might, you
+
+know, throw something in the oven, mysteriously something else
+
+pops out of the other oven even though it's,
+
+where did that come from?
+
+But not to worry. Everything is also on GitHub.
+
+There's a repo I'll share with you at the
+
+end. So anything that we don't cover or that
+
+we cover too quickly or something, you'll be able
+
+to see sort of the, the full version on
+
+GitHub.
+
+So let us jump in now to step one,
+
+which is, you know, gathering the data. And so
+
+let's take a look back at the, the RailsConf
+
+website again. So we have to figure out how
+
+we're gonna model a, a RailsConf talk in our
+
+database. So like, what, you know, attributes does a,
+
+do a, excuse me, does a RailsConf talk have.
+
+And it's like, one thing we see is they
+
+all have titles. So that looks like something. They
+
+have speakers. You know, there's this thing, which is
+
+the abstract, and then there's the bio. And that's
+
+probably it. That's probably all we need.
+
+So that's pretty simple. And, you know, I have
+
+the little migration. I've already run here. But here
+
+are attributes for talks. It's just the year, you
+
+know, what, what conference were we actually at. The
+
+title of the talk, the speaker, the abstract, and
+
+the bio.
+
+And so also, that's, again, pretty straightforward. The gemfile
+
+is also very simple. It's mostly pretty boiler plate.
+
+Rails 4, Ruby 2.1. The only gems I wanted
+
+to call out here are, we're gonna use nokogiri
+
+for, you know, fetching, or, parsing websites and kind
+
+of scraping the data we need. We're gonna use
+
+PosGres as our main data store and we're gonna
+
+use redis to build these sort of index that
+
+we can ultimately use to look up, you know,
+
+how common a word is.
+
+And so one thing that's not here is, like,
+
+you know, gem fancy data algorithm. And a lot
+
+of people, this is kind of where Ruby often
+
+gets a bad reputation of, you know, not being
+
+supportive of scientific computing or whatever. And other languages
+
+have more, more support. But my claim is that
+
+it's really not that important. You can get a
+
+ton of mileage out of very simple tools that
+
+you can build yourself.
+
+You know, you don't need a fancy gem or
+
+any fancy algorithm. Those things are cool too and
+
+they have their place. But they're not needed a
+
+lot of the time. And, you know, Ruby is
+
+a wonderful language for, especially, scraping stuff from the
+
+web. There's a ton of support there. And so
+
+I don't think that the, the lack of, you
+
+know, fancy algorithm gems should necessarily be a deterrant
+
+at all.
+
+And so hopefully part of this talk is convincing
+
+people that Ruby and Rails are actually quite well-suited
+
+to problems like this.
+
+OK. So now we actually need to write some
+
+code to scrape the talk. And you know, if
+
+you've ever done anything like this before, you know
+
+that Chrome Inspector is your best friend. So let's
+
+fire that up. We're gonna inspect element, and so
+
+like, we actually, what we need to do now
+
+is take you know, this HTML on the page
+
+and turn it into a database record that we
+
+can then, you know, use to our advantage later.
+
+And so it looks like, you know, all the
+
+talks are in these session classes. So that's something.
+
+We can look in here. This looks like something.
+
+So let's make this bigger.
+
+And you know it helps to, well, it's kind
+
+of essential to be decent with CSS selectors here,
+
+because that's how we're going to basically find stuff.
+
+So let's see, OK, so there's eighty-one session divs.
+
+That sounds about right. I happen to know that
+
+mine is number seventy-eight, so let's, let's look at
+
+that. And so here we are. So we need
+
+to, again, the, the things we're mod- or, the
+
+attributes we're storing at the title, the speaker, the
+
+abstract, and the bio. And so we're gonna need
+
+to pull these things out.
+
+So let's see. It looks like the, the title
+
+is in this h1 element inside the header. So
+
+let's just make sure that works. You know, header
+
+h1. That looks right.
+
+The, the speaker looks to be the header h2.
+
+Cool.
+
+Now the abstract is in this p tag, so
+
+we can do something like this. But this is
+
+actually not quite right. So what's wrong with this?
+
+Well, the abstract ends, you know, suited to the
+
+problem. The bio here is also in the p
+
+tag. Originally a math guy. And we've actually pulled
+
+all the p-tags. So we need a way of
+
+not doing that. And this is where you just
+
+need to know a little bit of CSS. Not
+
+very complicated. But if you use the little greater
+
+than guy, what this says is only take the
+
+p tags that are immediate descendants of the session
+
+div. And so now we have, you know, only
+
+the abstract.
+
+And lastly, you know, the bio is just in
+
+its own little section. So something like that. Cool.
+
+So that is the jQuery version of it. We
+
+need to do this, though, in Ruby. And as
+
+I said, this does sometimes get a little tedious.
+
+But let's, let's write the code. So I have
+
+this empty method - create_railsconf_2014_talks. And also this method
+
+I've written already called fetch_and_parse, which just gets a
+
+URL and sends it to nokogiri, which we can
+
+then use to do our CSS selectors.
+
+So let, let's just write this. So we can
+
+say doc is fetch_and_parse. The url is this. Let's
+
+see if this works in the console.
+
+Of course, in here. Do I have internet? Nice.
+
+So we can then check the same thing. Again.
+
+Looks right. Let's find my talk, which, this part
+
+I couldn't possibly tell you. When you use the
+
+nokogiri, the eq thing, you have to add two
+
+from whatever jQuery does. So I'm number 80 now.
+
+Don't ask me why. I couldn't possibly tell you.
+
+But maybe someone here knows. Be curious to find
+
+out.
+
+AUDIENCE: ?? (00:11:13)
+
+T.S.: So there it is. There's the title. So
+
+let us now write some code here. We have
+
+our, our document. We're gonna go through each session.
+
+The CSS method is kind of like, you know,
+
+the selector for nokogiri. Each elements. So each of
+
+these we're gonna create a talk.
+
+And again. So the year we already know is
+
+2014. The title we're gonna say is, elm.css("header h1").inner_text.
+
+Speaker, header h2, dun nuh nuh dun nuh nuh
+
+nuh. Gettin' there.
+
+All right. So I think this will probably work.
+
+Let's find out. And so we're back in here.
+
+Just to prove to you that I'm not lying,
+
+2014 dot count. There's none of them. And, what'd
+
+I call this method? This guy. Delayed::Job.
+
+All right. So we just did something. Did it
+
+work? Nice. We got eighty-one talks. Most importantly, let's,
+
+we have my talk. That's the, that's the only
+
+one that matters anyway. And so, you know, you
+
+might be thinking now, like, you know, what the
+
+heck, I came to the, the data science talk,
+
+not the scraping talk. You know, to that, I
+
+would say, tough luck. They're the same thing. You
+
+know, you might not, you might not want to
+
+hear it, but guess what, this is usually the
+
+most important part of the entire project.
+
+It's the hardest part, you know, because guess what,
+
+just because we got the 2014 talks, you know,
+
+now we have to get the 2013 talks. And
+
+the 2012 talks. And they're all on different websites.
+
+They all have different structures. You know, you're gonna
+
+have to write different code to get each type
+
+of website. It's a pain. And this is why
+
+I said earlier, you know, really make sure you're
+
+working on something you care about. Because it's just
+
+not fun to like, like, ugh, in 2008 they
+
+separated the speakers and the abstracts. And it's like,
+
+it's just, it's annoying, but again, it's the most
+
+important part I would say.
+
+You know, so much of data science is taking
+
+data that's either unstructured or structured in the wrong
+
+format to you and, you know, getting it into
+
+the way, you know, into the structure that you
+
+need to do whatever analysis you want to do.
+
+So in this case, that's taking, you know, html
+
+on a page and converting it into a PosGres
+
+database.
+
+And so we have done that now. And again,
+
+take my word that, you know, I've done this
+
+for the other years as well. Back in 2007
+
+and so we have a total of 497 talks
+
+in here from RailsConfs over the years. And so
+
+that's cool. That's basically our dataset that we're gonna
+
+use.
+
+And so we can sort of move on to,
+
+you know, step two of the project here, which
+
+is, you know, do the n-gram calculation and store
+
+the results. And so let's go back to talk.rb.
+
+All this by the way is just in, you
+
+know, app/models/talk.rb. That's where all this code is.
+
+And I have another empty method somewhere called def
+
+ngrams. And so this method, we're gonna need to
+
+give, you know, it goes on a talk. So
+
+given a value of n, calculate on the ngrams
+
+from that talk's abstract.
+
+And so, what are we gonna do here? So
+
+again, let's look at, talk dot mine. Dot abstract.
+
+So here's the abstract, and we need to, you
+
+know, get ngrams out of this. And so the
+
+first thing, I've written a little helper method over
+
+here. Which I've just tacked on a string called
+
+normalized_for_ngrams. And you know, what does this do? Well,
+
+it downcases it, cause we're gonna do case insensitive.
+
+There might be cases where you want to keep
+
+case sensitivity. Whatever. Doesn't really matter. In this case
+
+we're gonna go case insensitive.
+
+Squish is a nice, convenient method that will kind
+
+of standardize the white space for you. So like,
+
+if there's any trailing or leading white space, and
+
+if there's like a bunch of middle white space,
+
+this will, it'll kill the beginning and ending and
+
+it'll turn anything in the middle into a single
+
+space.
+
+So that way you just don't have to worry
+
+about things like double spaces or, you know, other,
+
+other weird things that can happen. Cause of course
+
+it's the web. Whatever can go wrong will go
+
+wrong. So make sure that you're data's in some
+
+kind of standardized format.
+
+And the last thing I've done is removed punctuation.
+
+And the reason for that is just cause like,
+
+you know, there's commas, periods, colons, all sorts of
+
+stuff like that. We don't really care about it.
+
+And so let's just kill any character that's not
+
+either a space or a word character. This is
+
+kind of the, little like, Ruby special regex thing.
+
+So we're gonna kill punctuation.
+
+And so we can actually just mess with this
+
+in the console maybe. So let's take our little
+
+example sentence. You know, this talk is boring. And
+
+let's normalize that for ngrams. OK. All it did
+
+was downcase it. And now we want to get
+
+that into an array of words, which we can
+
+just do with split. Cool.
+
+And now there's actually this neat little Ruby enumerable
+
+thing, which I didn't know about until pretty recently.
+
+Each const, which stands for each consecutive. And it
+
+takes an argument, a single number, like two, and
+
+what this says is give me all of the,
+
+you know, consecutive pairs of two. So if we
+
+to_a this, now we have this array of arrays,
+
+which looks like exactly what we want.
+
+This talk, talk is, and is boring. And so
+
+the last thing we can do there is we
+
+can just map that array to make these just
+
+phrases.
+
+So cool. So this is actually the entirety of
+
+our ngrams method, is just, you know, this code
+
+right here. So let's copy and paste this into
+
+the old method here. So we want. We're doing
+
+this on the abstract. Let's get some new lines
+
+here.
+
+All right, cool. So again, just to recap, you
+
+take the abstract, we normalize it, which means, you
+
+know, downcase and kill the punctuation. We split it
+
+to words. Uh, wait. Actually this should not be
+
+two. That should be n. And then we join
+
+those. So let's, let's see if this worked.
+
+So talk dot mine again. And one. OK. So
+
+here are all the one grams, which is just
+
+the sequence of words. And that looks correct. And
+
+all of the two grams. Also looks correct, I
+
+think. Yeah. To get, get a, yeah, OK, perfect.
+
+And so this is kind of the, the method
+
+we're gonna use to decompose these talks into just,
+
+you know, an array of words and phrases. And
+
+so what is the next step, now that we
+
+have this method? Well, the next step is we
+
+have to build these indexes that we're actually gonna
+
+use to look up, you know, the final results.
+
+And so for that, we're gonna use redis.
+
+Now, we don't have sort of enough time to
+
+really get totally into the details of redis. But,
+
+you know, the, the thing that we're really gonna
+
+use is the, the sorted set data structure, which
+
+I'd definitely encourage you to check out. It's a
+
+great data structure. Great feature of redis. And so
+
+what is a sorted set?
+
+Well, it's got the word set in it, so
+
+that tells you something. It's, you know, unique elements.
+
+And the, the neat feature of a sorted set
+
+is that each element in the set also has
+
+a score associated with it. So the way we
+
+can use this is, remember, again, the question I'm
+
+gonna answer is, like, you know, if someone searches
+
+for Ember, you know, how many times was Ember
+
+mentioned in 2007. How many times was it mentioned
+
+in 2008. How many times was it mentioned in
+
+2009?
+
+So we're gonna have one sorted set for each
+
+year, where the members of the sorted set are
+
+all the words and phrases that appeared in RailsConf
+
+talks, and the scores are the number of times
+
+that those ngrams appeared.
+
+And then, you know, redis is very efficient about
+
+this zscore method. You can look up. It's like
+
+this command right here would say, OK, in the
+
+sorted set for 2014, get me the score associated
+
+with the member ember. And that's gonna tell you,
+
+you know, some number. Like, three or whatever. Is
+
+the number of times it gets mentioned.
+
+So what we have to do is build these
+
+sorted sets. One for each year again. And again
+
+I have an empty method called generate_ngram_data_by_year. So iterate
+
+through all talks from a given year, you know,
+
+calculate the ngram counts and add it to the
+
+appropriate redis sorted set. So let's write that.
+
+So one thing we need to do is make
+
+sure we're not double counting. So if we have
+
+an old sorted set sitting around, let's delete it.
+
+So let's, redis.delete year. We need to decide what
+
+values of n we're gonna use. So let's just
+
+say one, two, and three, meaning we're gonna calculate
+
+all the one grams, two grams, three grams. Anything
+
+longer than that and it's sort of, like, what's
+
+even the point. You're getting into pretty specific sentences.
+
+There's not gonna be a lot of repetition.
+
+So now we need to iterate through each talk
+
+for the given years. Where(:year => year).find_each. And then
+
+for each talk we need to iterate through each
+
+value of n. And then for each value of
+
+n, what do we need to do? We need
+
+to calculate the ngram, so do talk dot ngrams.
+
+This is the method we just wrote. We're gonna
+
+pass it n.
+
+Do |ngram|.
+
+And then finally, we're going to add this to
+
+the relevant redis sorted set. So the command for
+
+that is redis.zincrby.
+
+And this goes, you give it a year, you
+
+give it a number, like one, and you give
+
+it what are you incrementing.
+
+OK. So let's look at this method now. We're
+
+gonna take, give it a year. We're gonna go
+
+through every talk from that year. We're gonna go
+
+through values of n, which is one, two and
+
+three, so let's say one, OK. Get the talk.
+
+Calculate all of its one grams. And then for
+
+each one gram, add to the year sorted set
+
+the value of one for that ngram. And then
+
+do that just a bunch of times.
+
+So let's see if this works.
+
+Let's reload. Again to prove I'm not lying. There's
+
+nothing in redis at the moment. Oops. Gotta do
+
+talk.
+
+Let's worry about those Delayed::Jobs. Perfect. Drink break.
+
+So it's going through each year now. And each
+
+talk in each year, counting up all the words
+
+and phrases and building our sorted sets. And it
+
+is done.
+
+So let's see what we got in here now.
+
+OK, cool. So we got these keys. Let's, let's
+
+look into one of these. One of the nice
+
+things about the sorted set is you can, of
+
+course, sort by it. And so the command here
+
+is zrevrange. So we can do the 2014 sorted
+
+set. So this is gonna give us the top
+
+ten, or actually eleven, top eleven, you know, ngrams
+
+in 2014. So let's see.
+
+And we can actually add :with_scores = true. So
+
+the most common words and phrases from 2014 RailsConf
+
+talk abstracts. Not very surprising. The, to, and, a,
+
+of, in, you, how. Rails. OK. Rails makes the
+
+number ten.
+
+So there you go.
+
+Now we can also, let's just have a little
+
+fun here. See what some of the sort top
+
+non-trivial ones are. Obviously you could write some code,
+
+maybe kill stop words. Stuff like that. If you
+
+don't care about them.
+
+But, so. Rails. Can code. This talk. Most popular
+
+two-word phrase. Pretty good. How to. Ruby developers. Eh,
+
+this looks pretty, pretty relevant, right. I mean, these
+
+are not words you'd be surprised to see in
+
+a RailsConf talk abstract.
+
+So those, you know, are the most common words.
+
+So we now have this. We have this for
+
+every year, by the way. So we can also
+
+do something, this is the same thing for 2011.
+
+Whatever. And the last piece of code we're going
+
+to write, is we need to be able to
+
+query this data.
+
+So, you know, the actual, sort of, website or
+
+finished product, you're gonna have to, you know, search
+
+for a term. And you're gonna have to go
+
+look up in your data, you know, what, what
+
+are the relevant values for that term.
+
+And so, how we're gonna do this. Well, the
+
+first thing we gotta remember is that we normal-
+
+remember we did this normalize for ngrams thing. So
+
+we have to do that again, because what if
+
+someone searches for a capitalized word or with something
+
+with punctuation. We have to process it the exact
+
+same way that we processed our input. Otherwise it
+
+won't match. So let's just do that.
+
+And then we have this constant ALL_YEARS. And we're
+
+gonna iterate through that with an object with a
+
+hash. Let's just build up a hash. That's probably
+
+the easy way to do it. Do |year, hash|.
+
+And the, the relevant redis command, again, is zscore.
+
+So we can do redis dot zscore(). We're gonna
+
+look up in the hash for that year, the
+
+term. And we need to put this actually in
+
+the hash. And so, and then we need to
+
+to_i that in case it's nil.
+
+OK. So this now, what does this say? ALL_YEARS
+
+is just, you know, 2007 through 2014. Go through
+
+each of those years. And then build up our
+
+hash so that the hash, the key of the
+
+year, maps to the value of, you know, the
+
+number of times that term appeared in that year.
+
+So let's, again, see if that works. Talk dot
+
+query, you know, ruby or something. Cool. So in
+
+2007 it was mentioned 52 times, 2014 22 times.
+
+Whatever. We can, I guess, we said Ember originally.
+
+And there you go. It was not mentioned until
+
+this year. Which is also kind of telling.
+
+And so this is basically, you know, all of
+
+the kind of step two code you need. That's
+
+sort of the ngram calculation, store the results. And
+
+again, I reiterate, like, everything we just did, is
+
+kind of trivially simple. There's no fancy algorithms. It's
+
+just counting, you know, putting stuff in the right
+
+data structure. Accessing it in sort of the right
+
+way.
+
+And I just think there's something like pretty, you
+
+know, insightful about that, that you don't need to
+
+do fancy things all the time. And that often
+
+the kind of the coolest results will come from
+
+something simple.
+
+And so, as I said, the last thing we're
+
+gonna do here is create this nice front end
+
+interface that lets us investigate the results. You know,
+
+unfortunately, we don't really have time to get into
+
+that. It is all on the GitHub. But, I
+
+will tell you, I use pie charts as a
+
+nice library, front-end library that makes it very simple
+
+to get charts up and running. It's actually not
+
+that much code.
+
+And I've done this already. So let's start up
+
+a server. And, oops. Let's fire up the localhost.
+
+And so here we are. The abstractogram is our
+
+app. So what are we, what are we gonna
+
+search for here?
+
+Let's see. I, you, we or something. And there
+
+we go. So there, there it is. The number
+
+of times the word you appears in each year.
+
+Looks pretty flat. So, you know, the, these are
+
+kind of constant. Anyone have any, anything else they
+
+want to search for? Let's try ember, backbone.
+
+All right. Let's say, we got, PosGres I heard.
+
+All right. I guess we could all say, let's
+
+say SQL. No one cares about PosGres this year.
+
+Service. SOA. Oh, there is sort of a rising
+
+trend of service-oriented architecture.
+
+Anything else?
+
+TDD. That's a good one. TDD. Testing. Test-driven, how
+
+about. So there we go. I'm sorry?
+
+Rest. That's a trick one though, cause rest is
+
+also like a real word that, you know, like,
+
+the rest of the time will be something else.
+
+And. Refactor. Let's see. Ooh. That's a good one.
+
+DHH. Wow. Peaked 2011, peak DHH. Let's see, we
+
+got, Heroku is a good one. On the rise.
+
+I like we can just look at Ruby and
+
+Rails. This is actually, I think, pretty relevant. It's
+
+like, what are people talking about? Not Rails anymore.
+
+We got to find something new to talk about.
+
+You know, it's like, too many RailsConfs. And, in
+
+fact, this actually came up at the, you know,
+
+there was a speaker meeting, whatever, and everyone was
+
+talking about how, you know, their talks weren't actually
+
+about Rails.
+
+And, you know, maybe this is actually an insightful
+
+statement, that, you know, the, the community has obviously
+
+gotten very large and there's just a ton of
+
+other stuff to talk about. People have been talking
+
+about Rails for a long time. And so, you
+
+know, here I am giving a talk that's not
+
+really directly about Rails. But, so maybe this is
+
+like a real trend that people are just finding
+
+other stuff to talk about.
+
+And that is pretty cool. So I promised that
+
+I would show you the repo or whatever on
+
+GitHub. You can just do bit.ly slash railsconfdata. It's
+
+just the code. Everything we've looked at today. Plus
+
+some more stuff. It's actually running live on the
+
+internet at abstractogram dot herokuapp dot com.
+
+I figure the internet's probably not working, but let's
+
+see. Yup. Classic. And, you know, otherwise that is
+
+it. And thank you for listening. And I think
+
+we have time for questions.
