@@ -1,0 +1,201 @@
+RailsConf 2014 - Looking Backward: Ten Years on Rails - Luke Francl
+
+LUKE FRANCL: Good afternoon. I'd like to get started if, I think, everybody's ready. Cool. Cool.
+
+Thank, thank you for joining me this afternoon. I'm excited to be here. And thanks for, thanks for choosing this talk.
+
+So it's been ten years since the first public release on Rails, so I think that's a good time to think back and reflect on where Rails has come from, where it might be going, and what the future has in store.
+
+So, I've been thinking a lot about the early days of Rails, lately, because the company I work for, Swiftype, makes site search software. So I use my own website for testing. So I index my site and then have to do searches on it, and I'll search for Rails. Just cause I'm not super creative and I need to search for something, right.
+
+And, in doing so, I found some old blog posts that I wrote in early 2005, when I first discovered Rails. And it was really interesting for me to read, because back then, I was, I was working as a Java developer and I was really interested in Python. And Rails was neither of those things. So I was pretty skeptical of Rails. Like, I was impressed with it, but I wasn't sure it was worth learning Ruby over.
+
+So I thought, I'll just sit back and let the Python people catch up. And I waited and I waited and I waited, and that never really seemed to happen. And so after a few months, I jumped into Rails and started learning it and I started learning Ruby so that I could use Rails. And then that fall, I got wind of a new group starting in my home town. The Ruby Users of Minnesota. And so I was, I was there at the first meeting when there was twelve people talk, who were just really excited about Ruby and really excited about Rails.
+
+And at that point I joined the, the Ruby community and became a part of that and really have not, have not looked back since then. And I've been working with Rails professionally now for about eight years.
+
+So this made me think about a book I read once called Looking Backward by Edward Bellamy. So in this book, which was written in the late 1800s and takes place at that time, a rich, upperclass man is hypnotized. And he falls asleep for over a hundred years. And when he wakes up, everything has changed.
+
+America is now a socialist utopia. And so, you know, he had it pretty good before, right. He, he was wealthy. He had servants. And now everyone is equal. And so he's pretty skeptical of this new order.
+
+So it takes him awhile, but as he's shown the new way of doing things, he becomes convinced that this is actually a better way. And that made me think of, think of my situation, where I was, I was skeptical of Rails, and, but eventually won over.
+
+So today, what I'd like to talk about is the idea of what would a programmer from 2004 think if they could time travel forward to today and experience our web development utopia. What would that be like, for them, to see how we work today?
+
+So, what I'd like to do today is first talk about what web development was like in 2004. Then, I'd like to jump forward to the present and think about what a programmer from 2004 would think about our web development utopia of today. And finally I'd like to take a look at what the future might have in store for Rails, and what the, what the legacy of Rails might be.
+
+So first, let's talk a little bit about what development was like in 2004.
+
+So if I can set the stage for a minute, I see a lot of Mac Books here today. There were no Mac Books in 2004. The top of the line Apple laptop was a Power Mac G4. And, you know, Apple had not completely penetrated the web development community like it has now. There were only, I, I used Linux at work myself. And, a Windows at home, actually. And the most popular phone, like, maybe not the most popular, but the hottest phone in 2004 was a Motorrola Razr. So, right?
+
+So things were pretty different there. Things were pretty different then. And I was working as a Java developer at the time. And I was pretty excited about that, because I graduated in 2001, right after the dot com bust. And things were pretty sketchy there for awhile. It was hard for me to find a job. And so I was excited that I was able to work as a Java developer, in the hot language at the time. And I was, I was glad that I was able to work at a software development company, where I could work on software for sale instead of working in the cost center at a, at a big bank or something like that, right.
+
+So I was working as a Java developer, and if you've ever done any Java web development, you know that it can be pretty painful, right. At the time, the, the best way to do Java web development was struts and hibernate. But we didn't use either of those. We used raw Java servelettes and hand coded J, JDBC queries to our database.
+
+So the, the real problem with Java as a, as a web development platform, at least in those days, was it, it has a really long edit, compile, debug loop. Or, in the case of, of Java web development, it's the edit, compile, deploy, debug loop. Because you have to restart your app server, and we used Web Sphere, so that took a long time.
+
+So if I needed to write a new page for, for our app, it, it was a pretty involved process. So we used raw servelettes, so that's sort of like using a raw CGI library, where it's very low-level. And if, when you work in Java, it's very verbose and you have to read from input streams and write to output streams. And it just doesn't have the conveniences of Ruby or a scripting language.
+
+So I'd have to write my servelette, then I'd have to write a bunch of XML files, or XML code in the web dot xml file to map it up. And then you'd compile everything and get it working and then restart your app server, which would take several minutes. And then browse to the new page to, to see what it, what's going on there.
+
+And that's where the fun would start, because that's when the JSPs came into play. So JSP is just like ERB, right. Instead of Ruby, it's Java. But Java a much more heavy-weight language, and it doesn't have, you know, friendly looping constructs or mapping constructs like Ruby does. So writing view code in Ruby, or in Java is not very much fun.
+
+But worst of all, the way that JSPs work is that it takes the Java, or the JSP code that you write and it compiles it into a Java class file. And then that Java class file gets compiled into code. So when you get an error, when you're debugging, you'd get this stack trace, and it would be like, NullPointer exception on line 12,075 of line 20,082, and you'd sit there and you'd think, ah. What was I doing in my JSP that could cause a NullPointer exception?
+
+And you'd look at the JSP and you'd look at the stack trace, and they had no correspondence whatsoever, right. So it's really painful. And if you were smart, you would, there was a setting, like a secret setting you could use for Web Sphere to keep around the compiled Java files. So then you could open that up in your web browser and look at line 12,075 and be like, oh. That's what I was doing in the JSP.
+
+So, web development in Java, especially in 2004, not very much fun. But there was, there was also at that time a glimmer that something better was on the way, that the web could do more. There was a new sense that the web was a powerful platform for delivering software. And I think that the earliest glimmerings of this come from Microsoft's Outlook web app. This was the first application to use what we would call today Ajax, without requiring any kind of browser plugins.
+
+So that, that came out in 2001. And people, people didn't pay much attention to it because it was IE only and it, it wasn't clear how it was working, right. And then Google launched Google Suggest. And people dissected that, and they saw how it was working. And they also launched Gmail, which gave people a new sense of what was possible in a web app. That, that web apps could automatically refresh as things were changing on the server.
+
+So there was a new sense of what was possible. That, that, that maybe there was a better way of writing web apps. And in 2004 I was also looking for something better. Because, and I attribute that to a book I read early in my career. The Pragmatic Programmer by Dave Thomas and Andy Hunt. And in that book, which is, it's a terrific book about becoming a better software developer, a better software crafts man. In that book, they talk about the importance of learning a scripting language.
+
+And that's because, if you were working in a language like Java, there's often things that are too, too small of a task to make it worth writing a Java program to do. And, but a scripting language you can, you know, knock that off really easily.
+
+So things that you might do manually, you can instead write a script to do for you. And so I took that to heart, and I went to the book store. Remember, this was the early 2000s. There were still bookstores. And I looked at all the books that they had about scripting languages.
+
+So there was a bunch of books about Perl. There was a bunch of books about Python. And there was this one book about Ruby by those same guys, Dave Thomas and Andy Hunt.
+
+So I immediately just started the books about Perl, because I'd worked with Perl before and I thought it was terrible. And I looked at the books about Python, and I'm like, this looks OK. I can see myself using this. And then I looked at the book about Ruby. And, unfortunately, what I saw in the book about Ruby was a lot of dollar signs and dollar sign underscores and at signs and at at signs. And I thought, this looks just like Perl. I don't, I don't want to learn this. This, this is, this is, this is crappy.
+
+So I decided then to become a Python programmer. And I was actually able to use Python for a number of things in my job and my personal programming. I wrote a script to migrate from one bug database to the other. I wrote a script that tied our subversion check ins to our bug database so you could reference bug numbers and link up the commits and stuff.
+
+And I, I wrote some personal scripts. But what I really wanted to do was write web apps. Because that's, throughout my career, that's always what I've been most excited about. Because I've always loved the potential of the web as a platform for enabling communication. It's, it's the most powerful and widely distributed way that you can connect people.
+
+And so every time I would have an idea for a web app in Python, I would start thinking about how it, or, I would start thinking about how it should work and what it should do. And I'd get excited about it, and want to build it. And then I'd start reading about how to build web apps in Python. And get really frustrated.
+
+Because, then there was no clear way. There was no Jengo. There was CGI in the core library, but, you know, who wants to write at that low-level? There was, then, a myriad of templating options and different object relational mappers and different ways of publishing your objects to the web and different database drivers. And, there was no clear way of deploying the software, either.
+
+So I would have this idea for what I thought would be the next great app, and then I would start reading about Python, how to implement it in Python and get frustrated and give up. But I didn't know it at the time, but there was something better on the way.
+
+So let's turn now to 2014, and think about what would a programmer from 2004 think about how we work today.
+
+And I think if you could take someone from then and bring them forward to now, I think they would be amazed. Because it's truly a great time to be a programmer. We're all walking around with a computer in our pockets that's more powerful than the desktop I had in 2004. And it has a, a better web browser, too.
+
+So think about what's different between now and then. In 2004, Ajax was in its infancy. The term hadn't even been coined yet. Today, rich Ajax frameworks come with every web application framework. So you can, you can build rich, interactive applications much easier.
+
+And, you can even write your entire frontend in JavaScript if you want to. Web browsers are immeasurably more powerful now than they, than they were then. 
+
+Deployment is much easier, too. In 2004, it was really hard to figure out how you should get your app up on the web. You could colo, but that was expensive. You could use shared hosting, like, DreamHost or something like that. But those servers were underpowered and kind of weak.
+
+Today, you can spin up a server with the click of a button. You can manage everything yourself if you want to use EC2, or you can rely on platform services like Heroku or Google App Engine. And this is really great for programmers, because you don't have to be a great programmer and a great sys admin now to launch a web application. You can let other people handle that part. And that's terrific.
+
+Another thing that I think is really powerful about how we work today is that in, today we have access to all of these web service APIs, with a simple HTTP request. You can extend the functionality of your app really easily by leveraging these services.
+
+There's everything from search, like my, my company provides, to payments from companies like Stripe, and even telephony from companies like Twillio.
+
+So with just an HTTP request, you can add that kind of functionality into your application super easily. And best of all, you're us- they use JSON instead of XML. So there's no XML setups like there was back in the early 2000s.
+
+But what about Rails? Like, what would a programmer from 2004 think about Ruby on Rails? Well, I think if you could bring someone, or talk to somebody in 2004 and say, in ten years the best way to make a web app is gonna be this thing called Ruby on Rails. I think what they would say is, what on Rails?
+
+It's difficult to overstate how marginal the Ruby community was in 2004. When David publicly demo'd Rails at RubyConf 2004, there were probably less people in the room than there are right now. That, there were about sixty people at that conference.
+
+Today, there's dozens of conferences around the world, and thousands of people make their livings using Ruby and Rails. The community has grown tremendously since those days.
+
+But what about the features? The features were really what made Rails succeed. And if I think back on what I first thought about Rails when I saw it, like, what impressed me. Things that, that really stand out in my mind are things like live reloading.
+
+Compared to how I was working in Java, where it was like, a really long cycle to get anything up on the screen, in Rails, you could edit any file. You could edit your model, you're, you're views. Even your database schema. And reload your browser and it was right there. And that was tremendously exciting.
+
+And, if you had an exception in your, in your view, you would see exactly which line of code caused it, and not have to wade through these huge stack traces that had nothing to do with what you were working on. And that was tremendous for developer productivity.
+
+Another thing that was a real big win for developer productivity, for me anyway, was the development console. Rails let you just type a single command and get full access to all of the code that you'd been writing. So, for me, I keep that open all the time. And I am always constantly trying out things and experimenting and trying to figure out how different APIs work by using the developer console.
+
+This is something that I'd been able to get working in the Java world using a tool called BeanShell, which is like a Java scripting framework. But it was nowhere near as good as the Rails console, and, you know, it just was a lot harder to, to get working.
+
+Related to that is just the idea of having separate development environments. Rails came right out of the box with development, production, and test, and has separate databases for all of those things. So you didn't have to worry about mixing your code together.
+
+You could have separate configurations for testing and production and development. And that really helped with the software engineering side of Rails.
+
+Finally, the, the, the last big feature that I think really stood out to me was ActiveRecord and migrations. ActiveRecord was super exciting, because here, this, this, this, this code is sort of magically intuiting the, the fields from the structure of your database. You didn't have to write any code at all. And for someone who was writing SQL statements by hand, that was really exciting.
+
+And migrations were awesome, too, because you always need to transition the state of your database in your, in your application.
+
+And, again, this is something that we had built at my job. But ours was not as good. It, it used raw SQL, so you would write SQL statements to, to transition the database. And it was tied directly to the app version that, that we had. So, when you would release a new version of the app, you would have to sync that with the database. The database version would have to be synced with that.
+
+So there was, there was no way to independently migrate the database.
+
+And there was no way to go down. So you had to get it right. Rails was better than that.
+
+But why did Rails win? Why, why was Rails exciting to people? Because all these features were available elsewhere. I think there's three reasons.
+
+First of all, while each of these features was something that you could get in other web programming frameworks, Rails brought them all together. Rails was the whole package. So Rails took things that were possible and made them easy. It, even that, it made them the default.
+
+So Rails took a lot of best practices and put them together in one thing that you could use super simply. And that was really exciting to people. Even, even for me, because I was able to, to do some of the things that Rails had. Having it together in one package was super exciting.
+
+The second reason I think Rails succeeded is the triumph of hype. If you go back and read the early blog posts about Rails, it's really interesting because it really caused a furor in the Java and the Python world. Because people were like, well, why can't we do this? And in the middle of all that, you saw DHH. He was constantly promoting Rails and getting into discussions and arguments with other people and blogging about it. And he, he was relentless in promoting Rails, and the early Rails community was relentless in sharing their enthusiasm for this new thing.
+
+And I think that that matters a lot, because it's not enough to have great code and just put it up on the internet. That, that never works. You need to tell people about what you're doing in order for them to know about it. And you need to explain clearly and concisely why it's better than what they're doing now. And Rails, David and the Rails community really succeeded at that.
+
+Third. Another reason that Rails succeeded is the triumph of community. From really early days, Rails had the ability to be extended with plugins. And so people wrote plugins that would take care of default areas, or not, not default areas, but common areas of your application, like logging in or uploading files.
+
+These are the things that you needed in your app, but they weren't core to your app. And so knowing that you could take advantage of these, these plugins and later gems really made picking Rails an easier choice.
+
+So ultimately, Rails was successful. But what about the future? What does the future have in store for Rails? I think that Rails does face challenges in the future, because, because the web is changing. What people want to do on the web is, is becoming different. And indeed the, the future of the web I think is even in question.
+
+So let's look at two challenges to Rails. First of all, now that browsers are more powerful, people are able to write more of their app on the frontend. And so, when you do this, you don't need the kind of classic web app that Rails is. Rails is really good at generating a lot of HTML and shipping it down to the client. Kind of the classic web app like base camp.
+
+But when you're writing your entire app in JavaScript in the client, what you need is the ability to talk to the server with an API. And when that's all you're doing, people can question, why do I need Rails? Why do I need all of this extra stuff that Rails does? I'm, maybe I should just use node.js, and then I can write, you know, the same language on the client and the server.
+
+Similarly, mobile apps are becoming increasingly popular, because you can do so much more with a mobile app than you can with a web app. The user interaction is much richer and, and faster and, and just cleaner. And, again, these kind of apps talk to the server with an API. And so people think, well, I don't need Rails, then.
+
+And I think that this, this is a threat to Rails. But there's two key things to remember about this. One, Rails is great at this kind of thing. In our application, we serve hundreds of millions of API requests a day, a month, using Rails. And the way that we do that is not using action Controller.
+
+But Rails makes it easy to pick out only the parts of Rails that you need to use. And so you can, you can take Rails much further than many people think, I believe.
+
+Second, even if you are building an API heavy app, not all of your app is going to be API based. You are going to need a management console to handle the backend of your application. Pretty much every app has this. You need a way to look up your users and, you know, change their account status and things like that.
+
+And, are you gonna build an iPad app for that? I don't think so. Because it would be too expensive and slow. The web is still the best way and the easiest way to distribute an application.
+
+So Rails has a real, I think, has a place for that. Or, there's a place for Rails, even in an API-driven application.
+
+But even if the web, as a platform, and Rails as a, as a framework, can't adapt and fall by the wayside, I think the legacy of Rails will really live on for a long time. Because this idea of taking things that were possible and making them simple, making them easy to do, is really powerful. And it inspired programmers in many different programming languages to, to copy Rails and to try to get those benefits for themselves.
+
+So I think no matter what the next platform is, people will be inspired by that aspect of Rails, and they will want to write the Rails of whatever.
+
+I'd also like to look at the reaction against Rails. Because that's part of Rails's legacy, too. There's two examples that I'd like to talk about here. First of all, there's Jengo. So Jengo can't be considered to be inspired by Rails, because it was developed at the same time or even earlier than Rails.
+
+But since, the, the two frameworks have been really similar and, and, and have learned a lot from each other I think. But the way that Jengo works, it is really driven by the Python philosophy of explicit is better than implicit. So in, in Jengo, when you, when you like what to map up a url on your server, you think really hard about what that url is going to be.
+
+It doesn't happen automatically. And your database models tell the database what its fields should be, instead of the other way around. In Rails, of course, we follow convention over configuration, right. But if you've ever tried to teach someone Rails, you know that this can be a double-edged sword.
+
+Convention over configuration lets you write less code, but it also makes it less clear what's happening. When you're teaching somebody Rails, it can be really confusing that you edit a route in this file over here and therefore your controller over here needs to be named this and it has these methods available to it that respond to these HTTP requests. Or HTTP methods.
+
+That is not at all obvious. And so it takes time to learn all those conventions. And, I mean, I don't think one is better than the other. They're just, you know, different sides of the same coin. Different ways of looking at how programming should work.
+
+Kind of related to that is the second example, which is microframeworks. Like Sinatra. These have been incredibly influential. And I love using Sinatra. It's just, it's like such a thing of beauty, when you can have your whole web app in one file. And the, the urls that are, that are in your web app are just tightly connected to the code that's going to run when someone goes to that url.
+
+It, that is like a really wonderful feeling, I think. And Sinatra has been probably even more influential than Rails. There are copies of Sinatra, or Sinatra-inspired microframeworks anyway, in just about every programming language you can think of. Anything from Java to PHP to Clojure, Go, JavaScript. Even Haskall.
+
+All of these have a version of Sinatra.
+
+And in some languages, these microframeworks, the microframework inspired by Sinatra is the default way people write web apps. It's the best way that they have. And I think that that is kind of a problem, because while I love using Sinatra, when an app gets above a certain size, I find myself pulling in more and more of Rails.
+
+And at some point I feel, well, I might as well just switch to Rails. And so, in these, I feel bad for these programmers in these other languages, because they don't have the choice to switch, necessarily, to something as good as Rails.
+
+So I think, I think Rails actually has a bright future ahead of it, because it, it's shown the ability to adapt and respond to change. Think about Rails 1 point 2 and the addition of REST and making that the default way that we think about controllers and resources on the web.
+
+So I think that if people want to use Rails to back JavaScript-based applications, Rails will get better at that. And if people want to use it to back mobile applications, it will get better than, at that. But you'll still have the ability to use Rails for what it's good at when you need to.
+
+All right. So we've talked about what programming was like in 2004. We've talked a little bit about the features of Rails that made people want to use it and made it win. And we've talked about what could happen in the future. What is the, what's the legacy of Rails and will it be able to adapt?
+
+So a hundred years ago, or, actually, more than a hundred years ago, when Edward Bellamy was frustrated with the way things were going, with how society was working, he took up his pen and he used his imagination to create a new world. This, this utopian novel, where he could explain how he thought things ought to work.
+
+Now, that may seem kind of pointless. Because it's the twenty-first century. America is not a socialist utopia. But that book was incredibly influential. In the years after its publication, hundreds of Bellamy clubs were started across the country, and millions of people were inspired by the ideas written in the book.
+
+And those people, and those clubs formed the nucleus of the progressive movement in the early twentieth century, that broke the trusts and monopolies, and ultimately paved the way for social security and the American welfare state.
+
+So the book did have a huge influence on, on the world.
+
+Programming, on the other hand, is a little more concrete. So when DHH was frustrated by how programming, web programming worked in 2003 or whatever, he was able to do something about it. He cracked open his text editor and got to work and built something that people found inspiring.
+
+And when they saw it, they wanted to meet other people who were interested in that. And that was the genesis of the Rails community. And so today, you know, we're all here today because of the Rails community and because of what, what developed over those, those last ten years. So I'm really, really pleased to be a part of that community, and really honored to be speaking to you today about that.
+
+And it, it's made a huge impact in the direction of my career. And I just find it inspiring. I find it inspiring that as programmers, we can see something that's broken and we can fix it. We can create a new reality for ourselves with code. And I think that that's a really powerful, really powerful notion.
+
+And we also shouldn't forget the lessons of Rails as we did that. Because Rails didn't just win because it was, because it was better, though I, I do think it was. It won because of the community around it and because of the, their passion for telling people about what was so good about Rails.
+
+So most of us probably are not going to write the next great framework. I, I, I don't imagine that I will. But I think that this, we can take to heart the lessons of Rails in our own work and in the libraries that we're writing.
+
+Don't forget to, to, to try to make things easy. To try to make it easy for your fellow programmers. And don't forget to tell people about it and explain why they should use what you've written. And I think if you do that, you can help make the world a better place.
+
+Thanks.
