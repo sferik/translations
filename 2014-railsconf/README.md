@@ -11,3 +11,5 @@ Technical Onboarding, Training and Mentoring - https://www.youtube.com/watch?v=L
 Where did the OO go? Views should be Objects too! - https://www.youtube.com/watch?v=WAN_P1m76GQ
 
 Looking Backward: Ten Years on Rails - https://www.youtube.com/watch?v=VnhVkzop1_w
+
+How to be a Better Junior Developer - https://www.youtube.com/watch?v=GJW46x27W1w
