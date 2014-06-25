@@ -6,4 +6,6 @@ Demystifying Data Science: A Live Tutorial - https://www.youtube.com/watch?v=2ZD
 
 Artisans & Apprentices - https://www.youtube.com/watch?v=96cqqEfGSFg
 
-Technical Onboarding, Training and Mentoring - https://www.youtube.com/watch?v=Lpg4jRSH7EE (timings not set yet)
+Technical Onboarding, Training and Mentoring - https://www.youtube.com/watch?v=Lpg4jRSH7EE
+
+Where did the OO go? Views should be Objects too! - https://www.youtube.com/watch?v=WAN_P1m76GQ
