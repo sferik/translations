@@ -1,0 +1,203 @@
+RailsConf 2014 - How to be a Better Junior Developer - Katherine Wu
+
+KATHERINE WU: OK. Cool. I'll guess I'll go ahead and get started, then.
+
+Hi. And, thank you all so much for coming to my talk here. I'm K Wu, and I started at New Relic just about eight months ago. And it's my first developer job there. And for my talk today, I'm going to first give a bit more context around where I'm coming from and my intentions for this talk.
+
+I'll then dive into what I see as the main challenges for being a junior developer, and I'll talk about my tactics for how to overcome these challenges.
+
+There is a lot that I want to cover, but if you're taking notes and happen to miss something, I have written a post for the New Relic blog that went up this morning that you can reference. And I also have a link to my slides at the end.
+
+So. How many people here are junior developers? OK. Awesome. Cool. And how many people did something else professionally before they worked as developers? Nice. OK. So we are like amongst our own people here, right. Very cool.
+
+For me, being a developer is probably, like, the fourth or fifth career I've had at this point. It's hard to keep track. Some of the other jobs I've had in the past are things like product specialist, tech support. I used to work in a biology research lab and I also did some copy editing on the side.
+
+So the thing is, compared to people who have been coding since they were kids, I am literally decades behind. This makes me just feel like I have so much to catch up on. However, something I've realized is that being a developer is essentially about constantly learning new things. And guess what? I'm pretty good at that. I'm really practiced at it with picking up a new career and starting over and over again. And so, despite what my parents think, I like to think that my previous lack of direction is now an asset.
+
+The other thing I've realized over the last few months is that a lot of it can actually have nothing to do with coding. If you spent a lot of time doing something besides computer science, that means you have more experience for all of the non-coding portions, and that means you can leverage those skills from that experience to help your team while you get better at the technical aspects.
+
+My thesis is that, just because you switch careers doesn't mean you're starting over entirely. And, in fact, you can still use those other skills that you have. You may already know the different tactics I'll be talking about today, so I hope I can prompt you to consider new angles and get excited to apply them as a junior developer.
+
+There will be sections that are actually more targeted towards mentors, but, if you have a mentor but he or she doesn't happen to be here today, maybe you can bring some of these ideas back to them and discuss it.
+
+For senior, any senior developers that might be in the audience, I hope to help you remember what it feels like to be on that junior side of the mentoring relationship, and think about ways that you can help your proteges feel valued in a very concrete kind of way.
+
+I think there are two big reasons for why it's hard to be a junior developer. First, there's a ridiculous amount to learn. How many people feel like that? Yeah. Like, pretty much everyone here. Cool.
+
+Second, I think it's also really hard to know how you can help your team and not just feel like this helpless little baby bird here.
+
+I'll talk a little bit about these challenges and how to handle each of them in turn.
+
+My three step, fool-proof plan to tackling the fact that there's a ridiculous amount to learn, is really all about not trying to do it all just on your own.
+
+Getting people to want to help you in the first place can be a little bit of a hurdle sometimes, depending on how supportive an environment you happen to be in. I've been really lucky at New Relic. But I think there are always things that you can do even if you feel a bit more isolated.
+
+People, fundamentally, just aren't all that different wherever you go. A lot of this boils down to so-called building relationships. But I prefer to think about it as really just getting to know people and making friends. Because, of course, friendship is magic.
+
+I personally find this pretty hard, because I'm actually a pretty strong introvert. I fully expect to spend most of tonight, like, huddled in a ball, like, trying to recover from today. But, you know, the thing is, a lot of developers, by and large, are also pretty introverted as well. And so sometimes it can be hard to try to get the conversation going. You know, even if you, you know, both really want to connect.
+
+Luckily, at my last job, I worked with PM and engineering and came up with a few hacks. What I do is I try and pay attention to, to try to remember small details that people have told me. Especially about their lives outside of work. Sometimes it's actually even easier for me to remember these details than peoples' names. But usually people are pretty forgiving once I tell them, I do actually remember talking to them for like two hours about their love for, like, antique banjo collecting or something like that. 
+
+This makes for much better conversations than your typical small talk. Another really dorky thing that I do, is that I actually sometimes mentally prepare stories to get a conversation going. Like, right after a weekend, I'll try to think of something interesting or odd that I did, so that I'll have a non-generic answer ready for when someone asks, how was your weekend?
+
+Otherwise I just kind of freeze up and just say, oh, good, which is kind of a boring answer and doesn't really get conversations started. Does anybody else have that knee-jerk reaction sometimes? Yeah. Totally.
+
+Well, with a story to tell, what I find is that this can then prompt questions and get some back and forth started, which breaks through any awkwardness there might be.
+
+Helping break through awkwardness is also something that mentors can do a lot to help with. Mentors are really great for guiding newbies around team culture and history. They can help make introductions and give advice on how to approach other people. Like, what the two of you may have in common, or who's a good person to ask about what.
+
+Also, I think that if your company has a support team, you should definitely make some good friends there. Support tends to be a little bit chronically undervalued, but they probably know way more about the products than you do. And if you think about it, they're very practised at explaining the product to newbies like your fellow customers.
+
+When I worked in tech support, sometimes they would have engineers shadow us so that engineers could learn how the customers actually used our product, and use it to inform design decisions that they might have. And I definitely always really preferred the engineers that were really eager to learn from me.
+
+Another key component to getting people to want to help you is to demonstrate the time that they're taking. And so that you took a reasonable amount of time to get as far as you could on your own. Each time someone helps you, you'll be able to learn new tactics and push yourself just a little bit further before the next time you have to ask a question again.
+
+When you do ask for help, you can also ask questions like, if you're busy, who else could I talk to about this? When someone does help you, you can always end with asking something like, is there somewhere I could have found this answer on my own? And if the answer is no and there isn't any good reason it doesn't exist already, you should add it.
+
+When you do have someone's time, try and think of ways to sort of push out and extend what you're learning from them at that point in time. That way, you'll be equipped when a variation of that same question comes up again.
+
+Lastly, for getting people to want to help you, something just as simple as showing your appreciation really goes a long way. Great mentors and teachers would, of course, probably do it regardless, but I just think it never hurts to make people feel extra good about doing something that helps you. Making sure to notice when people have gone out of their way to help you encourages more of that to happen.
+
+If you're working somewhere that's big enough, where not everyone knows what everyone else is doing, you can also do things like, let peoples' managers know when they've been particularly helpful. Most managers like hearing good things about their reports, and most people like their managers to now the good things they've done for the team. So it's just a nice thing to do all around. We've covered step one now of getting people to want to help you.
+
+Step two is make it easy for them to help. Help them help you. There are a few different ways you can do this. I think actually that one of the hardest parts to learning is just letting people see inside your head and understand where you're at right now. But this can be really hard in a field like programming, where sometimes you might not even have the vocabulary to express what it is that you don't understand because you don't understand it.
+
+Great teachers can draw it out from you, even when you're asking pretty vague questions. But most people that you work with probably aren't highly trained teachers. So there are ways that you can make it easier for others to help you by articulating the premises that you're working off of and the logic that you're using, so that together, you can narrow down what it is that you don't understand or are missing.
+
+You can say things like, you had me up until such and such a point, or I'm confused, because I thought you said this and then this, but it doesn't seem to lead to this point. This is a good general format for describing problems that you might have. Say what you're trying to do and why, so that someone can jump in if that's not even actually the right goal to be aiming for in the first place.
+
+Also, describe your current problem and what you've tried already. Sometimes people might jump in quickly with their idea of what the answer to your question is already, but I think it's still good to be prepared regardless. And if you're a mentor, just consider that you should check to make sure that you understand the question before you go ahead and answer it.
+
+When I worked in tech support, the best clients actually put all of this information up front in their ticket, which saved us a ton of time on the back and forth from just trying to even figure out what the question was.
+
+Remember that just having the courage to say I don't know is a strength. Exposing your own ignorance feels really scary. So I'm always practicing actually saying things like, wait, I don't even know what that words means. I say this all the time.
+
+But if it's something that's vital to understanding what people are talking about, the sooner I tell people I don't actually know what's going on, the sooner I can get to actually learning and working.
+
+Of all the advice I got when I started at New Relic, this one is my very favorite. One of the best things that mentors can do when junior developers are confused is even just validating that feeling. Being honest, and saying, this is confusing for me too. It always, without fail, makes me feel better when someone I expect to know the answer actually says they don't know it either.
+
+And then it becomes this team effort to figure out how to get out of this hole of ignorance together. It's also cool because when you work with someone that also doesn't know the answer, you'll frequently learn new debugging techniques that you can apply yourself next time.
+
+Now, I want you to think back to the last few times you asked someone for help. OK. How many of you, after you got help from someone, heard something from them that was like, did that help? A few people. Yeah. I get this all the time. And I realized that this is because most of us are really needy and want validation. That's because, and so, my favorite feedback that I get from people is usually people telling me that they actually used any advice that I gave them.
+
+So when you tell people specifically what it is they did that helped you, they'll know what they can do more of. For example, it really helped me when you walked me through how to use these tools with this example. Or, it really helps me to be the driver when we pair program, because I absorb more than when I'm just shadowing.
+
+One way of looking at mentoring relationships that I really like is from the book club that we had at New Relic when I first started called Managers as Mentors. The idea there is that mentoring should not be about this traditional mindset of a one-way transmission of information. And instead, it's the mentor's responsibility to create a safe environment and remove any barriers to learning, so that their mentees can speak up about any fears they might have, and not be afraid of failing.
+
+This way, they can learn a lot more and a lot faster.
+
+I know, for me, making the move from just working on my own projects that no one was depending on to working on something that actual people were paying us actual money for was pretty terrifying. Sure, we have this idea of failing fast, but it's so hard to apply it when you don't feel secure.
+
+What helped me was all the support that I got from mentors sharing their stories about how they'd messed things up, too, and the idea that it's not a matter of if you break production, but when.
+
+And when you do make mistakes, your team should have processes set up in place to make it easy to recover quickly and ways to try to prevent that same mistake from happening again. If none of these processes exist already, you should try to help establish them. Because if just one person can ruin everything, that's a pretty big problem for the entire team.
+
+Something I'm a really big fan of, as well, is just having a direct conversation up front about someone's learning style along with the other person's teaching style. This way you can try to sync them up and talk through any mismatches ahead of time before there's any conflict. It's great when mentors show that they're open to feedback along the way as well, so that they can continue iterating and adapting their style to match whatever will help the junior learn best.
+
+It's also really important to talk about how you prefer to be interrupted. My mentor at New Relic, David, told me that I could interrupt him pretty much any time. And because he was really clear and direct with me when he couldn't help me right then, and still always gave me some other resource to try, I had that much more confidence in it being OK to interrupt rather than bottling it all up and just saving it for our designated weekly meetings.
+
+When I started, David's desk was right next to mine, so that even when I was talking to other people, he could sort of lightly listen in and jump in whenever it was clear to him that I was missing something fundamental. As my mentor, he had a better overall understanding of where my knowledge level was at, so he could help others help me, too.
+
+If, as a mentor, part of your philosophy is to let people struggle, this is also something that's good to make clear up front. It's really good to talk about this, because that way, you can let the juniors know that you are intentionally doing this. And it is out of a faith in them, rather than setting them up to fail or having misplaced expectations.
+
+Just being reminded that you expect this to be hard goes really far towards dispelling any sense of impostor syndrome, where you might have this sinking feeling that it should be easier. But that's wrong. It's supposed to be hard.
+
+Finally, I think it's ideal if you can push up responsibility for deadlines. The junior developer's job is to keep everyone up to date so that no one is surprised by how much work is left to do. On one project, a couple months ago, when I was freaking out because I felt like it was taking me forever to learn even just the basics of D3, one of our project managers came to me and said that shuffling resources is his job, so that I could go back to learning and struggling. And if at any point the project deadline was in danger, the burden wasn't entirely on my shoulders.
+
+Now we have covered these first two steps.
+
+We are just a little bit halfway through. So I just want to take a real quick break. Humor me. If you could all just sort of sit forward in your chairs a little bit. Thank you. And go ahead and just put your arms behind your back like this. And just try to stretch and pull your shoulders down and back a little bit. Just try to counteract a little bit of the terrible posture a lot of us probably have over a hunched over computer. OK. Cool.
+
+Feels better. I do this a lot when we do stand ups actually, because it's like a good time as any to stretch and be slightly more ergonomic.
+
+All right. Back to where we were.
+
+The final step in tackling how much there is to learn is much like how you'd approach any other gnarly technical problem. Narrow your scope. Mentors are highly helpful here, too, because they can help prioritize what to learn next.
+
+For example, one of my things is that I still actually need to build a Rails app from the beginning. Know that it's important to deliver recommendations at the right time. If a mentor gets really excited about yet another new thing to add to the junior developer's plate and just sort of blurts it out right then, this can sometimes be taken a little bit like, wow, it must be really important to be told right away that I need to know this. Maybe I should know this already? Which at least, for me, can sometimes lead to a little bit of a death spiral of self-doubt.
+
+You also have to match up learning style with the tutorial style. This is important, because a lot of programming tutorials, well, they're kind of like this. How to draw an owl. Step one, draw some circles. Step two, draw the rest of the owl.
+
+How many people have done tutorials that are like this? Yeah.
+
+Well, even on more detailed tutorials, there are differences, like whether the work is goal-oriented or not. For me, it's actually harder to stay motivated when I don't have a specific thing that I'm trying to accomplish. I like structure and being too free-form actually means that I'll get bored. For example, I took calculus in high school. And it was fun and interesting.
+
+But it wasn't until I took physics in college that I was like, oh, that's what calculus was invented for. But that's just me. And other people might be similar or very different.
+
+Also, in terms of content, my personal view is that the highest value areas are things like team processes for code review and version control like git. And specific product, product knowledge over more generalized programming knowledge.
+
+This might be a bit controversial, but I think less useful are actually things like getting too much into optimizing your tools and environment. Or even learning tons of keyboard short cuts. At least to start. Keyboard short cuts are fun and useful, but let's be honest. Right now, how fast I can type is not the limiting factor in how fast I can complete a feature.
+
+So that wraps up my ideas for how to tackle this first challenge of how there's so much to learn as a junior developer. Next, I'll talk about ways that even junior developers can help their team immediately.
+
+Knowing how to help your team is hard because maybe you feel like you're a drag on your team's productivity with how much help you need right then. How many people have felt like this?
+
+Well, in one of the first conversations that David and I had, I actually pretty much just straight up asked him, how did you get stuck with me? To his and New Relic's everlasting credit, he immediately reassured me that it wasn't that he got stuck with me, but that he wanted to learn to be a good mentor himself. So it was from there that I realized, ah, even my ignorance can be helpful for the team when it gives them opportunities to practice things like mentoring.
+
+Also, even if you are a junior developer, your technical contributions are still important. Yes, you may be working on features that someone else may make faster, but in a world where there is never enough junior developers for all of the, you know, or just developers in general, for all the developer jobs that are out there, it's not actually necessarily a choice between a junior developer building it slowly and a senior developer building it really quickly. It's a choice between having something built and not having it at all.
+
+Don't forget, either, that everyone started out at your point at some, at some point, and you won't be at your current stage forever. As my southern friend likes to drawl, no one comes out of their mama's womb knowing how to code. Just think about that for a minute.
+
+So onwards to some of the other non-technical ways you can help your team right away. First, I really strongly believe that questions are basically the junior developer's super power, and as we all know, with great power comes great responsibility. Fresh eyes are helpful, but you can specifically figure out how to be an extra helpful set of fresh eyes with the use of skillful questions.
+
+Good questions are invaluable for highlighting assumptions and helping the team avoid dead ends, which helps you all move faster. Questions like, are we working on the right thing? Or, is there a reason we're doing it this way? This is something that came up in my old job, too. Because sometimes this uncovered an actual misunderstanding about a feature's requirements, where, like an offhand comment from a comment email, got interpreted as a must-have item.
+
+Getting rid of these kinds of things saves everyone a lot of time and disappointment.
+
+Has anyone here ever worked as a consultant or product manager at all? So you probably have similar stories like that, too. Of course, you do want to ask your questions in a way that won't put people on the defensive. If someone hisses at you, that's probably not a good sign.
+
+Try to express humility, since you're asking these questions from a place where it's because you want to learn rather than assuming that you already know. You can also think about questions that other non-engineering people might ask, like your sales or support teams. Getting these answers earlier on gives your team a jump start on looping in other teams as needed.
+
+And if the only answers your team has are pretty vague, that's an opportunity to dig further for greater clarity. OK. We're two thirds of the way through the outline now.
+
+On the other side from asking questions, providing constructive feedback is really important, too. If you've had another career before now, this is a skill that I am sure you have already practiced. Giving useful feedback to the right person in the right venue at the right time is hard for a lot of people.
+
+For me, when I worked in tech support, we'd frequently do quality reviews of each others work to try to improve the customer support experience. And we'd also just do general peer feedback every few quarters. Which meant that I got a lot of practice at phrasing feedback in a way that wouldn't lose me any friends, hopefully.
+
+Before offering feedback, I like to spend some time thinking about what would be useful to the person receiving the feedback. What is it that they want? What are they trying to do? You always also get bonus points for bringing suggestions for solutions with you.
+
+It's hard, sometimes, to refrain from nitpicking just for the sake of having something to say, but it's worth it to increase the value that people get from listening to you. You just want to have a really high personal ratio of useful to not-useful things to say. 
+
+Something else I've been trying lately is to give positive feedback whenever there is an opportunity. I don't mean, like, fake positive compliments or anything like that at all. But just that it's a lot easier in most cases to complain about something than to remember to speak up when there are good things to talk about.
+
+My hope is that this is helpful in the longer term, so that I can build up a general reputation for being a positive person. And any negative feedback I have will be taken more seriously.
+
+On the other hand, sometimes giving good feedback can also mean just stating, I don't have an opinion on this topic, so that you withdraw yourself from the pool of people weighing in. It makes life a lot easier for whoever's in charge of getting the group to a consensus.
+
+So now we've covered two strategies for helping your team. Lastly, there's a lot you can do to make your team look good to other teams. It isn't all that hard. It helps your team feel good and it helps other teams feel good, too, about working with your team. One of the common areas this can come up in is in any demo or review team, meetings your team might have. You can give awesome demos just by being thoughtful and prepared.
+
+Think about why this change matters to your audience. Why should they care? And think about how you can show the before and after, doing things like grabbing screen shots, so you can show new and old side by side. Or gathering metrics to show why the thing that your team did is actually a big deal.
+
+Demos are also good for getting full credit for your team, for everything that they've done. Even ones that aren't easily visible. You can do things like talk about corner cases and, you know, choices that you either decided to do something about right now or have consciously chosen to delay, so that it shows other teams, shows these other teams that you've been thoughtful about your impact to them, like the supportability of a new feature you've released.
+
+I like to over prepare. So I almost always write a script, which is sometimes a literal word-for-word script. But more often, it's just a list of what I want to show in a particular order so that it flows well and I don't end up having to backtrack because I've forgotten something.
+
+I also like to do a test run through, so that this way, I'll know everything I need to get preloaded onto my computer, which makes the demo really efficient and less prone to errors.
+
+In general, making an effort to be responsive, thorough, and empathetic really goes a long way. I'm really proud of the time that someone on our support team at New Relic told me I was her favorite engineer to work with, mostly just because I was being really responsive. All this just helps people feel heard, and knock down any stereotypes that engineers don't care about what other people care about. And so this way, when your team needs their help, they'll be there for you too.
+
+That wraps up my ideas for how to tackle the challenge of figuring out how you can help your team even when you're a junior developer.
+
+Before I finish up my talk, I do want to mention a few caveats and pitfalls to avoid. I'm hoping that mentors, in particular, will help out with watching out for these.
+
+Sometimes, I think there's a bit of an issue in the tech community of undervaluing non-technical skills, and a lot of what I've talked about is essentially using your non-technical skills to help yourself move forward. The thing is, you just don't want to be assumed to just be the secretary, which I don't mean as a diss on secretaries at all. It's just not the job that I'm working towards.
+
+There's also a phenomenon called the Girl Scout tax, which comes about because we have a stereotype and expectation that women are helpful. Unfortunately, this leads to a lot of women not getting credit for the help that they provide, because supposedly, that's just what women do. They're helpful. This is just one of those unconscious things that we probably all do from time to time, and so we should all try to watch out for it so that everyone gets recognized and appreciated for the work that they do.
+
+You just don't want to get sidelined or pushed into a role you're not interested in. Everything I've talked about today is from the stand point that you're willing to do whatever's best for your team in the short term, but you all need to be doing what's best for everyone longer term as well, which is to help you grow as a developer.
+
+Ultimately, keep focused on whatever your end goal is. Whether that's getting better at coding, working on bigger features, or learning about the market and industry. This way you can consciously choose what things you'll do that will bring you closer to the goal, and not do things that will move you further away from it.
+
+These are some recommendations for further reading. The first two are books that are actually pretty quick and easy reads. Teen Geek was written by a couple of Google engineering managers who actually co-founded the Google's engineering office here in Chicago. And that second book, the Upside of Down is a good book if you feel like you're being held back by a fear of failure.
+
+The other four are blog posts that I also found really interesting and full of good career advice for junior developers.
+
+So here's the full outline of everything I've talked about today. I think there are two main challenges in being a junior developer. For the problem of there being so much to learn, the three step plan is to get people to want to help you, make it easy for them to help, and narrow the scope of what you're trying to cover.
+
+For the problem of not knowing how to help your team, always remember that good questions are the junior developer's super power. You can also do a lot by giving good feedback and making your team look good in front of other teams.
+
+In conclusion, we talk a lot about the benefits of diversity, but if you're the one that's bringing diversity to your team, that can be hard, because the typical narrative won't use your particular strength set much, because by definition, they're different. As my first boss told me, we can and should work on our areas for development. But it's really your strengths that you can lean on most heavily to get you where you want to go.
+
+So to all the junior developers and career searchers out there, I just want to say, you deserve to feel confidence in yourself as a person. Place your confidence in your proven ability to learn over your current level of coding knowledge. It's only a matter of time, and I hope I've helped you shorten that amount of time as a junior developer, and so someday, when you'll be mentoring junior developers yourself.
+
+Thank you.
