@@ -1,0 +1,1257 @@
+RailsConf 2014 - Distributed Request Tracing - Kenny Hoxworth
+
+KENNY HOXWORTH: OK. I want to first welcome everyone
+
+to the Distributed track at RailsConf this year.
+
+This is the first year that I think
+
+we've been doing a distributed track.
+
+So I'm excited to be able to give
+
+you guys a talk on distributed request tracing.
+
+A little bit about myself real quick. My name
+
+is Kenny Hoxworth. I am a software engineer at
+
+Twilio. I'm actually not doing any Rails development anymore,
+
+unfortunately. But, I have taken a number of the
+
+things that I've learned on the scaling architectures that
+
+Twilio has as part of their services and thought,
+
+there's a lot of stuff that can actually come
+
+back to the Rails world. And that's kind of
+
+what I want to be able to bring to
+
+you guys today.
+
+So, real quick, I just wanted to talk about,
+
+before we get into the investigation that, that lead
+
+us down the path of Twilio's architecture, I wanted
+
+to get into really what request,
+
+distributed request tracing is.
+
+And so request, distributed request tracing can be kind
+
+of thought of as a profiler for, for your
+
+distributed system as a request goes into your distributed
+
+system. So we have profilers for a whole bunch
+
+of other frameworks and programming languages where you can
+
+break down and actually see what function call is
+
+taking so much time and what is the exactual,
+
+the exact stack trace for each function call.
+
+And so the distributed, a distributed tracer essentially provides
+
+the exact same profiling from a request cycle as
+
+a, as it enters into a distributed system. So,
+
+given this, given this diagram, you can look at,
+
+this is exactly a profiling diagram of a, of
+
+a full scale trace running from end to end
+
+as it entered and exited a system. And then
+
+a web service call that, that actually was the
+
+first call that was made in the distributed system.
+
+An off service that ended up getting called as
+
+a, as a part of that, and then another
+
+DB call. And then after everything was done on
+
+the web service side, it got handed off on
+
+a worker thread to finish up some processing or
+
+whatever else.
+
+OK. So, I work on part, I work on
+
+the messaging team at Twilio, and I'm not familiar,
+
+or, I don't know if all of you are
+
+familiar with what Twilio does. But Twilio provides an
+
+API for voice communication. So you can actually send
+
+and receive phone calls via Twilio's API. And we
+
+also provide a messaging API, so you can send
+
+and receive text messages and MMS's, and, for received
+
+MMS's, you can actually have web hooks that go
+
+out to your servers just to figure out what
+
+exactly, who should be dealing with these messages. It
+
+allows your servers to respond to the incoming message.
+
+And one of the things that, the mess- the
+
+messaging stack at Twilio is set up in a
+
+distributed fashion, where every portion of the, or, every
+
+service that can actually occur for a, for an
+
+inbound message or an outbound message, is provided by
+
+an individual service on a, on a AWS instance.
+
+And so at any given time, there's nine different
+
+distributed that are, or components that are all communicating
+
+when a message comes into the service via the
+
+API until it's handed off via the, or out
+
+to the carriers.
+
+And so we ran into some problems, and so,
+
+this is just a very basic overview of, it
+
+comes in, it's handed off to another server, it's
+
+handed off to another server, it's handed off to
+
+another server. There's some DB persistence that's going on.
+
+But we're, where we started to have problems is,
+
+a distributed tracing system for this is kind of
+
+a little bland. You don't really need it when
+
+you're just handing it off, or handing a request
+
+off to another system to another system. Profiling is
+
+pretty useful in the sense that it can give
+
+you more information about latencies and other issues that
+
+are occuring between your services. But where it becomes
+
+really useful is when you start scaling.
+
+So, Twilio's, each service that Twilio has is scaled
+
+to be able to meet whatever the current needs
+
+are for the arch, or, for our service. And,
+
+at any given time we can have ten, twenty
+
+nodes or however many nodes running for each individual
+
+service that we have. And a lot of the
+
+times, we have customers or support personnel who come
+
+to us, the engineers, and say, hey, we actually
+
+have a report from a customer who says, who
+
+says, you know, every, every twenty or so SMS's
+
+that go out, sometimes it takes like two seconds
+
+as opposed to, you know, near instantaneous. So why,
+
+why is that?
+
+And then there's other, other customers that come to
+
+us and say, hey, an MMS, sometimes when it
+
+goes out, it's taking five seconds. Why is that
+
+longer than SMS? And then, also, come customers will
+
+come and say, we tried sending a message and
+
+it completely failed. And tracing that information down can
+
+be difficult in a distributed system. You can, you
+
+can do log parsing and, and go through logs,
+
+and you can use log stash to actually be
+
+able to get some information about, about what the
+
+actual exception was that occurred. But being able to
+
+recreate the entire event from when it entered into
+
+the system, all the way to the end, is
+
+incredibly useful from an analytic stand point and from
+
+a debugging stand point. Because you can actually figure
+
+out, I know exactly what code was running on
+
+this server. I know exactly what was running here.
+
+I know exactly what was running here. I know,
+
+at this point, that this server was having some
+
+problems because of a specific memory issue that was
+
+occurring whereas all of the other servers in that
+
+load balancer were not affected.
+
+So, I mean, as an example, when you add
+
+distributor tracing to it, you can actually follow the
+
+exact path that the, that, that a message travels
+
+throughout your system
+
+So, distributed tracing can give you a little bit
+
+of information on performance, obviously, which we had talked
+
+about previously. In this example, you can see that
+
+a DB had 500 millisecond latency during a transaction,
+
+which is pretty bad. But then there's, one of
+
+the other things that, that a tracing framework can
+
+give you is information on bad nodes.
+
+This is a problem that occurs a lot in
+
+a distributed system, where, I mean, where a node
+
+is bad. It might actually have run out of
+
+disc space. It might have, there might be some
+
+sort of unplanned cons, or, problem that's actually occurring
+
+on one of your boxes. And if you, if
+
+you're running a robust system, it should be, it,
+
+if there's a failure, it should be retrying and
+
+sending it back into the load balancer and then
+
+going to, hopefully, a good server.
+
+A lot of times, you don't know when these
+
+problems are occurring. There might be a slight latency
+
+that's, that's introduced in your, in your overall framework.
+
+But usually there's not gonna be a little bit,
+
+there's not gonna be an error message that gets
+
+sent back up to the customer. And there's not
+
+gonna be an error message that you're going to
+
+see unless, aside from, like, some exceptions that might
+
+get thrown. And you might see it on a
+
+nitrous alert.
+
+But, being able to use a distributed tracing system,
+
+you can actually follow the exact paths it, see
+
+that it hit one node, it failed, it hit
+
+another node, it failed, and then it finally hit
+
+a third node and it succeeded. And you actually
+
+know which nodes that you need to go investigate
+
+and be able to clean up and then possibly
+
+plan to scale better in the future.
+
+OK. So, this was kind of, like, giving the
+
+Twilio example. I, a lot of you may be
+
+wondering, really, am, what I run is a distributed
+
+system? Essentially, if you are running a service that,
+
+that has two or more components that talk to
+
+each other, whether that be a web service in
+
+a database, it's a distributed system. And the more
+
+services that you add to that, it becomes more
+
+and more distributed.
+
+And, laying the groundwork for a good tracing framework
+
+is really easy if you start in the beginning.
+
+But it can be really difficult to go through
+
+and actually instrument all of your services after you've,
+
+after you've started everything.
+
+So, I wanted to run through a quick little
+
+example. It's kind of silly. But it's what I'm
+
+gonna use for the rest of the talk. Is,
+
+I wanted to come up with a service that
+
+we can use as an example here. Tried to
+
+think of something that the internet uses and needs
+
+more of, and that's, that's pretty obvious.
+
+We need more cats.
+
+Everyone needs cats. Cats need to be everywhere. And
+
+the thing is, we didn't want to create another
+
+icanhazcheeseburger or anything like that. We wanted to be
+
+able to provide an API so people can, can
+
+go and retrieve cats. Whatever cats they want. And
+
+send them out to, to customers, or send them
+
+out to customers or clients and integrate them with
+
+their service. So we have cats as a service,
+
+which is fantastic.
+
+Everyone loves cats, and I figured I would just
+
+a, well. I have to watch it again. All
+
+right. All right. So that's what our service is
+
+gonna provide. Wonderful cats that attack children.
+
+OK, so, starting off a very basic, with a
+
+very basic architecture, we have, we are gonna provide
+
+both an API to our service and a web
+
+interface to our service. And then we're gonna send
+
+things out through Twilio, on Twilio, and I'm gonna
+
+talk about Twilio.
+
+But we, it will all- we'll allow our customers
+
+to be able to retrieve, retrieve cats and be
+
+able to send cats out to their friends using,
+
+using Twilio. And this is actually cat spammer, catspammer
+
+dot com actually exists, if you guys want to
+
+play with that.
+
+But. So, this is, this is pretty simple. You
+
+might think I don't actually need to create a,
+
+or, I don't need to add distributed tracing into
+
+this. This is a very simple architecture.
+
+Well, let's say this is a service that you
+
+put together and you thought, I want to do
+
+this as a side project. But, well, here I
+
+am giving this conversation in this room, and let's
+
+say, let's say a VC is in the room
+
+right now, and he's thinking, oh my gosh, this
+
+is great. We really, really, really need to start
+
+sending cats all over the internet. Which is already
+
+done, but, you know, you just bear with me.
+
+And thinking, all, all we need is a social
+
+element. So, you know, if he happens to come
+
+up to me later and say, you know, I've
+
+got fifty million dollars that I need you to
+
+go build this system, because of all this massive
+
+traffic that we're gonna be bringing in and we
+
+want to add a new social element to it
+
+and all this sort of stuff, it suddenly starts
+
+to become a big problem.
+
+So, we start out with our API and our
+
+web interface. We add a social interface, which I
+
+don't even know what a social interface for cats
+
+would be. But it seems to make, seems to
+
+make good sense. We can add an authorization layer,
+
+because it might make sense to protect images of
+
+cats that people have. A worker process that might,
+
+that might actually go out and build cats. A
+
+media fetching service that actually does dedooping and caching
+
+of, of any, any services that exist, or, I'm
+
+sorry. Dedooping or caching of any images that it
+
+actually retrieved. And then we'll also provide a message
+
+queueing infrastructure that we're gonna call purrMQ that communicates
+
+throughout the entire service. I mean it, it's web
+
+scale. We have to have messaging or, message queue.
+
+And then, so we'll still send out via, via
+
+Twilio, but we probably send out via other social
+
+sites like Twitter, FakeBlock. You know, any kind of
+
+those services.
+
+So, at this point, you can start to see
+
+how a distributed system, or a distributed tracing system
+
+could be fairly useful. Wow. Anyway.
+
+This. You can see how, right now, we have
+
+the API and the web and social interface as
+
+all of our ingres points. We never know what
+
+customers are gonna be useful. So it would be
+
+good from any request into our system to be
+
+able to see where it's coming from.
+
+Once it gets into the message queue, it's even
+
+more difficult, because it, we don't know if the
+
+authorization system is actually needed on each request. We
+
+don't know if the media service is actually going
+
+to be needed. Maybe the media service is actually
+
+going out, making a call, retrieving a giant cat
+
+image that ends up blowing the entire system up.
+
+And then we have multiple egres points.
+
+And so, with that said, once you start scaling
+
+it, it ends up becoming even crazier. Because then
+
+you think, you know, you don't even know where
+
+you're gonna end up starting. So I want to
+
+go through and, real quick, talk about, what can
+
+you do to, what, what makes a good tracing
+
+system?
+
+So the first goal of building a good tracing
+
+system is to have low overhead. And so this
+
+would be, it's incredibly important that any tracing system
+
+to have as little impact on the server resources
+
+as possible on the system that it's actually tracing.
+
+And this is seems, it seems, this seems like
+
+an obvious conversation point, however, if you're talking about
+
+a production system that is doing traces on every
+
+single request and it's trying to log all of
+
+those somewhere and it's trying to send them to
+
+another system, this has to be thought about all
+
+the way from the beginning.
+
+The second point is it needs to be scalable.
+
+This is not as important when you're first just
+
+starting a, starting to build out a distributed tracing
+
+system. However, it needs to be scalable from the
+
+start so that the developers don't have to worry
+
+about, about kicking over the tracing system as they
+
+add services.
+
+It, it seems silly, but developers don't want to
+
+actually have to sit there and think about tracing
+
+and all those, all the metrics that occur. It,
+
+they want it to be transparent.
+
+Which brings us to the third goal, which is
+
+transparent instrumentation. This is, by far, the most important
+
+point of building a tracing system. And, by this,
+
+I'm saying, if you have a distributed system that
+
+has twenty different components, and, let's say you don't
+
+have tracing already as part of your system. You
+
+are not going to want to have your developers
+
+go out and add tracing to every system. Not
+
+only to every system, but then every call out
+
+that, that occurs throughout your process.
+
+I mean, it would be a nightmare. You're going
+
+to miss some calls. It's going to happen. So,
+
+with that said, I want to go through a
+
+couple of tracing systems that already exist. X-trace is
+
+one of them. X-trace has been around for a
+
+few years now. I think the early 2000s. Actually,
+
+all of these were, were put together as academic
+
+papers in the early 2000s.
+
+X-trace is a system that has some C++ bindings
+
+right now and a few other systems or, I
+
+think there, they have Java bindings as well. X-trace
+
+is not a, like, there's no Ruby instrumentation aside
+
+from a commercial distributed tracing system that's called, that's
+
+Anritsu trace view, which I, I actually am not
+
+doing any kind of demonstration of. There is one
+
+other commercial system that's called, or that's part of
+
+New Relic's cross application tracing. But, just wanted to
+
+throw those out there.
+
+So, X-trace, Magpie, and Pinpoint are all, all follow
+
+a very standard, basic system, which is, bringing this,
+
+bring this back up. They all create a single,
+
+unique identifier for the trace that, that you are
+
+running through your distributed system. And then they, a,
+
+another unique identifier gets created for each of the
+
+spans that occur. So a span is each of
+
+the, each of the services that occur throughout your
+
+distributed system.
+
+And then you can actually link them all together
+
+by, by linking the parent spans with the child
+
+spans, and you can end up creating an entire
+
+tree infrastructure.
+
+So, Google put together a, they have an internal
+
+system called Dapper. They have a, they have a
+
+paper that they put out a few years ago
+
+also regarding Dapper. Dapper is very, very, very similar
+
+to X-trace and Magpie. How, but there's two key
+
+differences. And they built these key differences to be
+
+able to make their, their system a lot more
+
+scalable.
+
+One, is they implemented a low-latency logging system on
+
+the backend. So as, as tracers get created, there's
+
+a low-latency system that will grab traces if there
+
+are system resources available to be able to grab
+
+the traces. But there are, but if, if the
+
+systems are getting pounded, the, the log collector won't
+
+actually do any of the collection.
+
+The other point that was introduced as part of
+
+dapper is they, they ended up introducing a sample
+
+rate. So not every single request gets traced. This
+
+is huge for Google because of the amount of
+
+requests that they end up receiving. And so, Dapper's
+
+actually a really nice system. Google has the luxury
+
+of building out an entire network r- networking RPC
+
+layer underneath all of their services, however.
+
+So Google maintains control of all of their, all
+
+of their communications paths, whether it be the HTTP
+
+communication or Database communication. All of it's done using
+
+part of Google's RP- underlying networking RPC layer.
+
+Because of that, they can, they can integrate all
+
+of the instrumentation directly into the networking layer, which
+
+is critical to being able to put together a,
+
+a transparent implementation platform for developers to use.
+
+So Dapper is put together. All of the services
+
+are running on individual nodes. And, and are transparently
+
+doing all the tracing and logging out to a,
+
+to a log daemon that's running on each of
+
+the boxes. There's also a Dapper collector service that's
+
+running that actually goes through and does, collects all
+
+of the log files at specific intervals. And then
+
+all of the log files end up getting sent
+
+to the Dapper UI and Dapper service on the
+
+backend.
+
+Twitter, however, took the Dapper paper and decided to
+
+try to build a open source project off of
+
+it. So this has been fantastic, because it's something
+
+that has enabled, opened it up for the rest
+
+of us. And this project is called Zipkin.
+
+Zipkin's been around for a little while now, and
+
+it seems to kind of, like, bounce back and
+
+forth in the open source community on what, what
+
+kind of development's actually occurring on it. So Zipkin
+
+is also based off of a custom networking RPC
+
+layer that Twitter introduced called Fenagle. And Fenagle is
+
+great, but, it's, it's, it's a really nice networking
+
+layer that has all the instrumentation built into it.
+
+The problem is is that it's, most of the
+
+clients and services are built in Scala, which don't
+
+really match up very well with a Ruby/Rails world.
+
+I mean, you could use JRuby and somehow use
+
+it to actually communicate, but I, but for a
+
+larger enterprise that's using, that's using binary Ruby and
+
+MRI and stuff, it would make sense to, to
+
+be able to do instrumentation outside of it.
+
+The good thing about Zipkin is it's open source.
+
+So all of the headers, all of the communication
+
+paths are all open. And, and they're, they're, the,
+
+all of the Fenagle services are all written in
+
+Thrift. So it's pretty easy to actually do instrument-
+
+or, creation of servers and clients that will actually
+
+speak the language that Zipkin expects.
+
+So, Zipkin also has a couple of really nice
+
+aspects to it. One of them is it has
+
+a plugable backend data store. So it, the entire,
+
+the, the entire of Zipkin is written in Scala,
+
+but it's actually incredibly easy to start up and
+
+get running, so you guys can actually go out
+
+and easily start doing some instrumentation in Rails projects
+
+today.
+
+You basic, the, the plugable data store, by default,
+
+starts using SQLite, which is great for doing some
+
+initial development. It's not very good for production traffic.
+
+But it does allow MySQL, PosGres, Cassandra backends. And
+
+I'm pretty sure Twitter's been using Cassandra pretty heavily
+
+on the backend for using their plugable data store.
+
+So the, the, the scribe collect, or, it uses
+
+Scribe as its log collector. Scribe is a open
+
+source implementation of a log, or a low-latency log
+
+collector service. The other really nice thing about Zipkin's
+
+infrastructure is it doesn't require all of the individual
+
+instrumented services to communicate via a Scribe collector. You
+
+can actually talk directly to Zipkin. So if you're
+
+doing development, just trying to introduce distributed tracing to
+
+your proc, to your, to your application, you can
+
+write directly to Zipkin's Scribe port and it works
+
+flawlessly. And that's what we'll do in the example
+
+in a second.
+
+The last point is it's highly configurable. There's lots
+
+of tuning options. Obviously I already said that the
+
+data store and the log collectors are plugable. It
+
+also can be, it can use Zookeeper on the
+
+backend to automate service discovery, to be able to,
+
+when you actually do have different log, log collectors
+
+running on individual boxes.
+
+So, Zipkin's interface is pretty simple. You can see
+
+here the profiling view of a request at the
+
+top. It's the entire request and then each service
+
+that ends up getting called ends up, ends up
+
+having its own entry where you can actually go
+
+and look at each individual point throughout the tracing
+
+architecture.
+
+And we'll, we'll look at a live example of
+
+that in just a second. So, anyway, I want
+
+to go into a, an example of instrumenting a
+
+Rails application using Zipkin. It's actually incredibly easy. I'm
+
+a little embarrassed that I'm up here talking to
+
+you about the actual Rails portion of it, but
+
+at the same time, there are some things that
+
+need to be, that, there's some additional work that
+
+needs to be done to be able to instrument
+
+stuff that doesn't already automatically integrate with Zipkin and
+
+with Fenagle.
+
+And, so, the initial setup is intall Zipkin. Pretty
+
+straightforward. You do need to have a JVM running
+
+and you do need to have Scala installed. Both
+
+of them are, I mean, everyone's installed the JVM
+
+probably. And Scala's incredibly easy to install. Once it's
+
+installed, it's fine. Scala does take forever to actually
+
+compile all of its services. But that's, that's a
+
+bit of a pain point.
+
+But you can end up just cloning the Zipkin
+
+root, Zipkin repo. And then each of those commands
+
+will start up each of the individual three services
+
+that are provided throughout Zipkin. Zipkin provides all of,
+
+or, the collector engine, the query engine, and the
+
+web engine separately so that you can, you can
+
+actually put different services on different hosts depending on
+
+the load on your system.
+
+The Ruby setup is actually pretty easy. We use,
+
+we use the Scribe gem, which allows us to
+
+talk with the Scribe log system. The Fenagle-Thrift gem,
+
+which is part of Twitter's Fenagle Thrift github repo.
+
+And this, this introduces all of the trace ids,
+
+the span ids, all of the communications and all
+
+of the recording stuff for you, so, it's all
+
+fairly simple and straight forward to actually do, do
+
+request tracing.
+
+And then, finally, Zipkin tracer is a Rack middleware
+
+component that is part of the Zipkin project that
+
+allows you to do the, to automate the, the
+
+inbound portion of request tracing on a Rails service.
+
+So as long as you're, as long as you're
+
+handling all just Rails services, it's incredibly easy. There's
+
+no extra configuration that needs to be done beyond
+
+just getting these things installed and then adding the
+
+middle, the middleware.
+
+And so we'll add, we'll, we'll show that in
+
+just a second. The one dif, the one difficulty
+
+is the Zipkin tracer middleware has, it hasn't been
+
+abandoned, but there's a, there's a couple of forks
+
+that actually work a lot better than the base
+
+Zipkin library. So I'll show you, right now, I've
+
+got the, the gemfile that I use for this,
+
+I end up grabbing from that specific repo. I'll
+
+have information for this, or you guys, I can
+
+give this information to people who are interested after
+
+the talk, that's for sure.
+
+But it's pretty simple. You start up your gemfile.
+
+You can start up a config initializer. Do actually
+
+set up, or, to introduce the middleware into your
+
+Rails stack. There is a little bit of configuration
+
+that needs to occur. All it is is the
+
+service name that you're, that you're creating. So right
+
+now this would be our CatSpammer API. The service
+
+port that, that Zipkin runs on. The sample rate,
+
+which is a number between zero and one specifying
+
+the percentage of requests that should be, that should
+
+get sampled.
+
+And then the Scribe server. This is, this is
+
+the point where I'm pointing directly to my Scribe
+
+server. If you had a Scribe daemon running on
+
+each individual box, each component would have to be
+
+set up in Rails 2 point 2, whatever the
+
+Scribe daemon is that's running on the box.
+
+OK. So here is where a little bit of
+
+difficulty comes in. So ActiveRecord and redis and using
+
+rabbitMQ and any other communication path that you want
+
+to, that you want to use inside of your
+
+service, unfortunately the current Zipkin tracer gem is, does
+
+not provide default tracing in instrumentation for all of
+
+those. So it's a bit of a womp-womp moment.
+
+But it's something that's actually being actively worked on.
+
+I was actually hoping to have it available for
+
+you guys today, but I was trying to add
+
+it to ActiveRecord and redis and rabbitMQ and a
+
+whole bunch of other services and wasn't able to
+
+get all of them working and playing nicely together.
+
+But it is something that, hopefully, in the next
+
+couple weeks I'll have up and running.
+
+So, you, you, you definitely still can, I don't
+
+know why it did that. You definitely still can
+
+do tracing of all of these services. Unfortunately, you
+
+have to wrap them all in tracing calls such
+
+as this. This is, this, this, this will allow
+
+you to, on, on each of your DB requests,
+
+as long as there's a synchronous request, this will,
+
+this will actually add tracing, client tracing, for your
+
+DB, for your actualy DB call.
+
+For synchronous communication, it's a little bit different. You
+
+have to, you have to be careful that you're
+
+actually passing along your, your trace ids and your
+
+span ids. But that's, that's something we can talk
+
+about offline, also.
+
+So, anyway, I do want, I want to do
+
+just a real quick demo. It's, it's nothing incredibly
+
+difficult. But, where am I? Oh, no.
+
+No!
+
+Let's kill that.
+
+OK. All right. So I'm starting up. This is
+
+the Cat Spammer interface that we ended up creating.
+
+Oh, gosh, this is really difficult. This is the
+
+one thing I couldn't test before. Oh, I can
+
+see it down here. Perfect.
+
+So, give me one second, actually, well, actually I'll
+
+just put my own number in there. So, let's,
+
+let's say I am going to, everyone please spam
+
+me after this. Yeah, exactly. So, I'm going, I'm
+
+going to send a cat to my, to my
+
+phone right now using Cat Spammer. OK, so it
+
+sent.
+
+So, I actually have, on the backend, I'll show,
+
+I'll pull this up real quick. Everything's cut off
+
+pretty bad here. But I can just show you
+
+real quick.
+
+Here I have all of the, the three, the
+
+three individual Scribe services, or, Scribe and Zipkin services
+
+that are running. And then I also have, in
+
+these terminals, everything's cut off, but it, in this
+
+terminal, I have a bunch of, all of the
+
+Rails applications that are running for, or all of
+
+the Rails service that's running. Did something fail? Oh,
+
+that's no fun.
+
+That's running for our application. So there's the API
+
+portion, there's an off component. There's a social component
+
+that talks to Twilio and can send emails. And
+
+all of that's set up to, to, to, there
+
+is a little bit of, all of them are
+
+set up to communicate with one another, so I
+
+can actually create an example, example trace for you
+
+guys.
+
+So I'll bring up the Zipkin interface here, real
+
+quick. OK. So this is the base Zipkin interface.
+
+It's actually a pretty simple interface. There's nothing really
+
+difficult about it at all. The one thing that's
+
+interesting about it is it does allow you to
+
+select different service names. So I can actually look
+
+individually at my Cat Spammer interface and then I
+
+can actually grab the trace from that.
+
+So here is one trace that ended up coming
+
+through. And I'll pull that up. Oh, and unfortunately
+
+it didn't actually work very well. Oh, that's too
+
+bad. Bug. More womp womp. Give me one second,
+
+I'm gonna run another request through. I might not
+
+have internet. That's the problem. Well, unfortunately I don't
+
+have internet right now, so my actual sending of
+
+the message out is going to fail.
+
+But I can drop back real quick here. And
+
+we can, and we can act as if this
+
+is the interface that I actually was just showing
+
+you. So, this is, so, assuming that this was
+
+the in, that this was the, the request, this
+
+shows each, each individual service as it was called.
+
+You can actually click on each of these, each
+
+of the spans here, and it'll give you annotation
+
+information. So you can actually see when the request
+
+started, when the request ended. You can actually add
+
+tracing information as part of your, as, as part
+
+of your request while you're, while you're doing processing.
+
+So you can actually add extra information to each
+
+individual tracing request.
+
+And, you can actually, obviously, see the, the latency
+
+issues or anything that's actually happening as part of
+
+your application. So, I'll run through here real quick.
+
+OK.
+
+So, I have the demo. And that actually concludes
+
+what I have. I would love to take any
+
+questions for you guys. The actual Rails instrumentation, like
+
+I showed you, is actually really easy with, with
+
+Zipkin. The trick, the Anritsu trace view implementation is
+
+just as simple. And I'm pretty sure that the
+
+New Relic Hat is pretty, pretty simple also. I
+
+haven't used that one unfortunately but I have used
+
+the trace view.
+
+OK? Excellent. Well I will be happy to talk
+
+to any of you about this offline, or you
+
+guys can actually go and visit catspammer dot com
+
+and send your friends cat images. So thank you
+
+and yeah, I hope you guys have a good
+
+rest of the time at RailsConf.
