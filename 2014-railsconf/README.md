@@ -13,3 +13,5 @@ Where did the OO go? Views should be Objects too! - https://www.youtube.com/watc
 Looking Backward: Ten Years on Rails - https://www.youtube.com/watch?v=VnhVkzop1_w
 
 How to be a Better Junior Developer - https://www.youtube.com/watch?v=GJW46x27W1w
+
+Rack::Attack: Protect your app with this one weird gem! - https://www.youtube.com/watch?v=m1UwxsZD6sw
