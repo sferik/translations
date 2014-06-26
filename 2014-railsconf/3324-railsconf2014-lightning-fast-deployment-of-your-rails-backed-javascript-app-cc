@@ -1,0 +1,1315 @@
+RailsConf 2014 - Lightning Fast Deployment of Your Rails-Backed JavaScript APP - Luke Melia
+
+LUKE MELIA: All right, folks.
+
+Thanks for coming out. So you are at Lightning Fast
+
+Deployment of Your Rails-Baked Javascript APP.
+
+Hopefully you're in the right place.
+
+My name is Luke. I, Luke Melia. I live
+
+in Manhattan in New York City. Got a couple
+
+little girls who are learning Ruby and Javascript using
+
+Code Academy and KidsRuby. And I have a company
+
+called Yapp that I co-founded. We're one of these
+
+kind of hybrid product and consulting companies. And when
+
+I'm not doing Dad stuff or coding, I really
+
+love to play beach volleyball and have recently taken
+
+up parkour.
+
+So Yapp Labs is the consulting side of our
+
+business. We do Ember.js consulting and training based out
+
+of New York and Seattle, if, if that's interesting,
+
+happy to talk with you about that.
+
+So, by way of introducing this topic, I want
+
+to tell you a story. And it's a story
+
+of when deployments were driving me crazy. You know,
+
+kind of like, tear my hair out crazy.
+
+We had an app, and the app consisted, you
+
+know, it was pretty straightforward for a modern app.
+
+And it was a Rails app that had a
+
+home page. It had your terms and conditions page.
+
+You can't have a site without that. It had
+
+a Javascript app, which in this case was an
+
+Ember app, but, you know, you can substitute any
+
+kind of rich Javascript MVC app that you, style
+
+you'd like, for the purposes of this talk. I
+
+then, of course, had a JSON API.
+
+And so these, this was kind of the bullet
+
+points, but in terms of the amount of code,
+
+the complexity, and how much time that it took
+
+working on it, it was more like this, right.
+
+We had a lot of work on the Javascript
+
+app. Some, a bunch more in the JSON API.
+
+And the rest of the site was, you know,
+
+pretty trivial.
+
+But in terms of deployments, every time we wanted
+
+to, every time I made a change and wanted
+
+to deploy it, we would package everything up and
+
+deploy it. And so I have a question for
+
+you folks. Hopefully everybody's, in the room has worked
+
+with Rails. How long does it take to deploy
+
+a Rails app? We're gonna do a show of
+
+hands, and by the end, I hope everybody will
+
+have their Rails app, sorry, will have their hands
+
+up.
+
+And so, please start by raising your hand if
+
+your Rails app is deployed in less than thirty
+
+seconds. OK. Good awesome. One, I want to talk
+
+with you later. How about less than one minute?
+
+Cool. A few folks. Less than three minutes? A
+
+bunch more. Less than five minutes? Keep, keep your
+
+hands up even if you were in the early
+
+group. Less than five minutes.
+
+OK, so we're probably at a majority now. Less
+
+than ten minutes? Keep your hands up. OK. And
+
+less than twenty minutes? I hope that's everybody in
+
+the room. Please, please, mercy. OK. Cool.
+
+So, the, I think the, the answer is, it
+
+takes at least a few minutes to deploy a
+
+Rails app, unless you're one of an exceptional few
+
+folks in the audience. And I get it. There's
+
+a lot, you know, there's files to transfer. There's
+
+dependencies to install. Most modern Rails apps, you know,
+
+that I run into, that we create, have a
+
+lot of gem dependencies. It takes some time to
+
+boot the app with all those dependencies and just
+
+with, just with your app code.
+
+And so, that's fine, except for, I was going
+
+days just working on the Javascript app. Right, I
+
+was just making changes in Javascript, and every time
+
+I wanted to deploy, I was waiting five minutes
+
+in our case to just deploy static Javascript changes.
+
+And it really made me want to throw something
+
+across the room. Why was I doing this to
+
+myself?
+
+And it wasn't just me that I was annoying.
+
+I was also annoying our users, because, in most,
+
+in most Rails deployment scenarios, there are some, there
+
+can be some hiccups in each deploy. And we'll,
+
+so let's talk a little bit about this, this
+
+kind of hiccups and deployments and zero downtime deploys.
+
+So if your Rails app takes several seconds to
+
+boot, which is probably about average, obviously it can't
+
+serve requests during that time. And so, under high
+
+load in most architectures, most requesters are just gonna
+
+be queued, waiting for the app to be ready
+
+to handle requests. And then once it boots up,
+
+it's gonna start handling those requests, and eventually flush
+
+that queue and hopefully catch up to the requests
+
+as they're coming in.
+
+And so users that are hitting the, hitting your
+
+app during this time may experience at, at best
+
+case just a couple of seconds of downtime. At
+
+worst case, kind of a feeling like that, that
+
+this site is not responsive.
+
+And so it disappoints me that we don't yet
+
+have a kind of conventional solution for zero downtime
+
+deploys. But it kind of makes sense because, by
+
+definition, Rails runs inside of other web servers, and
+
+so, and that, this is really a concern kind
+
+of at that web server layer.
+
+So, Heroku, for example, has an experimental solution. Heroku
+
+Labs is, Heroku's kind of unsupported experimental area features.
+
+And you can run heroku labs:enable preboot, which will
+
+start up new servers or dynos with your new
+
+code, wait three minutes to give your Rails app
+
+plenty of time to boot, and then switch traffic
+
+over.
+
+For, if you're using Puma or Unicorn, there are
+
+facilities to start one worker at a time, or
+
+groups of workers by sending signals to the master
+
+process. HAProxy is a tool that I've used in
+
+the past to kind of split traffic, give yourself
+
+time to boot up another, another set of servers.
+
+HAProxy is nice because you can do health checks
+
+against those new servers and say, am I ready
+
+to deploy? And Passenger also has some solutions around
+
+this.
+
+In terms of kind of the full scope of
+
+zero downtime stuff, it gets more complicated when you
+
+talk about database migrations and what's safe and what's
+
+not safe for these, these types of, these types
+
+of deployments. And I'm happy to chat about that
+
+with anybody later, but that's out of scope for,
+
+for this particular talk.
+
+What I do want to drill into a little
+
+bit is issues with static assets and zero downtime
+
+deploys, because that's the thing that was, you know,
+
+kind of at the heart of what I was
+
+doing, was really dealing with these static Javascript assets.
+
+And I think that these issues aren't discussed often.
+
+So I kind of want to drill down, kind
+
+of at a detailed level, and talk about them
+
+here.
+
+So when a browser makes an initial request to
+
+your server for, to load your, your rich Javascript
+
+app, it's loading the index dot html file and
+
+by index.html, I'm gonna refer to the html file
+
+that's the bootstrapping, it's bootstrapping your Javascript app. It's
+
+the thing that has a little bit of code
+
+to fire things up and it pulls in the
+
+right Javascript and CSS assets.
+
+So the request comes into your servers, your server
+
+responds with the HTML file, with the text slash
+
+html mine type, and typically the, your asset files,
+
+the Javascript and CSS that are gonna be referenced
+
+here, are gonna be fingerprinted. Right, so we do,
+
+take a hash of the contents of the Javascript
+
+file, we set it as a, we include that
+
+hash in the file name, and we're then are
+
+able to set far features expires headers on those
+
+files, so that when the file changes, we don't
+
+have to worry about cache expire or anything. We
+
+just gotta new file that's gonna come through as
+
+if the browser's never seen it before.
+
+And so in this case, our html file might
+
+contain something like assets slash app dash abc123 dot
+
+js, where abc123 is this fingerprint we're talking about.
+
+And so the browser takes that html, parses the
+
+page, a short time later makes the request for
+
+app dash abc123. Server says, here you go, some
+
+text Javascript. Browser parses that, boots up the app.
+
+All is well.
+
+Hopefully this is very clear to everybody who's in
+
+the room. What's maybe less clear, unless you've thought
+
+about it in detail is that during deployments, this
+
+idea can break down a little bit. And so
+
+imagine that we've got our deployment and we've got
+
+two kind of sets of server. The top set
+
+that we're looking at here on the screen is
+
+the existing code. The bottom set is the new
+
+code that you're deploying.
+
+And in this case, there's a change to the
+
+Javascript file, so there's the new fingerprinted filename there.
+
+So when our initial request for our page comes
+
+in, it was, it will go to the old
+
+code, because we haven't yet switched traffic over to
+
+the, to the new deploy. And just like in
+
+our first example, it's gonna come back with the
+
+index file references app dash abc123 dot js.
+
+Now, what if, in that moment, where, as the
+
+page is being parsed, before this request comes back,
+
+we then switch traffic over to pointing to the
+
+new server? Well, request is gonna come in for
+
+app dash abc123 dot js, the new server gets
+
+the request and says, ah, I don't know what
+
+you're talking about. I don't have a Javascript file
+
+with that name. And so it says, 404 Not
+
+Found.
+
+And this is a challenging problem to, to address,
+
+because there's a, because of a few reasons. One
+
+is that most simply if I, at this point,
+
+now hit refresh in the browser, of course everything
+
+works fine. Right, because now both of those requests
+
+are going to the new server and the world
+
+is good.
+
+It can be further kind of shadowed, this issue,
+
+because, if you are serving your assets up through
+
+an assets host at CBN, you might have some,
+
+some, some of their, your edge nodes might have
+
+that old page cached. That old Javascript cached. In
+
+which case, those nodes will return it just fine.
+
+And so, to, to know that you're, you know,
+
+totally impervious to this, you know, might be a
+
+little bit fuzzy, and also to be able to
+
+reproduce it reliably is a challenging thing to do.
+
+But, in short, to avoid these hiccups, both the
+
+old versions of your assets and the new versions
+
+have to be available for at least a few
+
+minutes during your deployment in order to, to make
+
+this zero downtime approach really work well on the
+
+static asset front.
+
+And so this was one of the things I
+
+was thinking about during these many five minute deploys,
+
+where I was, you know, wishing that I had
+
+a solution. And so, in thinking about that, I
+
+said, well, we could figure out how to do
+
+this on our app servers. Kind of keep the
+
+old versions of the, of the Javascript and the
+
+new versions together. Or we could move the assets
+
+elsewhere. And the idea of moving the assets elsewhere
+
+really appealed to me, because that meant, if they
+
+weren't on the Rails, my Rails servers, then maybe
+
+I could avoid doing Rails deploys when I just
+
+had static asset changes.
+
+So I started to sketch out an idea. We've
+
+got our Rails server at the top, and we
+
+had this separate static asset server at the bottom.
+
+Let's deploy our Rails app code to the Rails
+
+servers, our Javascript, CSS, and images to these static
+
+assets servers, and then we would deploy our index
+
+file. Where would we deploy our index file?
+
+And so, I started to think about, well, what
+
+is the index file? It is kind of this
+
+thing that bridges the two? What are the requirements
+
+around it? What do we know about it? And
+
+this index, the html file points to fingerprinted Javascript
+
+and CSS, but it's not fingerprinted itself. That's obviously
+
+important, because it needs to be at, at a
+
+consistent location for browsers to locate, to load. It
+
+contains Javascript urls and code to boot the Javascript
+
+app to load CSS and such in the right
+
+order. It's a good place to provide environment-specific configuration
+
+to Javascript. Maybe you have some differences between dev
+
+and stage in production.
+
+One thing that I knew was key, because I
+
+had struggled with it, is that when you serve
+
+this html off of the same domain as your
+
+API, life is way simpler with respect to cores
+
+and cross origin security issues. And finally, if I
+
+wanted, if you wanted to be able to deploy
+
+changes quickly to your users, caching on this particular
+
+page should be minimal to none, so that you
+
+can pretty instantly switch over.
+
+So my conclusion, from thinking about this, is that
+
+the html page ideally should be managed and thought
+
+about as part of your static asset deployment process,
+
+but it should be served off of your Rails
+
+server.
+
+And, as importantly, it should be served off your
+
+Rails server without requiring a Rails reboot or redeploying
+
+the entire Rails app. And so, so we were
+
+able to start to refine this sketch and say,
+
+OK, our Rails server's gonna be serving up our
+
+API requests, our, kind of, traditional, dynamic Rails pages
+
+as part of the html for a Javascript app,
+
+and our static asset server's gonna be serving up
+
+the Javascript, CSS and images.
+
+And so that means we need to somehow deploy
+
+our html up to the Rails server without a
+
+full, a full reboot. And so, how could we
+
+do this?
+
+Well, the most obvious thing to me was, well,
+
+take a html file and put it on the
+
+file system of each Rails server. And this has
+
+a few things that aren't great about it. You
+
+can probably make this work in some configurations. In
+
+many deployment environments, disk is ephemeral, and so relying
+
+on, you know, on copying some things up might
+
+not be a great idea. It's also a little
+
+bit weird to mix assets, files deployed from a
+
+particular gitshaw, with files deployed from somewhere else, kind
+
+of in the same file system.
+
+And so, we said, well, what if there's something
+
+that we could all see and talk to? Well,
+
+what about uploading to S3? So then all the
+
+Rails servers can, can see S3, read from it,
+
+be able to serve up that html. And this
+
+could kind of work, but reading from S3 is
+
+a little bit slow. And we wanted this page
+
+to be fast, obviously. No Javascript or CSS is
+
+gonna start being loaded until this page is loaded
+
+in the browser. And so the fastest we could,
+
+the faster we could get this page to the
+
+user, the better.
+
+And so, then we said, well, what about redis?
+
+Redis is persistent. It's fast. For us, it was
+
+already in our environment. We liked this idea a
+
+lot. We decided to, to dig in. This is
+
+not the, as you'll see, this is not the
+
+only way to do it. It's totally possible to
+
+user other systems besides redis. But redis kind of
+
+firt the bill for us and works quite well,
+
+as you'll see.
+
+So, the general idea was we're gonna deploy into
+
+redis and then serve out of redis via a
+
+Rails controller. So here's the simplest possible kind of
+
+deploy code that we had. It's a rig task,
+
+and we're going to generate our html for the
+
+current assets, and that's, that's kind of an exercise
+
+for your build tooling, which we'll talk about a
+
+little bit later. And then once we had this
+
+html, we're actually going to set it as a,
+
+at a, as a redis key-value store. So the
+
+html is the value and the key would be
+
+something well-known like jsapp colon index, for example. And,
+
+and this is a redis connection that's connecting directly
+
+to your charted deployment environment. So that's staging more
+
+production.
+
+Once it's there in redis, our controller, again, the
+
+most simplest version, is get the value out of
+
+redis. Render text.html. Now, when I first looked at,
+
+looked at this code or wrote this code, I
+
+said, is that gonna be served up with the
+
+right mine type? Seems a little strange. And it
+
+turns out that, yes, if you do render text
+
+and some string, Rails serves that up with text
+
+slash html, if you don't specify. So, it's a
+
+little, I think a little bit of a confusing
+
+API, but it does what we want.
+
+So, we can now continue to refine this approach.
+
+We know we're deploying, when we need to deploy
+
+Rails app code, we're doing a deployment to our
+
+Rails server. When we're deploying Javascript, CSS and images,
+
+we're deploying to the static assets server, and then
+
+we're deploying html by connecting to redis and deploying
+
+into it.
+
+And we can make things a little bit nicer
+
+by dropping cloud front right in front of, by
+
+using S3 as our static assets server, and then
+
+dropping cloud front instead of in front of our,
+
+in front of S3. So, for very little effort
+
+and very little money, we've got now CBN distribution
+
+for our static assets.
+
+Now, there's a few things about this deployment to
+
+S3, in terms of making it fast. Getting a
+
+file list from S3 can be somewhat expensive, particularly
+
+the more files that you have. And so the
+
+approach that we took was to generate a manifest
+
+file of our current assets and store the copy
+
+of that manifest on S3 so we, we're basically
+
+gonna read the remote manifest, compare it to our
+
+local manifest, and know we only need to deploy
+
+what's different. And so this means that if I
+
+make one Javascript, one line of Javascript change, it's
+
+just the file that that's concatenated into that needs
+
+to be updated, and not all of my images
+
+and CSS, as we're doing our deploy, our assets
+
+deploy to S3.
+
+Now, purging has been on our to-do list for
+
+this architecture for quite a while, right. After a
+
+deploy is successfully completed, we can, in theory, remove
+
+stuff from S3. We never really got around to
+
+that. Mostly because it's so incredibly cheap to store
+
+these small files on S3, so, still on our
+
+to-do list. I would probably not recommend you prioritizing
+
+it too high for yourself. The code for this
+
+S3 sink is here at this link. I will
+
+make these slides available. You don't have to worry
+
+about copying it down. This repo is open source
+
+and contains a lot of the code that we're
+
+looking at today. And it's the actual code that
+
+we use for our, for our production environments.
+
+So, once you start thinking about this architecture, it
+
+paves the way to do something a little bit
+
+more fundamental with your rich Javascript app and your
+
+Rails app, which is that you pull them, tease
+
+them apart into separate repositories. And now why would
+
+you want to do that?
+
+Well, one of the reasons is, you know, thinking
+
+about tagging, do, you know, kind of tagging a
+
+deployed version of your code. Since you've got these
+
+independent deploy processes, it makes sense to be able
+
+to tag a Javascript deploy separate from a Rails
+
+deploy, because they really are now independent of each
+
+other.
+
+And I find also that thinking of your Javascript
+
+app as a separate, independent client of your API,
+
+works really well. Kind of puts it on the
+
+same level as a native app, for example, maybe
+
+if you've got an iPhone app that communicates to
+
+your API as well.
+
+It also opens up the realm of possibility to
+
+having a lot of flexibility with what kind of
+
+build tools you want to use with your Javascript
+
+app. You may choose to use sprockets in your
+
+separate standalone repo. Or you may choose to use
+
+grunt, gulp, broccoli, brunch. You name it, there's obviously
+
+a lot of innovation and creativity happening around build
+
+tools in the Javascript environment. And my guess would
+
+be that you're, we're gonna see faster, you know,
+
+innovation, iteration in the Javascript environment for building Javascript
+
+apps than we will in the Ruby environment for
+
+building Javascript apps.
+
+So, we've now got an approach that works pretty
+
+well. But I think the, the question is, is
+
+it worth doing the work to set this in
+
+place? Like, how fast is this in the real
+
+world? And so I took one of our apps,
+
+and this isn't, was not a scientific bench mark,
+
+so consider it directional. And our builds took about
+
+six and a half seconds. This particular app is
+
+using Rake Pipeline as a build tool for the
+
+Javascript side. Our transferring assets to S3 using this
+
+differential approach was about a second, and then uploading
+
+html into redis was about two and a half
+
+seconds. And so, instead of a five minute deploy,
+
+I was now able, we were now able to
+
+deploy this, our Javascript apps in under ten seconds.
+
+So just by that, that was a big win.
+
+And stopped me from wanting to throw things across
+
+the office. But, I think that, you know, in
+
+any kind of architectural choices like this, you learn
+
+if this is a good idea or not over
+
+time, right, based on, how does, how does this
+
+architecture respond to changes. What kind of possibilities does
+
+it enable? So I want to talk a little
+
+bit about the kind of emergent behavior that we've
+
+seen around, now that we've had this in production
+
+for awhile.
+
+The first thing is, the idea of preview. And
+
+so this is an actual command line session for
+
+deploying an app. In this case, it's yapp-prefs, which
+
+is our, kind of, account settings app. We first
+
+run rake dist. This is the build. And with
+
+the build completes, in this case, as we saw
+
+in the pie chart before, in about six seconds
+
+or so. And it says, OK, to deploy these
+
+assets to S3, run rake deploy:assets with this, what
+
+we call a manifest idea, this b35b.
+
+So what's a manifest id? We talked earlier about
+
+fingerprinting assets and we talked about creating a manifest
+
+file. So what we do also is we fingerprint
+
+the manifest file. So we take a hash of
+
+the contents of that manifest file and we say,
+
+OK, that is the manifest id for this deploy.
+
+And that's, it's, it's kind of a unique identifier
+
+as it's going through its unique deploy process.
+
+And so we run rake deploy:assets, which does the
+
+differential upload to S3 and it's gonna show us
+
+what it uploads. It's gonna spit out, OK, I've
+
+uploaded these four files. JS, CSS, two yaml files
+
+for the manifest. We, actually, these are two copies
+
+of the same thing. One is a, has a
+
+file name with the id, and one just is,
+
+hey I am the latest. And it's going to
+
+then tell us the next command to run is
+
+deploy:generate_index for this manifest id. And what this is
+
+gonna do is going to connect to redis and
+
+set this at a key named for the manifest
+
+id. So in the previous simplistic example we looked
+
+at, it was just updating jsapp index. Now it's
+
+updating a key at prefs, in this case, prefs:index
+
+b35b something, you know, named for the manifest id.
+
+And why is this awesome? Well, this command line
+
+tool can now tell us, hey, to preview this,
+
+this asset change, go ahead and take a look
+
+at your at, your site with the query param
+
+manifest id equals b35 et cetera. And what this
+
+is gonna do is it's going to pull the
+
+new html file from redis. Gonna show, which is
+
+loading up the new Javascript. It's connecting to the
+
+production API. So you're able to smoke test this
+
+in production. Everything is working just as the user
+
+will see it, except for your users don't see
+
+it yet. So if you screwed something up, you've
+
+got a chance before kind of pulling the trigger
+
+and switching it life to go.
+
+And then, finally, one more command to kind of
+
+active that redis key and make it the current
+
+key. And so what does this code look like?
+
+It's actually not that much more complicated than what
+
+we saw before. We invoke our rake task with
+
+the manifest id. Generate our html file. And then,
+
+instead of setting jsapp index, we'll set a jsapp
+
+key based on the manifest name, or redis key
+
+based on the manifest name. And then spit out
+
+something to give the developer the url to take
+
+a look at, to preview, to preview the app.
+
+On the server-side, we're gonna add one more redis
+
+request to the mix. If there's a manifest id
+
+param, then we'll just use that. If it's blank,
+
+then we'll go and we'll connect to a current
+
+key. Grab the manifest id, then use that to
+
+serve up the current version of, of the site.
+
+Of the, of this index file.
+
+And so, that has been pretty powerful, and it's,
+
+it's a super useful tool that we use in
+
+almost every single deploy. The developer's just gonna do
+
+a quick smoke test and say, yes, everything looks
+
+good, before they flip the switch.
+
+The next interesting aspect that this kind of enabled
+
+is around dynamic html rewriting. And so what we
+
+realize is that as html was passing through from
+
+redis through the controller back to the browser, we
+
+had the opportunity to make adjustments if we wanted
+
+to. And one category of adjustment that we ended
+
+up making, as you see in this example, is
+
+injecting some information about the current user.
+
+Now, obviously in a Rails controller we know typically
+
+who the current user is. Most apps will have
+
+a current_user method available to any controller that they
+
+can, it can grab. In contrast, when you're booting
+
+up a Javascript MVC app, at that point, you
+
+know, most apps don't know who the current user
+
+is. And if, in most, you know mostly there
+
+is some XHR request that's involved in figuring out,
+
+is this user logged in and, if so, what
+
+is their role in the system? And during that
+
+time, the user is sitting there waiting, right. The
+
+Javascript is just kind of, maybe it's rendering a
+
+loading spinner for the user or something. But it's
+
+a little bit annoying and it also makes the
+
+boot process for the, for your Javascript app more
+
+complicated.
+
+So we said, well what if the app could
+
+have, at boot time, have access to this information?
+
+So what we're doing here is, in the controller
+
+action at the top, between the time we get
+
+the html out of redis and return, render it,
+
+we're going to inject current_user information. We're gonna grab
+
+the current_user and then user our AcitveModel serializer to
+
+convert it to JSON, escape it, and stick it
+
+into the head tag.
+
+And you'll notice that the method that we're using
+
+to add this to the html, you might find
+
+a little crude. And certainly when I first started
+
+doing this, I said, OK, we'll use Nokogiri. We'll
+
+parse the html. And then we'll insert, you know,
+
+insert a node, and then we'll render, you know,
+
+convert that back to text. And it turns out
+
+that really what we're doing is so simple that,
+
+as fast as Nokogiri is, and it's pretty fast
+
+for an XML or html parser, it is not
+
+faster than string manipulation and string indexing.
+
+And so, in this case, we're just looking at,
+
+where's the end of the head tag or the
+
+beginning of the head tag, inject this meta tag
+
+in there. And this works great.
+
+The, some other use cases for this same approach
+
+might be injecting csrf tokens if you, you know,
+
+need to interact with Rails forms from, from your
+
+Javascript app. Including dynamic analytics params, we had a
+
+case where the, the Javascript app was kind of
+
+the, the, a goal page for a Google analytics
+
+kind of flow. And we needed to set some,
+
+certain Javascript only in some conditions. So this was
+
+a nice way to do that.
+
+If you're using feature flags through something like the
+
+excellent rollout gem, it's great that that's available throughout
+
+Rails. But how do you make it available inside
+
+of your Javascript app also, this is a nice
+
+solution to be able to kind of inject variables
+
+along those lines.
+
+Another pretty awesome thing that we've been able to
+
+do using this approach is doing A/B testing within
+
+our Javascript app. And we've experimented with two different
+
+kinds. One is, kind of, setting some flags based
+
+on which bucket the user ends up in, A
+
+or B. This is pretty similar to what we
+
+just described. And then the, the second is serving
+
+up wholly different html based on the A/B bucket.
+
+We'll, I'll talk, take you through each of those.
+
+So this is using the split gem, which, if
+
+you haven't seen, is a great A/B tool, A/B
+
+test tool for Ruby frameworks, web frameworks. It has
+
+a Rails integration that gives us the A/B test
+
+method, which you see on line eleven there. And
+
+so we're doing some injection into our html where
+
+we're saying, if the user is part of the
+
+show walkthrough experiment, then we're going to inject the
+
+script tag that just sets a global variable. And
+
+then our Javascript app as it boots in is
+
+running, is, is, can consult that global variable to
+
+decide whether to show the walkthrough that you're doing,
+
+doing some testing on.
+
+And then later, elsewhere in your app, you would
+
+indicate that, that the goal was achieved, that the
+
+user signed up or published or whatever it is
+
+that was kind of the, the goal for you
+
+A/B test. And so this was great. This is
+
+excellent for the kinds of A/B tests where both
+
+paths are supported by your, by a given incarnation
+
+of your Javascript app.
+
+We had another case, though, where, this was right
+
+around the time that iOS7 released and there was,
+
+if you recall, there was a lot of excitement
+
+in, around flat design. And so we did a
+
+redesign of our Javascript app. We weren't immune to
+
+the hype. And, but as we got near completion,
+
+we started to wonder, well, we're gonna release this.
+
+How do we know that this is any better
+
+than our existing site? Is this going to improve
+
+our metrics or hurt them? And we wanted to
+
+try to get some confidence one way or the
+
+other.
+
+So we said, well, we've been developing this in
+
+a branch, and we already know that we can
+
+preview different versions of our Javascript app, because we
+
+had this preview mechanism in place. Could we use
+
+this for A/B testing, also?
+
+And so, it turns out that we were able
+
+to just update our deploy scripts to be able
+
+to deploy from a branch into an experiment kind
+
+of redis key, and then use the same A/B
+
+test mechanism to determine, for the new design experiment,
+
+should the user use the current manifest or the
+
+experimental manifest?
+
+Once we made that decision, we then got the
+
+appropriate manifest id from redis, got the html, rendered
+
+it, and users either saw our old app or
+
+the new flat-design app. Turns out, flat design, about
+
+nine percent better. So good news.
+
+So this is suitable for changes where your development's
+
+capping at a branch, and you want to A/B
+
+between the branches. Not a common scenario, but if
+
+it's, when it's, it's useful, it was great to
+
+see how this approach supported that architecture.
+
+One more possibility that I didn't cover here, but
+
+you can imagine how this might work, is around
+
+doing rollback. So what if every time that we
+
+did this deploy and updated our html in redis
+
+we pushed into a redis list and said, hey,
+
+so and so user deployed such and such manifest
+
+id at this time, and then we were able
+
+to have a rake task that reads that list
+
+and lets you rollback to any particular version. Hopefully,
+
+at this point, you can see how straightforward that
+
+would, that kind of thing would be as well.
+
+So, with that, I want to say thank you
+
+to my colleagues at Yapp Labs who helped create
+
+this. Kris Seldon, Stefan Penner and Ray Cohen. And
+
+while we were working on this, we had heard
+
+some rumors about some Square engineers doing a, using
+
+a similar approach at Square. So we took some
+
+inspiration from those rumors as well, and so thank
+
+you, nameless Square engineers, or if anybody's here. Love,
+
+love to chat with you about it.
+
+We've got some time for questions, and so I
+
+want to open it up to all of you.
+
+Question in the middle?
+
+All right, cool. Thank you all so much. Appreciate
+
+it. Enjoy the rest of the conference.
