@@ -1,0 +1,1347 @@
+RailsConf 2014 - Make an Event of It! - Jason Clark
+
+JASON CLARK: All righty. I think, by my clock,
+
+it's about 1:40. A couple more people
+
+are coming on in, but we'll get things started.
+
+My name's Jason Clark. I'm an engineer at New
+
+Relic. I work specifically on the New Relic RPM
+
+gem, which some of you may have installed in
+
+your applications. So that's actually gonna play in a
+
+little bit in some of the examples that I'm
+
+gonna use later on. But you don't need to
+
+know too much about how that works.
+
+The first, so, I, I've got to start off
+
+with a, an admission to something that I've always
+
+wanted to do when presenting in front of a
+
+group of people, and I figured that RailsConf is
+
+probably just about the best opportunity. So, if you'll
+
+just bear with me for a second. Just hang on.
+
+So at New Relic, we have a support hero
+
+who is responsible for handling the escalations. So any
+
+time that something gets too complicated for support, they
+
+send it to the support hero. And my wife
+
+heard that, and she went, if you're a hero,
+
+you need a cape. And so she made me
+
+this lovely hand-embroidered Ruby emblem cape. And I've always
+
+wanted to give a presentation wearing this. So, if
+
+that's OK. Little unprofessional, maybe, but, you know. I'm
+
+just gonna go for it, so.
+
+AUDIENCE: Look in the sky! It's a bird!
+
+J.C.: All right. That feels good. Thank you. Thank
+
+you for humoring me. All right.
+
+So what we're here for, here to talk about
+
+today is about something that I call evented patterns
+
+in Ruby. So let's start off with a little
+
+bit of a story. This is a little bit
+
+of a fabrication, but it might be something that
+
+some of you have experienced before.
+
+So, imagine that you have created an application. Maybe
+
+it's something like, something basic, for doing tracking of
+
+your cycling statistics. And all of a sudden, your
+
+application really takes off. It gets on the social
+
+media. People find out about it and, you know,
+
+you, you start getting this influx of users that
+
+you've got to deal with. As your traffic scales,
+
+you've got to do things like tuning your web
+
+server, right. You, you pick your, your Unicorn or
+
+your Puma and you get that set up. You
+
+tune your system. And while your traffic is growing,
+
+there's a similar sort of growth that goes on
+
+in your code.
+
+Your controllers start out life kind of like this.
+
+They start out pretty simple, you know. We just
+
+create our user when somebody signs up. But then,
+
+as your application grows and you get more stake
+
+holders and your company's, you know, doubling every two
+
+months, all of a sudden, you've got other things
+
+that you need to add in there, right. You,
+
+maybe you want to send welcome emails, so you,
+
+you end up, you know, getting your action mailer
+
+going there, and cram that into, into your action
+
+when someone signs up.
+
+Oh, and then maybe it's really important that our
+
+business people be able to do analytics. They want
+
+to know about who's signing up and track data,
+
+and there's some other place that we want to
+
+push that data. Oh, and then the sales people,
+
+they really want this to be integrated to their
+
+sales system, and so they want stuff to get
+
+pushed over to their CRM. And maybe, oh, we
+
+want to do some sort of posting out to
+
+the social networks. So we have a background job
+
+that takes care of that. You know, this sort
+
+of growth happens in some of those critical points
+
+in your infrastructure. The spots where interesting things happen
+
+in the domain of your application.
+
+Now, that's kind of, can get to be a
+
+mess, you know. This, over time, I mean this
+
+is a short example and slightly fabricated, but I'm
+
+sure you all have, you know, I'm sure all
+
+of your controllers are, like, twelve lines or less
+
+for an action, right? Nobody has these long methods
+
+that go on and do tons and tons of
+
+things.
+
+You can end up with a massive snarl. You
+
+can end up with controllers that are very difficult
+
+to test, difficult to reason about, and they go
+
+on and on handling all of these different things.
+
+So what we're gonna talk about is a pattern
+
+of using events to handle that and to take
+
+those key parts of your infrastructure and break them
+
+apart into smaller bits.
+
+So, first off, we're gonna talk about what I
+
+actually mean when I say events, the pattern that
+
+we're talking about. We'll talk about how that can
+
+be used in the coupling of your application, both
+
+internally within your app and as it relates to
+
+other libraries that you might be using.
+
+We'll take a look at a couple of mechanisms
+
+that you can use to institute this sort of
+
+system. And then we'll talk about some of the
+
+responsibilities and sort of how you should think about
+
+this type of evented system within your app. And
+
+keep things flexible and performant.
+
+So, first up, the pattern. So, when I say
+
+events, you know, there's lots of different people that
+
+think lots of different things when I say that.
+
+Like, some folks that this was gonna be about
+
+event machine. It's not about event machine. So what,
+
+what sort of things pop to mind when I
+
+say evented programming?
+
+AUDIENCE: Asynchronous.
+
+J.C.: K.
+
+AUDIENCE: ActiveSupport notifications.
+
+J.C.: Visual Basic event handlers? Anybody?
+
+AUDIENCE: Nice!
+
+J.C.: I'm sorry to, no. I shouldn't do that.
+
+No.
+
+A lot of people probably think node. Think asynchronous
+
+sorts of callbacks. But that's not necessarily the core
+
+of the type of event that I'm gonna describe
+
+here today. This, these events are not necessarily asynchronous.
+
+They're not necessarily about IO or about distributing things.
+
+They're just a basic pattern to decoupled pieces of
+
+your application.
+
+So it starts off, the main term that I'll
+
+use. Somebody knows that something interesting happens in your
+
+system, I'm going to refer to it as a
+
+notifier. There's a set of subscribers that also exist.
+
+And those are the pieces of your application that
+
+care about that event that just happened. And then
+
+there's some sort of eventing in the middle. Something
+
+that dispatches those events from the notifier to all
+
+of the subscribers.
+
+Now, this is really pretty basic, and you might
+
+wonder, like, why aren't these just method calls? Well,
+
+it's because of that eventing system that we can
+
+get the decoupling. It allows for the notifier and
+
+the subscriber to not necessarily know directly about each
+
+other. Those classes don't have to interact, directly, without
+
+that intermediary between them.
+
+What's the relationship to the, to callbacks, you might
+
+say as well. There's, you know, at ActiveRecord, we
+
+have before and after hooks and around hooks to
+
+do all sorts of different things. Well, this is
+
+similar, but it's a little different from what we're
+
+gonna describe, because of that line, where we have
+
+to derive from ActiveRecord::Base. That's a really tight coupling.
+
+And what I'm gonna describe doesn't put any requirements
+
+on your class, except that it interacts with the
+
+event dispatcher as a collaborator.
+
+So that's the basics of what I mean by
+
+evented patterns. So let's take a look, now, at
+
+how it can influence coupling. So the first example
+
+that I'm gonna draw is about internal coupling. So
+
+when I say that, I mean, things that are
+
+within the scope of your application, the code that
+
+you own and that you've written.
+
+So, working for New Relic, the gem that I
+
+work on, you install it in your application and
+
+it spins up, starts monitoring performance information, and then
+
+sends it back every minute to New Relic so
+
+we can give you pretty graphs and alerting and
+
+all sorts of insight into what's going on in
+
+your app.
+
+When this gem was originally created, we would load
+
+things up when the app starts and we read
+
+a little config file to say what types of
+
+things we want to be doing. You know, there's
+
+features that you can turn on and turn off
+
+and configure. And we knew the story about what
+
+this configuration was when the application had successfully gotten
+
+run.
+
+Well, later on, we added a feature. And that
+
+feature was server-side configuration. So the application now connects
+
+to our server and gets back some additional set
+
+of configuration values. And what this means is that
+
+the point in time at which we could assume
+
+that the application was actually configured changed. If we
+
+had put a bunch of logic directly into our
+
+app start up, like right there in the initialize
+
+where things start running, we now didn't have the
+
+right answer for what the configuration was. We have
+
+to wait until that connect happens in the background
+
+before we can do that.
+
+So let's take a look at what happened with
+
+that connect method. So we make a call out
+
+to the server and, you know, this is obviously
+
+a little stripped down. There's error handling in real
+
+life. But we get back some sort of configuration
+
+from the server. It tells us what those settings
+
+are supposed to be. We pass that along to
+
+finish set up and then finish set up starts
+
+looking like a little bit of a mess. There's
+
+a whole bunch of different concerns here, right. We've
+
+got something about naming rules. Something about cross-application tracing.
+
+Javascript. Some sort of beacon, like. It's not important
+
+what all of the inner details of all of
+
+these pieces are. But none of them are really
+
+related. The only thing about them is that they
+
+care that the configuration is ready. They're wanting to
+
+respond to that event that happened, that the config
+
+is set.
+
+Now, one of the outgrowths of the code being
+
+laid out like this is that we would like
+
+to be able to write some simple tests. Some
+
+unit tests, like DHH tells us we shouldn't, that
+
+look kind of like this. We run our given
+
+set up against a chosen config and then we
+
+can see the results of what came out of
+
+that.
+
+But, in practice, what we end up having to
+
+do is we end up having to stub out
+
+things. Like those different collaborators that were in there.
+
+The cross application tracing. If we don't care about
+
+it in this test, but we still need to
+
+make sure that that code path can run without
+
+tripping anything up or crashing because things aren't filled
+
+out the way that it needs it to be.
+
+Things can get even worse than this. Now that
+
+beacon line down on the bottom, you know, we're
+
+constructing a brand new object. Who, who knows what
+
+that thing might be doing internally. You know? I
+
+mean, nobody's ever written code like this, right, that
+
+does something bad like that from a constructor for
+
+an object. That doesn't happen. But, you know, we
+
+end up having to do things like stubbing out
+
+new. Make it so that objects don't do interactions
+
+and things that we don't really want.
+
+Well, what if we could take this whole method
+
+and just get rid of it in the form
+
+that it's in and instead we notify that an
+
+event has happened. We tell our event system that
+
+the system is now fully configured. We are ready
+
+to go. Everything's logged. We can head on.
+
+Now this has some really nice side-effects. One of
+
+them is that beacon code. Now, in initialize, you
+
+still see the code where we're making this HTTP
+
+callout. But it's not wrapped in this subscribe block.
+
+So it means that that call is only going
+
+to happen when the event system lets us know
+
+that this configuration event has occurred. That provides a
+
+buffer. You can safely create a beacon now and
+
+it's not going to immediately go hit the network.
+
+The tests surround the finished set up method become
+
+very slim and very straightforward as well. All the
+
+finish set up is responsible for is firing that
+
+event. And we check that that event gets dispatched
+
+correctly and that's all that we need to unit
+
+test at this level. And unit testing for the
+
+individual effects that occur, moves over and gets done
+
+in the place that responds to that event. The
+
+thing that is gonna subscribe to the event now
+
+takes the responsibility for testing that.
+
+Now, this doesn't cover everything. There is a need
+
+for an integration test. You do want something that
+
+sees that we wire up to the right events.
+
+But you probably have tests that are gonna exercise
+
+those things anyways, if this isn't a critical path
+
+of your application.
+
+So events allow us, within our own code, to
+
+have more focused tests around those individual pieces, more
+
+independence between the classes. The configuration in the finished
+
+set up no longer has to know anything about
+
+the Javascript instrumentor, the cross-application tracer, the beacon. All
+
+of that is pried apart.
+
+And we found that this also starts to kind
+
+of create a language within your application. A domain
+
+language, if you will. Because these are the important
+
+events that happen for us. We care, as the
+
+New Relic gem, that we are configured. That is
+
+a critical thing for us. And there's now a
+
+name for that. It's not just a bunch of
+
+stuff that's tacked on to the end of one
+
+of our methods.
+
+It's not all roses, though. There is an issue
+
+if you have some sort of ordering that's required
+
+in the things that respond to those events. And
+
+actually we've had a couple of situations where we've
+
+been refactoring code and trying to pull it into
+
+event handlers and discovered that there were dependencies between
+
+different subscribers that aren't really handled by a really
+
+simple event system like this.
+
+So, that's something that you have to watch out
+
+for. If there's a lot of that sort of
+
+ordering, you're gonna have to deal with that somewhere
+
+in your code.
+
+It can also make debugging and reasoning about things
+
+a little harder. It does spread some of those
+
+responsibilities out. Now you don't see one method that
+
+lists all of the things that we do on
+
+connect. You have to go search for things that
+
+subscribe to those events. But in the right cases
+
+I feel like it can buy you things with
+
+the other benefits it brings along that outweigh that.
+
+Lastly, it is a performance consideration. You know, I
+
+would not use this sort of structure in a
+
+tight loop that's gonna get called a million times
+
+a second. You know. If it's something like we're
+
+responding to a configuration event, like, that we are
+
+now ready to go or somebody just signed up.
+
+I mean, it'd be great if you had a
+
+million people signing up a minute, but reality is
+
+it's not happening as frequently as that. So, being
+
+aware of how this will impact your performance is
+
+really critical.
+
+Internal coupling, like within the code that you write
+
+yourself, though, is not the only place where you
+
+can get bound to different things. So in, in
+
+the New Relic gem, we have a lot of
+
+different functionality that we instrument that work through middleware.
+
+So we do Javascript insertion for doing end user
+
+timings. So as your request is going back out,
+
+we'll modify your html and put things in there.
+
+We have error collection. So if there are unhandled
+
+exceptions that occur during your call, at the rack
+
+level, we will actually gather those up and see
+
+that those happened and report them back.
+
+And we do things with HTTP requests between the
+
+applications if both ends of them are running New
+
+Relic. And we need to modify headers, HTTP headers
+
+that are on those requests. And all of these
+
+separate things fit for us very well within middlewares.
+
+But, that makes kind of an assumption that everything
+
+that we want to apply that functionality to is
+
+built on top of rack. And while that's a
+
+pretty good assumption for a lot of things in
+
+the Ruby space, we do support things that aren't
+
+necessarily configured that way.
+
+We also want to avoid people having to set
+
+things up. There are certain cases where maybe you
+
+have to manually add the things that we've created,
+
+and if we have seven different middlewares that you
+
+need to add for all this different functionality, that's
+
+kind of problematic from a configuration view point.
+
+So our solution to this was that we standardized
+
+on having one middleware that we commonly will install.
+
+And we use events to actually do the dispatch
+
+from there. So you'll see this is just a
+
+very basic middleware. When a request comes in and
+
+hits call, we notify on the before and pass
+
+along the environment that we got. We call through
+
+to the app inside and notify after and then
+
+return the results.
+
+So this allows us to be able to plug
+
+things in that maybe are not shaped like rack.
+
+We could use some of that code, like in
+
+the cross application tracing. If we had some web
+
+server that was not rack-based or some configuration that
+
+was not gonna run through middleware, we could still
+
+have it generate a before call from the right
+
+point and handle that with this same code, without
+
+having to deal with trying to create middlewares or
+
+insert something at a point that doesn't really fit.
+
+Now, just for the middleware case, you know, this
+
+probably could have been solved with some sort of
+
+composition. But, for us, it was actually a really
+
+powerful technique for keeping our code decoupled from the
+
+library that we were building on top of. That
+
+looser coupling depends a lot on what sort of
+
+library and what your interactions with it are, you
+
+know. You're maintaining, basically, kind of a compatibility layer.
+
+And the more code that you have to put
+
+into that layer, the more you should probably think
+
+about whether you're approaching it correctly. Obviously you can't
+
+do something like this with ActiveRecord, it's just not
+
+gonna be plausible. But if you have a small
+
+number of points where you interact with another third-party
+
+library, applying events at those boundaries can be a
+
+way that you can keep some separation between your
+
+code and the library that you're dealing with.
+
+So that's coupling. That's sort of the primary motivator
+
+behind using an evented pattern is to decouple the
+
+pieces of your application and allow for those to
+
+be looser and not as away of what's on
+
+the other end of either firing or responding to
+
+an event.
+
+So, let's talk about what it actually takes to
+
+implement this. What does this look like in practice?
+
+So I have created a small gem. This is
+
+sort of an abstraction from what we do in
+
+the New Relic gem. We don't use it directly
+
+and I am not suggesting this for production use.
+
+But it's a really good example of how simple
+
+it is to implement something like this in Ruby.
+
+So there's one primary class. The SimpleEvents::Notifier. When we
+
+initialize that, it's gonna be the central thing that
+
+keeps track of all the events. And everybody's gonna
+
+talk to this notifier object. So we hold onto
+
+a hash, which is where we're gonna store those
+
+handlers from the people that subscribe to us.
+
+Subscribing gets done. Passing in just a key for
+
+what the event is. We typically use symbols within
+
+our application. Some similar things that we'll see later
+
+use strings. And then hands in a block, which
+
+is the code for it to run at that
+
+point that that event gets fired.
+
+And then it's just a simple matter of keeping
+
+track of that list of handlers. Each event may
+
+have multiple handlers, so we make sure the array
+
+is there and add that handler onto the list.
+
+Now there's one other line here that we're dealing
+
+with and that's checking for runaway subscriptions.
+
+That has to do with the fact that for
+
+our usage, there is a limited number of things
+
+that should be subscribing to events. This is not
+
+something where every single web request that comes through
+
+subscribes and hooks itself in. And we'll talk a
+
+little bit later on about some of the negative
+
+side effects you can have if it's happening.
+
+So, for us, if more than a hundred event
+
+subscribers have subscribed to a given event, we actually
+
+have a bug. And so we check for that
+
+and make sure to warn that that's going on.
+
+Your mileage may vary depending on the structure that
+
+you choose to use.
+
+Notifying is a little more complicated than subscribing, but
+
+not too much more. And we'll step through it
+
+here. So first off, we check whether the events
+
+collection has any handlers for the particular key that
+
+we just passed in. And this is one of
+
+the really nice aspects of taking this simple approach.
+
+There's no central registry. There's nothing to set up.
+
+And event, I can create a handler for an
+
+event that doesn't exist or I can start firing
+
+and event that nobody handles, and it all just
+
+gracefully falls out. It doesn't cause any problems if
+
+there aren't handlers wired up for things.
+
+If we do find that there are event handlers,
+
+we simply iterate across those and call passing along
+
+the arguments that we received on the event. For
+
+our particular use in New Relic, we trap errors
+
+and will log and swallow any exceptions that happen
+
+as a result of our direct event handlers. Now,
+
+this is kind of an artifact of the sort
+
+of gem that we are. We're there in the
+
+background and these events are things for the agent
+
+and for us sending our data back.
+
+And the worst possible thing that we could do
+
+is crash an application. So we trap everything that
+
+goes through. If you were doing this in an
+
+application setting, you may want to log. You may
+
+also want to raise those errors and fail quickly
+
+in the case that one of your notifiers has
+
+something go wrong. But your mileage, you know, you
+
+can choose what the right policy is for how
+
+you're using events and what setting you're putting those
+
+in.
+
+So that's it. Like, that's an entire eventing system
+
+is about fifty lines of Ruby, which allows you
+
+to decouple those different pieces of your application. But
+
+the fact of the matter is that you might
+
+not have to even write that system yourself if
+
+you're using Rails. ActiveSupport::Notifications have been baked in from
+
+I think about the 3.0 version of Rails. And
+
+it's a system that's very much like what we've
+
+described here.
+
+I'll abbreviate in the slides a little because ActiveSupport::Notifications
+
+gets really, really long in the code, so, we'll
+
+scrunch that down a little bit. But all sorts
+
+of things flow through this evented system any time
+
+a Rails request is occurring. So we get things
+
+about the dispatch at the top level. We get
+
+things about the controller and what it's doing. We
+
+get notifications about SQL calls. We get notifications about
+
+view and template rendering. Like, tons and tons of
+
+events are streaming through this ActiveSupport::Notification system all of
+
+the time.
+
+Some common things that you might be familiar with,
+
+like the log, the debug log that you get
+
+of your queries, that's running through ActiveSupport::Notifications that are
+
+fired by ActiveRecord. So what's this look like?
+
+It looks very similar to what we've seen before.
+
+So subscribing to an event, you give it the
+
+name, you give it a block, and then you
+
+can see the form of what one of these
+
+events was that came through. It'll hand it to
+
+us. It's got a name. It's got an identifier.
+
+And then it's got this hash that's sort of
+
+a payload of data that comes along with it.
+
+ActiveSupport also provides a simple wrapper for handling that
+
+payload and handling those events when they're in a
+
+very common form. So most of the things that
+
+Rails sends out, they're gonna have a name. They're
+
+gonna have a duration and a payload in a
+
+standard format. So this class kind of wraps up
+
+that access and makes it a little neater.
+
+On the notifying side, the method that you call
+
+is instrument. So if you want to fire an
+
+event and have that be sent out to the
+
+system, you just give it the string for the
+
+name, give it whatever payload for the data, and
+
+you're off and running.
+
+There's also a nice form of it that it
+
+has that will wrap your code in a block,
+
+so you can do something in there, and what
+
+that'll do is that'll tack a duration on. So
+
+it'll time what's going on. And this is one
+
+of the key things that ActiveSupport::Notifications are used for
+
+within Rails is timing how long those different things
+
+take. Those timings that you see in your debug
+
+output are all coming from things being wrapped by
+
+this sort of instrument call.
+
+As with all things Rails, there's a lot more
+
+richness as well under the surface. You can do
+
+subscriptions by regular expressions. If events are nested, the
+
+ActiveSupport::Notifications system keeps track of that and will take
+
+care of letting you know so you could look
+
+and see whether an event was occurring within another
+
+event, and you can go crazy if that's happening
+
+too much, but.
+
+There are temporary subscriptions and unsubscribe, which is useful
+
+in certain scenarios where, maybe you do want to
+
+have something hook into the ActiveSupport::Notifications for the course
+
+of a request. But you don't want to have
+
+that handler hanging around and responding for the rest
+
+of the lifetime of your application.
+
+And there's some really great examples that you can
+
+find in Rails itself. So the log subscriber class,
+
+which is the thing that spits out a lot
+
+of your development log, is a great example of
+
+how you can hook into that underlying infrastructure.
+
+So that's the mechanism. That's how you can build
+
+events in or use a library that you're probably
+
+already using to get a lot of these things
+
+done.
+
+Let's talk a little bit more in detail about
+
+the different parties that are involved here, and what
+
+they're responsible for and considerations there. So notifiers have
+
+a lot of responsibility. They're, they're kind of the
+
+key points in your application. You should be, in
+
+this scheme, you would be adding events for the
+
+things that matter the most.
+
+And on that, I think that naming is a
+
+really critical thing around this to get the benefit
+
+that you're looking for. So in the example that
+
+I gave up front, you'll, you probably didn't notice,
+
+but I named the event configured, to say, hey,
+
+we are in a state where we are fully
+
+configured.
+
+I didn't name it connect to server or finish
+
+with the set up or, you know, binding it
+
+to the mechanism of what it was. I couched
+
+it in the terms of what mattered to my
+
+application. I think that that's something that's really powerful
+
+if you do this right. If you, it allows
+
+for changes in the location, like in our case,
+
+that change of when we were configured. It moved
+
+from just plain application start up to a point
+
+in time in the future when we may hear
+
+back from a server. And who knows when that
+
+configured point might change in the future?
+
+We're not bound by the event name to some
+
+particular method or point in time. We can change
+
+that and still have it make sense within the
+
+domain of what we've created.
+
+It's also important to consider what your payload is.
+
+What data you're sending along from the notifier. So
+
+Rails follows the convention with ActiveSupport::Notifications that I would
+
+definitely encourage, of sending along primarily a hash of
+
+different values that you can pipe through. I learned
+
+this the hard way the second time that I
+
+needed to add a bit of data onto one
+
+of my events. And the mechanism, as we saw,
+
+just sort of percolates the arguments along that we've
+
+given it.
+
+Well, if you add another argument, all those other
+
+handlers downstream need to get updated. So do it
+
+from the start to make these things flexible. Pass
+
+your payloads along as a hash that you can
+
+then add additional data that old event handlers don't
+
+need to care about and that new things can
+
+pick up along the way.
+
+On that topic of the payload as well, if
+
+you're writing some sort of internal application, you know,
+
+you can put whatever you want into these payloads.
+
+But as a third party, you may want to
+
+be cautious if you're having other people, other gems,
+
+and other codes subscribe to these events to try
+
+to keep your payloads as primitive as you can.
+
+Maybe even all the way down to just base
+
+types.
+
+The advantage here is that you are, if you
+
+put one of your internal classes as something that
+
+you're packing around in this event, and then broadcast
+
+it out to the world for everybody to use,
+
+you now don't know who might be getting access
+
+to those objects and using them. And depending on
+
+what sort of usage you've got with your, your
+
+app, it can be difficult to make changes to
+
+things that maybe you consider to be internal details.
+
+If you turn things into primitives, you know, it,
+
+they're just strings and hashes and numbers, those are
+
+pretty safe, right. You can maintain that mapping from
+
+your internal objects to those primitives and not have
+
+to worry about who might be changed when you
+
+refactor.
+
+So the other end of things is the subscribers.
+
+I think it's really important to consider, carefully, who
+
+the subscribers are for a given event. This pattern
+
+doesn't fit everywhere. This is not something where every
+
+single thing that happens in your application should be
+
+an event. And if you're writing an event, and
+
+there's only one thing that's gonna handle it, you
+
+might be misapplying this pattern. You might not get
+
+the benefit that you need, there.
+
+A lot of times, you'll find that there is
+
+some natural home, some place within your app that
+
+is already there that is the right place to
+
+be subscribing to that event and responding to what's
+
+happening. But if you don't, it's an, there's some
+
+interesting ideas around how you can create what that
+
+location is. So there's this gem that I've run
+
+into, it's called mutations. It's sort of building command
+
+objects that represent different actions that happen in your
+
+system.
+
+Now, you know, you might recognize something very like
+
+this from earlier in the morning, but it can
+
+be an interesting idea if you have key pieces
+
+of your system where a workflow or something that
+
+occurs is really important. You can write something, a
+
+command, that encapsulates what the event is, what that
+
+action is that needs to be taken. And this
+
+can be something that helps in those cases that
+
+I described, where there may be implicit ordering. There
+
+may be ordering between different components. You could create
+
+a command that wraps those up in the right
+
+ordering to be applied and then have that be
+
+what responds to the events.
+
+Probably one of the biggest difficulties that you can
+
+run into with an evented pattern is, if there's
+
+too much nesting, if this gets overused, and events
+
+trigger events and trigger events on all sorts of
+
+different things, it can become very difficult. And the
+
+main advice that I have there is that this,
+
+this technique works best, I think, at the critical
+
+lynch points of your application. The things that you
+
+really care about the most to be providing, that
+
+sort of visibility and language around.
+
+And another thing to be aware of with the
+
+implementation that we've done here. I've had a number
+
+of poeple come up afterwards and point out, they're
+
+like, it's all still synchronous. It's all still just
+
+running. I mean, this is just splitting up where
+
+those things are. And that's totally true. This is
+
+not as described something that will make your application
+
+parallel or asynchronous in how that event handling happens.
+
+But it might give you good points in time
+
+when you could decide to push things off. Things
+
+could go to background jobs or things could get
+
+dispatched to all sorts of other places if you
+
+wanted.
+
+It's also important with subscribers to watch out for
+
+leaks. There is, when you create a block, so
+
+like, if this subscriber was created for every web
+
+request, the fact that we have that block potentially
+
+holds onto a reference to this object and keeps
+
+it alive past a point in time when you
+
+might have thought that it was gonna go away.
+
+I've seen this not just in Ruby but in
+
+a number of different languages with these sorts of
+
+evented patterns with handlers that get subscribed, where they
+
+can hold references to objects that you might not
+
+be expecting them too. And so you gotta watch
+
+out for that to keep things from leaking.
+
+So those are some ideas around the responsibilities that
+
+your subscribers and your notifiers should have. And I
+
+hope that maybe this has opened your eyes a
+
+little bit to some ideas about how you might
+
+be able to partition your app differently. What are
+
+those responsibilities and things that happen during your app
+
+that would be worth having an event or worth
+
+giving that name to.
+
+And as you can see that it's a pretty
+
+simple thing to implement that can give you a
+
+lot of benefit down the road. Thank you.
