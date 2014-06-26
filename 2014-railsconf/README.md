@@ -17,3 +17,5 @@ How to be a Better Junior Developer - https://www.youtube.com/watch?v=GJW46x27W1
 Rack::Attack: Protect your app with this one weird gem! - https://www.youtube.com/watch?v=m1UwxsZD6sw
 
 Lightning Fast Deployment of Your Javascript-Backed Rails APP - https://www.youtube.com/watch?v=QZVYP3cPcWQ
+
+Distributed Request Tracing - https://www.youtube.com/watch?v=L9HiJrR2RQY
