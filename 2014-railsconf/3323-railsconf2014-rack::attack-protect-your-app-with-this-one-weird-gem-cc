@@ -1,0 +1,1193 @@
+RailsConf 2014 - Rack::Atack: Protect your app with this one weird gem! - Aaron Suggs
+
+AARON SUGGS: All right. Can people hear OK?
+
+I'll go ahead and get started.
+
+So this talk is Rack::Attack and
+
+how to protect your app with this one weird gem.
+
+Where does Rack::Attack come from? We built it at
+
+KickStarter. If you haven't heard of KickStarter, it is
+
+a funding platform for creative projects. So somebody has
+
+an idea for a film, a comic book, an
+
+open source project, a gadget. They, they put their
+
+project up on our site. They can offer rewards
+
+for various pledge levels. Their friends, family, strangers on
+
+the internet come and can, can give them money.
+
+At the end of the deadline, if they've reached
+
+their funding goal and so they have enough to
+
+reach their project, that's when we process the transactions
+
+and the creators' get the funds they need to,
+
+to do the project.
+
+To give you a sense of scale for what
+
+we do, we, we recently crossed over a billion
+
+dollars pledged to the site. It's over a million
+
+dollars a day. And it's gone to over 60,000
+
+creative projects.
+
+Quick introduction. My name's Aaron Suggs. I go by
+
+ktheory on social media. I love dancing in my
+
+bear outfit. And I'm the operations engineer at KickStarter.
+
+We, we have a very dev ops-y style workflow.
+
+So, so it means I end up writing a
+
+lot of Ruby code, and I love writing Ruby
+
+code.
+
+So, so Rack::Attack is, is a tool I wrote,
+
+and it's Rack middleware for blocking and throttling abusive
+
+requests. What do we mean by abusive requests? These
+
+can be things like malicious attackers trying to take
+
+down your site, doing things like trying to crack
+
+user accounts or get sensitive information, or it can
+
+be naively written scrapers, who are just, like, people
+
+on the internet doing weird things as they are
+
+prone to do, and that's cool, but sometimes it,
+
+it is a lot of traffic. It's a lot
+
+of resources for your app to try to handle,
+
+and Rack::Attack is a very elegant DSL and, and
+
+way for dealing with these sorts of things. Sort
+
+of constraining their behavior so your website stays up.
+
+Rack::Attack is on GitHub at slash kickstarter slash rack-attack.
+
+It's an open source Ruby gem. There's a README,
+
+sort of exactly like what you'd expect.
+
+So the big wins that KickStarter has gotten from
+
+using Rack::Attack, and the reason we developed it, was
+
+we wanted to increase our performance. So, so this
+
+is like site performance. We, we had problems with
+
+sort of abusive requests making our website slow because
+
+they were using up too many app servers CP.
+
+Too much app server CPU, or too much, too
+
+many database resources, by sort of constraining them we
+
+were able to make the website faster for the
+
+sort of, the most important requests. Like people coming
+
+on, wanting to watch videos, wanting to pledge money.
+
+Not people just trying to scrape down the entire
+
+site.
+
+We also improved our available. Because sometimes these requests
+
+were, were so much, there were so many that
+
+they would take down the site, or there would
+
+just be some weird incident and, we, right. It,
+
+it hurt our availability.
+
+But the biggest win that we had was developer
+
+happiness. Because dealing with these sort of bad actors
+
+on the internet especially if it means, like, your,
+
+your site's going down or like, the, you know,
+
+you need to scale up because somebody's doing something
+
+weird, that can really interrupt a lot of developers.
+
+It can, it can sort of derail your product
+
+road map. We want to be writing cool features
+
+and Rack::Attack was a great DSL to let us
+
+spend less time thinking about that stuff and more
+
+stuff doing the stuff that we, that we like
+
+doing.
+
+So let me talk about the origin story for
+
+Rack::Attack. Like, what happened at KickStarter that made us
+
+realize we, we needed this? Let's rewind to the
+
+summer of 2012.
+
+And this happened. So this is a story in
+
+a graph. So the blue line, I hope it
+
+shows up pretty well. Cool. Is our regular successful
+
+logins. People typing in an email and password and
+
+us being like, OK, you are logged in. You
+
+know, it ebs and flows throughout the day.
+
+Suddenly, one Sun, one Saturday afternoon, we just get
+
+so many of these, like, bad login requests, and
+
+for awhile we're like, what's going on? Did we
+
+deploy a feature that broke login? No. Somebody is
+
+trying to, to crack our user accounts. They're just
+
+like guessing email addresses and passwords as fast as
+
+they can, from several different IP addresses.
+
+So, as the ops guy, this is sort of
+
+on my plate. I'm like, OK, well, I gotta
+
+stop this. This is bad for the site for
+
+this to be going on. So I wrote a
+
+pretty nasty before filter for our login action, that's
+
+like, you know, keep a counter in memcache and,
+
+you know, if it's too many like, like, give
+
+them an error page and it was, it was
+
+kind of a sucky experience, because I was changing
+
+a really critical feature of our site, sort of
+
+under duress of, of knowing that I needed to
+
+get it out there quickly. And it was sort
+
+of like a big change, and in the pull
+
+request I was, I was apologetic, being like, I
+
+know this is badly tested and it's like a
+
+nasty code change, but we've got to get it
+
+out fast because this, this event's going on.
+
+And, so that, so we did that. And then
+
+sort of in the cold light of day, I
+
+reflected a little bit and I thought, we need
+
+a more elegant way to prevent bad requests. This
+
+is, it's not just gonna be about this login
+
+attack. This is gonna be about a whole class
+
+of problems that we might have on the site.
+
+You know, I should say, too, with that login
+
+attack, it was something that we sort of always
+
+imagined that, like, oh yeah, of course we should,
+
+like, throttle login requests. We just hadn't ever gotten
+
+around to it. You know, it was in our
+
+ticketing system as like a low-priority someday somebody should
+
+do this thing. And having it actually happen was
+
+like, OK, now we gotta do it right now.
+
+So, we realized, like, we need this generic tool
+
+to stop bad requests. And really, there's already, in
+
+the Ruby world, a great solution for this, and
+
+it's Rack middleware. So now we get to the
+
+code section of the talk. Here comes some code.
+
+Get ready.
+
+This is an example of, like, the most basic
+
+Rack middleware. Just, really quick, for, for people who
+
+might not be familiar with it. So middleware is
+
+basically like hugging your application, wrapping around so, so
+
+you, you have your Rails app or your Sinatra
+
+app, that is the app in this case. And
+
+you want to do things, you want to sort
+
+of be able to do things to the request
+
+that's coming in from the client. That's the end.
+
+So every, every request from a client is gonna
+
+do this call method where you pass in the
+
+environment, the environment is, like, I don't know, what
+
+page the client wants or what they're cookie is
+
+and, and all that information.
+
+And so the real magic of Rack middleware is
+
+it lets you do stuff here with, with the
+
+requests. Like, you can block it in the case
+
+of Rack::Attack, potentially. Or you can do stuff with
+
+the response. You can log it. You can cache
+
+it. Stuff like that.
+
+So this, so this is just a great pattern
+
+for managing, for sort of making easy architectures to
+
+do stuff with HTTP requests. So in Rack::Attack's case,
+
+this is a sort of simplified version of the
+
+Rack::Attack call method. We say, for this request, should
+
+we allow it? If so, go ahead and pass
+
+it onto your application. Your application is gonna do,
+
+potentially, a lot of work.
+
+Maybe it's gonna spend a couple hundred milliseconds, like,
+
+querying the database and rendering views and stuff like
+
+that. So that's the expensive work that we want
+
+to save if the, if this is an abusive
+
+request. So, so if we shouldn't allow it, then
+
+we just return back this very fast access-denied as
+
+a very simple and fast response to render.
+
+Rack::Attack can do several hundred of these access denied
+
+requests per, like, thread that you have running. So
+
+like, per unicorn worker or per Heroku instance or
+
+something like that.
+
+But, so, that's what you get for, when you
+
+just use the Rack middleware for free. So, so
+
+we don't yet know what this should_allow method should
+
+be. That's code that you sort of have to
+
+configure yourself, of what do you want to throttle
+
+on.
+
+So that looks like this. This is sort of
+
+a generic throttle that you might put in your,
+
+in an initializer to configure Rack::Attack. The important stuff
+
+that's going on here is we are calling the
+
+throttle class method on Rack::Attack, so that's just something
+
+we expose to let you plug into the middleware.
+
+We give it a name, in this case it's
+
+the, we, we named the throttle IP. This is
+
+gonna determine how we track it. And that just
+
+has to be unique throughout your application. We're gonna
+
+give it a limit and a period. And so
+
+that's how much, the, the period is how many
+
+seconds we're gonna be considering for the throttle, and
+
+the limit is sort of your quota for how
+
+many requests you get to make during that time.
+
+So in this case, it's ten requests every five
+
+seconds. For the arithmetically inclined, you'll notice that this
+
+is not like a reduced fraction. We could say
+
+two requests every one second. The advantage of doing
+
+a higher multiple is that, like, it allows a
+
+little burstiness. So these periods are basically dividing time
+
+up into these, like, five second long buckets. So
+
+in between zero and, seconds and five seconds after
+
+the minute, like, in that window, you're allowed to
+
+make up to ten requests.
+
+And so by having bigger multiples in bigger windows,
+
+you can sort of get around some burstiness at,
+
+but the long-term average stays the same. Like, long
+
+term, nobody's gonna make more requests that two every
+
+one second.
+
+OK, so what's going on? We got the, the
+
+class method. We got the name. WE have the
+
+limit and the period. And then to this block,
+
+we are passing along the request. Now, in the
+
+earlier middleware expample we talked, we called this the
+
+end, which was just like the, the environment hash
+
+that comes from the request. Request is just like
+
+a light little Rack request object wrapped around the
+
+environment that just sort of gives you methods, instance
+
+methods to call, like dot IP or dot host
+
+or dot path or something like that. It just
+
+sort of, you use these in Rails controllers, too.
+
+So it's just like a lightly-wrapped request. And then
+
+inside the block, what the block returns is the
+
+sort of really important part. That's the discriminator that
+
+determines how we're gonna bucket up these throttles. So
+
+in this case we are gonna say every IP
+
+address, every distinct IP address is going to get
+
+its own throttle limit. But we could throttle by
+
+something else. WE could throttle by a parameter or
+
+a host name or something like that, or an
+
+API token.
+
+And one thing to note with these discriminators, too,
+
+is like, if this would, this is returning a
+
+string, so it's always gonna be a truthy value,
+
+and true values sort of enable the, the throttling.
+
+Like, we are gonna throttle these requests as long
+
+as there's an IP address, and there always is.
+
+If we would return nil or a falsey value,
+
+we just sort of let the request go through
+
+and we're not gonna throttle it. I'll talk about
+
+why we might want to do that later. But,
+
+so now we have this issue of throttle state.
+
+Like, we have these counters per IP address that
+
+we need to track.
+
+And so, so where do we store that? A
+
+pretty elegant and simple and obvious place for that
+
+was our Rails cache. So when you just use
+
+Rack::Attack by default, if you have a Rails cache,
+
+it's gonna use it. But, it really works best
+
+with memcache or redis. So, so I hope you're
+
+using that as your Rails cache. But if you're
+
+not, like, there are ways that you can build
+
+your own, or sort of like plug in a,
+
+a different cache store.
+
+The great advantage about memcache and redis is that
+
+they have really good support for atomically incrementing counters,
+
+and that's the sort of key feature we'd need
+
+behind the scenes. So now we're imagining for, for
+
+every request that comes in, we need to sort
+
+of increment the counter per IP address.
+
+And so how do we do that? Like what's,
+
+what's the algorithm? So this is the nitty gritty
+
+of how Rack::Attack works. How it constructs that key.
+
+So remember how we divided the minute up into
+
+like little buckets depending on our period. So, so
+
+to do that, we sort of take the current
+
+second. We construct a key that is the name
+
+of our request, like IP in this case. We
+
+take the time divided by the period, so this
+
+means that that middle component is going to be,
+
+is going to increment every five seconds. It's gonna,
+
+so it's, the key's gonna change.
+
+And then the final part is that block return
+
+value. So in this case it's the IP address
+
+of the request. But maybe it's an API token
+
+or something like that.
+
+So at the end of it, we have this
+
+key that changes every couple seconds. Every time, like,
+
+the period rotates, and this ends up being a
+
+very efficient use case, a very efficient use of
+
+memcache or redis. Like, this is, storing all this
+
+information is gonna take, like, a couple megabytes. It's
+
+like, don't worry about the impact on your cache
+
+store in pretty much every scenario.
+
+To make it even more efficient use of your
+
+cache store, we set an expire rate, so that
+
+in that, like, in that bucket window of, say,
+
+zero to five seconds, we're gonna say that all
+
+those cache keys expire at five seconds. So at
+
+the same moment that the cache keys change, they
+
+also expire. So memcache or redis just ends up
+
+reusing the same memory blocks over and over. You
+
+don't have, even though there's changing, they're changing in
+
+memory, you don't have as much churn as you
+
+would otherwise.
+
+And so then the Rack middleware is really doing
+
+pretty simple stuff of we're saying, for whatever your
+
+cache is, increment this key with this expire rate.
+
+That's gonna give us back the count of how
+
+many requests that have been made that, that match
+
+that throttle. And if it's more than our limit,
+
+we're gonna return that access denied response.
+
+So, we rolled this out. You know, we're able
+
+to have this global throttle per IP address. We
+
+start making a couple other, other features, and it
+
+was about a year later when we had a,
+
+the sort of redux of, of a new event
+
+that put Rack::Attack to the test.
+
+So, a new challenger emerges in the summer of
+
+2013. This was a script called kicksniper dot py.
+
+And this revealed a pretty interesting behavior on KickStarter
+
+that we call reward sniping. Actually, kicksniper dot py
+
+refers to it in the code as reward sniping.
+
+And so, this is, this is an, an interesting
+
+behavior because. So I told you how KickStarter offers
+
+these rewards. They can be limited rewards. So a
+
+creator says, I'm only gonna give away, like, a
+
+hundred of these, and first come, first serve.
+
+So, there's a, a pretty popular project where it
+
+was like a video game and, and the video
+
+game was offering these reward tiers that would be,
+
+like, for fifty bucks, you get, like, the silver
+
+level package, and for a hundred bucks you get
+
+the gold package, and so on and so, like,
+
+ever more deluxe and expensive packages. And they were
+
+all very much in demand.
+
+So the early reward tiers like sold-out super fast.
+
+And then occasionally, somebody in, who had those early
+
+reward tiers, would decide they're gonna splurge and they're
+
+gonna upgrade. They're gonna change their pledge to a
+
+higher one, and now for that moment, like, there's
+
+now one available of the lower tier. And so
+
+people were like hitting refresh, refresh, refresh, hoping that
+
+they just noticed when somebody, when somebody had changed
+
+their pledge and now there was one of these
+
+highly desirable lower-tier pledges available.
+
+Some entrepreneur, enterprising Python developer, says, I will make
+
+a script that does this for me. Sure enough,
+
+so, so he writes kicksniper dot py that's, that's
+
+in a tight loop, trying to change his pledge
+
+on our site. Saying, like, let me get that,
+
+that early reward tier. You know, our ActiveRecord validations
+
+were working fine and we said, no, you can't
+
+change your pledge to that the vast majority of
+
+the time, but, but eventually he got through and
+
+was able to get the pledge.
+
+It was such a great success that he goes
+
+on all the forums and says, hey, everybody just
+
+run this, like, Python script on your laptop and
+
+you, too, might look, luck out and get one
+
+of these highly desirable earlier reward tiers.
+
+So let's tell this story in a graph. So,
+
+this is our master database CPU over the course
+
+of a, of a day or so. We see
+
+at the very beginning, it starts off between ten
+
+or fifteen percent. That's my happy place. That's where
+
+I like it to be. We have plenty of
+
+head room for like, you know, big projects to
+
+sort of blow up on the site, as they
+
+do from time to time.
+
+And, I honestly didn't really notice that it had
+
+been creeping up over the course of the day.
+
+Thursday morning, it crossed thirty percent, and that's when
+
+I get a CPU alert threshold. So it, so
+
+in fact, the whole dev team gets this email
+
+being like, hey, the master database CPU is pretty
+
+high. You guys should check that out.
+
+So, what do we, you know, we, we spend
+
+a little time, we're like, why is the database
+
+so high? Well, you know, it looks like there
+
+are a crazy number of requests trying to change
+
+their pledge for this one project.
+
+We, we're able to sort of construct this back
+
+story and, like, see what was happening on the
+
+database CPU. We see the form request where everybody's
+
+like, thank you for kicksniper dot py. And so,
+
+and we're like, all right, so, so how are
+
+we gonna handle this? Like, is it really that
+
+important that people are able to try to change
+
+their pledge like multiple times a second?
+
+What if they only could change their pledge every
+
+couple seconds? Right, like, I guess that's fair enough
+
+to the, like, there's this question of, like, what's
+
+the fairest way to allocate the scarce resources of,
+
+of like the pledge as soon as it's available.
+
+I kind of don't care about the answer. Anybody
+
+can get it.
+
+But, but we're like, if we start throttling these
+
+people, it's like totally fair. They're using an inordinate
+
+number of resources. And people who are just clicking
+
+around the site are having a slower experience because
+
+our database CPU is so high.
+
+So we decide, like, OK, you can make a
+
+couple requests per minute to change a pledge. It
+
+was one line of Rack::Attack code. We deploy it.
+
+The yellow vertical lines here are deploy lines, so
+
+you can see that right here, about an hour
+
+after we get the alert that something was going
+
+wrong, we deploy and immediately our database CPU drops.
+
+We're pretty much back to the happy place.
+
+And so, for us, that was like, revealing the,
+
+the great success that we could have. Like, it
+
+was so easy, like, once we figured out what
+
+was going on, it was so easy for us
+
+to write code that just, like, solved that problem.
+
+We didn't have to think about, like, how do
+
+we optimize the edit pledge flow? Which could have
+
+been, like, a much bigger product change, and derail,
+
+like, taken up a lot more developer time. It
+
+was sort of a cut and dry decision of
+
+like, most people aren't gonna try to change their
+
+pledge, like, we're super confused if you're actually trying
+
+to change your pledge several times a minute.
+
+That's a, that's a bug we should fix. But
+
+it's really just these scrapers. It's not big deal
+
+to say they can try a few times a
+
+minute.
+
+So, that was a big win for Rack::Attack at
+
+KickStarter. We feel like we sort of, we sort
+
+of cemented that its value in the organization. So
+
+now I'm gonna shift gears a little bit and
+
+I'm gonna tell you pro tips of general things
+
+you can do with Rack::Attack that, that are probably
+
+useful for your application.
+
+I just, oh my gosh I'm so glad that
+
+I got to use this gif. This gif is
+
+like condensed, pure condensed happiness for me. OK. Back
+
+to the code.
+
+So, we talked about how to do, like, a
+
+general, a, a log, I'm sorry. We talked about
+
+how to do a throttle for all IP addresses.
+
+So like each IP has this quota of how
+
+many requests you can do. But, in our, in
+
+our origin story about the login attack, we wanted
+
+to be extra careful about login requests. Like, those
+
+are something that, that you would want to throttle
+
+even more strictly than you would throttle many other
+
+things on your, in your application.
+
+So this is a new throttle, and so we
+
+give it a new name of logins per IP.
+
+And this is saying that if you are making
+
+a post request to the login url, then we
+
+want to throttle you by IP to like this
+
+much, this lower limit. And so this is relying
+
+on the fact that we mentioned earlier, that if
+
+the block returns nil, we're not gonna do throttle
+
+at all. So, so if this is not a
+
+post to the login action, like, we're not gonna
+
+check memcache, we're not gonna increment any counters or
+
+do anything like that. We're just gonna sort of
+
+allow this request right through.
+
+But if it is, we're gonna hold you, we're
+
+gonna say each IP address gets this lower quota
+
+of how many login requests they can make.
+
+Thinking of this same problem from a, from a
+
+kind of different angle, you might want to imagine
+
+a, a situation where a, an attacker is using
+
+many different IP addresses to try to crack passwords
+
+for one particular email address, right. Maybe it's the
+
+founder's email address or something like that.
+
+So you, so putting on your security hat, you
+
+can be like, how am I gonna be safe
+
+from those kinds of requests? The only change here
+
+is what we're returning. Instead of the IP address,
+
+we're returning the value of the email parameter. So
+
+this is a, a sort of little different way
+
+of thinking about throttles, of saying, whoever you are,
+
+if you're trying to login with this one particular
+
+IP address, you can only do it five times
+
+every twenty seconds.
+
+So those are two throttles that pretty much everybody
+
+should, should have that feature on their website. If
+
+you haven't been bitten by it yet, it's probably
+
+just a matter of time.
+
+Another pretty cool Rack::Attack feature are blacklists. So these
+
+are requests that you don't even want to throttle.
+
+Like, you're not gonna allow them at all. Just,
+
+access denied every time they happen. I kind, I
+
+was gonna call these blocks, but like blocks, I
+
+can't call them blocks. Because in Ruby the, like,
+
+that's already a different thing.
+
+So hence the term blacklists.
+
+Here's an example of a pretty handy blacklist. Say
+
+you have an admin section of your website, and
+
+you want to restrict access to the admin section
+
+to just like, your one office IP address. So
+
+this is, again, it's using the, it's using the
+
+blacklist class method on Rack::Attack to sort of configure
+
+this in the middleware. You would, you would put
+
+this in an initializer, saying that, you're given a
+
+name like bad_admin_ip, and one of the things, like,
+
+it's different than throttles in that we don't have
+
+to pass along a limit of a period, because
+
+it just like, it doesn't apply to blacklists.
+
+But it has the same logic where if the
+
+return value of this block is truthy, we're gonna,
+
+like, just give them the very fast access denied
+
+message. If it's false, then we're gonna let the
+
+request through. So this is saying, if you're making
+
+a request to a url that starts with admin,
+
+and you are not from this IP address, we're
+
+gonna, we're gonna just give you an access denied.
+
+This is something that KickStarter uses. We call it
+
+the starve the trolls feature. So this is, if,
+
+if you're one of our banned IPs that our
+
+customer support team decides which IPs get banned, you
+
+cannot make any request that's not a get request.
+
+Or, put another way, you can only make get
+
+requests if you're from these IP addresses.
+
+So let's think about what it's like to use
+
+a dynamic web application if you're only using gets.
+
+You can't sign up. You can't log in. You
+
+can't post comments. These are, these are, we sort
+
+of use this as a measure of last resort
+
+for people who are, who are bad actors in
+
+our community. Any big community has, you know, knows
+
+that this stuff is sort of inevitable, to have
+
+a few rotten apples.
+
+And this has been like really fast and effective
+
+for our community team to be able to just
+
+like put these IP addresses into a yaml file.
+
+They leave them there for about a week or
+
+so, and you know gives that person sort of
+
+time to cool off, where they're not gonna go
+
+around signing up for a bunch of accounts and,
+
+and maybe doing bad stuff or, like, posting messages
+
+or stuff like that.
+
+So this is, I don't, I was really, I
+
+was sort of struck when we started doing this
+
+of like how simple this was in code, and
+
+how much it helped our CSS, or, our community
+
+support team. So this is another example of, like,
+
+sort of an area where I wouldn't expect Rack::Attack
+
+to be very helpful, but it ended up being
+
+very helpful.
+
+Another Rack::Attack nice to have feature is ActiveSupport::Notifications. So,
+
+every time, if, if ActiveSupport::Notifications are in your app,
+
+and so for any Rails app they're already there,
+
+we will fire a ActiveSupport notification event every time
+
+a request gets blocked or throttled. So this means
+
+you can have a subscriber to these events that's
+
+gonna log or graph these events and stuff like
+
+that. There are examples of how to do that
+
+in the README on GitHub.
+
+So thinking of where Rack::Attack might fall in the
+
+set of tools you use to keep your site
+
+fast and reliable, it is, it's not a silver
+
+bullet. Like, it very much compliments things like, the
+
+iptables firewall, or nginx limit_conn_zone, limit conn module to
+
+limit the number of concurrent requests per IP address.
+
+Or if you have, like, a CDN or a
+
+web app firewall. So, like, you know, hardware to,
+
+to keep your website fast and reliable. Like, keep
+
+doing those.
+
+Rack::Attack's not a silver bullet. You know, it's, if
+
+you have a mtp reflection ddos attack, like, it's
+
+gonna overwhelm your Unicorn or Heroku processes pretty fast.
+
+You need something else. But, what Rack::Attack really is
+
+good at is, it's Ruby. It knows everything about
+
+your app, like, I mean, because it's in your
+
+application, you can use other logic from your app.
+
+Because it's Ruby, it's easy to test. You write
+
+integration tests for it the same way you write
+
+tests for the rest of your application.
+
+And it's easy to deploy, because it's Ruby code.
+
+I don't know how you deploy changes to a
+
+CDN or a web app firewall, but it's probably
+
+a different process than how you deploy your Ruby
+
+code. And, and this is something that a lot,
+
+everybody on our engineering team is comfortable doing.
+
+So that, that's why, that's where Rack::Attack can fit
+
+in into your application security mindset.
+
+I also wanted to call out and say thank
+
+you to my many GitHub contributors. These people are
+
+really awesome and they've taken Rack::Att- like, added really
+
+cool features, like allow to ban and fail to
+
+ban, and they've cleaned up documentation and they've made
+
+the tests a lot better. They support, added reddis
+
+support was, it used to be just memcache. But
+
+these people are doing fantastic things with open source.
+
+They're from five different continents, too, which, like it
+
+feels so cool to put code out there and,
+
+like, people from five different continents contribute to it
+
+because they find it useful.
+
+So, more like that please.
+
+So, sort of wrapping up, the web, weird stuff
+
+happens on the web. It's inevitable. It's good in
+
+a lot of cases. I, I like that, you
+
+know, people write really innovative things and, and stuff
+
+that I would never would have come up with.
+
+Like, that's fantastic. So I hope the web stays
+
+weird. But I also hope that the website stays
+
+up. And Rack::Attack lets you have the best of
+
+both worlds.
+
+So that's all I had. That's, that's Rack::Attack at
+
+KickStarter. If you have any quest- I'd love to
+
+answer any questions if people have them. And, if
+
+you're more comfortable, hit me up on Twitter or
+
+find me after the talk.
