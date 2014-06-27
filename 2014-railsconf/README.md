@@ -19,3 +19,5 @@ Rack::Attack: Protect your app with this one weird gem! - https://www.youtube.co
 Lightning Fast Deployment of Your Javascript-Backed Rails APP - https://www.youtube.com/watch?v=QZVYP3cPcWQ
 
 Distributed Request Tracing - https://www.youtube.com/watch?v=L9HiJrR2RQY
+
+Make an Event of It! - https://www.youtube.com/watch?v=dgUhP606F9w
