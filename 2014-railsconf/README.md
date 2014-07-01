@@ -23,3 +23,5 @@ Distributed Request Tracing - https://www.youtube.com/watch?v=L9HiJrR2RQY
 Make an Event of It! - https://www.youtube.com/watch?v=dgUhP606F9w
 
 Too Big to Fail - https://www.youtube.com/watch?v=MOTpwIwQMTI
+
+Concerns, Decorators, Presenters, Service Objects, Helpers, Help Me Decide! - https://www.youtube.com/watch?v=bHpVdOzrvkE
