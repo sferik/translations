@@ -21,3 +21,5 @@ Lightning Fast Deployment of Your Javascript-Backed Rails APP - https://www.yout
 Distributed Request Tracing - https://www.youtube.com/watch?v=L9HiJrR2RQY
 
 Make an Event of It! - https://www.youtube.com/watch?v=dgUhP606F9w
+
+Too Big to Fail - https://www.youtube.com/watch?v=MOTpwIwQMTI
