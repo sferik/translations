@@ -1,0 +1,273 @@
+RailsConf 2014 - Concerns, Decorators, Presenters, Service Objects, Helpers, Help Me Decide! - Justin Gordon
+
+JUSTIN GORDON: Is there, can you guys hear me OK? OK. I didn't realize no one, no one's giving the clue, like, we're starting. So I got, I got thirty-eight minutes to go.
+
+Hi. I'm Justin Gordon. I flew out here from Maoi. My handle on Twitter is @railsonmaoi. I'm a Rails freelancer. I'm a poster child for remote work. The, the guys at 37Signals. I do that all the time. Work on Google Hangouts. Everything.
+
+Anyway. I am so stoked to be here. I'm thrilled. My talk today is called Concerns, Decorators, Presenters, Serive Objects, Helpers, Help Me Decide! Well, after I saw David's talk this morning, I realized that wasn't a very good title. OK. Here's my new title. How to Lose Model and Controller Fast for Men and Women.
+
+The ball of mud. How many of you experienced, ever experienced that in a Rails project? Well, look, I only learned Rails three years ago. I understand how this goes, because it's a little bit mysterious when you first start programming in Ruby. You know, the natural place to put - where's the natural place to put another line of code? In the same place, next to where you need to change something. So it just kind of keeps growing and growing and growing.
+
+Anyway. So I love this analogy. The ball of mud. If any of you have kids, like, I have a wonderful five-year-old, almost six. They don't like to clean themselves. So you try not to get them too dirty. But they like to play. And, anyway. I guarantee you, this guy is not cleaning up his mess. And you could have the same analogy, a little bit, with some software projects, too.
+
+K. When I first wanted to develop this talk, what I wanted to do was I wanted to make it so that I was gonna get some real code. So I started asking around the forums. By the way, a big shoutout to the Parlay forum and Thoughtbot forums. I'm on there all the time.
+
+So, the Sandi rules. Hang on a second.
+
+So, how many of you all heard about the Sandi Metz rules, been following that stuff? You know, that sort of stuff. I've been doing that a lot recently. And that's kind of a lot of what got me going, started going for this talk. So, anyway, I wanted to bring up some real code here. So here we got some code from RedMine, and we got a user model there. Yeah. 762 lines. We got the count controller. The lost password method. Yeah, fifty, what have we got? Fifty-two lines. Four levels of nesting. Yeah. That's still really not that much fun to work on.
+
+Anyway. So, how do we orga- so, anyway, so I'm gonna be doing is, I got, I come up with some examples that are much simpler, really. That was gonna be too hard. So my examples are built on top of Michael Hartl's Rails Tutorial. Actually, I want to just, I'm gonna take on sec right now, just tell you a little bit about how I came about developing the talk. Cause I think it's really, really relevant.
+
+First of all, I go, I wasn't even planning on giving a talk. I got brought out here by, by Ru, by JetBrains at RubyMine. They say, go do a RailsConf for us. I'm just gonna go do, I said, I'm not sure if I can go. I say, yeah, OK, I'll go. Then I see a little Twitter thing, OK. So, last day for conference approach. And I'd been working on kind of applying these patterns to a big project I've been doing. The patterns I'm about to show you.
+
+And, so then I thought, OK, you know what? What they don't really teach you that much about is when to apply a pattern to a particular thing. And I've got all these, like, cool little different patterns. So that was kind of the concept of, of this talk. And this is an example we're gonna try to fix.
+
+So what we got here is, how we organize this mess, and an example I got is like a clothing store. You go to a clothing store, and what if they organize the clothing in the clothing store by color? Say, everything that's black is gonna be, everything that's black is gonna be in like all one place. That would be a disaster. You know, you'd have women's clothes, baby's clothes, everything, and maybe you're looking for something, for men's clothes, you know, and size and whatever.
+
+Even among different kinds of clothing stores, those organizational patterns are different, and you can use this analogy by, you know, if you were doing struts versus if you're doing Rails. Hey, it's gonna look totally different.
+
+So, look. Like, fashion, you know. Peoples' ideas of what is good style will be different. We saw, this morning, David's talk, is like, clearly, he's not in the same camp as some other people about what this is. You see, we've got on the left here, business suits, and on the right, we have hoodie, hoodie pro, or dress-up hoodie, I think it's called.
+
+OK. What's our style? Our style is Rails. OK. That is gonna be one of the kind of primary topics about what the talk is, because it is not gonna be about some computer science, like this is the best way. We're gonna abstract everything out.
+
+The thing I love about Rails that made it just so amazingly productive is the whole ecosystem. The whole community. And part of what that is, it's that you can go online and find the answer to just about any question on Rails so easily. So, a big part about what this talk is, or like how the patterns evaluate is, is, is this pattern fit into Rails as it is? Now, a big part of that is, who we saw speak earlier, David.
+
+So, lo and behold, now that I. So I put my code up on GitHub. I, and this is how I developed my talk. All of this code is on GitHub. So you can go there and it was developed, and I put in a pull request for each of the patterns I'm gonna show you. I'm gonna do my code samples at the end, because when I test this out, it was too painful for you to watch me kind of fat finger something. I've got too much material to cover. So as much time as I have, I'm gonna go through the samples.
+
+But it's all there on GitHub. And, even better than just having code samples there, it's got review content, comments from guys like James Edward Gray. So I go, OK, that's kind of cool. I chatted with Dave a little bit before I emailed him. Lo and behold, he sends me back a response almost immediately, started giving me code reviews. Whoa. This is kind of cool. Code review from, yeah, I haven't met David before. Code review from David.
+
+So, anyway, but needless to say, his code, and so I was kind of like the power child this morning for even talking about some of these patterns that, you know, you do this, now you have clean code. So, I was the guy, and got a little bit humbled by the experience.
+
+And, so we're gonna see the, the benefits of all this interaction. So it's kind of like this topic, this talk was developed through open source, which is just something that just didn't happen five, ten years ago.
+
+OK. So here's a, here's kind of the summary of where we're gonna go in this talk. So I'm kind of talking to him, and this is, these are exact quotes. Like, I was permissed to use this. This is starting to boil down to the framework, to the framework capabilities and moving beyond only when it's necessary.
+
+OK, when you really use an extension, keep it simple. When you use a framework code for wht it's intended, you're not cutting against the grain. And that's the key point. So that's what we're gonna, I'm gonna be showing you stuff with that in mind.
+
+The example I'm gonna give you is, just to give you a context of the example later on, it's a micropost example, and, let me show you, just really quickly. Cause this is kind of fun.
+
+You know what, I'm gonna show the example at the end, because it wants, it doesn't want me to quit out presentation mode.
+
+OK. So anyway. When I gave this talk before, one of the things someone got confused about was they didn't understand what the examples were about. So it's a little, like, microblogging application, like Twitter. I'm gonna extend it, and I'll show you later on, based on having a five-year-old, how I would extend it for little kids. Who should not be using profanity. Or the word poop.
+
+So everything's there. OK. So this is the, this is the structure of the talk. Kind of where we're gonna go. So when we're gonna be evaluating code, what we want to do is we want to, like, how are you gonna say, like, what's better or what's not? Well, if you're gonna have a discussion with somebody, before you even discuss, is this better or not? Let's discuss what we both can agree on, which are gonna be the guidelines. So I'm giving you my guidelines for evaluating stuff, and the objectives, and then we'll go to the patterns and techniques.
+
+So, small methods, less than five lines. We no longer care about how long it takes like to invoke a method in Ruby. That was, if you've been programming for many years, we used to be concerned about that. Small classes. That's huge. Actually, and I kind of extend that. Even small files. And the reason why is, like, who wants to scroll through a thousand-line file looking for something? I'd much rather have stuff broken up into manageable, easy-to-use chunks.
+
+One instance variable in a view. There's another thing. It's like, no, it's a real pain if you've got, like, ten different variables all being set up in all different places being sent into a view. So that makes it easy.
+
+So, objectives. DRY. Everyone knows, should know what that is. Easy to test and, well, after this morning's talk, you know, relatively easy to test. Clarity. Easy to read. Easy to find. And easy to change.
+
+So the patterns I'm gonna talk about. Concerns. Draper decorators. I use the word draper decorators and not just decorators, because I'm specifically referring just to using the Draper gem, which I like. And decorators, and the next term, presenters have lots of different meanings.
+
+So, for presenters, that's gonna be my own little pattern. And split up controllers. I'm not gonna talk about that. It's in the pull-request. And then move logic to models is one of the topics we're gonna be talking about, and validation classes. That'll be in the pull request.
+
+I'm missing one of the main topics here that you probably all came to hear about. Or maybe some of you. There's no service objects there.
+
+Well, OK, you'll see shortly, service objects were originally part of it, but after having some discussions with David, they're not quite there. The pull request is still there. You can still see the code that was originally developed, and you'll see what the responses are.
+
+OK. So first scenario. So you got a huge model and even larger spec, so you want to break up the model spec. How you gonna do this? We're gonna use concerns.
+
+And, specifically, we'll try to break it up using domains. I'll tell you what that means in a sec. I'll tell you, when I first started using concerns, a real big model file, and so how did I get, and so, what was, like, the first easy thing to do? I saw the example that David originally gave taggable. Well, I kind of looked at mine. I got like pages and pages of finger methods that are just, you know, so I don't have, you know, like, my queries all over my controllers.
+
+Choom. Chunk that into a concern. I called it finger_methods was the concern. Then I created one for validation methods. Anyway, David totally hated that. He goes, you break stuff up, we're gonna break stuff up by domains.
+
+So here's a visual representation of, kind of, how you use concerns. Say you have class, a big, big file. You got, you need to know, you need to understand, your class macros are things like belong, has_many, validates, et cetera. You got your instance method. You got your class methods.
+
+Now, so, what you're gonna do is you're gonna break out this stuff by domains. So you want to figure out what they are, and then what's gonna happen is is that you just literally cut and paste. This is the easiest refactoring. You literally, if your tests were good, you don't need to add anymore test.
+
+So, I'm gonna, when I get to the code examples, I'll give you a quick. I'll show you that. So concerns, how?
+
+So how do you do this? So discover the problem, you know, what's the domain. We're gonna, all you gotta do is create a concern module with the extend ActiveSupport concern, and then you're gonna move code into the concern. And then you're gonna break out tests, when  you, another thing I really liked doing was, when I had this big user model and then I had this even bigger user spec test, what it did was then I had, and this is my original core example, was I had my finder methods and then I had my user directory and then I had my finger_methods_spec.
+
+So, nice chunks.
+
+OK. So, this is what, a direct quote from David. In a sea of 60 methods, there will always be domain-based groupings rather than technical gorupings. Never seen that not to be the case."
+
+At first, I didn't get this whole thing with, like, domain-based groupings. So the example I'm gonna be showing you is called emailable, which is just some properties, like, the email is always stored in lower-case. When I search for it, I always want to convert the search-query in the lower-case. That makes a nice little domain, just like his example, taggable.
+
+So the next one I'm gonna be going through in the code is draper decorators. So, in draper decorators, is, the example, so like a good example for this is you have a model file creating detailed validation messages with html and url links. OK.
+
+So this was one thing, and I still actually find this kind of confusing. How many people ever actually end up with a situation where you need a validation message and you need to display a url where someone clicks on it to fix the problem? Or you want to put, like, some word in bold. You know, that is actually view-based. Presentation-based logic. But you're supposed to be creating it in the model.
+
+And then what happens is, is then you end up needing to call something like the url helpers from your model. Now, for a beginner Rails programmer, how confusing is that? Very confusing, cause, like, whoa. I was just doing that in my views and my controller is no problem.
+
+Anyway. Basically what this is, what the draper decorators will allow you to do is any of this stuff, you're gonna be able to move into this decorator class, because it just makes, like, basically, like, imagine concerns, but going the next step for your presentation stuff for your model.
+
+So here's, like, kind of what you got here. You got presentation code. You got model. And the next thing that would, we're gonna do with decorators is we are going to break it out, so we got the decorators. And they are basically gonna be covering the overlap between, say, the model and the presentation layer.
+
+So just like I said. Think about, like, kind of like a concern, but if you were making a concern for just your presentation stuff, it's easier to do it with the draper decorator gem. Yeah, you could do it with concerns.
+
+OK. So, alternatives to using the draper decorator if you're doing this. You can make view helpers. You can just make plain-old Ruby objects, and you've gotta pass the context into them. So the example I'm gonna be giving is a piece of duplicated code and, and I'll show you this once I get to the code.
+
+K. The presenter.
+
+So, presenters. That's the next one. So this is a pattern. This is very hard to come up with the name for this one. And the reason why is that presenter and decorator are confusing because they have different meanings in the like Gang of Four books, et cetera. So it just means different things to different people.
+
+So I asked around, and David gave me a thumbs up on the word presenter for this pattern. Some other people. So that's what it is. So what's the scenario? You're seeing like too many instance variables in a controller action, and you've got all these variables, instanve variables accessed in your view. And then you might have a bunch of logic in the view code. And it's just better not to have too much code, Ruby code in your view code.
+
+So what this is gonna do, it's, so what we're gonna do is we're gonna create a plain-old Ruby object. And what we're gonna do is we're gonna pass, pass the stuff we need to in this Ruby objet, and that Ruby object is gonna be accessed from the code. I'm gonna be showing you this patterna  little bit later. I'm gonna get into the code.
+
+So just imagine, though, just all those declarations for those instances variables, we're gonna put all, whatever information we need to create that, we're gonna put that in the parameters for initializing this, this new object. And that's what I'm calling the presenter. And then the review code will access a presenter dot, dot micropost. Presenter dot something.
+
+Another great example of how these presenters really help out is when you're using fragment caching. Fragment caching is awesome, if you haven't tried it. One of the things that happens when you're using fragment caching is you go and look at your log, you look at your log and say, did this query run? Cause it may be on a slow query.
+
+And before, if you were declaring these instance variables in your controller action, what happens? You ran the query, but then you get to  your view and you got the cache block. And then, OK, the cache block didn't run. But you still ran the query. So by putting stuff in this presenter object, then what happens is, is then you access that, that value. You access it from the view code, and you can memoize very easily in this class.
+
+So it ends up looking like, is this. So you have stuff in there, like, this is a message declaration for foobar. Foobar or equals calculate_foobar, and this gets called from the view. So it works perfectly with caching.
+
+So this is what it looks like. You've got a big controller action, many instance variables, and then you have a view with many instance variables. And, just as explained to you, we're gonna make a smaller controller action and we're going to only intialize the presenter instance. No other local, no other instance variables. Then what's gonna happen is is that the, the view will only have, use that one instance variable, and will call into the presenter object.
+
+The next one we're gonna talk about is moving logic to models and the validation classes.
+
+K.
+
+So here's the, let me tell you what the example is. So, and I've actually got this running, and all you need to do is some simple steps. So I was trying to think, OK. I've got the microblogging example app, and then what I want to do is, here's the business-case for the kiddy-safe blogger is that, what it is is that if a kid, little punk right there, he says dad is a poop face and fart face. And then what happens is, and that literally happens if any of you have five-year-olds, I don't know where they get the whole thing with like poop and fart. But.
+
+Anyway, your parents have been notified, and it's gonna say that you better watch your language, and you've been using, you've used profanity fifty times. So we access the user model there, too. And you're thinking, OK, well, you know. So how are we gonna write the code for this?
+
+I'm gonna get into this for just a little bit and I'll show you, you know, you can just write this out just in the controller and that kind of makes sense. Especially if you end up in these situations where you use specialized flash messages and you can't just use regular validation. You think, OK, cool. I'm gonna make a service object maybe.
+
+So that's the business case.
+
+So service objects.
+
+"I've yet to see a comeplling 'make action a service object' example in the world. Maybe they exist somewhere, though. Then again, maybe unicorns are real too."
+
+OK. So my examples got reviewed in that context. So, what is the service example that I originally was coming up with? We're gonna go take the big micropost create action on the controller, this is what I'll be showing you in the code in just a little bit. That's the before. And so the after is, and I thought this was just the coolest thing ever when I was originally doing it, was having a tiny micropost create action, and what we do is we put that stuff into the controller. So, I mean, excuse me, we have a tiny micropost action. We create this service object. The micropost create service object.
+
+And what that does, it does everything it needs to do. Great. It's in one nice little small object. Fits the Sandi Metz rules. And it's easy to test. You know, I could just test this stuff directly. But the stuff I needed to test was that it sets the flash message correctly, that it gives me the right flash message in different circumstances. Stuff like that.
+
+Well, controller specs are a little bit tricky, so that worked out really nicely. So anyway, then, what the code has to do then, once you set up, you know, your flash and things like that, is you've got to send all this stuff back to the controller. You know, your response code. Your flash. You know, whatever stuff. The controller needs a bunch of this context to get back to it.
+
+And what I found while I was doing my own project was that I was sending that stuff back all the time. So I called that object the controller response. I go cool, cool. I'm gonna present this at RailsConf. This is gonna be cool. OK.
+
+But, let me tell you, there's like, you know. You can have, like, a coworker review your code. There's nothing like putting stuff out there for review to the entire open source world and getting people, you know, like, David and James review your code.
+
+Anyway. Good learning experience. So, that was the example I originally came up with of the service object. And this is David's response.
+
+"Sorry to keep shooting patterns down, but this is exactly what I mean when I say that most code does not need patterns. It just needs to be rewritten better."
+
+But he was giving me, telling me basically to put it in the validator, and this and that. And I told him, I think it's a pattern either way. The pattern you presented is to use validators rather than a separate object.
+
+And he goes, "Right." That's what Rails has built in. So whether you call them patterns or techniques, the object is clear code.
+
+But, so, I thought about that. So it was like, OK, so that was the criticism was I had too much code that was controller-specific in my service object. And if any of you have tried to abstract out stuff that was a big thing in the controller, I bet some of you, have any of you ever made that same mistake? You had too much controller stuff in there. Eh, a couple of you. Probably more of you probably just left in the controller.
+
+And so, then, I go, cool. You know what I should do? Cause then I saw one of the examples from David, and this is something I actually hadn't done very much. Is, instead of having one controller class per model, which is what you get when you do Rails generate, why not be able to have just like a controller class for a single action. That way all the private methods and that, everything, just concerns that one action nicely bundles up the stuff.
+
+I go, this is gonna be great. So I go and I show it to, to David and, well, anyway. He didn't, he didn't really like that one at all, because what I did was, I still left the business logic of, say, checking for like the profanity and stuff, still in the controller. So what I really wanted to do was move as much stuff over to the models.
+
+So this was his response to that pattern.
+
+And basically the gist of it is, is shoving this into a service object is, in my opinion, a lazy approach that doesn't deliver any benefits of simpler code. It's a sweep under the rug approach. So, just making a standalone controller wasn't good. So there's just more to it.
+
+So the, the, the solution was plain Rails. And this is kind of basically it. Just having the controller put as much stuff in the model, you know, call out the models for what they need to do.
+
+So, here's a scenario. So when you have excessive logic, here are the things you might do. You can move the logic out of the controller into the models, utilizing Rails features such as validation. Or you can create a non-AR based model to handle interactions between two model objects.
+
+And, you know, that's kind of a lot of what people have been referring to as a service object, like, and this is, you know, look, if you've passed this thing, something like payments, for exam, or purchasing. You got, say, your invoices, and then you've got, you know, maybe your user object. You've got, you know, product inventory. Things like that. Complex interaction. Yeah, I think that the, the, the end, I think that the essence of it is that, definitely, you know, feel free to create more, more models, you know. But don't take out stuff that should be in the controller and put it in these service objects.
+
+OK. Let's take a look at some code.
+
+Any, just, let's see. I'm gonna hold, we'll do questions, hopefully there will be a little bit of time for questions at the end. K.
+
+So once again, this is all on GitHub. Here's the example we'll be going through. That is wonderful. That posts, great. Dad is poop. And that's what happened. So definitely have fun with it over at, over on GitHub and take a look at that stuff.
+
+OK. I'm gonna go through. I'm gonna go through the, I'm gonna go through the examples again. So we're gonna re, reiterate kind of what we got here.
+
+So here's the concerns pattern. So the concerns pattern, and I'm gonna be reviewing the diffs rather than the code, just because that's gonna go a lot simp, be a lot simpler.
+
+So, in our user, what we do is we have several different bits of code here that all concern emails. So what we do is we take that stuff out, so here you can see it's just removed. And here's some more stuff. The email. We've got a email domain checking right there. Email, this just returns the email domain. It's an instance method. Here's the scope. It's a finder. Here's self.by_email. So that is a class method.
+
+K. So here's what the email concern looks like. So this is the part, like, if you haven't done concerns before. Hey, you know, here's the secret sauce. All you do is create a module called, in this case, emailable. And you're gonna extend ActiveSupport concern. So in, and then, the next part is this special block here for included.
+
+What we're gonna do with that is we are going to move everything, move all of your class macros in there. This right here is the email domain. So that's just an instance method. So instance methods go at the top level. Then you move your class methods over into this module block. So this module class method, so that's something you gotta remember to add.
+
+So when you go in here, so there's the code. Now one thing you need to be aware of when you're doing this, is if you just copy and paste, you're gonna have this. That could be, I can't edit this stuff right here. You're gonna have self.by_email. So that's where you declare those.
+
+So when I was practising this, when I was gonna do the whole thing with live code, I definitely made that mistake a couple of times. Just cut and paste. YOu leave the self in there.
+
+The other thing that's easy to do is, also, the other mistake that's easy to do when you copy and paste, is put all these scope things, validates class macros, and don't omit to put them in the included block.
+
+So, what, what's kind of nice about the concern pattern here, is that when you do this, if you tried doing this with just plain-old Ruby mixins, it takes a bit more to do it. You can't just kind of shove the stuff in there in one.
+
+And the concerns module gives you this ability to do just, do the included part. Do the module, the class methods. And you can actually nest concerns and it handles it correctly.
+
+So that's the concerns pattern. It's worth notting, too, that the concerns are very, very controversial among some segments of the Ruby community, because they're saying, you're not actually making better objects. These objects are just as fat. You're just moving the stuff around.
+
+And, you know, from personal experience, from having done that. I agree with David on this thing. I think they're absolutely fine. I don't think it makes sense to be creating a lot of extra different classes when these concerns will make the code very nice and clear.
+
+This other diff here, what this just show you is just hey, I have a lot of code in here that applies to the, to testing, and it gets cleaned out. So that's the other big benefit of using these concerns is smaller specs.
+
+K. I'm gonna show you draper decorator real quick. OK. With draper decorator, this is like super simple, how you get this stuff working. All you gotta do is put gem draper in. Then here's what the decorator looks like.
+
+Let me show you what I cleaned up first. K. So here's some duplicated view code. In this dupli- in this view code here, what we've got here is we've got this block, span, and this posted_at, and call time_ago_in_words micropost created_at. OK. time_ago_in_words is a helper built into Rails. So if you try calling this method from, say, just your model, that's a little bit tricky.
+
+So, here's the second view that also had this same time_ago_in_words for, this is the micropost for, you know, your little post. How long ago it was created at. So what does this look like when you put it into the decorator?
+
+It looks like this. All you do is create the decorator, and there's a, generator will generate this form for you from draper. You'll, it'll extend the draper decorator and call, I just made the method called posted_ago, and what that does is it wraps up that whole block of the tag. And here's a little bit of secret sauce there. Call h to get the helper methods.
+
+I actually like that a little bit better than the way everything's kind of a little mysterious in the controller and the view and what gets called and what doesn't get called. So you gotta call h. It doesn't just get automatically included. And then you call the helper. And then you have this, object, which is your original object when the decorator gets instantiated.
+
+I'll show you how it gets instantiated in just a second. So, what are the things you do when you have these decorators, is you can have them delegate to the model. And that's actually what's commonly done. And then there will be a basically, you basically include, there's a draper command that'll do that.
+
+You don't have to do that. That's one of the objections people have to using draper, and that's why I didn't put it in here. Is they think, when you create this decorator, all you've done is just make an even fatter model, and that gets confusing. So instead, what you can always do, is you can call your decorator dot object.
+
+You can write tests for the decorators. And then here's where it's used. So when I cleaned up that, it's called feed_item, and that was our original model object, dot decorate dot posted_ago. So you see how easy that is? You just call dot decorate under model object, and then your method.
+
+And there's some other twists and turns to doing that, but that's basically it. So does draper work for me? It works for me. It's simple.
+
+OK. Here's the next pattern. The presenter's pattern.
+
+So let's take a look. This is actually pretty simple as well. SO here's my controller. So I've got, here, is a couple controller methods that were instantiating four variables. Look, this is probably not the best, like, example of using this technique, because four variables is not very complicated. But, so, just kind of imagine this with, like, you know, even like more and more instance variables.
+
+And so, what does it look like, is that instead of having those four instance variables there, we're gonna call my presenter equals, my presenter class dot new, with the parameters. And I'm passing in there the parameters that I need to calculate the values.
+
+So think about what's, what's happening here is I'm just creating this object that's gonna get used by the view later. It's not getting, I'm not actually running all those queries and doing those things in the controller.
+
+So, here's what the, my follow presenter looks like. And, once you create a few of these, you can literally do a lot of this with just taking out, copying that little bit of code in there and, like, here would have been at title equals type, you know, type to_s italicize.
+
+So what we do is we create this constructor here with the initializers, and then these are all of the methods below. What I'm doing here is I'm memoizing the values. And these get called by the view. And it's also quite nice to even just put your, put your definitions and your cache key in there.
+
+So here's what the view looks like. Instead of having a lot of different instance variables, I know everything is going through my presenter. So if you look at this, like here, at user dot at user dot name, that becomes at presenter dot user dot name. So you can do a lot of this stuff with search and replace.
+
+There's some other additional techniques in these diffs, and these are on GitHub. And I apologize it's a little hard to see this. But, like, using a subclass to eliminate those if statements I was just showing on the, on the screen. There's another change here. WE can break this up using separate controllers and some little bits of code there about how you fix the issue with, when you have nested modules inside of a resource, it's a little tricky setting that up. So that's a good example of that.
+
+K. Let's take a look at the original, main, what I thought was gonna be the biggest part of my talk, was the original fat method here.
+
+K. Oh. Let's see right. K.
+
+So here we go.
+
+So, this is probably, like, I think, this is probably a little more code than. This, this here demonstrates the business case that we had. And the key thing about this controller method, it's a little bit big, it's not humungous, compared to some controller methods. And you probably, the average Rails programmer would go and take a look at this and just see that the code here, it's quite clean, it's got a couple of private methods, and most people would think, with a few tests, hey, you know, that was really pretty great. BUt, you know, get your code reviewed by the right people and you'll find out that you can actually do a ittle bit better.
+
+So we're setting stuff on the user. WE're putting stuff in here that really should be validated with the micropost. We're setting the flash ehre, and that should be in the controller. This is a special case right there, this if statement. And originally, it was, this was the code, this was the way the code started out.
+
+So the first step in this code was right here, to move the validation, move that method, just the profane words to the private method down below inside the micropost.
+
+So then I just, you know, create validation. Look, validation, it's, no one would call that a pattern. This is just a way to use, the way to use Rails better. And one of the reasons why this makes sense, just in the concept of it's the right thing to do, is because, later on, if you create some other controller and it needs to put stuff in there, coming, the information's coming from a different place, then you might forget to call that validation.
+
+And then I've got plenty of tests in there. SO lots of good examples of how to write rspec tests.
+
+So the next change, and this is a bigger change, is I took this whole block of code and I just put it in the micropost and called it save with profanity callbacks.
+
+So there I got, and also I take this block of code here, sending the parent notification on the user and just put that, threw that over in the user model. Although, that is questionable whether or not maybe it should really go there.
+
+Let's see. So the next thing. So let me. So, in micropost, now it's got this method. Save with the profanity callback. SO it's just, and, and look, this is not the final re, final step. And it goes, I go through a few more steps. What I'll do is, I'm gonna cut back to slides here.
+
+So here is the excessive model logic, and the complicated controller method. You know, so here is basically the technique was, make sure you're using Rails real well. So here's the, you know, here's the final, like, this is like the biggest, you know, thing about, you know, the talk. What was, what was the thing that I learned going through this talk was, number one of all, make sure that you use plain old Rails. Use, know where to put the different things, where model validation, controller, go, you know. What, put them in the right place for the proper jobs.
+
+So don't invent patterns that don't need to be invented. And know the why, know the why. So part of this too is the why. Why does stuff go into model. Why does it go into view. Why does it go in the controller. In order to understand, you know, knowing the, you know, where are you gonna know the right place, you gotta know the why stuff.
+
+And there's actually. I apologize. OK. This one. So.
+
+Quote.
+
+One of my quotes I'm missing. I want to do.
+
+I want to give, like, special thanks out to all the people that are listed on this slide. They helped me review the place. This is my headquarters in Maoi. And all this stuff, if any of you have seen my blog, I try to put just lots of helpful articles on the blog. It's kind of how I find people to contact me about interesting projects they might need.
+
+Does anybody, and I want to thank you all for coming in this talk. I apologize. It's not easy to go through the code. Does anybody have any questions?
+
+Thank you all so much for coming.
