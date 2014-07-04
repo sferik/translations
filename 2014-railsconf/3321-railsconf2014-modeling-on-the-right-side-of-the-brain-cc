@@ -1,0 +1,1052 @@
+RailsConf 2014 - Modeling on the Right Side of the Brain - Nicholas Henry
+
+NICHOLAS HENRY: Good morning.
+
+How many of you have read or heard of the book,
+
+Drawing on the Right Side of the Brain?
+
+OK. We've got a, we've got a few people.
+
+All right. Excellent.
+
+For those who don't know, this book was authored
+
+by Betty Edwards. It was originally published in 1979,
+
+and this latest edition was published in 1999. And
+
+it dispelled this myth that drawing was a talent
+
+that you were born with. And it's actually a
+
+skill that can be learned.
+
+Now, one of these skills is viewing negative space.
+
+The idea that you draw the ob- you don't
+
+draw the object, but you draw the spaces in
+
+between the object. And this tricks the brain. It
+
+switches the brain from a left mode to a
+
+logical think- from a logical thinking mode to a
+
+right-brain or a perceptual mode.
+
+And the benefit of this is when we're making
+
+logical decisions, but we make bad perceptual decisions. Great
+
+example is this chair. If you look at the
+
+chair, you'll see the legs are quite thin. And
+
+logically you think, man, if I sit on that
+
+chair, that's not gonna hold. That's not gonna support
+
+a person. And so logically would go, would increase
+
+the size of those legs, and we end up
+
+distorting the, the picture.
+
+Betty Edwards describes drawing as five, sorry, she describes
+
+drawing as a global skill, consisting of five basic
+
+skills. And she describes these skills as perceptual skills.
+
+The ability to correctly and efficiently understand what is
+
+being seen.
+
+I'm Nicholas Henry, and I'd like to welcome you
+
+to my talk, Modeling on the Right Side of
+
+the Brain, where I'll introduce you to the five
+
+basic skills of object-modeling. We will explore using color
+
+and patterns to help you visualize and communicate and
+
+understand the main models.
+
+And the five basic skills for object-modeling are finding
+
+objects, identifying collaborations, defining business rules, and assigning services
+
+and attributes.
+
+So I just want to make sure we're all
+
+on the same page, in, in terms of what
+
+a domain model is. So we're just gonna review
+
+the scenario of shipping an order, which would behest
+
+be an economist domain.
+
+Now, a domain really represents a business process. So
+
+let's go through, through this example. So we have
+
+a business request that comes into our domain. In
+
+this case it's to ship an order. An order
+
+which represents a business object will receive this, and
+
+it will go ahead and create a shipment. Another
+
+business object that it'll collaborate with.
+
+But we probably want to make sure that order's
+
+been paid for before we ship that order. It
+
+probably wouldn't make much sense, business sense, right. So
+
+we have a business role that will check that
+
+that order's actually been paid for.
+
+So, essentially, a business domain, or a domain model,
+
+is a set of business objects that represent these
+
+real-world entities. There are collaborations, there are business rules,
+
+and there are services that respond to business requests.
+
+Now, a model is simply a representation of something.
+
+It could be a mental model, our mental understanding
+
+of how a business process works. It might be
+
+a graphical notation or, sorry, a graphical model such
+
+as a notation that I'm using up here. Or
+
+it might even be codified in your models directory
+
+in your Rails application.
+
+Of course, there are other concerns when you're building
+
+an application. These things like persisting those business objects
+
+to a database, generating HTML or JSON, or even
+
+handling that HTTP request that comes into your controller.
+
+But these are things that are outside of your
+
+domain model. And you can, can think of the
+
+domain model as the heart of your application.
+
+So I use this term business services when a
+
+business request comes in, we'll use a business service
+
+to respond to that request. Now, this is where
+
+the services that you might have heard in the
+
+previous talk on domain-driven design, and it's a pattern
+
+that Rails developers have developed over the last couple
+
+of years, where we create a service class to
+
+encapsulate logic such as, sort of, sending out an
+
+email or finding, finding a user record.
+
+And the idea is to kind of thin down
+
+the responsibilities of the controller. When I use the
+
+term service, I'm not referring to that. I'm referring
+
+to this idea of responding to a business request.
+
+I'll try to use the, the term business service
+
+to differentiate from this idea of a service class.
+
+So why, why object modeling? Well, it feels like
+
+there's a gap between user stories. You know, user
+
+stories are great at requirements gathering. They're great for
+
+describing business requests at, from the end user's perspective.
+
+But how do we take those requirements and then
+
+go ahead and implement that model in our Rails
+
+application?
+
+It's almost like we're missing a tool. We're missing
+
+a tool to represent this underlying business model. A
+
+tool to identify the business objects that represent these
+
+real-world entities. A tool to define the define rules
+
+that govern these collaborations.
+
+I think as Rails developers, we kind of lack
+
+a language, in terms of talking about domains. Normally,
+
+we talk about domains in the form of associations
+
+and has_many and belongs_to.
+
+Object modeling is a practice, and these five basic
+
+skills will help us bridge this gap between user
+
+stories and implementation. Now, I just want to be
+
+clear in terms of setting expectations for this talk.
+
+I'm not gonna be showing any code. OK. Great.
+
+No one got up and left. That's a good
+
+sign.
+
+And, so there's gonna be no code examples. And
+
+there'll be lots of talks that are, over the
+
+next couple of days, you know, showing different implementations.
+
+And the thing is with this, with this practice
+
+of object modeling, I believe it's independent of implementation.
+
+It just helps you understand the business model itself.
+
+Now, this idea of, this practice of object modeling,
+
+it's not new. And Peter Coad first discussed this
+
+in his book, Java Modeling in Color with UML.
+
+This was first published in 1999. And, this is
+
+not gonna be a popular book for Rubyists, right.
+
+It has two things going wrong with it. It
+
+has Java and UML in the title.
+
+But there were some other books that were published
+
+around the time, and other ones such as Streamlined
+
+Object Modeling by Jill Nicola. And this really influenced
+
+my thinking in terms of how to understand a
+
+business domain.
+
+And what I like about object modeling is that
+
+it provides us a framework. Very much like Rails
+
+provides us a framework in terms of providing us
+
+guidance in terms of structuring our application. It provides
+
+us conventions. And it helps us accelerate our web
+
+development.
+
+And object modeling's a little like that. It allows
+
+us to discuss, visualize, and help us, guide us
+
+in terms of implementing those domains. But it also,
+
+it helps us to accelerate our understanding of those
+
+business domains.
+
+Now, I'm not advocating any big upfront design. This
+
+is simply a tool to sketch out those ideas,
+
+to collaborate with your team members and help guide
+
+your implementation. Sure, the diagrams that I'm going to
+
+be using today are URML, UML, the unified modeling
+
+language. But these are simply communication tools. The goal
+
+is not the diagrams themselves.
+
+Now as object modelers, our basic building blocks are
+
+objects. Which is fantastic, cause as Rubyists, we work
+
+in a object-oriented language. Now, when I speak about
+
+objects, I'm going to speak in the first person.
+
+And this helps us personify these objects.
+
+So objects have three responsibilities. Who I know, what
+
+I do, and what I know.
+
+An example of that, coming back to an order,
+
+an order would know a number, it would know
+
+its state - if it's paid. It would know
+
+a timestamp for when it was purchased at. Of
+
+course, it knows other collaborators. So it knows a
+
+shipment and it knows how to ship itself: its
+
+business service.
+
+So now that we have this building block, let's
+
+look at finding objects, our first skill.
+
+The problem with finding objects is that often we
+
+look at business objects as unique. They're these pretty
+
+little snow flakes. But in effect, we can group
+
+objects with more or less the same responsibilities of
+
+what, who I know, what I do, and what
+
+I know.
+
+And these groups are known as archetypes, the term
+
+that Peter Coad assigned to this. And we have
+
+four archetypes. We have an event, a role, a
+
+party, place, or thing, or a description. Party, place,
+
+or thing's a little bit of a mouthful to
+
+say every time, so we'll refer to these as
+
+the PPTs.
+
+So let's look at our first archetype. Our first
+
+archetype are events. And these are modeled as transactions
+
+within our domain. They're the most important business objects.
+
+They're the glue for all the other objects in
+
+our business domain. And without an event, I would
+
+assert the application is simply a catalog application.
+
+So we've got some examples up here. So in
+
+the, in the domain of the ecommerce we would
+
+have an order and a shipment. These are transactions
+
+within that domain. If we're modeling a hotel reservation
+
+system or a car reservation, we'd have a reservation
+
+event.
+
+And we have two types of events. We have
+
+a point in time and an interval. So a
+
+point in time has a single timestamp, such as
+
+order, with the purchased_at date. And then we have
+
+reservation. A reserv- sorry. We have an internal archetype,
+
+illustrated by the reservation here.
+
+And this is timestamped, or bookend by two timestamps.
+
+So the checkin_at date and the checkout.
+
+Now, roles don't live in isolation. They, they're the
+
+glue in the domain. And other objects interact in
+
+this event. And we use roles to represent the
+
+way an object participates in this event. So as
+
+an example, we have a customer and a sales
+
+agent that would interact with an order. And a
+
+fulfillment provider that would interact with the shipment.
+
+So if we have roles, then we need actors.
+
+And the actors in our domain, as, are these,
+
+is the PPTs. Now, so, a party would be
+
+a person or an organization. The place would be,
+
+such of a thing as a warehouse if we
+
+were doing shipment. And everything else is a thing.
+
+So, again, an example here is the, is the
+
+product.
+
+And our final archetype is a description. And descriptions
+
+are responsible for describing a collection of similar objects,
+
+such as our PPTs. An example of this would
+
+be a product category that would describe a, a
+
+collection of products. A collection of things such as
+
+t-shirts. Or a collection of jeans on an ecommerce
+
+site.
+
+Now, the concept of a description object can be
+
+a little tough to kind of grasp sometimes. So
+
+I'll talk about this in a little bit more
+
+detail when we talk about identifying collaborations.
+
+Now, when we're collaborating or presenting a diagram visually,
+
+as soon as we have a few business objects
+
+on a, on a diagram, it becomes a little
+
+tough to navigate. Don't worry, you're not supposed to
+
+be able to read all the details here. I'm
+
+just gonna illustrate something.
+
+But we can solve this issue in, in terms
+
+of navigating these diagrams. We can add color, to
+
+give another layer of information. Did anyone notice the
+
+slides change color when I was talking about the
+
+archetypes? Anyone paying notice? Oh, one person. What, what,
+
+what color was event?
+
+Sorry?
+
+AUDIENCE: Yellow.
+
+N.H.: Yellow? Almost. It was the role. But, the
+
+event was the pink or the red. And pink's
+
+a great color for an event, cause it highlights
+
+sensitivity in the domain model. It's this hot spot.
+
+We'll use yellow for roles. The green for the
+
+PPTs. And the blue for the description.
+
+So we can take a visualization of this in
+
+terms of our domain model and add color to
+
+that, and you can immediately see this hotspot within
+
+your domain model.
+
+You can see the events and you can see
+
+the other objects interacting with those events through the
+
+yellow roles.
+
+Now, more importantly, we have this awesome collaboration tool
+
+where we can use post-it notes that correspond to
+
+these colored archetypes, and a white board, and with
+
+our team members we can collaborate in an agile
+
+manner into, on our business domain.
+
+So now we have these four archetypes that helps
+
+us guide finding business objects in our domain. But
+
+you might have found, might have noticed that it
+
+was a little difficult for me to talk about
+
+one object in isolation. And this leads us to
+
+our next skill, identifying collaborations.
+
+Before moving onto collaborations, I just wanted to discuss
+
+this idea of associations versus collaborations. As Rails developers,
+
+we're very familiar with the idea of associations, from,
+
+from ActiveRecord. But associations kind of have this idea
+
+of a passive relationship, where collaborations kind of communicates
+
+this idea of an active relationship with dialogue.
+
+And dialogue becomes very important when we talk about
+
+business rules. So I'm gonna use the idea of
+
+collaborations for the rest of this talk.
+
+Now, identifying collaborations addresses this object's responsibility of who
+
+I know. Now, often we think about objects in
+
+isolation. We think about a customer. We think about
+
+an order. But the presence of one business object
+
+suggests the presence of another.
+
+And this is really highlighted by this, what I've
+
+dubbed the elementary collaboration pattern. So let's walk through
+
+this. So when we have the presence of an
+
+event, we know that that, there's a role required
+
+to interact with that event. And if we have
+
+roles, we need an actor. And this is our
+
+PPTs. And, of course, if we have a collection
+
+of PPTs, perhaps we need a description to describe
+
+that collection.
+
+Now, this is essentially a template. And templates are
+
+meant to be modified based on need. An example
+
+of this, if you have a PPT that only
+
+participates in one event, do not create a dedicated
+
+role for that. That's just going to complicate your
+
+object model.
+
+Here we have an example of a person interacting
+
+with order. So a person can either interact with
+
+that as a customer or as a sales agent.
+
+So, of course, the customer is the one who
+
+is purchasing that order, and the other is the,
+
+perhaps, approving that order.
+
+Now, we might have a business role that suggests
+
+that we, the same person cannot be the same,
+
+sorry, the same person cannot play the roles at
+
+the same time. Meaning they can't be the customer
+
+and the sales agent.
+
+There's another notation that I've introduced here, in terms
+
+of the UML, is that we have multiplicity rules
+
+identified. So the one next to the customer on
+
+the right-hand side suggests that there's a, an order
+
+only belongs to one customer. And a customer can
+
+actually belong to many orders, and that's denoted by
+
+the zero and the asterisks next to the order.
+
+Now, here's a description of the PPTs, sorry, a
+
+PPT versus a description. I was talking about how
+
+descriptions might be a little bit tough to grasp.
+
+We're just gonna go through an example here.
+
+Here, we have a vehicle that's uniquely identified by
+
+a registration number. And we have a vehicle make
+
+that describes that vehicle. It describes the model and
+
+it describes the year that model was released.
+
+Let's take a little concrete example and we'll make
+
+this a little clearer. So here we have four
+
+instances of, of a vehicle. We have one and
+
+two, and you'll see that there's a uniquely identified
+
+registration number. But we have duplicated data here, sorry,
+
+duplicated attributes here, with the model and year.
+
+And this is repeated again in the instances three
+
+and four. I've highlighted it here so you can
+
+see the, the repeating data.
+
+And we can, of course, extract them. We'll use
+
+a business, business, request kind of term business service
+
+when we can extract those repeating attributes.
+
+(weird audio - (00:17:45)
+
+And here business object in the, with the registration
+
+number is our vehicle, and with the model and
+
+year we have the vehicle make. So the instances
+
+of one and two of the vehicle are described
+
+by the first instance of the description, which is
+
+the Corolla 2010. And the rows three, sorry, the
+
+instances three and four are described by the second
+
+instance of that description, the Focus 2014.
+
+So you can sort of think about this in
+
+the terms of data normalization.
+
+Now, archetypes can collaborate with the same archetype. So
+
+a PPT can collaborate with another PPT. In this
+
+instance we're gonna look at event collaborations. And there's
+
+two event collaborations that we'll have a look at.
+
+The first one is the composite. The composite is
+
+actually made up of other events.
+
+So here we have the, the composite transaction and
+
+the line item. The example is the order and
+
+the order line item. I've introduced another little bit
+
+of UML notation with that solid, the solid diamond,
+
+and that denotes the composite within this pattern.
+
+Another event collaboration pattern is the follow-up pattern, where
+
+we have a transaction and then we have a
+
+follow-up transaction. And in this case we have an
+
+order that is followed up by a shipment. Another
+
+example of this would be an order followed up
+
+by a payment.
+
+So let's sort of take a look at this
+
+in a, in an example, a larger example. Here
+
+we have a, a product description describing a collection
+
+of products. This product is interacting with this order
+
+line item. And this is kind of a, this,
+
+this product interacting with a, a order line item,
+
+the idea of the thing interacting with a, with
+
+a line item. That's a common pattern that you'll
+
+see in, in domains.
+
+But the interesting thing here is the, is the
+
+composite. And that, the highlighting's not showing up very
+
+well. I apologize for that.
+
+But the order and the order line item is
+
+our composite pattern that we've seen before. The interesting
+
+thing is, we repeat this pattern as well. So
+
+with a shipment and a shipment line item, there
+
+is a comp, a composite.
+
+And we can repeat this again in terms of
+
+the order line, sorry, the shipment line item is
+
+a follow-up for the order-line item. But this is
+
+when the magic starts to happen, is when we
+
+had another composite with a return and return line-item.
+
+And again, and this is a collaboration, a composite
+
+collaboration.
+
+And we can use these, these collaboration patterns as
+
+a building block in our domains as well.
+
+And this moves us on to business rules. So,
+
+you know, so we're talking about these collaborations, but
+
+what governs these collaborations. So business rules are either
+
+policies that specify how a business should operate, or
+
+these are constraints that are forced upon a business,
+
+such as laws determined by a government.
+
+Now often when we think about business rules, we
+
+kind of think about validation roles, where we're just
+
+validation that an email is present, or if it's
+
+in the correct format such as using a regular
+
+expression for that email address. But business rules extend
+
+beyond this.
+
+They govern, or validate, collaborations.
+
+Now, if business rules govern collaborations, then each partner,
+
+that business object, must determine if that collaboration is
+
+valid. Because each partner may have a different condition
+
+to determine if that is a valid collaboration.
+
+Here we have an example of a shipment and
+
+a shipping method that are looking to collaborate. The
+
+shipment has a total weight, and it might be
+
+expedited. So we want to get that shipment out
+
+quickly.
+
+A shipping method has a, has a maximum weight
+
+and a duration. So let's look at these two
+
+ob, business objects collaborating.
+
+Now, a shipping method adds a constraint on its
+
+collaboration with a shipment. It will not collaborate with
+
+a shipment whose total weight exceeds the maximum weight.
+
+Likewise, a shipment has a constraint on its collaboration
+
+with the shipping method. It will not collaborate, sorry,
+
+if that shipment is expedited, it will not collaborate
+
+with a shipment, sorry, with a shipping method whose
+
+duration exceeds two days.
+
+So from this example, we've illustrated that each partner
+
+must validate the collaboration. And each partner adds a
+
+constraint, sorry, each partner adds a constraint to that
+
+collaboration, owns that business rule. And that business rule's
+
+encapsulated in that business object. And it shields that
+
+condition from its collaborator.
+
+So now that we understand that business rules are
+
+simply not validation rules, that they govern these collaborations,
+
+when do these collaborations form?
+
+And this takes us to our fourth skill or
+
+assigning services.
+
+And services, it's, are related to the responsibility of
+
+what I do. Now, business services respond to business
+
+requests. They form new collaborations. They dissolve collaborations. And
+
+they may even create new event objects. Of course,
+
+services can update attributes.
+
+However, for this talk, I'm gonna focus on collaboration.
+
+Now, as a reminder, we'll just revisit this scenario
+
+from the beginning of my talk. Here, we have
+
+a business request coming into our domain, and that's
+
+gonna be to ship an order. The order's going
+
+to respond to that. But it's gonna check that
+
+business rule to make sure it's being paid. And
+
+then it'll go ahead and it will create a
+
+new shipment and collaborate with that.
+
+So a challenge when we're object modeling is that
+
+in the real world, entities are acted upon. Someone
+
+ships an order. But when we're object modeling, objects
+
+that represent those real world entities perform the actions
+
+themselves.
+
+So an order will ship itself. And the reason
+
+for that is that all the information inside an
+
+object, sorry, all the information needed to act on
+
+that object is inside of that object. So let
+
+that object do the work.
+
+Otherwise we end up sort of creating these dedicated
+
+coordinating objects like shipment manager. And an object like
+
+shipment manager doesn't represent a real-world entity and just
+
+adds conceptual noise to our domain model.
+
+So with this in mind, we assign this ship
+
+service to the order, so it can respond to
+
+that business request. And the service becomes an object
+
+factory for the shipment. And this is a pat,
+
+and follows the pattern of services becoming object factories
+
+for events.
+
+And here we come to our last skill, in
+
+terms of assigning attributes. And we've already taken a
+
+look at some attributes. These attributes respond to what
+
+I know.
+
+So coming back to our vehicle and our vehicle
+
+make, a vehicle with its registration number is a
+
+descriptive or tacking attribute, which is typical of a
+
+PPT. With the vehicle make we have these two
+
+descriptive attributes of a, of the model and the
+
+year.
+
+From our order example, again, we, for the order
+
+it has this tracking attribute of a number. It
+
+knows its state and it has this time stamp
+
+that's, that point in time events have.
+
+Now, Jill Nicola, in her book Streamlined Object Modeling,
+
+has identified six types of attributes. I won't go
+
+through all six, but you can see some examples
+
+on the right hand side there.
+
+I'll focus on two attributes. The life cycle state
+
+and the operating state. The life cycle state is
+
+a, is a one-way state transition. So an order
+
+would transition from pending to paid to complete, but
+
+it won't revert back to that stage.
+
+An operating stage is a state that switches back
+
+and forth between two states. So an example here
+
+is a product could be active, so active in
+
+a, in a catalog. We could switch that off
+
+and it wouldn't appear, appear in the catalog anymore.
+
+And then we could switch it on. So it
+
+switches back and forth.
+
+So now that you've been introduced to the five
+
+basic skills of object modeling, we have a set
+
+of skills to bridge this gap between your user
+
+stories and your Rails application. You have a framework
+
+to explore business domains.
+
+So, I've simply given you an introduction here. And
+
+if this talk has resonated with you, you're probably
+
+hungry for more. So I've outlined these three steps
+
+to help get you started.
+
+First, I've created a dedicated blog post providing some
+
+online resources that, resources that you can read today.
+
+Plus links to the books that I talked about
+
+in this talk.
+
+Secondly, talk, share this with you team members. This
+
+idea of object modeling is awesome to use as
+
+an individual, but the real power is when you
+
+have this common language with your team mates, and
+
+collaborate with each other.
+
+And then the third step is buy some post-it
+
+notes. Post-it notes are an awesome collaboration tool and
+
+some, and a simple collaboration tool, and it makes
+
+this whole modeling fun.
+
+So the next time, when a team member asks
+
+you, how do I model this? Use archetypes to
+
+guide you in finding objects. Use color to visualize
+
+and collaborate with your team members. Use the presence
+
+of one object to suggest the presence of another
+
+and form collaborations. Use business rules to validate or
+
+govern these collaborations. Assign services to business objects to
+
+fulfill business requests. And use these skills to build
+
+a model that mirrors the business, enabling you to
+
+correctly and efficiently understand the domain.
+
+Thank you.
+

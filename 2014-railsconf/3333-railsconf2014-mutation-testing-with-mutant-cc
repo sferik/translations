@@ -1,0 +1,1364 @@
+RailsConf 2014 - Mutation Testing with Mutant - Erik Michaels-Ober
+
+ERIK MICHAELS-OBER: OK. Is the mic live? Yeah? We're good.
+
+OK. Hi everybody. Welcome. Thank you for coming. So,
+
+this is gonna be a talk about tools. And
+
+there's this common expression that says that a carpenter
+
+is only as good as his or her tools.
+
+I'm not a carpenter, but that makes a lot
+
+of sense to me. If your hammer is made
+
+out of feathers, you're not gonna be able to
+
+build very much.
+
+And I really think the same thing is true
+
+for programmers. I know that that is true. The
+
+tools that we use really enable us to do
+
+our job. And we use so many tools, it's
+
+easy to sort of take for granted the tools
+
+that we have and the tools that we do
+
+use. And so I think it's worth sort of
+
+thinking about the tools that we have and how
+
+they help us improve as a programmer. And thinking
+
+about what new tools we can use. In this
+
+case, I'll be talking specifically about mutation testing and
+
+how that, as a tool, can really help us
+
+all improve as programmers. Help us write better tests.
+
+But, I think, I just want to sort of
+
+take some time to reflect and, and set a
+
+little bit of a context for the tools that
+
+we use every day and sort of, I think
+
+take for granted a bit.
+
+So, the first one is an editor. And it
+
+seems like a very simple tool, right. You just
+
+type in text and it just shows up on
+
+the screen. But it's incredibly sophisticated. If you've ever
+
+tried to write a text editor, if you've ever
+
+read the source code of a text editor, most
+
+text editors are like millions of lines of code
+
+to implement what seems like a relatively simple thing.
+
+And they help us. They provide us with things
+
+like syntax highlighting, auto completion. And this directly helps
+
+us write better programs, right. We avoid bugs. We'll
+
+realize a bug in our editor before we, before
+
+we deploy it to production. Before we even run
+
+tests, we'll find a bug in our editor. Because
+
+our editor tells us about it.
+
+This is an early version of Vim. So it
+
+can, it can be really easy to forget sort
+
+of what these tools used to look like, right.
+
+This is how people used to write code. And
+
+these look more like the sort of tools from
+
+the wood shop than the tools that we're used
+
+to using. So this is an early punch card
+
+machine. The photo was taken in the, in the
+
+computer history museum in Mountainview, California. And I can
+
+tell you for a fact that I would not
+
+be a programmer today if this is how we
+
+still had to write programs. And I suspect that
+
+many of you would not be programmers if this
+
+was sort of the state-of-the-art in how it was
+
+done.
+
+And so I think, like, I want to make
+
+the case that sort of both the quality and
+
+the quantity of software would be much worse than
+
+it is today, if not for sort of the
+
+continued evolution of, of our tools.
+
+Another tool I use every day is an interactive
+
+debugger. So, sort of allows you to step through
+
+your code, line by line, and better understand how
+
+it works. You can kind of get inside the
+
+code, right. I'm not gonna spend too much time
+
+talking about debuggers. Sort of a public service announcement,
+
+next week, not next week. This week. Next Thursday.
+
+This Thursday. In this same room, I believe, is
+
+a great talk on debugger-driven development with Pry. So,
+
+if you're interested in hearing more about that, you
+
+should go to that.
+
+So, what do we do when our code is
+
+slow? What's the tool for that, right? We have
+
+profilers that tell us where time is being spent
+
+when we execute our code. And I wouldn't even
+
+know how to start optimizing the program if I
+
+didn't have a profile, right, profiler. I would be
+
+a terrible optimizer without a profiler. I guess I
+
+would like start putting in, you know, t equals
+
+time dot now, and then, like, at the end
+
+of whatever I wanted to measure, I would subtract
+
+the current time from the start time. But, that's
+
+crazy. Like, instrumenting your entire code that way is,
+
+yeah. Like, I wouldn't really know how to optimize
+
+code without a profiler. I wouldn't be as good
+
+at it. None of us would be.
+
+And another sort of tool that is very prevalent
+
+in the, in the Ruby community is testing. This
+
+is an example of someone who should have done
+
+more testing. So that, again, just. Yeah. All right.
+
+So I think this is a good illustration of
+
+how testing can save you, right. Test so that
+
+you find out before you sort of run it
+
+in production. OK.
+
+Enough of that.
+
+So, I would, I'm actually gonna make the case
+
+that, in the Ruby, Ruby toolbox, or maybe in
+
+the Rubyist's toolbox, tests are sort of like the
+
+hammer, right. Like, this is the thing you turn
+
+to all the time for all sorts of things.
+
+We use them to prevent regressions. We use them
+
+to specify behavior. And we actually use them to
+
+drive development. DHH doesn't do this, but many others
+
+do. And find it useful.
+
+So if we write tests, then we have perfect
+
+code, right. If we have tests that verify that
+
+our code does what it's supposed to do, then
+
+at the end of the day, we have perfect
+
+code. Correct? Not correct.
+
+This is the fundamental logical flaw with testing, right.
+
+You have some code. And you know that code
+
+can have bugs. So you say I have an
+
+idea, let's write some tests. But tests are just
+
+more code. And we know that code has bugs.
+
+So we're screwed.
+
+What's that?
+
+Test your tests. That's right. So. I'm getting there.
+
+Patience.
+
+So, like, one tool that people use to sort
+
+of measure the effectiveness of their tests is code
+
+coverage. And it's sort of a metric that's designed
+
+to tell you whether your tests do what they're
+
+supposed to do. But I'll show you, in a
+
+moment, why I think it's a really flawed metric
+
+and why it sort of can give you a
+
+false sense of security, right. A lot of people
+
+think that they have 100% code coverage, and that
+
+means, like, their code is perfect and bug-free. Or
+
+if they reach that level, then their code will
+
+be perfect and bug-free. But this is not true.
+
+Right, like, this guy thinks he's covered and he's
+
+not.
+
+And code coverage is actually, like, it's something that
+
+was built into Ruby, right. Like, in Ruby 1.9.3,
+
+this is something that, like, we as a programmer
+
+community said, like, we want to have. And I'm
+
+not against it. Like, I think it's good. But
+
+I do think it can give you a false
+
+sense of security, right.
+
+I thought this was a funny Tweet.
+
+So, you can have 100% code coverage and still
+
+have completely bug-ridden code. So, so is there hope
+
+for us? Right? Like, how do we, how do
+
+we test our tests? It's sort of this problem
+
+of, like, who will watch the watchers, right? Who
+
+do we, who can we trust? If we can't
+
+trust our tests, how, why, why are we even
+
+writing them?
+
+And I'm gonna try to make the case that
+
+mutation testing is the sort of solution to this
+
+problem. So just like everything else, like an editor,
+
+like an interactive debugger, like a profiler, like tests,
+
+mutation testing is a tool. The basic idea behind
+
+it is that it takes your tests and it
+
+runs them against your code, and they should pass.
+
+And if they do pass, then what it does,
+
+is it takes your code and it makes a
+
+modification to your code. It actually changes your code
+
+at runtime. And then it runs your tests again,
+
+against the modified version of your code. And the
+
+idea is that when that code is modified, the
+
+tests that previously passed should now fail, right.
+
+So the thing, your modified code is called a
+
+mutant, and the idea is that if that test
+
+fails, you kill the mutant. Right. The mutant dies.
+
+But if that mutant survives, then that means there's
+
+something wrong with your tests. There might not be
+
+something wrong with your code. But there is certainly
+
+something wrong with your tests. Either you have a
+
+bug in your tests. You have missing tests. Your
+
+tests are either over-specified or under-specified.
+
+So this is a technique, it's very helpful for
+
+sort of answering the question, what tests should I
+
+write? Which I think is a question that many
+
+of us struggle with. It's certainly something that beginners
+
+struggle with when they're starting to program. Like, how
+
+do I, how do I write tests? What, what
+
+do I test? Right.
+
+And then there's also this question of like, how
+
+do I know when I'm done? How do I
+
+know when the code is sufficiently tested? And I
+
+think these are actually hard questions to ask, or
+
+hard questions to answer, and mutation, mutation testing provides
+
+a, a quantitative answer to those questions. You can
+
+say, with confidence, that this code has 100% mutation
+
+coverage.
+
+So, just to sort of give an example, here
+
+is some code. And an assertion about the code.
+
+So, I have a method, foo. It takes an
+
+argument whose default is true. And the actual method
+
+body for foo is either return that argument or
+
+fail. And my assertion says assert_nothing_raised if I call
+
+the method foo without passing in any parameters.
+
+And so, or without passing in any arguments to
+
+the, our parameter, rather. And so what, you know,
+
+this test will pass, right. Arg. You call foo.
+
+Arg is true. And it sort of short-circuits, right.
+
+It sees arg. It sees the or. And this
+
+test passes. So maybe you think this is a
+
+good test. Maybe you think you're done writing your
+
+tests. But you are not.
+
+And a mutant of that code, a small modification,
+
+a sort of unit modification of that code might
+
+look like this. And basically what it did was
+
+it just sort of took that or fail and
+
+removed it. And the idea is like, if you
+
+do that, at least one of your tests should
+
+now, that was passing before, should now fail. One
+
+of your tests over that code, for that foo
+
+method, should now fail. And if it does not,
+
+then you are not testing your code sufficiently.
+
+So, this is called a statement deletion mutation. There
+
+are various other types of mutation. So, for example,
+
+there are mutations that would take that default parameter
+
+and change it from true to false, or from
+
+true to nil, right. Which would also cause failure,
+
+in this case.
+
+There's another mutation that will take the or and
+
+change it to an and, right. So any time
+
+there is sort of a unit in your code,
+
+it takes greater than signs and changes them to
+
+less than or equal to signs, et cetera. Right.
+
+It takes ifs and changes them to unless. It
+
+will take whole expressions and negate them and make
+
+sure that your tests fail when the negation of
+
+a statement is, when, when the method returns the
+
+negation of the statement instead of the statement, right.
+
+So that's, that's sort of the core idea behind
+
+mutation testing. And so you end up sort of
+
+writing these tests to cover all these cases that,
+
+and then you sort of know when you're done,
+
+right. Like, you know when all of your tests,
+
+when, when your code is fully mutation-covered.
+
+This is another Tweet. It's one from Katrina Owen.
+
+And it's sort of this idea, it's kind of
+
+like both horrifying and satisfying at the same time.
+
+But if you sort of add more granular tests,
+
+you'll find more bugs. And in many cases, mutant,
+
+which is a mutation testing framework, will find those
+
+bugs for you. Right. That's cool.
+
+OK. So I promised there would be live-coding. This
+
+is sort of. The introduction is over and now
+
+we will write some code. Hopefully.
+
+I'm just gonna switch to mirror display. Command F1.
+
+That is a protip. That's great. You're a pro.
+
+I clearly am not. OK. Cool.
+
+Cool. And a new version of mutant was, like,
+
+just released a few minutes ago, in advance of
+
+this presentation. I am not the author of mutant.
+
+It's a great library by Markus Schirp, and I
+
+encourage you all to check it out. Version zero
+
+dot five dot eleven, hot off the presses.
+
+So this is some code. So, like, the, this
+
+sort of thrust behind this live-coding demo is I
+
+will not be live-coding code, I will be live-coding
+
+tests. Because the idea is not to, like, mutant
+
+doesn't verify that your code is correct. It verifies
+
+that your tests are correct. So you still need
+
+to write tests, right. Tests verify that your code
+
+is correct. Mutant verifies that your tests are correct.
+
+So this is the code. And it's pretty, pretty
+
+simple. But we'll sort of walk through it line-by-line.
+
+Just to make sure everyone has a good understanding
+
+of it. And so there's this module that represents
+
+the universe, the entire universe, and inside of the
+
+universe we have planets. And that's what this class
+
+is all about. It's a pretty simple planet. It
+
+takes a radius and an area as parameters when
+
+it's constructed and stores those in instance variables. The
+
+radius is the mean radius of the planet and,
+
+in kilometers, and the area is sort of surface
+
+area of the planet in square kilometers.
+
+And then there's one sort of interesting method, one
+
+public method, spherical. And spherical will return true if,
+
+if the planet is a perfect sphere, or within
+
+a particular tolerance of that. So the idea is
+
+we calculate the approximate area using four pi r
+
+squared, which is the formula to calculate the area
+
+of a sphere, and if the area sort of
+
+matches that, then we know it's a sphere. We
+
+know it's spherical. This method returns true.
+
+And if, if that's not true, then the planet
+
+is not spherical. It's either oblate, like the earth,
+
+or prolate, and then this method will return false.
+
+So, yeah. We just sort of calculate the approximate
+
+area and then we have this ranged private method
+
+that just generates a range. We need sort a
+
+tolerance. The idea is you don't want it to
+
+be too precise, because we're dealing with pi, so
+
+pi is, I mean, in actuality, it's a non-terminating
+
+number. In Ruby, it has, like, ten digits of
+
+precision or something like that, right. Like the constant
+
+map pi.
+
+But the idea is that, like, if it's close
+
+enough to a sphere, within a particular tolerance, then
+
+we'll just call it round, basically. And so we
+
+generate this range, which is sort of the approximate
+
+area that we've calculated, based on the radius plus
+
+or minus the tolerance, and we see if the
+
+area falls within those bounds. Does everyone understand this
+
+code? I think it is pretty simple. I tried
+
+to make it fit on one screen. On one
+
+slide.
+
+Yeah?
+
+OK. So if everyone understands it, I want to
+
+take a little bit of a poll. This is
+
+kind of like the interactive part of the talk.
+
+And you have to, like, everyone has to participate.
+
+That's the, that's the goal. Everyone, people like to
+
+sort of sit by the sidelines and not commit,
+
+but you have to commit. I'll be really angry
+
+if you don't.
+
+You don't want to see me angry.
+
+So how many tests do you think you need
+
+to fully cover this code? To cover the public
+
+method, the, the spherical method, right, so that it's
+
+sort of fully exercised. Who thinks you need zero
+
+tests? Show of hands? Anybody? No. Good. I agree.
+
+You can't cover code without tests. So, that's good.
+
+You've been paying some attention.
+
+Who thinks you can do it with one test?
+
+Maybe, sort of, the happy path? Right. You write
+
+a test that says, you know, you expect some
+
+planet to be spherical given radius and an area,
+
+and it is. All good. Who thinks that's sufficient?
+
+Nobody. So.
+
+You can actually get C-zero, 100% C-zero code coverage
+
+of this entire class with one test. With one
+
+spec. Right. You won't have 100% mutation coverage, but
+
+I will show you, in a minute, you can
+
+have 100% C-zero code coverage, despite the fact that
+
+nobody in this room thinks that that is sufficient
+
+to cover this code. So. I will prove it
+
+to you. But you all intuitively know this to
+
+be the case. And yet we all idolize this
+
+C-zero code coverage metric as if it means something,
+
+when really it, it's a false sense of security,
+
+right. You're the guy with the umbrella in the
+
+hurricane, and the umbrella is like destroyed and inside
+
+out.
+
+OK. So how many people think you can do
+
+it with two tests? OK. Somebody who's raising your
+
+hand. This gentleman in the front. What are the
+
+two tests that you would write? Just sort of
+
+roughly? Maybe the happy path and what other?
+
+AUDIENCE: One that's spherical and one not.
+
+E.M.: One that's spherical and one that's not. OK.
+
+I think that's good. How many people think you
+
+would need three to do it? K, maybe gentleman
+
+there who thinks we need three. What's the third
+
+you would write?
+
+AUDIENCE: [indecipherable - 00:19:41]
+
+E.M.: Say it again? A value for tolerance?
+
+AUDIENCE: A value that will blow up the computation.
+
+E.M.: That will blow up the computation. How would
+
+you blow up the computation?
+
+AUDIENCE: [indecipherable - 00:19:55]
+
+E.M.: Passing in a string.
+
+AUDIENCE: Yes.
+
+E.M.: OK. Great. And what would you expect the
+
+result to be, like, what would your expectation, what
+
+would you assert? Like, I pass in a string
+
+and I expect.
+
+AUDIENCE: An exception to be raised.
+
+E.M.: An exception. OK. And if you didn't get
+
+an exception then that would be a problem.
+
+AUDIENCE: Yes.
+
+E.M.: OK. OK. Who thinks four will do it?
+
+Nobody thinks four will do it. A few people
+
+do. Yeah. What additional tests would you add?
+
+AUDIENCE: Well, you're testing a range, so you have-
+
+E.M.: Hmm. Great.
+
+AUDIENCE: -so there's two sides.
+
+E.M.: I really like this. So, the comment was
+
+that you're testing a range, and there's sort of
+
+two sides. There's the, I'm on the low-end of
+
+the range and I am included, and I am
+
+on the high-end of the range. So it would
+
+be, there's two of those. Right. One for the
+
+low-end and one for the high-end. Exactly.
+
+So, it's sort of the happy path. The thing
+
+is spherical. The sad path, the thing is not
+
+spherical. And both sides of the range. I like
+
+that. Good. How many people think five? Five or
+
+more? How's that? Five or more. OK. Lots of
+
+hands for five or more.
+
+So, according to mutant, which is also software, therefore
+
+imperfect, you can, you can test this with four,
+
+and it will not handle things like you should,
+
+like, it sort of assumes that the radius and
+
+area are valid, right. Like, you can, although, actually,
+
+maybe that's. Well, we can try it. It's a
+
+live coding thing. So let's just do it and
+
+see what happens. But thank you for participating in
+
+that. I think it was an interesting exercise.
+
+But, yeah. Basically, like, mutant says the answer to
+
+this question is four, right. It's basically the happy
+
+path, the sad path, and both sides of the
+
+range. So yeah. Let's, let's sort of show how
+
+that works.
+
+OK. So I'm gonna start by just making a
+
+gemfile, as you do. So let me, I can
+
+just sort of show. It's a very simple layout
+
+so far. I have a lib directory, which contains
+
+universe dot rb, which you've all seen. And a
+
+spec directory which is empty. So, very little up
+
+my sleeve at this point.
+
+I'm just gonna make a gemfile, as you do.
+
+And at this point I'm just gonna add rspec,
+
+cause I'm starting to write some tests, and I'm
+
+gonna add mutant.
+
+OK. So, and we'll bundle install. Ah. Cool. It
+
+just installed that new version of mutant that was
+
+just released moments ago. Good. Let me just see
+
+what Ruby version I'm on. OK. That should be
+
+fine.
+
+So. Let's write some specs. So we have the
+
+spec directory. Let's write planet_spec dot rb. And we'll
+
+require rspec and we'll require our planet file. I'll
+
+just use require_relative for that, rather than messing with
+
+the load path or anything. So that's up a
+
+directory in lib and I think it's called universe.
+
+And now let's start writing our specs, right. So
+
+we're just gonna describe our planet in our universe
+
+model. And. So let's create a subject, which is
+
+just gonna be our planet. That's like the main
+
+thing that we're gonna be testing here. And it's
+
+initialized with a radius and an area. I believe
+
+in that order. Yup.
+
+Cool. So let's create a context. And let's do
+
+the happy path first, because that was kind of,
+
+like, we all agreed that the first path we
+
+should write was the happy path. So in this
+
+case, Venus is actually the happy path. Venus is
+
+pretty darn close to spherical. So in this case
+
+we'll define the radius to be. Oops. Cool.
+
+And I think I said it's in meters, yeah?
+
+So it'll be that. And then the area will
+
+be. Eh, let's see. Wikipedia. OK. So the surface
+
+area is, what is that? Four-hundred sixty million? Which
+
+is OK. But actually, like, I would like a
+
+more precise number, because, like, I don't want to
+
+crank up our tolerance to some ridiculous value to
+
+make this true. So I actually found a more
+
+precise number than the one that's on Wikipedia, which
+
+is this. So it's four-hundred sixty million, two hundred
+
+sixty-four thousand, seven-hundred forty. Which is, you know, pretty
+
+round number still, but it's more precise than the
+
+one on Wikipedia.
+
+And now we'll have our assertion. So we'll just
+
+say it's spherical. Venus is spherical. We expect our
+
+subject to be spherical. Good? Is everyone satisfied? Do
+
+I, like, if people see bugs, call them out.
+
+Like, does this look like a good happy path
+
+test? Yes? This will pass?
+
+Good. Let's run it. Yup. That should work. Cool.
+
+It passed. Hooray.
+
+Let's do something else. Let's open up our gemfile
+
+again and add simplecov to measure the C-0 code
+
+coverage. And I guess here we can just say
+
+require simplecov. SimpleCov.start. And so now, if we run
+
+our specs again, we'll get a little coverage report.
+
+Tada!
+
+So for those who aren't that familiar with simplecov,
+
+basically it looks to make sure that your, that
+
+every line of code is executed, and if you
+
+test the happy path, it totally is, right? The
+
+class, the module is loaded, the class is loaded,
+
+this constant is set. We initialize. We initialize a
+
+planet. I can turn on lines. We initialize a
+
+planet on line nine. We invoke this spherical method
+
+on line fifteen, in the assertion. And that invokes
+
+the range method. So we have, you can actually
+
+see every line of code is executed precisely one
+
+time.
+
+So we have, we're not over-testing. We're not under-testing.
+
+We have perfect, a hundred percent C-zero code coverage.
+
+But we all agreed that this was completely insufficient.
+
+So-
+
+AUDIENCE: Ship it.
+
+E.M.: Ship it. K. Right.
+
+AUDIENCE: Force push.
+
+E.M.: I'm gonna delete this simplecov stuff cause it's
+
+garbage.
+
+OK. So let's write some more tests. So a
+
+planet that's not spherical is. No. That's my name.
+
+Thank you. Is our home. The earth. Radius of
+
+the earth. Cool. I guess we could say point
+
+one. Doesn't really matter. And. Oops. What's the area?
+
+Cool. So in square kilometers, it's five-hundred ten. Five-hundred
+
+ten million, rather.
+
+So we, again, we could, like, try to find
+
+a number that's more precise, but we actually, like,
+
+the whole point of this test is to test
+
+a planet that is an oblate spheroid, not an
+
+actual sphere. And so in this case, we want
+
+to, so like, it's fine that the numbers are
+
+not within the default tolerance. And so, yeah. Basically
+
+we want to say, like, it is oblate. Not
+
+spherical.
+
+So in this case, we expect our subject not
+
+to be spherical. Cool. Look good? Let's run it.
+
+Cool. Our tests pass.
+
+So this is, like, maybe your normal workflow. You
+
+would do this. A few of you would stop
+
+at this point. I think there were probably as
+
+many hands for, like, I would stop at two,
+
+or probably more tests, for like, I would stop
+
+at two, than I would stop at four or
+
+three. But let me show, let me show what
+
+mutant does.
+
+Let me show sort of how this mutation testing
+
+stuff works. So you're gonna say bundle exec. Or,
+
+I have it aliased to b-e. I can spell
+
+that out. So this is the mutant command line,
+
+and it takes a bunch of arguments. So you
+
+have to give it a lib for the sort
+
+of lib directory that you're testing so that it
+
+knows to add that to the load path. And
+
+then you give it a require. So it's gonna
+
+require some specific library, in this case the universe
+
+library that you wrote. And then you can say,
+
+like, I want to test everything in universe, or
+
+you can say, like, with wild cards like colon
+
+colon universe star. I can make that a little
+
+smaller so it fits on one line.
+
+Or you can say, like, I want to test
+
+specifically the planet class, or you say, like, I
+
+want to test a particular method. So you can
+
+say, like, I want to test spherical. Something like
+
+that. Right. But we want to test the whole
+
+planet class.
+
+Oh, and you also, there's an option to say
+
+use rspec, so it knows what test framework to
+
+run. This is important, because it's testing your tests.
+
+And I am getting some sort of an error.
+
+Ah. I am missing mutant-rspec in my gemfile. That
+
+is easy to fix. Right. So.
+
+Rspec used to be built in. This has changed
+
+recently. So basically there are other libraries. There's like
+
+plugin library. So if you want to write, if
+
+you use some crazy test-framework, you can just write
+
+a gem that adds mutant support for that test
+
+framework. So this happens to be the one for
+
+rspec. But you can use one for test-unit or
+
+anything else.
+
+So. BI is just a short-cut for bundle install.
+
+And we'll do this. Cool.
+
+So what it is doing, you're like, what, this
+
+is crazy. We only wrote two tests. Why are
+
+there all those little green dots and Fs flying
+
+by? So basically what's happening is we, it's taking
+
+our two tests and it's running through these various
+
+mutations. In this case, it made eight-three mutations to
+
+our code, based on what we used, right. Like,
+
+so, depending on, like, if you use an and,
+
+it will convert it to an or. But if
+
+you don't use that, you can't, you do that
+
+mutation.
+
+So, in this case, there was eighty-three mutations. Eighty-three
+
+sort of mutants. And eighty-two of those mutants were
+
+killed. So there, in this case, was one that
+
+was not. And you get this really cool output,
+
+diff output. So it basically says, this is the
+
+mutation we did that was not killed. We took,
+
+what is it, line twenty-four? Was that? Is there
+
+a comment? We took line twenty-five, right, this range
+
+method, and we deleted the code that you wrote
+
+and we mutated it in this way. We got
+
+rid of that minus T. And it turned out
+
+that even after we made that mutation, all of
+
+your tests still passed.
+
+Actually, maybe it would be helpful, like, I can
+
+show with earth. So before we do earth, this
+
+is what the mutation output would look like. Right.
+
+So. I just want to give you a sense
+
+of, like, all the different mutations and kind of
+
+how they work and what the output looks like.
+
+So if we don't have the sort of unhappy
+
+path where it returns false, these are the various
+
+mutations it runs. So there was this one, which
+
+we saw earlier, where it removes the minus T
+
+from the range and it still passes because we're
+
+sort of in the top half of that range.
+
+There's this other one where it gets rid of
+
+the n, so the beginning part of the range,
+
+and it just puts in t there.
+
+Here, it actually gets rid of that call to
+
+dot cover, and it turns out that, because the
+
+range returns true and you haven't put in a
+
+thing that says it should return false, that this
+
+also passes, right. So, in this case, you're just
+
+returning the range. But that is truthy. And so
+
+this, this test fails.
+
+If you wanted to write a more precise test,
+
+instead of saying. No, I guess that's right. So,
+
+in this case it's just gonna check whether that
+
+method is truthy or falsey, and in this case
+
+it's truthy if it just returns the range. Right?
+
+And you're not testing that it would ever be
+
+falsey.
+
+Also, if you just return the instance variable area,
+
+so if you basically throw away everything except that
+
+last argument to the cover method, this turns out
+
+to also, like, you have no tests that covers
+
+this. And actually you can delete that whole line,
+
+and the previous line, approximate area, like you get
+
+the same result. Like, the fact that you have
+
+an approximate area and that is truthy and you
+
+are only testing that this method returns a truthy
+
+value means that this test will pass.
+
+So I just wanted to show that. I can
+
+bring this back. Cool.
+
+So now we're in a place where, oops. OK.
+
+So our tests will pass. And we have one
+
+mutant that we need to kill. So does anyone
+
+have an idea for how to kill this mutant?
+
+AUDIENCE: Pass in a tolerance. [indecipherable - 00:36:27] Pass
+
+in zero tolerance.
+
+E.M.: So the suggestion was to pass in a
+
+zero tolerance. So let's try that. So should I
+
+just, should we make up a planet or, how
+
+do you want to do that? We could do
+
+Mars, maybe?
+
+AUDIENCE: Venus shouldn't be spherical with a tolerance of
+
+zero.
+
+E.M.: Ah. Venus shouldn't be spherical with a tolerance
+
+of zero. So that's true. So we can sort
+
+of change this one to be, it is spherical,
+
+give the default tolerance.
+
+AUDIENCE: Yes.
+
+E.M.: That's what that tests. Right. It's spherical-ish. I
+
+like that. Ish.
+
+But is not perfectly spherical. And so here we
+
+would expect this not to be spherical, given a
+
+tolerance of zero. Yeah? So let's first run that
+
+test. Cool. So that passes. It is not perfectly
+
+spherical, and it is spherical-ish. We didn't break that
+
+test. OK, so now let's do the same thing
+
+with our mutant command.
+
+So the mutant still lives. Why?
+
+So to make this fail, what we need to
+
+do is we need to pass in a tolerance
+
+that falls in the bottom half of the range.
+
+So, in this case, Venus is slightly the area
+
+of Venus is slightly above the perfect sphericism or
+
+whatever, right. It's not, it's on the high-end of
+
+the range. So what we need to do is
+
+we need to find a planet that is actually
+
+on the low-end of the range, right, where it's
+
+less. It's spherical, but within the tolerance, but it's,
+
+yeah. On the low-end of the range. Make sense?
+
+So yeah. I don't know. Like, what we could
+
+do to test, like, we could, I, I don't
+
+want to necessarily like look up more planets and
+
+their radiuses. But we could do something like this.
+
+So this is, sorry, that's not earth. This is,
+
+like.
+
+AUDIENCE: Rubinius 5.
+
+E.M.: Rubinius 5. I like that. Thank you for
+
+the suggestion from the audience. And Rubinius 5. Let's
+
+sort of make it easy for ourselves. So we'll
+
+say the radius is zero point five, right. So
+
+if we put that in our formula, zero point
+
+five squared is a quarter, and then a quarter,
+
+when it sort of cancels out the multiple by
+
+four. You div, you're dividing by four basically. So
+
+the, we know that the actual area should be
+
+pi. So then we can just say something like,
+
+let the area be Math::PI. And we want it
+
+to fall, we want the area to be below
+
+the range. Right, so we want it to be
+
+like, Math::Pi minus, like, some amount that falls within
+
+the tolerance or whatever. Right? Make sense?
+
+And then we expect that this is gonna be
+
+spherical. Ish. Within the default tolerance. Cool. OK. So
+
+let's run that. Specs pass. And have we killed
+
+the last mutant? Nice. Yeah.
+
+Yeah! So.
+

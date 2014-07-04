@@ -1,0 +1,278 @@
+RailsConf 2014 - Ultra Light and Maintainable Rails Wizards - Andy Maleh
+
+ANDY MALEH: Sorry everybody. I lost the slides. I had to reconstruct them right now. Right, like in ten minutes. Ultra light and maintainable Rails wizards. Who has written a wizard in their lifetime?
+
+OK. It's, it's almost like the most common web use case, yet it's the least under, under-valued with regards to providing patterns for doing, like, writing good code in order to provide for maintainable wizards.
+
+A lot of the time, people write, like, multi-step wizards, where they end up doing a lot of copy-paste between the steps or between a bunch of controllers. And that makes it a hell of a problem to maintain that code a year or two later. And every code base is, you know, meant to be created for a year at least. Maintenance cost is what's really expensive. It's not, you know, I can write a wizard in two weeks but will I be able to maintain it cheaply over a year. And that, that's really why I'm giving a talk about this subject.
+
+So just to give you an overview, I'll be talking about, why do we even use a wizard? Provide an example. Some implementation goals. The 1001 wizard implementations out there. And, finally, I'll talk about what I think is a good ultra light and maintainable wizard approach.
+
+So first of all, we don't want to overwhelm the user with a huge form of information, kind of like those government forms that we have in Canada. So I come from Montreal, by the way. This is painful on a computer screen. Computers should enable people to do better than actual physical paper. So one way of tackling this problem is to divide it into multiple steps in a wizard.
+
+So also it's about simplifying the workflow into multiple steps that make them digestible, just like this protein shake. And finally it, it gives you the opportunity to provide more explanation for what each form does, by being able to fit more information when you break it up across multiple pages, like what they do with TurboTax.
+
+Who here has filed their taxes?
+
+Yeah. I did not. I just did this so I see who raised his hand.
+
+OK. So I had a, a software architecture gig at EarlyShare about a couple of years ago where I helped them launch their site. EarlyShare is kind of like KickStarter or Indiegogo, except it's focused on allowing people to do crowd investment in businesses.
+
+And it was a website that was being built fast in order to catch up with some legal laws in the U.S. that would allow crowd investment. So I helped them launch the site and they had, they, as part of their website, they needed a couple of onboarding wizards. One for investors and one for business people.
+
+But there were other requirements. Like, the business was bootstrapped. We were only two developers. Me as the senior and then there was a junior with a CTO and a designer and that's it. He wanted us to move super fast, and I was brought in as the Rails expert.
+
+So I had not written a wizard in like four years before that. Or maybe five years. Like, maybe since the days I did Java development. And when I started tackling this problem in Ruby, you know, I like, I went online, checked some Google guides and all that or StackOverflow, whatever.
+
+And none of their approaches satisfied me. So let's talk about what I found.
+
+So the wizard example, though, is basically, you have four steps. Step one is collect basic info. Step two is details, more details. Step three is upload some document content. Step four is just preview before you finish the wizard. And then once it's done, it shows you a summary, like a landing page for the project that, that the business is proposing for investment.
+
+OK. So, I mean, the goals I had was the Rails server had to persist every progress on every step. So no, like, js client-side tricks. That was out of scope. I wanted it to still, like, be RESTful, like, which is a common issue with wizard, like, building wizards. How to make them properly RESTful.
+
+I wanted to also stick with MVC, object-oriented principles because we're using an object-oriented language. So I wanted to make sure that the code is maintainable by other developers going to the feature.
+
+And then some non-functional requirements, like productivity. So that was part of the concern that the CTO had, which is he wanted us to move fast, like, really, really fast. That was part of the reason why he brought me in. Well, big mistake. I, I pay attention to details and nice design concerns. So I will slow him down but for good reasons.
+
+I'll slow him down and then he'll go much faster later on.
+
+Still, the story does have a happy ending. So maintainability, by both junior and senior developers. They had one senior developer in Brazil as well. Which I just remembered. He was brought in a little later on.
+
+Performance concerns. Security concerns.
+
+So it's pretty, it's pretty basic stuff. Like, I mean, these are the concerns that we should care about whenever we build any feature, really.
+
+So one approach that I've seen on actual code bases, I actually saw it on a code base that I maintained on a following project after that one, was one controller per wizard step.
+
+So you create a REST resource per wizard step. And you had multiple controllers, multiple sets of views and helpers. And then each controller redirects to the next one. So something like this. And you could do it either with one ActiveRecord that has conditional validations for each step, where it says OK, if step one, validate presence of name, if step two, validate presence of blah, blah, blah. Or you could have multiple ActiveRecords.
+
+But either way, who here could find concerns with this approach, or at least something that could be improved on? Somebody volunteer? Go ahead.
+
+AUDIENCE: [indecipherable - 00:07:10]
+
+A.M.: And what's the concern with that? So what if you have a whole bunch of controllers?
+
+AUDIENCE: [indecipherable - 00:07:16]
+
+A.M.: OK. I mean, I've built applications that managed user profiles, user accounts, blog posts, for example, whatever. You need a controller for each one of those. I don't think you could escape that.
+
+So I'm gonna give other people a chance to talk, but I do get your point. I want to clarify it.
+
+Go ahead.
+
+AUDIENCE: I was gonna say repetition-
+
+A.M.: Exactly.
+
+AUDIENCE: Re-usability and dependencies.
+
+A.M.: Yeah. So quite a bit of that code is repetitive. It was just, it was always loading the resource. It's almost the same resource. Actually, if you use one ActiveRecord, it is the same resource. And then we'd run some validations and then it would pass to the next controller. So, I mean, there was quite a bit of repetition.
+
+We try to add features a couple of months after the, after a developer had built that wizard on that project, and they wanted us to deliver something in a week, and apparently another developer, before I joined that team, had tried to implement that feature and it took him a month. And he still couldn't do it with the, with the design they had.
+
+It was still, it was just taking a long time. Like, he was still not done. And then that guy left. So I ended up solving the problem with another senior guy. And it was, so, I ended up applying this ultra light maintainable wizard approach that I discovered on the EarlyShares dot com project, and it worked out really well. So, which, I'll talk about a little later. But that helped us actually develop it in, if I remember right, it was about seven days.
+
+Test first, and rewriting the entire thing, also.
+
+But it was specifically because we didn't have that many controllers anymore. So, we wrote a lot less tests so we had a lot less code to maintain. So that was part of it.
+
+So, another approach I've seen is one controller. Sorry. Oh, OK, that's just the critique. We already went over that. I don't think I want to go too much into details for that cause we're limited on time.
+
+But yeah, let's go next to one action and presenter per wizard step. So, I mean, another approach is, OK, keep one ActiveRecord, but I've also seen this approach in a code base, where there were different, say, new_step1, create_step1, new_step2, create_step2. So there were just, like, eight actions on that controller, each mimicking the new and, and, and create, say, on the RESTful resource.
+
+So, although it feels RESTful, it was not REST anymore. It already broke out of the REST paradigm. So we can improve over that.
+
+Also, it still had some repetitive code across the actions. So, I mean, it was, it was just a slight improvement to the problem. Not much.
+
+Using presenters, which is an abstraction layer between the ActiveRecord and the controller is an improvement in the sense that you can put the validations for each presenter per step separately and not have conditional validations. I'll talk more about that going forward.
+
+So it was more something like this, where the controller had a whole bunch of actions that are connecting to presenters that are talking to an ActiveRecord.
+
+OK.
+
+So I already went over the caveats of that.
+
+OK. Who here has written a wizard with session accumulation approach? How, how did that work out for you or, do you think-
+
+AUDIENCE: That's why I'm here.
+
+-well, I'm sorry if it sounds. Well, tell me why you're here. I'm curious.
+
+AUDIENCE: Well, I mean, right now it's just that it's to the point where we're breaking it down further, it was a very basic general implementation. And now dealing with the fact that we have so much session iteration that I have to pass it between, you know, controllers. We deal with it from multiple angles, and it's, I mean, I can't put that stuff in a model. So my controllers are getting really out of hand.
+
+A.M.: Exactly. Yeah. Yup. Yup. Yup.
+
+So you end up with the live session management code in the controller, which breaks MVC. So if you're not breaking REST, you break MVC. It's really tough. It's a tough problem.
+
+AUDIENCE: Can you explain what session accumulation is?
+
+A.M.: Yes. So, actually, maybe I should have somebody explain that. I saw you raise your hand. Would you mind explaining it to the audience.
+
+AUDIENCE: Sure. It's basically, as you're going through the specs, that you're storing all of the information that needs to be in the session. So then, you know, there's a problem with that because the user can leave the session,
+ [indecipherable]
+
+A.M.: Right. So, I mean, you go through step one. You gather the basic info from the form. When submitting the form, instead of storing that in an ActiveRecord, you actually store it in, in the session, using the session helper in the, in the Rails controller. And then once you move to, and then you redirect to step two, and then you submit that form again, and then you add more stuff to the session.
+
+Once you reach the last step, kind of like what you see in this diagram, that's when you're ready to create the ActiveRecord. So you pass all of this as the params and the ActiveRecord will validate it and then you're done.
+
+OK. So, so I mean as far as critique. So reliance of session, storing objects in the session has implications on scalability. Usually you want to store ids of primitives because they're easier to move across servers when it's primitive data and be able to support multiple servers.
+
+My understanding is if you have actual objects in the session, it makes it harder for you to scale.
+
+Controller code is more complex because of managing session data. Validations could get defined twice, because you might have to validate on every step as well, in JavaScript or in a, in a presenter or something. And, also present at the last step in the model.
+
+So again, I mean, if you're not breaking REST, you're breaking MVC. If you're not breaking MVC, you're breaking duplication whatever, concerns, so, it's a tough problem.
+
+Hidden value accumulation. Somebody share with us what this is, or, it's very similar to session accumulation.
+
+Yeah, go ahead.
+
+AUDIENCE: Really, when you're submitting the form at each step you're shoving all the values from the form into hidden fields on the page, and then eventually, when you hit submit, the final version will just set everything to the server.
+
+A.M.: Yup.
+
+So it's not stateful, it's stateless, because it keeps, like, each request has its state. You don't have to maintain the state in a session. So the performance implications are gone. Like, it has no problems in scalability.
+
+But you might, you, you might not want to expose the values all the time on the, on the user page. You can hash them or do encoding on them, so that could improve that, that problem with regards to keeping form data in a, in hidden fields on the page every step of the way.
+
+But there's, yeah, I mean, but the complexity is still there, with having to manage the accumulation and having to construct the model at the end.
+
+So it's a slight improvement.
+
+Who here has used the state matching for a wizard?
+
+OK. Do you mind sharing with us your experience with it?
+
+AUDIENCE: I think main problem that you run into is that you get fat models, cause you have to put all of the different validations into different states. But overall, I found that it was a better compromise than the other options.
+
+A.M.: Generally it is. One, yeah. So, you create one ActiveRecord. You make the ActiveRecord a state machine. You have to add a step column on that model to support which step you're on when it, in order for the validation to know which validations to run for what step. So that way you say, OK, on step one, if you have that column, you'll say, OK, you'll have validations that say, OK, if it's step one, then I'm gonna check for first name and last name presence. If it's step two I'm gonna, I'm gonna check that the project details are present. And so on and so forth, depending on what each form, what field, what field each form contains on the, in the specific step.
+
+So yeah, different view per step. I already went over conditional validations.
+
+To share an example, it looks something like that, like validate :phone, presence: true, if current_step is shipping. So that's just one way of doing it. There's other better ways of doing it. There's also gems out there that help you with that. But that's one way of doing it.
+
+AUDIENCE: ActiveRecord has the ability to run conditional validations like that. You don't have to run a block.
+
+A.M.: Mhmm. Yup. Yup. I'm familiar with that. Yeah, that's why I mentioned, there's multiple ways of doing that. That's just one example.
+
+AUDIENCE: How does, how is the state machine different than the first, better than any of the ones you mentioned, [indecipherable - 00:16:39]
+
+A.M.: OK. With the other one, you could cheat a bit and set an in memory variable that represents the step name that you're on and then do that conditional validation that way, whereas with this one, you have, you're only working with one model and you don't, you haven't managed the stepping. So yeah, with the other approach, the controller is doing management of the stepping. In this one the model is doing the management of the stepping.
+
+So critique. Well, first of all, it puts in presentation concerns, like adding an extra column to our presenter's state, sorry, step, is not part of the domain, the business domain. So when you're doing MVC, usually the model, you're trying to put in it as much decoupled logic that's focused on the business at hand as possible in order to maintain that separately from any view concerns or controller concerns.
+
+I mean, you can put anything in the model, really. But the reason why we do that is, in my experience, when I'm maintaining a code base, if I'm not having to manage view concerns like stepping into a state machine and a model concern, like the business rules of, of what happens when, you know, like the project description is not present or whatever, then it's easier for me to maintain that model, cause I'm not thinking on one thing at a time. I'm not thinking multiple things at the same time.
+
+Also, it makes those models smaller files, if you separate those concerns. You don't want a huge model as maintaining a state machine and maintaining business rules and maintaining like ten other things. You could manage that with splitting that into modules or concerns, but still, when I'm working with that model, my head will have the context of everything at once. SO it wouldn't, like, this is more of an advanced programming thing. Like, once you've been programming for three years at least, you'll, you'll start noticing that.
+
+You'll start noticing the subtleties with regards to mixing concerns. Like, you start understanding why people say follow the single responsibility principle. I'm not a fan of following it dogmatically, I, but I think it's a good guideline, like any other guideline, where if you could minimize responsibilities in a model and have it not manage view concerns, then do that. Especially if MVC prescribes that as well as that's what all Rails developers on the field would expect.
+
+So I think I pretty much sold that. So yeah, so I mean, I think that makes it pretty clear why I don't like this approach that much.
+
+Also, it's a bit techy. Like, thinking of the wizard as a state machine is a bit computer science-y. Like, I mean, I have a background in computer science, but, the, the point of anything you learn is to apply it in the right place for it, and I don't feel like, when I'm thinking about a wizard I'm thinking about the business problem. That's what I really want to think about. I don't want to think about a state machine. As cool as that is, that's not the time to think about it.
+
+So I mean, a thousand and one approaches is, there's a whole bunch of gems out there. Most of them will simplify the things I mentioned, or give you better, shorter DSLs for doing the approaches I mentioned. But none of them achieve all the goals at once, of having MVC, REST, and all of that.
+
+I mean, to get back to that, there's REST, MVC, OO, and then the non-functional requirements. So, let's go to, jump into this. I think we have about ten minutes left.
+
+So the first thing that, so I, I'm like, OK, let's try to solve this wizard problem from scratch, like, as if I just, I'm just gonna, like, get my tools out there. Like, the object-oriented principles, the domain-driven design principles. Who, who here has read the book Domain Driven Design? Or heard of it, at least?
+
+It's a book that I, my team did a book club on, or a previous team, like six years ago, did a book club on for the sake of learning how to do object-oriented design on real business problems. Cause a lot of the time you learn object orientation, but it's hard to figure out how to create the right objects for the real, for the right person's problem. It's, that, that book is a very good book on how to tackle that.
+
+So I, I started using those tools. Like, whatever I learned from that book, whatever I learned from object-oriented programming. Whatever I learned from, like REST. To try to figure out what a wizard is.
+
+Before I go ahead and talk more of what a wizard is, what do you think a wizard, the wizard's highest goal is?
+
+Go ahead.
+
+AUDIENCE: To serve views for the user.
+
+A.M.: That's correct. So, you stumped me. Cause I was gonna ask about the highest goal from the developer's point of view, but you're right, we should think about the user's perspective first.
+
+Now, let's dig, let's dig a little. No, that's good. Let's dig a level lower. So, OK, so we know that. That's our guiding principle, is OK, to serve to make things easier for the user. But, next, what, why, why, OK, technically what, what is a wizard doing?
+
+OK, that's my next question. What is a wizard really doing? Go ahead.
+
+AUDIENCE: Collect the proper set of validated values.
+
+A.M.: That's part of the work. What else?
+
+AUDIENCE: Break down the form so they're just small steps.
+
+A.M.: OK. Break down the data. Yup. Like separate it. What else?
+
+AUDIENCE: I was gonna say something really similar to that. Organize the data into, like, you know, making it weighted or in comprehensible sections.
+
+A.M.: OK. And what's the end goal of running through the entire wizard?
+
+AUDIENCE: Creating an object.
+
+A.M.: Yup. Pretty much. So a wizard is nothing but the good old builder design pattern. Anybody's heard of it. I mean, I used to be a hardcore Java geek and design patterns were big in- [audio jump] seven days - in Ruby.
+
+But it's still good to know about things like that, cause that pattern flashed in my head right away. I'm like, oh wow, a wizard is nothing but a builder. Like, it, all it does is like an assembly line of building a car, where step one, you know, whatever, you put the chassis, second, like, step two is you add more, I don't know, you add the doors. Step three, you add the windows. Four, five, and then all of the sudden you've built a car. So that's really what it is.
+
+Second part of the philosophy that I was following is, each step in a wizard is nothing but a partial view of that main, full object you're building. So, one, one step is about, say I'm ordering a car and I want to customize that car. Like, one step will show me the exterior body and another will show me the interior to customize the interior with, whatever, leather or mahogany front-panel, whatever. And then, and then a third part lets me customize the engine.
+
+So it's just, so all what steps are, are views. Like, instead of thinking about them as states and in a state machine, this is a more higher level way of thinking about it. It's less technical and more, it's just, I'm viewing one part of a model.
+
+Third part is if you were to, so, with that in mind, if you ever think about the REST resources, it's very simple now. It's done. Like, you have the main model, that's the main resource. And then you have the model parts, nested model part, under the main model. That's the second resource. That's it. You have two RESTful resources. Very clean.
+
+So every time you're walking through the steps of a wizard, you're actually editing a model part. So, and, so that makes it very, very clear what the REST resource is.
+
+Another thing in my philosophy about it was I did not want to have conditional validations, cause they make a model hard to maintain. It's harder to read if statements. Like, if I can have those without if statements, it would be better. Especially when you come back to maintain that wizard six months later and then a year later and, on, on both projects I was on, they actually added steps to the wizard. So they started with four steps and then they grew to nine steps.
+
+And the more I can separate that stuff, the, the better. And then finally I just wanted to maintain the views in separate view files as well. I didn't want a single view file that would do it the way I used to write code in ASB where I'd have a crazy if-else statement that says if step1 show this part of the form, if step2, show me the project details, if step3, show me a document content upload. I don't want that. That's, yeah. That's ASP programming.
+
+AUDIENCE: If they change the order of the steps, you want the steps [indecipherable] step three became step four.
+
+A.M.: Yeah. It'll work.
+
+OK. So, so really I mean, high level is just, I have the main model. That's the main resource. And then the, on the, nested under it, there's the four different, so, what I end up doing is creating four different presenters. One per step. Which manages the validations for that step separately, as well as any stepping logic related to what happens when you land on that page. What are the defaults for that form? Should we initialize the phone number with zero, zero, zero, zeros, or should we, like, should, should we prefil the name from the logged in user account? These kinds of concerns now are uploaded cleanly to the model.
+
+So we're adhering to MVC. You handle all the wizard intelligence and business logic in the models now. You're not, or presenters. I mean, a presenter is just another form of a model that focuses on presented a vi- a part of a model. So, really, I'm, I'm using it in a loose sense. There's many ways to do presenters. I don't care which way.
+
+I do have a prescribed way here, but, the point of first to grasp is that you're operating on a part of the model. You're not operating on the full model. And you're doing the logic in the, in a model, not in a controller. And then the, the controller is the, yeah. So there's two of them. There's the one that manages the main model creation. So the first step of a wizard, when you create it, you create it with a main model controller. So if I have projects controller, I have a create action. And then that triggers the wizard. It'll, it'll create it and then redirects me to the first step.
+
+So when it redirects me to the first step it takes me to the edit page of model part, the nested model part, with id_step1, for example. Or id basic info. So you use the step names as the ids of that RESTful resource. Which is perfect REST. Like, that's, that, that goes with, that gives you an example of why, when people talk about REST outside of Rails, they tell you REST does not relate to having a database table. You can, so this, this, this is an example where the RESTful resource is a step that is a view of the model, but it's not a resource. It's not a database table. It's not a separate database table. It's just a virtual resource.
+
+I need to wrap it up and then I'll take, I'll take questions. So in a nutshell, you have the model resource, nested model. So you end up with URLs like that, which is very restful, again, cause, like, so you have projects, with the id. We were using friendly id on the projects, so the project says, yeah, so project1, then project_parts, and then the name of the step. And there'll be four steps for, you know, every time you run through that wizard. So there'll be four ids, only. It's a finite set. You don't have to store it in the database.
+
+So yeah, step names. There's id, contains validations, yeah. I already talked about all of that. So let's skip.
+
+So the routes is very, are very simple. You just have a resources projects. It's actually only create and show. I left the show out. There should be a show as well. Show is the landing page of the project when you finish the wizard. And then the project parts, which is edit and update. And it's that simple.
+
+So, so here's the project model. It's got the basic definition of that model. And associations and so on and so forth. However, what I end up doing is creating a presenter per wizard step, so, and I nest them under a directory that matches the model name, so, project, for example. And that's one way of doing it. There's many ways of doing it, but.
+
+In this case, only step one and two had customizations over that model. Step three did not have validations of its own, so I didn't even have to create a file for it. And step four actually didn't have anything either so I didn't have to create a file for it.
+
+But yeah. Step one, you can't see the details, but the point is that this is, these are validations for step one, only. So that's the first, and then the first step, as well as some business logic related to it, like initializing default, like initialize from user, which initializes from the signed in user.
+
+And then there's the project detail model, which has a few validations, only. Only three, cause it only has three fields on it. So that one is also, like, cleanly separated. Nice, easy to maintain. So you go back to maintain the code and it's like, it's like, it's squeaky clean. You know it's like so easy. It's like the way programming should be.
+
+So the project's controller, the create action, all it does is it creates the project and then redirects to the edit page of the first step, which is basic info. And then the project parts controller has the edit and the update and all it does is it steps through the wizard. Now, what I ended up doing here is the way I reasoned about it is that the project in MVC, or, sorry project controller in MVC is, or project parts controller, is actually, although it's a controller, it's a model of sorts. It's a model focused on control flow.
+
+And stepping through a wizard is control flow. So then I made the controller responsible for it. So the, so here, at the top, it, it defines the order of the steps, and then based on that it walks through them. So in a way the controller is the state machine, except I didn't need a state machine cause I'm not maintaining state. I do it with, I don't need to maintain state. Every time we finish a step we can redirect to the next step. And I can pass the id of the next step RESTfully and redirect to the next resource.
+
+So I, I don't need to maintain what step I'm at, on. It's always on each page. Like, on each page, I can know, if I'm on step two, I know that if I hit submit it'll take me to step three next. I don't have to, like I just know that from this array that we define over here, which orders the steps in the wizard.
+
+So, yeah, we're almost done. But yeah. I mean, it's got stepping logic. There is, there's a gem out there called wicked that helps to implement this sort of logic in a controller. I, I'm starting a gem called ultralightwizard that will do similar stuff, except it'll add the, the concept of presenters to it as well. But until then you could use wicked for the controller part.
+
+The views, you'll just have a different wizard part view, or sorry, step view. And one thing I didn't know is that this edit action, it actually, when it renders the view, you don't render and edit dot html dot erb, you polymorphically just render the step name. And then it ends up picking a view matching that step name.
+
+So if I render basic_info, it renders basic_info dot html dot erb, which contains the edit form for that step. If I render the, the detail step, then it renders detail dot html dot erb. So that's why I have these. So that way we have the views separated as well. So we achieve that goal.
+
+The form that you put can be the same on all views actually. Because you have, you're editing the same model. You're just editing different parts of that model, but it's, it's the same model on all pages. So the root model is project, but on one page I'm editing nested document content, upload the documents. On another page I'm, I'm, I'm editing just the first name and last name, and so on and so forth.
+
+So you could actually wrap this whole thing up in the helper, call it project_form_for. That's super short. Just use that. I know on one of my projects, another senior developer on the team did that, like he did that as a refactoring step.
+
+So, I mean, this is an example, but a view, a very straightforward view form, like, straight Rails. Nothing special about it.
+
+So that concludes the talk. So, I mean, I talked about why use a wizard, provide a wizard example, implementation goals, other implementations out there, and finally talked about what's my recommended approach for sticking with REST, MVC, OO, and, you know, all the things that would help ensure that your code is not maintainable only today but also a year from now, and also by other developers that will join the team with minimal training efforts, hopefully.
+
+This is the project that I launched and is empty right now, but I would like to, but I mean, you can star it and monitor it and hopefully I have something out soon. Maybe I'll do it at RailsConf. Somebody want to pair with me on this, you're welcome to. So yeah, my name is Andy Maleh. I'm the VP of Engineering at a remote only, or 100% remote option consulting company called BigAstronaut. These are my folks over here. That's Lance, CTO.
+
+Oh, oh yeah, Chief Fun Officer as well.
+
+AUDIENCE: We've got t-shirts and stickers and we're hiring.
+
+A.M.: Sweet. Yeah. Thank you everybody.
