@@ -1,0 +1,1330 @@
+RailsConf 2014 - Domain-Driven Design Hexagonal Architecture Rails - Eric Roberts & Declan Whelan
+
+ERIC ROBERT: All right, hi. I'm Eric Roberts
+
+and I'm here to talk to you all about
+
+how you can use software design patterns
+
+to put your Rails app on a diet
+
+and make your tests run really, really fast.
+
+Jokes aside, we will be telling you about some
+
+design patterns. Not so much making your tests run
+
+fast. But we're here to talk about domain-driven design
+
+hexagonal architecture in Rails.
+
+I'm Eric Roberts. I'm a software developer and I
+
+work at a company in Waterloo, Ontario, Canada called
+
+Boltmade. I met Declan when we worked together at
+
+PrintChomp. Before that, I was a frontend developer for
+
+a number of years, and I'd worked around Rails
+
+applications, but mostly at the view layer until Declan
+
+dragged me kicking and screaming into backend development and
+
+made me care about stuff like we're talking about
+
+today.
+
+And this is the biggest crowd I have ever
+
+presented in front of. So if you'll excuse me,
+
+I need to take a picture and email my
+
+mom.
+
+DECLAN WHELAN: OK. Hi everybody. Real pleasure to be
+
+here. My name is Declan. I'm the co-founder of
+
+a company called PrintChomp, and my story is about
+
+two years ago, I had a opportunity to launch
+
+PrintChomp, and I was looking at technologies, and I
+
+decided that Ruby on Rails was really the best
+
+platform for us. The only challenge was that neither
+
+me nor anybody on my team knew Ruby nor
+
+Rails.
+
+So it was kind of a brave, maybe, decision,
+
+but it's one that I don't regret. And one
+
+of the things that drew me to the community
+
+was the fact that, or, to the platform, was
+
+the community around sharing, around the openness of, of,
+
+of sharing code and, also, a lot about, about
+
+the test-focus, which has been pretty important to me.
+
+But the cool part, I think, about it, was
+
+we intentionally took on a lot of technical debt,
+
+because I knew that, I knew that I would
+
+not know enough about our domain. It was a
+
+new domain for me, printing, and I also did
+
+not know enough about Ruby. I did not know
+
+about, enough about Rails. So, very intentionally decided to
+
+do our best, the best that we could, knowing
+
+that we would end up, very likely, with a
+
+pretty heaping mound of technical debt.
+
+And that turned out to be true. And has
+
+anyone had that experience? I don't know. Yeah. So,
+
+but recently we had an opportunity to build an
+
+API, and that was really exciting for me. And
+
+I know there are gonna be some other talks
+
+about APIs here later, and I realized that I
+
+had, I had two kind of competing things that
+
+could come together. The first was, I had, I
+
+had logic in our application that I needed to
+
+share in our API. How was I going to
+
+do that?
+
+And all of our code was sprinkled through various
+
+bits of our controller and model logic. Secondly, I
+
+wanted a mechanism to, to have a strategy for
+
+eliminating the technical debt, and what I turned to
+
+was domain-driven design hexagonal architectures, and I want to
+
+share what we've learnt along the way of doing
+
+that, and, and where we're going. So I hope
+
+you're able to learn something from what we've done.
+
+E.R.: That's great Declan. But what are they gonna
+
+get out of it?
+
+VIDEO
+
+??: Here's a good idea. Have a point! Makes
+
+it so much more interesting for the listener!
+
+D.W.: Well, that was from Sandy Metz. He said,
+
+you know, if you're gonna have a talk, you
+
+should really have a point, and I think Steve
+
+Martin said it pretty funnily. And I guess, our,
+
+our number one point is that, there is complexity
+
+in the software that we build. There's complexities in
+
+the problems that we're solving. And we need to
+
+embrace that complexity and embrace it in such a
+
+way that we tackle it and deal with it.
+
+And deal with it head-on. And by doing that,
+
+then we end up having more joy and fun
+
+in our work because it's not just about getting
+
+this functional piece to work, it's about really trying
+
+to understand our domain and model it and express
+
+that in our code and make our code as
+
+expressive as possible.
+
+And the second thing that I really realized was
+
+I knew that our code was a mess, and
+
+I knew some point refactorings that we could do,
+
+but I didn't know how to, how to, you
+
+know, what did the end look like? If it
+
+was refactored significantly, what would it look like? What
+
+would the shape look like? What would the namespaces
+
+be? What would the classes be doing, et cetera.
+
+And domain-driven design and hexagonal architecture helped me envision
+
+and share with my team what it might look
+
+like.
+
+The third thing that, that, that we would like
+
+you to take away from this talk is that
+
+there's a lot more to just being a Rails
+
+developer, the, the ideas and patterns, if you will,
+
+that we, that we're talking about are, some of
+
+them have been written by some of those people
+
+that DHH had in his slide, including James Coplain.
+
+But a lot of those patterns have been around
+
+for a long time. SO those patterns and those
+
+ideas and those practices will serve you well beyond
+
+Rails. They would work in a node application. They
+
+could work in a desktop application. They can work
+
+in a wide variety of areas. So by getting
+
+some familiarity with these concepts, you're able to transfer
+
+those skills to things beyond Rails.
+
+And so I want to ask Eric just to
+
+walk us through kind of some of the, some
+
+of the pain that we had with our initial
+
+Rails development and see if it resonates with you.
+
+E.R.: All right. So everyone knows what this is.
+
+It's a Rails folder structure. And it's really great
+
+when you get started with Rails. You have these
+
+folders. OK. I, I logically, my things fall into
+
+these areas. Controllers, models, and views are really what
+
+we're focusing on right now.
+
+But if the responsibility of your code doesn't start
+
+with M, V or C, what do you do
+
+then? And we, and we find it kind of
+
+goes like this. You have, you have these areas
+
+of responsibility and you have something that doesn't really
+
+fit, and you don't know where it goes, so
+
+you just put it on somewhere and things get
+
+a little bigger.
+
+And continuing on, you keep doing this, things get
+
+bigger, and finally, like, the line between all of
+
+these things is, is blurred. You don't know what's
+
+what. It's hard to extract reusable parts from all
+
+of this, because the, the responsibilities are split across
+
+all these things.
+
+And you kind of end up with methods like
+
+this. This is one method. It starts on the
+
+left and ends on the right. It's about ninety
+
+lines.
+
+It's not from PrintChomp. It's from another, another project
+
+that I've worked on. And without setting, it doesn't
+
+really matter what it does. The point is it's
+
+ugly and you know, it is actually about setting
+
+prices on properties and the date ranges are available.
+
+So I have a question. We need to add
+
+sales tax to the prices.
+
+Anybody care to take on that refactoring?
+
+It's pretty horrible. But nobody, nobody sits down and
+
+says, I'm gonna write a ninety line method today
+
+that does property prices with date ranges. The initial
+
+spec was probably something a lot simpler. And because
+
+it's in that spot now, the next person who
+
+comes, comes and looks and that method and goes,
+
+oh, well OK, well if I just type this
+
+little bit more it'll, it'll do that now.
+
+And this was a little bit of a train
+
+wreck. At some point you probably, the people working
+
+on this, including myself, probably should have realized, you
+
+know, forty-five lines might have been the time to
+
+split it up. Maybe twenty. Maybe less.
+
+But this is, nonetheless, what we ended up with.
+
+Or, you end up with Rube Goldberg machines for
+
+sharpening pencils.
+
+So there's a lot of well-known patterns that can
+
+help you out with this. Has anyone read this
+
+blog post? Yeah. Anybody use any of the patterns
+
+in them?
+
+They're pretty great, right. We use a lot of
+
+them, and I'm, we're gonna tell you about some
+
+of them here. But the one thing you've, so
+
+you've extracted all of these things into small responsibilities.
+
+Your models, your controllers and your views. They're all
+
+small again.
+
+But, OK, so what? I have a bunch of
+
+little objects that all go, they all know too
+
+much about each other. They don't fit in any
+
+logical structure. They don't, how, how does this all
+
+fit together? You've made, like, an awesome first step,
+
+in that you have small little pieces that you
+
+can use. But where do you go from there?
+
+And we think that looks kind of like this.
+
+We think that your domain concepts, services, entities, should
+
+be in the middle, and everything else is outside.
+
+Your database is an extra concern, your views are
+
+an extra concern. The web, and you know, when
+
+you're designing the API, as Declan talked about a
+
+little bit, it's an extra concern. So you can
+
+really focus in on the middle of what your
+
+application actually does.
+
+I'm gonna let Declan talk a little bit more
+
+about that
+
+D.W.: Has anyone here heard of domain-driven design? Oh,
+
+quite a few people. Awesome. How many people have
+
+actually, you know, intentionally used it and, and have
+
+worked with it? So, a, a number. SO cool.
+
+And it can be quite, it can be quite,
+
+it can be quite daunting. And this book by
+
+Eric Evans is kind of what kicked it off.
+
+And this book was I think written in 2005,
+
+and it is a really, really great book, but
+
+it is actually quite difficult to read. But it's,
+
+I think it might be the only technical book
+
+I've read twice.
+
+And that's partly cause it was really good and
+
+partly cause it was rather difficult to get through
+
+some of it. Did anyone else read this book
+
+and have a similar experience? like, it's really great
+
+stuff and you kind of read and it and
+
+you go, wow, what does that mean to me?
+
+Right?
+
+And we, at the end, at the end, we'll
+
+be posting our deck, and we'll have some references
+
+to other material that, that I've actually found to
+
+be a bit more addressable or a little more
+
+consumable.
+
+But what Eric Evans talked about was really tackling
+
+complexity, and he talks about the, you know, the
+
+critical complexity is really understanding the domain. What are
+
+the business rules that take place inside our systems?
+
+If we're gonna add sales tax, what are the
+
+business rules for that sales tax?
+
+What are the, what are the rules around who
+
+can buy what? And by putting those insides and
+
+thinking of them as the domain of our system,
+
+then we're able to have our outside layers just
+
+be, if you will, relatively thin facades, which allows
+
+us to reuse that logic across APIs, across other
+
+applications. We don't have to duplicate all of those
+
+business rules.
+
+And the way that he proposes to do that
+
+is through ubiquitous language. And this is a picture
+
+of the tower of Babel and if anybody knows
+
+the story, it's where everyone in the world was
+
+speaking a different language and, I once worked on
+
+a project that was a financial transaction processing system,
+
+and when I inherited it, the guy who was
+
+proceeded me had this, was a model train aficionado,
+
+so he had the idea of model trains. So
+
+every transaction was like a car, and the payment
+
+engines were, were train tracks. And he had all
+
+of these metaphors around transaction processing and trains, and
+
+was written in Java.
+
+So when I was asked to add a new
+
+feature, fix a bug, I had to understand the
+
+business domain, and then I had to kind of
+
+understand, how did that translate into train speak, and
+
+then I had to go look at the Java
+
+code to figure it all out, right. So the
+
+coding was easy. The hard part was really trying
+
+to understand what was being asked and how did
+
+the code express that, right?
+
+And that's what Eric Evans is talking about with
+
+ubiquitous language. We want to have the language that
+
+we speak with domain experts should be readable in
+
+the code. If I'm order, if I'm a customer
+
+and I can purchase a product, there should be
+
+a class called customer. There should be a class
+
+called product. And there should be a verb in
+
+there that's somewhere that says purchase, et cetera.
+
+So that there's minimal translation between the domain experts'
+
+language and the language that my code is written
+
+in. Ruby gives us a great opportunity to do
+
+that, but this is much more difficult in, in
+
+other more statically typed languages.
+
+So that's kind of the, the key thing to
+
+take away from domain driven design is to try
+
+to have your, your concepts expressed in code that
+
+are meaningful in the words people use.
+
+If they use the word customer, you should have
+
+a customer class. If they use the word user,
+
+you should have a user class, et cetera.
+
+But beyond that, it also has some kind of
+
+key, I, I dare not say it, patterns? Now,
+
+I'm almost nervous now to say it.
+
+But let me be clear. This isn't science. It's
+
+not, right. Because these patterns were not dreamed up
+
+in academia ivory towers. These patterns that we talk
+
+about were empirically derived from people intentionally doing what
+
+we do, which is write code every day, intentionally
+
+thinking about, how does that, how does those, how
+
+do those things fit together, and what is the
+
+essence of what I'm doing?
+
+And can I extract that into words that I
+
+can use to communicate with other people? The beauty
+
+of patterns is I can talk about a value
+
+object, and if you know what a value object
+
+is and I know what a value object is,
+
+we can have a much richer conversation than, oh,
+
+I have to have an object whose state is,
+
+whose identity is defined by the state of its
+
+attributes and then, you know, we can have a
+
+much richer conversation.
+
+E.R.: You might say you ubiquitous language.
+
+D.W.: Yeah. So we're gonna touch a little bit
+
+on some of these patterns. But, but the idea
+
+is that these are not academic ivory tower concepts.
+
+These are empirically driven from people who've worked in
+
+the field. And if we're gonna, if we're gonna
+
+be successful as an organization, while I fully agree
+
+that we need to go out and write code
+
+and we need to read code, I totally think
+
+that's true, but we also have to have more
+
+effective ways of communicating knowledge, so that we're not
+
+all learning the same things from each other over
+
+and over. WE can learn more easily from each
+
+other. And that's what these patterns are.
+
+And the next kind of piece that we're gonna
+
+talk about is hexagonal architectures. And it's more than
+
+just that. I think we've alluded to a little
+
+bit. It's really the idea of, you're going to
+
+have this core domain in the middle, and in,
+
+inside your code, surrounding your outside core are gonna
+
+be some application level code that expresses the rules
+
+of your application. And I would draw it slightly
+
+differently, perhaps, but, and then we have adapters on
+
+the outside that adapt that code to web calls
+
+or database calls or SNTP, or in my case,
+
+APIs.
+
+And so that's the way that we want you
+
+to, that's the way that we are starting to
+
+approach the work at PrintChomp is thinking about it
+
+in those constructs. And now we want to jump
+
+to some specific patterns and, and show you some
+
+real code that actually, you know, brings these to
+
+life. So Eric, you want to talk about form
+
+object?
+
+E.R.: Sure. Unfortunately, I can't tell you what your
+
+domain is or what necessarily goes in the middle
+
+of that hexagon. But I can give you some
+
+ways to keep other things out of that hexagon
+
+that you don't need to be concerned with.
+
+One thing that I've been doing lately is form
+
+object. One of the really cool things, you know,
+
+if you run Rails scaffold, some model name, you
+
+get a form that you submit, creates the record,
+
+edits the record. And that's pretty great.
+
+But how do you do that when you don't
+
+have a direct one-one mapping with an ActiveModel record?
+
+So instead of instantiating an ActiveModel record, I've taken
+
+to instantiating, I'm gonna call it a form object.
+
+There's a lot of names for a lot of
+
+different things. But this is, this is what I've
+
+been calling it.
+
+So here's the actual thing that I was building.
+
+On the left hand side, you see that you
+
+select a ticket price. On the right hand side,
+
+your name, email address, and your payment details. And
+
+this is actually two ActiveRecord models in my database.
+
+The, the passengers over there on the right, you
+
+can add a passenger and keep adding it.
+
+And if you've ever worked with nested attributes, probably
+
+know it's not always that fun. So this is
+
+not using nested attributes. It's done like this. I
+
+have a class TicketForm that includes ActiveModel::Model, which is
+
+how I get nice things, like that magic initialize
+
+method of validators.
+
+And the passengers method, if I don't have any,
+
+returns me a passenger new. That's how it puts
+
+the name and email address for that first passenger.
+
+And then tickets, I get out of this by
+
+taking my passengers and mapping them into new objects.
+
+In the controller, it looks a little bit like
+
+this. So you just pass your params off into
+
+that. You get it back out and you have
+
+tickets. So instead of if ticket dot save, I
+
+do if ticket_form valid and ticketCharger charges successfully, then
+
+we've had success. And ticketCharge takes care of charging
+
+my tickets and knowing that, there was only, cause
+
+there's only one charge for all the tickets, right.
+
+You're paying all at once. No point to split
+
+that up.
+
+So that's a really useful thing that I've found
+
+to, to help when my mappings aren't just totally,
+
+I don't want to just take a record of
+
+the database, put it in, or update it.
+
+And now Declan's gonna tell you a little bit
+
+about request objects.
+
+D.W.: Yeah. In this case, has anyone used a
+
+form object or something like that? So quite a
+
+few people. Cool.
+
+Has, has anyone done, used something called a request
+
+object? Sort of? I was hoping that I invented
+
+this. So maybe I haven't. I don't know. OK.
+
+But, request object is now in, you know, think
+
+of an API as, we're trying to have a
+
+similar behavior to the form object, except we're trying
+
+to take, remember, we're trying to take complexity out
+
+of our controllers and out of our models and
+
+put them into more, to simplify our systems.
+
+So the idea with the request object is that
+
+we're gonna pull that code out and put it
+
+into the, into the controller. And now the request
+
+object is going to receive the request. And the
+
+code looks sort of like this, right.
+
+There's, I, I've done this slightly differently than Eric's,
+
+Eric's way, in terms of, of, the kind of
+
+the core of the class. The core of this
+
+class is using a gem called Verdis, which does
+
+something similar to ActiveModel::Model, except this allows you basically
+
+to have a plain-old Ruby object and, the way,
+
+and, the cool part is, that, or, I think
+
+it's cool. You can, you can declare attributes, like
+
+this. So I have actually, in my domain layer,
+
+I have something called the customer and the billing
+
+and the shipping. And if, if somebody supplies me
+
+those three things, then I can complete an order
+
+in my system.
+
+We've, there are a couple of pieces missing here,
+
+but we wanted to keep it, fit in a
+
+slide. But that's basically it. And we have the
+
+validation. And the cool part about this is that
+
+when a request comes in, we just, I just
+
+put in a before loop in the controller that
+
+has a before filter that just basically instantiates the
+
+request object using some, some reflection to figure out,
+
+you know, what is the, what is the controller
+
+and what is the action being asked, inferring the
+
+request class, instantiating it, and then just passing it
+
+what used to be the params hash.
+
+But now it's actually a rich object that I
+
+can have validations on, et cetera. So the net
+
+effect of this is that, why would I bother
+
+doing this, right? Well, now the controller, you know,
+
+the complexity around validating the request is at the
+
+boundary of my system. That doesn't need to leak
+
+into the rest of my system. It's almost like,
+
+you know, does anybody use, you know at the
+
+beginning of your methods, you want to put the
+
+guard clauses to catch the exceptions coming in at
+
+the beginning of your methods, so that the rest
+
+of your method is simpler?
+
+This is doing the same thing, except it's doing
+
+it at, at a higher level abstraction, at the
+
+API request level. And I, this has worked out
+
+really well for us. So I, I quite like
+
+that one.
+
+Yeah.
+
+E.R.: Great. Service objects are another one that we've
+
+been using. I think DHH actually had one in
+
+his presentation. I'll give you a hint, he didn't
+
+like it.
+
+He used one, it, it's something instantiated by the
+
+controller. We've been looking at controllers a little bit
+
+as just like, OK, I've received this thing, pass
+
+it off to somebody else, and then do something
+
+with the result. So we want to keep out
+
+that procedural code from our controllers, and service objects
+
+are one way you can do that using a
+
+order service to create orders, we've encapsulated all of
+
+the logic about how to create an order in
+
+this one area.
+
+So if you want to, you can use it
+
+from somewhere else, right. You don't have to hit
+
+a controller action to create an order. It's reusable
+
+and extendable. And it has Declan's magic repository object
+
+in there that we'll get to in a bit.
+
+And the controller, again, just, it's very simple. Do
+
+this thing, on success do this, on failure, do
+
+this.
+
+So those are a few of the patterns that
+
+we've been using to help us with this. So
+
+now what?
+
+What's, what's the elephant in the room? Anybody?
+
+How do you get them into Rails? Yeah.
+
+Yeah. That's the one we were thinking of.
+
+D.W.: That's, ActiveRecord. Yeah. I mean, I mean, the
+
+end, and how do you get into Rails. Yes,
+
+there are some interesting challenges around that. But I'm
+
+gonna flip you back to the architectural slide and
+
+just point out that you see what's happened here
+
+is that we're trying to view the application pieces
+
+of our solution here being really on the perimeter
+
+of our core system. And the core system composed
+
+of services that may be servicing API or application
+
+requests.
+
+We have some services that may be invariant across
+
+any call, and those would be at the very
+
+center. And we have things called entities which are
+
+on the inside. And the key part that's, that
+
+we haven't talked about, which actually I'm planning the
+
+most difficult part in this is this repository which
+
+is the bottom, which is the r in the
+
+bottom right hand corner.
+
+And it's job is to talk to the ActiveRecord
+
+model which is in the green, and create an
+
+entity object which is the blue object, and, and
+
+how does that actually work? So I'm gonna show
+
+you a bit of code, and this is, this
+
+is the first time I've shown my Ruby code
+
+in public. So please be kind.
+
+And there are probably way better ways to do
+
+this. but this is the repository that I've, I've,
+
+there are some other methods here, but I just
+
+wanted to fit on what happen, you know, show
+
+you the simple one.
+
+So this is what a save looks like. So
+
+the save takes a domain object and it converts
+
+it through something called a mapper, which maps the
+
+domain object onto a ActiveRecord object, which is called
+
+a record here. Then I, then it calls record
+
+dot save, assigns the id and returns the response.
+
+So that's pretty straightforward. All that's really happened is,
+
+and I really tried to do this and so
+
+far I've been able to, I don't want to
+
+have domain dot save. I want to have repository
+
+dot save domain, so that there's no persistence that's
+
+leaking into my domain objects. Persistence, I want to
+
+be a secondary concern to what that object is
+
+really doing.
+
+And so far, it's worked, although sometimes it's caused
+
+me some difficulty. The method messing down there is
+
+kind of cool. At least I think it's cool.
+
+And what it's doing is it's introducing a scope
+
+object, which I'll show you in a, well here's
+
+the scope object. That's OK.
+
+And it creates a scope object, and this was
+
+the trickiest code that I had to write, but
+
+what it does, what it, the end result of
+
+this code is, that allows you to chain call
+
+any of your ActiveRecord find methods of your scopes
+
+and chain them together. So you can now use,
+
+so in other words, with this logic, wherever you
+
+have like ActiveRecord dot, you know, find where id
+
+greater than 122 is activated and so on, wherever
+
+you might have a chain like that, you can
+
+still use that chain now because of this scope
+
+class with your domain objects.
+
+Except, instead of getting back your ActiveRecord object, you're
+
+getting back its domain representation. Does that make sense?
+
+yeah?
+
+OK. And then the mapper is what maps them
+
+across, right. And some cases, the mapping is like
+
+really, really simple. What's the next slide here? Oh,
+
+yeah. Yeah. There it is right there.
+
+So the mapper, because of the way vertice works
+
+and the way ActiveRecord works with attributes, you can
+
+almost just instantiate one from the other just passing
+
+the attributes back and forth. So it's actually quite
+
+easy except when it's not easy, and then what
+
+happens, what I'm doing now is just, wherever I
+
+have something that doesn't fit this model, I just
+
+subclass this mapper with a custom mapper and override
+
+those methods, more or less.
+
+And that's the part that I think there, would
+
+be more expressive ways to do that mapping and
+
+that's what I'm starting to look at now. But
+
+so far this has actually worked pretty well.
+
+And it's allowed me to completely separate the way
+
+I think about persistence from the way I think
+
+about my domain object. SO we before we, before
+
+I had this, we had, used to have an
+
+order class, and I kid you not, and I'm
+
+in, I'm a Rails noob so you can shoot
+
+me, but it had forty-eight attributes in the ActiveRecord::Model,
+
+right.
+
+That is now represented by about eight classes that
+
+separate out all the different aspects of the order,
+
+like the shipping, the billing, et cetera, et cetera.
+
+So that, but I think this mapping is, is,
+
+is, is one of the more challenging parts. And
+
+then finally, you now I've, then you quickly run
+
+into things like, oh, well what happens if I
+
+get the record. I get the record, I save
+
+it, then I save it again. I have to
+
+be able to keep track that I've saved it
+
+once already.
+
+So that I don't have multiple copies around. And
+
+this is an identity map. In fact, an identity
+
+map was built into Rails and I think it
+
+might, I don't, I don't work in Rails 4,
+
+but I think it might be taken out or,
+
+or changed slightly. But actually, on the next slide
+
+I'll show you what the identity map looks like,
+
+and this, actually, I stole from Rails and made
+
+it a bit simpler.
+
+But all it's doing is just making sure that
+
+there's a unique instance on, on a per-API request
+
+call for each entity object. So that I, I
+
+can, and it actually serves as a really cheap
+
+cache, but that's not what it's intent is.
+
+So, so that's kind of where, where we're, where
+
+I'm going now, is most of those service object,
+
+form object, request, those all kind of work well
+
+for us, and I'm not looking at what would
+
+a repository pattern look like fleshed out. And that
+
+is, by far, the most challenging piece.
+
+But I heard a question about where you put
+
+things. You can really just put them anywhere. You
+
+know. That's the thing, like, Rails just seems to
+
+be, there's a part that's, I just felt constrained.
+
+Like, Rails didn't give me any guidance on where
+
+do I put a service socket. Well, you can
+
+really put it anywhere you like. You could put
+
+it on the auto load path or you can
+
+put it where Rails might expect to see it.
+
+But it, you can just create a services directory
+
+and put your service objects there. Rails will find
+
+it. It's not hard. But Rails doesn't really kind
+
+of tell you what to do. So it doesn't
+
+make it easy to do these, to think of
+
+it, but it actually, it's not hard.
+
+And but that's where we're going with that, and
+
+we'll, we'll give you a link to it, to,
+
+I've started a Git Repo where I plan to
+
+share some of these ideas, and if you're interested
+
+in sharing ideas with us on that, we'll, we'll
+
+be happy to talk to you or, or join
+
+us on the, on the Git Repo.
+
+E.R.: Right. So what's the point, again? At the
+
+start, we had these three things. Embrace complexity. Getting,
+
+getting the solution to work is only part of
+
+the fun, right? It's, it's your first draft, as
+
+DHH said, talking about writing. You get, you do
+
+it over and over. And getting things to work,
+
+that ninety-line method I showed earlier, that worked. But
+
+does anyone want to go back and use that
+
+again? It's no, it's no fun to revisit, unless
+
+you're improving it, which, I did do eventually and,
+
+and now it's much nicer to work with. That,
+
+that's fun. At least, we think that's fun. Getting
+
+beyond the problem and getting it to a level
+
+where we actually don't mind going into our code,
+
+extending things, and changing things.
+
+And we do that by breaking them up into
+
+the smaller parts with the patterns that we've talked
+
+about.
+
+Knowing where you're going. In Alice in Wonderland, paraphrase,
+
+they said if you don't know where you're going,
+
+any road will take you there. We think it's
+
+important to know where you're going and pick a
+
+road that you think will take you there. It
+
+doesn't have to be our road. These are things
+
+that helped us, and, and we think they're good
+
+ideas. But it's not gonna solve every problem for
+
+everyone. These aren't rules. Like Declan said, they're not
+
+science. You can't just take them and throw them
+
+on and expect that your code will magically get
+
+better by going on a diet.
+
+And be more than just a Rails developer. Not
+
+that it's bad to be a Rails developer, but
+
+these things apply across, across languages and stuff. Like,
+
+don't just learn Ruby. Learn, learn beyond that. So
+
+as Declan mentioned, we have this GitHUb that we've
+
+set up, and right now it's just a readme.
+
+We don't actually have the code in their yet.
+
+We'll likely put some of the code we showed
+
+today, especially the repository bits.
+
+But we'd love to continue the discussion via issues,
+
+pull requests, whatever. That would be awesome. And, and
+
+we'd love to talk to you about some of
+
+it throughout this week as well. In fact, I'm
+
+gonna also mentioned, we have reading. You'll be able
+
+to get these slides after, so I'm just gonna
+
+gloss over them.
+
+These are a couple of the books that we've
+
+taken a look at to help us out with
+
+these things.
+
+D.W.: I think the crowd has spoken and it's
+
+time to wrap up. If you want to come
+
+up and talk, I'm happy to answer your questions.
+
+Thank you.
+

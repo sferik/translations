@@ -1,0 +1,924 @@
+RailsConf 2014 - Saving the World (Literally) with Ruby on Rails - Sean Marcia
+
+SEAN MARCIA:Hi. My name is Sean Marcia.
+
+I am gonna be talking about saving the world
+
+with Ruby on Rails. And that's me on the Twitters.
+
+At seanmarcia. In case you're wondering,
+
+I'm an early adopter. That's how I was
+
+able to get my own name.
+
+I thought was funny.
+
+So I, I work at George Mason University as
+
+a software developer, and I'd like to thank them
+
+for giving me this opportunity to be here and
+
+do this kind of cool stuff. Thank all of
+
+you and thanks to my Ruby group for letting
+
+me practice this talk on them last week.
+
+So today I'm gonna be talking about the, the
+
+history of the project. Then I'm gonna talk about
+
+the technology we use. And then I'm gonna hopefully
+
+tell you how you guys can all get involved.
+
+So, but really, I'm just gonna tell you a
+
+story about bees. And my personal story with bees
+
+began when I was about six years old, and
+
+for reference, that's me at six. Yeah. Looks like
+
+an orange on a toothpick.
+
+But, but when I was six, my, my good
+
+friend and I, we were, we were out, we
+
+were wandering around, and we found a wild beehive.
+
+And, if you know six year old boys, you
+
+can probably guess what we did next. We started
+
+throwing rocks at it.
+
+And, you know, my good friend, he just took
+
+off running, and I didn't know why, and it
+
+wasn't fun to throw rocks at the beehive without
+
+him. And it turns out that the bees stung
+
+him twenty, thirty times. And they didn't sting me,
+
+so. I kind of feel I have this karmic
+
+debt to the bees for leaving me alone.
+
+And so, you know let's jump forward to today.
+
+And like I said, I'm a software developer at
+
+George Mason University. I was wandering across campus one
+
+day and I saw this guy was giving a
+
+talk. This is Herman Pria, and he was giving
+
+a talk about Amazonian stingerless bees, and the honey
+
+they collect.
+
+And, you know, as a developer, I'm really in
+
+it for the swag, and since he was giving
+
+honey samples of these bees, that's why I went.
+
+And so, I was listening to his talk, and
+
+actually he told me what kind of animal that
+
+is and I don't remember right now. But I'll
+
+find out, because it's something interesting.
+
+But, so I was listening to his talk, and
+
+after the talk I went to, to talk to
+
+Herman and, turns out he's doing all this really
+
+interesting stuff about bees. And you know, bees are
+
+fascinating. If you don't know anything about them, like,
+
+you know, there's 4,000 different varieties of bees in
+
+North America. If you guys didn't know that.
+
+They're responsible for 90% of the wild, wild plants,
+
+and they're crazy hard workers. You know, one bee,
+
+in its lifetime, is gonna gather 1/12th of a
+
+teaspoon of honey. And that's all it's gonna do.
+
+But it's gonna visit like, 50,000 flowers to do
+
+that.
+
+60-70% of all our food is because of bees.
+
+Like, from the pollination they do, or they pollinate
+
+the food that our food eats.
+
+But, the really crappy thing is, the bees are
+
+dying. And they're disappearing. And we don't know why.
+
+And this is actually starting to become big news
+
+and people are starting to cover it. Just last
+
+fall, Time Magazine ran an article about, you know,
+
+a world without bees and what the consequences are
+
+if we don't start doing something, and, which directly
+
+leads to what Herman is doing. He's researching this
+
+thing called Colony Collapse Disorder.
+
+And if you're not familiar with Colony Collapse Disorder,
+
+basically what it is, is like, beehives and bee
+
+colonies will suddenly just collapse and disappear. And for
+
+no rhyme or reason. And it's, it's serious. Like,
+
+for managed beehives, like that's beehives where there's like
+
+a beekeeper watching them, about 35% of them have
+
+just died out and vanished.
+
+For wild bees, it's much, much worse. In some
+
+areas of the country, 90% of the wild bees
+
+are just gone. Like, Virginia, where I'm from, it's
+
+about two-thirds. And it, like it's not just our
+
+problem either. Like, it's happening in Europe. Like, they're
+
+predicting in England, by 2018, all the bees are
+
+gonna be gone. And that's, that's really serious.
+
+Asia, same, same situation. India, India, it's particularly scary,
+
+because in India, 90% of the pollination of honey
+
+comes from a wild bee that they can't domesticate,
+
+and as, like, as we know, it hits these
+
+wild bees harder. So if those bees get hit,
+
+India's gonna be devastated.
+
+And so, you know, some of the, some of
+
+the theories about what's causing Colony Collapse Disorder, maybe
+
+it's pesticides. Maybe it's these two variety of mites
+
+that the bees for some reason can't, can't clean
+
+from themselves. Could be disease. Genetic factors. Like, we
+
+just don't know. And it could be a combination
+
+of any of these.
+
+I have one of my own theories up there
+
+that, unfortunately, isn't gaining any traction in the beekeeping
+
+community. But, I'll let you guys try and figure
+
+out which one it is.
+
+And so, hearing all this from Herman, it's like,
+
+hey, what can I do to help? And, and,
+
+you know, Herman didn't, doesn't have any technical skills,
+
+and, and so, but he told me, hey, I
+
+already have some beehives at George Mason, and it
+
+turns out they're up on top of a parking
+
+garage, like.
+
+And so up, five stories up, you can see
+
+the top of another building nearby, and Herman said,
+
+you know, he would love insight into these things.
+
+Like, the hive temperature, because bees keep the temperature
+
+in the hive constant, year round. Doesn't matter if
+
+it's the middle of summer or middle of winter.
+
+And, actually just in the last, last couple of
+
+years, they found out that, you know, when they
+
+pull these combs out of the beehive, and there's
+
+the little holes in them, they always assume that
+
+the bees hadn't gotten around to filling them with
+
+honey.
+
+But what they've learned is there's a special drone
+
+bee that breaks its wings off and crawls into
+
+those holes and just vibrates all day long to
+
+generate heat. I guess that's a life.
+
+But, so, and he also wanted hive weight, just
+
+sort of to see the weight of the hive
+
+changing over time. And then he wanted the outside
+
+humidity and temperature just kind of as control, cause,
+
+like, perhaps there'd be a week of really bad
+
+weather, and so, like, that's why the weight wouldn't
+
+go up. They'd be eating their stores.
+
+And so, I was like, OK, so it, again,
+
+looking at, at the situation, well, you know, the,
+
+immediately, you know, we see there's some issues with
+
+this. You know, like, it's open to the elements.
+
+We don't have any power. Our budget was really
+
+small. And we needed something that was really easy
+
+to repair and maintain because most of the people
+
+aren't very technical.
+
+And so the first thing we handled was the
+
+no power, like this was the low-hanging fruit, and
+
+we did that simply by, by some solar panels,
+
+a deep cell battery, and we had some off-grid
+
+power. And we found that our solar panels and
+
+battery could power our system for about seven to
+
+nine days, when there wasn't any sun. And so
+
+as long as we had sun at least once
+
+a week, we were, we were good to go.
+
+So the next thing was we had a limited
+
+budget. And I, I think we started with less
+
+than $200 or about $200, and this is how
+
+things broke down, and, and why, you know, we
+
+used Raspberry Pis cause we got the first three
+
+free. Got a bunch of Raspberry Pi devices. You
+
+know, some SD cards, cables, like, who doesn't have
+
+a bunch of cables in their closet.
+
+And you see the solar setup there was about
+
+$140. That was about the bulk of our initial
+
+costs. And you know, what I brought to the
+
+table was this MacGiver-like ability to figure out solutions
+
+to problems. And, you know, like in the, an
+
+example of that is, when we built out, when
+
+we put in our first temperature probe, we needed
+
+to protect that probe somehow. And so, which led
+
+me to, you know, to quickly come up with
+
+a solution.
+
+I ran to Student Health services, asked them if
+
+I could get some condoms from them to cover
+
+the probe, and they didn't even flinch. They handed
+
+over a bunch of condoms.
+
+But it really made me realize that these, these
+
+people in Campus Health Services have seen everything, because
+
+when I walked in there, I was kind of
+
+dirty, cause I was outside working, and I was
+
+carrying duct tape and rope. And, and they didn't
+
+even flinch. They just handed over a handful of
+
+condoms, so.
+
+So, like, this wasn't perfect. But we had a
+
+start. And I plugged in Twitter so we could
+
+get, you know, social media going, and some Tweets
+
+from the beehive. And so our, our initial results
+
+were, we had a Tweeting beehive. In the picture
+
+you can't really see, and it's Tweeting hey, it's
+
+78 degrees in the hive. And the little picture
+
+of the bee yard.
+
+And, and we're going. And one of the interesting
+
+things is once you're out on social media, people,
+
+I guess, they assume you know a lot about
+
+bees and they start contacting you. And one of
+
+the people to contact us, send us a direct
+
+message, was just like, hey, how do I get
+
+my dog to stop eating bees?
+
+You'd think eating the bees would probably be enough
+
+of a lesson. But, but you know, I, I,
+
+I Googled, and it turns out lots of dogs
+
+like to eat bees, and you know, little dogs,
+
+medium-sized dogs. And even big dogs.
+
+So, so before I go any further, who's, who's
+
+familiar with this acronym?
+
+OK. Some of the people here. This is something
+
+started by Bryan Liles. Maybe five, six years ago.
+
+It means test all the fudging time. I always
+
+get stuck up on the f. But you know,
+
+no, no offense to Bryan, but he's wrong.
+
+Really, what it should mean is try awesome things,
+
+forget testing. Because, if you, because if you forget
+
+testing, you can get results like this. It's currently
+
+501 degrees in the hive.
+
+And you think, oh, why is that valuable? Well,
+
+it turns out that people, people find stuff like
+
+this amusing. And suddenly, and, and you can't read
+
+this, but suddenly we're getting reTweeted. City of Fairfax
+
+is Tweeting us. And people are asking us, are
+
+we raising fire bees? It, it, is the hive
+
+on fire? Are things OK?
+
+And, and, it's kind of amazing. Like, all these
+
+Tweeting and reTweets and people getting in on the
+
+joke suddenly, suddenly was our on Gundam style, just
+
+making, make everyone aware what we're doing. And it
+
+really made things happen fast. And it brought us
+
+into the attention of the SweetVirginia foundation.
+
+And what they are is they're a non-profit that
+
+teaches honey, honey bee education to, to students and
+
+adults. And, and they wanted to help. They didn't
+
+know we were raising bees at George Mason. And
+
+so they, they said, well, what can we do?
+
+WE can offer you space. And Herman wanted to,
+
+to, to have a class of researchers, and we
+
+didn't have the equipment which was, you know, one
+
+of the biggest issues.
+
+And so, so what we did, is we started
+
+a crowd funding campaign, because it's gonna be about
+
+a thousand dollars per student. And we, we raised
+
+twelve thousand dollars, which was amazing, so we could
+
+have a class of twelve. And the, actually there
+
+was a waiting list of over a hundred students
+
+trying to take part in this research.
+
+But, so we had twelve, and then this, this
+
+kickstarter campaign, sorry, Indiegogo campaign, also was like, another
+
+big social media raising awareness for us, and so
+
+suddenly, suddenly again, you know, people are becoming aware,
+
+and bees just become crazy popular at, at George
+
+Mason University.
+
+And so the, the, one of the Fraternities is
+
+starting a Bee Global campaign. The magazine, the alumni
+
+magazine is all about bees. And this is the
+
+president of George Mason with Herman, there, and, the
+
+really amazing thing about the, you know, the president
+
+getting involved is suddenly we have a budget.
+
+And so now, now, which leads us into the
+
+technology and the interesting stuff.
+
+So, for anyone working with Raspberry Pi or is
+
+unfamiliar with the Raspberry Pi, that's what this is.
+
+It's a credit-card sized computer. Like, this is an
+
+entire computer. And so I invite you to come
+
+up after and look at it and play with
+
+it. And if you want to come later, one
+
+of the evenings, I'm probably gonna be hacking on
+
+it and playing with it, and so I invite
+
+you to seek me out later.
+
+But if you are gonna work with Raspberry Pis,
+
+some advice I'd give you is to, is to
+
+backup your card often. Like, take an image of
+
+it and don't, don't go the traditional dev-ops route,
+
+where you know you're gonna install everything on there.
+
+Cause if you've ever had to wait for, like,
+
+Nokogiri to compile on your computer, Nokogiri compiling on
+
+a Raspberry Pi is about sixty times as long.
+
+So it's better just to have an image and
+
+then, you know, copy that image. And, and buy
+
+a couple, because they're cheap. They're $30 computers that
+
+are full computers.
+
+So Raspberry Pis have these GPIO pins on them,
+
+which is general purpose input output, and it's the
+
+same kind of thing you have, if you've ever
+
+opened up a desktop computer and look, looked at
+
+how your hard drive plugs into the motherboard.
+
+It's the same kind of thing. And there's these
+
+pins, and to reference, this is with one of
+
+the sensors plugged into one of my Pis. You
+
+plug it in and you may see some tutorials
+
+online if you're gonna do some of the stuff
+
+that says, that says solder the wires right to
+
+your Pi. Don't do that. Because if your, if
+
+your Pi breaks or you don't know, it's easy
+
+just to swap it out, take the Pi, throw
+
+it away and plug it into the new one.
+
+Or, I guess maybe not throw it away, cause
+
+it might not be broke.
+
+And so if you're gonna be working with Pis,
+
+these are the three gems I'd recommend checking out.
+
+There's the gpio gem, you know. pi_piper and wiringpi-ruby.
+
+You know, I'm not gonna suggest which is best
+
+of the three, cause they're all amazing and it's,
+
+I guess it's my own, Sophie's choice.
+
+But, so, as to saving the world with Ruby
+
+and Rails, I lied. I'm actually using Ruby and
+
+Sinatra. So I guess if you want to get
+
+up and leave now, feel free.
+
+So I, I went with the dashing gem. Originally
+
+I was using, for creating a dashboard, I was
+
+using the dashing Rails, but I, I realized, I
+
+don't need all the, the complexity that Rails brings
+
+to the table. Especially since we wanted the solution
+
+that was simple for other beekeepers elsewhere to look
+
+at and to use. And, you know, we don't
+
+want to have to explain controllers and spitting out
+
+JSON and all these kind of, all this kind
+
+of stuff that they just, they don't need.
+
+And so, and so using, working with dashing is
+
+as simple as gem install dashing, and then dashing
+
+new. Much like using Rails. And if you are
+
+interesting in more about dashing, I suggest going to
+
+RubyNation where Carl, Derante and Chris Mar? are giving
+
+a talk on it, cause their talk is phenomenal.
+
+But after doing this, you have a dashboard that
+
+you can't see too well. But you can see
+
+there's, we're using the green and the gold cause
+
+that's George Mason's colors. But we have our internal
+
+temperature, external temperature, internal humidity and outside humidity.
+
+And if the numbers seem low for the temperature,
+
+that's cause we're using Celsius. We're, I guess, cause,
+
+we're not all on the imperial system. And that's
+
+the weight in kilograms. And, and what this is,
+
+is it's a, it's, it's being wirelessly served. So
+
+you walk up to the beehive, open up your
+
+laptop, connect to the beehive, and then navigate to
+
+beehive dot local and then this pops up and
+
+you can see the current statistics in the hive.
+
+And how did we do this? And we did
+
+this simply with a series of chron jobs. And,
+
+if you're unfamiliar with how chron works, you, you,
+
+the first one is running at zero and twelve
+
+hours, so midnight, noon. Second one's running at midnight,
+
+six AM, noon, six PM, and, and so forth.
+
+And, and that's it. Like, three, three simple scripts
+
+and it's gathering all our information.
+
+And this is an example of one of our
+
+scripts. So making a little, little, an instance of
+
+our sensor, defining a couple of directories and, if
+
+you see, directories are in the public, the public
+
+folder, and the reason, again is just to sort
+
+of keep it simple. If one of the researchers
+
+wants to, to get access to the CSE file
+
+when they're logged onto beehive dot local, they just
+
+type in inhumid dot csv and it downloads to
+
+their computer or their tablet or whatever they're using.
+
+and it's as simple as just writing the humidity
+
+and the temperature into two different CSV files and
+
+that's it. And same thing for the outside. And
+
+so you're probably thinking well, it's hard to get
+
+it up on the dashboard. And, but, it's not.
+
+Dashing makes this simple. Every thousand seconds I'm, I'm
+
+opening up the, the CSV file and then sending
+
+it to the dashboard.
+
+And it's as simple as that. It's, you know.
+
+Nothing too complicated.
+
+And this is the, the Python code, but I'm
+
+not gonna explain. It was, came with the scale,
+
+so I didn't bother redoing it in Ruby. But
+
+now that our scale's having issues I'm going to
+
+work on a new solution with a RubyGem.
+
+And the other thing we used is we used
+
+Passenger. Just as for our server. We used a
+
+couple LInux packagages for our, basically creating our wireless
+
+access point. And the, a wireless, and DHCP server.
+
+And that was it.
+
+This is simple. And I think it's so simple
+
+that anyone here can do it. Anyone who's been
+
+doing Ruby on Rails for at least, least a
+
+week, maybe two, like there's nothing to it. And
+
+I want you all here to go out and
+
+do stuff like this.
+
+Because I think we're all amazing, and we, we
+
+sometimes, we sometimes get this sense in our head
+
+that, you know, we, we have all these problems
+
+and we're living in this kind of ivory tower
+
+that isn't really representative of, you know, the rest
+
+of the, rest of the country. Like, we're kind
+
+of the silk on valet mindset. It's like oh,
+
+I gotta get my queuing speed down from point
+
+six milliseconds to point five eight milliseconds, or I
+
+have to, I have to get my tests to
+
+run faster. Make DHH happy.
+
+Or, you know, we have all these issues, but
+
+you know the vast majority of people, like I
+
+work in the, in a university, and I see
+
+every day people emailing spreadsheets back and forth. They
+
+email text files back and forth. And like all
+
+these solutions that are just horrible. And really educators
+
+they need our help. And they need us to
+
+get involved in projects like this.
+
+And it's super easy to get involved in these
+
+kind of things. Like, I, I'm involved in three
+
+projects right now and all of them I got
+
+involved with just by going to see a Professor
+
+talk and then after his talk or her talk
+
+I, you know, I just asked them questions.
+
+Cause, you know, professors, professors have bigger egos than
+
+we do, as, as developers. They love to talk
+
+about themselves. They do. And they love to talk
+
+about their research. Like even more than we like
+
+to talk about our code.
+
+And so I know, I know you're thinking Sean
+
+you dirty Canadian socialist, you know, like. Why, why
+
+should I do this, you know? I don't want
+
+to give my time for free. And I guess
+
+like the simplest reason is, is I run a
+
+Ruby meetup group, and one of the first questions
+
+I'm, I'm generally asked my new people is, you
+
+know, how can I get involved in opensource? Like,
+
+like, cause, it, opensource seems like this, this goal
+
+that you want. But you just don't know how
+
+to get to, if you're new.
+
+And And, you know, doing projects that like, projects
+
+like this, it really is a, is an easy
+
+gateway into opensource, and to, and to, you know,
+
+getting opensource credentials on your, on your resume and
+
+on your github. Because, you know, like it or
+
+not, when we do apply for jobs, they do
+
+look at what we do in the opensource community.
+
+And can't really see this, but this is one
+
+of the, the extra benefits of, of doing a
+
+project like this, is, is all the puns. And
+
+it's like, you know, you can't really see these
+
+but I gave this talk last week and every
+
+one of these are bee puns, like, hey, buzz
+
+off pal! You know. Sean has a tendency to
+
+wax on, and, what's the buzz about, and ooh
+
+it's gonna be sweet. It's the bee's knees!
+
+And so, so if this is the kind of
+
+thing that interests you and, and you might want
+
+to go out and get involved in, I'd really
+
+like you to check out Ruby for Good, and
+
+it's a conference we're gonna be putting on in
+
+the Washington, DC area. The first to third of
+
+August. We're gonna be staying in the Dorms at
+
+the University. We're gonna hack on opensource social good
+
+projects.
+
+It's gonna be 72 people. We're aiming for $200
+
+or less, and that's all inclusive of your lodging,
+
+your food, everything. You just have to get their.
+
+You're welcome to come a day early for no
+
+extra cost and we're gonna probably do something fun
+
+the day before. Maybe go do a nighttime tour
+
+of the DC monuments or something. Not quite sure.
+
+And, and also maybe to make it more appealing
+
+for your work, we're gonna hold, we're gonna have
+
+some training sessions on the second day. We have
+
+one of the guys from the RSpec core team
+
+coming out, gonna give a workshop on RSpec. We
+
+have a guy giving a workshop on Angular. And
+
+another one of the JSON API committers doing a
+
+workshop on creating APIs.
+
+And that's my talk in a nutshell. Thank you
+
+so much for your time and are there any
+
+questions?
+
