@@ -1,0 +1,1116 @@
+RailsConf 2014 - Building Kick-Ass Internal Education Programs (for Large and Small Budgets) - Chuck Lauer Vose
+
+CHUCK LAUER VOSE: So, I want to welcome you to,
+
+to my talk. It's, yes, you can,
+
+you can raise your hand now.
+
+I gave him the job of raising his hand
+
+any time I say so or um at the beginning of the sentence. So.
+
+We're gonna talk about building kick-ass internal education programs.
+
+Sometimes when you don't necessarily have a mandate from
+
+your boss or from the organization. But it's important,
+
+right. We need to be able to build these
+
+programs and we need to be able to educate
+
+ourselves, and so we sometimes have to just do
+
+it.
+
+I have one thing, though, before we start. I
+
+want you to know that if I raise my
+
+hand, like this, or if this fellow down here
+
+raises his hand, that's, I want you to raise
+
+your hand as well. So let's practice this really
+
+quick. Yes. Very good. OK. Good. This is how
+
+I'm gonna get your attention. Usually it means it's
+
+time to shut up. But not always. But we're
+
+gonna do some activities, and I have to get
+
+your attention somehow, so, that's effective.
+
+For now, I would like you to. We've been
+
+sitting all day, right? And how can you keep
+
+your brain going if you're sitting? So I want
+
+you to, to stand up and take a three
+
+minute stretch break, if you're able to stand. And
+
+introduce yourself to your neighbors. So you have three
+
+minutes.
+
+Wow. You guys are so good at that. This
+
+is really great. One of my favorite things about
+
+that activity is that everyone, every time I do
+
+something like that, people tell me, nerds won't do
+
+activities. They won't stand up. They won't talk to
+
+each other. That's crazy. And every time it goes
+
+over gang busters. In fact, I think we gained
+
+fifty people just cause we were making tons of
+
+noise. That's good.
+
+We're gonna talk about inspiration, partly. Every, every RailsConf,
+
+I go for the inspiration track. They don't actually
+
+have that listed. But there's always clearly those talks.
+
+I'm going to try and inspire you to take
+
+action on education at home.
+
+I have a one point takeaway, because you've been,
+
+like, how much, how much knowledge can you really
+
+retain in a day of conferencing? So, I want
+
+you to remember one thing, and, and that's that
+
+internal education is easy. I'm gonna start around Monday.
+
+Hopefully you'll be able to say that by the
+
+end of the talk.
+
+But, two point takeaway, cause there's slightly more content,
+
+is that you don't need to know everything to
+
+teach. And also that education isn't particularly expensive or
+
+hard to do. I make it look difficult because
+
+that's how I get paid. But you don't have
+
+to do it that way.
+
+So, I had a number of. I had a
+
+number of titles that my wife vetoed. One of
+
+them is Covert Education: Sneaking in Education Without Them
+
+Knowing. I also had, How to Education When You
+
+Don't Know What the Hell You're Doing, which is
+
+very true.
+
+But, like I said, they got vetoed. So, like,
+
+like I said, my name is Chuck Lauer Vose.
+
+I have bright hair. You can find me around
+
+the conference if you have questions about education. I
+
+like ferrets, food, photography. I wish photography had an
+
+f cause I'm kind of like that. I was
+
+a founder of the Portland Code School and I
+
+am an education engineer at New Relic.
+
+Also I like magnets and ponies and pets wearing
+
+clothes. And my coworkers are jerks.
+
+But I love them.
+
+So, first I want to start and talk about
+
+some inspiration from myself. Akira Matsuda, who, I don't
+
+know if he's in the, in the room at
+
+the moment, but was just doing a talk over
+
+there. Two years ago I saw him at Ruby
+
+on Ales. And the thing that was so cool
+
+was that at the time, this was, I guess
+
+this was 2012, he, he didn't speak a lot
+
+of English. And he decided he wanted to talk
+
+through code, cause we all, it was our common
+
+language, right. And he was very nervous. He was
+
+incredibly nervous. But the thing he did, by accident,
+
+was by, he very clearly demonstrated what he expected
+
+of the audience. What he said at the beginning
+
+was, at the beginning of his talk was, he
+
+said, every time I pause, I want you to
+
+reassure me by clapping.
+
+And so I want to ask you to do
+
+the same thing. This is my first talk and
+
+I'm, I'm a little nervous. I'll be honest. So
+
+every time I have like a, a, you see,
+
+like a big title slide or something, or every
+
+time I, I pause and, and look nervous, I
+
+want you to just, like, applause the shit out
+
+of me. That would be really helpful for me.
+
+Thank you so much. That was so much better
+
+than I had planned.
+
+OK. So, I want to talk about how I
+
+got started in education. And unfortunately, it's an incredibly
+
+embarrassing story for me. How many of you know
+
+Eve online? All right. So, you all know that
+
+this is the, like, the nerdiest, nerdiest MMO game,
+
+commonly referred to as spreadsheets in space. So, that's
+
+how I got started teaching.
+
+And the reason is that, you know, this is
+
+the, sort of, common learning curve thing. Eve is,
+
+Eve is the black line with the dead bodies
+
+everywhere, and it's so true. In fact, it's so
+
+difficult to learn, there's an entire alliance of, I
+
+think, last count, 2,000 people all educating each other,
+
+because it's just that damn hard.
+
+Well, not satisfied to, to just join Eve, or
+
+the Eve University, I wanted to do my own
+
+thing. They were doing, they weren't doing what I
+
+wanted to do at the time. So I started
+
+my own guild and we got eighty people, which
+
+I think was a huge success. We had weekly
+
+speaking events by prominent PVP players. But it was
+
+the first time I'd done public speaking, ever, and
+
+I have to say that, that was way more
+
+intense and way more indicting than space piracy or
+
+PVP. Just so, so scary.
+
+After that, I, apparently added in a lot of
+
+animation slides. Burnside Digital was a forty person company.
+
+This was actually at work, now. But, education was
+
+not a thing. It was something that I had
+
+to sort of hack in around the edges. I
+
+still, at this point, didn't realize I was educating,
+
+but I was doing things like lightning talks and
+
+little jazzy rolls.
+
+So I started small and I, I tried to
+
+share success with other people, and it, it actually
+
+went really well. By the end we had lightning
+
+talks that the entire company came to and were
+
+wildly heralded, and we started seeing other things popping
+
+up, like pair programming workshops and other cool things.
+
+So, it was really neat to, to not have
+
+any mandate to do this and still find ways
+
+to, to take a little bit of time each
+
+week, and as it was successful, it grew and
+
+grew and we got more financing and, and we
+
+were able to buy lunch for everyone. It was
+
+just cool to demonstrate that success.
+
+Sort of still at that, that school, or at
+
+that company, Burnside Digital, I started an intern program
+
+gone terribly wrong. And I say it went terribly
+
+wrong because it was supposed to be three people
+
+every three months and ended up being seventeen people
+
+shortly afterwards.
+
+But I still didn't know how to teach. I
+
+still had no idea. In fact I, I think
+
+I'd only barely accepted the fact that I might
+
+educating at that point. But I had a really
+
+smart guy talk to me in the beginning, and
+
+he said that an educator, at least in the
+
+maths and technologies, is not someone who knows everything.
+
+It's someone who creates a space where people can
+
+learn. I think that's such a crazy difference of
+
+thought to say, to realize that they weren't expecting
+
+me to know all the things. Just to set
+
+up a place where people could go and read
+
+their book and, and get it done right.
+
+And I can definitely say that PCS was the
+
+most inspiring experience of my life. Definitely the most
+
+proud. I am still connected to all the students.
+
+And it still kind of, I don't know if
+
+it's the highlight of my life. It kind of
+
+makes me sad to think that that might be
+
+in the past. But I wonder what I go
+
+towards next.
+
+Now, now is different, though. I work for New
+
+Relic, and New Relic really cares about education. And
+
+I didn't, I didn't quite know how much they
+
+cared about it until month six. But, and so
+
+I, I work on building internal education for engineers.
+
+They're way smarter than me. Like, terrifyingly, frighteningly smarter
+
+than me, and I, I can't teach them anything.
+
+I literally don't know anything more than them.
+
+But I can create a space for learning. And
+
+I, I can, I can help do some things
+
+that allow engineers the, the extra time to get
+
+back to their day life. Like, they can communicate
+
+to me and then I can build curriculum for
+
+them. So, like, I can do things there. And
+
+I can help organize events, too, which is a
+
+huge time sink for most engineers. Believe it or
+
+not, engineers are not good at organizing events for
+
+the most part.
+
+So that's something I can do. So this was,
+
+this was our mandate when I first talked to
+
+them at New Relic. Make the already awesome engineers
+
+at New Relic awesomer. It's like, ah, that's cool.
+
+Holy shit.
+
+I don't know how to do that. Like, I've
+
+been trying, I've been applying here for ten years.
+
+I, I can't, like, I want to come here
+
+so I can level up. Wow. That's super intense.
+
+I totally have to recommend that. It's like the
+
+best tactic ever.
+
+OK. So, you don't need to know everything. That's
+
+the one thing I want you to take away
+
+from this. Well, OK. That's one of the three.
+
+I kind of lied. You don't have to know
+
+everything. You need to be passionate and inspiring and
+
+you need to give of yourself in this activity.
+
+I still have no idea what I am doing.
+
+I'm learning it, too. And you can do it.
+
+OK. Activities. So, I want you to spend thirty
+
+seconds thinking about an effective educative experience from your
+
+past. I want you to share this with your
+
+neighbor. Two minutes. I'll raise my hand.
+
+Wow. That is like half the time. You are
+
+continually impressive to me.
+
+So. OK. So, a good educator pushes people out
+
+of their comfort zone. I know that most everyone
+
+else. I haven't seen another presentation where people have
+
+forced you to talk to people. And I think
+
+it's important. So, I really like, I really like
+
+that quote. And I like this image in general.
+
+If we're growing, we're always going to be out
+
+of our comfort zone. So, in some ways, you
+
+know, we, we talked about, an educator is just
+
+someone who creates an effective space for learning. And
+
+part of that is pushing people. You saw me
+
+walking around, and if anyone wasn't talking, I'd force
+
+them to talk to me. Which is way scarier.
+
+So I think that's a, that's a huge part.
+
+Who knows these guys?
+
+Yeah. Everyone. This is Bill Nye and Neal Degrasse
+
+Tyson. I didn't know Neal Degrasse Tyson when I
+
+was a kid, but Bill Nye I sure as
+
+hell knew. And I really love how much they,
+
+they inspire people. That seems to be their, their
+
+main thing, now, right? I know that, I know
+
+Neal Degrasse Tyson, at least, still has a class
+
+room somewhere. But I don't know where it is.
+
+His, his primary thing for me is just the
+
+inspiration to continue, to continue learning. He keeps exposing
+
+me to new, to new things about space that
+
+I never thought about before. And for me, when
+
+I educate you, I'm exp- I'm gonna expose you
+
+to the idea that you could, in fact, do
+
+these things. You could be the teacher.
+
+And I hope that when you go home and
+
+talk to people, you'll inspire them to learn the
+
+code that you're thinking about.
+
+The last thing I think a good educator does
+
+is, gives of themselves out of love. And I
+
+think this really applies to the open source community
+
+as well and the open source ethic. And, I,
+
+this is, this is partly a preparation for you,
+
+that education may take some time outside of work.
+
+Sometimes. But so does open source. And I can
+
+tell you that it's worth it.
+
+So turn to your neighbor and give them a
+
+high five.
+
+I don't, I don't think this would work in
+
+many other communities than the Ruby community. So, I,
+
+I actually thought about making that activity, applaud for
+
+the next thing only by using your neighbor's hand.
+
+But I think that'd be very difficult.
+
+How many of you have seen this XKCD strip
+
+about nerd sniping? If you haven't. So, I taught
+
+my wife this a little while ago, that one
+
+of the. So nerd sniping is where you just
+
+sort of, you say one little thing that forces
+
+someone to just spawn off, like, a number of
+
+different thought processes. It's basically a mental fork bomb,
+
+if you know that term.
+
+And, one of the best ways, and this is
+
+a very dangerous tool. I'm giving you very powerful
+
+tools here. One of the best ways to do
+
+this is to say, hey Joe, what's the most
+
+efficient way to do whatever? Doesn't even matter. What's
+
+the most efficient way to sweep the floor? They're
+
+done.
+
+So, efficient is this funny word. I'm talking about
+
+being an efficient educator, and so I apologize in
+
+advance, cause I, I hope this destroys you. Mostly
+
+I'm gonna talk about some, one of the things
+
+you mentioned was, how do you create a space
+
+conducive to learning? Is it a physical space? Is
+
+it an actual thing? Like, do you have to
+
+have a classroom? And the answer is, no, it
+
+is not generally a physical space. However, it does
+
+tend to involve some real estate somewhere. But it
+
+could be a mixed use space. It could be
+
+the couches. Whatever.
+
+So, the first one. My most favorite. The place
+
+I started was lightning talks. And the thing I've
+
+seen work the most was thirty to sixty minutes
+
+before lunch on Friday. And the reason I think
+
+that works is that, as you, as you finish
+
+the talks, people can continue their discussion through lunch.
+
+Very effective.
+
+The other thing is that if it goes well,
+
+you can move it back by thirty minutes and
+
+get your company to buy lunch, thus increasing your
+
+happiness and your number of people coming. Which is
+
+great.
+
+Lightning talks are super easy to do. You just
+
+need to find a couple people who can do
+
+five to ten minute talks on whatever. I've seen
+
+effective lightning talks done with no technical content. I
+
+would recommend some technical content. Just, you know, for
+
+reasons.
+
+But I've seen, I've seen lightning talks that were
+
+very well-received on homebrewing. In fact, I've seen entire
+
+presentations on homebrewing. I've also seen really effective ones
+
+where you demo a product. Especially if you have
+
+a big thing, like New Relic. It would be
+
+really useful to me if I could just see
+
+one person's take on one feature every week. I
+
+might actually make it through my product by the
+
+end of three years. It's so big.
+
+But also showing off a new gem or just
+
+generally inspiring the people around you. This, education is
+
+so much about inspiring people. You can't force people
+
+to learn, right. You can't, well, you can sit
+
+them down if you have the mandate, but they
+
+don't have to learn unless they really want to.
+
+So, it's all about inspiration.
+
+And the last pro tip I have for you
+
+about lightning talks is that, if you bring food,
+
+they will come. That's great. So that's how we
+
+ended up with a whole company basically showing up
+
+every single Friday to an event that involved sitting
+
+on the couches. Which I realize is probably not
+
+that hard of a proposition, but.
+
+So the other, the other one, some of my
+
+coworkers have been working on this recently. Mob refactors.
+
+In fact, Kayla?? (00:18:53) was the person who introduced
+
+me to this idea that you get everyone in
+
+a room, pick some bit of code you really
+
+want to hack on, and everyone hacks on it
+
+together.
+
+It's important to review the code, not the author.
+
+Because that can be really offensive to the author.
+
+Especially if they're in the room. And if they're
+
+not in the room, that could just be bad
+
+in general. But you rewrite the code together, and
+
+then, and this is the part that kind of
+
+blows my mind, you throw it out afterwards.
+
+It's like mind maps. They're not really that helpful
+
+after the fact. And the code you write during
+
+the mob refactor is probably bad. But the conversation
+
+you have during a mob refactor is very good.
+
+So, this has been working really well for us,
+
+and, in fact, looking back on it, I saw
+
+groups doing it. But it wasn't called mob refactoring.
+
+I didn't know what it was called then. I
+
+just saw them doing it, and it being really
+
+effective.
+
+Pair programming is something that everyone knows they're supposed
+
+to be doing, right. But no, none of us
+
+do. Because it's hard. And, and the thing people
+
+don't talk about is that, pair programming, to me,
+
+is a trade off of speed for quality. And,
+
+and I think that's really important. So if you
+
+find yourself, or your product in a place where
+
+things are not going as smoothly as you would
+
+like. I don't know if anyone's had that problem.
+
+Pairing may very well be one of the, the
+
+big power tools to look at.
+
+So I have two, two sneaky little methods to
+
+get pairing happening, because I know a lot of
+
+you have tried getting your company to pair. You've
+
+tried, like, getting a manager mandate and, and they
+
+can't make it happen. There's two methods that have
+
+worked well at New Relic.
+
+So, the first one, is my method, is called
+
+the sneaky monitor. And, what you do here, is
+
+you set aside from time, like you make an
+
+appointment with your, your team mate, and you literally
+
+bring your monitor to their desk. And it's annoying.
+
+Because then you're gonna sweep like half of their
+
+shit off their desk. And then at the end,
+
+you try to be a nice citizen. You help
+
+them, like, put all the things back in order,
+
+and you know, maybe it's the first time their
+
+desk has ever been dusted. But that's cool. It's
+
+nice.
+
+And then the next week you come back again
+
+and you sweep all the shit off their desk
+
+and put your monitor there. And by the third
+
+week, you know, maybe they just haven't put their
+
+desk back into shape, and you just plop your
+
+monitor down and, and by the fourth week, you
+
+find a, a little monitor there. You're like, aw,
+
+that's nice. Thank you. And then by the fifth
+
+week, you've got actual monitor there, and you thank
+
+the IT people and, and then you go find
+
+someone else and start it again.
+
+And I've, I've, it sounds silly, right. You can
+
+only touch one person at a time. But then,
+
+then they start taking their monitor somewhere, after they've
+
+seen the fun of it. And then you've got
+
+two. Two people doing it. And I've seen this
+
+happening at New Relic to, to both great affect
+
+and great detriment. Because we're totally out of space.
+
+And now I see these monitor, like, pairing stations
+
+popping up everywhere, and the management is pissed at
+
+me cause I've taught them pairing. And so.
+
+There was another cool method that came up recently
+
+that I really like. This is Emily's method. Emily
+
+Heinleind in the Insights team, and what she recommended
+
+was sending out an open invite to anyone who
+
+wants to try pairing, to bring their monitor to
+
+the lunch room, and I'll, I'll find you a
+
+buddy to work on for that one hour, or
+
+whatever. We'll talk about some style. Some thing you
+
+can practice. And then go to town. That's it.
+
+It's a great way to get those who are
+
+already interested in it going, because they don't have
+
+friends who they can do it with on their
+
+team, maybe. So they can't practice, and there, therefore
+
+they can't well know well enough how to convert
+
+their team mate. They just don't know enough yet.
+
+It's a great idea.
+
+There's only a couple more. So workshops. I mentioned
+
+these. Basically, you pick a theme. We did this
+
+maybe a week ago on refactoring, and it was
+
+so cool. So we, Katie Miller picked a, a
+
+topic. Some Rails Cast on the service object pattern.
+
+So we watched, we all watched the Rails Cast.
+
+She showed us, like, ten minutes of her code
+
+where she tried to apply that and we talked
+
+about it a little bit. And then for forty
+
+minutes we paired on trying to do that on
+
+a random snippet of code, to various effect. You
+
+know, sometimes it didn't work. Sometimes it did.
+
+But it was really cool. And then for the
+
+last twenty minutes we, we came back together and
+
+we all demoed. And it was so, like, I
+
+feel like I got two days of education out
+
+of that hour and a half. And it was
+
+shocking to me. I mean, not only was I
+
+exhausted afterwards, which, maybe not super great, but I
+
+really felt like I learned a lot. And it's,
+
+it's an education experience I had never had before.
+
+I'd never tried this. So it was really cool.
+
+Thank you. I. I have to tell you, like,
+
+I've been rushing a little bit, because I was
+
+worried if I paused long enough that you, that
+
+you were gonna clap at me again. I feel
+
+like, this is, this is actually ideal though. Like,
+
+I would rather feel embarrassed by how often someone
+
+is clapping than the opposite. So this is good.
+
+So, this one, this one I've only seen a
+
+couple times at New Relic, but it was amazing.
+
+This was literally one of the most amazing things
+
+I have ever seen or experienced. And it was
+
+a total accident. They had no idea they were
+
+doing it. I only later found out it has
+
+a name, later.
+
+Basically, all of our smartest engineers got around the
+
+table, like they usually do. But this time, there
+
+were too many of them to have the discussion,
+
+so they did it in our lunch room. And
+
+our lunch room has two monitors that are paired
+
+together. And it's also open enough that anyone could
+
+hear. So they were sitting around the little table
+
+talking, and what I noticed was that there was
+
+a growing crowd of about forty people listening and
+
+looking at the second monitor, the paired monitor.
+
+And they were discussing amongst themselves. They were clarifying
+
+the concepts. Because the super nerds were over here
+
+talking about this really hard concept, and we were
+
+just trying to understand what the hell they were
+
+talking about. But it was really cool to hear
+
+our elders speaking. Like, what do they, what do
+
+they worry about during the day? I don't know.
+
+And, and, and also these, these conversations are normally,
+
+like, closed-door. You don't normally have any impact in
+
+this. And so, being able to like, sort of
+
+listen in was definitely, like, one of the most
+
+enlightening and eye-opening things I think I have seen
+
+in a long time. So I would highly recommend
+
+something like this. And I think this works for
+
+anything. I think this works at the director level.
+
+Like, as long as you're not talking about employees,
+
+I would love to hear what your VPs or
+
+your executives are talking about. Super cool.
+
+And then, I think this is the second to
+
+last one. But the last real one. So, the
+
+last one, I had never heard of this concept,
+
+but now that I see it in effect, I
+
+love it. Basically, when you get a new hire,
+
+assign someone to them for a day. It's nothing
+
+big. Maybe if, maybe if you have, have the
+
+resources, you can assign someone half time for two
+
+weeks. Or maybe even four weeks.
+
+And what I can tell you is that if
+
+you do that, so when New Relic onboards we
+
+think it takes about six months for someone to
+
+truly get up to speed, and I actually agree
+
+with this. What we've found is that if you
+
+have an onboarding buddy helping you through that first
+
+month, it drops to about three months. Which is
+
+crazy. You get one, one engineer's half time for
+
+one month, and that's three months of extra productivity.
+
+That is money. That is a lot of money.
+
+Huge. Huge difference for us.
+
+So, we now do this a hundred percent of
+
+people, come into New Relic and they have a
+
+person guaranteed for four weeks, if not two people,
+
+dedicated to them, in addition to their team. And
+
+one of them is usually me. So very cool.
+
+The last one. Dedicated trainers. Hmm. I wouldn't recommend
+
+it. I mean, unless you have a lot of
+
+people, or the quality of training is, like, absolutely
+
+critical, or. But, it's just, the dedicated trainers have
+
+to be crazy efficient. And so, if you're at
+
+the size where you have two, three, four hundred
+
+people. Yeah. All right. Dedicated trainer time. But most
+
+of us aren't there. Most of us are forty
+
+person companies, right.
+
+You know, I'm just reading the slide. Sorry, I
+
+forget what these are. Yeah. Turn to your neighbor.
+
+Talk very, very briefly. Not three minutes. About what
+
+these have tried, or what, which of these you've
+
+tried and which you think would work in your
+
+work.
+
+And I'll tell you the secrets.
+
+I'm sorry we had to cut that one short.
+
+I'm running out of time. It's all the clapping.
+
+OK. I, my plan for your organization. If you
+
+do this, you will have education and I will
+
+be happy and, and pleased with you. As if
+
+you need to work for my pleasure. So I
+
+want to, to next week, next Friday at 11:30,
+
+I want you to do lightning talks. It's the
+
+easiest thing you can do. It's super easy to
+
+find three people who want to talk. They need
+
+to make three slides. How hard is that?
+
+Also, I want you to ask your team to
+
+review your code at some point. If you're willing,
+
+bring some snacks. And they will like it a
+
+lot better. Third one. Set aside some time for
+
+pairing. Bring your monitor. You know the sneaky monitor
+
+trick now. And also, I think the next time
+
+you have a new hire, try it. I think
+
+you'll find that it's immensely pleasurable and pride-filled endeavor.
+
+For this activity, I would like you to say
+
+these things on the screen. So. Yeah, so. I,
+
+I'm gonna count to three. Because, thank you. I'm
+
+gonna count to three and then we're all gonna
+
+say this thing. All right.
+
+One. Two. Three. Internal education is easy. I'm going
+
+to start on Monday. Yeah! Excellent! I am fulfilled!
+
+You know the two point take away. You don't
+
+need to know everything. You can teach right now.
+
+Education isn't expensive or hard to implement. Chuck just
+
+makes it look that way.
+

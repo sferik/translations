@@ -22,6 +22,8 @@ Reading Code Good - https://www.youtube.com/watch?v=mW_xKGUKLpk
 
 Refactoring Towards Component-based Rails Architectures - https://www.youtube.com/watch?v=MIhlAiMc7tU
 
+Building kick-ass internal education programs (for large and small budgets) - https://www.youtube.com/watch?v=LPZmNfhPPOs
+
 Keynote: What Happens to Everyone When Everyone Learns to Code - https://www.youtube.com/watch?v=wLCXkf-e_aY
 
 Bring the Fun Back to JS: Step-by-Step Refactoring Toward Ember - https://www.youtube.com/watch?v=VMmaKj8hCR4
