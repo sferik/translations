@@ -1,0 +1,141 @@
+RailsConf 2014 - Deploying Rails is Easier Than it Looks - Ben Dixon
+
+BEN DIXON: OK. So, I'm Ben. I'm a Rails developer and the author of a book called Reliably Deploying Rails Applications. I spend a lot of people - a lot of people? A lot of time teaching people Ruby at MakeItWithCode dot com, which is an online mentor-driven class for people who are new to Ruby but want to get started making things quickly.
+
+I spend the rest of my time working with the awesome guys at HelloSwimio, where we make cool tech for swimmers. So we make things like the time tabling system for the Olympic pool in London, the speedo swim tracking app, and the first automatic lap tracker for the Pebble smart watch.
+
+So, before we get started, could you put your hands up if you've deployed a Rails app of some sort to Heroku. Awesome. Now keep your hand up if you've deployed a Rails app to a server that you've set up yourself. Good. That's less people.
+
+So if someone came to me and said, I want to deploy my first Rails app, how should I do it? I wouldn't think about it, I'd just say use Heroku. And I'd say use Heroku, because Heroku makes deploying apps incredibly simple. You just commit your code, Heroku create, git push Heroku, and magically, a couple of minutes later, your application is live, on the internet, for the world to see.
+
+And because Heroku has made this process so simple and so easy, it's really easy to take that server stuff and kind of put it in a bucket of things we don't look at. Because it's complicated and Heroku makes it really easy, so why would we bother?
+
+And what I'd like to demonstrate in this talk is that, in the same way Rails makes building web applications really, really easy, there are lots of great tools out there that make setting up servers for them and deploying to those servers really easy. And once you get the hang of these tools, you can do some really cool stuff.
+
+Before we get started, two important bits of terminology, which probably you already know. A PaaS, a platform as a service, and by that I mean something like Heroku. So something that just abstracts all of your infrastructure away so that you don't have to worry about it.
+
+On the other scale, you've got a VPS, a Virtual Private Server, and for the purposes of this talk, I just mean some sort of Linux server running the cloud. So the type of thing you get from Linode or RackSpace or DigitalOcean.
+
+So, to get started, I want to take a little look at what's going on behind the scenes when you deploy a typical Rails application. How do we go from Rails S on our development machine to a Rails app on a VPS somewhere serving our application to the world?
+
+So, here we've got a beautiful picture that I've drawn, because I'm new to Keynote. And the black box around the outside is our VPS. It's a single VPS. And this is the first thing that seemed to surprise lots of people. For a simple production configuration, you only need one VPS. In the same way, in development, you can run your entire Rails application on your development machine. For simple production application, you can run everything on a single VPS.
+
+And that VPS will have three main components on it for almost all Rails applications. You're gonna have a web server, you're gonna have an app server, and you're gonna have a database server. So, when someone types in the address of our website, a request comes in. It hits our VPS, and the first place that request is gonna go is our web server. Now, if that request was for a static file, and by a static file, I basically mean, anything that goes in the Rails asset pipeline or anything that you might find in the public folder, the web server's gonna deal with that directly. It's gonna send that file straight back to the user for display in their browser and that's the end of it.
+
+If, however, that request is for a dynamic page, so for a page in our Rails app, essentially, that's gonna get passed back to an app server. Now, when we run Rails S in development, what we're starting is an instance of an app server. So, the app server here is Rails S running on our VPS. So the web server passes the request back. The app server generates the response and then passes it back to the web server, which then returns it to the user.
+
+And in development, we're probably used to the web, the app server being something like Thin or WebRick. In production it might also be Thin or Webrick. It might also be something a bit more advanced like Puma or Unicorn.
+
+Finally, for pretty much all Rails applications, we're gonna want some sort of database server. And that's probably gonna be PostGres or mySQL or Mongo. And, again, we don't need a separate database server. This all runs on our single VPS.
+
+So, to recap, a request comes in and it hits our web server. Probably EngineX or Apache. If it's for a static file, the web server deals with it. If it's for part of our Rails application, it gets passed back to the app server, which is basically Rails S, and the app server may communicate with the database server, read some data, write some data, and then the app server constructs the response, sends it back to the web server, which serves it to the user.
+
+So, you'd be forgiven for looking at that and thinking, well, that already looks more complicated than Heroku. Why on earth would you ever do that? Why not just use Heroku?
+
+Well, I started doing this, if I'm honest, because of cost. I had quite a lot of side projects, and as you probably already know, most past solutions charge by the process. And a lot of my personal projects and side projects had background jobs. Now when you've got five or six side projects, all of which would need two Heroku dynos, suddenly that bill at the end of the month starts to get quite substantial.
+
+And so I wanted to save money by deploying to my own servers. And I did. It's worth bearing in mind, if that's also your motivation, that, as with any new skill, you have to invert. Invert? You have to put in a certain amount of time to learn it. If you were to account for the time I put into learning this to begin with, at market rates, I'm fairly sure there would have been no saving at all. Personally, they're my own projects. I wasn't paying myself market rates. And I was happy to treat it as an investment which would pay off in the long term, and it has.
+
+Actually, it turned out, the biggest benefit of learning how to do this was nothing to do with money. It was the infrastructure went from being this kind of necessary evil that I have to have in order to run my Rails apps, to just another tool that I could use for building interesting stuff. And the best example of that, for me, is Make It With Code. We provide our students with a cloud IDE that has Ruby pre-installed. And that means they can hit the ground running. They can start writing Ruby code really quickly.
+
+And the techniques that we use setting those up automatically for all of our students are exactly the same techniques that I'm gonna cover in this presentation for setting up Rails apps. So it means that our infrastructure has gone from being this thing that we have to have in the background, as like a supporting thing, to something that actually adds value to our product in itself. It's a part of our product.
+
+So if you decide to give this a go, I really, really urge you not to do it even slightly like I did it originally. Because it was terrible. I started off by getting a VPS. That bit was good. That bit worked. I Googled, how do I set up a Rails VPS. I found all these great tutorials that said, type in this command, then that command, then edit this config file. And I found loads of things on StackOverflow that said, here's what to do when that goes wrong and that goes wrong. And eventually I had this working server. And it was great.
+
+And it broke a few times in the first few weeks. But we fixed that when it happened. And, by and large, it worked for quite awhile. And it worked until it didn't work, and when it didn't work, I was in France, on a holiday with my family, and it was a fairly rural bit of France, and we had, we had a wifi connection. But it was only one wifi connection for, basically, the village. And to access that, we, we could access it by sitting half in a wardrobe on the top floor of the house, which was nice.
+
+And, so one morning I woke up and I was sitting in the wardrobe with a coffee and checking my email, and I had a wonderful, a lovely email from my host to say, Dear Valued Customer, your server is dead, you need to make a new one, Lots of love, from your hosts.
+
+And I thought, good. Right. So I set up a little desk in this wardrobe and for the rest of the day, my family sat by a river. They drank wine, ate cheese, mocked me slightly, and I sat in a roof, in a wardrobe, in a heat wave, and pretty much followed the same tutorials I employed the first time. Made the same mistakes that I'd made the first time, and I got the server back up, but it really wasn't any easier the second time. And that seemed kind of wrong to me. That it seemed really frustrating.
+
+So I figured there must be a better way of doing this. If I'm honest, actually what I thought was, I can't believe there isn't already a better way of doing this, I should invent it and then I'll be rich and famous and everyone will love me. Luckily I took a step back and thought, OK, this probably already exists.
+
+And, of course, it did. And what I wanted was a configuration management tool. And a configuration management tool is really simple. It allows you to define and automate the commands that it takes to set up the server to do a particular thing. And what's amazing about a configuration management tool is once you've done it once, doing it again and again and again is completely trivial.
+
+So, that time you put in to start with, it will probably only be one command to set up an identical server the next time. And to give you an idea of just how simple it can be, I've got a brief demonstration of the process that I actually move, at the moment, on a pretty much weekly basis for setting up new servers.
+
+At the end of this presentation, I'll link to tutorials of how to do this yourself and the sample code. So please don't worry about following it step by step, I just want to give an idea about how simple it can be.
+
+So, here you can see, on the left, your left, there is a list of servers that I've deployed in the past. And I'm using my configuration management tool of choice, Chef Solo, which uses JSON files for defining what should go onto a particular type of server.
+
+And on the bottom you can see I've got a couple of web servers for Make It With Code, which at the moment is running a selection of Rails and Sinatra apps. And I want to write a new one. And to do this, I just create a new JSON file, web3 dot makeitwithcode dot com. I save it, and then this server, it's gonna be pretty much the same as web2. It's just running Rails apps.
+
+So I just copy all the JSON from my previous server, but it into the new one, and the bit I want to draw your attention to is, if you look at the bottom of that, you've got this run list with a list of things that are being called roles. And pretty much all configuration management systems have some sort of analogous concept to this, which, kind of individual components that you can mix and match to define what should go onto this server that you're setting up.
+
+So I've defined in the past, what goes on an internet server. What goes on a PostGres server. And now if I want that, I can just drop that role in, and I know that it will be set up in exactly the way that I want it. So on this server I want Redis. I didn't on the previous one. So I can just uncomment it. Uncomment it, yeah. And I'll get exactly the Redis configuration I want.
+
+The good bit, the fun bit, is once I've done this, I can type on command - knife solo bootstrap - and then the address of the, the VPS I've created. Presenter. And then leave it for about twenty minutes, go and get a coffee, and the output that will scroll through, it will tell me what commands it's applying. It will show me diffs of any configuration files that it's changing. And if it goes wrong, which it doesn't very often, it will tell me exactly what it was doing when it went wrong, so I can fix it.
+
+And at the end of this process, I will have a Rails server which is identical the last one I set up, and the one before that, and I can check that this works. I can fire up a web browser. I can go to web3 and the address that I gave it, and I'll get this wonderful Welcome to EngineX page, which says, that server is set up and it's ready to use.
+
+So, what I'm trying to demonstrate with that figure is that configuration management is basically, don't repeat yourself for setting up servers. If you think back to the first time you used, say, Devise, for example, the first time I used Devise, it took me ages to get all_auth and things like that working. And then, six months later, I came back to it, and didn't really remember any of the stuff that I'd done to get it to work. But I could go back to the code I wrote the first time, I could look at that code, copy bits of it, and it was much quicker.
+
+Now, the problem with just copying commands or entering commands manually when setting up the server is there is no natural audit trail of what did I do to make this work the first time. So there's a good chance, the second time you're gonna do it, you'll make the same mistakes as the first time.
+
+With a configuration management utility, you naturally create this audit trail as you go along. So that, in time, that time you invest up front, it goes much, much further in the long run.
+
+So, hopefully that's shown that the bit where people often trip up, getting a server setup, it doesn't need to be that difficult, and I'll give you the exact sample code at the end, which you can use if you want a head start.
+
+But something like Heroku, it doesn't just make setting up a server really easy. It makes deploying to one incredibly easy. Git push heroku. It pretty much couldn't be easier. And I think it's fair to say that the first time I used Heroku, it was completely revolutionary.
+
+So I came to Rails from Python/Jengo, and before that, PHP, and I'd used a whole range of, kind of, home grown deployment systems, which ranged from trying to remember what files you've changed and FTP them across to all sync things and custom shell scripts. And the one thing they all had in common was they were flaky and deployment was something you didn't want to do, because it would probably break. So you maybe deployed a couple of times a week.
+
+So I used Heroku for the first time and it was amazing. Suddenly I could apploy. Apploy? Deploy ten times a day. And it was just fitted into my normal workflow.
+
+So I was really keen that if I was deploying to my own servers, it had to be as simple as that. It had to be one command to deploy. And luckily, as is often the case in the Rails community, loads of very clever people wanted exactly the same thing, and so have developed some awesome tools, some awesome gems, to make it really simple to set that up.
+
+In the Rails community, I think the best known of these is probably Capistrano, which I'll talk about a bit more towards the end of the presentation. But, first, another brief demo of how simple it is to add Capistrano into an existing, in this case, Rails 4.1 application. Again, at the end, I'll give details of step by, a step by step tutorial and the ensemble code for doing this. So please don't worry about the individual steps. I just want to give an idea of what's involved.
+
+So, to get started, Rails 4.1 application. I just drop in the Capistrano gem and a few supporting helper gems. Save that, and then add it to git and, sorry, bundle and add it to Git. Under the hood we're still using Git to deploy in the same way Heroku does, so it's important to make sure changes like that are committed.
+
+And then running cap install, which just generates some basic configuration files. The first one of these is a cap file. This is just a rake file for capistrano. And here, I'm just telling it that I want to use those helper gems that I included in the first step. So I'm telling it that I want to use rbenv to manage what Ruby version I'm using. I want it to install gems for me, compile assets for me, and apply migrations. All the normal stuff you do when setting up a Rails app.
+
+We've then got our main config file, just deploy dot rb. And here I'm just giving the app a name, telling it which Git repository to deploy from, and getting rid of the load of the boilerplate for the simple application. I'm not gonna use it. Uncommenting out a few other bits of boilerplate. And then finally I'm gonna add an rbenv specific block that tells it to always use a particular Ruby version. I think, in this case, 2 point 1 point 1, when deploying this app.
+
+Finally, we have stage configuration files, so if you have a production server and a staging server, and here I'm just telling it that the production server is going to be web3 dot makeitwithcode dot com, which is the server we set up in the first demo. And then that should be made available to the public at, imaginatively, web3 dot makeitwithcode dot com.
+
+Then, firing up a console, running a command called setup config, and you can think of this like heroku create. This is just telling that server, or preparing that server for a new application. It's generating a few config files, it's creating a new database yml and telling EngineX that it needs to serve a new site. Then running another helper task that I added this time. Create database. This is just, create a new database on that server. Making sure there's a user that has permission to access that server.
+
+And this is the important command. Cap production deploy. And this, if we're using capistrano, is our equivalent to git push heroku. And if you look at the output, it's doing some pretty standard stuff. It's applying migrations, compiling assets and restarting the app server. And once that completes, we can fire up the web browser, visit it, and you can see we've got a simple, if utterly useless Rails application.
+
+And it has access to the database, it can read and write, and now we can iterate on that, and every time we want to make a change, we can just make that change, commit it, cap production deploy, and it really is as simple as deploying it to heroku.
+
+So one thing that we haven't looked at yet is, it's very easy to set this stuff up, but the other great thing about using a path like heroku is that when it breaks at 2 AM, it kind of isn't our problem. They have engineers and they get woken up at 2 AM. And they go and fix it. And our application just comes back up online again.
+
+And we can't get around that completely. It's now our problem when it breaks at 2 AM. But luckily there are lots of tools out there which mean we can minimize the number of times this will happen. If you think in a typical production Rails application, you probably got some exception handling. You know some exceptions will happen from time to time, and so you've got to have your begin and rescues in that. And then hopefully you've also got some sort of exception notification. And that means that when an exception that you haven't planned for happens, you get an email and you know that you can go in, you should go in and fix it.
+
+So, there are an analogous set of tools when you're setting up your own servers. And these are called monitoring tools, and they're really, really simple. They're essentially just a list of checks that say, here's how something ought to behave. If it's not behaving, here's a command that you can run to try and fix it. If it's still not working, here's the person to notify and how to notify them there's a problem.
+
+And that might sound a little bit daunting. So every time you set up an application you're gonna have to think about all these checks. In practice, this is where configuration management comes in. So, if you remember in that first demonstration, when I uncommented that Redis role, as part of that Redis role, when I originally wrote it, probably a year or a couple of years ago, I included the monitoring configuration for it, which basically says, is Redis working? If no, restart it. If it's still not working, email me.
+
+And now that will get automatically setup every time I include that Redis role. So there really isn't that much duplication. Configuration management just does all of this for us.
+
+So to get a bit more practical, if you decide to, to go ahead and try this. This is the stack that I end up using, probably 99% of the time. For a web server, EngineX, really popular in the Rails community. There's lots of really great Rails-specific documentation out there.
+
+For an app server, Unicorn. This probably isn't what you're using in development at the moment. That's more likely to be Thin or Webrick. Unicorn's a little bit more complicated. But, for that little bit of extra complexity, you get some really nice features. In particular, it's very easy to set up what's called zero-downtime deployment, which you may already be familiar with.
+
+Essentially what this means is, the simplest way to deploy an application is to deploy your new code, stop the existing application, and then start it again with the new code. The problem is, if you've got a big Rails application, it can take two or three minutes to start up. And that means that, for two or three minutes, every time you deploy, your app's offline, which is pretty bad for your customers if you're doing this five, six times a day.
+
+With Unicorn, you can set it up so that when you deploy new code, it will start up your app in the background, and only once it's ready will it switch it over and stop the previous version, so your customers don't notice an interruption.
+
+For a database, I typ, by default go with PostGres. Again, you've probably all heard of it. Very popular in the Rails community. I recommend it to people, because if you're on the Heroku free plan, it's probably what you're using already, because it's their default database.
+
+The only controversial item on this list, because all lists should have at least one controversial item, is probably Monit. And it's a bit controversial because there are some amazing monitoring tools out there which are written using Ruby syntax for defining rules. I keep coming back to Monit because it's tiny. Its syntax isn't quite as nice to work with as some of the others, some of the others, but it uses absolutely no memory, and once you set it up, it just stays out of the way and works, which is pretty much what I look for in a monitoring tool.
+
+For setting up your server, so your server provisioning tool, I recommend getting started with Chef Solo. Chef Solo is the tool you saw me using in the first demonstration. And it's designed for deploying individual servers from your development machine. What's really nice about Chef Solo is it's built on top of a much bigger piece of software called Chef Server. And Chef Server is designed for when you need to deploy lots of servers in complicated configurations.
+
+So, if you need, eventually, to move on from your simple single-box configuration to much more complicated ones, almost everything you've learnt using Chef Solo will be applicable to Chef Server.
+
+I mentioned, previously, there were lots of deployment tools, automation tools out there for Rails. Probably the best-known one is Capistrano. At the moment, there are two stable versions of Capistrano out in the wild. There is Capistrano 2 and Capistrano 3. Most of the documentation and tutorials that you find will probably be for Capistrano 2.
+
+Despite that, I recommend starting off with Capistrano 3, if you are starting from a blank slate. The reason for this is that version 3 was a complete ground-up rewrite of version 2. In particular, it's just a rake application. So Capistrano 3 is just a, a layer on top of rake that provides deployment-specific functionality. And that means that any knowledge you've already got of how to write rake tasks and how to interact with rake tasks and how to debug them is directly applicable to Capistrano 3. And that just makes the learning curve that little bit shallower.
+
+So next steps, if you're gonna give it a go. I suggest you go and get a VPS. I suggest starting off with a one gig one. You can run a Rails app on a 512 meg VPS. You can also spend a huge amount of time troubleshooting out of memory hours, which I think is the least enjoyable thing possible. You can get a one gig VPS for about ten dollars a month at DigitalOcean, I think. They're also a sponsor, and they're really generous with free credit. So if you corner them in a booth, I imagine you can get at least a few months of experimentation for free.
+
+So, the url at the top there, talkingquickly dot co dot uk slash deploying_rails. That's a page specific to this presentation, and it contains links to two key tutorials. The first one goes through step-by-step how to set up a Rails server in the way I did in the first video, and the second one is how to set up Capistrano with a new or existing Rails application, as per the second video.
+
+They also include the complete sample code that I'm actually using in production, pretty much every day, for deploying new Rails apps. So, hopefully, the fairly large amount of time I put in originally trying to work out how to get a working configuration management set up, you can take that as a starting point and get it started very quickly. It should take maybe an hour and a half to get your first server set up and an app deployed to it.
+
+I mentioned at start, I've also written a book about this. Reliably Deploying Rails Applications. This was basically the reference that I wish I'd had when I started doing this. It uses exactly the same sample code as those tutorials. So if you start off using those and find you want to do more complicated things, hopefully that will be a useful reference. And there's a discount code, et cetera, for RailsConf attendees on that link.
+
+Finally, I'll be in the AirPad Pit at 4:30 today. So if anyone wants to give this a go for real and wants a hand setting stuff up, I'd be very happy to help out. Yeah. Thank you so much for coming to the talk. I've really enjoyed doing this. Let's have some questions.
