@@ -1,0 +1,143 @@
+RailsConf 2014 - Biggish Data With Rails and PostgreSQL - Starr Horne
+
+STARR HORNE: So thank you guys for coming. This is gonna be an awesome talk. Quite possibly the best talk you'll ever hear in your life. What? I actually have a built-in escape hatch here, so if things start going wrong, I might just bail. Yeah.
+
+So, anyway. A couple weeks ago, I was, well, I was sort of having a panic attack about this presentation, because I'm a programmer, and my natural habitat is in some sort of dark place looking a screen. It's not, it's not talking to a bunch of people with, like, lights. What's up with this?
+
+So I, I was in the middle of this panic attack and I went out on a walk, cause that always clears my mind. I was listening to a podcast. My favorite podcast. It's called Hardcore History. I highly recommend it. Yeah. Oh. Somebody likes it. Yeah!
+
+So this, this particular episode about Hardcore, in, of Hardcore History was about the Punic Wars. And in case you haven't heard about the Punic Wars, don't know the story, I'll just give you, like, the brief rundown. Basically, a long, long time ago, there was this place called Rome. And they, they decided that they should take over the world. And, for the most part, they did. But there was this one country that was a thorn in their side for a long time called Carthidge. And they fought all these wars back and forth. It was kind of a stale mate.
+
+And then one day, when, I don't know, maybe he was making a sacrifice to the fire god or whatever, this guy named Hannibal had this great idea. He was like, I'm gonna, I'm gonna lead this sneak-attack on Rome, and I'm gonna do so by marching my army through the Alps. Which is, is pretty cool. I mean, that, that's pretty bad ass. But I, I think the most awesome part of the story, for me, at least, is that the dude had war elephants. So, I, I don't know if you can see it in the slide, but there's actually a war elephant. It's, it's kind of, I don't know, it's kind of under the G. And a lot of people have doubted this story, you know, over the years. And so, in 1959, there was a British engineer who, on a bar bet, borrowed a circus elephant named Jumbo and marched it across the Alps, too.
+
+So, I don't know what my point is here, really. I guess don't underestimate elephants, because they don't like it and they have long memories.
+
+So, OK. This talk is really about biggish data. So what, what the hell is biggish data. It's not, what is? Whoa, I've got one of these things. It's not big data. It's not about, you know, this talk isn't gonna be about Hadoop clusters and server farms and all that stuff. That's, that's way over my head.
+
+It's not about fancy architectures. I'm not gonna show you how to make multi-right PostGres clusters that do automatic sharding and stuff. I mean, that's all like wicked cool, but it's not what we're gonna talk about.
+
+Instead, I'm gonna talk about something that I think is, is more practical, and it's kind of more interesting to me, and that is, how do you keep your app working as your production dataset grows? And grows into biggish data territory?
+
+And this is very easy. This is very easy to happen. Even if you don't have a firehose of data coming in. If you run a, a popular e-commerce site or just a site with a lot of users, over the course of years you can accumulate a ton of data. And as this data accumulates, you find that your site performance goes downhill sort of gradually in ways that you don't understand.
+
+So. What is biggish data? This talk is based on my experience at Honeybadger. In case you haven't heard it, of us, we are an exception performance and uptime monitoring company. That means that we essentially have a firehose of new data coming in every day. Right now we have about a terabyte of errors in our database. The world has a lot of errors. You guys need to start, like, doing a better job.
+
+And, and we get about, we get two gigabytes of new errors per day, roughly. And all this goes into a plain vanilla PostGres database, and it's served, that backs a pretty plain vanilla Rails application. Well, the good news is that PostGres can handle this pretty easily. PostGres has got it covered.
+
+The bad news is that, unless you've engineered your app to deal with this level of data, you're kind of screwed. And the reason is that a hundred megabyte database behaves fundamentally different than a one terabyte database. And a lot of the conventions, a lot of the normal things we do in Rails apps just stop working when you have this much data.
+
+Yup. This is actually a live feed. This queries been running since this morning.
+
+Something I learned, pretty much every pagination system breaks on page, like, 2000. Even if you, you're like, dear God, make this stop, I just want to delete half my data. You're, you're just still screwed, because deleting data takes a lot of time.
+
+Now, I'm gonna explain all of this. I'm gonna explain why this happens, how you can work around it, and how you can optimize the queries in your own database and optimize your stack. But, to really understand this, we've got to take a little trip back in time, to the summer of 1978.
+
+The summer of disco, free love, and the VT-100 terminal. The VT-100 was the first sort of computer-shaped thing that you could buy from an actual company and sit on your desk to prove that you were the alpha nerd of the office. It was also the time that Oracle 1 point 0 was being developed, which was one of the first databases that used the SQL language. It's pretty cool. It was written in PDP-11 assembly language.
+
+And, and in case you're like too young to have ever seen a PDP-11, this is what a PDP-11 looks like. Yeah. Give it, show some love for the PDP-11.
+
+Now, this is pretty awesome. Nowadays, in our, like, modern day times, right this second, marketers down in the, the presentat- what, what do they call that? The exhibit hall. Are, right now, throwing around all sorts of words about cloud computing and platform as a service and, and I don't know, some, some stuff I haven't even heard of, probably. And back then it was the same, but the, the buzz words were different. The buzz words on everybody's, the buzz word on everybody's lips, at that time, was real time computing.
+
+And I, I'm using air quotes around real time, because that meant that you could have your, your report generated in five minutes instead of five days. Which I'm sure was pretty awesome. Like, I would have been really happy about that. But, you know, looking at this, it doesn't really seem like the sort of thing I would want to build a web app on top of, right?
+
+Like, I. Yeah. I, I wouldn't stick Honeybadger on that. But, a funny thing happened in the past thirty, thirty-six years. A funny thing happened is that Moore's Law made this into a web stack. Now, I know that everybody here knows sort of, vaguely, what Moore's Law is. But I thought it would be good to go over the technical, precise definition of Moore's Law.
+
+And that is that, whoa. That is that computers get more awesome as time goes forward. Did that come back normally? Yeah. As time goes forward. And awesomeness is generally defined as, well, technically, being able to do more stuff faster. Being able to process more data faster. So, based on this, I would like to postulate, for the first time in public - you guys are very lucky to be able to hear this - the first time in public, Starr's Corelary to Moore's Law, which is, as database growth outpaces Moore's Law, you literally travel back in time.
+
+That was the Ted moment of this, of this talk. It's like, I can hear you guys, your minds being blown. It sounds like bubble wrap popping.
+
+So, based on my, my extensive research of time-travel movies, the, the first rule for surviving your new time period is that you need to understand the methods and the motivations of the people in that time period. We need to start thinking like our ancestors. And our ancestors were very interested in this thing called hard ware.
+
+Well, I, I don't mean to be flip, but I just want to bring this up first, because if you happen to be having database scaling issues, like, if your app right now is getting slower because the amount of data in your database is getting bigger, and your app happens to live anywhere named EC-2, Linode, I don't know, whatever, whatever other companies offer that, you can probably solve your scaling issue just, like, right now just by going and buying a real damn computer.
+
+Yeah. You'll be shocked and amazed. Because the two things that databases need to perform well, to work at high performance with lots of data, is they need lots of ram, and they need really fast disc io. And virtual servers give you neither of those things. So, just go buy a real damn computer. Yeah. And, and while you're at it, throw in a bunch of discs.
+
+I'm not talking about a radar ray. You probably want each of your, you probably want each of your operating system, your PostGres data, your PostGres log file, you probably want all that stuff to be on separate hard drives. And that's just gonna make the operating system able to more efficiently sort of schedule disc io.
+
+So, if, if that solves your problems, you know, great. You're welcome. If you guys want to leave the room now, that's fine. I won't be offended. You can go call your local Colo facility. Work something out. If, if that doesn't solve your problem, or even if it does, you probably want to look at your queries next.
+
+Now, most people, most of us develop - oops. Hey. Most of us develop against smallish datasets. So, when you develop against a small dataset, you don't notice inefficient queries. It's just life. And books have been written about query optimization. It's, it's a very huge topic, and I can't ev, explain everything in thirty minutes. So I'm just going to explain one thing, and that's called a, a explain.
+
+Fortunately, PostGres gives us an awesome tool called Explain, which basically you pass it a query and it gives us a query plan. Oh it, wait a second. That's a, that's a chapter from the Iliad. Sorry. It gives us a query plan, which still kind of looks like a chapter from the Iliad. But, fortunately, we only have to, to look at one metric here. The only thing we need to worry about is rows. For this talk.
+
+And here we have an example of a very efficient query, right. It's gonna use an index, and it's gonna look at one row. That's pretty sweet. Very fast. This is the type of query that biggish data works with.
+
+But there's one thing you need to know about rows. And that, obviously, the more rows you're dealing with, the more data your computer has to crunch to give you the answers you want. And so the whole, the whole name of the game in query optimization is to limit the number of rows that you have to touch.
+
+Let's go back to that inefficient count query. So if you run Explain on that, it turns out that when you ask PostGres to count all of the tab, all of the rows in a table, it actually literally counts all the rows in the table, one by one.
+
+And so you wind up with a, one of these things. It's not pretty. And it's often hard to know when stuff like this is gonna crop up. For example, I mentioned that most pagination systems break at page 1000 or 2000. And that's because, well, the offset and limit operators work a lot like count, in that, if you do an offset of 500,000, PostGres is going to count up 500,000 rows, and then if you have a limit of 100, it's gonna count up another 100. And so what you see is that pages one, two, and three load extremely quickly. And so you, as a developer, are actually, when I say you I mean me, cause I actually, I actually fell into this trap. You test it with, like, one or two pages and it works fine, so you move on and then later on your customers are complaining because they can't access page 500. It's timing out.
+
+The solution to this is to use a range query. Range queries are very fast, and I'm gonna give you a really stupid example here. Here's a link with a much more detailed analysis of all this. But essentially, if you do a range query, you're gonna be able to use an index. It's gonna touch 100 rows and it's gonna be really fast.
+
+Now, I know what you guys are thinking. That's not the same as an offset limit query. And that's the reason I gave you the link in the previous slide, so.
+
+Sorting. Sorting is tricky. Sorting is the devil. Sometimes it's super fast. Sometimes if you happen to be asking for data sorted in exactly the same way that an index is sorted, well, it'll be super fast. Other times, even if you have an index on a column, if it's not set up right or if you're asking for the data in a slightly unusual way, you'll wind up sorting the whole damn dataset.
+
+It's no good. So here's your rundown for query optimization. You want to develop against a real dataset, because otherwise you won't know when things are going wrong until they go wrong in production. Use, use Explain. Use it a lot. And the whole name of the game here is to limit the number of rows that you touch. Because the more rows you touch, the slower your queries are. You know, in general.
+
+So, I, I don't know about you, but that just like, that just was a lot of cognitive load happening, right up here. So I want to give you guys a cookie.
+
+For the second half of this talk, we're gonna cover a lot of issues that relate to kind of the infrastructure around biggish data, around big datasets and firehoses of data coming in. And here's a, a legend of, of how we're gonna approach this.
+
+We're gonna have a cute picture that, hopefully, sort of symbolizes something about the, the topic. We're gonna have the name of the topic, and then we're gonna have a link with more info about the topic if, if you want to, you know, find this later.
+
+And you don't have to write all these links down right now. At the end of the presentation, at the very last slide, I'll have a url where you can get a list of all of them. And, yeah, and I promise this isn't malware. So, you just gotta take my word on that.
+
+Our ancestors were really interested in disc operating systems. It seems like they were building a new disc operating system like every two seconds, but. What, what's up with that? I, I don't know. Now we have, like, three.
+
+The first thing that you should do if you're using Linux is to increase your read-ahead cache. A read-ahead cache is something that, well, I found not, not a ton of people know about, but it's a super easy way to get up to a doubling of your read-throughput. And essentially what this means is that Linux examines the request that you make to the, to the disc. And if it sees that you're asking for lots of blocks that come right after another in a row, it's gonna preload the next set of blocks into RAM.
+
+The normal, the, the default for this is, like, 256K RAM that it uses to prefix these blocks. If you update this to use, like, two megs, four megs, you'll get a really big increase in read performance. Use a modern file system. That means EXT-3 is not an option. If you want to know why, check out the link.
+
+And, and if you happen to be using EXT-4 or XFS. I can never say that unless I say it super slow. You might want to consider, you might want to look into journaling settings. If you have your database on a completely separate hard drive, and it's running EXT-4 and you have full data journaling enabled, since PostGres does its own journaling, you're gonna have an inefficiency there because you have two things journaling.
+
+Finally, or, wait. Not finally. Anyway. You gotta tell PG, tell, tell Paul Gram about, about all the RAM that you bought in that, that fancy new box. A, a really easy way to set this up is to use a PG-tune script. It examines your computer and writes a, a PostGres configuration file that has some pretty, pretty reasonable values in it. And you can tweak them from there. This stuff is all really easy to find.
+
+And then, finally, the bane of, of DB administrators is the vacuum command. PostGres needs to vacuum, because it's messy. It. When you, when you run queries, when you delete things, when you update things, it leaves sort of a lot of stuff undone. And it does that, it does that in the, to, it. In the name of speed, right. It only does what is necessary at the time of query to get you an answer to your query.
+
+And then it uses vacuum to go and sort of clean up after itself. The problem is that vacuum can be really resource intensive. And so if your, if your server is under a lot of load, and you see that, OK, vacuum is also causing a lot of load, you may be tempted to turn off vacuum or to, or to make autovacuum happen maybe once a night or something. And that's generally a bad idea. We actually got bitten by this ourselves, so that's why I bring it up. Usually the answer to vacuum problems is to vacuum more often, not less often.
+
+All right. So. Velocity. I really wanted to like - I didn't have time - I really wanted to have a little, a little like, Tron guy on the motorcycle going down the little grid there. But. Eh.
+
+Now we're gonna talk about a, a couple things that are important if you have a ton of data coming in, or a ton of read-requests coming in, a ton of queries coming in. The first is too many database connections. Each database connection in PostGres is its own process, and each process has its own RAM overhead. So there's a limited number of connections that you want to have to your, your database server.
+
+If you have, I don't know, a thousand workers and, and web app processes and all this, you don't want to open a thousand database connections and you probably already know about this. The solution is to pool connections.
+
+There's ways to do this in Ruby. There's also, if you're interested in a more ops-y approach, you can check out something like PG-bouncer, which is a proxy that sits in between your Ruby app and your database and functions as a, as a connection pool.
+
+You can also run into problems with too many locks. And this is, this is the sort of problem that you don't really ever run into if you don't have a firehose of database, of data coming in.
+
+I don't expect you to know, like, everything about locks, because it's a, it's a pretty complex topic. But you should know that, within a transaction, if you go to update a row, that transaction is gonna put a lock on the row until it's done. It's gonna say that nothing else can write to that row until it's done. And, you know, that makes sense.
+
+But where this can bite you is if you have, say, imagine you have two Rails models. You have a parent model and a child model. And the parent model has a counter-cache that gets incremented every time you add a child. Normally, this is no big deal. People do this sort of thing all the time. But if something crazy happens and someone, you know, bombards your API and suddenly you have, like, fifteen thousand children created, you're, you're gonna have some locking issues.
+
+Cause what's gonna happen is your first query is going to execute fine. The child's gonna get created. It's gonna increment the counter. Everything's gonna be fine. And while it was doing that, it put a lock on, on that row. And so, once the first query's done, the lock is, is removed, and the second query happens. And if you had infinite time, like, this would all be fine. It would all eventually work itself out. But what happens is that by the time you finish query 100, query 15, 15,000 has timed out, which causes all sorts of fun in your, you know, in your Unicorns and your Sidekiqs and all that. It's a, yeah, it's a huge pain in the neck.
+
+And the way you avoid this is to, it, it's just an architectural thing. You just have to avoid any situation where you could be updating the same record in the database like a gillion times per second.
+
+Intensive database queries. Like, sometimes, sometimes we have our production database, and we need that to be very, very performant for our users. But we also need to maybe do some preprocessing on data as it comes in. And a really simple way to do this is to use PostGres's streaming replication facilities to create a read-only replicant. And then you just do your intensive queries against that and it doesn't affect, affect your users. It's super simple. Sorry. I, I, I kind of feel dumb even talking about it here. But, there you go.
+
+Partitioning is awesome. Partitioning is like the best thing ever, because it allows you to dramatically speed up data calling and data archiving. What you can set up in, in PostGres is a partitioning scheme in which data for different days go into different physical database tables.
+
+And, you know, that's all right. But the really cool thing is that you access that data by querying a parent sort of virtual table that then propagates that query across all of its children and, you know, magically does its results and, and spits them back to you.
+
+So you don't have to update your Ruby code at all, which is sweet. And this way, if you want to, say, delete data that's 180 days old, you just drop the table that's associated with 180 days ago. If you were to do a delete where, you know, created_at is less than 180 days ago, you're probably gonna be waiting for weeks.
+
+And last, but not least, backups are a real pain in the neck when you have a huge dataset. Like, that crime job that dumps your entire database and uploads it to S3 doesn't work so well when your database is, like, two terabytes big. And, yeah, that's a big S3 bill, too.
+
+Fortunately, we can take advantage of the same sort of things that PostGres does to allow it to do streaming replication to do, sort of, on the fly, incremental backups. And there's a tool called Wall-E, which makes this super easy. And it, it's really cool, because it allows, it, it makes it very easy to upload incremental backups to, say, S3, and then when you want to restore your database, it makes it really easy to, to restore a specific point in time.
+
+And so that, Wall-E is really awesome. I love it.
+
+Now, I, I, I stayed in my hotel room last night. I didn't get to go to the Speakeasy thing, which kind of bummed me out. But I, I had to work on these slides for you people. And, and, and when I got done with this, when I sort of reached this point, I looked back on all of these, these slides - there's like fifty-four of them - and I was like, holy crap. This is a lot of information.
+
+Yeah. This is a lot of information. But the thing I, I want to stress is that, at least in, in my experience, these issues tend to come at you one at a time. This isn't the sort of thing where you have to know all of this stuff in advance in order to deal with biggish data in PostGres. Things come at you one at a time, and you can deal with them one at a time. 
+
+And I have faith in you. I think you can do it, because you're awesome, because nobody told us that we could turn, like, transistors into LOLCats, but we did it. Like, that's the type of people we are, and that's, that's why I'm proud to be at RailsConf. If you're interested in, like, talking to me about this, if you think I'm full of shit about anything, which I probably am on at least one point, just, just say so.
+
+Just feel free to come up to me after the conference, or after my talk here. I have delicious hot and spicy Mexican candy, as an incentive. So there you go.
+
+If you want to learn more about the stuff that I. Are you taking? Do you want to take a picture of the Mexican candy? OK. OK. I can send it to you.
+
+If. If you want to learn more, all of the links referenced in this talk are at this url, and if you are interested in having more visibility into your production errors, check out Honeybadger, because, yeah. We love Rails devs. And that's it. That's. It says end of show here, so I guess it must be the end of show.
