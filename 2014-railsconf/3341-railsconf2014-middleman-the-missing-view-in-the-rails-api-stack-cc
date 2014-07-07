@@ -1,0 +1,1351 @@
+RailsConf 2014 - Middleman: the Missing View in the Rails API Stack - Brad Gessler
+
+BRAD GESSLER: All right. So, while these are,
+
+these responses are coming in.
+
+It looks like quite a few people have
+
+either handcrafted html and css applications.
+
+I'm not sure if they're single-page application,
+
+or just deploy straight-up Rails applications
+
+or all the logic on the server-side.
+
+So that's good. I, I hope you'll learn
+
+something new today about how my company,
+
+Poll Everywhere, which the,
+
+the product is what you're seeing.
+
+We're a software as a service company.
+
+We just sell this to presenters based on audience size.
+
+So, I'm gonna fire up the slides here. All
+
+right. My display settings are working, so this is
+
+good. All right, so Middleman. The missing view in
+
+the Rails API stack.
+
+Let's just jump into it. So, as I said
+
+before, I am Brad Gessler, CTO and co-founder of
+
+Poll Everywhere. We started this company about six years
+
+ago now. So, we were mobile first, whatever that
+
+meant, SMS. So we went through all the pains
+
+of having to upgrade, if you will, to the
+
+second vintage of mobile first, which is mobile, basically
+
+a mobile website. We had a lot of fun
+
+doing that and, and learning things the hard way.
+
+But first, what is middleman? How many of you
+
+have heard of Jekyll in this room? That seems
+
+to be the, the predominant static website generator. And
+
+if you go to the Ruby toolbox and you
+
+ask Ruby toolbox for, hey, what should I use
+
+to generate a static website? You're going to get
+
+Jekyll. But it's, it's not like Jekyll, in the
+
+sense that it uses a lot of the more
+
+modern, basically RubyGems inside of what you see in
+
+Rails 4 and Rails 3, which is, the fact
+
+that it uses tilt to manage all of the
+
+template and, and sass and all that good stuff.
+
+So, if you're looking for a tool to build
+
+a static site, don't be scared off by the
+
+fact that middleman is catching up with Jekyll. And
+
+you should feel a lot better about that after
+
+this talk.
+
+So, middleman is extraordinarily well-documented. Thomas Reynolds built middleman.
+
+He's the, the guy behind this. And he also
+
+built an amazing website with a lot of great
+
+documentation behind it. So if you go to, I
+
+believe it's middlemanapp dot com, you can get a
+
+sense of, of everything that, that this static site
+
+generator involves.
+
+Another really nice thing about this static site generator
+
+is that it's, it's very modular. So it actually
+
+uses rack in its gut, so if you understand
+
+rack, you can write a lot of extensions using
+
+rack, which is kind of crazy. A static site
+
+generator using rack to, to do certain things.
+
+And there's also a, an extension framework, where you
+
+can roll things out, like, a middleman blog, if
+
+you so please. So, middleman blog in middleman is
+
+essentially a, a drop and replacement for Jekyll. With
+
+a few other things. If you're used to writing
+
+GitHub-flavored markdown, there's a few tweaks that you have
+
+to make there to, to get that whole thing
+
+working.
+
+So, getting started with middleman is actually very similar
+
+to what it's like getting started in a Rails
+
+application. You install the gem, you initialize the application,
+
+it creates all of this boilerplate code. You can
+
+see from this directory structure you have your configuration
+
+file, default index.html.erb. You get a layout file and
+
+then you have all of your assets. Stylesheets and
+
+JavaScripts. And then you spin up the server, and
+
+it boots extremely fast. So, in under a second,
+
+you can hit this server and things are just
+
+working.
+
+So, the thing that I like a lot about
+
+middleman is that it's very easy to come into
+
+middleman from Rails. I said earlier that this uses
+
+tilt, so you can bring all the same gems
+
+and really the same toolset that you hopefully have
+
+come to love inside of Rails into middleman and
+
+start using it without too much of a problem.
+
+So the other interesting thing about middleman is that
+
+it's multi-environment aware. This is, I pulled this from
+
+a default middleman configuration from the boilerplate and simplified
+
+it a bit. But here you, you get an
+
+idea that in your development environment, you can put
+
+extensions in there and activate them. Like live reload.
+
+And you can pull these extensions off of that
+
+directory that is on the middleman website. And then
+
+your production environment in middleman is called your build
+
+environment.
+
+So, in there, you're going to activate certain extensions,
+
+like minifying css, JavaScript, having an asset hash so
+
+that you can basically hash your assets and do
+
+what you do in Rails where you, you give
+
+your asset path a, a hash and a path,
+
+so that you can cache it.
+
+So, once you have this configuration setup and your
+
+webpages and stuff are, are ready to go, you
+
+have to deploy it somehow. And this is another
+
+area where middleman really shines is that, deployments are
+
+incredibly easy. It's two steps easy. There is the
+
+build command, which takes all of the templates and
+
+files and whatnot, and it basically compiles a bunch
+
+of html, css, and JavaScript files into a build
+
+directory. And then the, the best part about it
+
+is that getting that build directory up to your
+
+web server is as simple as rsync. Or, if
+
+you want to throwback to the days of using
+
+DreamWeaver, you could use FTP to upload it. Or
+
+SFTP if you're into the whole security thing.
+
+I developed a, a gem called shart, appropriately, hoping
+
+that it would make for an awkward IT conversation
+
+in some corporate environment, where you can deploy your
+
+middleman website up to an S3 bucket, and you
+
+can actually set the headers that are going to
+
+emitted from that S3 bucket. Mostly caching headers on,
+
+on certain assets.
+
+So there's a ton of tools you can use,
+
+and there's a ton of deployment targets that you
+
+can choose from for middleman. If you do go
+
+the route of deploying to S3, it's an incredibly
+
+cheap way to really run your website. You just
+
+pay a couple cents a month for a, a
+
+personal website. And it's also incredibly scalable, whenever you're
+
+deploying to an S3 endpoint.
+
+So. Yippie. You have a static website. You know,
+
+why should you care about middleman? How is this
+
+going to, to help you scale your application?
+
+Before I dive into that, it's really important to
+
+kind of understand the place that middleman will have
+
+in this spectrum of dynacism, is what I call
+
+it. And it turns out dynacism is not actually
+
+a word, so. I had to ignore the, the
+
+spellchecker on this thing.
+
+And it looks something like this. So the graph
+
+that you saw earlier was actually a static web
+
+application. And if you access PollIt dot com slash
+
+brad on your smart phone, that was another static
+
+web application.
+
+So, that's a very dynamic application, though, in that
+
+the chart has to move and animate and pull
+
+this data from the server in real time. In
+
+under, you know, a second, it has to get
+
+from all of your phones, whether it comes from
+
+SMS or your smart phone, we have to get
+
+it up on that graph in a really short
+
+amount of time.
+
+So that is arguably a highly dynamic application. And
+
+we also have to make things really smooth and
+
+seem very fluid, because that's just what you have
+
+to do for presentations like this. So as we
+
+go down the dynacism spectrum, you have your GUI-oriented
+
+applications.
+
+So, Google spreadsheets - you're probably very familiar with
+
+that. Who hasn't used it? You're doing a lot
+
+of actions, a lot of very short actions, and
+
+you don't want to build applications where you click
+
+a button and then you have to wait for
+
+a response to come back to a server. The,
+
+basically the functions of the GUI are very tightly-coupled
+
+with what comes out of that.
+
+So we kind of start moving down into document-oriented
+
+web apps, like an invoicing application or Base Camp
+
+where you can, you start to get into Rails
+
+territory, where Rails is, it's kind of the sweet
+
+spot between these highly dynamic applications or these highly
+
+static applications.
+
+So moving down into the blogging platform world, you
+
+may have something like Subtle or PostHaven, that is
+
+backed by mySQL, but for the most part it's
+
+just storing these documents in a database server, just
+
+for the convenience of administering many users in a
+
+multi-tendency environment.
+
+And then you go on down to your personal
+
+blog, and maybe some of you have a GitHub
+
+site. Maybe you're using Jekyll for that. Maybe you're
+
+using middleman. All the way down to informational websites,
+
+like a mom and pop shop or Steve's plumping
+
+services.
+
+If somebody wants to make a killing, go out
+
+there and sell these restaurants that have flash websites,
+
+sell them on a middleman website so that we
+
+can get some html out there and have less
+
+flash on the internet.
+
+So, where does middleman kind of fit into all
+
+of this? If you're working on a green-filled application,
+
+it's pretty easy to get started right away. Kind
+
+of what you hear about doing today is, you
+
+build your single page html application over here and
+
+you build your smaller kind of API off to
+
+the side using Sinatra or some type of, of
+
+microframework.
+
+But, since we've been around as a company for,
+
+well, since 2008, we actually started out using Rails
+
+1 point 2, I believe. It was before REST
+
+was even a thing in Rails. So we had
+
+this green-filled application. We spin this thing up. It
+
+was great. We were able to move pretty fast
+
+inside of this framework. And we just set up
+
+this application at polleverywhere dot com. The real time
+
+components we had, I don't know if anybody remembers
+
+RJS, but that was basically how we would make
+
+things appear in, in real time on Rails, was
+
+through these kind of, in retrospect, horrendous helpers that
+
+would emit JavaScript from the server and run on
+
+your web page.
+
+So, we got a lot of mileage out of
+
+that. But it wasn't, it wasn't really enough. We
+
+needed something that was more visually appealing than just
+
+updating some numbers on a table. So that's when
+
+we turned to flex, because they happened to have
+
+this bar chart library that everything updated in real
+
+time. There was just a lot of stuff that
+
+worked out of the box.
+
+And it also just happened, out of sheer dumb
+
+luck, that flash was installed on 99-some-odd-percent of, just
+
+all machines out on the internet. But even more
+
+compelling is that you could embed a flash asset
+
+into a PowerPoint slide because of good-old ActiveX.
+
+So we did this kind of weird hack where
+
+we would embed these swifts that we would generate.
+
+These Flex applications, and we would actually embed them
+
+into a PowerPoint slide and send those out up
+
+on the server so that people could download these
+
+polls embedded right into PowerPoint slides. So whenever they
+
+opened it, nothing really had to be loaded up
+
+over the conference wifi connections in their slide. The
+
+swift application would just connect out to our Rails
+
+app and start pulling data out of it.
+
+So we initially had this flex application in the
+
+same code repository as we did our Rails application.
+
+So as we started to build more customers, things
+
+became more complex, and we were able to afford
+
+a contractor who came in and just started shredding
+
+it on this Flex app and really making a
+
+lot of progress. To the point where we started
+
+getting annoyed at just how many commit messages that
+
+he would have in our, I believe it was
+
+actually SVN at the time. So we broke that
+
+out into a, a separate application. And we were
+
+able to move a lot quicker, in the fact
+
+that we got to separate deployments.
+
+So, we had this contractor working over here on
+
+the Flex app, and he was able to deploy
+
+those Swift assets out to production. And meanwhile the
+
+Rails app team was able to do their work
+
+and, kind of, push their updates out through a
+
+separate release cycle. And, of course, at the time,
+
+it was a lot easier for Flex to work
+
+with XML, so we had a very fashionable XML
+
+API.
+
+So, time went on, and mobile started to change.
+
+It wasn't just about SMS anymore. So we had
+
+to think about the smart phone thing that was,
+
+that was taking off. Really it was the advent
+
+of the iPhone.
+
+So, having a lot of really good luck in
+
+the past with frameworks, including Rails and, and some
+
+of the visual components that Flex gave us, naturally
+
+we gravitated towards using jQuery mobile. And the other
+
+thing, dot mobe extension, was this thing that I
+
+saw on RailsCasts about this new-fangled way to kind
+
+of say, hey, this dot mobe format is gonna
+
+serve up this, this mobile stuff that's kind of
+
+like html.
+
+So, it turned out that was a really bad
+
+idea. The way that jQuery mobile worked got us
+
+about 80% of the way there, but the other
+
+20% was just extraordinarily painful. The jQuery mobile framework
+
+was extremely opinionated. It wanted data in a certain
+
+way. It wanted the DOM to be structured a
+
+certain way. It felt kind of clunky and we
+
+just felt like we were kind of stuck inside
+
+of the, the jQuery mobile world.
+
+So, our team had to, had to do some
+
+soul searching on this front. And what we decided,
+
+at the time, was, you know, instead of trying
+
+to pick a framework, let's actually focus at the
+
+specific problems that we're trying to solve, and let's
+
+focus on picking libraries.
+
+So, that made our thinking a lot more clear,
+
+and we were able to pick exactly what we
+
+needed it. Or, yeah, pick exactly what we need,
+
+and bring it in our application where we needed
+
+it.
+
+So, at the time, as well, there was still
+
+a lot going on in the JavaScript MVC world.
+
+You had sproutcore was one, was one of the
+
+frameworks that we looked at. And that was not
+
+really that good-looking in terms of where we came
+
+from with jQuery mobile.
+
+So, we decided to go full speed ahead and
+
+use backbone.js, which was, I think, at version point
+
+eight at the time. And we knew that we
+
+would probably be swapping out libraries, because the space
+
+was still maturing very rapidly, and there were a
+
+lot of changes. So this approach really let us
+
+hand-pick the libraries we need and swap them out
+
+as something else kind of pulled ahead of, you
+
+know, another library.
+
+So we ended up with this single page mobile
+
+application that we built entirely inside of middleman. So
+
+middleman was handling all of the assets that, that
+
+this application was using. And it uses kind of
+
+the standard sprockets pipeline that, that you have in
+
+Rails. So whenever you build this thing, we have
+
+three files. We upload it to our EngineX server,
+
+and we were pretty happy with how this stuff
+
+ends up working out on production, especially for deployments.
+
+So, if you go down this route of building
+
+these single-page web applications, one thing that you need
+
+to be very aware of is CORS. So whenever
+
+you went to the pollit dot com single-page site
+
+on your phone, that was actually making a AJAX
+
+request to our polleverywhere dot com host to an
+
+API endpoint on there.
+
+So in order to do that without CORS is
+
+you get all these cross-domain errors for AJAX. But
+
+what CORS lets you do is, the pollit dot
+
+com host says, hey, polleverywhere dot com, I'm from
+
+a different domain. I want to make these types
+
+of HTTP requests. A GET request, a POST request,
+
+and, oh, by the way, I want access to
+
+these headers. So our polleverywhere dot com service says,
+
+OK, you're on our whitelist, polleverywhere dot com, so
+
+here you go. Here's the data. Great. You want
+
+to POST something. I'll accept that request. And if
+
+another domain tried to access it, it would just
+
+give them the cross-domain error.
+
+So that's how we, we got around that issue.
+
+And then another really great thing about the way
+
+that we deploy this mobile app is, it's really
+
+easy to deploy this to a CDN. You actually
+
+have these assets that you can push out to
+
+other servers. So you can't really do that with
+
+a Rails app, per se. You can't just take
+
+it and stick it over here on this file
+
+system on this server without having to boot a
+
+bunch of stuff and go through all that.
+
+So another interesting kind of feature of that is
+
+that you can deploy to floppy discs. So when's
+
+the last time that anybody's seen one of these?
+
+And we have these readers here. You pick these
+
+up for about fifteen bucks off of Amazon. And
+
+what I'm actually going to do is a live
+
+hardware demo. Possibly the only one at RailsConf. And
+
+let's plug this in. The really surprising thing, to
+
+me, was that Mac OS actually recognizes floppy drives.
+
+So let's plug this guy in here. Op.
+
+Devices. I think that's devices. Oh, I got to
+
+put the disc in. All right. So you can
+
+hear the, hear the disc spinning. Oh, let's see.
+
+There it is. Boy, that's hard to see up
+
+here. All right. So here's the application. We'll just
+
+launch this.
+
+[laughter]
+
+So hopefully your network connection is faster than a,
+
+a floppy disc, but if you have a customer
+
+living somewhere remote and the only way to get
+
+something to them is by Pony Express, you can
+
+just put this floppy disc in a satchel and,
+
+and send the pony on its way.
+
+The really fun thing is opening network inspector on
+
+this and seeing how Chrome measures this. Is it
+
+latency, or is the file really taking that long
+
+to load?
+
+So, here you go. You just saw a web
+
+application booted from a floppy disc. I can go
+
+to my pollev page and submit a vote. So,
+
+we joke about coming up with a floppy.js library,
+
+because if you can see the inspector down there,
+
+I don't know if it shows, but the retina
+
+assets aren't loaded. Those were too big to fit
+
+on this floppy disc, so we came up with
+
+some fun ideas to span our JavaScript across floppy
+
+discs. But we had better things to do like
+
+fix bugs in production.
+
+So, great. You can put this on floppy discs.
+
+But I think more importantly there is, you can
+
+put them inside of phone gap or Cordova apps
+
+or we have some customers that they want to
+
+bundle our voting application with one of their mobile
+
+applications. So we can say, here is our html
+
+assets, you can put them within your application, and
+
+then whenever there's three-hundred people sitting in a conference
+
+room, it won't overload the wifi.
+
+So, caching aside, there's, there's another component to this.
+
+Flex, Flex started getting old. It started getting outdated.
+
+The writing was on the wall that this stuff
+
+was going to die. So, you know, we set
+
+out to write a utilization app, it was very
+
+natural for us to think, oh, you know what,
+
+let's use middleman. We want this thing to work
+
+on tablets, iPhones, and everywhere, so naturally we're going
+
+to use - oh, what do we call it
+
+today? HTML5. Let's use that.
+
+Let's use that HTML5 thing to talk to our
+
+JSON API. And that worked great. We got this
+
+application out there. It's actually what you saw today,
+
+it's that HTML5 application. We have all the benefits
+
+of caching and the CDN and whatnot. But, but
+
+something came up. Whenever we were looking at these
+
+visualizations day in and day out, we just said,
+
+jeez, these feel really slow, because we were using
+
+short polling. We were hitting our server once every
+
+couple of seconds to get the new data from
+
+our server to, to update on the graph.
+
+So we decided we wanted to do better than
+
+that. We rolled out a Stream API. We actually
+
+wrote our own server at the time, because socket
+
+io wasn't quite what we wanted. I, I actually
+
+gave a talk in 2012 about this, about streaming
+
+resources. So we threw up that streaming API server,
+
+but there were some problems with it.
+
+Back in 2012, when I gave that talk, we
+
+were using AMQP on the backend of this thing.
+
+And there were just a lot of stability issues
+
+with that. It wasn't quite working with the, with
+
+the grain of the web and how resources work
+
+and, and how caching and all that stuff works.
+
+So, we had these stability issues that we were
+
+trying to deal with, and what was really nice
+
+about having these client-side applications, is we were able
+
+to spit up our stream server on its own
+
+host, its own completely different host, and isolate it.
+
+Our team had a lot of learning to do
+
+to understand how to, not only build these real
+
+time web applications, how to operate them. How to
+
+scale them.
+
+So whenever we rolled this thing out, we'd have
+
+crashes, and our client-side application was able to seamlessly,
+
+basically fail over to HTTP short polling. So over
+
+time, our team got much better at just kind
+
+of managing all these pieces. And we had client-side
+
+SOA going on there. So, you can also, with
+
+CORS, if there's several APIs that you have out
+
+there, you can consume those from your JavaScript and
+
+kind of munch all that stuff together client side
+
+and just do whatever it is that you please
+
+with that data.
+
+So, we had so much success with all these
+
+middleman, these single-page middleman applications, that we started to
+
+build all of our other applications in these. So
+
+our approach towards native integrations has been, basically, let's
+
+build a special web browser that has these certain
+
+hooks into JavaScript so that our web developers can,
+
+can be more productive and interact more with basically
+
+the native application.
+
+So we can control a lot of different things
+
+with these integrations from JavaScript. So we start having
+
+all these backbone applications pop up. Now, if you've
+
+dealt with several applications, you may be thinking, jeez,
+
+you know, you're probably repeating yourself with a lot
+
+of different things. So how do you get a
+
+handle on this stuff in this world of sprockets
+
+and middleman?
+
+So what we did is we took all of
+
+kind of the common components of this, the session
+
+components, the models and backbone. We pulled all these
+
+into this one asset gem that then everything consumes
+
+from there. So to make those gems, it's just
+
+like making any other gem. You just say bundler
+
+gem and then whatever the name is of your
+
+gem. Here we have pollitassets. And the kind of
+
+different thing about this gem is that, you check
+
+is sprockets is there. And if it is, then
+
+you start appending all these paths toward the assets
+
+where your asset gem lives.
+
+So, for example, in our lib/assets JavaScripts gem, we
+
+have a user backbone model. We have a poll
+
+backbone model. The stylesheets. We actually use font icons
+
+everywhere, so that we can fit all this stuff
+
+on a floppy drive.
+
+So, we can have all these assets located here,
+
+which whenever all the other applications consume that, they
+
+can have a consistent look and feel that uses
+
+kind of the visual language that we want to
+
+use throughout all of our applications and all the
+
+different platforms.
+
+And of course you have your vendor JavaScript assets.
+
+So if you have four different projects out there,
+
+you're probably using four different versions of jQuery. This
+
+lets us use one version of jQuery and one
+
+version of backbone.
+
+The way that we manage these in our development
+
+environment is just through bundler. So you can imagine
+
+if you have one version of jQuery, well what
+
+happens whenever you bump from the one dot x
+
+to two dot x? You're probably gonna break a
+
+lot of stuff.
+
+But we actually don't have that problem, because like
+
+with RubyGems, you don't really care if there's an
+
+upgrade happening. What you care about is that you're
+
+getting the version that you asked for in your
+
+gem bundle. So we're able to control that by
+
+pushing our pollev assets up to a basic Git
+
+repository, and we reference that from this gemfile. You
+
+don't actually see the, the git reference in there,
+
+but you can see that, in this case, we're
+
+saying, hey, I want to use the new feature
+
+branch of pollev assets. The assets path thing above
+
+that is a nice little hack so that if
+
+you're making changes to the pollev assets project, you
+
+can pull those locally so that you don't have
+
+to run bundle update every time.
+
+And what's cool about middleman is, if you're developing
+
+these pollev assets locally, whenever you reload middleman, it
+
+actually picks up the changes from the, the assets
+
+gem. You don't have to reboot the server or
+
+do anything crazy like that.
+
+So, the way that we can build new features
+
+now, let's say that, let's say the worst case
+
+scenario, I have to build a new API to
+
+support a new feature. I can branch my Rails
+
+app project, and I can say, hey, branch this
+
+off. It's called new feature. I'm gonna add some
+
+kind of new visualization to it that needs a
+
+new API. So I can build that API out
+
+on my server. I can develop that locally. And
+
+I can point my middleman project at my local
+
+server.
+
+And I can branch it in here and I
+
+can branch pollev assets, and basically have three different
+
+branches or, sorry, one branch and three different repos,
+
+all working on the same feature. And then whenever
+
+I go to deploy, obviously deploy the API server
+
+functionality first, and then it would go on to
+
+roll out these middleman single page websites.
+
+So, does it work? I think so. It's, it's
+
+worked really well for us. We have to deal
+
+with some weird kind of bandwidth constrained environments, where
+
+you can't trust conference wifi connections. And it also,
+
+I realized that it worked really well for us
+
+when, about two months ago, Microsoft wanted to launch
+
+their PowerPoint 2013 store inside of the Microsoft Office
+
+Applications. They actually have an app store inside of
+
+there. And we were able to pull a bunch
+
+of assets from our mobile application into our sprockets
+
+asset gem and reuse all of that stuff, most
+
+of it, in the PowerPoint 2013 app. And then
+
+we were able to quickly make some customizations to
+
+that whole user experience to make it fit in
+
+with Office 2013 a little bit better.
+
+And, of course, whenever you're running a single-page JavaScript
+
+application inside of this little web iframe, essentially in
+
+Office, it feels very close. It feels very native.
+
+So that, that worked pretty well for us. But
+
+I think, even better than that, than reusing functionality
+
+is, inevitably, whenever you work on some of these
+
+projects, you make some kind of improvement. Something just
+
+feels better about maybe handling a login or some
+
+kind of status code or something.
+
+So these improvements that we make in these individual
+
+projects, we're able to pull them back into the
+
+sprockets assets gem and then push them back out
+
+to all of our other projects. So all these
+
+other projects you see up here benefit from the
+
+PowerPoint 2013 app, and that just keep, kind of
+
+reinforces itself. Reinforcing itself.
+
+So, in a sense, the sprockets assets gem turns
+
+into this little, perfect little framework for your organization
+
+that's extracted in the right way, where it's being
+
+extracted from stuff that's actually being used and being
+
+proven as successful by customers.
+
+So, that's a pretty good overview of one of
+
+the more complex middleman deployments I would say is
+
+out there, and just managing kind of multiple projects.
+
+One of the downsides and also plus sides of
+
+middleman is that there's no out-of-the-box JavaScript MVC app
+
+solution in there. So in the case of backbone,
+
+it's up to you to organize all the assets
+
+in some way that, that makes sense. And different
+
+JavaScript frameworks have, some are more organized than others.
+
+So that's both a blessing and a curse.
+
+It worked out for us because there really wasn't
+
+a framework. We kind of came up with our
+
+own and we didn't have to deal with, with
+
+somebody else's bad framework.
+
+So, that was the overview of the highly dynamic
+
+website, which has all these static
+
+applications stashed everywhere.
+
+What about static websites? The other side of the
+
+kind of token where Rails fills the middle ground?
+
+So, we're developing a lot of content for, for
+
+our website. There's an explosion of use cases and
+
+all sorts of stuff that we have to implement.
+
+So one thing that we'll probably do on this
+
+front is extract out a content directory from Rails
+
+app. How many of you have a, in your
+
+Rails app, it starts out. You have kind of
+
+the home page, and then it turns into this
+
+directory called content, and then you have all these
+
+content pages. Maybe you end up with twenty or
+
+thirty of them one day and, before you notice
+
+this big junk drawer of content, and you have
+
+to look in your routes file and kind of
+
+make sense of all this stuff.
+
+So, in middleman, you don't, the directory structure is
+
+the routing structure. So that stuff checks out a
+
+lot nicer. And it's just much easier to handle
+
+this content. And there's also much better support in
+
+there for different things like image compression. You can
+
+png crush everything. So if you have designers building
+
+image assets and they don't understand the technicalities of
+
+making pngs much smaller, middleman can take care of
+
+that in its asset pipeline.
+
+And, of course, on a static website like that,
+
+you still have some dynamic components. You can't just
+
+throw a static website out there and just tell
+
+everybody, like, oh, no, forget about login state. There's
+
+some common things that people want to see, so
+
+you can take care of that with JavaScript, and
+
+you can run all that stuff client-side.
+
+So you can have some really lightweight JS that
+
+checks with the server. Maybe it checks for the
+
+presence of a cookie to see if, if the
+
+user's logged in or not. And then, of course,
+
+if you have a contact us form or anything
+
+like that, you would test these integration points with
+
+Rails so that whenever somebody types in stuff into
+
+a form and submits it, it hits your Rails
+
+app and hopefully it doesn't blow up.
+
+And, of course, you have other JavaScript applications, like
+
+Google Analytics, Optimize the Stripe.
+
+All these little JavaScript-y
+
+tools that you can throw in there. And, you
+
+know, it makes it a little more dynamic.
+
+So the nice thing about a static website is
+
+that you can't get taken down that easily, especially
+
+if you have this stuff up in an S3
+
+bucket or stashed in CDNs. I was at a
+
+middleman meet up about a year ago, and the
+
+folks from nest dot com were there. And they
+
+said they were using some CNS or some, some
+
+dynamic backend, and they kept being mentioned in the
+
+press. And their website kept getting really slow.
+
+So they looked at a few things and I
+
+think one option involved just throwing hardware at the
+
+problem. And they decided that wasn't sane. Let's just
+
+build a static website with middleman and push this
+
+stuff out there on a really simple server. And
+
+they no longer had any of these problems where
+
+their site would get taken down from a, an
+
+influx of, of traffic.
+
+So there's a lot of things to think about
+
+whenever you're building these middleman applications.
+
+I could probably
+
+give another two or three talks just on these
+
+items alone. If you want, ask me questions about
+
+this stuff later. But I don't have time to
+
+cover that now.
+
+And, of course, I encourage you to get out
+
+there. Build your next website with middleman, even if
+
+it's a personal website or a blog or something.
+
+Try it out. If you're working on single web
+
+page applications, you could take your handcrafted stuff and
+
+throw it into middleman and start using that. Start
+
+using the asset pipeline.
+
+A lot of these ideas that I've talked about
+
+today, and some of the things I didn't talk
+
+about, our company polleverything is
+
+actually abstracting out this
+
+framework and we're going to be releasing these bits
+
+into gitfannypack, or fannypack is gonna be the name
+
+of this, this kind of framework that uses middleman
+
+and deals with stuff like testing, binding to different
+
+environments and all that stuff.
+
+And, of course, if you want to work on
+
+this stuff every day and get paid for it,
+
+you can join at team at polleverywhere. So, that's
+
+my talk. I'm Brad Gessler. I'll be posting slides,
+
+links, and, and code, up on Twitter whenever I'm
+
+not working on these slides. Thanks.
