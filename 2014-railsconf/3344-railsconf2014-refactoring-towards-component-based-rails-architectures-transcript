@@ -1,0 +1,189 @@
+RailsConf 2014 - Refactoring Towards Component-Based Rails Architectures - Stephan Hagemann
+
+STEPHAN HAGEMANN: Thanks for coming. You came to Big Rails. If you did not intend to go to Big Rails. My wife's actually currently in a plane, and so for some reason I had to think of a plane metaphor. And her flight just got canceled.
+
+If you did not intend to go to Big Rails, which I can understand. It can be messy. Better get out now, the flight might be bumpy.
+
+So I want to talk about really large Rails apps, and my buddy Austin suggested, a couple days ago, let's use GitHub. Search for Rails. Sort by size. This is officially the biggest Rails app you've never heard of on GitHub. It's open source. It also only has eight models. Which is because they upload all their assets.
+
+It's a hundred and fifty megabytes big, and that's not the kind of big I'm talking about. I want to talk about component-based Rails architectures and why you should refactor towards them. And how to do that.
+
+Component-based Rails architectures is a term I use. I tag my Tweets about it as #cbra, and I'm the only person in the world doing it. But if you use that too, I'm certainly replying. And, here's a memo for that.
+
+If I can get one idea in straight off the bat, then it is that this is, this stuff is easy. If you can think about your application by writing, by painting boxes and drawing arrows for things that depend on each other and how they interact, then you know everything else you need to know about component-based architectures and  you just need to start doing them to what I think will be improving the quality of your application and the quality of your code.
+
+Since I called this talk refactoring towards component-based Rails architectures, this talk assumes that you all know what that is. So, no. I will actually explain what that is to you. You're not screwed if you don't know what that is.
+
+So, I started talking and actually writing applications pretty much exclusively in this kind of odd way, so, like, two, three years ago. And it, I wrote this sample app that you find at this address. I'm shageman with one n on GitHub. And there's just the_next_big_thing sample app.
+
+It does nothing. Only it shows you the structure and how to hook certain things up. And let me quickly go through what that means. So this is the root of the project. And, as you can see, it's not a Rails application. But it is. There's actually no particular prescribed way on how to do this. In many apps where I've done this, the Rails application is still at the root of the project. But in this particular one, I chose the other version, where Rails moves into a sub-folder and, as you can see here, so this looks pretty much like Rails. But it doesn't have an app folder. There, and you might be asking, is there nothing happening in this app?
+
+Well, there is. Here, we see there's, at least one thing is mounted. There is an engine that's mounted. So, Teaser::Engine. I don't know if anyone has ever downloaded that from RubyGems. Well, don't try. I don't know what that gem would be. But I didn't upload it there.
+
+Let's look at the gem file to find out what that gem is. So this is the, the only kind of trick that you need to employ when you want to write component-based architectures. And that is, you use gems as not a, not as a distribution mechanism, but just as a packaging mechanism for parts of your application.
+
+You leave them in the same source tree and you just reference them. And then you can do everything you're used to with those things.
+
+So, as you can see here, if we go to the components folder, we expect to see a teaser folder. Ah. Which we do. And there is an engine. So that's just a Rails. Ah, sorry. A RubyGem that is pimped a little bit so it has Active star. All the Actives. So Rails in it. And this, indeed, now looks like an application.
+
+If you don't know what an engine is, it's essentially Rails minus everything you need to actually get it booted. So, if we look in here, what we can see, you know, there's a routes file and this engine is doing something, right. There's. It's normal. Here we'll look in apps. So the controller. So you can see this is namespaced under the name, which is nice. But it's just, you know, your ordinary controller. But, again, everything's namespaced.
+
+There's assets in here. Yeah. This is pretty normal, standard stuff. We even have migrations down here in this engine. What else would I talk about? Well, ah, yes. Maybe the coolest part. There's specs in here. I like to use rSpec. That could be tests in here if you're doing this and liking those better.
+
+But there's, there's a spec here for this controller that I just looked at, and the cool thing about that, and I don't know how to emphasize it more than to come up to the front of the stage and say it's very important that I can run these tests, and the only thing that these tests are gonna load is the code from this engine, and not from all the other stuff in my Big Rails application.
+
+So, just by there being a spec folder in here, I have a part of which I can prove that it is small. Or, at least, as big as only this part, and not depending on anything else.
+
+I, for, what I typically do, then, to kind of bind these components together - and there's more in this folder, as you can see. There's this event counter signup and whatnot. So I write a little script here that binds all the tests. As you can see there's some request specs and some Jasmine specs, and if you look into the other folders, you find more of these test files. And then in the root. I typically put this, this build script here. And what this does is loops over all the folders and tries to find test files and runs them.
+
+So you can still run this as the app, as the specs to one application. But if you just change one part, you can just test that one part and still be sure that it works.
+
+So, now that you know what these applications are, you don't need to think about all those little things. How to hook them up. You'll find out about that when you try to do it. What's important about them is that you can now talk about your application as a sum of smaller parts. For example, the app that I just showed you is a empty Rails container that mounts an engine that uses two other engines that I didn't talk about and another gem.
+
+This is a project that it recently, it o- that was a tiny project, so this was Tiny Rails. Empty Rails container. Two engines. The one was using two gems to talk to APIs, and the other one was just straight-up, pretty much normal application.
+
+Or this site that was a travel site. It was so small, we didn't even bother to use engines. We just put a couple gems in there that were talking to APIs.
+
+This site was a bit bigger. It started out like this. We had six engines, one gem, and it ended up about like this. But this is a lie, because there were about twice as many engines, only the other ones are abstracted away for clarity in this picture. As you can see, it's a very clear picture.
+
+Now, this looks chaotic. But the fact that I can draw such a chaotic picture about your application, but if you, if you were to draw the arrows a bit straighter, you would see that the dependencies all go in one direction, and that there are parts that other parts are based upon, right. So this app is composed of parts, and it's no longer a ball of mud.
+
+The fact that you can see that this is a complicated domain is an improvement, despite this picture looking a bit weird. This picture is from Ben Smith's talk about how he architected his Big Rails app for success, which he gave at Rocky Mountain Ruby last year. And I recommend you watch that talk.
+
+So, if you're like, what? Now? Why would I do that? As I just said. Because it helps. When applications get big, I believe it's fundamentally important to be able to think about the parts of the application independently, as much as possible.
+
+There's a bunch of resources that, you know. I've given talks about this. Ben's given talks about this. There's blog posts about this. And there's, most importantly, that repository that I recommend you look at.
+
+OK. Back to Big Rails. How big? Does anyone here think they're working on a big Rails application? OK. That's about a third. So, I've, I think I've worked on a couple, but I didn't know what to show, because I work for Pivatol Labs and we consult and the code is our clients', so I can't show it here, so I won't. But I went onto this thing called Google and I searched for open source Rails apps, and there they were. So these claim to be big Rails apps.
+
+How big, I wondered. Well, if you have, currently, on your laptop, your company's code, please, execute this script and Tweet the result with a #cbra hashtag, cause this is just gonna open how many lines of code your app has.
+
+And here's the result for this list of applications. So, as you can see, they're not all simi- not all the same interpretation of big. So we're going from about 400,000 lines of code to still in the thousands. If you look at the files, same picture. Thousands of files for the biggest apps, and still hundreds for the smaller ones.
+
+I'll accept that as big. And I hope you will too. Ever wonder what happens to the complexity within a system as it grows? Something like this happens. And maybe this is bad as that, and you just can't take it anymore.
+
+When you introduce structure, you fundamentally change the game. Oh. I'm supposed to say, first, that this is because the number of interactions between the elements inside the system grows somewhat like an exponential, in an exponential function when you add new, new parts to this system.
+
+So it explodes in complexity. Well, what if you were able to split a system and use a complex web of service objects, maybe, to connect the two. But you have two smaller parts that can now, that are now isolated, in some way, what happens to the complexity?
+
+Well, turns out, it's still this, and probably still that. But only half as fast. And that's good. If you. I wish I could run up to the slide right now. But, you see that green line at the bottom? It's almost flat. Now imagine you could split it again, and again, and again, and you always stay in this flatter part, so your complexity never really explodes. You get those crazy diagrams that I was showing earlier, but your complexity doesn't explode quite as badly. You're still writing a huge app, and that's something that I'm not gonna discuss away. But you might be able to manage it better.
+
+The rich get rich and the poor get. Anyone? Children. I. This is from a song from the 1920s, and while it's funny, the, the first part of this alludes to a thing called preferential attachment. Preferential attachment is a set of processes where, when, where, god. This is so hard to say. Where, when you, where the amount of things you have, whatever that might be - the thing, or you - defines how much you will get.
+
+So, 2006, Chris Anderson I think, wrote about the long tail in, in publishing and books. And he, this, this curve became very popular. He called, I think he even called the book The Long Tail. And he was concentrated on the right side of this tail.
+
+So you have many, many small things that don't get any traction. But, you know, Netflix allows us to view all those movies that no one wants, that no one else wants to see. But there's just a very few movies at the front that everyone wants to see. The Blockbusters. And, while the long tail is very interesting, it's the ones in the front that harvest most of the benefits, well I guess in the case of movies.
+
+So, the green to the yellow relationship is about, 80% of the, the tail versus 20% is inverse in the relationship to how much they have. So it's 20/80, 80/20. 
+
+And, preferential attachment, as I said, happens when you already have a lot, so you get more. And I have seen so many code bases that I have the feeling there's something like that going on in code. So I looked at these code bases, and again, I typed in this bash script. First try of course.
+
+And I urge you to do the same. Now, you will not be able to Tweet this, because this lists all the files, all the Ruby files, in your app by size. And when you do that, that looks about like this for these applications. Now, does that not look similar?
+
+There's another way of saying this, you know, the rich get richer. There's a German proverb. I'm from Germany. Hi. That proverb is that Der Teufel scheißt immer auf den größten Haufen. Or, the Devil always shits on the biggest pile.
+
+And I think something like that is going on here. And which file might that be? So who thinks that might be a good guess as to which file that is? And, lower your, don't lower your hand, because it's probably actually yours. I said this two days ago and then the guy next to me shows me his Ruby, his user file and it's literally this long and I'm like, oh god, don't do this to me.
+
+But everyone else knows this problem. The user is around earlier. He is important to the system, so he attaches, he attracts functionality. But to the point where I would say that is a pile of shit, man.
+
+And I thought that would be something else I could find. So I looked at associations. Associations are another way of expressing dependencies. In fact, so when, I want to talk about has_manys, because I find them particularly interesting.
+
+So, you have something that has_many. User, maybe. So since I assumed it was user, I want you to read this code and, kind of reflecting on yesterday's keynote, I find this file very readable. The user has_many :cars, :flowers, :trees, :houses, :moods, :checks. Hopefully. I think we can agree that it's very readable. It makes a lot of sense and we can, we can empathize with this class.
+
+Have you ever wondered what's funny about this when you look at the table and there is no mention of :cars, :flowers, :trees, :houses, :moods, and :checks in that table at all? You don't find it funny to write that user class, but would you find it funny if I wrote a color class like that?
+
+Why do we not write that color class? Why do we always write that user class? I'll tell you why. Because users are important to us, and we always write them first, and then we attach all sorts of stuff to them that doesn't belong to them. This table clearly says what belongs to, sorry, a user. Namely, in this case, a name and a home.
+
+So I've kind of gotten the opinion that we shouldn't be using has_many too much. You can check, and I would be very interested in the results, again, so there's another gist. Please, try it out if you can.
+
+Whoops. And guess which file is on the left? Yeah. He shat on that again. The, it's the user. And it's ot always actually the user. I shouldn't be saying that. I should say, it's probably always, to some extent, the user. But what's your domain? If your domain is, I don't know, money? Houses? Properties? I don't know. It's probably that file. Whatever I just said or whatever is in your name. That's that file.
+
+And that attracts all the functionality. But the user is typically not far behind. And, because I want to. Yeah, I just. I think this is very enlightening. So, I just opened to the project I just showed you. I opened all the user files, and I'm just gonna scroll through them, K.
+
+This is not very intimidating. Eh. This is a bit better. Ooh. I'm trying to be non-discriminatory here and go the same speed all the time. Ooh. Oh. Oh you wait. Now, I have to speed up.
+
+And it's, you, this one file looks particularly bad maybe, but it's probably the case that these user files are big to the extent that their applications are big. These files just tend to do that. These models just attract that.
+
+So, what does that mean?
+
+To recap. We have things that grow, and when they grow, they get exponentially more, they get more complex. They get exponentially more complex. And then in those things, there are certain things that are, you know, that are the top of the badness scale. And, and those things that also depend on everything else in the system.
+
+I don't know. I think we can do better.
+
+We can try to reduce the size of the parts. Maybe flatten out that curve and reduce the number of dependencies in between those parts. Something that has helped me in doing that has been Solid, the five ideas, principles. Signs, truths. I don't know. No.
+
+And especially for this problem, the Single Responsibility Principle. I think if you just apply that as a rule of thumb, as a, as a starter for a conversation, it will, over time, on average, improve the quality of your code. But I think there's something funny going on when we discuss single responsibility.
+
+Oh. Yes. What's single responsibility for? To find things that don't belong. Clearly it's the cat with the green eyes.
+
+Where, where to apply Single Responsibility Principle? If you've been to any of the refactoring talks - I didn't have a chance this time - but I'm pretty sure you refactored some methods. We look at methods, we want them to be better. We make them smaller. We find what they are about and we give them one responsibility. Class. We probably did the same, right. We look at a class, we're like, oh, this does a little bit much. But then we're like, OK, ActiveRecord is cool. I'm like, allowing it to save itself and soforth. So maybe that's OK. But it still kind of should be about this one thing.
+
+Except for user.
+
+So we're, on these two levels, I think we're really good. Module, and by that I mean a namespace. If you use module as mixin, I get like that I don't want to talk about that, and that's why I continue to say namespace. Why do I think this about mixins? I should maybe explain in one sentence. If you mixin stuff into your objects, the only thing you're doing is hiding away the fact that you have more complexity than you can bear to look at on one screen, so you put it on another so you don't have to see it. I would not do that.
+
+I mean, I have done it. I have written apps like that, and now I hate myself for it. But, I want to not do it anymore. So I think we shouldn't. So I use modules a lot, but as namespaces, to group things together.
+
+I think you should do that. You know, look at modules or namespaces and, and analyze whether they have one responsibility. But have you done that lately? It's harder, right? It doesn't mean a lot. You can, it doesn't, you know, no one cares if you go across these things. You just, you can load any class anyways. 
+
+So I think we could get better at that. Let me jump a level. Application. And I think, again, you should. And the fact that we have this Big Rails track, and the fact that I'm talking about components, but pretty much everyone else is talking about SOAs, shows that we are talking about, what do applications mean? What does it mean for an application to do something? Or, yeah. To have a function in, in something bigger.
+
+So, I encourage you to go to all those tracks and make your applications better on that level as well. But I just talked to you about the component, and I think that sits in the middle. And in, in a certain way, the component is, is an improved namespace. Because of that thing I said earlier, namely, I can run tests and I can prove that those tests run without ever touching any code that is not in that namespace.
+
+So, now you can. And I urge you to do it. Because the cat picture, the discussion of what doesn't belong. If you are in your Big Rails app and you're writ- painting all those classes as boxes and the dependencies they have as arrows, first off, it's really easy to screw that up. Because there's no, you can't really prove that you're not using another class. At least not in run time with big applications.
+
+So components give you an arbitrarily scalable and provably independent way to talk about parts of your application. So I use it. Now, I said you should look at SOAs, and when, if you're considering refactoring your application to improve its quality and to make it more maintainable, I think there are a couple things you should know about or consider when deciding between the two. Right, you're kind of feeling pains right now, or you're not even yet feeling pains. Great place to be in, too. But there's a couple things that are really cool about just splitting up your application into these components.
+
+And that is, you stick with one repo. You have one test suite. But you can split it up. You have, still, one deployment. You can, however, use, like, a load balancer to push traffic to certain parts of the application to make the one faster, the other, you know, has less of a demand or, you know, you can go crazy. But you don't get these additional versioning constraints of where, like, if you, if you have this app and it needs that app and that app doesn't have the API yet, then I need to add this stuff here at the same time, and I need to deploy them at the same time. And if I didn't do that then everything goes down.
+
+You don't have that because you're still talking about one application. And also, one other thing that's very interesting to me, at least, is that, I never know which parts I need. On this crazy graph project that I just showed you, it went on for about six months. And, and there were three pairs on that. And at some point. Four pairs. And at some point, there was always one pair refactoring something. And they created, I think there were a couple weeks where they created basically a component a day. But they also removed a component.
+
+Try to do that with a SOA. Try to move that stuff around quickly. You can do a SOA, I think, when you, when you're sure you need pieces. But when you're playing around with parts of your application and you, you want to just structure it, and you want to still be able to move a part from one to the other, SOA is a bit heavy.
+
+Within a SOA, you can still think about your applications as being built of these components. There's, you know, nothing is exclusive there. Just do both.
+
+So, I've now spent about, most of my time telling you why you should refactor towards this. But I haven't done what I said in my title I would do, namely tell you how to refactor towards it. I'm sorry about that. But I gave you this idea, right. And you all believed me. This is easy.
+
+Today's day of the, International Day of the Book. I looked in these books. Refactoring to Patterns. Refactoring. Awesome books. But they don't talk about this either. And I think the reason is that this stuff is not very important in other languages. In Java, you do packages every day and you have implicit imports. In Go, you do that. Other languages do not have this problem, because other languages do not allow for this kind of freedom and openness that we've gotten because we do Ruby.
+
+So, I call these two refactorings, teasing out an app component and extracting a functional component. And the reason I don't want to spend much time on it is because it's actually very simple to do it. The devil's just in the details.
+
+And there is no book about this. But I'm trying to write one. And if you, I don't know, show, if you're interested in this, send a message there and I might be more inclined to actually sit down.
+
+All right. But to the first one - teasing out an app component. So, step zero. Got tests? If, if you don't have tests, I wouldn't move as much code as we're about to move. I mean, virtually. But, you should add some tests around the stuff that you want to extract.
+
+And then you, for the app component. So that's this teaser thing we looked at. So we're, a component of your application, where you almost thing, this could be its own application, maybe. So you look for this vertical. Views, controllers, models. You find that vertical that makes sense on its own and you namespace it.
+
+A funny thing happens when you just namespace it. Suddenly, the things in there. Well, first off, what's awful about it is you have to rename all your tables. OK. But that aside, you suddenly start seeing what's actually in your vertical and what's not. You could actually put colon colon in front of everything else that's not, and you would get a really easy view parsing or, or way of seeing in your files what's not in your vertical.
+
+Those are your external dependencies to, an external to the app. So when you do this at first, you're apps gonna be unhappy. So please make your tests green. And to do that, you will need to find other parts that you didn't know you depended upon, and you move them into what's gonna be the component. Into this vertical.
+
+And when you got this vertical green, you extract it into an engine. Extracting into an engine is rails plugin new component dash dash full, dash dash mountable. In most cases.
+
+It doesn't matter.
+
+And step three, profit. Now, most of the time, this vertical will not be as easy to find as I just pretended it would be. And that's because of, you guessed it, user. Right? The user is probably somewhere, and other things as well, are used somewhere, are needed somewhere, but don't really belong to this verticle.
+
+And what I've found is when you refactor towards this, if you abstract. If you, if you're coming from one big piece, if you want to abstract one thing, you're gonna abstract two. The one thing you wanted and the common stuff. But please do not call that stuff common, because that's just gonna be another pile of shit that you can attach stuff to. Call it something else. Call it user if you have to.
+
+So this special case is not a special case. I think this is, of course there is lots of meat in how to do this and where you get hung up on certain gem dependencies and engines not doing it exactly the way that Rails does it and blah, blah, blah. But essentially this is it.
+
+The other side to this is, is, something even more interesting. It's abstracting functional components. Now your app is round, suddenly. I don't know why. Again, got tests? Let's start there.
+
+So you find a functional component, and yes, I made that much smaller than that verticle. Because typically you find a piece that is really, really separate. A very special functionality. Maybe even something mathematically a function. In and out. Some processing. You find that and you create a gem.
+
+And you move the tests in there as well, and your gem is, when you run those tests, the gem's gonna be unhappy, because of all those dependencies that you didn't see coming. So, you take all those and you move them in. And you make your tests happy.
+
+Well, and now you require that gem in the main app, and your main app is totally unhappy. Because it doesn't know how to talk to that gem anymore. And if there were any ActiveRecord dependencies, or other dependencies on, on stuff that came from Rails, I would urge you to try and keep that out of, of these kinds of gems, because it just adds such a huge surface area and stuff that could happen, could be done and could go wrong.
+
+I, I would urge you to find these connections, these, the shims, maybe. Call them ports and adapters. And move them in the app closer to the surface area of this gem, so that you can do the processing of whatever that is there, and that talks to the gem and makes it work again. So now the app is happy. And you got this weird kind of lump on the side. But that's a good thing.
+
+In, in one of the books, actually I think it's Eric Evans, it's called Bound to Context. Now you have a thing that is only relevant for a context. But that's how you take from that, from that curve that has the huge left side. That's how you chip away at the top and put it somewhere at the end. Because this thing, in a bound context, it only has one meaning. And that's why it's gonna be smaller.
+
+So, step three. Profit.
+
+I hope that made sense. And I know. It doesn't work that easily. It's not five steps. It can take weeks. The first time we tried this, it took three attempts and four weeks in one app that we wanted to split into two. And we ended up with three, and now I think it's about ten. But, trust me, you can get there.
+
+And I kind of felt challenged by Far- by Farrah's keynote yesterday. So, I will help. If you want to attempt this, and you don't find the resources and any of those links that I gave you, Tweet at me, talk to me, send me an email. I'll respond to all of them. Maybe publicly so it helps others, too. I just think this is a great way to structure applications and to make them better, and that's why I just will help.
+
+So don't let these guys ruin your day. Make friends with the #cbra, and thanks for your attention.

@@ -1,0 +1,1018 @@
+RailsConf 2014 - Reading Code Good - Saron Yitbarek
+
+SARON YITBAREK: So, hello. My name is Saron.
+
+Thank you guys so much for coming to my talk.
+
+I'm really, really excited to be here.
+
+And as you can tell from the title of this talk,
+
+grammar is very important to me.
+
+So, before we begin, I want to start off
+
+by telling you a story. A year ago today,
+
+I was not a programmer. This is a, a
+
+really big confession that I'm sharing with you. A
+
+year ago today, I was this chick. I worked
+
+at tech startups. I did business development, sales, marketing.
+
+All of those non-technical roles. And I loved it.
+
+If you've ever worked at a tech start up,
+
+the best part is telling other people that you
+
+work at a tech start up, because they instantly
+
+think you're awesome and cool because you are.
+
+But I realized, over time, after that honeymoon phase
+
+was over, that my biggest skill, the best thing
+
+I had to offer my company, was being able
+
+to talk. And that didn't seem very valuable. And
+
+I was always surrounded by programmers. By these tech
+
+people who could build beautiful, powerful things. And so
+
+I found myself always creeping on them and looking
+
+at what they did and feeling like what they
+
+did was so much cooler and so much more
+
+interesting than anything I could ever do.
+
+So, I quit my job, I started learning how
+
+to code. I applied and got accepted to the
+
+Flat Iron school, which is a three month programming
+
+boot camp. And when we graduated, I was so
+
+excited. I could finally build stuff. I could make
+
+stuff. I was valuable. I could be a contributing
+
+member to society, as my mother tells me.
+
+And this is actually very important. One thing they
+
+don't tell you when you graduate from a programming
+
+boot camp is that you have to click your
+
+heels and hold up a keyboard, otherwise it's not
+
+official.
+
+So I was so proud. I was so excited.
+
+I learned all this stuff. I worked really, really
+
+hard. I'm apparently standing on a rock of code
+
+stuff that I conquered. But I was also painfully
+
+aware of all the other stuff left to learn.
+
+So there's the stuff I didn't know. There's the
+
+stuff I didn't know I didn't know. There was
+
+the stuff that I thought I knew, but I
+
+forgot, but I didn't know I'd forgotten it yet.
+
+So that's gonna be a nice surprise in the
+
+future. And then, by the way, all the stuff
+
+changes all the time. So welcome to programming.
+
+And I was painfully aware of how much of
+
+a novice I was. And this is the novice
+
+track, so hopefully this applies to you too. And
+
+this actually describes Dreyfus, or Dreyfus's Model of Skill
+
+Acquisition, that says that when you start at zero,
+
+when you start a new skill, you start at
+
+the novice level. You move up over time to
+
+an advanced beginner. Then you go on to confident,
+
+proficient, and hopefully an expert.
+
+And so, I don't want to be a novice.
+
+I don't think anyone here wants to be a
+
+novice. That's not fun. I want to be an
+
+expert. And I want that cape. That's who I
+
+want to be. So I started asking people and
+
+did some research on, how can I become an
+
+expert? How can I go from this poor novice
+
+person who kind of sort of thinks she knows
+
+what she's doing to, like, that cape-wearing expert. How
+
+do I do that?
+
+And the most popular answer I got was reading
+
+code. Which is both really helpful but also not
+
+very helpful. Because that leads to all these other
+
+questions, like, what code do I read? How often
+
+do I read it? And the best way to
+
+start an adventure is to start it with friends.
+
+So these are my friends. I think I drew
+
+them very flatteringly. And so these are some of
+
+my programming buddies from the Flat Iron school, and
+
+I got them together and I said, yo. If
+
+you get programming people together to start a code
+
+reading club, you have to start the conversation with
+
+yo. Otherwise it just won't work.
+
+So I said, yo, we should read code together.
+
+And so we decided that we were gonna dedicate
+
+one hour every single Sunday at 11 AM. By
+
+the way, this is a huge deal for me.
+
+I don't wake up before two on a weekend.
+
+So I'm, I'm already winning just by declaring that
+
+this might happen.
+
+And so we decided that we're gonna make this
+
+a regular thing. And we decided to call it
+
+Code Club. Because we are creative geniuses.
+
+So the first question was what code should we
+
+read? And we did some research. We asked, you
+
+know, the mentors and senior developers that we knew.
+
+We said, what would be a great starting point
+
+for a novice to start reading code? And they
+
+said, you should read anything.
+
+This is not helpful. Please do not answer in
+
+this way if someone asks you, where do you
+
+start? And so we came up with our own
+
+rules. We decided that the point of reading code
+
+was to find code that we thought was inspirational
+
+and would be great examples. So we decided that
+
+whatever we read, it was gonna be exemplary code.
+
+And we defined exemplary as having four attributes. We
+
+said that one, it had to be somewhat popular.
+
+Something that was well-used. Something that was endorsed by
+
+the, the developer community. Something that hopefully was well-documented,
+
+so that if we got stuck we wanted somewhere
+
+to go to.
+
+Third, it should be well-written, and four it should
+
+be well-maintained. So knowing that it had, you know,
+
+recent commits and people were still keeping, you know,
+
+maintaining it was really important to us.
+
+And we thought that if we did this, we
+
+studied our exemplary code and read every Sunday, we
+
+were gonna go from novice programmers to bad ass
+
+experts. So, the one suggestion that I actually did
+
+get from a much more senior person than I,
+
+said, why don't you start with Sinatra? You've done
+
+Sinatra. You know it. You're kind of familiar with
+
+it. So we said, great. We'll start with the
+
+get method, which is something that I never really
+
+understood.
+
+And so we gathered on the Google, and we
+
+got together and we said, we're gonna get through
+
+the get method. The get method in one hour?
+
+Totally doable. If you've seen the get method in
+
+Sinatra, I think it's like seven lines of code,
+
+which sounds perfectly doable. No. This is a trick.
+
+This is a huge lie.
+
+Because every single line is completely abstracted code, and
+
+you have to go through all these other files
+
+to find out what they're doing, and then they
+
+have more abstracted code. Then you go to other
+
+files, and it became just one rabbit hole after
+
+another. And we found that we really got nowhere
+
+with it. And so we went from being really
+
+excited to completely overwhelmed.
+
+So, I'm a really, really big believer in retros.
+
+I like taking the opportunity to reflect on what
+
+I just did, especially if it's something that I'm
+
+doing for the very first time. So, at the
+
+end of the very first Code Club session, we
+
+paused and we said, how was this experience, on
+
+an individual level? How did each person feel?
+
+What did we learn? And most importantly, how can
+
+we improve? The idea was to keep this going
+
+every week, so what can we do to make
+
+sure that the next time we do this, we
+
+learn a ton?
+
+And the first and most important part about the
+
+code-reading experience, is to pick a manageable code base.
+
+It was very, very disappointing, and a huge hit
+
+to our ego, to know that we couldn't even
+
+figure out a get method, that started out looking
+
+like just seven lines of code.
+
+And so, picking something that is manageable, that is
+
+digestible, that you can actually get through and understand
+
+is really, really important. This is the first guideline
+
+of having your own code club, and definitely the
+
+most important.
+
+So we decided that, for us, one hundred lines
+
+of code was the great limit. And it was
+
+a pretty arbitrary number, but it ended up being
+
+perfect. Because what happened was, in that hundred lines
+
+of code, you have just enough that you can
+
+complete a full gem or library. And that's a
+
+great accomplishment. Being able to say, hey, I read
+
+through this whole thing and I finished it? Even
+
+if you didn't understand it, you feel really good
+
+about yourself.
+
+Second, it gives you the amount of time and
+
+flexibility to stop and comfortably ask questions. So if
+
+there's something you haven't seen before, you can say,
+
+hey, can we slow down? Cause I, I don't
+
+really get this. Can someone explain it to me?
+
+And you don't feel like you're slowing anyone else
+
+down.
+
+Second, you have the opportunity to try things. One
+
+of my favorite parts about reading code is finding
+
+new methods that I haven't seen before, or maybe
+
+finding methods that I haven't seen in a long
+
+time. And so being able to stop the session
+
+and say, can we open up IRB and just
+
+play with this and see how this works is
+
+really, really valuable.
+
+And the third thing was research topics. So there
+
+were always patterns that we've seen that look kind
+
+of familiar, that we've seen in other places. Being
+
+able to stop and look things up on StackOverflow
+
+or just Google was a really great opportunity. And
+
+so with that limit, limited code base, we're able
+
+to do these things while also getting through code.
+
+Which brings me to the second really, really important
+
+part about reading code. It's not really about reading
+
+the code. Reading the code is just the starting
+
+point. All these other things that I mentioned, the
+
+parts where you kind of get off track and
+
+you kind of digress and you have conversations. Those
+
+are the things that matter. That's the real value
+
+in reading code.
+
+So, the learning happens in these digressions. In these
+
+conversations. I am very, very sensitive to getting off
+
+track and making sure that everything I do is
+
+very focused, so this is a little bit difficult
+
+for me. But over time, I got to see
+
+a lot of value in it.
+
+The third thing is that it's a team effort.
+
+Do not go at this alone. It will be
+
+very painful and you will not have a good
+
+time. So knowing that I had other people that
+
+were about my same level and that, you know,
+
+we knew what we knew and we knew what
+
+we didn't know, made it really, really easy to
+
+start on this journey and to keep going.
+
+It's really important to make sure that everyone you
+
+do this with feels comfortable enough to raise their
+
+hand and say, can we stop here? I don't
+
+quite get that. Or, I know you just said
+
+that, but can you say it a different way,
+
+because it didn't make sense to me the first
+
+time.
+
+So it's really important that everyone is comfortable, that
+
+everyone is engaged, and in order to do that,
+
+we find it very helpful to have a tour
+
+guide. So every week we trade off, and we
+
+have one person lead the conversation. This is just
+
+one person to say, hey, we're gonna start on
+
+line two. We're gonna keep going. Stephanie do you
+
+have a question? Dan, what do you think about
+
+this? Ian, have you seen this before? And having
+
+someone stop at all the right places, make sure
+
+everyone is engaged and excited is a really important
+
+part of this journey.
+
+So we found, very quickly, that finding exemplary code
+
+that's only a hundred lines is very, very difficult.
+
+I think we ran out after a couple of
+
+weeks. And so, out of necessity, we had to
+
+kind of lower our standards. We had to say,
+
+the most important part is really that we finish
+
+getting through the code base, so we're gonna, you
+
+know, not worry about whether it's well-maintained or well-written.
+
+We're just gonna find code that's a hundred lines.
+
+And this ended up being a really great thing.
+
+So one day, the very first week that we
+
+decided to lower our standards, we were looking at
+
+a method that we didn't really think was very
+
+well-written. And Dan said, this method sucks. How would
+
+we write it?
+
+And he gave us our very first point of
+
+interaction. And that's the fifth guide line, is to
+
+find these opportunities to interact with the code. Because
+
+in him asking that one question, it lead to
+
+a very interesting conversation. One, about what the intent
+
+was. What was the point of that method? What
+
+was it doing?
+
+Two, why was it written that way? Was it
+
+because the developer had a certain style? Was it
+
+because it was a fork from a different gem
+
+and they were just kind of, you know, maintaining
+
+that, that writing style stylistically? And how does it
+
+fit in to the overall design and architecture of
+
+the entire code base? Did this one stand out
+
+as being worse than the other ones? Or did
+
+it just kind of follow the general pattern?
+
+And so, these questions were awesome, because now it's
+
+not just about reading code, it's about going on
+
+a little adventure. We got to pretend that we
+
+were the developer, and we were the ones that,
+
+that were building this code and connecting what we
+
+knew, in our world and in our workplace, to
+
+this specific situation. So having that moment of interaction
+
+really changed the game for us.
+
+So, this leads to the sixth point, which is,
+
+it doesn't have to be exemplary. Actually, reading bad
+
+code is awesome. Because the fact that you get
+
+to say, as a novice, that this is bad
+
+code, and you get to, like, you know, have
+
+an opinion on someone else's work, you feel really
+
+good about that. It makes you feel fairly adequate.
+
+And so it doesn't have to be exemplary. It
+
+can be really bad, and you can learn a
+
+lot from that as well.
+
+So, everything was going swimmingly. It was going awesome.
+
+And then one day, we encountered a gem that
+
+talked about rack middleware. And in that conversation, Dan,
+
+who comes up with awesome things to say, says,
+
+guys, I don't think I really understand how rack
+
+middleware works. And we said, Dan, it's, it's obvious.
+
+This is how it works. And then we realized
+
+that none of us really knew how it worked.
+
+And in that conversation, we found a knowledge gap.
+
+We found this, this thing that we thought we
+
+understood, that at one point we did understand, but
+
+we'd just forgotten about. So the following week, instead
+
+of doing our regular code review session where we
+
+just read through the code, we, instead, took a
+
+break. We did some research on what rack middleware
+
+was, how it worked, when you'd modify it, what
+
+you do with it. We watched a few RailsCast
+
+videos, did some, you know, looked at some blog
+
+posts. And the following week, we shared that knowledge
+
+together.
+
+So we had a much higher-level conversation, but it
+
+just emphasizes the fact that it's not really about
+
+reading code. It's about reading code that's a launching
+
+point for more interesting conversation.
+
+The eighth thing is you gotta keep at it.
+
+So, I've never told my code club this, and
+
+they're gonna find out, which is awesome. But I
+
+thought it was kind of a chore. It really
+
+wasn't fun at first. It wasn't that exciting. It
+
+was something that I felt like I had to
+
+do. I don't like waking up in the morning
+
+on a Sunday. So it was really something that
+
+I had to force myself to do. But over
+
+time is when I saw the value. I was
+
+really looking forward to that first code reading session,
+
+when it ended and I said, yeah, I'm now,
+
+like, ten steps closer to being an expert.
+
+But that's not how it works. It really takes
+
+time to get the value from it. So keep
+
+at it long enough and hopefully you'll see the
+
+value as well.
+
+So everything was going swimmingly again, and then we
+
+read the omniauth-meetup gem. So right now I'm a
+
+developer for the New York tech meetup. Yes, it's
+
+a meetup group. Yes. This is a real job.
+
+And there we use the omniauth-meetup gem to authenticate
+
+our members. And this is something that was very
+
+interesting, because it was very unexpected for me.
+
+For me, I read code because I felt like
+
+that's what I had to do to be a
+
+better programmer. That's what everyone told me to do.
+
+But when I looked at a gem that I
+
+found personally interesting and personally relevant, it made the
+
+whole thing so much more exciting. Cause I use
+
+that gem. I used it all the time. I
+
+knew what it was supposed to do. I knew
+
+it wasn't, what it wasn't supposed to do, and
+
+having the opportunity to look under the hood and
+
+see how it did it got me really, really
+
+excited.
+
+And so the ninth guideline is to find interesting
+
+code bases. Things on topics or problems that maybe
+
+you've had. Things that you've worked on before. That
+
+makes it a whole lot more interesting.
+
+And then there are the unexpected benefits. Things that
+
+I really didn't consider at all. The first is
+
+that, you get to explore the organization of the
+
+code base. So we really focused on reading, literally,
+
+the lines of code. But just as interesting was
+
+the file structure, was, what are the folders called?
+
+And what are the files named? And how do
+
+we work together?
+
+And we got the opportunity to see that and
+
+get exposed to that from all different types of
+
+gems and libraries. The second was, you get to
+
+really see how collaborative code is. When you start
+
+as a programmer, people tell you that open source
+
+is amazing and this beautiful thing, where people from
+
+all over the world collaborate and build great things
+
+together. But when you actually see it for yourself
+
+and you see that that gem that you love
+
+is really just a fork from this other gem
+
+and really this gem is dependent on all these
+
+other things that you didn't think would ever have
+
+a connection, that's really powerful. And it makes the
+
+whole thing so much more beautiful.
+
+And the third, and honestly the most important one,
+
+especially as a novice, is it's a great opportunity
+
+to build your confidence. I didn't fully appreciate how
+
+intimidating it was to open up source code until
+
+I had to do it for Code Club. Cause
+
+that first day, when I said, guys we're really
+
+gonna open up this gem and try to understand
+
+what's going on. And I think it was maybe
+
+a month and a half into doing this, so
+
+it's been about, like, six code clubs at this
+
+point, or at that point, when I was at
+
+work and I wanted to know how this gem
+
+worked, I just opened it up. I didn't even
+
+think twice about it. Because by that point, it'd
+
+become such a habit. It had become so normal
+
+to look into how things worked. And having that
+
+frame of mind and that mindset is really, really
+
+important. It really makes you feel a lot more
+
+competent.
+
+So, obviously by now, I have fully convinced you
+
+that you do want to start your own code
+
+club. But you can't call it code club cause
+
+I called that. So you have to find out
+
+your own name. But I wanted to review the
+
+guidelines.
+
+So the first is, manageable code base. For us,
+
+it was a hundred lines of code. If you
+
+feel like that's too low for you, definitely raise
+
+the stakes, but I think having a limit is
+
+very important.
+
+Two. Understanding that the learning really does happen in
+
+the digressions and in the conversations.
+
+Three, that it's a team effort. Make sure you
+
+go at it with other people, and make sure
+
+that you check in and see that everyone is
+
+engaged and just as excited and hopefully you are.
+
+Four, to pick a tour guide, to take turns
+
+and have someone lead the conversations. It's also a
+
+great opportunity for people to lead and kind of
+
+feel like they're, they're taking charge as well. It's
+
+a different type of confidence booster.
+
+Five, to find those moments when you can interact
+
+with the code, where you can say, how would
+
+I do that? How do I feel about that?
+
+Even asking that question of, what do you think
+
+of this code and having an opinion is very,
+
+very powerful.
+
+Six, it doesn't have to be good. You can
+
+learn just as much from bad code as you
+
+can from good code.
+
+Seven, find those knowledge gaps and find a way
+
+to fill them. And hopefully fill them together.
+
+Finally, to, to keep at it and make sure
+
+that this is a habit, it's something you do
+
+on a weekly basis or a monthly basis.
+
+And finally to find interesting code bases. You're gonna
+
+find the experience much more enjoyable.
+
+So, the question that I had, every single week,
+
+was, how does this get me to an expert?
+
+I wanted to feel that moment where I said,
+
+yes, now I am so much closer, and I
+
+can feel myself growing and getting that cape, finally.
+
+And it didn't really happen quite that way. That
+
+transformation wasn't quite as visible and as tangible as
+
+I would have liked it to be. And so,
+
+I thought a lot about why. I thought a
+
+lot about, if I can't feel the change in
+
+a very tangible, physical way, how do I know
+
+that I'm becoming an expert?
+
+And I found this really great infographic on Twitter
+
+a couple months ago that I repurposed for my
+
+own agenda, that I think really explains the process
+
+and the result.
+
+So this is what information looks like. It looks
+
+like Skittles. And information is just all these little
+
+data points that are separate and isolated, that happen
+
+to kind of relate and, just by being in
+
+the same bucket.
+
+And then eventually, you're able to connect these little
+
+dots, and you're able to have knowledge. And knowledge
+
+is being able to tell a story. Being able
+
+to say, I can start from that yellow skittle
+
+in the corner, and if I go right, I
+
+can get to that green one, and then I
+
+go, shoom, go all the way down to orange,
+
+and then if I make a left, or, a
+
+right I'm at green. And then if I make
+
+a right again, I'm at red. And that's how
+
+I get from yellow to red.
+
+It's understanding that, that path.
+
+And then wisdom is saying, you know what, I
+
+don't need to go through all those skittles. I
+
+can just go straight from yellow to red if
+
+I make my own path. And you know, I
+
+don't even need that path to be straight. It's
+
+gonna be all straight, cause I'm a rebel.
+
+And so, this was kind of the journey of
+
+reading code together. The information and all those little
+
+data points come from all the code bases that
+
+you get to read, from all the things that
+
+you're exposed to that you've never seen before.
+
+Those points where things connect and you have knowledge
+
+and you have these stories and these paths, that
+
+comes from having really good code reading sessions. That
+
+comes from working with other people who give you
+
+their input, from asking those questions that you're gonna
+
+ask that are very insightful, and it also comes
+
+from leveraging everyone else's experiences. So when I go
+
+to work and I use a gem, I can
+
+say, hey, I've seen this before.
+
+When Dan goes to work and, and uses a
+
+specific method, he can say, I've done that before.
+
+And, in doing that, we're finding all these connections
+
+that would have been way harder to find on
+
+our own.
+
+And then, finally, we'll be able to see that,
+
+of all that noise, of all those patterns and
+
+designs and concepts and all those lines of code,
+
+the ones that we really care about are just
+
+yellow and red. And those are the ones that
+
+keep popping out, over and over again, over time.
+
+And eventually we have wisdom and we're much closer
+
+to being experts.
+
+So, these are just a handful of the code
+
+bases that we've read. If you're interested in looking
+
+at them. I think most of them are about
+
+a hundred lines. I think one or two may
+
+be a little bit bigger. But take a look,
+
+and I'd love to hear kind of your stories
+
+and see what you get from that.
+
+That is my website, bloggytoons dot com slash code-club.
+
+There's a page that has links to all of
+
+these gems and a few other ones as well.
+
+That's the end. That's my handle. I pretty much
+
+Tweet, like, mostly about programming and, like, cake. So
+
+you've been warned. But, and that's the website again.
+
+So I think that's pretty much it. Any questions?
+
