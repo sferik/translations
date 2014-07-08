@@ -1,0 +1,1164 @@
+RailsConf 2014 - Sketchnoting: Creative Notes for Technical Content - Jessica Eldredge
+
+JESSICA ELDREDGE: Hello everyone.
+
+Thank you so much for coming.
+
+My name is Jessica Eldredge.
+
+I'm a front-end developer at Shopify,
+
+and today I want to talk to you about taking notes.
+
+More specifically, I want to talk about taking
+
+awesome notes by practicing sketchnoting.
+
+How many of you guys have heard of sketchnotes
+
+before? Oh, great. So exciting.
+
+Is anyone sketchnoting right
+
+now? I love you guys. Please share afterwards. We're
+
+gonna Tweet all the photos.
+
+So if you haven't heard of sketchnoting, let me
+
+explain. I like to describe it as visual notetaking.
+
+It's the practice of combining hand-drawn elements and text
+
+to create visually-compelling notes. Are you familiar with mind
+
+maps? Show of hands? Anybody done that before? Yes?
+
+Who's used a whiteboard when designing software before? All
+
+right. See? You guys got this. You're already familiar
+
+with the concept of sketchnoting.
+
+Basically, it's the difference between notes like this and
+
+notes like this. I first started sketchnoting because of
+
+a man named Mike Rohde. He's a designer who
+
+lives in the midwest, and he coined the term
+
+sketchnoting. I was preparing to go to South by
+
+Southwest one year, and I was searching the internet
+
+for photos, trying to get an idea of what
+
+I was getting myself into, and I stumbled across
+
+his notes.
+
+And he's been doing this for a long time.
+
+At least since 2008. And, you know, he does
+
+it when travels, when he goes to conferences, meetings.
+
+And I just went into this rabbithole of looking
+
+at his wonderful notes and I thought, you know,
+
+I think I can do this. Or I at
+
+least want to give it a try. And so
+
+I started practicing. I did it at that South
+
+by that I attended and local meetups and, and
+
+meetings at work and I totally fell in love.
+
+So I was going back through the archives, preparing
+
+for this talk, trying to find some of my
+
+first sketchnotes, and these are my very first sketchnotes.
+
+And it's probably kind of hard to read, but
+
+the first speaker I saw was actually DHH. I
+
+had no idea who he was back then. I
+
+was like, what is this? Thirty-seven signals? I don't
+
+know.
+
+My sketchnotes have changed a lot since then. Get
+
+ready for some eye candy.
+
+These are some notes by Paul Soupiset. He's one
+
+of my favorites. I really love his handwriting. Veronica
+
+Erb likes to incorporate illustrations into her notes. She's
+
+got a really playful style. Sacha Chua. She's from
+
+Toronto. She goes to a lot of technical talks.
+
+Captures a lot of content in her notes. And
+
+she actually uses a tablet PC and a stylus.
+
+I like that there's a lot of dense content
+
+here, but you can still kind of tell what's
+
+going on, cause she's highlighted the key points.
+
+You can also use an iPad. There's various apps
+
+on the iPad. You use a stylus to take
+
+notes, like Daniel Kirsch. Super condensed, simplified. I love
+
+the pops of color. You can still get the
+
+point across.
+
+So there's a couple different ways that you can
+
+take notes. There's live and there's later. Live sketchnoting
+
+involves taking the notes at the same time that
+
+the presentation is happening. You're doing it in the
+
+moment. Later sketchnoting is kind of where you might
+
+be able to jot down some bullet points, maybe
+
+using your computer, maybe on another piece of paper,
+
+and you go back to your sketchbook later and
+
+draw them out.
+
+I prefer to do live sketchnoting, because I'm a
+
+developer. I like to keep things DRY. I don't
+
+want to repeat myself. When the talk is done,
+
+my notes are done. I can immediately share them
+
+and I can move on and enjoy the next
+
+talk. So for the rest of this talk, the
+
+techniques I'm gonna talk about mostly refer to live
+
+sketchnoting.
+
+So why do we want to sketchnote? Firstly, I
+
+think there's inspiration in analog processes. Taking yourselves out
+
+of your computer. We're all developers, we spend a
+
+lot of time on our gadgets and our devices.
+
+But spending some time with just good old pen
+
+and paper allows for a change of perspective. You
+
+get outside of your comfort zone and you start
+
+seeing things in a different way.
+
+Hopefully, while slowing down, you can clarify some ideas
+
+that you already have and maybe come up with
+
+some new ones. Some famous sketchers that didn't do
+
+it for a living include DaVinci, Kurt Vonnegut, Darwin,
+
+and Freud. All of those people are amazing. We
+
+know what they've done. They used sketching to help
+
+clarify their ideas.
+
+Sketchnoting also allows you to focus. How many of
+
+you guys have been in a meeting with your
+
+computer and you just check email real quick or
+
+maybe somebody IMs you cause there's a bug on
+
+production and you gotta fix it like right now?
+
+Basically, the computer is a rabbit hole of distractions.
+
+So, when I sketchnote, I try to put things
+
+away. I keep my phone out in case I
+
+need to look up words that I'm not familiar
+
+with, but all I have is my sketchbook and
+
+my pen and I'm listening to the content. You
+
+know, once you're on the computer, there's just way
+
+too much stuff that can come up and I
+
+really like stepping away from that.
+
+Sketchnoting also helps to improve your memory. There's this
+
+concept called the Duel Coding Theory which is proposed
+
+by Allen Pyvo. It's saying that we process information
+
+in two different ways. Using verbal and visual information.
+
+And if you utilize both of them, you have
+
+a better chance of remembering the content later.
+
+So, sketchnoting, you can use visual elements and you're
+
+using your handwriting and later you'll hopefully have an
+
+even better chance of remembering the content that you're
+
+trying to capture.
+
+So all of that stuff I just told you
+
+is what you're gonna tell your boss to prove
+
+that you're not doodling in the meetings. The real
+
+reason to sketchnote is that it's just fun. I
+
+love talking about it. People love looking at notes.
+
+I like looking at my notes. I think it's
+
+a really great practice, and really I just don't
+
+need an excuse. I try to find out a
+
+way that I can do it whenever I can.
+
+So let's get to the good stuff. Like you're,
+
+maybe you're thinking, Jess, I can't draw. I hear
+
+this all the time, and it's the reason why
+
+I'm giving my talk today. And I'm gonna debunk
+
+this in one slide. So what do you see
+
+up here? We've got some shapes. If you can
+
+draw any of these shapes, then you can sketchnote.
+
+If you can't draw these shapes, please come find
+
+me. We will pair. I am willing to take
+
+the time to practice with you and we can
+
+get this done.
+
+Using these shapes, and practicing, is how you're gonna
+
+sketchnote. You use lines, arrows, to connect ideas. Use
+
+the boxes and the clouds to add emphasis. Those
+
+shapes also form the basis, if you want to
+
+like, go and do some illustrations or icons, these
+
+are all the fundamental building blocks that you need.
+
+You're also gonna need some other tools. This is
+
+what I like to call my sketchnoting config file.
+
+I prefer to use a plain sketchbook. I use
+
+moleskin. Something with heavy paper. I'm a very hamfisted
+
+drawer and, you know, I write really heavy, so
+
+I don't want it to bleed.
+
+I use a uniball pen for most of the
+
+writing. It's very smooth. Something like a roller ball.
+
+I know people that like gel pens. There's a
+
+couple of other art pens in there that I
+
+use for bolder notes. And I've been using a
+
+FaverCastle artist's pen for shading.
+
+So, kind of pick what works for you. A
+
+lot of people like to start out with grid
+
+paper, too, because if you feel like you can't
+
+write in straight line, then the grid lines kind
+
+of help you keep everything in place.
+
+And, obviously, like I talked earlier about some of
+
+the electronic devices that you can use. So if,
+
+you know, it makes you feel better to use
+
+an iPad, then, you know, absolutely go for it.
+
+So here are some sketchnotes of mine where you
+
+can see some of those building blocks being used.
+
+We've got a cloud and some arrows and lines
+
+and boxes. That's pretty much all you need.
+
+So here's the good part, right. How do you
+
+actually do this? And for this I'm gonna turn
+
+to one of my favorite poets, Mary Oliver, who
+
+wrote in "Sometimes," "Instructions for living a life: Pay
+
+attention. Be astonished. Tell about it."
+
+When I was reading this poem again really recently,
+
+I thought, these are really good advice for sketchnoting,
+
+as well. So how do we pay attention?
+
+The very first thing I want to tell people
+
+about sketchnoting is that it's not about drawing, it's
+
+about listening. It requires active listening to really focus
+
+on what the speaker's talking about. Sketchnoting helps you
+
+focus on the important parts of a presentation.
+
+Listening is different than thinking. Sometimes a speaker might
+
+be talking about something controversial, maybe other ideas come
+
+up in your head while they're, while they're speaking.
+
+You don't want to let your emotional reactions get
+
+in the way of capturing content.
+
+So if you disagree or maybe, I mean, you
+
+might think of something else, or, you know, oh
+
+I wish he'd said this, like. Eh. You don't
+
+want to let that get in the way. You
+
+really want to focus on what the speaker is
+
+saying, and then let the emotion come later.
+
+I also advise to follow the speaker and not
+
+the slides. We live in an age where most
+
+speakers are gracious enough to share their slides on
+
+the internet with us later, so you can kind
+
+of get that content if you need to later,
+
+most of the time. The good stuff's not gonna
+
+be on the slides, though. The good stuff is
+
+gonna be with the speaker. You have one moment
+
+to be in the presentation with them and to
+
+really hear what they're saying.
+
+If you know a speakers' style, it's a little
+
+bit easier to plan your notes. I've been going
+
+to enough tech conferences that I kind of get
+
+an idea ahead of time. DHH is gonna be
+
+super colorful and crazy and controversial. Aaron Patterson loves
+
+to tell a story, there's like, cool jokes in
+
+there. Glenn Vanderberg. Great storyteller. Very linear format. So,
+
+as you practice, you'll kind of get an idea
+
+for that.
+
+I would follow the speaker's body language. Their speech
+
+patterns. Maybe they like to take dramatic pauses. It's
+
+a time for you to slow down, also, and
+
+pay attention to what they're saying.
+
+So how do you listen for key points? This
+
+is pretty hard. It's, you know, requires some multi-tasking.
+
+Firstly, I would avoid summarizing everything. I think when
+
+you first start sketching, it's really tempting to try
+
+to get everything on paper. You don't want to
+
+miss stuff. But you kinda gotta let that go.
+
+The talk title is the first clue to what
+
+the important content is gonna be. But it's not
+
+always, you know, accurate. Sometimes the speaker's gonna be
+
+really cool and nice and tell you ahead of
+
+time what they're gonna cover. You know, the opening
+
+slide, and say, I've got three things that I'm
+
+gonna go over today. But you're not always gonna
+
+be able to rely on that.
+
+So one thing I like to tell people is,
+
+if you had your phone out and you weren't
+
+taking sketchnotes right now, what would you Tweet about?
+
+So anything that you listen to that you're like,
+
+man, that's really awesome, that's what you want to
+
+get down in your sketchnotes.
+
+So we're in a technical conference. I'm talking to
+
+developers who want to do this. There's gonna be
+
+a lot of demos and live coding, and my
+
+advice to you is don't sketch it. I tried
+
+to do it once. It's really hard. I tried
+
+to actually, you know, sketch code samples. It's, it's
+
+really hard. It's also gonna look kind of boring
+
+cause it's code.
+
+If you do want to sketchnote during a demo,
+
+though, I think there's still some tips you can,
+
+you can follow. You want to listen for gems
+
+of advice. Usually there's a reason why somebody's demoing.
+
+They want to show you that something's better than
+
+something else or, you know, kind of go through
+
+a problem-solving exercise. Maybe there's code libraries, gems, plugins,
+
+that are mentioned during a talk that you've never
+
+heard of before. I usually like to jot those
+
+down to go look up later.
+
+A lot of times, pros and cons. You know,
+
+obviously, if somebody's showing off something that they did,
+
+they might say this is better than this other
+
+way. Those are things that you might want to
+
+capture as well.
+
+It's virtually impossible to write as fast as somebody
+
+can speak. So sometimes you need a back-up plan.
+
+I like to carry around some scratch paper. I
+
+advise using post-its to just kind of like jot
+
+down ideas real quick, in case you can't keep
+
+up with the speaker's speech. There's usually also lulls
+
+between the main ideas. People pausing between all of
+
+their main points. That's also a good time to
+
+kind of go back and fill in, if you
+
+missed something earlier.
+
+You can also use post-its to hold on to
+
+a note or an idea while you're waiting for
+
+the connection. Sometimes they'll bring up the problem and
+
+talk about the solution later, and you want to
+
+just, like, hold onto that thought.
+
+Also, sometimes, I mean, you might not want to
+
+commit an idea right away. Like, maybe something better
+
+is gonna come up next, so you can use
+
+the post-it to sort of be a placeholder and
+
+a backup plan in case that following idea doesn't
+
+pan out for you.
+
+It's also important to be astonished. You might want
+
+to share your notes with the world and show
+
+them to other people, but ultimately your notes are
+
+for you. You want to capture what stands out
+
+to you in the moment and not worry about
+
+what anybody else thinks.
+
+Also feel free to fill-in gaps and add your
+
+own sort of notes on the side. I used
+
+to be really worried about capturing what a speaker
+
+said extremely accurately and I didn't want to misrepresent
+
+what they said in a talk, and I learned
+
+to sort of let that go, because I need
+
+to remember what they were saying. I need to
+
+interpret what they were saying. So sometimes, you know,
+
+I'll write something off to the side just to,
+
+you know, add in and enhance what they're saying
+
+so I can remember later.
+
+It's, it's all about listening to what's being said
+
+and interpreting it in your own way, cause you
+
+want to remember what happened in the presentation. It's
+
+really interesting to see that a bunch of people
+
+can attend the same talk and come out of
+
+it with different things.
+
+These are some sketchnotes by Carolyn Sewell at Brooklyn
+
+Beta. She went to a talk by Tim O'Reilly.
+
+I went to that same talk and these are
+
+my notes. So vastly different styles.
+
+Other fun things to capture include jokes and quotes
+
+and f-bombs. If the speaker's funny, capturing a joke
+
+is a great way to enhance your notes. Like,
+
+I mean, it's what everybody remembers. It's gonna make
+
+you laugh when you go back and look at
+
+your notes later. Cuss words usually used for emphasis,
+
+which means that it's something important. If you want
+
+great colorful notes, I advise going back and looking
+
+all of DHH's talks in the past.
+
+I also listen for quotable moments. Any time a
+
+speaker makes a dramatic pause. Maybe they've repeated a
+
+phrase over and over again. Listening for metaphors and
+
+similes - that's a great chance for you to
+
+kind of visualize something. The speaker's doing it for
+
+you. They're giving you a hint. This is like
+
+this. And if you can come up with an
+
+image that captures that, that's a good way to
+
+enhance your notes as well.
+
+So, speaking of f-bombs, these are some notes by
+
+Erin Hawkins. This talk looks like it was really
+
+fun to go to.
+
+Another thing you can do is create your own
+
+visual language. And that means kind of coming up
+
+with a style or some sort of cue that
+
+helps you remember certain things in, in a talk.
+
+So what's an example of a visual language? Maybe
+
+if you're trying to take direct quotes from a
+
+speaker you can use quote marks. Speech bubbles for
+
+direct quotes. Question bubbles for maybe something, a question
+
+you asked yourself and you want to look up
+
+later. Like, an eye in a circle for info
+
+or tips. I read on a blog somewhere that
+
+this girl likes to put titles of books inside
+
+a picture of a book, so she knows when
+
+she scans through her notes if she wants to
+
+go buy a book later, she can find it
+
+very quickly.
+
+So here's some examples of Eva-Lotta Lamm's notes, and
+
+she's using little highlighted quotes everywhere. It's an easy
+
+way to pick out the speaker's direct, direct quotations.
+
+And sometimes, you're gonna listen to a talk, and
+
+the content's still not gonna stick, is not gonna
+
+stick. And there's always a backup plan for that
+
+too. I went to this keynote. It was way
+
+over my head. You know. Sometimes you just gotta
+
+be in the moment and you can't get it
+
+on paper.
+
+So, the last step is to tell people about
+
+it. I really think it's important to share your
+
+notes. I think it's a great way to continue
+
+the dialogue after a conversation. I use Twitter as
+
+the, as the main avenue for my notes. I
+
+always use the conference hash tag and at mention
+
+the speaker.
+
+You can also upload to places like Flicker or
+
+Instagram or Dribble. There's a blog called sketchnote army
+
+which is run by Mike Rhody. He takes submissions.
+
+You can just Tweet at him. You can email
+
+him. But he's also got a comittee of people
+
+that go around the internet looking for sketchnotes, whether
+
+it's on Flicker or Twitter, and then he features
+
+them on his blog. And, and it's really a
+
+nice way to, you know, share with people, but
+
+also, like, thank the speaker.
+
+Speaking of thanking the speaker, they're gonna be really
+
+grateful if you share your notes. I didn't actually
+
+realize that this was a thing until about last
+
+year when I was, like, really getting going with
+
+this. And people were Tweeting back at me, like,
+
+thank you so much, this is amazing. And it's,
+
+it's kind of weird that I didn't think that
+
+it was something that other people would care about.
+
+But it's nice to have an artifact of your
+
+talk when you leave. It's also nice that people
+
+are talking about your talk after you leave. You
+
+kind of want that, so sketchnotes are a good
+
+way to, I think, thank the speaker and prove
+
+that you were there and you really listened and,
+
+like, captured the information.
+
+A lot of times in your sketchnotes, you'll realize
+
+that you capture information that the speaker didn't even
+
+intend. They didn't think it was that important and
+
+then, you know, here you're getting feedback from people
+
+saying, no, this was really cool.
+
+Your boss will also be impressed. I think. No
+
+one else in your meeting is probably gonna be
+
+taking sketchnotes. You know, you're gonna capture different ideas,
+
+and it's a good way to enhance, like, team
+
+dialogue, when you're like, sketching out ideas or thinking
+
+about, like, really hard problems. Sketchnotes will add, like,
+
+a diversity to the conversation.
+
+So this isn't all. There are some actual practical
+
+tips that I can pass on to you. The
+
+first one is to get comfortable. I always go
+
+to a meeting or a talk early to find
+
+a good seat. The aisle is great for elbow
+
+room. It's not so great for people flowing into
+
+the room and you constantly have to get up
+
+and interrupted. So I actually recommend a middle seat.
+
+I also try to tell people to find a
+
+good light source. They'll dim the lights in a
+
+lot of conferences, so you want to try to
+
+find some way that you can look at your
+
+sketch book.
+
+I'm also that jerk that will put my purse
+
+on the seat next to me so I have
+
+some room. I'm sorry Marty. I mean. You know,
+
+it's really hard when you're squished in and people
+
+are sitting next to you and typing on their
+
+laptops. You know, sometimes it's nice to have a
+
+little bit of elbow room.
+
+I think also getting to a talk early means
+
+that you can write down the speaker's name, their
+
+Twitter handle, the title. Get that stuff out of
+
+the way so that you're ready to go when
+
+they start.
+
+It's also important to slow down. When I did
+
+a practice run of this talk at Shopify, some
+
+people came up to me and said, well my
+
+hand handwriting's really bad. So what do I do
+
+about that? And I advised this person to slow
+
+down and write your letters as if you're drawing
+
+them. When you slow down, you have to be
+
+deliberate about it.
+
+Also, trying to draw larger letters will force you
+
+to slow down, and I think make you really
+
+pay attention to your writing. When, if you're doing
+
+your normal handwriting it's easy to just go really
+
+fast and it, you know, turns out a little
+
+bit sloppy. So if you slow down, I think
+
+it really helps.
+
+Also, try to play with layouts. You know, normally
+
+when we're writing just regular notes on pen and
+
+paper, we're going top down. I think, kind of
+
+stepping outside of your comfort zone and trying something
+
+different will really help. There's different ways to do
+
+that. I tend to do sort of a popcorn
+
+style, where I just fill in notes anywhere there's
+
+space on my page.
+
+People can also do columns. It's really great for
+
+panels. You can do a radial style, where maybe
+
+you start in the middle and sort of map
+
+out, kind of like mind maps. There's also sort
+
+of the winding story lane sort of style. You
+
+can go left to right, left to right.
+
+But, basically it's important to try to challenge yourself
+
+and do something different. So these are some examples
+
+from Veronica Erb, again, doing sort of a radial
+
+style. You can see like the title up at
+
+the top and she's sort of going out.
+
+And the decoration last. This is gonna be really
+
+tempting, too, when you're sketchnoting. You want to make
+
+it look really pretty and you're trying to capture
+
+everything. But I said before, you know, there's always
+
+these moments in the talk where people are pausing
+
+or maybe transitioning or maybe the speaker's kind of
+
+boring for a little while. And you can use
+
+that time to sort of add all those boxes
+
+and arrows and shading that you weren't able to
+
+capture earlier.
+
+And you can also use your post-its, again, to
+
+keep that backlog and sort of, you know, help
+
+you pace yourself if you can't fill up the
+
+space. I like to go back after the talk,
+
+as well, just really quickly, before I share, just
+
+to sort of add some more detail and boldness
+
+if I'm, like, reflecting on the talk and sort
+
+of realizing that something was extra important, I'll try
+
+to go back and, and add some embellishment.
+
+It's also important to embrace mistakes. Especially if you're
+
+live sketchnoting, it's gonna happen. There's no way to
+
+get around it. It can be really scary to,
+
+to use a pen and paper. You might want
+
+to use pencil but I really encourage you to
+
+just go ahead and use pen. I bring a
+
+bold marker just in case I need to fix
+
+something really crazy. But be OK with scratching out
+
+a word. If you didn't spell it right the
+
+first time or if it was wrong, it's, it's
+
+totally OK.
+
+So here are some notes that I took and
+
+there's like smudges and this word right here, that
+
+was the first time I spelled entrepreneurs wrong. I
+
+tried again. I still spelled it wrong. Like, so
+
+it's gonna happen. Like.
+
+As with anything, practice makes better. There's some ways
+
+you can do that. I advice people to start
+
+out with already recorded conference talks, like TED talks.
+
+Do it in your meetings at work. Even reality
+
+TV. I have sketchnoted Real Housewives before. It's really
+
+fun.
+
+Watching videos at home on your own takes the
+
+pressure off of live sketchnoting a little bit. You've
+
+got a pause button. You can sort of figure
+
+out your pace. As you practice, you'll also get
+
+a really good sense of how much information you
+
+can capture in a given amount of time.
+
+I used to take up two pages for every
+
+single talk no matter how long the content was.
+
+I have no gotten everything down to a page,
+
+like, whether it's an hour and a half talk
+
+or a thirty minute talk. And so as you
+
+practice you'll sort of find, you know, your own
+
+style.
+
+Here are some of my notes. Name the movie.
+
+So some notes by MJ Valente. She was sketchnoting
+
+a BBC episode.
+
+Get inspired. When we all started out developing, what
+
+did we do? We just copied other peoples' code
+
+and then we tried to make it better. And
+
+I advise doing the same thing for sketchnoting. I,
+
+when I first started, just went on the internet,
+
+just through Flicker everyday looking for other peoples' styles
+
+that I liked, and I tried to just copy
+
+it.
+
+As you become more comfortable, you'll find your own
+
+style. But it's OK, because even if you're trying
+
+to copy somebody else's style, it's never gonna look
+
+exactly like theirs. So it's always gonna be your
+
+own.
+
+Some good resources for that include Sketchnote Army, like
+
+I said before. There is a hash tag on
+
+flicker and there's various user groups on Flicker devoted
+
+just to sketchnoting. I actually found a bunch of
+
+boards on Pinterest, so that's another great resource.
+
+So experimentation is how you're gonna find your own
+
+style. And what I advise doing is start with
+
+the copying, and then copy another persons' style and
+
+then copy another persons' style and start mixing and
+
+matching, and you'll sort of find your happy place.
+
+I mean, I spent a lot of time trying
+
+to, to match Paul Soupiset's handwriting. I've never gotten
+
+it quite right.
+
+But I've taken elements of what all of my
+
+favorite sketchnoters do and tried to add them to
+
+my own.
+
+Mike Rohde wrote a book that covers a lot
+
+more than what I was able to tell you
+
+today. This book is amazing. It's actually got some
+
+really great hands on exercises that you can do.
+
+I highly recommend it.
+
+So at the end of this talk, I've sat
+
+here and I've told you all about how to
+
+do this, and you're like, Jess, I still can't
+
+draw. You haven't told me how to draw. But
+
+that's OK. Cause you can sketchnote. So please go
+
+do that.
+
+OK. So the question was this talk focused on
+
+sketchnoting for yourself, and is there any advice for
+
+communicating with other people?
+
+Yeah. I mean, I think, like, I, I mentioned
+
+different ways or, different places that you can sketchnote.
+
+I sketchnote in my meetings at work. I don't
+
+do a great job of sharing them with everyone.
+
+Nick, I'll do that next week. It is, I
+
+think that is a good way. Sharing them actually
+
+helps other people, too.
+
+You'll find, in meetings, there's not actually a lot
+
+of people that take notes. I mean, it's kind
+
+of surprising sometimes. We all think we're gonna remember
+
+when we walk away. So if you're the one
+
+that sketchnotes and you know you find it fun
+
+and other people find it fun, sharing it right
+
+afterwards is actually really, really helpful.
+
+We've done a lot of whiteboarding sessions, you know,
+
+people take pictures with their cameras to capture that.
+
+Your sketchnotes add another layer to that conversation. And
+
+so I think just bringing all of that together
+
+helps, you know, sort of document what happened so
+
+people can remember.
+
+Does that answer your question?
+
+Thank you very much.
+
