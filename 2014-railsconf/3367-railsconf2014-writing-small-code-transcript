@@ -1,0 +1,255 @@
+RailsConf 2014 - Write Small Code - Mark Menard
+
+MARK MENARD: So, many thanks to the organizers here at RailsConf. This is my first time talking at RailsConf. It's, frankly, kind of intimidating to be up here and see so many people out there.
+
+My name is Mark Menard. I'm gonna be talking about small code today. And I've got a lot of code. About seventy-nine slides. A hundred and thirty-seven transitions. Not quite as much as Sandi had, but it's a lot to get through. So let's get going.
+
+So, I'm just gonna let this quote up there sink in.
+
+So. All of us have that file filled with code that you just don't want to open. As you heard earlier, maybe it's your User class. That class that has comments like, woe to ye who edit here. The problem with this code is that it does live forever. It encapsulates business logic that ends up getting duplicated elsewhere, cause no one wants to go in there and look at that code. It's also very hard to understand.
+
+I'm gonna be talking about ways to avoid this situation. I'm gonna be talking about code. Code at the class level and the method level. Having small code at the class and method level is fundamental to being able to create systems that are composed, composed of small, understandable parts.
+
+I'm gonna lay out a few base concepts so that we can start with a clean sheet and on the same page. I think there's a lot of problems with what people conceive of as small or well-designed code.
+
+It's not about the actual amount of code you write, but how the code is organized and the size of the units of code. Fundamentally, writing small code is really design discipline, because the only way you can write small code is use good design and refactoring.
+
+Design and refactoring the way we write small code. You can't just sit down and write small code, perfectly well-designed code on the first draft. It doesn't work that way. It's iterative process.
+
+So what do I mean by small? It's not about total line count. Well-designed code will typically have more lines of code than bad code. Just the overhead of declaring methods and classes is gonna increase your line count.
+
+It's not about method count. Well-factored code's gonna have more, smaller methods. It's not about class count. Well-designed code is almost definitely going to have more classes than what I call undesigned code.
+
+Although I've seen some cases of over-abstraction, I find that's pretty rare unless someone goes pattern crazy. So small code is definitely not about decreasing the number of classes in your system. It's about well-designed, it's about well-designed classes that aren't poorly designed.
+
+So what do I mean by small? Small methods, small classes. Small methods are the foundation of writing small code. Without the ability to decompose large methods into small methods, we cannot write small code. And without small methods, we can't raise the level of abstraction.
+
+To write small code, we have to be able to decompose large classes into smaller classes, and abstract responsibilities out of them and separate them on higher-level, and base them on higher-level abstractions.
+
+It's important that our classes are small, because small classes are what lead to reusability and composability.
+
+So, why should we strive for small code? Why is it important?
+
+We don't know what the future is going to bring. Your software requirements are going to change. Software must be amenable to change. Any system of software that's going to have a long, successful life, is going to change significantly. Small code is simply easier to work with than large, complex code. If the requirements of your software are never gonna change, you can ignore everything that I have to say here. But I doubt that that's the case.
+
+We should write small code because it helps us raise the level of abstraction in our code. It's one of the most important things we do to create readable, understandable code. All good design is really driving toward expressing ubiquitous language of our problem domain in our code.
+
+The combination of small methods and small classes is going to help us raise that level of abstraction and express those higher-level domain concepts.
+
+We should also write small code so we can effectively use composition. Small classes and small methods compose together well. As we compose instances of small objects together, our systems will become message-based. In order to build systems that are message-based, we have to use delegation. And small, composable parts. Small code makes small composable parts. It's gonna help our software have flexibility and lead to a suppleness over time, and allow us to follow those messages. And eventually we're gonna see, find our duck types.
+
+And all this is about enabling future change. And accommodate the future requirements without a forklift replacement.
+
+So the goal: small units of understandable code that are amenable to change.
+
+Our primary tools are extract method and extract class. Longer methods are harder to understand than short methods. And most of the time, we can shorten a method simply by using the abstract method refactoring. I use this thing all the time when I'm coding.
+
+And once we have a set of methods that are coherent around a concept, then we can look to abstract those into a separate class and move the methods to that new class.
+
+So, I'm gonna be using the example of a command line option parser that handles booleans to start with, and then we're gonna see where the future takes us.
+
+So, with the command line, I want to be able to run some Ruby program dash v. And handle boolean options. That's where we're gonna start.
+
+In my Ruby program, I want to define what options I'm looking for, using this simple DSL. And then I want to be able to consume it like this. If options.has and then a particular option, I do something.
+
+Putting it all together. The DSL, the program at the top, the DSL, and then how we actually consume that options object. Pretty simple.
+
+Here's my spec. It's pretty simple. It's true if the option is defined and it's present on the command line. And it's false if it's not.
+
+So I run my specs and I get two failures. Yes, I used TDD. So, here's my implementation that fits on one slide. Pretty simply, I store the defined options in an array, and I store the arguments, the argv for later reference. Then I have a has method that checks to see if the option is defined. If it's present in the argv.
+
+And then I've got my option method, which implements my simple DSL. Nice and readable. Fits on one slide. Probably very comprehendable.
+
+So I run my tests. Zero failures. They pass. I'm done. I get to go home until the future comes along. And my workmate comes along and says, hey, I really like that library. But, could we handle string options?
+
+Sounds pretty simple. Pretty straightforward. So I think about that, and I come up with a small extension to the DSL, to just pass a second argument as an option with a symbol representation of the option type. String, in this case.
+
+I also default to being a boolean so I don't have to change the code that other people have done.
+
+So, a string option. It's a little different than a boolean. It actually requires content. So now I need the concept of validation. If the string option is missing the content, it's not valid. There's no string there.
+
+So, then I'm gonna normalize how I get the values out of both those string options and those boolean options. You know, that value. This is gonna change the API, but sometimes you actually need to break the API to enable the future.
+
+And I'm doing it pretty early. I've only got one guy in my office using the library at the moment. So, again, putting it all together. I can pass the options on the command line. I define the options with the DSL, and here's how I use my valid? and my value methods to find out, get, find out if it's valued and get my values out.
+
+So, now here's the class that implements it. Again, on one slide. Probably not as readable. Probably not as comprehensible. We're going down what I call kind of the undesigned path. It's not too big. Thirty-one lines. But it's got issues.
+
+It's got a method that's definitely large. One that's looking on the verge of being large. It's got, for only handling booleans and strings, it has quite a bit of, of conditional complexity in it already. And as we're soon gonna see, it's not very amenable to change.
+
+So we'll look at the pieces and how they work, just so yo understand it.
+
+That's my initialize method. It creates a hash to store the options. Because we have to store the type now, not just that we have an option. It's either boolean or string. And the rest of the initialization is the same as it was before.
+
+And the valid method, we gotta iterate over the options, looking to see which ones are strings. So we're doing checking on type here. And, and trying to see whether they're present and they actually have content.
+
+Currently, string options are the only ones that need to validate. Boolean options, there's nothing really to validate. Either it's there or it's not. No validation. But strings, we have to.
+
+And the value method, it does a lot of stuff. Let's just pretend for a moment this method is a black box. We're gonna come back to it later. Cause this is, by far, the worst code in this current example.
+
+But, everything is spec'd. And all my specs are green.
+
+So let's talk about methods. Cause we've got some big ones and we need to clean them up. I call it the first rule of method, of methods. Do one thing. Do it well. Do only one thing.
+
+Harkens back to that Unix philosophy of tools that you string together with standard in, standard out. But how do we determine if a method is actually only doing one thing? This is where your level of abstraction and the abstract, abstractions in your code come into play. And you need to develop a feel for this over time. That you want one level of abstraction per method.
+
+If all of our statements are the same level of abstraction, and they're coherent around a purpose, then I consider that to be doing one thing. Doesn't mean it has to be one line in a method.
+
+I can't tell you how many times I've looked at code and seen a comment on a method that was, like, an excellent description of what the method did, and if you just took those words, bound together, they'd make a fantastic method name. But yet the method is named something else that isn't that descriptive. So use descriptive names. It's really critical.
+
+And the fewer arguments, the better. My personal goal is zero arguments on methods. One is OK. Two or three. That's when I start to think I've probably missed an abstraction in my code and I should go back and look at it.
+
+Separate queries from commands. If you query something and it looks like a query method and it changes the state of your object, it's hard to reason about, and people who consume your library will be confused by that. So separate those.
+
+And, don't repeat yourself. I know Sandi talked about this earlier, and it does take some judgment to know when it is time to remove the repetition. But you don't want to leave repetition over the long term, because it will come back to bite you.
+
+So, let's look at our methods. We've got repetition here. Both valid? and value are digging through the argv array to find the options from the command line. This is the perfect candidate for an extract method, abstraction. Refactoring.
+
+We have magic constants scattered around, and those are a strong indication that we've missed something. An abstraction. We're violating some other rules. It's hard to say either of these methods is really doing one thing.
+
+The code is definitely not at the same level of abstraction. Values digging, valid? is digging into the argv array and value is figuring out different divergent types and how to return their values. So we're gonna eliminate some of the repetition with the extract method refactoring.
+
+The extract method refactoring entails moving a part of a method into a new method, with a descriptive name, that's the naming part. And then calling the new method.
+
+This, this refactoring helps us keep the level of abstraction consistent in the method we're abstracting from. Here we have one expression on a method that's a high level of abstraction, and two statements that are a low level of abstraction. So we move the less abstract code to a new method with a descriptive name, and then we call the new method.
+
+And this results in the old method, method having a consistent level of abstraction. So back to our CommandLineOptions class, both valid? and value are digging through the argv collection to find the option value. So we're gonna abstract that code and get the raw value out of argv.
+
+Then we call the method from where the original logic was abstracted. Pretty simple. But now the code left behind in valid? and value says what I want. Not how to do it.
+
+The how has been moved to the abstracted method, raising the level of abstraction just a little bit in valid? and value.
+
+I'm going to do two more abstractions. I've abstracted the string option value method and the abstract content method. The naming of the abstracted methods is very important. They say what they do.
+
+But overall, I'm not happy with this code. It is more explanatory, but it's fairly complex and hard to understand. It's also not as small as it could be. The methods are large because I missed an abstraction. And we're gonna go find that now.
+
+I'm referencing the option type symbol to see if it's a string, which, that's a big smell. Then there are the magic constants used to dig into the argv element to find the constant within that particular string, the substring. If I was confident that I'd have no future added requirements for this class, I might leave this alone. It works. It's tested.
+
+Until my buddy comes to me and says, hey, I really like that library, but could we handle integers now?
+
+I could keep driving down this undesigned path I've been following, and complicate the valid? and value methods by switching on the type of the option and digging into those argv elements to find the value. But, this is our chance to make a break. And make our code more amenable to change.
+
+But, to illustrate the point, I'm gonna show you that undesign method, to show you the OO design actually matters. So we're gonna look at this.
+
+This is the undesigned, non OO version of this code. Is it horrible? I'll leave that to you to decide. Is it small? In my opinion, definitely not. It is not small, by any measure. The class is growing due to changes in specification. The valid? and value methods are being changed in lock step. That's a sure sign we've missed an abstraction or a duck type. And those methods are getting big and complicated. And now they're doing even more things.
+
+And we're just doing booleans, strings, and integers. Not that much.
+
+The code has tests. They all pass. That's good. But it's not satisfying. We've got those large methods and complex conditional logic. It's time to refactor now. To make the change easy.
+
+And now we've got the tests that are back, so we can do it without fear.
+
+And, I want to call your attention to a pattern that clearly emerges when we go down the non OO path here. We see checking the option type and divergent behavior based on the type. Don't reinvent the type system. If you have ducks, let them quack.
+
+In this example, the option types of boolean, string, and integer, those are our ducks. And I'll bet there's ducks in your code yearning to be free.
+
+And just a further confirmation that we're dealing with an abstraction or a duck, we see the testing option type again in the value method. Hidden inside the valid? and value method, there's a case statement here. It just didn't evolve that way as I was writing the code.
+
+I'm gonna show you that. You're gonna see that it's really clear now.
+
+Now it should be really obvious what the duck type is. If you have case statements like this in your code, you've missed an abstraction. Here, again, we clearly see the duck type.
+
+Now, I would guess, if I was writing this, as soon as I had the string type, I would have gone down the OO path. I just wanted to illustrate to you what an undesigned, non OO mess you can get yourself into if you keep riding the horse until it's dead.
+
+My dad had a saying hanging on his wall in his office. When the horse is dead, get off.
+
+But sometimes we don't realize the horse is dead and we just keep trying to go. Now it's time to take a fresh look at this. So, since class is the fundamental organizational unit we have to work with, it's time to work at what constitutes a good class. Which principles are gonna lead us to be able to write small classes.
+
+So, how do we write small classes? To make small classes, I think, and this is not just my opinion. It's a lot of peoples' opinion. The most important thing we should assure is that our class has one responsibility. And that it has small methods.
+
+All the properties of a class should be cohesive to the abstraction that the class is modeling. If you have properties that you only use in one or two methods, that's probably something else that shouldn't be in there.
+
+Finding a good name for a class will also help us keep it focused on a single responsibility. I sometimes talk to the class. Have you ever heard the concept of talking to the rubber duck? Or just explaining your problem to someone? They don't even have to respond, and it helps you figure it out.
+
+Sometimes I just ask my class, hey class, what do you do? And if it comes out with a long list, you've got a problem.
+
+So, the main tools we're gonna use to create new classes from existing code, not from scratch, but from existing code, is the extract class and move method refactorings, which we're gonna go through here.
+
+So, those characteristics of well-designed class. Single responsibility. Cohesive around a set of properties. Additionally, it has a small public interface that, preferably, handles a handful of methods at the most. That it implements a single use-case, if possible, and that the primary logic is expressed in a composed method.
+
+That last one, I'm not gonna be covering the composed method. That's a whole nother talk. But you should check that practice out. It can really clarify code and make it much, much more understandable.
+
+So, let's look at the code we should have been driving towards as soon as the string option type showed up. We're gonna imagine right now that we have a string sheet, and we can write CommandLineOptions the way we would have with the knowledge that we have now.
+
+That needs to support boolean, string, and integer options. And remember, we have our tests at our back, making sure that we don't break anything.
+
+And, here was my first take at it on what I'd write. The class is twenty-eight lines long. It is cohesive around the properties. When we're done, most of the methods are gonna deal with the, the hash of options and the array of args. It has a single primary responsibility. Manage a collection of option objects.
+
+So now we've introduced a collaborator. It also manufactures the option objects, which I could abstract to another class. But for the moment, I'm gonna leave it. If I find it hurts in the future, then I'll change it. That's my general rule. My guideline. Is I refactor when it hurts. When making a change hurts, that's the time to refactor.
+
+My CommandLineOptions class has a small public interface. Just two methods, valid? and value. And it has no hard-coded external dependencies yet. I could mess that up and introduce those, but we're gonna avoid that.
+
+Another interesting characteristic is that, is that there are no conditional statements in this class, and we're gonna keep it that way. In Sandi Metz's 2009 Gerupo?? talk, on the Solid Principles, she said something along the lines of, a conditional in an OO language is a smell.
+
+And that's a really powerful statement. I don't think Sandi's saying that we can't use conditionals in our code, but that we use conditionals to hide abstractions. To hide our ducks.
+
+The first time I saw that talk, I don't even know if I heard her say it. It was when I went back and rewatched it. I thought, really? Then, as the years have gone on and I've been working, I've gotten to the point where I agree with her.
+
+If you have a lot of conditionals in a class, you have probably missed a concept that should be abstracted out of it.
+
+So the initialize and option method from our previous implementation carry over unchanged. Except that we're gonna store the options in a hash instead of just the type.
+
+My valid? method now simply asks all the options if they're valid, and the value method simply looks up the option hash and asks it for its value. So, now we need to build the options. We have to implement this. And this is where we're gonna instantiate the objects that represent the boolean, string, and integer options.
+
+So, now we have the CommandLineOption class, we need collaborators. In order to get anything done, CommandLineOption needs option classes to manage. It's gonna have those objects. So this is creating a dependency. And if we're gonna create a dependency in our code, we can do it in a way that's amenable to change, or we can do it in a way that's gonna make it hurt in the future.
+
+You don't want to depend, or, excuse me, you want to depend on abstractions, ot concretions. Depend on the duck type, not the concrete type. In our case, depend on the concept, the concept of an option. Not on the concrete types that implement that abstraction.
+
+In our case, option is the duck type. This is the abstraction that I missed earlier, when I just kept going down the conditional logic path.
+
+It's really simple. It has a valid? method and a value method. String option, integer option, and boolean option, those are the concrete implementation of the option abstraction. All they need is a valid? and a value method, and a consistent method of construction, and I can depend on the abstraction, not on the concretions.
+
+So, how do I do that? I could go down the case statement road again and check the option type, instantiating the correct type of the option based upon the symbol. But I'm not gonna do that, cause that would tie CommandLineClass to those concrete types, which is what we're trying to avoid.
+
+That creates a hard dependency between CommandLineOptions class and those various classes. Instead, I'm gonna use the dynamic capabilities of Ruby to instantiate those objects for us using naming conventions. For string, we're going to have a string option. For booleans, boolean option. Et cetera.
+
+I could do this even in many static languages. So this isn't something that's specific to Ruby. And this is a very. This very simple change takes out CommandLineOption class from depending on those concrete implementations and flips it to depending on the abstraction.
+
+This is dependency inversion from the Solid Principles, in practice. Alternately, some other people have suggested, you could use a hash and map from the string, boolean, and integer symbols to the concrete classes, kind of like what Sandi did in her Gilded Rose Coda?? solution earlier.
+
+That's OK. But, it is an additional thing that I have to maintain over time. It's a reason to open the CommandLineOptions and change it if I have to add a new type of option. If using the dynamic ability of Ruby bothers you, then make a hash. Personally, I'm fine with using the dynamic capabilities of my language.
+
+So, in my case, I've inoculated CommandLineOptions class from needing to change to support new option types. And at this point, this class should be closed for modification, but open for extension.
+
+So, now we need to move the logic for the various option types to the appropriate option classes. I decided to make a base class of option for my concrete types to inherit from, because the manner of initialization needs to be the same for all of them. No sense of repeating that code.
+
+And the subtypes have a cohesion around the flag attribute, and the wrong, excuse me, the flag and the raw value properties that in the code.
+
+Here's the boolean option. This one I just wrote because the requirements are so simple. Booleans are always valid, and they just return the raw_value from the command line. If it's present, it's truthy. If it's nil it's falsey. Very simple.
+
+But now we need to implement string option and integer option. And the logic for their validation and value extraction is in the old CommandLineOptions class. So, on the left are the original CommandLineOptions' valid? and value methods. On the right are those new string option and integer option classes.
+
+As you can see, the process of creating the option class was simply picking apart and disassembling the old command line option class. Moving the logic to where it belongs, using a combination of extract class and move method refactorings, we've really cleaned up the command option, CommandLineOptions.
+
+Frankly, there's not much code left there anymore. So, now we can replace that nasty, hard to understand valid? method with this. And the large value method with this.
+
+To create the specs for the various option classes, I moved the corresponding section from the CommandLineOptions spec to the corresponding area for the particular type of option, and then lightly reworked them and then I worked them from red to green, as I went through the process of extracting those classes and moving the code to those methods.
+
+We've isolated abstractions here. And how do we do that? We separate the what from the how, like we've done in CommandLineOptions. We want to move from code that looks like this to code that looks like this.
+
+The original CommandLineOptions' valid? method contained all of the how. The refactored valid? method says what we want done for us. That's it. All of the how has moved to the collaborators of our main class, in this case, StringOption, boolean option, and IntegerOption.
+
+We want to move from that looks like this to code that looks like this. Move the nitty gritty details of your code out to the leaves of your system. And let the center be a coordinator.
+
+So, when we're done with this, this is what our CommandLineOptions class looks like. These are our public methods. It provides a very small surface. And it fulfills the use case. And these are the private implementation cruft. It's necessary, but no one really needs to go poking around in here, and I've made it obvious by declaring these methods private.
+
+They're for me. Not for you.
+
+So in the end, the sum total of the implementation of the public interface, and it's all delegated. All delegated.
+
+So in the process of making the specs pass, I commented out that dreamed up code as I went through the process, and then one by one I wrote the examples and uncommented the code and made them pass, working from red to green.
+
+Then, because nothing is ever really done, my buddy says, hey. Any chance you could add the ability for me to pass an array of values for an option?
+
+So, to implement this new requirement, I only need the new array option class. So I write a spec example. Make it fail. Then create the ArrayOption class, and I'm done. And this particular example, my OptionClass is inheriting from the OptionWithContent superclass. And, cause I actually went through this and realized that strings, integers, and arrays all have content, so I abstracted that superclass and, in this case, all I have to do is write the value method of that particular type and I'm done.
+
+And it works.
+
+So, we now have a CommandLineOption class that's closed for modification, but open for extension. I could all float types, decimal types, other types of options, and I don't have to go back and touch that class again.
+
+We have small, easy to understand option classes that have a single responsibility. Oops, excuse me.
+
+We can. So, we have a easy to understand option classes that have a single responsibility, and easy to compose together with that CommandLineOption class. And we can simply create new option types and have them instantiated by convention.
+
+My name is Mark Menard. My company's Enable Labs. We do full lifecycle business productivity and sass app development, from napkin to production, as I say. And, I'm gonna be around the conference, so let's get together and talk about some code.
+
+And we can do some questions.

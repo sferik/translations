@@ -14,6 +14,8 @@ Supercharge Your Workers with Storm - https://www.youtube.com/watch?v=qjZnezdSKn
 
 Biggish Data With Rails and Postgresql - https://www.youtube.com/watch?v=40xq1jXM7GY
 
+Sketchnoting: Creative Notes for Technical Content - https://www.youtube.com/watch?v=VJq-5EHN7J4
+
 Deploying With Rails is Easier than it Looks - https://www.youtube.com/watch?v=hTofBnxyBUU
 
 Middleman: the Missing View in the Rails API Stack - https://www.youtube.com/watch?v=-q_oUyEHiEw
