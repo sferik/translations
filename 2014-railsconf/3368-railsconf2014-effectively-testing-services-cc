@@ -1,0 +1,1012 @@
+RailsConf 2014 - Effectively Testing Services - Neal Kemp
+
+NEAL KEMP: Hi RailsConf.
+
+Today we're going to be talking about
+
+testing your services.
+
+But before we get into that,
+
+I want to introduce myself.
+
+My name's Neal. I'm originally from Iowa,
+
+so I feel at home here in the Midwest.
+
+Now I live in California, in LA specifically,
+
+and I'm a software developer and
+
+independent consultant who does Rails,
+
+JavaScript, HTML, CSS.
+
+Basically if you name an acronym
+
+I've probably coded in it at some point.
+
+So, today's talk is going to be the what,
+
+the why, and the how of testing your services.
+
+This is not a talk about building testable services.
+
+I could do an entire talk about that on
+
+its own. It's also not necessarily a talk about
+
+test-driven development. While I'm a practitioner, I don't think
+
+that the principles applied here correspond directly to test-driven
+
+or not test-driven development.
+
+[laughter]
+
+So. Got that one. Good.
+
+So first we're gonna talk about the what. So,
+
+we have to ask ourselves, what is a service.
+
+So I break it down into two main categories.
+
+First of all we have external services, like the
+
+Twitter API, Facebook's API, or Amazon Web Services. And
+
+the other category is internal software-oriented architecture, a buzz
+
+word we all know and love.
+
+So, basically for the purpose of this talk, it
+
+means anytime you're making an HTTP request to an
+
+endpoint in another repository. So, basically any network request
+
+you're making outside of your application.
+
+So now we're gonna talk about. Cause we need
+
+some justification before we go ahead and test all
+
+of our services without question. So, first we have
+
+to ask ourselves, why are services themselves important? I
+
+think a lot of these are pretty self-evident. It
+
+allows us to build things faster. It allows us
+
+to scale more easily. And we use them on
+
+basically every application. I don't think I can personally
+
+think of an app I've built in the past
+
+few years that hasn't glued on multiple services.
+
+And I'm also noticing that we're using more and
+
+more services for every application. So I would argue
+
+that services are critical to modern Rails development. So
+
+we have to ask ourselves then, why is testing
+
+those services important? Well, first of all, you should
+
+be testing everything else, so why would it be
+
+different for services? And services often compose critical features
+
+of your application. For example, a stripe integration. If
+
+your billing's down, you're gonna have a lot of
+
+issues. You know, if you have an API request
+
+to S3, you're not gonna be able to serve
+
+images, if that's down.
+
+And you might also encounter problems with these APIs.
+
+I know I sure have. Basically, any time I've
+
+worked with an API there's been some unexpected results.
+
+So the first example I'm gonna take you through
+
+is, you know, an internal API built by consultants
+
+in another part of the company. So this is
+
+the software-oriented architecture we're talking about. And they were
+
+exposing this API for our Rails app to consume,
+
+but we had issues all along the way, and
+
+it served to increase the project length significantly. Sometimes
+
+we'd have random null responses when we were supposed
+
+to get objects. There is random inconsistencies where we'd
+
+get weird symbols being printed out and different formatting.
+
+And in general it was a catastrophe.
+
+So it definitely lengthened the time to completion. And
+
+this was a lot due to a failure on
+
+our part to, you know, test the API thoroughly.
+
+So we couldn't express to them, you know, the
+
+problems we were having until we put it into
+
+production. So this is one problem that could have
+
+been solved by testing first.
+
+So, now we're gonna talk about a few problems
+
+I've had with external APIs. And I'm sure all
+
+of you have encountered similar issues with APIs in
+
+the past.
+
+So do we have any NHL fans in the,
+
+in the house here? Yeah? Chicago Black Hawks. Doing
+
+pretty well in the play-offs so far. We'll see
+
+how they go. I mean, obviously they're gonna get
+
+crushed by the Kings in a few rounds here,
+
+or the Sharks, possibly. But we'll see. I don't
+
+want to start a sports rivalry today.
+
+So you know, this basically ranged from small annoyances
+
+to, you know, major issues with this API. So
+
+we'd have annoyances like this, where some responses would
+
+come back with an id for the team, and
+
+others would come back with a code. And in
+
+this case, both of them refer to Anaheim. So
+
+this is a minor annoyance. You can code around
+
+that.
+
+Here, we have an undocumented bug, where basically the
+
+goals were all supposed to be as a part
+
+of an array, but if you only had one
+
+goal, it would be an object. And sadly we
+
+discovered this one in production, during a game. So
+
+that wasn't ideal.
+
+But, worst of all, after we had gone through
+
+all of the trouble of fixing these, we realized
+
+that there was no versioning on this API. So,
+
+even if we fixed it, we might be fixing
+
+it again a week later. So this is basically
+
+what it felt like to work with their API.
+
+So, another project I worked on, this is just
+
+kind of a fun side project, was a Snapchat
+
+API Client, so I could, you know, work with
+
+the Snapchat private API. And, well, one of these
+
+examples is extreme, in that there is haphazard documentation,
+
+or no documentation, in this case. I think we've
+
+all worked with APIs that have improper documentation.
+
+But in this case we didn't even know what
+
+the requests were, so we had to figure that
+
+out. There's also bizarre obfuscation implanted inside of the
+
+app itself that basically encrypted, on their iPhone, so
+
+people like me couldn't go in and build things
+
+like this. And there's a GitHub link if you're
+
+curious.
+
+So, now that we've talked a little bit about
+
+why it's important and outlined some of the problems
+
+you might encounter, we're gonna talk about how you're
+
+actually going to test these.
+
+So first we need to ask ourselves, what is
+
+different about services than regular code that we're testing?
+
+Well, first of all, we have external network requests
+
+that are being made, and second of all, you
+
+don't own the code, so you can't really do
+
+unit testing on it. It all has to be
+
+done from integration test perspective.
+
+So, what I propose for your tests, in general,
+
+is that you turn Airplane Mode on. This, I
+
+find, is the best way to think about your
+
+tests, because, first of all, failure is really bad
+
+in testing, and you shouldn't be making any, any
+
+network requests.
+
+So I think of this kind of in two
+
+ways. First of all, so it's Airplane Mode in
+
+the test mode so you can't do these things.
+
+But also it should be a test that you
+
+can run on an airplane. Basically meaning that if
+
+you're, you know, on a long trans-Atlantic flight or
+
+in the RailsConf lobby, you can still make your
+
+tests and, and they won't fail because of network
+
+issues.
+
+So this means you should not interact with your
+
+services from your testing environment. And we have a
+
+few caveats which I'll get into now. So, this
+
+includes dummy APIs. So there's some API makers that
+
+have their real API, and then they have a
+
+fake API which you can hit with requests, but
+
+it doesn't make any changes to your data.
+
+So you can't hit those, because those are somewhere
+
+else on the network. But I do allow you
+
+to make pre-recorded responses to those end points, and
+
+that means you can record them within your test
+
+suite, which we'll get into in a bit more
+
+detail later.
+
+So, for these examples, I'm going to be assuming
+
+that you're using Rails, obviously, and that you're using
+
+rspec for simplicities sake. So, it's time to stub
+
+out these requests.
+
+So, when you're stubbing an object, you're basically -
+
+for those who don't know - it's basically putting
+
+like a fake object in front of that object,
+
+so you're hitting that object instead of hitting the
+
+real one and, you know, saving time with, like
+
+setup processes and stuff like that. And we're doing
+
+a similar thing when you're stubbing a request to
+
+an endpoint, except we're saving a lot more time
+
+when we're doing so, because we don't have to
+
+make that additional network request.
+
+So there's some libraries that include built-in stubbing. So
+
+Typhoeus, if I pronounced that correctly, Faraday and Excon
+
+are three examples of pretty widely-used HTTP libraries built
+
+on top of net HTTP, I think, that have
+
+built-in stubbing functionality.
+
+But we can simplify this a little bit and
+
+use something called webmock, which I'm sure many of
+
+you have worked with in the past, which is
+
+a general purpose stubbing library for your test suite,
+
+so you don't have to learn each individual library's
+
+stubbing methods.
+
+So I'll take you through a quick example. Here
+
+is basic spec_helper. Nothing really interesting about this, except
+
+you have to include disable_net_connect! at the bottom. The
+
+rest is boilerplate. So I've highlighted that. And, obviously,
+
+with all of these examples, you should be putting
+
+the gem in your gem file and bundle installing
+
+before you start.
+
+So, when you put this in your code for
+
+the first time, you'll get a really great error
+
+with this, and I really like getting these errors,
+
+because it tells me exactly, in my code, where
+
+I'm making network requests. So if you're not already
+
+doing airplane mode tests, you should just plug this
+
+disable_net_connect! in, and then you'll get this error, which
+
+will tell you where you're making these network requests.
+
+And it also is really handy, and it gives
+
+you, actually, the request you're making at the bottom.
+
+So you can copy and paste that into your
+
+test in order to stub it automatically. And obviously
+
+you'll have to collect the body and the headers
+
+yourself, if you need to use those as well.
+
+So, for the following examples, we're gonna use probably
+
+the most, sorry, most simple FacebookWrapper ever invented. Basically,
+
+all we're doing here is sending a GET request
+
+to Facebook graph, the public API, for a user.
+
+And what this does is it just returns, like,
+
+very basic Facebook information about you. It has your
+
+Facebook username, your name, and an id and a
+
+few other fields.
+
+And then what we're doing with user_id up at
+
+the top is we are just pulling out the
+
+value for key_id. So this, all it does is
+
+return your Facebook id. Super, super simple. And make
+
+sure, since we're putting it in lib, that you
+
+require it at some point in your loading.
+
+So now we're gonna look at a test for
+
+this. So this is a test where we're not
+
+making a network request, but we're stubbing it out
+
+with webmock. So, at the bottom, you can see
+
+we're doing our testing case, and we're setting up
+
+an expectation that our user_id is equal to Arjun's
+
+user_id. And I'm using Arjun because he was the
+
+maker of the Facebook graph API wrapper.
+
+And, you can see, now, above, we are stubbing
+
+the request, just like you'd stub an object. We're
+
+stubbing the method of the HTTP request and then
+
+we're send, putting the link as the second argument.
+
+Next, we have to set up what it returns,
+
+and this is just an HTTP response that we're
+
+returning. So we want to put a status.
+
+You can set headers, which I generally don't do,
+
+but if you're doing any operations with the headers,
+
+you should definitely set up these in your responses.
+
+And the body, we have a really simple JSON
+
+string. I've cut out a few fields for brevity.
+
+But you can see it has an id, a
+
+first_name, and a username.
+
+So, this test will pass, and we're also making
+
+no net requests, work requests. So, the reasons it's
+
+better is it, first of all, it's faster, and
+
+we also aren't getting this intermittent failure that we
+
+were talking about earlier from the network request.
+
+So, that's a good general way, but there's ways
+
+we can also save time with this. So a
+
+lot of the really popular libraries for API wrappers
+
+also include mock-services within themselves or as an additional
+
+library on the side, and they use that for,
+
+you know, internal testing with their gems. So I
+
+recommend, if, if you can find one, to use
+
+this before you can go and use webmock, because
+
+it'll save you a lot of time.
+
+And I'll take you through a quick example. So
+
+we're gonna use Facebook graph mock here. And all
+
+we are doing is putting it into spec_helper. We're
+
+just including the methods and requiring it. Pretty straightforward.
+
+And now we're gonna look at a spec.
+
+So, basically, all we're doing is we're wrapping the
+
+test case within a wrapper that mocks out the
+
+request. So basically, all this one's doing is saying
+
+we're sending a git request to Facebook graph back
+
+slash Arjun, and then the third argument, in this
+
+case, is users/arjun_public, which is where the JSON file
+
+of this response is located in the gem.
+
+So, you can also specify your own responses, and
+
+I'd recommend you do that, because I found, actually,
+
+some issues with the Facebook graph mock mocking, like,
+
+responses, have some outdatedness in them.
+
+So, but this, you know, example, I'm not gonna
+
+take you through all of the gems that have
+
+this. But this can go to show that there
+
+are some benefits that you get from using this.
+
+It's already stubbed for you. You don't have to
+
+learn the API endpoints in order to use it,
+
+and some of these provide prerecorded responses for your
+
+use, so you don't have to go out and
+
+collect these. So it's just a good way of
+
+saving time, if you're using some popular libraries.
+
+Next, I'm going to take you through sham_rack, which
+
+is one of my more favorite ways of doing
+
+this. I kind of find this to be a
+
+fun way. Basically what sham_rock does, sorry, sham_rack does
+
+is it allows you to mount rack-based apps, which
+
+include Rails and Sinatra and others, and it allows
+
+you to make requests against these fake apps.
+
+So, in this case, we're going to get a
+
+little help from Sinatra in order to stub out
+
+these endpoints. So, spec_helper, the only thing interesting is
+
+that we leave in web-mock. Pretty boring there. But
+
+then we get to our fake. So I usually
+
+just put this spec/support and then fake whatever it
+
+is, in this case fake_facebook.
+
+And this just means it'll be loaded when you
+
+run your specs automatically. But it won't be, obviously,
+
+loaded into your production or staging environments, or development.
+
+So, in this case, at the top we can
+
+see, we're calling sham_rack, and we're setting up the
+
+endpoint which we're hitting against, which in this case
+
+is graph dot facebook dot com. And 433 is
+
+just specifying that we're using the HTTPS SSL link,
+
+and dot Sinatra just means we're going to be
+
+passing it in a Sinatra app.
+
+So, basically, contained within this block is a Sinatra
+
+app, and you can do virtually anything you can
+
+do with a regular Sinatra app, which is really
+
+cool. So you can just, you're just basically mounting
+
+this and testing against it.
+
+So, for those of you who don't use Sinatra
+
+very much, all we're doing here is specifying with
+
+the GET keyword that we're making a GET request
+
+to back slash something, and just like Rails, when
+
+you rake routes you'll see the parametrization of things
+
+with a colon before it. We're doing the exact
+
+same thing here with username.
+
+So, you'll see, in the middle, in the link
+
+we interpolate params username, and that's how you pull
+
+that out. So this is essentially just returning a
+
+string that is this response. You can obviously spice
+
+this up by setting status codes, adding conditionals in
+
+here if you need some more dynamic power, and
+
+also setting up the headers. And you can also,
+
+which I sometimes do this in my testing, is
+
+back it with like a small yml database, so
+
+you can get some more realistic data than just
+
+a simple string.
+
+So, that's the response. And. Now, when we're writing
+
+our spec for sham_rack, all we're doing is keeping
+
+it on this base level. We don't have to
+
+wrap it with anything, because it will automatically, in
+
+your tests, pick up the fact that you have
+
+sham_rack mounted, and it will automatically hit against that
+
+endpoint rather than hitting against the network.
+
+So, you might ask, why is this better? I
+
+think there are a few reasons. First, I find
+
+it more dynamic. I find it more expressive as
+
+well, and you can really add, you know, as
+
+much functionality you need to test your integrations as
+
+you want. And you can also back it with
+
+yml if you need, you know, some pre-population of,
+
+you know, real data. And it's also more readable.
+
+Let's go back to this for a second. And,
+
+you can see, like, reading through this is a
+
+lot easier to parse through, and you know where
+
+the API requests are being made to, versus the
+
+stubbing we showed in the first example, with web-mock,
+
+is a little bit hard to read. So that's
+
+why I prefer to use this.
+
+So next, we're going to talk about vcr, which
+
+is a pretty widely-used gem. And this one has
+
+some other benefits that I think are really important
+
+to use. Basically it prerecords your responses, and we'll
+
+take you through an example.
+
+So, spec_helper. The only thing interesting here. We have
+
+the vcr configuration block, and all we're doing is
+
+setting a cassette library. So that's basically where these
+
+responses will be saved. And then we're hooking into
+
+web-mock, because that's the stubbing library we're using.
+
+So, here's a spec. And as you can see,
+
+it's really, really similar to the Facebook graph mock.
+
+So basically what this does is, you're wrapping it
+
+in a block with vcr. So vcr, what it
+
+does, is it goes out to the network and
+
+makes the request for you, in your testing environment,
+
+and it pulls that response back and saves it,
+
+in this case, at Facebook user_arjun.
+
+And the nice thing about this is you don't
+
+have to go out and collect your own responses,
+
+which I find to be pretty tedious and also
+
+error prone. But, it also means you don't have
+
+to break airplane mode with your tests, because you
+
+can run this before, and you can cache all
+
+of the JSON responses and play them back in
+
+your build. So when you're running it on Travis
+
+EI or Circle or whatever you happen to use,
+
+you're not gonna break your build because of network
+
+failure. You're going to be using these cached responses.
+
+And that also just allows you to verify the
+
+responses. So, like I mentioned, it's a little error
+
+prone. I've tried collecting these responses on my own
+
+and, you know, sometimes I copy and paste them
+
+wrong and come up with an issue. So this
+
+kind of allows you to, like, have a nice
+
+programatic way of pulling those in.
+
+So, there's also an additional build process you can
+
+add. So, for the NHL example I talked about,
+
+the problem was there was no versioning. So what
+
+you can do is, if you want bonus points,
+
+and you are really dependent on an API that
+
+doesn't have versioning, you can do some kind of
+
+build process or, you know, test setup, where you're
+
+basically running it outside of your normal test mode,
+
+and you check the casettes for diffs, and verify
+
+that the responses are not changed from before. So
+
+this can help you avoid versioning issues. So I
+
+recommend that if you're using something like NHL API.
+
+So, the next one we're gonna briefly talk about
+
+is puffing-billy. And, aside from having a really cool
+
+name and a nice logo on their GitHub, this
+
+is an interesting gem to use. We're not gonna
+
+use an example here, but basically what it is
+
+is for in-browser requests. So basically if you're having
+
+integrations that are browser-based, you can record and reuse.
+
+Just like vcr, and use those responses again.
+
+So, I don't want you guys to think that
+
+all of this has to be done in Ruby,
+
+and that you have to use vcr to first
+
+record your responses. There's a lot of tools out
+
+there that will help you to collect these responses,
+
+test API endpoints faster, and I want to share
+
+some of those with you.
+
+So, Chrome Dev Tools. Has anyone heard of this
+
+in here? Yeah. Probably, probably all of you. But
+
+this is the first one I'm mentioning because I
+
+use it, probably every day. Obviously it gives you
+
+a really nice way of viewing responses and requests
+
+and resending them. So super useful. I'm not gonna
+
+get too far in-depth in that one because I'm
+
+assuming most people have worked with it. But it
+
+doesn't hurt to mention.
+
+So next, Postman. If you want to stay within
+
+Chrome. This is an extension you can use. And
+
+it basically gives you a user interface around running
+
+these requests so that you can have kind of
+
+an easier way to play with re, requests and
+
+responses. And it allows you save them. It gives
+
+you, you know, a time in milliseconds of completion.
+
+And this one I think is, I was working
+
+on a Tinder API Client for fun, so. That's
+
+what these requests are for. So, that one's actually
+
+up on my GitHub, too, if you're curious.
+
+So, I use that a lot. But if you
+
+like to stay command line based, I would recommend
+
+HTTPie. It's basically an easier-to-use version of curl, and
+
+it doesn't have, like, quite the archaic syntax curl
+
+has. So, I think it's, you know, worthy. Worthy
+
+of use. And, you know, it'd be easier, obviously,
+
+you know, to run a script around this than
+
+it would be to run it around Postman. So
+
+if you need to do something more programatic, this
+
+is probably your best option.
+
+And, one last tool I really like to use
+
+is called Charles. And Charles does a lot of
+
+the same things as Chrome Dev Tools does, but
+
+it acts as a proxy. So it basically captures,
+
+you know, requests between you and your network. So
+
+you can set this up to capture any request
+
+from your Mac machine, or you can proxy in
+
+your phone as well. So I found this really
+
+valuable when I was testing out the request from
+
+the Snapchat client, because it allowed me to see
+
+what my phone was making for requests and record
+
+those. And especially when we didn't know what the
+
+request was, it was very helpful in that case.
+
+And it's also cool because, you know, when you're
+
+building an API on Ruby and you want to
+
+build on iOS client with it, and you're not
+
+really sure how often to pull and stuff, I
+
+sometimes pull this up, and I'll just see what
+
+other apps are doing. So it's a good way
+
+of debugging other peoples work and, you know, seeing
+
+how they're doing it well. So, I highly recommend
+
+you check it out. It's pretty easy to use,
+
+and you can use it with SSL requests as
+
+well.
+
+So, here's some additional reading. I know you won't
+
+have time to write this all down. I'll post
+
+the slides on my Twitter. But, next up, let's
+
+bring it all together.
+
+So, we went over the what, the why, and
+
+the how of testing services. So, we've shown that
+
+testing services is crucial. They make up really important
+
+parts of your app, so skipping tests is pretty
+
+dangerous. I'd have to say, if you're in doubt,
+
+stub it out. Determine, when you're making choices between,
+
+you know, web-mock, sham_rack, or puffing-billy, even, you want
+
+to determine the amount of flexibility the need and
+
+the amount of extra work you're going to have.
+
+For example, it probably takes more time to make
+
+a sham_rack server and have dynamic responses than copying
+
+and pasting the request you get from the web-mock
+
+error. So, you kind of just need to look
+
+at the project you have and determine what use
+
+case best fits these options.
+
+And, also, record responses to save time. I wish
+
+I would have started doing this sooner. It's, like,
+
+super useful. I would highly recommend you do that.
+
+And next up, after me, I'd recommend you stick
+
+around. I had the pleasure of pairing with Austin
+
+yesterday, and I think his talk plays off my
+
+talk a lot, in that it talks a lot
+
+about inconsistent test failures. And he goes a lot
+
+more in-depth on, you know, other kinds of inconsistent
+
+test failures. And you just should definitely stick around
+
+if you have the time.
+
+So that's it for today. Thank you for taking
+
+the time to listen to my talk. And if
+
+I don't get to your question, feel free to
+
+shoot me an email, or if you just want
+
+to chat. And you can also find me on
+
+Twitter. So thanks a lot guys.
+

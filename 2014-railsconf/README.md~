@@ -16,6 +16,8 @@ Biggish Data With Rails and Postgresql - https://www.youtube.com/watch?v=40xq1jX
 
 Sketchnoting: Creative Notes for Technical Content - https://www.youtube.com/watch?v=VJq-5EHN7J4
 
+Writing Small Code - https://www.youtube.com/watch?v=Y2dllXkUlu8
+
 Deploying With Rails is Easier than it Looks - https://www.youtube.com/watch?v=hTofBnxyBUU
 
 Middleman: the Missing View in the Rails API Stack - https://www.youtube.com/watch?v=-q_oUyEHiEw
