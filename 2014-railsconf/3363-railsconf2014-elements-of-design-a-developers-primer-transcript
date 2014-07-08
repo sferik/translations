@@ -1,0 +1,171 @@
+RailsConf 2014 - Elements of Design: A Developer's Primer - Jenn Scheer
+
+JENN SCHEER: All right. Good? Good. Welcome. Welcome. I was just at the Sandi Metz talk. Really awesome. Really excited to follow up with no code. There will be no code in this. I'm sorry.
+
+I'm Jenn, and I'm here to tell you about some elements of design. I always hear from developers that they don't know how to design. But I don't think it's true. You're incredibly smart people and you can figure it out. And I'm here to help.
+
+Currently I'm a designer and frontend developer at Rap Genius. Perfect website. Designed it all myself. That's not true at all.
+
+So, I think that we know, by now, you know, we're living in a world of design. A culture of design. Apple is number one, and everyone loves it. So, I think we have an idea of why design is important, but we have to remember that we're building these things, all of the things that we're programming every day. We're building them for people. And people have to be able to use them as easily and as pleasantly as possible.
+
+So, designing will set you apart from other people. It will buy you good will and trust from users when they know that your site is well-designed. It's easy to use and it's pleasant and it's an enjoyable experience. Design can serve as marketing for you. You can use it to sell yourself to people and have them trust you.
+
+And I would say that design is not just aesthetics. Design is also function. Form follows function, and we know this in programming. We program around it, and you have to use this to, to sell your purpose. You can use design.
+
+So, I also, as a developer, I don't want you to feel like you have to throw things over the wall to designers and say, I don't have any say in this. I don't know what I'm talking about. Because you do. And I want to empower you to do so.
+
+So, today I have seven principles here. Hierarchy, contrast, repetition, proximity, flow, typography, and color. And with these seven principles, I think that you can have a great base for, for working your way into design conversations.
+
+So, a loose flow here is I'm gonna define each principle. Look at some bad examples countered with some good examples. And then use these examples to give you some rules to use and fall back on.
+
+All right. So number one is hierarchy. Hierarchy is all about priority in your layouts. So you can see, from this slide itself, I'll use all of these slides to, to show you how hierarchy works. The word hierarchy is number one. It's bigger. It's greener. It's, it's the first thing that you're gonna look at on this page. And it is the most important. It's what we're about to talk about.
+
+So, you can see, there's like a flow of hierarchy. You look at this big thing at the top. You look at the next biggest thing. You look at the smaller things. You, before you even look at the browser, at the phone or whatever you're designing, you want to ask yourself, what am I doing here? Why is someone coming to my site? You have to ask these hard questions so you can have great answers and be prepared.
+
+So, bad example. This site. There's no clear hierarchy here. The first thing that you see is the logo. A good technique that you can use is to blur out your site and see if anything pops out. And the only thing we see here is the logo. Because everything else, this is the reason that someone is coming to your site. You, you know, the headlines, the tags, the sidebar. All of those have the same priority. Totally boring.
+
+So, better example of hierarchy is this site. The first thing that we see here when we're blurred out is this knowledge headline. The content the people are coming to the site for. The number one most important article. We do see the logo here, and it's important to let people know that this is where they are. So that they feel comfortable here. And then the third thing that we see. So we've got the headline, the logo, and then the other actions that you can do on page. Say, I don't want to do that one thing. Give people another option. It's the second thing that they see. Third thing that they see. They see lots of things all at the same time.
+
+BuzzFeed. They definitely see lots of things all that the same time. It's so much going on. There's nowhere to look. I mean, you have these big pictures, but they're everywhere. Everything is asking for your attention, and if you tell the user that everything is the number one priority, then what you're really saying is that nothing is important. You're saying that this is all throwaway.
+
+And, of course, BuzzFeed, you know, they have to go down this rabbit hole. That's. They're looking for the page views. But I don't think that's the way to get users to trust your brand. And I don't think people trust BuzzFeed. They know what BuzzFeed's doing.
+
+So I would go. I would go look at the stalwart. Like, New York Times, for better hierarchy. You know, you blur this out. There are fewer things catching your eye. We're humans. We're gonna look at photographs. These look like, oh, these look like things I know. We, we sort of are tuned to, to blur out ads. We don't look at ads anymore. So you've got these two pieces of content. And then we're going to look at the text that is associated with the images. And then we're going to look at the big headlines, which is, you know, the biggest stories of today. And then sort of everything else. But there's a path here and there is a flow that they use to, to guide you around the page.
+
+And by telling people that, you know, like, our priority here is news. And we want to be serious here. You tell a great story for the user.
+
+Contrast. So contrast creates interest on the page. And by creating interesting differences for a reason, you engage the audience. So there is some contrast here. You know, we have the bigger text. The greener text. It could be a lot more blinged out, but this is just an intro slide. It's not that important.
+
+So we can use things like line, shape, texture, color, and patterns to create contrast on the page. So here we have lines versus shape. WE have opposite colors on the color wheel. We have this textured pattern versus a blank space.
+
+And there's also contrast with typography. So we have a huge headline, colorful, balanced by a much smaller piece of text. 
+
+So, some, like, this site I would not say has great contrast. It's GitHub. Great website. But they're not really pushing it to the limit. And, of course, it's not maybe in GitHub's best interest to really worry about that. But they're going with some defaults. Black, white, and blue links. Not very exciting. And this I think is a bigger problem. You know, there's the contrast of these examples that they're trying to show you, but they're too small to really sell themselves to you. You know, you can't see the actual features. So you want to be really bold.
+
+I think this is a better example of contrast. They're using this bright blue background, this actual photograph paired with sort of geometric text. So we have like the geometric layout and this organic thing happening next to it. And we have flat white shapes versus blue and brown colors. It makes a really compelling argument for the idea that this product has their shit together. And they know what they're trying to sell you. They know how to sell you something.
+
+This isn't, this is a Yahoo widget section. It doesn't have great contrast. The headlines barely stand out. There are a lot of different types of content here but they all look the same, and you can't really interact with them in different ways.
+
+So, you know, you could, you can push it a lot further than this, I think. This is an evernote screen where the different types of action that you can take have totally different designs. They have this dark background with the lighter green color. It's a good contrast.
+
+You can tell that they, they give better love. You know, the section for creating content looks different than the section for looking through the content you've already created. And there's a new way to look at each thing.
+
+So, another not great example of contrast. There is some stuff here, you know. There's big, you know, there's big text, there's small text. There's colorful buttons. But it's sticking to the defaults and it's not really engaging the user in a way that they're, that's either new, fresh, or memorable to them.
+
+So I'm gonna say that they're falling into the Bootstrap Trap. We all know it. We all love it. It's great. I mean, no. It's. It is great. No, I messed the joke up. The Bootstrap Trap, it's terrible! I'm just kidding. It's awesome.
+
+I am saying that you can use it wisely. There are basics there. There are tons of key and amazing design features there that you don't have to worry about. That you can go on to build the fun parts of your product. But I'm saying that this is also a Bootstrap site, and they've done a ton more work here to make it really memorable.
+
+They use a lot of different elements. They use texture. They use an illustrated background. They use this yellow color and the scale to set themselves apart from other services that you might want to use. And you can still use Bootstrap if it's really important to you.
+
+It's really important to build on top of it to make. This is also a Bootstrap site. But they use this, like, image in the background. They sort of break out of a grid to call out certain elements of their product. It makes it much more compelling for people.
+
+Number three is repetition. Repetition creates patterns and expectations, which unify and strengthen your message. So, here we have a bullet list. We have an ordered list. This is something that we're, is a tool that we're familiar with grouping things together. Everything looks the same except for the one thing that we're calling out, which is the section we're about to start.
+
+So there are different things that you can use to create repetition, like spatial relationships, bullets, similar colors, formatting. And all of these great patterns that let people know that they are, you know, safe in your, in your website. In your website? On your website?
+
+So we all know, don't repeat yourself. But that's not true with design. And it's not really true with code either. You do need to repeat yourself, but in ways that are purposeful and ways that you can, you know, you can do it once and then you never have to do it again. You set up a system and it's like, oh, we have a new button. I guess it needs to be a different color because it's more important. No.
+
+I mean, set up, set up some basics and then never have to code them again. Well, you know, that's, that's always the dream, right. So this is a Best Buy list of products. But they have a ton of different ways that you can interact here. There's so many different buttons and dropdowns and check boxes. And imagine having to code this, and every time you try to add this new feature, you have to design a new way to put it on there. And you tack it on and it doesn't really fit.
+
+So, it's, it's confusing for these. Whereas this site, you know, you see the links across the top. They all look the same. If you have to add a new one it just goes in there. It's using a grid, which is comfortable for users. And they use similar elements to create consistency. So they have these icons that are all the same design, the same matching typography, one, two, three, four. We know what we're doing. We're not surprised here.
+
+This is an old version of the Facebook feed. And they figured it out by now. They figured it out a lot better. But you can see here when you drill into this content, it's really hard to see what the pattern is. It's like, I think this is a link that's attached, but there's so many different things going on that users can't learn the pattern, and then as they flow down the feed, move smoothly down it.
+
+And this is an alternate example, where, where it's a much better sense, there's a much better sense of repetition here. We have this bar along the top. You know where you are. You're in this context. And then each headline looks exactly the same. Each set of metadata looks exactly the same, and they use icons and alignment and different colors to create a pattern and stick to it.
+
+So number four is proximity. One second.
+
+So delicious. OK.
+
+Proximity is about grouping related elements together by using space to create associations between them, or using empty space to disconnect unrelated elements. So here we have one concrete group of elements. We have a list. That's all there is on the page. There's nothing else distracting you. You know that we're in the section and we're about to start something new.
+
+So, some, some tools that you can use to create proximity are using columns. You can group, you need to group similar action items together. And using white space to separate space. So, this is an example where proximity is not being used. It's overwhelming. There's too much information on this ESPN site. There's all different kinds of information just packed on top of each other. And it's, it's very, it's very confusing to parse. There's no white space here. They're just trying to shove it all in your face.
+
+And a place where proximity is really important is for forums. So this is a much better and clear way to sort of get some information and input some information. So it tells you what section you're in. There are, you know, some basic form patterns. All of these fields are required. You know, lining the labels up together. And they use white space and they're grouping elements in the small number to make it easy to use.
+
+So, we're all familiar with Craigslist. Great website. We've all gotten, you know, maybe your apartment on Craigslist. You know you can get there and it gets the job done. But when you drill down, it's like, what am I looking for? There are so many things here and they're all jumbled together. This is forty things, and they're not alphabetically ordered even top to bottom. They're ordered left to right. Very hard to see where, what you're looking for.
+
+A good rule is to only group elements together in groups of three to five. It's the easiest way for humans to understand and it's going to make users much more happy to use your product.
+
+Craigslist, you know, the listings all have a ton of information right here. They're all jumbled in together. It's really important stuff, you know. It's something that's going to, you just need to skip this whole listing because it doesn't apply to you. But this is all different kinds of information. There's information about the apartment. There's information about the listing on the site. The price, which is the most important thing. But they all look the same and they're all grouped together.
+
+So a better example of this is Air B and B's site ??. They separate these things out in them, in a better way. At the top, they have the information about the booking, the comments. You can book it now. And then below they have the information about the apartment. So it makes it much more pleasant to scan down. And they also have the big images. That helps. And it makes better use of proximity here.
+
+And I would say, a word of warning, is to really make sure that your forms are fun and very straightforward to use. And proximity is the best way to make sure that's happening. You know, put the credit card information in a different place than the, than the shipping address. You know, you don't want. You don't want to overload users or have them be unclear, like, how much further they have to go, how much they've already completed. Proximity is a great way to use that.
+
+Number five is flow. So, flow, you're flowing down this list. You're not paying attention to the things you've already learned, and then you hit flow. And that's where you stop and you're excited for the new section. And that's an example of flow.
+
+So site's are not pages. They are experiences with many states and possibilities. So you think of where you want the user to end up, and you let that influence design.
+
+So, I would say there are two types of flow, and we're just going to talk about one today. There's flow within one page. So what the user does on just one page. And then there's flow between many pages, like in an Amazon checkout process. You go through many different pages but they make that as smooth as possible so they don't lose you along the way.
+
+So, we'll talk about flow within one page today. It's a little simpler. So, one sample idea for flow, is that you're looking at a product, you're looking at the details, and then you add to cart. So this is the first step of the checkout process. And it's most important for you, as the seller, to make sure that they click that buy button. So you don't want to put anything that's going to distract them in between the beautiful image and the headline and the buy button. 
+
+And it's customer service. It's customer service that makes it easy and fun for someone and that people have trust that they know how to get there and there's good will when something goes wrong.
+
+Another example of flow is, you're reading a story on a site and you want someone to read another story. I would say that a bad example is Hacker News. We all love it and we're all there all the time, but what happens when you click a link. You leave the page. It overwrites the page you're writing on. You're, you're sitting on.
+
+You read this. You click away. Every single thing takes you away from the site. And I, instead of incentivizing you to stay on the site or, or to leave and come back, it just incentivizes you to leave. I mean, you know to come back because of the freshness, but I think there are better flow options there.
+
+Something that we're starting to see a lot more often is that you get to end, to the end of a story and then you go immediately to a new story. And it makes that flow seamless so you don't even have to think about it.
+
+Another, you know, not great flow, is like I'm looking at this infograph, and I'm like, where do I go? Do I go from one to six? Am I supposed to read down? It's pretty aesthetically pleasing, but it's very contradictory in the ways that you're supposed to scan the information.
+
+A better way for flow is to give people one path. One path that they have to follow, and make sure that's very clear. So we're, we're familiar with this idea of timelines. With this, you know, you're zigzagging down the page, which is not sort of the normal flow of just going straight down or straight to the side. But they make it very clear with the icons, with the, with the marks along this timeline. And so you feel very comfortable and you know where you're going next.
+
+Here's a forum that's missing a ton of the helpers that we've come to know and love in forms. And you, there's no special stylings here. But the worst part of this flow, that it gives you the information and instructions for how to fill out the form two-thirds of the way down the form.
+
+So you have to go back and, and revisit all of the stuff that you've already done and be like, did I do this right? The best way to do these sorts of things is to give feedback, too. You, you can give feedback for when someone's filling out a password. You say this is a terrible password. Keep going, keep going, you're getting there. And then you've reached the end and you're ready to go.
+
+So number six is typography. A whole generation of designers on the web have made it very easy to access good typography and good web fonts. And there are really small changes that you can make to default settings that make a big difference and a big impact on readers and readability.
+
+This is a simple presentation. I'm using one type face the whole time. I would recommend one or two type faces are a really great start for, for defining your, your product and your sort of personality that you want to give for, give to people. Show to people.
+
+So this is, this is a condensed typeface. It's very load. Trying to like throw all these things in your face really quickly. It was originally designed for highway signs and industrial machines. So you can sort of think about these and what, what impact that might have. So there's a, you know, a sexier headline on the left and a sillier headline on the right. It's, you know, you can be very playful with typography, too.
+
+A couple of services you are perhaps familiar with. Google web fonts. Typekit. Myfonts. Some things are free. Some are paid. But it's not that much money and it makes a big difference.
+
+So, another, love to, no. Love to love. Wikipedia actually. Tons of information. Spent hours and days of my life reading it. But it's so hard to read sometimes. The lines are so long across. You get to the end of the line and you lose your place. How do I get back to the beginning? They have the footnotes, which can be distracting sometimes.
+
+So, a better way to look at typography is, is set some rules. You know, the base line length is thirty-five. Sorry. Thirty-five to sixty-five characters long. Just count them. And that's, that's the best human readable length for people. And the minimum font size to line height ratio is about one to one and a half. This is, these are just, write it down and don't worry about doing anything else because this is the best way. And if you're going to have a lot of reading on your site, look at other sites that do reading experiences in a great way.
+
+This is readability. They have a lot of different styles going on so that they can, they can handle different kinds, types of content. And you know, just, just a little love goes a long way with typography. An example. I've just, like, I love these like, love to hate things.
+
+Drudge Report. Drudge Report. Impossible to read. Everything looks exactly the same. There's the headlines. There's sections or categories. There's social links. You can't even tell what you're looking at or why any of them are different. Why something should call, should be called out to you.
+
+I'll bring up the New York Times, again, as a great example. There is tons of information here. As much as there was on the Drudge Report page. But they've broken it up into different sections and they do a lot of different typographic treatments that tell you how, how important or how not important something is.
+
+They have section headlines to differentiate this section. They call out certain articles. They have whole category overviews with a different style, and then they have listings which is user-generated content. They're all something different, and they do use a custom type face. They're a site for reading and they, they need to make sure that they give that love.
+
+So, this is another site you can use. You can use typography in interesting ways. You can layer things, you know, in a way to create a personality. This is, you know, it seems like a very elegant site. And just think of some adjectives that you want to convey to people and, and go from there.
+
+So the last element, principle for today, is color. I would say color with an asterisk, because I, I don't think you should rely on color too heavily, and I think it's one of the lesser important things. There are accessibility reasons. Like, if you have colorblind users or you, you know, your, your user base is on a ton of different monitors. The colors could look super wacky.
+
+And semantic reasons. Colors mean different things to different people. We have a lot of sort of like, western culture. Green means go, red means stop, white means this, black. You know. You want to be sensitive about your target audience, and play up, play into that.
+
+So, three ways that you can adjust color to stand out are hue. The actual color it is. Saturation - how bold it is. And value - how light or dark it is. And I would recommend using all three together to create different color combinations.
+
+So, Facebook. We're all familiar with the Facebook blue. It's so boring. It's so sterile. It's not that exciting, and, and we, we're not there for the color. We're not, you know, Facebook has to target every person in the world. Facebook is for everyone. And so they can't, you know, they can't go bright orange. And, or purpose, or whatever color. Blue is a very generic color and that's what they have to do because that's, that's targeting their audience.
+
+So I'd say it's bad color, but it's, you know, you have to be thoughtful of that. So, a site to counter it is V-Files which is a shopping offshoot of V-Magazine. So it's very fashion-related. Very young audience. Very urban. So they have yellow as their, as their color that they use everywhere. And they use that to entice themselves to their target audience.
+
+If they did the Facebook blue, people would not think it was as cool or as interesting. So you can use a color to, to be bold, and pick one or two and go with them. Don't pick ten. You're gonna look like BuzzFeed probably.
+
+So, other color concepts are to use cultural colors that people are familiar with. Like I said, red and green. For some reason, Reddit uses orange and purple for their up and down votes. It's kind of cute and it's, it's Reddit, where, I'm not surprised. But in a lot of cases, that could be very confusing for users.
+
+And they also use the sort of basic standard blue link. And I think we can do better than that. So here's an Etsy listing. Etsy, I would say, is like a pleasant, easy to use website. It's not super edgy. But that's, that's to their advantage. That's what they're trying to do.
+
+So they have these blue links. You know, that is the sort of standard. You sort of skim over that because you're used to seeing that. And then they have the green around the actual product information, and the green, go buy this button. Green means give you my money.
+
+So, it's enticing. You know, a red button would be like, oh, maybe this is not good to do. I work for Rap Genius. Rap Genius has a black background and our, our bold color is this sort of marygold yellow orange gold color. It's very bold. But we think that it makes a big impact to have a black background and stick with a black background. And we have this argument all the time, like, is it too much? Are we, are we alienating people? But we're, we're gonna continue on with it and keep trying to do it. And I think that it, it sets us apart in a really incredible way.
+
+I might be biased.
+
+So. So now what? Very fast, maybe too fast. It's hard. It's hard. There's a lot to design and you kind of have to think of all of these things at the same time. But I really do want you to be in these design conversations and feel like you know what you're talking about, because you do. You're on the internet every day. You see things. You like things. You don't like things. And you might not know why, but I hope that this gives you a little bit more vocabulary to talk about it and engage in these conversations.
+
+So, every, every design that you work on is going to have elements of all seven, and you can sort of twist the knobs on, on things to turn them up, turn them down. And, and say, like, you know, we, we don't need that much contrast because we have a really great flow and we want it to be really easy and we just want someone to go down the page and spend the rest of their lives on our website.
+
+You can use intuition. You know, you might code something and put it in the browser, and it's like, oh. Maybe this, this, you know. Technically speaking, this has the right amount of padding all around it. But something about it looks off. Like, there's a lot of tweaking and a lot of love that is worth giving that shows to people that's it's very well put together.
+
+And that's it. Thank you.
