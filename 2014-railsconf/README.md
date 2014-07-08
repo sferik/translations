@@ -26,6 +26,8 @@ Building kick-ass internal education programs (for large and small budgets) - ht
 
 Elements of Design: A Developer's Primer - https://www.youtube.com/watch?v=fN1MTmJeLew
 
+Debugger-Driven Development with Pry - https://www.youtube.com/watch?v=4hfMUP5iTq8
+
 Keynote: What Happens to Everyone When Everyone Learns to Code - https://www.youtube.com/watch?v=wLCXkf-e_aY
 
 Bring the Fun Back to JS: Step-by-Step Refactoring Toward Ember - https://www.youtube.com/watch?v=VMmaKj8hCR4

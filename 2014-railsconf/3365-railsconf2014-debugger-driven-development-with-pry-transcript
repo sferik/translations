@@ -1,0 +1,217 @@
+RailsConf 2014 - Debugger Driven Development with Pry - Joel Turnbull
+
+JOEL TURNBULL: Thanks for coming. My name is Joel Turnbull. I'm a developer for Gaslight in Cincinnatti, Ohio. I also head up and coordinate a blog over there, in case anybody ever wants to talk about that.
+
+But today, I'm here to talk about debugger driven development with Pry. Most Rubyists I know don't use debuggers. Rubyists I know, when faced with a problem, would prefer to ponder code than pop open a debugger and poke around.
+
+This is crazy to me. I've always thought it was, because to me, trying to solve a problem by pondering code is like trying to find your keys in the dark, when you're holding a flashlight, but you're consciously deciding not to use it.
+
+So why is this? I, I used to think it might be about egos or culture or something like that, but really it's pretty simple. I think we've had a lack of really good tools up to this point. But ultimately, my talk isn't about using debuggers in a traditional sense to fix software, but using debuggers as a tool in your workflow to build software.
+
+And, so why do I think we can do this right now? I feel like we finally have a tool that we can use to explore this debugger driven, debugger driven workflow. And that tool is Pry.
+
+Can I get a show of hands of who uses Pry? Awesome. Like, everybody. All right. Cool. So I'm talking about debugger driven development with Pry. Conrad Erwin gave a talk not even like six months ago called REPL Driven Development with Pry. I swear to god I had no idea.
+
+But, and both are accurate, I think. You know, but I think both terms kind of undersell what the power of Pry is. So here's my favorite definition. Pry is an IRB alternative and runtime developer console. So if we take the first part of that and we think about Pry as an IRB alternative, you know, anything that you can do with, with, both, both are REPLs, right. And, and a debugger is a REPL, too. Anything you can do in Ruby, you can do in IRB. Anything you can do in IRB, you can do in Pry.
+
+What makes both of them powerful, is they both leverage this idea of runtime. And, to me, runtime is all about immersion. It's about being immersed in a live system, where you can play with code and you can look at your objects and, and all that kind of thing. You can validate your implementations. Everything you need to do. And it's like, looking for your keys with a flashlight.
+
+So, given that Pry and IRB are both REPLs and they both have this idea of runtime, why should you use Pry instead of IRB? It's got a couple vital workflow features right out of the box. Syntax highlighting and tab completion. Both super handy.
+
+But, what I want to talk about today is some of the bigger, game-changing features of Pry. The first one is enhanced introspection. Here's our friend again. Introspection is the ability to, of, of a language, where you can ask a language questions about itself. And it's built into Ruby, and that's awesome.
+
+If you've ever asked a class what method you can call on it, or you've asked an instance what class it is, you're doing introspection.
+
+What if you want to go deeper? Like, what if you want to know what the class methods are versus the instance methods? You know, what if you want to know what methods are inherited, and from where? What if you want to know what state an instance holds onto during its life cycle?
+
+You can answer all these questions with plain Ruby and IRB. But the problem is, is that, it's, the, the amount of effort involved is non-trivial. I would classify it as daunting.
+
+So. Given that. You know. I would, I would classify this as DRTFM. This is what I, this is what I point to. I mean, this is the workflow that I like.
+
+I like to take the things out of the box. I like to get a feel for what the pieces are. I like to play around with them. I like to try to put it together without reading the manual, and if I get stuck, then I read the manual, right.
+
+The second really game-changing feature of Pry, to me, is extendability through plugins. And the best way that I can show this is to just demo some of my favorites for you.
+
+So, I'm gonna show you a Rails app. Instead of calling it in a normal way, like rails s, I'm gonna call it like this. Under the umbrella of Pry rescue. And I'll show you why in a minute.
+
+But here we are. This is an app I've been working on late, late nights, you know. Please don't steal this. This is a bowling score count, tracker, right. You can push any number after you bowl and it will record what you, what, how many pins you knocked down, right.
+
+So, the first thing I'm gonna show you about Pry, for those who aren't necessarily familiar, is how you invoke a runtime at any point in your application, where you're running Ruby, right.
+
+Here, I've inserted a couple binding dot prys. One into my controller action and one into my template. On the lower left we have our model. OK, so let's rerun it with that in mind.
+
+Let's go back to our running server, and we'll see that we've halted our execution here, and we've been dropped into a run time. And we can do things in here like look around. We can play lines of code. Let's play the line that sets the bowling game. And then we can look again.
+
+When we exit from this, we've returned from our controller. We're starting to render our template, and we've hit our next binding dot pry. You can put binding dot prys inside your erb tags, right.
+
+Same drill. We can look at bowling games. We can, we can step into our next, our, our, our implementations of our methods. Here we've stepped into the frames method of our bowling game model.
+
+Same drill. We can look around here. We can look at ourself. We can go to the next, or we can continue.
+
+So, you can see how handy that would be if things aren't necessarily blowing up, but, you know, something's not quite right, either. So what if things do blow up, though? Right.
+
+So, here I am. I'm gonna, I'm gonna spark an exception here by bullet, trying to bowl the next ball of my next frame. I'm gonna bowl a big nine. I'm gonna come back here and we've been dropped into a runtime, because an exception was thrown. That's what being under the watchful eye of Pry rescue is gonna do for us within this context here.
+
+So, some interesting, interesting things we can do here. We can call the show-stack command of the Pry stack explorer plugin. And we're seeing the whole stack here. this is like caller, but it's alive, right. We can move up the stack. We can move up the stack nine frames. We can move down the stack. We can take a look at the state of any object here at any level of our stack trace.
+
+We can look at our stack again just to see where we're at. We're on frame ten. But this is a big hairy kind of Rails stack trace, and we're not getting a whole lot of value out of that right now.
+
+So let's call the cd-cause command of Pry rescue. And see if it can track down what caused this problem in the first place.
+
+There we go. This looks more familiar, right. Here we are in our template. And I will guess that on line thirteen we have a problem with frame one. And that's true. So we just need to add a little bit of a guard in here, and say, you know, if we have pins on frame one, let's render that. Otherwise let's just render a dash.
+
+And we get feedback that that's going, that's what's gonna happen, right. We know that this is a working implementation.
+
+So let's copy our history. This is another plugin called Pry clipboard. That's gonna copy that implementation into my clipboard. I'm gonna edit a file where the last exception was raised. It drops me right where I need to be. I'm gonna paste in that implementation, drop back in, and I'm gonna ask Pry rescue to try it again.
+
+And we're back. And we've got our dash. So, and we can continue to bowl, right. That's legit, right. A five and a six. OK, cool.
+
+So, what do we do here? We used binding dot pry to invoke a runtime anywhere in our app where we're doing Ruby code. We used the pry-debugger gem to give us our step, next, and continue functionality that we expect out of our debugging tools. We used pry-rescue and ran our Rails app under the umbrella of pry-rescue to drop us into a runtime when things go wrong, so that we can poke around. We used the pry-stack_explorer gem to navigate the stack and explore state at any level.
+
+A few commands we saw were cd-cause in pry-rescue that took us to the, the root of our problem. We used play and we used copy-history to not mess around with, you know, copying things with our mouse and pasting them into our REPL, which can be a pain. We used the edit command with the e flag to take us to the file where the exception occurred so that we could fix it. And then we used pry-rescue, try-again, which under this, under the context of Rails, just replayed our request. We didn't have to reload our, our page, or do any of that nonsense. Reload the whole environment or anything like that, right. So it was fast.
+
+So, the, that's, that's great, and having demoed Pry in a debugger context, you know, I can show some of those things. But, really, what I find interesting is this idea of Pry as a runtime developer console, right. 
+
+So there's some really awspect- really awesome aspects of Ruby, right. It's introspective, which we've talked about a little bit and we'll talk about more. And it's a dynamic and it's reflective, which means, you know, we don't have to compile it and we can change things on the fly in its runtime.
+
+And I think we, we take advantage of these things, you know, a lot in the code that we write, whether we're doing metaprogramming or monkeypatching or, or anything like that. But we, we haven't really taken advantage of, of these things in the tools and in our workflow yet.
+
+So, when I talk about workflow and our problems with our workflow, I see big problems with the traditional workflow in, in Ruby development that I, that I see. Right, I mean. By that I mean we write some code in an editor. We save it. We hop over to a terminal or we pop over to a webpage and reload it and run it to see if it worked and, if it worked, we go back and continue on. If it didn't, we fix it, we save. We go back. We reload it, rerun it. Rinse, repeat, right?
+
+What, what are, what problems do I see with this? First of all, it's disruptive and it's distracting to keep switching back and forth, right. Some amount of context-switching is always gonna be imminent, right. But any effort you can make to reduce that is just gonna be a huge win for your flow, you know, and your focus.
+
+The second problem I see with that is it's just guess work. We just write some code. Oh, yeah, I think it's gonna work. We save it. We go over. We run it to see if it works. We're just taking shots in the dark, you know. You can ask this guy.
+
+Taking shots with a flashlight is much more accurate. And recommended, apparently. So do that.
+
+And, to me, it just seems backwards, right. We, we're like solidifying and codifying our code into our code base just in an attempt to see if it works. It should be the opposite. Our code base, it should be the, the record of code that we've, we've already validated, right. And I, I mean these things are just kind of things that we accept and, and we, we take for granted, right.
+
+But I mean, I think other languages have, have been more effective and intentional about integrating this idea of a runtime into the, their workflow, you know. And blurring this line between static and running code. Clojure comes to mind, right.
+
+But, we've talked about the awesome aspects of Ruby, and there's really nothing that restricts or limits us from doing the same, right. I mean, I think the Ruby language is, the Ruby language enables it, you know. It's just that up to this point, we really haven't had the tools to do so.
+
+So, we talked about these workflow problems. How does Pry solve these workflow problems, right? I see that, you know, the introspection and the documentation and the source code browsing, which we'll see in a minute, that's, that's baked into Pry, gives us ninety percent of the information that we need to write code right now, you know, in most cases.
+
+It has a runtime that you can throw your code against and validate it and get feedback on whether it, whether it works or not, immediately. And it's smart about editing. You don't have to think about what file you need to open. Pry usually knows what file you want to edit and usually knows exactly where you want to edit it. Which is really nice.
+
+So, when I talk about this idea of runtime development, I'm really talking about being immersed in this, in this environment that, you know, loves us and can give us feedback, and, and is alive, right. So we want to spend the majority of our development time there, and we want our editor to just be an after thought. And that's just a place where we just push working code when it's done, right.
+
+So, let me demo to you a little bit about how I see that working, right.
+
+So. Our mission is to write an empty class definition, OK. This is just a script. No Rails involved here or anything. But given a class like name like BowlingGame, we want to create a file, bowling_game dot rb, and write a class definition to it, like class BowlingGame empty space end. Right, and I've created a little skeleton here of, of how I think that might work, right. 
+
+We're gonna, we're gonna read in a string from the command line, we're gonna pass that string into a method called file_name_for_class and get a file name. We're gonna pass that string into a method called class_definition for class and get a class definition, and then we're gonna create that class by writing that class definition to that file. Right.
+
+So let's step out here and let's just run that. So, we get an expected error, right. We haven't implemented anything called file_name_for_class, yet. So we could jump into our editor and start coding and all that, but why don't we see what this is like.
+
+Why don't we use Pry rescue and leverage that exception to drop us into a runtime and start this runtime development process. So we do that. We get the same error, but the difference is, we're inside of a runtime now, OK. So, the first problem is pretty easy. We know that we need to define file_name_for_class. And we do so, right.
+
+The difference is in here, I'm gonna raise, in the implementation of this class, and drop back out. And I'll show you why. When we ask Pry to try again, we get in here. We're right where we need to be to define the implementa- working implementation of this class. Although, I already know that I have forgotten to pass in the BowlingGame string, like I always do.
+
+OK. Now we have everything we need. So we have something like BowlingGame, right, and we're looking for something like bowling_game dot rb, OK. So I'm just gonna preview my favorite Pry command of all time here. ls.
+
+When I call ls, and give it the class or the object I'm working with, I immediately know I'm working with a string and I'm seeing all of the methods that are available to me on that string. And when I say all of the methods, I don't mean all of them. Notice that the object methods are not in here. And, you know that if you've ever used IRB to get the method, you always do, thing dot method minus object dot methods blah, blah, blah.
+
+The, that's just noise, right, in most cases. So the default is just to leave that out. The developers of Pry have thought of that, right. So we can try to class downcase, which gets us so close, but yet so far away. We don't really know where to put that underscore.
+
+But, as Ruby devs, Rails devs, we know we have things like ActiveSupport that can help us out with that.
+
+So we include that, and now when we ls our class, we've got some extra stuff in here, right. Demodulalize, deconstantize, right. That kind of stuff. And if it, that's hard to see, we can just ls ActiveSupport::Inflector itself and see what's available to us there, right.
+
+So we need an und, we needed an underscore. I see a method called underscore there. Tab completion is nice. All right. So now we're getting a lot closer. All we need to do is stick on our file exception, and I think we're done, right.
+
+So that, there's our filename. So let's copy that. Let's drop back into our file. Right here, exactly where we need to put the implementation, let's put it in there. And let's save it and continue on. OK, I know, I'm not gonna continue through this whole thing, in the interest of time, but I do want to, to implement this last method inside of the create_class, so I can talk a little bit more about what I love about introspection, right.
+
+Let's just reflect on what we did there, though, with the workflow, OK. So we used, the, we used pry-rescue to leverage the power, you know, to leverage that exception, to pop us into a runtime, and we used the runtime of the debugger not to fix code, but to drive our development process, right.
+
+So. We're in here. We've raised inside of our create_class method. We try again. We've got our file name, and we've got our class definition. And we have this file class, right. And, and I know about this file class, and I know this is exactly what I need to get the job done. But, I mean, this is exactly what I, what happened to me. I don't really remember exactly what I need to do here, OK.
+
+So I can pop out to StackOverflow or I can pop out to, to Ruby-docs or something and take a look. Or I can just ls file, right here. And just take a minute to look at this, and think about all of the low-level Ruby instrospection acrobatics you would have to go through to get this brain dump of information right here.
+
+We've got all of the methods that you can call on instances of file. We've got all the methods you can call on the file class. We've got all of the methods that file inherits, and, from its superclass, and we know what that superclass is. IO.
+
+We also know all the constants involved and if there was state involved in class or instance variables. We would see that here as well. So, all of a sudden, I'm informed about, about everything I need to know about this class, and I have a pretty good idea, just from a, from a moment's notice, of how I can use it, or what I can do to play around with it.
+
+So let's. I see the right method. And I don't really want to write anything or mess with anything right now, so I'm just gonna look at the documentation for it. OK. It opens the file. It optimally seeks to the given offset. Writes a string, then returns the length written. Write ensures that the files close before returning. This sounds like what I want.
+
+I page down. I see some examples there. Great. I'm ready to go.
+
+Alternatively, I can do the same and call show-source, OK. Which isn't doing a lot for me here, but when I'm in my, my own code base, this is what I lean on more often, right. So, let's get our bearings again.
+
+And let's give it a try, right. File.write(file_name.class_definition). OK. Something happened. It seemed to work, right. How do I know? Really easy to shell out in Pry. You get really nice output. Exactly what you would expect, which is, I can't say the same for IRB in that, in that case.
+
+I have this thing called bowling_game in there. Let's take a look at it. That looks correct to me. So let's just do that again. I'm gonna copy the history again. And then I'm gonna remove bowling_game, just to make sure that my script is doing what it promises, right. Oops.
+
+And it's not there anymore. So let's go back. Let's put in that, let's put in that implementation. And drop back in. Let's ask Pry to try again. No more exceptions. Do we have our bowling_game? We do.
+
+OK. So, what happened there, right? We used the debugger and the runtime as, as, as a tool for driving our development process and build our implementation. Not just to fix software, right.
+
+We validated our implementation before codifying it, and we reversed this traditional workflow that I've got so many problems with. We explored and we informed ourselves about how to, how to use our classes without context switching. Right, we stayed focused in one tool. And then we didn't have to reload our, our libraries and our environment every time we wanted to run code, so it was fast.
+
+So, and, you know. We're in the testing track here, so I should probably talk about testing a little bit. And, that might have felt a little bit like TDD to you. I mean, it does to me, right. As, as practitioners of TDD, you know, I may not, I'm, I'm, I love TDD. I think most, many Rubyists do.
+
+But I mean, what I love about it most is it keeps me focused and, and, and, having a test suite allows me to aggressively refactor my code, you know, and have the confidence to do that. You know, and I'd rather do that upfront than after the fact, right. But, as practitioners of TDD, you know, we've learned to love failure, you know.
+
+TDD is all about making something fail, then writing the code to make it pass. When we have bugs, we want to exercise that exact piece of code that's giving us the error and get that error, you know, before we then go, cause we know we're about to do something cool and fix it, right.
+
+So, we love to see red. And so a, a practice that's, that's centered around failure is naturally suited to a debugging tool, right. I mean, that's what a debugging tool does. It's meant to handle failures, catch failures, and then give you the tools you need and enable you to fix them as quickly as you can. And we've seen how awesome, you know, a debugger Pry can be.
+
+And, so, the promise of this talk is that I'm going to, you know, deliver a, a, a Pry-enabled TDD workflow. But before I do that, I mean, I mentioned that, you know, I've had a, kind of specific experience that made me a believer that this workflow even happens. I mean, I've actually done this before. I'm not creating this, right.
+
+And, and that specific experience was this. Does anybody know what this is? Smalltalk. Yeah. This is a screenshot of a Farrow Smalltalk IDE, right. And I spent about a year or so in the 2000s writing a web application in the C-side framework in Smalltalk for a company in New York City with, with a team of guys.
+
+And, really delving into object-oriented programming, and learning so much about it, I really learned to love this, right. But what first, what first struck me when I saw Pry and I saw the ls command was it reminded me of this, right. Right here, we are looking at a ZnClient class in a Zinc HTTP package. We see the class definition right there at the bottom, with all of the instance variables that this class makes use of listed out.
+
+On the right hand side, we see all the methods that we can call on this, on a, on an instance of class, and we can click on any of those to see the source code of that method. I mean, that's all, that's all you need, as far as I'm concerned. I mean, that gets you ninety percent of the way there almost every, like, almost every time, right.
+
+So, I wanted to, I wanted to demo, like a, a Smalltalk TDD workflow, cause that's the other really cool thing about Smalltalk and different thing about Smalltalk is that it really, like, enables this awesome TDD workflow. And I don't think I'm gonna have the time to do that unfortunately.
+
+But the TL;DR is this, basically. OK. So if I write a test, and I try to exercise a class that doesn't exist, like BowlingGame here, Smalltalk's, when I save this, Smalltalk's gonna say, that doesn't exist. Do you wanna, what do you want to do?
+
+And the first option there is define new class. You just click it and it does it, right. When I try to call a method on that class that doesn't exist, Smalltalk asks me if I want to implement that method, and when I say yes, it drops me into a debugger, right. A runtime, where I have everything available I need to create the implementation of that class, and I can expect all the things I need to do so.
+
+Right, I'm not in a static code editor here. This is like, living system, right. So I can do so. Just want to return zero. And when I save, my tests pass. So that's. That's, that's the idea, right. And, and it, it's small, but, you know, small changes in your user interface,  you know, can really turn, like a daunting experience into a really motivating flow, right.
+
+It doesn't take much.
+
+So, when I talk about, you know, this power of Pry and, and we've talked about some of the plugins and how powerful they are and how, you know, Pry is so easy to extend, you know, even I can do it. And, and so, I've kind of gotten the ball rolling.
+
+I pushed a little code up to GitHub. It defines a new command called define-it in Pry. Right now, it's just a PryRC, and you can define Pry commands in your PryRC or you can do gems or whatever, and that's, that's where I want to move it.
+
+But, this is my attempt to kind of get this workflow going in, in Ruby, right. So, all right. So here it is. Here's my PryRC. I'm creating a command called define-it, and then I'm implementing - every Pry command implements this method called process, and that is what is going to happen when you call the command from within the Pry REPL, right.
+
+And so I'm kind of using this idea that we demoed in the last demo of, when I hit a name error, I just want to automatically generate an empty class definition and move on. What it will also do is when I hit a NoMethodError, it's gonna generate an empty method definition and put you right in there where you need to be to implement it, right.
+
+So let's take a look. So, once again. Oh, let me just show you this real quick, though. So here is a spec and a set of tests that exercise this BowlingGame class, right. The first test just verifies that BowlingGame is a thing. The second test says if I ask a new BowlingGame for its score, it should return zero. The third test says, if I bowl a four then the game's score should reflect that.
+
+And the last test says, if I bowl twice, you know, the, the score should reflect that, that sum. So, when I run rSpec under pry-rescue, pry-rescue, you know, it does different things in different contexts, right. So just like before, pry-rescue's gonna break on unhandled exceptions, just like it always has done, but in the context of rSpec, it's also gonna break on assertion failures, all right. So you can poke around and get those fixed.
+
+So, here we are. We. We've got our first exception, right. It's the name error. Uninitialized constant BowlingGame. So let's define it.
+
+All right. Didn't see it, but it did it. Next. Believe me.
+
+All right. So next. Next, we've got our next exception here right. Undefined method 'score' for BowlingGame. Our NoMethodError. So let's define-it. You guys didn't believe me, but there it is. All right. There we go.
+
+We're in our empty method. Let's TDD, right. We just need to make the test pass so we return zero out of there. Ask pry-rescue to try again. We got another exception here. NoMethodError: undefined method 'bowl' for BowlingGame.
+
+So, let's define-it. Now I feel like we're gonna need to keep track of a little state, so let's. We want to make that the fixnum.
+
+We want to return @score out of here now, instead. And let's initialize @score to be zero when you create a new BowlingGame. Let's save that and let's try again.
+
+All right. That worked. We're in our last test here, and we've hit our first assertion error, right. It expected nine and it got five, cause we're not doing any of the, the totaling yet. So let's, this is another way you can call edit.
+
+You can just ask it to edit the class, and it'll know what file to drop into. So I feel like we're gonna want to keep track of our scores now. So let's just push those fixnums on a scores array. Let's get our score by reducing those values. That's how you keep score in bowling, right. You just add everything up. All right. Cool.
+
+And let's, let's initialize it with an array with initial value of zero as well. Let's try again. Something's wrong there. There it is.
+
+All right. Four examples, zero failures. rSpec thought we didn't fail at all, you know. It's pretty cool. So. So what happened there? All right. I mean, basically, you know, we. We, again, we used Pry to drive our development process. We used our own Pry plugin there to kind of make that a little bit easier, and within one runtime, we fixed all of our assertions, exercised our class and implemented the whole solution, right.
+
+No reloading, no nothing like that.
+
+So, in conclusion, embrace your runtime and all things. Don't read the effing manual.
+
+Use a kickass flashlight.
+
+If you're fixing software, use a debugger. If you're building software, use a debugger. And when you use a debugger, use Pry.
+
+Thank you very much.
