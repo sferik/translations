@@ -1,0 +1,1262 @@
+RailsConf 2014 - Software Development Lessons from the Apollo Program - Julian Simioni
+
+JULIAN SIMIONI: All right. Everyone can hear me well now?
+
+They've turned it off. Everything's good.
+
+All right. It says 3:50 on the little clock
+
+here which means it's time for me to go.
+
+So, hi everyone. I'm Julian. This is my first
+
+RailsConf. It's great to be here. We are not
+
+gonna talk about Rails at all. We're gonna talk
+
+about space. This is one of my favorite pictures
+
+ever, right. It's the, the Earth rise picture from
+
+Apollo 8.
+
+And my whole life, I've just loved space. From
+
+when I was a little kid, it just inspired
+
+me so much. I know it inspires tons of
+
+other people. I know, I got into a technical
+
+field because, as a kid, I loved space. Raise
+
+your hand if you think it's the same thing
+
+for you. I know I've talked to so many
+
+people where that's the case. Awesome.
+
+And I mean, just, space is really cool, right.
+
+There is, just, you know, everything about astronomy or
+
+manned space explorations is just really, really awesome and
+
+inspiring. And there's one thing, above all else, that
+
+inspires people just so much, and that, of course,
+
+is the Apollo program.
+
+Landing on the moon is, maybe, the greatest thing
+
+that humans have ever done. And, and, you know,
+
+people will talk about awesome rockets, right. Like, the
+
+Saturn 5. It generates seven and a half million
+
+pounds of thrust on takeoff. That's. That's a lot.
+
+Or they'll talk about, you know, astronauts who, who
+
+trained for years, and, you know, were brave and
+
+took insane risks that, you know, most of us
+
+can't even comprehend. Or they'll talk about mathematicians and
+
+awesome things they did for, like, the guidance equations
+
+and stuff to get people to the moon safely
+
+and back.
+
+And then they'll say things, like, oh, yeah, we,
+
+we landed on the moon with, you know, less
+
+computing power in a wrist watch, or something. And
+
+as a software developer, you know, that makes me
+
+sad. You know, for a long time, I didn't
+
+really think that there was anything in the Apollo
+
+program to inspire us software developers. And, fortunately, it
+
+turns out, that is not at all the case.
+
+So this is the Apollo guidance computer. To give
+
+you a sense of the scale, the little display
+
+is, like, a little bit bigger than your hand.
+
+I think it's like, nine by nine inches. So
+
+this thing was built to take people to the
+
+moon. And it is awesome in ways you might
+
+not expect.
+
+So it only had two kilobytes of RAM, I
+
+think. Not very much. It was really, really, really
+
+slow. I did some back-of-the-envelope calculations, and it turns
+
+out all of the computation done on all of
+
+the Apollo missions, ever, could be done by my
+
+little laptop over there in under a second.
+
+But, my laptop may or may not make it
+
+through this talk. The Apollo guidance computer never hit
+
+an unknown bug, in thousands of hours of time
+
+in space. It never failed, despite the fact that
+
+space is pretty hostile, right. There's, there's like gamma
+
+rays. Anything metallic that floats around will, will find
+
+the one place where it can short things out
+
+and, and cause lots of problems.
+
+And so this thing is pretty amazing. It worked
+
+really, really well. But what's even more amazing is
+
+that it was built at a time when we
+
+didn't know much about making software. They started working
+
+on it in 1961. And they finished in 1968.
+
+So to put that into perspective, in 1965, the
+
+MIT instrumentation lab, that's the department of MIT that
+
+was building this thing, they got this new computer.
+
+It's called an IBM system 360. Anyone heard of
+
+that before? It's one of the more famous computers
+
+in the history of computing.
+
+So there's one particularly famous person that worked on
+
+it. And anyone know who I'm talking about? Anyone
+
+have an idea? Come on, you all know. Fred
+
+Brooks, right. And he, he wrote this book. What
+
+was the book called? Anyone? The Mythical Man Month.
+
+Yeah. So when did he write that book? Not
+
+until 1975. And by then, you know, we had
+
+been gone from the moon for many, many years.
+
+So think about what that means, right. The, the
+
+software developers writing code for the Apollo Guidance Computer
+
+were learning the same things as Fred Brooks at
+
+the same time, right. So if you're a manager
+
+at a, you know, you have some software developers
+
+working under you, and your boss comes to you
+
+and says hey, you know, your projects a little
+
+bit late. I'm gonna, you know, give you some
+
+more developers to hopefully speed it up, you say,
+
+OK. Whereas today you might say, no. Read The
+
+Mythical Man Month, and you know that that won't
+
+work.
+
+So, another thing. The word software was first used
+
+in 1950. It was used in, like, a research
+
+paper. And there's some back story here. It's pretty
+
+important. We're gonna do a little aside.
+
+So, the first computers in, in the, you know,
+
+20s, 30s, 40s. They were built by men. Like,
+
+predominantly, overwhelmingly men. And, and they would build these
+
+computers, and the computers did one thing, right. You
+
+would build a computer to, you know, calculate the
+
+Fibonacci sequence or something, and if you wanted a
+
+computer to, to calculate prime numbers, like, you built
+
+another computer, or you took the computer you had
+
+and, and modified it really heavily, right. And over
+
+time, you know, computers got a little bit better
+
+and, and then they could sort of be configured,
+
+right. They could, you could like, flip some switches
+
+and set some bits and then the computers would
+
+do different things and, and, and the men building
+
+these computers that, they hated this task, right. They
+
+thought it was boring and that it was easy
+
+and that it wasn't very interesting at all. So
+
+they hired a bunch of women to do all
+
+these things, right. And only later, like, as time
+
+goes on, did they figure out that, that this
+
+task of configuring the computer that, that the men
+
+had built was actually the entire field of software
+
+development, and that it was actually really, really hard
+
+and challenging and it was a field onto itself.
+
+And only then did, did men start coming in
+
+and start saying, hey, I would like to do
+
+this. During the Apollo program, one of the managers
+
+of, of one of the software teams, when he
+
+was assigned to that team, his wife was told
+
+by him, hey, honey, don't tell any of our
+
+friends that I manage a software team. Cause it
+
+wasn't, it wasn't cool for a guy to write
+
+software, yet, in the, in the 60s. It was,
+
+it was getting there.
+
+So, it's kind of interesting, right. So here's my
+
+takeaway from that. If you're a woman and you're
+
+writing some software, and you're maybe thinking, hey, you
+
+know, maybe I'm not cut out for this or,
+
+or some other people are saying things that say
+
+that I shouldn't be here. Don't listen to them.
+
+That's bull shit. You're grandma was writing code. And,
+
+and she did a damn fine job. So don't
+
+worry about that.
+
+And if you're a guy, a man, or woman
+
+I guess, and you're thinking or saying or writing
+
+things like, you know, women shouldn't be here. They're
+
+not as good at writing code as men. Stop.
+
+Stop saying those things. That is all bull shit.
+
+It, that does not stand up to the history
+
+of computing. So. Just a little aside there.
+
+Anyways, OK. We're talking about the Apollo Guidance Computer,
+
+and things that people learned from that. So, what,
+
+let me ask you guys a question. How many
+
+of you have built some sort of web app,
+
+maybe a Rails app or something, and you depend
+
+on someone else to service. Right, an API or
+
+something like that. Someone, something that another team at
+
+your company built or something external, right. And what
+
+happened to your site the first time that thing
+
+went down? Yeah, I heard a very sad noise
+
+of something breaking.
+
+Yeah. Exactly. Your pager goes off. Although maybe in
+
+the 60s, I don't think they even had pagers.
+
+So what did you do after awhile, right? You,
+
+you, the first time you fixed that one thing,
+
+right, you fixed it so that that particular thing
+
+happens again, you know, it'll be OK. And then
+
+something else happens and something else happens, and hopefully
+
+after awhile you, your, your system is smart enough
+
+that anything that this, this other system throws at
+
+you, something you've never even seen before, you know,
+
+it doesn't matter. You'll keep running just fine.
+
+And so the same thing happened during the Apollo
+
+11 landing. So this is the Lunar module. So,
+
+so picture, this is the most critical moment of
+
+the entire Apollo space program, right. Neil Armstrong and
+
+Buzz Aldrin are, are in this little thing. They're
+
+heading down towards the surface of the moon. And
+
+this, the last ten minutes of this are by
+
+far the most, absolutely the most critical and, and
+
+high intensity part of the entire, of the entire
+
+mission.
+
+Neil Armstrong said that those last couple of minutes,
+
+on a difficulty scale of one to ten were
+
+a thirteen, right. And he's, he's a pretty good
+
+pilot. So that means a lot.
+
+So, so, so they're cruising down towards, towards the
+
+surface. They're, they're busy. They're in the zone. All
+
+of the sudden, on their dashboard, you know, a
+
+big light comes on. The master alarm. Everything is
+
+wrong. And their computer is, is giving them this
+
+error, this, like, twelve-oh-one error.
+
+And, you know, the astronauts are distracted and mission
+
+control, they're freaking out. They're trying to figure out
+
+what this is. You know, what does this mean?
+
+One of the MIT engineers in, in mission control
+
+had, very wisely, made a little cheat sheet of
+
+every error code that the computer could throw up.
+
+Very, very smart.
+
+And he, you know, he, he looks up, OK,
+
+twelve-oh-one. What does it say? It says, if, if
+
+nothing else seems wrong, you know, you're good to
+
+go for the landing, and he actually was too
+
+scared to form words, so when he was asked,
+
+you know, are we good to go? He just
+
+sort of like, made a thumbs up. And then
+
+he was awarded a medal from the President of
+
+the United States for his, for his decision to,
+
+to not abort the moon landing.
+
+So what happened? What was this master alarm that
+
+scared the crap out of everyone for actually no
+
+reason? So, today we're pretty lucky with our computers,
+
+right. If you, if you write some code that
+
+does an infinite loop or something, your computer will
+
+probably handle it just fine, right. You have to,
+
+you have to do something pretty crazy to crash
+
+your computer.
+
+The very idea that multiple programs could even be
+
+running on a computer was new in the 90s,
+
+1960s. They, they didn't have words like scheduling or
+
+tasks or processes like we have today. They called
+
+it, they called it, like, like, timesharing, right. And,
+
+and up until the Apollo, Apollo guidance computer had
+
+been built, they didn't do anything sophisticated like, like
+
+have priorities assigned to different tasks. They just said,
+
+anything that wants to run, we'll let it run
+
+for a little while, and then we'll run something
+
+else.
+
+And a lot of engineers thought that this approach
+
+was safe, because it was more predictable, and it
+
+was easier to reason about. But it has a
+
+downside, in that you, with something like priority-based scheduling,
+
+you can, you can figure out what are the
+
+most important things that need to be running, right.
+
+The program to fire the thrusters should probably run
+
+exactly when it wants. The program to update the
+
+display for the astronauts, if it's a couple milliseconds
+
+late, I think they'll be OK.
+
+And so this was a brand new approach for
+
+the Apollo program, or for computing in general. So,
+
+the takeaway here is handle failure gracefully. Just do
+
+a little bit of actual work so that something
+
+unexpected can come up and you'll handle it just
+
+fine.
+
+Step two of that, by the way, is if
+
+you get to the point where you can handle
+
+an unknown failure gracefully, don't throw, like a master
+
+caution alarm and raise a ruckus when, you know,
+
+you're actually handling everything great.
+
+OK. So, who would have ever thought that in
+
+a RailsConf, talking about testing would be, would be
+
+weird? But I have an entire segment about testing.
+
+Thanks DHH for that.
+
+So, there were lives on the line. They're traveling
+
+into space, which is pretty difficult. There was a
+
+ton of testing for the software, for the software
+
+for the Apollo Guidance Computer. They, they had unit
+
+tests. They actually even called them unit tests but
+
+with, with quotes, cause it was like a brand
+
+new word for them.
+
+But the, the engineers didn't really talk much about
+
+their unit tests. They said they were OK, but
+
+they didn't, like, rant and rave about them. And
+
+I have a theory as to why that is,
+
+and that's because most of the code for the
+
+Apollo Guidance Computer was, was, was like functional code.
+
+Not in like the programming sense but al, also
+
+in the mathematical sense on which it's based. Right?
+
+You have, you have code for guidance equations. And
+
+furthermore you have mathematicians writing them.
+
+The idea of a computer science degree did not
+
+exist in the 1960s. I think the last, the
+
+first computer science degree was actually awarded, like, in
+
+the late 60s. So no one writing these computers
+
+was trained as a software programmer, right, or as
+
+a computer scientist. They were trained as mathematicians. And
+
+they were writing code to implement mathematical equations. And,
+
+as you can imagine, eventually they'll get it right.
+
+So, what they do talk really, really highly about
+
+is their, their integration tests. And now, I have
+
+no idea. Should we call these system tests or
+
+some other kind of tests? But anyways.
+
+In 1972, they published a retrospective on basically the
+
+entire software development effort, and they said things. They,
+
+they talked specifically about things that plagued the software
+
+development effort throughout the entire program. And they listed
+
+two things, and they're both really interesting. I have
+
+a link to it at the end of my
+
+slide, so definitely check it out when you get
+
+a chance.
+
+The first thing that they just could not get
+
+right was estimating schedules. And we don't get that
+
+right today so, great. We've made a lot of
+
+progress there. One cool thing they did actually was
+
+they, they cataloged a bunch of ways in which
+
+they can go wrong, right. Like if you have,
+
+if you have two projects competing, or two projects
+
+that are running in parallel, and one of them
+
+is gonna take longer, and you make the one
+
+that is not gonna take as long happen even
+
+faster, you haven't actually made your whole project progress
+
+any faster, right. Just to give an example.
+
+The other thing they talked about, that plagued their
+
+whole project, was getting up to date specs and
+
+requirements and information about different systems. The Apollo program,
+
+you know, was in a rush throughout its entire
+
+development. Everything, every part of every system in the
+
+space craft was constantly changing. And getting up to
+
+date information about these other things is hard, right.
+
+You have to go out and talk to every
+
+team, and if they don't happen to tell you
+
+that something's changing, you might not know.
+
+Again, they didn't come up with a great way
+
+to solve this, and again we still struggle with
+
+this today. I think communication is the hardest part
+
+of software development. But they did find out a
+
+great way to figure out if you have it
+
+wrong. And that's to write integration tests, where you
+
+take everything together, right. Every part of your system,
+
+and you test the hell out of it and
+
+see what breaks.
+
+And, and, and, so. What happens is, there's a
+
+really interesting thing where your unit tests with test
+
+your own code, and then you have integration tests,
+
+which are also code. But they're not there so
+
+much, they're not there so much to test your
+
+code as they are to test your communication. So
+
+to put it another way, if you. How do
+
+I put this? Let's see.
+
+If you, if your integration tests are failing, what
+
+it means, not necessarily that you wrote bad code,
+
+but you wrote great code that does the wrong
+
+thing, right. So, so that's the takeaway there.
+
+Another great thing they did that we don't do
+
+today, is they tested what they call the off
+
+nominal cases, which is just an awesome word, right.
+
+We don't use nominal nearly enough anymore.
+
+So, so. They said for every single, for every
+
+one test they had that tested like the normal
+
+case of things going right during a mission, they
+
+had a hundred that tested things going wrong.
+
+So how many of you guys have a test
+
+in your Rails app, something like, if a user
+
+logs in with the right username and the right
+
+password, they get logged in, right. I, I do.
+
+Right. A lot of hands go up. How many
+
+of you guys have a test where if someone
+
+puts in the right username and the wrong password,
+
+they don't get logged in, right. Fewer hands go
+
+up.
+
+I didn't have that test until I was making
+
+this talk. So I mean, there's so many different
+
+tests for things going wrong that, that we don't
+
+write today, I think. Anything from, you know, security
+
+related or, or like, checking of all sorts of,
+
+you know, inputs and stuff like that. But the
+
+Apollo Guidance Computer team got it right, and there
+
+were all sorts of cases during the Apollo program
+
+where, where something went a little bit wrong and,
+
+and something unexpected happened, and, and like Guidance Computer,
+
+because they had done all these off nominal tests,
+
+came out just fine.
+
+So let's talk about their teams.
+
+In 1961 when, when the instrument lab signed the
+
+contract to deliver the Apollo Guidance Computer, that contract
+
+didn't mention software at all. It said, you just
+
+have to give us this, this box, with a
+
+computer in it that can take men to the
+
+moon.
+
+And, so they didn't know if it was just
+
+gonna be, you know, just a bunch of hardware
+
+and it did this one thing and that's all
+
+it needed or if it was gonna be like
+
+a, you know, a fully programmable computer like it
+
+turned out to be.
+
+They, they didn't know, in 1961, what a space
+
+craft that goes to the moon would look like
+
+at all. They didn't know, you know, would it
+
+be one giant ship that goes all the way
+
+to the moon and then comes all the way
+
+back? Would it be several little ships that are
+
+combined together? Would they build two rockets and have
+
+them meet up in space and then go from
+
+there? Would they build one giant rocket? No one
+
+knew.
+
+No one knew if, even in principle, it would
+
+be possible to navigate to the moon, right. They
+
+didn't have the math to, to prove that you
+
+could go to the moon. And no one knew,
+
+even given math that can help you navigate to
+
+the moon, if a computer could be built to
+
+do it.
+
+So there were, in these early days, there were,
+
+you know, no deadlines. No managers. No requirements. Very
+
+little communication with, with other teams. And what that
+
+means is they were free to experiment and, and
+
+figure things out, right.
+
+A couple years later, OK. Now they know, we're
+
+gonna go to the moon. One giant rocket. Two
+
+little space crafts. One is just for landing on
+
+the moon. We have figured out that, just like
+
+at sea, you can use a sextant and measure
+
+the angles between, like, stars and part of the
+
+moon or part of the Earth and figure out
+
+exactly where you are. And now we know what
+
+the math looks like to take those, those navigation
+
+measurements and plug them into a computer, which we
+
+now know how to build, and we know it
+
+can fit in a space craft and it can
+
+take you to the moon.
+
+So now there's four hundred software developers in the
+
+Apollo Guidance Computer project. And now there's, there's lots
+
+of managers. There's lots of deadlines. There's lots of
+
+requirements. There's lots of documentation. So what happened is
+
+they built, they had teams that were the right
+
+shape and size for what they were trying to
+
+accomplish, right.
+
+If, if you were talking to someone who is
+
+founding a startup, it's brand new, and they said
+
+they had four hundred employees, you might be a
+
+little worried. Likewise, if, if you were talking to
+
+a programmer that happened to work for your bank,
+
+and he said, we have a team of, of
+
+twenty and we don't really have any requirements for,
+
+you know, security or anything like that, you'd probably
+
+find another bank.
+
+So, so teams have to be the right shape
+
+and size for what they want to accomplish. Another,
+
+a corollary to that is switching between those team
+
+sizes will be difficult and, at any given time,
+
+there will be people unhappy with how your current
+
+team is shaped. So NASA and the other contractors
+
+building the Apollo space craft did not like that
+
+there were these, these rogue engineers over at MIT
+
+just fooling around doing whatever they wanted, you know,
+
+and then that they were gonna have to somehow
+
+deliver a guidance computer.
+
+Likewise, as the team grew, a lot of the
+
+smartest engineers, they left the, the guidance project once,
+
+especially once Apollo 8 had gone to the moon,
+
+right. A lot of the engineers said, OK. We've
+
+done it. You know, a couple years ago we
+
+had this cool challenge, and now we've figured it
+
+out. Onto the next thing.
+
+But the, the mission to the moon was successful,
+
+right. The goal was accomplished. We had landed on
+
+the moon before 1970. So the team was always
+
+the right size.
+
+All right, what's next. Let's talk a little bit
+
+about working with users. Except, in this case, it's
+
+actually working with astronauts. So, who's seen The Right
+
+Stuff or read the book? Right, they're both great.
+
+OK, lots of you.
+
+How did they describe astronauts? Anyone? What's that? Reckless,
+
+OK. Cowboys. Yes. There's a lot of scenes of
+
+them riding horses around and stuff. They were arrogant.
+
+They were extremely talented. They were hard to work
+
+with. They're just like software developers.
+
+So, just like any other user, astronauts don't know
+
+what they want, right. As one of the most
+
+important things you can, you can learn about working
+
+with, with your users is they won't tell you
+
+what they actually want. There's a great example of
+
+this.
+
+So the Apollo Guidance Computer was not just a
+
+guidance computer. It was also an autopilot. It could
+
+take you from Earth orbit to, you know, a
+
+couple feet above the lunar surface, and it could
+
+take you from the lunar surface all the way
+
+back to Earth.
+
+So, so the, the engineers at MIT, you know,
+
+would talk to the astronauts, and they said, hey,
+
+hey astronauts. You know, you know how, at the
+
+end of your mission you have this, this re-entry
+
+process and, and it's, it's pretty dangerous, right. If
+
+you, if you're coming in too steep you can
+
+burn up. If you don't come in steep enough
+
+you can ricochet out into space and, and you'll
+
+never come back. But, but we know we can
+
+write an autopilot that will do this for you
+
+automatically. You just have to press a couple buttons
+
+and we'll get you right through every time.
+
+And the astronauts said no. Do not do that.
+
+You will be wasting your time. We are astronauts
+
+and we are trained to do these hard things,
+
+like, like do a manual re-entry. And astronauts, by
+
+the way, were very distrustful of all automation. Partially
+
+for good reason.
+
+In the, in the 50s and 60s, a lot
+
+of early flight tests with, especially analogue computers flying
+
+aircraft had gone, had gone wrong. And a lot
+
+of their friends had died. But on the other
+
+hand, also, astronauts, you know, are super macho, right.
+
+They don't like the idea of a computer taking
+
+away something that, you know, they use to show
+
+their skills.
+
+So the astronauts said no. Don't even bother building
+
+this, building this re-entry program, cause we'll never use
+
+it. So the engineers built it anyways. And then
+
+it was used on every single mission.
+
+It turns out that when you've been in a
+
+box in space with no showers and you're eating,
+
+like, frozen, like, dehydrated food for like, up to
+
+a week, and then there's a button you can
+
+press so that you just have to sit back
+
+and relax, and like four minutes later you're in,
+
+you know, the warm air of the Pacific ocean
+
+or something like that, you're gonna press those buttons
+
+every single time, instead of doing one more hard
+
+thing just to get home, when you've already done
+
+everything you needed to do. So your users don't
+
+know what they want.
+
+Now let's talk about interfaces. Let's imagine you've built
+
+this computer that can go to the moon, and
+
+you've got your astronauts ready to go to the
+
+moon, how do they talk to each other? Keep
+
+in mind, this is the 60s. The field of
+
+human computer action, human computer interaction isn't invented until
+
+1980.
+
+You can't use a CRT screen, because they're too
+
+heavy. You can't use an LCD screen, because they
+
+haven't been invented yet, either. And you can't actually
+
+use any type of screen at all. It turns
+
+out the Apollo Guidance Computer doesn't have the power
+
+for anything like that. So you can use, you
+
+know, little seven segment LEDs and you can use,
+
+like, dials and stuff like that.
+
+So what do you build that astronauts can use?
+
+It has to be powerful, right. It can't just
+
+be one button that says take me to the
+
+moon and maybe another button that says take me
+
+back, right. There's a little bit more going on.
+
+And it has to be something that astronauts in
+
+space suits can, can deal with, right. So I
+
+don't think an iPhone would have worked even if
+
+they had it. It has to be something that
+
+you can operate very quickly, right. There's a little
+
+bit of time pressure when you're moving at, you
+
+know, five miles per second.
+
+So I want to show you what they came
+
+up with, and it's, it's this thing. And this
+
+is not a very pretty picture, but it's here
+
+just as an assurance, because I have a live
+
+demo of it actually working. So this is the
+
+display and keyboard unit. So we're gonna switch over
+
+here.
+
+So, some very smart people who are not me
+
+have used ASM and taken an emulator running actually
+
+Apollo Guidance Computer code. We have all the code,
+
+by the way, and you can take a look
+
+at it online. And they build an actual, functional
+
+interface in your web browser to the guidance computer,
+
+and I'm gonna show you guys how it works.
+
+And I'm gonna see what you guys think.
+
+So, so, you can see here, this thing on
+
+the, on the left pretty much is the actual
+
+interface. And then this stuff on the right is
+
+just for running the, like the emulation. This sort
+
+of represents like the, the simulated environment. They didn't
+
+get this thing.
+
+So, so what do we have here? We've got
+
+a bunch of lights for, you know, warnings and,
+
+and status and stuff like that. We've got just
+
+a couple little bits of display down here. And
+
+then we've got just a couple buttons. So, so
+
+let me give you an example of how this
+
+works.
+
+So, what you can do, is you hit, you
+
+pick a verb and then you pick a noun.
+
+So a verb is something like, show me some
+
+data. So that's verb zero-six. And then a noun
+
+is something like, basically the current system up time
+
+is noun sixty-five. And you hit enter. And it
+
+shows you. You don't get any decimal points. So
+
+you have. And you don't get any labels.
+
+So you have to know what these mean. So
+
+I'll, I'll tell you. So this means, this computer's
+
+been running for one hour, thirty-one minutes and forty-nine
+
+point eight eight seconds. OK, let's try something else.
+
+Let's hit another verb. That's verb one-six. So that's
+
+similar to verb six, except what it means is
+
+show me some data and then keep updating it.
+
+And then we'll do noun sixty-five again.
+
+So now, again, one hour thirty-two minutes, and the
+
+number of seconds are going up, and you can
+
+see there's some activity.
+
+So can anyone think of anything that maybe we
+
+use every single day, some of us, at least,
+
+that lets you take verbs and nouns and combine
+
+them in all sorts of interesting and powerful ways?
+
+Anyone?
+
+AUDIENCE: Language.
+
+J.S.: L- well. All right. Someone over there is
+
+a smart ass. A computer program that we use
+
+every single day with verbs and nouns.
+
+AUDIENCE: HTTP.
+
+J.S.: HTTP is a good one, but no. I
+
+was thinking of VIM. VIM. Let's hear it for
+
+VIM. Yes. Exactly.
+
+I would love to, I would love to find
+
+out that, that the interface in VI was influenced
+
+by the Apollo Guidance Computer. I don't think it
+
+was. If someone happens to know, please let me
+
+know. That would be awesome.
+
+But a funny thing, by the way, is that
+
+this interface was, was intended to be temporary. All
+
+the, all the engineers said, well, we don't really
+
+know what to build. But we'll build this thing
+
+with these verbs and nouns and it's kind of
+
+clever and, and we'll use that until we build
+
+something better. And, of course, we now know, like,
+
+if you want something to stick around forever, just
+
+say it's temporary.
+
+But it's cool that the astronauts were, actually became
+
+very adept at this, and it actually functioned really
+
+well. And the fact that we still use, you
+
+know, something similar in VIM today, like. Raise your
+
+hand if you use VIM as your primary editor
+
+for all the code you write? Exactly. It's maybe
+
+twenty-five percent of the people in the room.
+
+So I just think that's really, really cool. Let's
+
+see. What else have I got for you? We're
+
+gonna go back to the slides here, but just
+
+to say I'm Julian Simioni. I work at 42Floors.
+
+You can Tweet at me there. I am a
+
+pilot in real life, and it's really fun. Again,
+
+another thing I was inspired to do by the
+
+space program. And I would love to take some
+
+questions.
+
+OK guys. Thank you so much.
+

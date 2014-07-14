@@ -1,0 +1,201 @@
+RailsConf 2014 - Eliminating Inconsistent Test Failures - Austin Putman
+
+AUSTIN PUTMAN: This is the last session before happy hour. I appreciate all of you for hanging around this long. Maybe you're here because, you don't know, there's a bar on the first floor of this hotel. I think that is where the main track is currently taking place.
+
+I am Austin Putman. I am the VP of engineering for Omada Health. At Omada, we support people at risk of chronic disease, like diabetes, make crucial behavior changes and have longer, healthier lives. So, it's pretty awesome.
+
+I'm gonna start with some spoilers, because I want you to have an amazing RailsConf. So if this is not what you're looking for, don't be shy about finding that bar track. We're gonna spend some quality time with Capybara and Cucumber, whose flakiness is legendary, for very good reasons.
+
+Let me take your temperature. Can I see hands? How many people have had problems with random failures in Cucumber or Capybara? Yeah. Yeah. This is reality, folks.
+
+We're also gonna cover the ways that Rspec does and does not help us track down test pollution. How many folks out there have had a random failure problem in the Rspec suite, like in your models or your controller tests? OK, still a lot of people, right. It happens. But we don't talk about it.
+
+So in between, we're gonna review some problems that can dog any test suite. This is like, random data, times zone heck, external dependencies. All this leads to pain. There was a great talk before about external dependencies.
+
+Just, here's just a random one. How many people here have had a test fail due to a daylight savings time issue? Yeah. Ben Franklin, you are a menace.
+
+Let's talk about eliminating inconsistent failures in your tests, and on our team, we call that fighting randos. And I'm here to talk about this, because I was stupid and short-sighted, and random failures caused us a lot of pain. I chose to try to hit deadlines instead of focusing on build quality, and our team paid a terrible price.
+
+Anybody out there paying that price? Anybody out there feel me on this? Yeah. It's, it sucks.
+
+So let's do some science. Some problems seem to have more random failure problems than others. I want to gather some data. So first, if you write tests on a regular basis, raise your hand. Right? Wow. I love RailsConf. Keep your hand up if you believe you have experienced a random test failure. The whole room.
+
+Now, if you think you're likely to have one in the next, like, four weeks. Who's out there? It's still happening, right. You're in the middle of it. OK, so this is not hypothetical for this audience. This is a widespread problem. But I don't see a lot of people talking about it.
+
+And the truth is, while being a great tool, a comprehensive integration suite, is like a breeding ground for baffling Heisenbugs.
+
+So, to understand how test failures become a chronic productivity blocker, I want to talk a little bit about testing culture, right. Why is this even bad? So, we have an automated CI machine that runs our full test suite every time a commit is pushed. And every time the bill passes, we push the new code to a staging environment for acceptance. Right, that's our process. How many people out there have a setup that's kind of like that? OK. Awesome. So a lot of people know what I'm talking about.
+
+So, in the fall of 2012, we started seeing occasional, unreproducible failures of the test suite in Jenkins. And we were pushing to get features out the door for January first. And we found that we could just rerun the build and the failure would go away.
+
+And we got pretty good at spotting the two or three tests where this happened. So, we would check the output of a failed build, and if it was one of the suspect tests, we would just run the build again. Not a problem. Staging would deploy. We would continue our march towards the launch.
+
+But by the time spring rolled around, there were like seven or eight places causing problems regularly. And we would try to fix them, you know, we wouldn't ignore them. But the failures were unreliable. So it was hard to say if we had actually fixed anything.
+
+And eventually we just added a gem called Cucumber-Rerun. Yeah. And this just reruns the failed specs if there's a problem. And when it passed the second time, it's good. You're fine. No big deal.
+
+And then some people on our team got ambitious, and they said, we could make it faster. We could make CI faster with the parallel_test gem, which is awesome. But Cucumber-Rerun and parallel_test are not compatible. And so we had a test suite that ran three times faster, but failed twice as often.
+
+And as we came into the fall, we had our first Bad Jenkins week. On a fateful Tuesday, 4 PM, the build just stopped passing. And there were anywhere from like thirty to seventy failures. And some of them were our usual suspects, and dozens of them were, like, previously good tests. Tests we trusted.
+
+And, so none of them failed in isolation, right. And after like two days of working on this, we eventually got a clean Rspec build, but Cucumber would still fail. And the failures could not be reproduced on a dev machine, or even on the same CI machine, outside of the, the whole build running.
+
+So, over the weekend, somebody pushes a commit and we get a green build. And there's nothing special about this commit, right. Like, it was like, a comment change. And we had tried a million things, and no single change obviously lead to the passing build.
+
+And the next week, we were back to like, you know, fifteen percent failure rate. Like, pretty good.
+
+So, we could push stories to staging again, and we're still under the deadline pressure, right. So, so we shrugged. And we moved on, right. And maybe somebody wants to guess, what happened next? Right?
+
+Yeah. It happened again, right. A whole week of just no tests pass. The build never passes. So we turn of parallel_tests, right. Because we can't even get like a coherent log of which tests are causing errors, and then we started commenting out the really problematic tests, and there were still these like seemingly innocuous specs that failed regularly but not consistently. So these are tests that have enough business value that we are very reluctant to just, like, delete them.
+
+And so we reinstated Cucumber-Rerun, and its buddy Rspec-Rerun. And this mostly worked, right. So we were making progress. But the build issues continued to show up in the negative column in our retrospectives. And that was because there were several problems with this situation, right. Like, reduced trust. When build failures happen four or five times a day, those aren't a red flag. Those are just how things go. And everyone on the team knows that the most likely explanation is a random failure.
+
+And the default response to a build failure becomes, run it again. So, just run it again, right. The build failed. Whatever. So then, occasionally, we break things for real. But we stopped noticing because we started expecting CI to be broken. Sometimes other pairs would pull the code and they would see the legitimate failures. Sometimes we thought we were having a Bad Jenkins week, and on the third or fourth day we realized we were having actual failures.
+
+This is pretty bad, right.
+
+So our system depends on green builds to mark the code that can be deployed to staging and production, and without green builds, stories can't get delivered and reviewed. So we stopped getting timely feedback. Meanwhile, the reviewer gets, like, a week's worth of stories. All at once. Big clump.
+
+And that means they have less time to pay attention to detail on each delivered feature. And that means that the product is a little bit crappier every week. So, maybe you need a bug fix. Fast. Forget about that. You've got, like, a twenty percent chance your bug fix build is gonna fail for no reason.
+
+Maybe the code has to ship, because the app is mega busted. In this case, we would rerun the failed tests on our local machine, and then cross our fingers and deploy. So, in effect, our policy was, if the code works on my machine, it can be deployed to production.
+
+So. At the most extreme, people lose faith in the build, and eventually they just forget about testing. And this didn't happen to us, but I had to explain to management that key features couldn't be shipped because of problems with the test server. And they wanted to know a lot more about the test server. And it was totally clear that while a working test server has their full support, an unreliable test server is a business liability and needs to be resolved.
+
+So, the test server is supposed to solve problems for us, and that is the only story that I like to tell about it. So, we began to fight back. And we personified the random failures. They became randos. A rando attack. A rando storm. And most memorably, Rando Backstabbian. Intergalactic randomness villain.
+
+We had a pair working on the test suite full time for about three months trying to resolve these issues. We tried about a thousand things, and some of them worked. And I'm gonna pass along the answers we found, and my hypothesis that we didn't disprove. Honestly, I'm hoping that you came to this talk because you've had similar problems and you found better solutions. So, this is just what we found.
+
+I, I have a very important tool for this section of the talk. It's the finger of blame. We use this a lot when we were like, hey, could the problem be Cucumber? And then we would go after that. So here comes finger of blame.
+
+Cucumber! Capybara. Poltergeist. Definitely part of the problem. I've talked to enough other teams that use these tools extensively, and the evidence from our audience, just to know that the results are just not as deterministic as we want. When you're using multiple threads and you're asserting against a browser environment, you're gonna have so issues, right.
+
+And one of those is browser environment, right. Browser environment is a euphemism for, like, a complicated piece of software that itself is a playground for network latency issues and rendering hiccups and a callback soup. So your tests have to be written in a very specific way to prevent all the threads and all the different layers of code from getting confused and smashing into each other.
+
+You know, some of you maybe are lucky, and you use the right style most of the time by default. Maybe you don't see that many problems. A few things you gotta never assume.
+
+Never assume the page has loaded. Never assume the markup you are asserting against exists. Never assume your AJAX request actually finished, and never assume the speed at which things happen, because until you bolt it down, you just don't know.
+
+So, always make sure the markup exists before you assert against it. New Capybara is supposed to be better at this, and it, it's improved. But I do not trust them. I am super paranoid about this stuff. This is a good example of a lurking rando, due to a race condition, in your browser.
+
+Capybara is supposed to wait for the page to load before it continues after the visit method, but I find it has sort of medium success with doing that. Bolt it down, right. We used to have something called the wait_until block, and that would stop execution until a condition was met. And that was great. Cause it replaced, like, sleep statements, which is what we used before that.
+
+Modern Capybara, no more wait_until block. It's inside the have_cc and have_content matcher. So, always assert that something exists before you try to do anything with it.
+
+And sometimes it might take a long time. The default timeout for that, for those Capybara assertions, is like five seconds. And sometimes, you need twenty seconds. Usually, for us, that's because we're doing like a file upload or another lengthy operation. But, again, never assume that things are gonna take a normal amount of time.
+
+Race conditions. I would be out of line to give this talk without talking explicitly about race conditions, right. Whenever you get, create a situation where a sequence of key events doesn't happen in a predetermined order, you've got a potential race condition.
+
+So the winner of the race is random. And that can create random outcomes in your test suite. So what's an example of one of those? AJAX. Right? In AJAX, your JavaScript running in Firefox may or may not complete its AJAX call and render the response before the test thread makes its assertions.
+
+Now, Capybara tries to fix this by retrying to assertions. But that doesn't always work. So, say you're clicking a button to submit a form, and then you're going to another page or refreshing the page. This might cut off that post request, whether it's from a regular form or an AJAX form, but especially if it's an AJAX request. As soon as you say, visit, all the outstanding AJAX requests cancel in your browser.
+
+So, you can fix this by adding an explicit wait into your Cucumber step, right. When you need to rig the race, jQuery provides this handy counter, dollar dot active. That's all the XHR requests that are outstanding. So, it's really not hard to keep an eye on what's going on.
+
+Here's another offender. Creating database objects from within the test thread, right. What's wrong with this approach? Now, if you're using mySQL, maybe nothing's wrong with this, right. And that's because mySQL has the transaction hygiene of a roadside diner, right. There's no separation. If you're using Postgres, which we are, it has stricter rules about the transactions. And this can create a world of pain.
+
+So, the test code and the Rails server are running in different threads. And this effectively means different database connections, and that means different transaction states. Now there is some shared database connection code out there. And I've had sort of mixed results with it.
+
+I've heard this thing, right, about shared mutable resources between threads being problematic. Like, they are. So let's say you're lucky, and both threads are in the same database transaction. Both the test thread and the server thread are issuing check points and rollbacks against the same connection. So sometimes one thread will reset to a checkpoint after the other thread has already rolled back the entire transaction. Right? And that's how you get a rando.
+
+So, you want to create some state within your application to run your test against, but you can't trust the test thread and the server thread to read the same database state, right. What do you do?
+
+So in our project, we use a single set of fixture data that's fixed at the beginning of the test run. And, essentially, the server thread, or the test thread, sorry, treats the database as immutable. It is read only, and any kind of verification of changes has to happen via the browser.
+
+So, we do this using RyanD's fixture_builder gem, to combine the maintainable characteristics of factoried objects with the, like, set it and forget it simplicity of fixtures. So, any state that needs to exist across multiple tests is stored in a set of fixtures, and those are used throughout the test suite.
+
+And this is great, except it's also terrible. Unfortunately, our fixture_builder definition file is like 900 lines long. And it's as dense as a Master's thesis, right. It takes about two minutes to rebuild the fixture set. And this happens when we rebundle, change the factories, change the schema. Fortunately, that only happens a couple of times a day, right. So mostly we're saving time with it. But seriously? Two minutes as your overhead to run one test is brutal.
+
+So, at our stage, we think the right solution is to use fixture_builder sparingly, right. Use it for Cucumber tests, because they need an immutable database. And maybe use it for core shared models for Rspec, but whatever you do, do not create like a DC Comics multiverse in your fixture setup file, with like different versions for everything, because that leads to pain.
+
+Another thing you want to do is Mutex it. So, a key technique we've used to prevent database collisions is to put a Mutex on access to the database. And this is crazy, but, you know, an app running in the browser can make more than one connection to the server at once over AJAX. And that's a great place to breed race conditions.
+
+So, unless you have a Mutex, to ensure the server only responds to one request at a time, you don't necessarily know the order in which things are gonna happen, and that means you're gonna get unreproducible failures.
+
+In effect, we use a Mutex to rig, rig the race. You can check it out on GitHub. It's just a sketch of the code we're using. It's on omadahealth slash capybara_sync.
+
+Faker. Some of the randomness in our test suite was due to inputs that we gave it. Our code depends on factories. And the factories used randomly generated fake data to fill in names, zip codes, all the text fields. And there are good reasons to use random data.
+
+It regularly exercises your edge cases. Engineers don't have to think of all possible first names you could use. The code should work the same regardless of what zip code someone is in. But sometimes it doesn't.
+
+For example, did you know that Faker includes Guam and Porto Rico in the states that it might generate for someone? And we didn't include those in our states dropdown. So when a Cucumber test edits an account for a user that Faker placed in Guam, and their state is not entered when you try to click save. And that leads to a validation failure, and that leads to Cucumber not seeing the expected results, and a test run with, from a new factory will not reproduce that failure, right.
+
+Something crazy happened. Here we go.
+
+Times and dates. Oh, we're out of sync. Let me just. Momentary technical difficulties. Mhmm.
+
+Cool.
+
+OK. Times and dates. Another subtle input to your code is the current time. Our app sets itself up to be on the user's time zone, to prevent time-dependent data, like which week of our program you are on in the middle of Saturday night. And this was policy. We all knew about this. We always used zone-aware time calls.
+
+Except that we didn't. Like, when I audited it, I found over a hundred places where we neglected to use zone-aware time calls. So most of these are fine. There's usually nothing wrong with epic seconds. But it only takes one misplaced call to time dot now to create a failure. It's really best to just forget about time dot now. Search your code base for it and eliminate it. Always use time dot zone dot now. Same thing for date dot today. That's time zone dependent. You want to use time dot zone dot today.
+
+Unsurprisingly, I found a bunch of this class of failure when I was at RubyConf in Miami. So these methods create random failures. Because your database objects can be in a different time zone than your machine's local time zone.
+
+External dependencies. Any time you depend on a third party service in your test, you introduce a possible random element, right. S3, Google Analytics, Facebook. Any of these things can go down. They can be slow. They can be broken. Additionally, they all depend on the quality of your local internet connection.
+
+So, I'm gonna suggest that if you are affected by random failures, it's important to reproduce the failure. It is possible. It is possible. It is not only possible. It is critical. And any problem that you can reproduce, reliably, can be solved. Well, at least, if you can reproduce it, you have a heck of a lot better chance of solving it.
+
+So, you have to bolt it all down. How do you fix the data? When you're trying to reproduce a random failure, you're gonna need the same database objects used by the failing test. So if you used factories, and there's not a file system record when a test starts to fail randomly, you're gonna want to document the database state at the time of failure.
+
+And that's gonna mean yml fixtures or, like, and SQL dump, or something else clever. You have to find a way to re-establish that same state that was created at the moment that you had the failure. And the network. Great talk before about how to nail down the network. API calls and responses are input for your code. Web-mock, vcr, other libraries exist to replay third party service responses.
+
+So, if you're trying to reproduce a failure in a test that has any third party dependencies, you're gonna wanna use a library to capture and replay those responses.
+
+Also, share buttons, right. In your Cucumber tests, you're gonna wanna remove the calls to Google Analytics, Facebook lite buttons, all that stuff from the browser. These slow down your page load time, and they create unnecessary failures because of that.
+
+But, if you're replaying all your network calls, how do you know the external API hasn't changed, right? You want to test the services that your code depends on, too. So you need a build that does that. But it shouldn't be the main build. Purpose of the main build is to let the team know when their code is broken, when their code is broken. And it should do that as quickly as possible.
+
+And then we have a separate, external build that tests the interactions with third party services. So, essentially, external communication is off and then on, and we check build results for both.
+
+So, I want to talk about another reason that tests fail randomly. Rspec runs all your tests in a random order every time. And obviously this introduces randomness. But, there is a reason for that, and the reason is to help you stay on top of test pollution.
+
+Test pollution is when state that is changed in one test persists and influences the results of other tests. Changed state can live in process memory, in a database, on the file system, in an external service. Right. Lots of places.
+
+Sometimes, the polluted state causes the subsequent test to fail incorrectly. And sometimes it causes the subsequent test to pass incorrectly. And this was such a rampant issue in the early days of Rspec that the Rspec team made running the tests in a random order the default as of Rspec 2. So, thank you Rspec.
+
+Now, any test pollution issues should stand out. But what do you think happens if you ignore random test failures for like a year or so? Yeah. Here's some clues that your issue might be test pollution, right.
+
+With test pollution, the effected tests never fail when they're run in isolation. Not ever. And rather than throwing an unexpected exception, a test pollution failure usually takes the form of returning different data than what you expected.
+
+And finally, the biggest clue that you might have a test pollution issue is that you haven't really been checking for test pollution. So, we gotta reproduce test pollution issues. Which means we have to run the tests suite in the same order, and we have to use the fixture or database data and the network data from the failed build.
+
+So, first you have to identify the random seed. Maybe you've seen this cryptic line at the end of your Rspec test output. This is not completely meaningless. 22164 is your magic key to rerun the test in the same order as the build that just ran. So you want to modify your dot Rspec file to include the seed value. Be sure to format, to change the format to documentation as well as adding the seed. That will make it more readable, for you, so that you can start to think about the order that things are running in and what could possibly be causing your pollution problem.
+
+So, the problem with test pollution is fundamentally about incorrectly persisted state, so that the state that's being persisted is important. You want to ensure that the data is identical to the failed build. And there's lots of ways to do this.
+
+So you've got your random seed. You've got your data from the failed build, and then you rerun the specs. And if you see the failure repeated, you should celebrate, right. You've correctly diagnosed that the issue is test pollution and you are on your way to fixing it.
+
+And if you don't see the failure, maybe it's not test pollution. Maybe there's another aspect of your build environment that needs to be duplicated, right. But even then, say you've reproduced the problem. Now what? You still have to diagnose what is causing the pollution. You know that running the tests in a particular order creates a failure. The problem with test pollution is that there is a non-obvious connection between where the problem appears in the failed test and its source in another test case.
+
+And you can find out about the failure using print statements or debugger, using whatever tools you want. But, maybe you get lucky and you are able to just figure it out. But in a complex code base with thousands of tests the source of the pollution can be tricky to track down.
+
+So, just running through the suite to reproduce the failure might take ten minutes. And this is actually terrible, right. Waiting ten minutes for feedback? This is a source of cognitive depletion. All of the stack you've built up in your brain to solve this problem is disintegrating over that ten minutes. You're gonna work on other problems. You're gonna check Facebook while those tests are running. And you're gonna lose your focus, right. And that is, essentially, how rando wins.
+
+Fortunately, we can discard large amounts of complexity and noise, by using a stupid process that we don't have to think about. Binary search. In code, debugging via binary search is a process of repeatedly dividing the search space in half, until you locate the smallest coherent unit that exhibits the desired behavior.
+
+OK. So we have the output of a set of specs that we ran in documentation mode. This is sort of a high level overview that you might see in Sublime, right. And in the middle here, this red spot is where the failure occurs. So we know the cause has to happen before the failure, because causality. So in the green block, at the top, is, that's the candidate block, or the search space.
+
+So, practically, we split the search space in half, and remove half of it. And if the failure reoccurs when we rerun with this configuration, we know that the cause is in that remaining block, right. But sometimes you've got more problems than you know. So it's good to test the other half of the search space as well.
+
+So if you're failure appeared in step zero, you expect not to see the failure here. If you also see the failure here, you might have multiple sources of test pollution or, more likely, test pollution isn't really your problem, and the problem is actually outside of the search space.
+
+So here's a hiccup. Binary search requires us to remove large segments of the test suite to narrow in on the test that causes the pollution. And this creates a problem, because random ordering in the test suite changes when you remove tests. Completely. Remove one test, the whole thing reshuffles on the same seeds. So there's no way to effectively perform a binary search using a random seed.
+
+So here's the good news. It is possible to manually declare the ordering of your Rspec tests, using this undocumented configuration option, order_examples. So, config dot order_examples takes a block, and that'll get the whole collection of Rspec examples after Rspec has loaded the specs to be run. And then you just reorder the examples in whatever order you want them to be ordered in and return that set from the block.
+
+So, that sounds simple.
+
+I, I made a little proto-gem for this. It's called rspec_manual_order, and basically it takes the output of the documentation format from the test that you ran earlier, and turns that into an ordering list. So, if you, if you log the output of, of your Rspec suite with the failure to a file, you'll be able to replay it using rspec_manual_order, and you can check that out on GitHub.
+
+So it's possible to reduce the search space and do a binary search on Rspec. And once you've reduced the search space to a single spec or a suite of examples that all cause the problem, you put your monkey in the position to shine against your test pollution issue, right. This is where it actually becomes possible to figure it out by looking at the context.
+
+I've gone in depth into test pollution, because it's amenable to investigation using simple techniques, right. Binary search and reproducing the failure state are key debugging skills that you will improve with practice. When I started looking into our random failures, I didn't know we had test pollution issues. Turned out we weren't resetting the global time zone correctly between tests.
+
+This was far from the only problem I found. But without fixing this one, our suite would never be clean. So, every random failure that you are chasing has its own unique story. There are some in our code that we haven't figured out yet, and there are some in your code that I hope I never see.
+
+The key to eliminating random test failures is don't give up, right. Today we've covered things that go wrong in Cucumber and Capybara. Things that go wrong in Rspec and just general sources of randomness in your test suite. And hopefully you're walking out of here with at least one new technique to improve the reliability of your tests.
+
+We've been working with ours for about eight months, and we're in a place where random failures occur like, less than five percent of the time. And we set up a tiered build system to run the tests sequentially when the fast parallel build fails. So, the important thing is that when new random failures occur, we reliably assign a team to hunt them down.
+
+And if you keep working on your build, eventually you'll figure out a combination of tactics that will lead to a stable, reliable test suite, that will have the trust of your team. So thank you.

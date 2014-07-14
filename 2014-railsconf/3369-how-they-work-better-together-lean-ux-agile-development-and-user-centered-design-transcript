@@ -1,0 +1,255 @@
+RailsConf 2014 - How They Work Better Today: Lean UX, Agile Development and User-Centered Design - John Athayde
+
+JOHN ATHAYDE: All right. Thank you guys for coming. My name is John Athayde and I'm gonna talk today about working better together, mixing lean UX with Agile development and user-centered design. Last time I was in Chicago to do Rails stuff was in 2006. That guy right there. A little less scruffy. But somebody pointed out last night that this looks like it's the crew for Obi and Courtney's band hanging out.
+
+I come from an architecture background of the building variety, and a lot of the stuff I'm gonna show you today comes from a couple different places. One is from my freelance work over the last fifteen years, which is meticulous. A lot of this stuff is from the almost three years I spent at LivingSocial heading up the internal UI for all of our internal apps. And then recently I've been doing work at a new start up called Cargo Sense with Rich Kilmer and Bruce Williams.
+
+I also wrote this book. It's a little out of date, but there's some good stuff in it, and Prag Prog has a forty percent off ticket right now if you guys are interested in any Rails or Ruby ebooks.
+
+So. Experience matters. Experience is really anything that you, as a user, are going to see when you're working with a tool, a book, anything. I mean, go back to 1983, these were our two main experiences that we had. So it's changed a lot since then, but it's still something that you can think of. There's a very big difference in how I'm gonna work with these two different platforms.
+
+Experience is also something you see in everyday life. The one on the left, just not working as well as the two on the right. You're gonna turn it upside. What's going on? Think about this, too. You ever go to an ATM and you just cannot get the sun angle right, and you can't see the screen? That's a bad experience. Or doors. The handle would imply pull. Horizontal bar kind of implies push. But here, you have to put a label on it.
+
+Now, you can apply this to a lot of things you've probably worked on, where it's so unintelligible that it has to be overly labeled and overly documented. Because the experience is not clear.
+
+And this is always a fun one, you know. But why do exterior doors go out? Well, Chicago, Illinois, in fact, Iroquois Theater. 1903, 600 people died in a fire, because they tried to get out of a building. The doors opened in, and they crammed up against the doors and couldn't get out.
+
+We're gonna talk about that here in a little bit. But that's something to think about why those doors work that way. Why is that experience that way.
+
+So, when we talk about UX, what is UX? We're gonna define that real quick. It was created in the early 1980s usability broadly, to refer to what was a number of vague and subjective attributes of a product. And it's user-friendly characteristics is what they call them.
+
+And this marked the beginning of a shift, from a phase that we're focused on the features into a term that was becoming more concerned with the various facets of how people worked with those features. So the International Standards Organization, ISO, this is in ISO 9241, is that usability is the effectiveness, efficiency and satisfaction with which specified users achieve specified goals in particular environments.
+
+Pretty dry. Pretty generic. Jakob Nielsen gives us a nice little five point thing. You can love or hate Jakob Nielsen, but he is kind of one of the big human factors guys of software development. So he says that it is the promptness with which users learn something, the efficiency that they attain making use of it, how easy it is for them to remember how to use it, how error-prone that is, and then the level of satisfaction they attain from using the system.
+
+And so it comes back to, a lot of these things are applied because they're the experience of many years. And many mistakes.
+
+So going back to the Iroquois Theater fire, architectural building codes changed a lot in the early 1900s. They actually started to come into, really started to be happening between the San Francisco earthquake and events like this. You really started to see them say, you know, we should say that you legally have to build a building this way. So now you'll notice any commercial building, the exterior door will open out, or it will break away.
+
+So, you'll notice on revolving doors that you can actually kind of break away. Like, if you cram into a revolving door, those doors will give with enough force.
+
+So that's, you know, over time we've learned these things. We've applied them, and they make the experience better and safer for everybody.
+
+So, let's get into looking at designs specifically around software. So there's various processes and methods, and I want to kind of compare and contrast some stuff for you real quick. The first is waterfall, which I'm sure most of you have heard or experienced at some point. Large deliverable documents, excessive documentation.
+
+But this comes from projects in engineering, like, in traditional engineering and architecture, where the design is finished and approved before you start building it. And, this is something from a project management tool, like Microsoft Project or something like that. It's called a Gant chart. The red is the critical path. Things that have to happen in a certain order and have to be finished before the next step can be completed.
+
+Now, any delay in there can really mess up the whole timeline of a project. And, this is what typical waterfall processes look like.
+
+You define the problem, you come up with a design that solves that problem, then you build that design, you test that, and you deploy it. And this is usually the entire enchilada. We are not even gonna go into like, this is, you, shrink this down really small and it is kind of, in a way, agile, but we're gonna not even bother talking to engineers. We're going to go spend six months writing up requirements.
+
+Then the design engineer, the design guys are gonna go for three months and work up all these designs and have a 300 page document that they turn over to engineering, who then builds that.
+
+So, you know, that's just one of these little things here. And that can take a long time. And while you're doing this work, the business and the world is changing. So the likelihood of you building the wrong thing and being two years behind the power curve in this process is high. And it all comes down to, this was all about deliverables.
+
+So it has, if I was running a design agency, I want to maximize the deliverables, because that's maximizing the amount of time I'm gonna be spending working on building this stuff for people. Wire frames, big, you'll see these documents where they have the whole screen laid out and everything is specified by pixel, and instead they could have just made a prototype and, and had been testing it already. Instead of having to say, well, this is twenty-one pixel Verdana. No. Go. Just put in CSS. Build it. Go.
+
+You'll hear people fight against that they're not waterfall, and the developers will say, hey, we're agile. Well, the developers may be agile, but each cylo is still throwing things over the wall, or over the trenches as some people will call it.
+
+So, within product, they are kind of churning on their stuff. And then they go talk to design and they have a hand off. And then design works on their stuff in an iterative fashion. But they're not iterating together. So this is still waterfall.
+
+Product talks to customers, and the developers don't get to talk to customers. Now there's, when you start having all those separations, you know you've got a problem.
+
+So, instead of relying on this, like, mythical design hero to come in and say here is the solution that will solve all your ills, we're gonna start talking about the misappropriated but adequately named lean UX. So it's really about design facilitation as opposed to, here's my beautiful design that you will build.
+
+So, when we talk about lean UX, it's really a three part process. It involves design thinking. It involves agile, and in the traditional agile manifesto mentality, and it pulls heavily on the lean startup book from a couple years back. So design thinking came out of a idea, which is a big product ideation. I hate that word, but it's what they do. They come up, they create products.
+
+And the CEO came up with that. And it's innovating, based on direct observation, about what people want and need. So, instead of going in and actually, like, thinking and saying, what if, what if? They actually go and start talking to real people and finding out what they want, finding out what they need, and then coming up with solutions that fit those problems. And, they use sensibilities and methods to match these needs with something that's actually a viable market product.
+
+Part two of that's agile. Melissa Perry posted this a couple days ago. She's a big UX person. And I think this is probably, when every manager says agile, what every developer thinks is going to happen. And it's the, that was your training. And pretty much whenever I hear some manager say this and it's obvious that they don't really know what they're talking about, I kind of just feel like this, and it's just. No. We're not gonna do that.
+
+So agile should be. Everyone pretty familiar with this? Or at least have heard about it before? This is from 2001. And it really talks about these four principles. And it's really in response to the software development of the time and how things were being built. But I think it really applies a lot more to kind of orienteering. And I'm talking about map-reading and land navigation when I talk about orienteering.
+
+So, the good old boy scout method, you know, with sitting there and trying to figure out how you're gonna get from point a to point b. So, in orienteering, the first thing you need to do is find out where you are. Then you shoot an azimuth and choose your target. You say, this is the angle I'm gonna go to get there, and there's a target that I am going to walk to. You move to that target and you repeat. And you keep doing this.
+
+And it's not just about getting yourself from point a to point b, but it's about leading a group of people all in the same direction and sometimes doing complex things. So, when you talk about agile, Dave Thomas sums it up this way. You find out where you are. You take a small step towards your goal. You adjust your understanding based on what you learned, and you repeat.
+
+Which also comes down to the lean startup mentality of build, measure, learn. And you're gonna repeat that process. So it's not the measure in the sense of, which of these forty blue shades is the right button, but measure in the bigger sense of, is this, when we have a design idea, we're gonna try and solve this problem. Does this actually solve the problem or not? And we're gonna measure the efficacy with which it solves that problem.
+
+So this is kind of the UX process inside lean, and this can really be applied, it's, it's, to the whole thing, cause it's not that design is separate from development. Everybody's working together. Everybody's involved. So instead of having your designer go off and come up with something, designers, developers, product people are all working together through these steps.
+
+So we're gonna come up with a concept, we're gonna do a really quick prototype, just get the idea enough that we can work with it and show somebody, and we're gonna validate it, and then we're gonna learn from that and we're gonna repeat the process.
+
+So the formal definition of lean UX here is from the lean UX book, and you know it's trying to bring the true nature of a product to light faster. And there's a couple tools that really assist in this space to help us with that. One of them is personas.
+
+So you can have personas that are kind of formal, like on the left, or you really, really kind of laid back like on the right. And, this is really along the lines of BDD. So if you're doing, you know, as a user, the system admin, we'll give him a name. Give her a name. 
+
+Go ahead and make that a person, pin them up on the wall, talk about them like a real person. It really takes it out of this theoretical, you know, well here's a, you know, Q&A admin that's doing blah blah blah. Give them a name, a personality, and it lets you care about them in a different way than this theoretical person.
+
+You can also have a little more, like, formal documents. These were things that we wrote up when we did customer support. We rebuilt their system at Living Social. So we didn't draw up something, but we came up with, kind of, like, here's the, the point. So we want to talk about, and, you know, it's the name, what's the name of the person. Like, the title. Cause there's a lot of, in, in bigger companies, a lot of titles start to really define roles effectively.
+
+The duties, the goals, the fears, the aspirations. You know, what are their computer skills. It really matters. Cause if you're dealing with experts, you're gonna build a different system than if you're dealing with a computer novice.
+
+Means of communication. How do they like to talk. Do they use IM. Are they are email? Would they rather pick up the phone and call you? Again, it's gonna effect the way you design the system.
+
+And instead of sitting there and making big documents, you break out paper or you break out the whiteboard. This is a flow diagram for a project I was working on at home. And, took me ten minutes to sketch it out and kind of figure out the flows of what I wanted to do. This was for reviewing creating materials.
+
+This is something we did for email. We were handling multi-city emails at Living Social. That is the design. We took that, we went right to code.
+
+You do a lot of sketching. I prefer to use architectural trace paper. This twelve inch roll of fifty yards long. You can lay it over another sheet, very easily, like you see here. That's one sheet laid over another. So I can get elements that are repeating very quickly. If I want a modal I just draw the modal and then, boom, there you go. You can talk about it.
+
+So, then I can pin these up on the wall or they can sit there on the table and just talk about what's going on. And it's not, I don't like this font. I really don't like that green or, you know, is this gonna be this big? No, it's just a sketch. And you can hand the pen to the person. Everybody can scribble.
+
+Ryan Singer, I think, has a lot of great examples of where they even do copy and it's little, just, lines. It's, there's no formality to it. It's, this is a block of copy. This is a headline and it's a squiggle. And that's great because you don't feel like, oh I need to be an artist.
+
+So, applying these things, I've done this a couple different ways and we didn't know what we were doing. One of these things that we did a lot with the info ether days is that we did working in parallel. So, our first client meeting would go something, you know, like this. We'd all be in the room together with the client, and I'd be sitting there working on flows while somebody like Rich or Chad were actually pulling out domain objects, and actually teaching the customer, you can say model. We actually wouldn't sit there and try and make up a new language for them.
+
+We'd teach them what a model was, we'd teach them what the domain meant. And we'd actually get them into our head space. And so we'd come out and build and we'd have usability and functionality. They already were committing to the Git repo, and we had a bunch of sketches either on a whiteboard or on paper about how that flow is gonna work. Sometimes we even had diagrams of page layout.
+
+So it's really about sketching and building simultaneously. These are some sharets I did for the State Decoded, which is a, a Night Foundation opening government project. These little things on the left are an inch square. I was trying to come up with some early ideas of how the, the main landing page would look, would lay out. And so just, there's very little detail there. It's like, maybe copy here. Maybe headline here. Here's a feature images. Here's some other images. And, you know, I'd like, I liked the third one I did, so then I developed that a little better. But you can see it's literally squiggles. There is nothing there of copy outside of the name.
+
+And then that goes, and I took that into photoshop to get something a little more formal, cause I didn't have any brand build around it yet. Any, any, you know, kind of vibe. And so we took that and did this and then this went to build out. While this was happening, while the Jquith who's now running the Open Data Institute was building this code in PHP, with no idea of how my frontend was gonna look. And we married them up later. But we knew the functionality. We had agreed upon how things were gonna work.
+
+And, so sometimes this comes down to prototyping, and looking at things from a big picture level. And a couple of things you can do. If you don't know your end users, one good way to learn really fast is to do what's called a mental model. Indie Young is a UX person. She was at Adaptive Path for a long time and now she's out consulting. And it's really about identifying, like, this would be somebody's morning mental model. Prototypical morning.
+
+Excuse me.
+
+So. It's, it's drawn organizing factor to figure out what the users are doing before you type any code. Or before you even draw on the design mock-up. And it's a visualization of your research data. So if you know what's going on, you don't need this. But if you have no idea what's going on and you really don't know your users, or you, you're on a system that's been around for awhile and people are complaining that it doesn't solve their needs anymore, this is a great exercise to find out what those needs are.
+
+You can also do stuff with, just kind of big picture ideas. When I first started doing the design at Living Social for our internal tools, they kind of said, just come up with, you know, combine all these things together, go talk to people. Come up with kind of like, an ideal world.
+
+And so I put together about six mock-ups that were about at this level, and I took them and we presented them to Aaron Batalion, who was the CTO. And engineering was already moving towards, we had already started breaking up our monolithic app at the time, and they were moving towards a service-based architecture. So we kind of had an idea of what we were doing, but we hadn't really finalized it yet.
+
+And Aaron Batalion just looked at me very seriously and said, you do realize that's eighteen months of work. Like, what I had put into six screens.
+
+And, so yeah. But what was great about this was we had an idea of what could happen. So then we were able to talk about that. Pull things out, break things apart, and things evolved from this. And over time we started working on different projects solving different problems. Like, this was our scheduler prototype that we built.
+
+And you start putting these in front of people. So we went down to our actual people that were scheduling deals and we did usability testing. Now, usability testing is hard, because you often can end up in this situation where you're trying to be all chipper about it and the person's just, like, this is awful. This is horrible. It's great. I love it. Yeah, that's wonderful.
+
+So we started recording things with Silverback. And with Silverback, what you do is you end up getting a screen like this. And so this is one of our live tests we did, with Jean O'Reilly who is one of our senior scheduling people. And basically, instead of all of engineering sitting, that was working on this project sitting around her, making her feel uncomfortable, we had one person talking through some stuff with her. Just getting first impressions. How would you do this? Very leading questions. You, you want the door wide open.
+
+But, you basically get all her clicks, and you can see how often she's doing select all and things like that. But it's really interesting to see how somebody starts interacting with something they haven't seen before. And this records her video down in the bottom with the, from just the camera on the mac, and you also get audio.
+
+So we could then sit there and review these. Each one was a twenty, thirty minute session, working through various questions. And we took those back and then iterated on things.
+
+Sometimes you're working in such a big problem that you have to kind of do the rewrite. So this was our customer support tool that we rebuilt. It was originally Sales Force. They were working in Sales Force. This is backed by Sales Force. But this is a backbone project on top of a Rails app, and it's super complex. And it's two screens. So they have two nineteen inch monitors, this is the left and this is the right.
+
+Now, all these things that we were doing, we had done so much shadowing. We knew all these pain points, all these things they hated, but building all this, again, this is one of those took a year to kind of get to this point.
+
+So what we started doing is that we went in and fixed the pain points when we could. Instead of waiting to build that perfect screen, we went on the production system and fixed that one little interaction that was driving them nuts, and then we'd go and do the next one and go and do the next one at the same time, while we're building.
+
+And so this is really comes down to kind of a, a better way of doing things is almost, I call just in time. So you start with a big-picture design process. Then you apply that design. You codify it into a living styleguide. So this is a code styleguide, not a print document. And you revise as you go.
+
+So, with the just in time kind of project, you know, UX joins at some point. It may be the very beginning, it may not be. And, you know, you're starting there. You just kind of get your legs, get a feel for where you are, and you do it in a really intense design push at the beginning. You do a big spike. You get your overall design stuff happening. You get your design language established. And you are right in on tickets.
+
+And, so some of that stuff we did, we built at Living Social for our internal lab, something called Wilde. If any of you say Ed Lang's lightning talk before lunch, they, he was talking about the system they used for the, the customer facing side. This is all the internal tool stuff.
+
+So we built this as a Ruby gem that people could pull down and install, and it immediately gave them all of the set up parts to build apps with.
+
+So instead of having to worry about, do I put this here, do I put that there? They immediately had kind of a framework for an interface to build their applications. It also had built-in documentation. So all of this stuff they could go in and find out how to use these different things. We took parts of Bootstrap, we took parts of Compass and Bourbon, and we kind of brought all of this together into a big scss framework with our own design elements.
+
+So, some of these, like, this is very much derivative of the Bootstrap styles for alerts. As well as some of the buttons. We would change up and make, we did some different things with buttons, but a lot of this stuff is very derivative, cause we were taking things and saying we like these pieces but we don't want the whole enchilada.
+
+And as you're going, new design elements come up. So about a year after we first built Wilde, we built this timeline element for our sales staff. And this is actually a UI built on top of Sales Force, believe it or not. This is completely backed by Sales Force.
+
+But this timeline element, we were able to extract out the CSS and html and make it available for people building other apps. So now if somebody in another app wanted a timeline, they could pull this code in and they didn't have to go and reinvent it.
+
+This also helps because users who are used to one style, if they switch to another app, it's not a whole different world. It's not a whole new interaction paradigm.
+
+I've done a lot of consulting, and so a lot of these clients are these kind of long-running projects. I've worked on one banking client, for example, since 2008. All on their internal tools.
+
+And what happens is, we've done a lot of these kind of big picture design things with them, but it always comes down to little interactions. So instead of sitting there and saying, let's go rebuild our document manager, we say we're just gonna sketch what documents look like. Here's two states of a document, and now we're gonna build that.
+
+And so this is the kind of deliverable that they get. It takes me five to ten minutes. I sketch it out. I send it over. They build it. I come back in and style it.
+
+And this helps, when you have that living style guide, we break everything up into scss files, and we do a big import and merge it all together. So we now have all these components. So things that are used everywhere become components. Things that are one-offs get placed in areas.
+
+And then you have variables and you have a whole bunch of stuff. So some of this stuff, again, is derivative from Bootstrap. Some of it's derivative from Compass. We kind of shifted now to being reliant upon Compass because we've realized we were including ninety-five percent of it. So we stopped, kind of, chicken and egg and just said, we'll take the whole thing.
+
+My current situation is Cargo Sense. And I'm working with Rich Kilmer and Bruce Williams, and I call this the mad dash. This is, Cargo Sense is a logistics company. We're taking off the shelf node variable tech sensors, which are bluetooth four, and we've got an iPad app written in Ruby Motion. And then we have a web application.
+
+And so we use the data in logistics shipping to detect takeoff and landing press, with pressure changes, and we use data to figure out temperature excursions. So, pharmaceutical needs to keep insulin within this temperature range, and then we can tell if it's been out for five minutes, we raise an alert. Things of that nature.
+
+So this is the story of a shipment. This is a timeline, again. You know, so it's a very, it's, some of these design elements, you've, you, you created ten years ago. You're gonna be like, yeah, I did this. So we can reuse that kind of concept.
+
+But it's these simple four parts again. Big picture design. We came up with an overall brand, look, and feel. We started applying it and we codified it into a living styleguide. In this case it's called Kevlar and not Wilde. And we revise as we go.
+
+Most of our things, this is a Bower package, instead of a Ruby gem, because we're working in Angular. But it supports, I mean, you could use it to support anything.
+
+And a lot of these things, these are designs that, these are relatively high-fidelity sketches. These go over to Bruce or Rich. They comment on them, and then, if we need to for marketing purposes or things before we have built that we're gonna go for sales purposes, I'll do these kind of mockups.
+
+So a lot of this stuff is coming down to really fast and really, just, kind of, seat of your pants pulling stuff off. But when you have a small team, you can do that. And a lot of these design elements, like some of these things, like the, the right hand side or the header were definitely, you know, Bruce at three in the morning saying, I'm making an executive decision. This is what it's gonna be.
+
+Now, Bruce happens to be a very talented designer as well as a full-stack developer, so that definitely helps the situation. But you can do a lot of these things where there's not this formal, well, we're following lean UX. It's just kind of, you're, this is, we're kind of using these principles to make a better process.
+
+So, what are the issues with all of this? One of the issues is called design drift. Design drift is something that happens over time with any kind of creative endeavor. You start off, this is one of our early designs we did at the top, and then here's the customer support tool at the bottom.
+
+So we started off with a fixed-width, with margins, you know, tall header, and we started realizing that people were maximizing their screens and having huge, wide columns, and we were not effectively using the space allotted.
+
+So we went to pushing everything out to the side, and filling the whole thing up. And we really shrunk the header down super small, and we collapsed a lot of things away. These are expert users. We can do training. We don't have to have them understand it right out the gate.
+
+Another problem you're gonna hit is if you're working with a traditional UX or design team, and they're used to having design deliverables and throwing things over the wall to you, you're gonna have frustration. Ladders dot com, when they rolled out this, the, the head showed up to this on his desk. His designers had had a meeting and wrote down what they were pissed off about, and this is it.
+
+And it's too many projects, devs making bad design decisions, no time to actually come up with concepts and ideas, and when we do nobody builds them. We come up with a great experience and then you don't build it or it never ships. All these things are problems that I've heard and sometimes I've said.
+
+And so some of the solutions are really, like, you know, celebrate releases. Like, if you do a release on Friday, get the designers involved, get them to push. Get them to go hit the enter key, you know. Do whatever. Have balloons. Whatever you want to do, you know, that, that works for your team. And make time to dream.
+
+I know this sounds really, like, fluffy and whatever, but really have time to go and be able to spitball and say what if and what happens when I say this, or what happens when a user does this or, you know, wouldn't it be cool if the whole system was, you know, purple instead of red. Whatever.
+
+Kind of figure that out.
+
+Another issue is, if your project management office or your product people aren't on board, it will fail. It will fail hard. It will fail in glorious fashion, because it's difficult to see in the dark. And what ends up happening is that PMO is thinking, we're agile, so we have to work in sprints and we're gonna do SCRUM, or we're gonna - and they get so focused on this process that they've created.
+
+So we're gonna build this complex thing, but we're just gonna wing it. Or, you know, I want you to focus so I'm only gonna tell you what we're working on this sprint. And then the biggest lie in software development, we're not gonna tackle that until phase two.
+
+And you end up with this. So you don't know where you're going. You end up wandering all over the place. it's like forty years in the desert. And instead of saying, hey, we're gonna try and go to this point and we might kind of do this on the way, but that's what we're trying to get to, they just say, no, no, we're just gonna make these, these few steps here. Without any big vision, it's really hard to get everybody rolling in the same direction.
+
+Another problem is forgetting the users. We said user-centered design. So how do you deal with, you know, your users. And how do you bring them in. And lots of times, when you first shadow somebody working on a system, you go ahead and you have that moment where, Cary Elwes in the Princess Bride says, Dear god, what is that thing?
+
+And it ends up being, you have to watch out for that great rewrite. Cause you're like, I can rebuild this whole system. The design's gonna be amazing. And you're, it's eighteen months of work. So, what we talked about earlier. This is the modification of the just in time project.
+
+So we do existing system fixes at the same time that we're doing big design fixes on the, the new system that we're gonna roll out to replace or things that are gonna roll out in time. We go in and just make code fixes, real time.
+
+Just pair up. Sit down with the, you've got a developer and a designer, and you sit down and you say, that's ugly. And the designer's literally typing in css and changing stuff, and the developer's doing support on Ruby methods or things of that nature that need to change in order to make something work better.
+
+Here's a good example of that. We took. This was a screen out of our admin system, the right hand part and it originally was a very complex system for turning on or off somebody's email subscriptions. And we stole some css from somewhere that basically made it look like an IE, like this little checkbox. Little toggle. And this was a mockup. But we took that little piece, built that in code, and deployed it into production. And it was, like, oh my gosh. It's great. We, we understand. We can see it, visually, what's happening now.
+
+So, this is something that's important that you need to involve subject matter experts. If you have these users, you need to go find them. If they're in, in your office, you just need to go sit next to them. What is the problem? Why are you upset? What's your pain point? What makes your life miserable?
+
+And if it's something where you're doing, like Living Social, we had customers outside and inside. So we would go to customer support, say what are your top ten complaints that you're receiving. What's the stuff you spend all the time on.
+
+Is it people can't find information? Are they having a hard time with their credit card? What's, what's going on. Take that back to engineering. Here's some quick wins. And people will go ahead and knock those things out.
+
+Another thing to talk about is that user testing is hard. In all of these systems, the one thing I've always failed with is that it's really hard to formalize user testing and make it part of your testing. So, often, I'll end up with this, you know, this great thing that we've run, and then we go and do a user test after two months.
+
+Ideally, you're doing a very small user test every week. One, two people. Not much. And the easiest way to do this is to go guerrilla. And you can do this anywhere. You can do this at a Starbucks. You can get somebody that, you're sitting there, if you're working on something and it's like, hey I wonder about this interaction.
+
+Hey, what do you think about this? And leading questions, again. What are your leading questions. What would you do here? How would you do that?
+
+Multiple devices, you always get issues with. Responsive design, right. You have to plan time for this, because now it's not just an iPhone. These are just this Samsung Galaxy sizes. Do you even have all of these? What, and this is, ten pixels here, ten pixels there, really can start to break designs. So you gotta determine your break points. You gotta, you have to make this part of your process. You have to say, OK, we're gonna handle responses, and we built this feature, and now we're gonna take two weeks and make sure it works on this, these devices.
+
+And you can emulate a lot of this in Chrome now, which is great, but, you still gotta plan for it. It just doesn't happen.
+
+So, what should we do? How do we take all these projects and these issues? And this is kind of my, my charge to you here. First, you need to gear up, and it's pretty simple. Raid the office supply stash, and that's about it. Get a whiteboard, get a table. You got your phone in your pocket. This is all you really need.
+
+Stop using agile. Start thinking about agility. Dave Thomas has a great, great article here that he just posted about a couple weeks ago. Agile is so abused and so buzz word-y now, that you say it, and managers who don't understand better are like, oh, that means we don't have to worry about documentation. Great.
+
+No, no, no. That's not. We, we're gonna work in an agile fashion. Oh, no, no, no, no. You gotta just say agility. Stop using agile. Just drop it from your vocabulary.
+
+Measure everything. If you don't even know what you're gonna measure, just put Google Analytics on it and turn all the switches on. Just get data in there. Because you're gonna go back and say, what were people clicking on? What were the paths they were taking through the system? And, especially if you're doing e-commerce, you can start seeing, checking, like, figure out your checkout flow and then you can document that. Cause then you can go through and say, hey, we get thirty percent abandonment on this step. Let's go back and look at that. What's going on?
+
+Love your users. Often, I know we get frustrated. Cause we're like, they just don't get it, blah, blah, blah. Oh my god. You know, my parents can't even do this. What's wrong with them? And it's really about you're, you know, we're trying to serve them. We're trying to make their lives better with the tools we build.
+
+So, in doing that, we want to secure quick wins. Whenever you can secure a quick win, you can build something fast, you can do it at night when you go home and you've got ten minutes and it's something you know you can ship, do it. Ship it. Get it out the door.
+
+No more silos. Get rid of design as a team. Get rid of engineering as a team. Everybody's on build. Project managers. Everybody is on one team. And if you have a product, get that, get a micro team. And it's made up of all these people. Sometimes these roles are not clearly defined. Sometimes an engineer is also your product and your project manager.
+
+I argue often that everybody should be QA, but sometimes you need a formal QA person who's really an expert at doing Selenium or something like that and can drive those automated tests.
+
+But design, frontend, engineers. Everybody sitting together, working together, even if you're remote. Collaborating every single day. Developers are not excluded from design meetings. Designers are part of retrospectives.
+
+Pull request workflow. Bruce and I do this at Cargo, since we start off empty pull requests, to discuss big ideas. And you start pushing against the pull request with that branch. And then if it's good, we pull it in. If it'd bad, we leave it out.
+
+Reusable design solutions. If you've got something that you're, you're generating, if you can reuse it, do so. Developers, learn UX. It's not scary. It's not this, like, I have to use photoshop. Go read some books on usability. Defensive Design for the Web by 37Signals is over ten years old, and every single word of it is still very applicable. Most of Jakon Neilsen's stuff. Rock, It's Not Rocket Surgery, I think. Steve Krug is a great author. Just go read some of these books.
+
+You build things that work. You should know why they work, how they work, and how they work efficiently. Likewise, go get your designers to learn how to code. If your designer doesn't understand html and css, at least, how can they possibly design for that medium? It's like a print designer not understand what happens when the ink hits the paper. You would not, it would not happen. Designers need to. They don't have to do the code, they need to understand the code, though.
+
+And forgive. Ann Patchett has a book called the Get Away Car. It's a practical memoir about writing, which is funny. I didn't realize David was gonna do this whole thing on writing when I, I pulled this. My wife sent me this quote that Andrew Sullivan pulled out, but the real short of it is, I'm just gonna read this real quick.
+
+"Stop here for a few breaths and think about this, because it's the key to making art and very possibly the key to finding any semblance of happiness in life. Every time I have to set out to translate the book, or story, or hopelessly long essay that exists in such brilliant detail on the big screen of my limbic system onto a piece of paper, I grieve for my own lack of talent and intelligence. Every single time. Were I smarter, more gifted, I could pin down a closer facsimile of the wonders that I see. I believe that, more than anything else, the grief of constantly having to face down our own inadequacies is what keeps people from being writers. Forgiveness, therefore, is key. I can't write the book I want to write, but I can and will write the book I am capable of writing. Again and again, throughout the course of my life, I will forgive myself."
+
+This doesn't just apply to you. This applies to your coworkers. This applies to your interactions with everybody. So build the app you can build today. Because you can sit there and say, this process is too hard. This is too complex. We'll never get this done. It's gotta start from somewhere.
+
+And so, please try and climb the mountain. I know it's not easy, but you'll eventually get there, and it will be a better world for it.
+
+Thank you very much, and. Appreciate it.

@@ -1,0 +1,235 @@
+RailsConf 2014 - Discovering User Interactions - Cameron Daigle
+
+CAMERON DAIGLE: Oh. There it goes. The big red clock is counting down. I have to start.
+
+Hey guys. My name is Cameron Daigle. I'm the senior designer at HashRocket. We are out of Chicago, Boulder, and Jacksonville Beach is our main office. I'm the longest senior member of the design team. And we build Ruby on Rails apps. We build iOS apps. We do a lot of different things.
+
+So what I'm gonna talk to you guys about today is, well, this is gonna be yet another code-free design talk, so I hope you guys didn't want to see anymore code today. And it's almost an app and website-free talk as well, because what I'm really talking to you about today are not interactions that you're gonna have in a normal context, like on a, on a, on your phone or your laptop. But I want you to discover the interactions around you.
+
+So what that means is that I want, I want you guys to be able to build up the ability to actively participate in interactions and, that might not, that you might not otherwise think about, that may be your habits or that kind of stuff. And be able to quantify those and what you do and don't like about them, and hopefully apply that to how we design products.
+
+So, my first example. So this is Publix. Who likes Publix? Is anybody from the Florida area? OK. Publix is a really nice grocery store. I don't know what you guys in Chicago have. But Publix is, Publix is the best we've got in, in Florida.
+
+And it's a really nice grocery store, really nice user experience, getting your groceries there and everything. You go to pay, at Publix, and this, this is a regular occurrence for me. You go to pay, you go play with plastic because it's 2014. You don't have any cash. And you, this is the last screen that you see.
+
+So I've, I've, I've swiped my card, I've seen the total, I have agreed to everything. I get to the cash back screen and Publix, the little thingy at Publix says, cash back? And if I tap no here, the purchase is completed. That no is a, is a form submission, essentially.
+
+And it drives me nuts every time, because the last thing to tell Publix to get my, my weekend beer or whatever, is no. And so it's, it's this grating experience. But it's, it's just a little detail that, that really does matter. I mean, that every single person that goes to Publix and interacts with them as a store encounters this screen where, just for a half a second, you know, they stop breathing and they're like, wait, what? And then they press no and they're OK.
+
+In contrast, Target, which for me is about a hundred yards from Publix, their final screen looks like this. Now, there's a separate issue here which is that this kind of feels like a weird question to ask. I literally never wanted it all on my card. Like, I don't, I don't know why.
+
+And the no is super angry. You notice the no is all caps. It's like NO! But, but I mean the, it's a big red and a big green button. You press the big green button to buy your stuff. I mean that, that feels better. And now, the wording is a different issue.
+
+But my point here is that the world is full of forms. There, that we are constantly putting information into something and getting some sort of a result. And it, so, the interactions that we encounter when we're trying to build apps, whether we're developing or designing for them, have a lot of parallels in the actual world. And paying attention to these will help you pay attention to those.
+
+So, I was in Vegas a couple of years ago, and this is mostly what I remember of Vegas is the, the traffic and the concrete. But I took a cab ride. I was there with Daniel, our other designer, at a design conference. Took a cab ride and ended up paying like, eighteen dollars to go two blocks or something. And, and when I swiped my card, this was two or three years ago, I swiped my card and the little thing inside the cab calculated my tip for me.
+
+And I thought, that's fantastic. You know, it, on my otherwise miserable cab experience is made nicer by the fact that when someone built this thing, it didn't matter, necessarily, what it looked like, so I hate to say it was someone designed it, cause then you think it's visual. It's really just, when someone built this, the, the software for this, they thought to take, put, take advantage of the fact that there's an extra step here that's always going to happen. And you might recognize this, I mean, this is in Stripe now. So you see any businesses with Stripe, see that kind of stuff all the time.
+
+Now, in contrast to that, I took a monorail later, cause after two or three days of spending, like, fifty dollars a day on cabs, it turns out there's a monorail that's, like, way less money. So we, we were like cool. We're gonna take the monorail.
+
+Now, we walk up to the monorail display, and this is what we see. I wish I had a better picture, but I was. We were in a hurry. And this is, this is the screen. So, single ride tickets, five dollars each. First question. Would you like more than one individual ticket?
+
+No?
+
+Or. Yes, two, three, four, five.
+
+So all this has to be is just like, buttons of one, two, three, four, five, and it was this completely baffling thing that we were just floored by. But it was something we noticed. You know, who knows. So who knows why this came to be? So the, the, I, I mean, it's fun to send all this stuff up, but, what this talk is about is understanding why this might have happened.
+
+In this case, I have no clue why the, they chose to design it this way. I feel like there must be a reason. But, so I play a lot of video games. This is from Super Mario Galaxy a few years ago. I wish I had a better photo of this, but I'm not going through Super Mario Galaxy again just to find this one dialogue box.
+
+So this, this, this fat star man says, you gotta save her? Am I right? And my two options are that's right and yes. And I was like, heh. You know. That's, that's cute. Like, cool job, Super Mario Galaxy. Fun joke.
+
+But then I thought, like, maybe the reason that they did this was because there's like a dialogue prompt object somewhere and it expects, like, two answers. You know. So maybe it was a funny joke and maybe they were just, like, we're not rewriting the dialogue prompt thing. You know. Just to have, like, an OK button at the corner.
+
+So who knows? But, I mean, sometimes you, you get a glimpse into, like, behind the curtain, and sometimes you don't.
+
+Here's an example of getting a glimpse behind the curtain that I never, ever wanted to actually see. This is from the Amer app, a few versions ago, and it is, too date, the most terrifying error message I've ever seen in iOS.
+
+In case you can't read it, it's an unexpected token wanted and then a really strange list of symbols and commands, including the word string with double quotes around it, within single quotes. And things like that. So, I, you guys are the people that would know why this would happen or where it was coming from. I just took a screen shot and tried to get on with whatever I was trying to do.
+
+So, and honestly iOS is full of really fun stuff like this, where, you know, Siri sort of, I mean. She seems confident. But she parsed that sentence in a certain way that makes me wonder about, like, how that's being implemented. Like, how is this stuff being parsed. And, really, I can tell you one thing, the way that it tries to parse phrases is really more trouble than it's worth, you know.
+
+So, someone, they've decided to try to, you know, underskirt oats is what it says. It says that, not me. And what they're trying to do is parse spaces. But of course, as soon as you start throwing spaces into your grammatical checker, you're running, you're increasing the difficulty of doing this accurately versus doing it hilariously wrong. By an order of magnitude.
+
+And, man, I got, I got these for days. So, I feel like the, the one on the right, I really feel like iOS is getting tired of me making fun of it, a little it. I love Siri. We have a very intense relationship.
+
+But, my point here is that we judge truly good design not by its beauty or innovation or efficiency, but rather by how well it responds to its original problem. At what point are you sacrificing complexity, or sacrificing simplicity - either one - to confuse what problem you're actually responding to.
+
+I don't feel like I need iOS to, you know, to correct an entire phrase for me. It's very impressive when it works, but it's very frustrating when it doesn't. So at what point is, is the actual goodness of the design being hurt by that?
+
+So we're gonna look at three separate types of, of ways to quantify this stuff. So, it's one thing to be able to, to notice it and to get, to make, to laugh about it or to figure out a better way to do it. It's another thing to actually be able to do so on the basis of, like, a principle. So these are some basic principles, I think, that you could take and use when you, when you notice this stuff.
+
+Respect for intuition, having a common language, and having a sense of place. Respect for intuition is very simple. All I mean is, does it do what I think it will do? Which you think would be very basic, but honestly it's very easy to find stuff, all the time, where you put yourself in the shoes, in someone else's shoes, or even your shoes before you learned how to use the thing, and you, you realize some things are just not what they seem.
+
+So, this is two coffee makers ago for me. This guy broke. The guy after this wasn't good. And my current one. But this one, I, this is a very old photo, but I can not get over this button. All right, I'm gonna ask the room. The brew button. What do you think will happen when I press the brew button?
+
+AUDIENCE: It will brew a pot of coffee.
+
+C.D.: No, that says zero. None of you guys are gonna. All right, so, you press the brew button, and it wakes up the display, cause this coffee has a sleep mode. So the coffee maker has a sleep mode. So, the button says brew. It's on the front of the coffee maker. It looks aesthetic. You know, it's symmetrical, it looks good. But the button doesn't do what it says it will do.
+
+You actually have to press it again and then it lights up, and that means it's brewing coffee. So you've got two issues here. One, that the button straight up just doesn't do what it says it will do. It's a lying button. Number two, that the button now is lit up, which actually makes, makes it more of a call out. But it's actually an indicator.
+
+So what you have here is something where you, you've gotta talk about where something's an indicator or a call out. This is an app that I designed a really long time ago, in iOS years. This, this came out on iOS 3 I think. And it was a recording app. This came out before the Apple voice memos app was a thing. And we designed it, we said, hey, this app only needs to do one thing. It needs to record. So let's just make it a big red button that says press to record.
+
+Well, the issue with the app that we found after the first couple versions wasn't the press to record. It was what would have after you pressed press to record. So, initially, you press press to record, that button would turn bright green. Cause we said, or I said, it was my fault. We, I said red means record, like, I meant have, you gotta have the button say record. And green means go, so it's going. It's recording something.
+
+But we were confusing people, because they, they thought red meant recording and then. So people were like, it needs to turn red when it records, and I'm like, well then the record button will be green initially. That, that doesn't make any sense. Even though green is brighter. That's.
+
+So, there was this disconnect. And really, the solution that we ended up with was, after a couple of versions in the app store is, the button pulses. So the button pulses slowly brighter to darker. And so sometimes the, the, the solution that you're looking for is, you're just using the wrong format. I was in photoshop. It didn't occur to me to use animation at the time.
+
+So that's, that's that story. We're gonna talk a little bit about microwaves. And we're gonna talk a lot about microwaves, actually. Because microwaves are probably the single most-often used bad interface that there is, I think. That's probably way too strong. I, you know, it's worked well for this talk so I'm gonna go with it.
+
+This is a wall of controls. I mean, there's just a thousand things to do on a microwave. This, by the way, is the inside of a boat from ages ago, and there was a guy who stood there and did that. Whatever it was.
+
+So, I really like this quote from Gary Bernhardt. Programmers are good at building machines with seventeen meta-knobs that turn the ninety underlying knobs. They're bad at asking, why are there so many knobs? And I don't think that's just a, I mean, you can say that about programmers. I think it applies to, to anyone. So I'm not just trying to call you guys out.
+
+But, all right. So we have this microwave, and we have the, the intuition test. What. Does it do what I think it will do? Now, if you've never seen a microwave before, you've never seen this microwave before, and regardless of the fact that we've all sort of learned to bypass what the microwave says it will do, like, immediately. You might, you might say you try to start pressing buttons or whatever.
+
+Well, the top left button on this microwave says cook, right. So it's in the top left, which is normally a good place to put an important thing, and it says cook, which is normally what a microwave should do. So, maybe you try to push, you know, the cook button in the upper left. You press the cook button and this is my, obviously my beautiful hands. You press this, the cook button, and the microwave goes, Ac - 1.
+
+I don't know what Ac - 1 is. I didn't actually press start for fear of, of hurting something. This, this microwave fails the intuition test. It also fails the other test we'll get to that, let's finish this section with a button that does do what it says it's going to do, which is, this is from my xBox. That button returned me to what I was doing and I was like, all right. Thanks xBox.
+
+Kind of hilariously wordy but, that's why I took a picture of it, but.
+
+Second. Common language. So, and, and, by common language I mean, consistency both within interface and also outside of the interface. Like, a consistency with a user's common language. So let's look at a, a car dashboard really quick. Car dashboards are also, you know, this really crazy, like, heavy interface that tends to vary widely and things like that.
+
+This is actually Daniel, the other designer, this is his car. I think it's a Mazda. And every person that gets in this car does the same exact thing I did, which is they try to use that middle knob to adjust, like, the volume, or anything really. But that left knob is the volume.
+
+Let's break it down. So we've got three knobs here. This left knob. You push it to turn the stereo on and off. You turn it for volume. We could argue that it shouldn't be on the left. Someone else could say, but it's closer to the driver, so it should be on the left. So that one can go either direction.
+
+This middle knob. You push it to go to the next menu item. Like, cycle through, like, bass and treble and balance and stuff like that. And you turn it to change the value. So what's important about that is, it's not a toggle. The first button, when you push it, is a toggle. The second button, which looks more or less exactly the same, that walks you through a set of menu options. And the turning changes the value, which is sort of like volume, but it's important to remember that until you push it, this button doesn't, this knob doesn't do anything. Cause it hasn't selected anything.
+
+So, the initial interaction with that button, it was fifty percent non-functional until you know how to activate the button. The third one over here doesn't push in at all. And it's, and it tunes, when you turn it, which doesn't apply to like half the thing that you're, that you're doing with the car. So, I mean, there's an in, there's a severe lack of internal consistency here.
+
+Here's another example we're gonna go back to a couple times. This is the terminator-esque expensive coffee maker that we have in the Jacksonville office. It's very fancy and nice, but there are also some very fundamentally non-nice things about it. Let's look at the top.
+
+So, I've got controls over more than I probably ever would need. I've got nine sizes of cup. I'm sure you have nine sizes of cup for your. I've got flavor and shrink. Flavor goes from light to bold. I, I don't know what, I honestly don't know what flavor really does. We just crank it all to bold.
+
+And strength, strength goes from mild to strong to intense. So, there's three, there's, look, you can do, you can make a panopoly of coffees with this thing, apparently. But, so our buttons down here, our ways to interact with this coffee maker. We have a single cup button, caraf button, and up and down and a strength, all right.
+
+So, say I want to change the strength of my coffee. I press the strength button, which actually cycles between strength and flavor. And the proper one is lit up. And then I press my up and down arrows to, like, crank up the strength or crank down the strength. Whatever. By the way, intense is way too strong. It's really strong.
+
+So I go over here to the cup, and maybe I want to crank up or down my cup size. That button, you press that button, the up and down arrows don't do anything. That button actually cycles. It actually walks all the way through.
+
+Those two arrow buttons, they do set the clock and they do, like, obviously we didn't set the clock. No, I took all these pictures at exactly twelve o' clock. And they do change the strength but they don't, they don't, they don't function for those other two buttons, even though those buttons function. They do the exact same actual thing in the software side. They're cranking a value up or down. So, there's internal inconsistency there. Oh, yeah, so I, so, yeah. So there you go. I'm up to XL.
+
+Video games, again. Video games are great. I think they're really, I, I like playing video games, but also there's a re-invented UI all the time in video games, so I think it's really interesting how often those guys start from zero and work their way up into a completely different interface depending on what kind of game you're playing. It's tough.
+
+But, outside of the software, the controller has been the same for a relatively long time. There are more shoulder buttons and stuff but you have a directional control and you have A, B, X, and Y. Generally speaking, it's safe to say that A means cool, and B means no. Most of the time, right. Would you agree? I mean, since like 1985 or whenever the NES game went out. Or actually, those buttons are reversed. But that's kind of.
+
+So, for example, in Mass Effect, this is old, in Mass Effect one, I think, which explains why the iPhone photo is bad quality. A is land and B is leave orbit for this part of the game where you are in orbit and you need to land or not.
+
+So, cool. Like, A, basically does the thing. B backs you out of the thing. Same exact game. Different screen. Same space ship, whatever. A is enter system, B doesn't do anything, and X is exit, which actually backs you out of the menu. So there's no particular reason for this, other than somebody didn't think about maintaining a common language with basically all of video games. At least I, I assume there isn't a reason. I don't know. I'm, I'm the user on the other side accidentally hitting B, right.
+
+So on this screen, my loud out screen, I think this is Mass Effect two, A doesn't actually bring me to the next screen here. It actually walks the weapon with another weapon. So there's a bunch of stuff going up on this page, but you're eventually gonna choose weapons and then go into the mission.
+
+A doesn't do that. A actually changes your weapon selection. X modifies, so it actually activates this weapon mod screen. Y toggles a, a flavorful sci-fi description. And B confirms and sends you into the mission. So I hope you weren't expecting to, like, back out of this screen, because you're just gonna get landed on a planet with angry people shooting at you.
+
+So, I mean, this, these are off. I mean, this is from the next game in the series. This a common language that is there that needs to be paid attention to and isn't. So, really, I like this quote. Innovate as a last resort. In that, that applies in so many different ways, but the context I'm talking about here, it's that before you start doing something different than maybe you've already done or, or, or other people have already done, you need to justify it and you need to be aware of like the, the existing languages that, that, or the commonality of the, the history of whatever you're using.
+
+So, obviously, accidentally, semi-accidentally putting a button on X instead of B is not innovation so much as an oversight. But this speaks to the respect that you need to have for existing patterns and existing user assumptions.
+
+Number three, we're gonna look at here is a sense of place. So, what I mean here is the navigation of an item. Where is a user when they're using your thing. Where are they in your website, for example.
+
+So Steve Krug says, navigating isn't just a feature of the website; it is the website, in the same way that the building, shelves, and cash registers are Sears. So like, navigation is everything when it comes to helping your user understand where they are.
+
+And this quote's pretty old. So he means like navigation between pages and stuff. We, with a lot of fat client apps and things like that, it's not just pages. It's modes of interface, it's states, it's what is active and available at any time to me. Maybe my url hasn't change for awhile, but there's all of these different ways and navigating and walking into and out of states of interface and flows.
+
+So, button modes might get you thinking about something that you're familiar with, which is VIM. And one of the reasons that I, I started using VIM like a month ago. I like it, I guess.
+
+So, the, all the HashRocket guys are making fun of me. So, VIM, if you've ever tried. How many of you have not tried to use VIM? OK. So there's a few of you. So when you try to use VIM, for you five guys, VIM is really popular. When you try to use VIM, you might try to just start typing a word. But it's not going to do anything. It's not going to do what you think it's going to do, even though it looks like a text editor and your keyboard looks like a keyboard.
+
+You actually have to, you actually have to go into insert mode, which is a specific mode, so the reason that VIM is so complicated is because the modes are not immediately apparent. And that's fine for an expert tool. You can do an incredible amount of powerful, incredible amount of powerful things with VIM. But it is so heavily modal that it is very fundamentally confusing and it can be really hard for someone to get the hang of initially.
+
+So, something else that's heavily modal is my microwave. And it is a lot worse designed than VIM. Let's, let's be clear. So say I want to, for some reason I want to soften something. So, I, I, I press soften with my well-manicured. That's my wife's hand. Press soften, and the, it says one.
+
+So, through trial and error, I was able to discover what it wants you to do here. And what the soften button wants you to do is select a value from one to four and then press start. All right. So the reason that that is confusing is not only, well, not only is there no indicator of that, what that, what is going to happen there, it's that the microwave has switched modes.
+
+And the reason I blacked all this out is once you press that soften button, you're no longer in microwave mode. You're in softness selector mode, right. So while all of these other buttons are still there, but the mode of the entire thing is switched. I'm actually, I've actually walked a step down into, I've navigated somewhere. Walked a step down into a flow, without getting any feedback or, you know, unless you count one on the screen as feedback.
+
+I have very little feedback that I have actually gone anywhere. So what the, what badly designed modes can do to you is that they result in a secret sequence of actions, like I, unless, till I discovered what the app or, or interface or microwave wants me to do, I don't know what it is. And if it's a mode, then that will drive me down what is, potentially, can be a long chain of, of sequential actions.
+
+So, for example, with this microwave, I like cooking things on power five, cause then, like, it heats it a little bit more evenly and you don't end up with, like, lava combined with ice, if you're cooking a Hot Pocket or whatever. So, like, I would say, with this microwave, and this is very specific to this microwave. Don't go back and think that this is, it will apply to your microwave. Because this, this microwave, you, you can't push the buttons first. You have to press cook time in order to put time in at all.
+
+Then, you actually have to press power, after you have time entered into the display. Then you can press five and change the power to five and then start. So this microwave has, like, there's so much here, but like, in order to do what is a relatively basic feature of the microwave, you have to know a specific chain of commands.
+
+I, I really don't want to compare that to VIM, but that is pretty much like VIM. But VIM is an expert tool and this microwave is supposed to be for, for everyone who needs to use a microwave. So, you know.
+
+But after entering a mode, you have to do one of two things. You have to either force completion of the mode, which is what my microwave does. None of the other buttons will work until you, you know, cancel out and panic and just cook on ten. And, you know, cook your thing too much. Or destroy your existing progress.
+
+So I actually checked with a very similar microwave at my parents' house when I was there over Easter. And their microwave, if you start typing and you press something else, it just kills whatever you were doing before. So what'll happen then is that you'll switch the power to five, but then you'll type in time and it'll start cooking at ten because when you switched to put in the time, it just canceled whatever you did before.
+
+So, microwaves. You know.
+
+So, let's go back to the coffee maker, because destroying progress can have very real-world implications aside from accidentally cooking a thing stronger than you wanted to. So this microwave has a very rich user experience when it comes to actually getting coffee into and out of the thing.
+
+So you press the open button. This flips out. That thing unfolds. You've got all of this different stuff going on there. Well, it's got, it's a grinder, too. I should point this out. It's out of frame. Up there at the top, you put your beans in there. You close, you get a, you get the filter emptied out. You close it up, you hit start. It goes whirr, and it starts grinding your coffee.
+
+Well, here's the problem. Is that open button, fully functional the whole time. So, and this has happened, I would say, this has happened a handful of times and it's really bad, because you, you end up wanting to fight somebody before the day has even started. But you're standing there with your mug next to it. You're first in line. You know, you've just started the coffee. It's finished grinding. It's started to brew.
+
+And some guy walks up and he goes boink, and he hits the open button and the coffee maker's like, pfft. You put it back in, you press start and it goes whirr, and it starts grinding a new batch of coffee. So you can destroy. That one button will destroy an entire, like, entire thing of coffee. Like, you don't, it, it doesn't know what it, why it's doing that. It's really annoying. You have to go in and empty the filter and reset the whole thing. So you can destroy an entire pot of semi-brewed coffee just by pressing the open button.
+
+So that's awful.
+
+Here's a, here's the coffee maker I have at home now. It is simple. It was, it was not expensive. It's not, it doesn't look like as much like a terminator as the other coffee maker does. You, it doesn't have a grinder in it or anything like that. We're talking pretty minimal. It makes water hot and it puts it on the coffee.
+
+On the inside here, this is a, this is the spout. So this is your little water spout that's actually gonna put the, the water into the coffee. It flips over here. So, like, you fill up the thing, the tank with water. You pull that over. Close the lid. It puts water on the coffee like it's supposed to, you know. Not very glamorous.
+
+But here's one thing that I discovered on, completely on accident that I thought was great and I got probably way too excited about it. Let's watch a cinematic recreation of, of this, of this coffee maker and what I discovered.
+
+I should have. I should have had music.
+
+Oh my gosh! I was so excited. I was like, oh, whoever designed this but a little tab thing right there, and it's slanted just a little bit, and it cost probably almost zero dollars, but it was. That pushes the little arm in there to keep you from accidentally just putting hot water back into your tank. And I was like, this coffee maker has developed a lowfi like very non-technical solution to a problem, and this was probably done by whoever engineered the coffee maker. Like, it was probably not done by the guy who designed the outside of the coffee maker. It was done by the guy who designed the inside of the coffee maker.
+
+But he's avoided a very basic kind of user error. So let's, let's do a, let's do a feature comparison here.
+
+This coffee maker was $200. This coffee maker's #35.
+
+This coffee maker has a one-button self-destruct, right.
+
+This has a one-tab coffee saver.
+
+This thing's got a thermal carafe.
+
+This thing's what I like to call a visual quantity indicator. That means, that means you can see how much coffee is in it, which is a whole other thing.
+
+All right, design is the decision making in the presence of constraint. You give somebody $200 and you want a coffee maker with this giant list of features, versus a #35 with, with like way less features. You're, maybe, well the design on the, of the later might actually be better. You know, it's not. Constraint is not necessarily a bad thing. I really like this quote.
+
+So here's what we're not talking about. I've got to speed it up. Here's what we're not talking about. We're not talking about button styles or what things look like. That's important, but generally speaking we know what a button looks like. We know where it is. You know, buttons have looked more or less the same up until this year.
+
+So, like, that's, that's decoration. It's ridiculously important, but that's not what you'd have to worry about in order to have an interaction feel good. And it's also. I also just want to say that, like, as a designer, I wanted to facilitate good experiences and not have them get hurt at the expense, or, at the expense of my design preferences.
+
+So Ancient City Ruby was at this hotel last year. This is, or, this year, too. This is the Casa Monica Hotel in Saint Augustine. So, beautiful on the outside. Absolutely gorgeous. Really nice architecture in the whole place.
+
+We walk into the room, and this is our window. All right, so our window is like three feet tall. It's this little square window. The room is all dim. There's just, if you see up here, there's a little plaque. This is what the plaque says.
+
+These uniquely shaped and placed windows, blah blah blah. As to why some windows are regularly shaped and low to the floor is known only to Franklin Smith, who is the, he was the amateur architect that designed this building. So he was really into the outside of the building and not so much the inside, at the expense of his users, I should say.
+
+Here's something that's actually well-designed, but it's not well-decorated. So this is the hotel receipt, or. Hotel receipt? Or, the parking receipt at the airport. It's ugly, you know. I would like to redesign it from a decorative sense. But the actual fundamental design of it is actually all right. Because it's probably really low-cost to print these things, like, that's like nine lines of dot matrix, right. So there's probably a lot of money saved just in terms of the complexity of the hardware and things like that.
+
+And here's the, here's the thing you put it in. This thing, also really ugly. But, it performs great. There's one slot. You put your ticket in. You put your card in after your ticket. It spits out your card and your receipt. So there's almost no way to screw this up. They actually have instructions. It says insert ticket. Insert credit card. Take credit card. Take receipt. You almost don't need instructions for that, but I appreciate it.
+
+It's well, it's not pretty. It's not well-decorated. But it's well-designed and that is solving the right problem. Good design solves the right problem. So this, when we come back to things like this, we look at the, the microwave. Why? Like, why did this end up like this? And I, I really think that it's because microwaves are not designed the way we design soft- or, hopefully not designed the way we design software. And, like, this industry doesn't necessarily work the same way we do. And I think that the process can have all the influence in defining the product.
+
+So, with that said, let's design a microwave the way we would design a product really quick here. So, I want to design to solve a problem. I want to design it feature by feature, to justify the most important stuff that you would need to have a microwave work well.
+
+So let's start with a clean slate. So the first thing I'm gonna need on my microwave, is I'm gonna need to know how much time, cause the microwave counts down, and I'm gonna need to know I'm gonna be able to start and stop it.
+
+So that's the first thing we'll need. Well, I need to be able to increment and decrement the time. So let's do that. I probably don't have a use case for less than ten second increments for cooking something. So that seems reasonable.
+
+I do have a use case for, like, defrosting or something like that, where I might have to hammer that button a bunch of times. So let's add minute selectors as well, so we can go up to, you know, five minutes relatively quickly, with very little fuss. It makes sense immediately.
+
+And I also need to adjust the power level. Well, let's do that too. Let's use our existing design metaphor. Let's use our existing design language, and we'll put a power selector right there. And that's it.
+
+So, what we've done is we've, we've followed user needs and we've followed specific feature needs. We've avoided inconsistency. We've avoided confusion. We've also avoided modes. So, hypothetically, if you were to design something that, that, that backed this up, hardware wise, you should be able to just change power on the fly. I mean, maybe there's something I don't know about microwaves where you can't do that and you wouldn't be able to use those buttons, but as far as I know, there is no, like, there's no secret sequence of events to set time and power and start. You should just be able to do it.
+
+So that's the kind of thing that we could do instead. And, so this talk is about, I mean. Hopefully at this point you know what this talk is about. But, we need, we need to look at things, and we need to look at the interactions around us and we need to learn from them, even if they don't apply to our, even if they're not software based.
+
+Because the way that you design something in the, fundamentally, like the way you think about it and the way you think about your users is gonna affect the final product every step of the way.
+
+And I feel like that's some, that's our obligation. We can show people that we value their experiences top to bottom and that we're constantly thinking about how to solve problems, ease friction, remove barriers, and serve them in world-class ways. And we have a huge opportunity to change someone's expectations.
+
+So what I want you guys to do is discover the interactions around you, no matter what they are. Respect your user's intuition, language, and their sense of place, those basic, fundamentals of understanding where those things can go wrong. And I really do think that interactions are for everyone. This isn't just design stuff. This isn't, this isn't based on some science that you don't know. There's a certain level of awareness and a certain level of active experiencing of interactions that I think apply to anybody in our field.
+
+So, that's all I got. Thanks a lot guys.
