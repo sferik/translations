@@ -4,6 +4,12 @@ Domain Driven Design and Hexagonal Architecture with Rails - https://www.youtube
 
 Saving the World (Literally) with Ruby on Rails - https://www.youtube.com/watch?v=J8i3mKJyjbQ
 
+Real-time Rails With Sync - https://www.youtube.com/watch?v=L1YcCNcWUMs
+
+Advanced Arel: When ActiveRecord Just Isn't Enough - https://www.youtube.com/watch?v=ShPAxNcLm3o
+
+All the Little Things - https://www.youtube.com/watch?v=8bZh5LMaSmE
+
 Ultra Light and Maintainable Rails Wizards - https://www.youtube.com/watch?v=muyfoiKHMMA
 
 Eliminating Inconsistent Test Failure - https://www.youtube.com/watch?v=Z6Xk5JWVrcA&index=43&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5
@@ -17,6 +23,8 @@ Modeling on the Right Side of the Brain - https://www.youtube.com/watch?v=ABIvpz
 Mutation Testing with Mutant - https://www.youtube.com/watch?v=WccaOMuf01Y
 
 Supercharge Your Workers with Storm - https://www.youtube.com/watch?v=qjZnezdSKnw
+
+Rack-AMQP: Ditch HTTP inside SOA! - https://www.youtube.com/watch?v=cINCWpn-LQM
 
 Biggish Data With Rails and Postgresql - https://www.youtube.com/watch?v=40xq1jXM7GY
 

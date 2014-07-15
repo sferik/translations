@@ -1,0 +1,901 @@
+RACK-AMQP: Ditch HTTP Inside SOA! - Josh Szmajda
+
+JOSH SZMAJDA: All right. You guys ready to talk about SOA? Woo!
+
+I'm Josh. Hi. How you doing? I'm the CTO
+
+at Optoro. We make software for retailers. Help them
+
+deal with their stuff at scale. I'm working on
+
+a project called RACK-AMQP. RACK-AMQP is a collection of
+
+different projects, including an RC, some client libraries, and
+
+most notably, Jackalope, which is a new Ruby web
+
+application server, like Unicorn, Passenger, Thin, or, or anything
+
+like that. Except that it's special-purpose. It's for service-oriented
+
+architectures. And it doesn't actually speak HTTP at all.
+
+So. Why am I doing this crazy thing? Well,
+
+my app drove me to it. My app is
+
+huge. It's really complicated. This is kind of a
+
+services diagram of my app. Or where we'd like
+
+to go with it.
+
+There's over three-hundred and fifty models in one Rails
+
+application. The test suite takes over eight hours. It's
+
+kind of a headache. You could put it. So
+
+we decided the way to move forward with it
+
+is to break it up into smaller applications that
+
+work together. And, of course, that means SOA.
+
+Now, I mean, SOA is really wrapped up in
+
+a lot of pretty awful baggage, when you come
+
+down to it. SOA, you think about enterprise service
+
+buses. You think about strict interface definitions. Versions. I
+
+mean it's a lot of complexity that you have
+
+to worry about. Extra load balancers. More configuration. More
+
+distributed tracing and monitoring. I mean, it's a, it's
+
+a real pain.
+
+So I, I hate SOA, right. It makes me
+
+feel like this. So, but when you get down
+
+to it, SOA is actually not all of that.
+
+SOA is really just independent actors communicating. They're working
+
+together to get something useful done. So, really, SOA
+
+can mitigate complexity by enforcing simplification. Each service only
+
+has to think about its own little bubble. It
+
+only has to worry about its little component. And
+
+it doesn't have to think about anything else that
+
+goes on in its entire system.
+
+You can let your system architect worry about what's
+
+going on across the whole thing. All you have
+
+to do is pay attention to your one little
+
+service and you can be pretty happy.
+
+So, when you get down to it again, SOA
+
+is really just independent actors communicating. Now that communicating
+
+bit is important. How they communicate actually determines how
+
+your application behaves. And the kinds of communication you
+
+can use impacts the kind of application you can
+
+write.
+
+So, the typical communication pattern that we're most familiar
+
+with as programmers is sort of direct messaging. I
+
+am an object. I can send a message to
+
+my friend. My friend is gonna give me back
+
+a response. It's very normal. It's what, in fact,
+
+we use all the time with HTTP. But when
+
+you think about it, what we actually want to
+
+do is be able to send different kinds of
+
+messaging structures. We want to publish that something happened
+
+in my system and have people subscribe to that
+
+event and take some interesting action.
+
+It's all about decoupling. I don't have to know
+
+about my neighbor anymore. I just need to know
+
+that I did something, and then somebody else might
+
+care that, oh, you did something. That's great. Let
+
+me do something about that.
+
+But again, like I said, let me. We're Rails
+
+developers. We're used to writing web applications. We speak
+
+HTTP all the time. HTTP allows us to do
+
+direct messaging, so that's what we tend to do.
+
+I'd say most SOAs out there, when they get
+
+off the ground, they start building web applications that
+
+speak with each other through HTTP. It's what we're
+
+familiar with.
+
+But what would we actually like our transport mechanism
+
+to be? We want it to be, you know,
+
+data structure independent. HTTP specifies that there be a
+
+body, but it doesn't specify the format of the
+
+body. We want it to be fast. We want
+
+it to be open, transparent, understandable, clear. You know,
+
+debuggable. Observable. And flexible.
+
+So, is HTTP all of those things. We also
+
+need, not only direct request response type of messaging,
+
+like RPC, but we also need pub, subscribe, and
+
+broadcast. Additionally, we don't need more load balancers. More
+
+SSL certificates. Distributed logging. Trying to figure out what's
+
+going on in this service over here versus that
+
+one over there. It's a nightmare.
+
+And, you know, looking up the various services in
+
+your system, it's a pain. So, again, I mean,
+
+HTTP, you know, it has, it is blind. It's
+
+fast. It's open, clear, it's well-understood. It's what we
+
+know. It's really great for RPC. It's a better
+
+alternative.
+
+And that's AMQP. AMQP is blind, also. It doesn't
+
+care what data you're transmitting across it. It's extremely
+
+fast. It's an open system. It's great for all
+
+messaging pattern. Not just direct messaging, but pub/sub, and
+
+queue-based messaging. It's centralized, which in terms of a
+
+service-oriented architecture is very beneficial, in that you have
+
+one point to manage, one point to pay attention
+
+to everything at. And the only issue is that
+
+it's not what we're familiar with. It's not what
+
+we know. You know, again, we're web developers. We're
+
+not AMQP developers. At least not the most of
+
+us.
+
+So it's a challenge.
+
+So the RACK-AMQP project that I'm working on is
+
+really designed to make AMQP simple. We are trying
+
+to introduce as few opinions as absolutely necessary in
+
+order to make this possible. And to give you
+
+a stepping stone into the world of AMQP where
+
+you can start to integrate more advanced concepts into
+
+the system, without having to relearn your entire world.
+
+So it also lets us continue to build what
+
+we know. Because it's built on Rack, you know,
+
+we're web-developers. We can continue to use the web
+
+concepts that we're familiar with. We can developer locally
+
+on our web machines using the systems that we're
+
+comfortable with. And then when we deploy, we simply
+
+deploy it to Jackalope, instead of to Unicorn or
+
+Passenger or whatever, and it's magically in this world
+
+of AMQP.
+
+So. How does that work? Well, let's look at
+
+AMQP a little bit more in depth, first. So
+
+AMQP is the advanced messaging queue, message queueing protocol.
+
+It is an open standard. It's developed by Oasis,
+
+which is an open standards body. It, again, like
+
+I said, uses a centralized distribution pattern. That centralized
+
+distribution pattern allows you to do the various kinds
+
+of messaging that are really handy for us. The
+
+pub/sub and the other interesting thing. This implies that
+
+we have a broker in the center that all
+
+of our services connect to and transmit messages through
+
+that broker. And that broker can make intelligent decisions
+
+about how to route those messages.
+
+AMQP messages themselves, they have headers and bodies, just
+
+like HTTP. There are well-known fields, like content type
+
+and priority, in this case. And we can actually
+
+leverage the conventions that we understand from HTTP to
+
+pull AMQP into the world. So AMQP, like I
+
+mentioned, has these headers and bodies. It has well-known
+
+fields. And HTTP essentially has headers and bodies and
+
+also well-known fields. So we can essentially emulate HTTP
+
+over AMQP without too much trouble. And, again, the
+
+AMQP supports the RPC messaging pattern, which is what
+
+HTTP is.
+
+So, one of the parts of the project is
+
+the AMQP HTTP RC, which, it simply does as
+
+little as it has to to define the structure.
+
+It's just a documentation on how we're doing the
+
+mapping. One of the other goals is that we
+
+want to make inner-operability with other languages and other
+
+platforms really easy. So having an RC will allow
+
+it, allow us to have just a central document
+
+to refer back to in constructing other servers.
+
+So let's look at HTTP a little bit more
+
+in-depth. How does HTTP work? Well, you know, when
+
+we send a request, we send a specific request
+
+to a server, to a, you know, specific IP
+
+address and port. And we get back a response.
+
+And, of course, the request has things like the
+
+HTTP verb, the path, headers, the bodies. And the
+
+response comes back with a response code.
+
+It's all stuff we're familiar with. So all we
+
+had to do is map that into AMQP terms,
+
+which is essentially what we've done here. And this
+
+is just a reference for just a few of
+
+the things that we're doing. Like content type. There's
+
+already a content type header in AMQP, so we
+
+just reuse that. Some things didn't make sense. Like
+
+the protocol for example. In HTTP you've got HTP
+
+or HTPS or HTTP plus dev or whatever. But
+
+with AMQP, your protocol's already negotiated when you connect
+
+to the broker. So it doesn't really make sense
+
+for us to worry about that in the messages
+
+we're passing around the system.
+
+The host name becomes, essentially, the routing key. The
+
+queue target that we're sending to in AMQP. And
+
+it makes it really simple. So, this looks like
+
+this, essentially, in code. This is an example of
+
+how you could write a client that speaks AMQP,
+
+HTTP. You create a call-back queue. We'll get back
+
+to that in one sec. You publish a message
+
+that looks like an HTTP message to the target
+
+queue. And then you wait for a response.
+
+Now, the callback queue is actually a really important
+
+thing here. AMQP is a hundred percent queue based.
+
+It's all asynchronous under the hood. But, you know,
+
+we want to write a synchronous system. HTTP is
+
+synchronous. I send a request. I wait for the
+
+response, or receive the response and move on. So,
+
+to do that in AMQP, we create a respond
+
+queue that we are going to listen to in
+
+the broker. It's an anonymous queue. There's a great
+
+convention. We're doing this in AMQP. It's very easy.
+
+So we create a response queue, we get the
+
+name of that queue, and then as part of
+
+the message we send to our target, we say,
+
+here's the response queue to reply back at. And
+
+then we simply wait for the response on that
+
+call-back queue to come back. So that lets us
+
+get the synchrony that we're familiar with, that we
+
+need, with HTTP style programming, while still having an
+
+asynchronous system under the hood.
+
+RACK, of course, we're all using RACK today. Even
+
+if you're not familiar with it. RACK, of course,
+
+is what runs all Ruby web application servers. Turns
+
+out that RACK actually doesn't care about HTTP. All
+
+that RACK really defines is that you had defined
+
+a call method that receives an environment, which is
+
+basically a hash, and it responds back with a
+
+three-element array. The HTTP response code, headers, and the
+
+body.
+
+That hash doesn't actually have to be anything but
+
+a hash. It just has to look like an
+
+HTTP environment. So emulation was actually pretty simple. So
+
+this is basically how it looks. We subscribe to
+
+a queue on the server, and then for every
+
+message we receive back for that queue, we unpack
+
+some things into variables. We create what looks like
+
+the HTTP environment and we have the request method
+
+and query string. If you ever wrote CGI way
+
+back in the day, this might look familiar to
+
+you.
+
+And then we essentially pass that environment onto our
+
+RACK application, receive the response from the RACK app
+
+and then publish that back to the response queue.
+
+So this is what Jackalope is doing for us.
+
+Jackalope is emulating HTTP for our RACK applications. And
+
+it just works. I'll show you a demo at
+
+the end. You don't have to modify your code
+
+at all. You can just simply deploy to it,
+
+and it's speaking AMQP instead of HTTP. So that's
+
+it. We're done. We can go on vacation, right?
+
+Well. I didn't talk about how to actually put
+
+this in production, other than just use Jackalope. So
+
+you have to choose a broker in AMQP. So
+
+what we're using is RabbitMQ. RabbitMQ is a well-known
+
+AMQP broker. If you're doing any AMQP you're probably
+
+using RabbitMQ, most likely. It's used by giants out
+
+there. I mean, Google, VMWare, NASA. All these people
+
+are using Rabbit pretty heavily.
+
+It's extremely scalable. It's fault-tolerant. It's distributable. And it's
+
+secure. It does everything you'd ever want. And it
+
+also gives you a really great management console. We
+
+can go in and see what's going on in
+
+your system. Like I mentioned, the distributed logging we
+
+saw in the, in the last talk, if you
+
+were here for that, trying to get an idea
+
+of what's going on across your system can be
+
+challenging. Rabbit doesn't tell you everything you'd want to
+
+know, but it at least gives you an idea
+
+of what queues are being used. Their depths at
+
+the point. The kind of information that can help
+
+you get, at least get a handle on it.
+
+Additionally, you're gonna have to think about how you
+
+talk to the real world. I mean, AMQP is
+
+all well and good behind the scenes, but how
+
+do I continue to interact and serve my clients
+
+that I actually care about, to the point of
+
+getting paid, right.
+
+So this is the architecture we typically use at
+
+Optoro. We have our Rabbit server in the middle,
+
+and all the various services sitting on Jackalope that
+
+talk to Rabbit. And then additionally we have one
+
+or more API services that are continuing to be
+
+deployed on Unicorn, in our case. They talk to
+
+the outside world and internally translate the, the needs
+
+through AMQP and the rest of the system.
+
+One of the things we actually published for each
+
+of our services is a client gem that kind
+
+of isolates the worry, the worry about exactly which
+
+transport we're using away from the consumer, the API
+
+here. So it actually is, is really simple.
+
+And so the way that we do that is
+
+we typically have been using HTTParty for our HTTP
+
+communication needs. So we wrote, as one of the
+
+other projects part of RACK-AMQP, is AMQParty, which is
+
+just a API-compliant version of HTTParty. So we can
+
+actually just drop in the AMQParty constant in place
+
+of the HTTParty constant, and you can see down
+
+below, that transport variable, we typically configure that at
+
+boot time to be either HTTParty or AMQParty. And
+
+everything, again, just works.
+
+We change the, the url a little bit, too.
+
+But we do that all part of the, part
+
+of this setup for each server. For each client.
+
+Of course, if you don't want to use HTTParty,
+
+some people like the various other options that are
+
+out there, we also are publishing RACK-AMQP client, which
+
+is what H, AMQParty is built on. It, it's
+
+a very simple API. You get a client, you
+
+tell it which Rabbit to connect to. You send
+
+a request to your target queue with your uri
+
+as part of it, with any, you know, your
+
+HTTP method and all that. You get back your
+
+response. It's synchronous. It's simple. It's actually built on
+
+Bunny, which is a really great AMQP gem out
+
+there, and that also is very easy to use.
+
+Additionally, we're publishing a sample SOA using Rails. It's
+
+a work-in-progress at the moment. BUt the userland and
+
+userland_client are mostly built as, you can see where
+
+things are at the mo- at the current state.
+
+It kind of gives you an idea about how
+
+we think about SOA at Optoro, and how you
+
+might be able to use Jackalope and the RACK-AMQP
+
+project in your own projects.
+
+So userland is a, is Rails service that essentially
+
+publishes a user's concept out into the world. And
+
+then userland_client is a gem that consumes the userland
+
+service and interface uses the userland gem to talk
+
+to the userland service.
+
+And so then, you know, how fast is this?
+
+Well, there's this bench mark I've got. I'll show
+
+you it in just a sec. The only weird
+
+thing we have to do here is tell AMQParty
+
+which Rabbit to talk to, and you kind of
+
+saw that in the, in the client gem a
+
+little bit, so that's a little bit of setup
+
+we do. Again, like I said, when we make
+
+the decision about which, whether HTTParty or AMQParty. So
+
+we tell it which Rabbit. And then, inside, we,
+
+five hundred times, request this JSON using AMQParty and
+
+then five hundred times request the same thing using
+
+HTTParty.
+
+So here, I'll show you that in, in use.
+
+Let's see. OK.
+
+Let's make this big. All right. So here I'm
+
+gonna boot the app using Unicorn. So Unicorn is
+
+listing on port 8080. Wow. That's really big. Trust
+
+me, it's 8080 there. I'm gonna boot the same
+
+map using Jackalope. The only difference I have to
+
+do to boot the app is I have to
+
+say with the right queue name, so it's going
+
+to listen to the test dot simple queue.
+
+So there it is running. And then down here
+
+I'm gonna starty the bench mark. And like I
+
+said, it's gonna five hundred times hit each service.
+
+What it actually does is hit each service three
+
+times, just to make sure that it's warm, and
+
+then it can go through and hit it all
+
+the way through. And there we go.
+
+So you can see, it's two point nine seconds
+
+total to do five hundred AMQP requests, and three
+
+point six seconds total to do five hundred HTTP
+
+requests. I was actually surprised when I got this
+
+result. Jackalope is beta. I mean, it's, we're using
+
+it at Optoro, but it's not really been battle-tested.
+
+But it's faster, at the moment. So why is
+
+it faster?
+
+Well, maybe I haven't written all the code yet.
+
+But more likely it, more likely it's because of
+
+this concept in TCP called the slow-start phenomonon. And
+
+also, your whole TCP negotiation. So each one of
+
+these five hundred HTTP requests, close the connection, open
+
+the connection, send the message, receive the response. When
+
+you open the TCP connection you go through a
+
+whole sinaq phase, which I didn't put slides in
+
+for and maybe should have. But it's.
+
+I highly recommend checking out Eliot Gregorich's talks, by
+
+the way, about how HTTP works, how TCP works.
+
+But basically, you go through protocol negotiation for any
+
+TCP connection, and then there's a feature of TCP
+
+called the slow-start feature, which essentially allows you to
+
+negotiate your connection speed. And that's really great when
+
+you're talking over the internet, and you're not sure
+
+of the latency or the availability of routers to
+
+be decent along the way. But when you're doing
+
+internal applications, it just gets in your way. It
+
+just slows you down.
+
+So AMQP, we hold a persistent connection to the
+
+AMQP broker. We do one sinaq cycle, and then
+
+we get our maximum connection speed and we stay
+
+there. And then we can multiplex information over that
+
+single connection and it works really well. Now, you
+
+could write that with HTTP if you did a
+
+keep-alive connection, held over that connection and talk to
+
+the same thing back and forth.
+
+But, the bottom line is that most of us
+
+don't do that when we write HTTP. We're using
+
+something like HTTParty or, I always forget the tiforce
+
+or tif- whatever it is. Sorry.
+
+Most of the time, you know, we drop the
+
+connection, you know, in between requests. We don't hold
+
+it open. It's just not something we think about.
+
+So using AMQParty or any of the libraries that
+
+we're published, it holds that open and it just
+
+makes it more efficient overall.
+
+So I hope that's the primary explanation of why
+
+it's so much faster. So I just wanted to
+
+mention a few references, a few things that were
+
+really inspriring when we kind of went down this
+
+road. You know, this is really a departure from
+
+what we're used to in Rails. And the Architecture:
+
+The Lost Years talk and Matt Wynne's original Hexegonal
+
+Rails talks were all about departing from what we're
+
+used to, I think. So those are really interesting.
+
+If you haven't checked those out, definitely do.
+
+Additionally, Martin Fowler posted a recent article that was
+
+awesome, called Micro Services. Definitely, definitely read this if
+
+you are looking into service-oriented architectures. It lets you
+
+not think about that heavy-weight bloat that we think
+
+about with SOA.
+
+It's really a revisitation of the idea of, just,
+
+you have independent services that are collaborating to get
+
+something done in a very simple way. And that's
+
+really, again, also influenced the direction we're taking here.
+
+We want to introduce as few specific choices as
+
+possible to just kind of give us a simple
+
+transport to, to build on top of. Additionally, the
+
+Ruby AMQP gem has some awesome docs about how
+
+AMQP works, how to use it with Ruby. And
+
+RabbitMQ also publishes some really great documentation on what
+
+AMQP is, how it works. How to use it
+
+in the organization in your applications.
+
+And there's also this really great article I found
+
+about how HTTP works, in general. It's, I think
+
+a piece of school material from a university in
+
+Singapore. Definitely check it out. It's got really great
+
+diagrams.
+
+Thanks. Again, I'm Josh. I'm at jszmajda on the
+
+Twitters. I am the CTO at Optoro. We have
+
+blinq dot com. We have retailers with their returned
+
+goods and excess goods, help them figure out what
+
+it is, what the current value is and move
+
+it quickly.
+
+Additionally, I am the host of the Ruby hangout.
+
+Just a quick blurb for the Ruby hangout, it's
+
+a online meetup. It's really handy when you can
+
+go face-to-face and talk to people if you have
+
+a local meet up. If you don't have a
+
+local meet up or if you're too busy or
+
+if you can't make it for whatever reason, the
+
+Ruby hangout is an online meet up to, essentially,
+
+give you that local meet up feel, as much
+
+as we can online. So check that out. It's
+
+a lot of fun. I'm one of the co-organizers
+
+of the DC Ruby Users group. And I want
+
+to give a quick shoutout to Jonathan. Thanks Jon.
+
+He's on my team, helped me get Jackalope over
+
+the, over the finish line. So super helpful on
+
+that.
+
+All the code's on GitHub. Github dot com slash
+
+rack dash amqp slash rack dash amqp is where
+
+the RC lives and has bookmarks to the other
+
+parts of the project. And I would love to
+
+take your questions, because that talk was way short.
+
+And I've got, actually, a whole bunch of stuffed
+
+Jackalopes up here for good questions. So please feel
+
+free to come grab one.

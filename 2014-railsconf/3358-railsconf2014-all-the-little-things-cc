@@ -1,0 +1,1720 @@
+RailsConf 2014 - All the Little Things - Sandi Metz
+
+SANDI METZ: So you'd think, you would think
+
+that writing object-oriented code was hard.
+
+All you have to do is look at our apps, K.
+
+We mean well, but we write code that almost always,
+
+inevitably, inevitably, we eventually come to hate it.
+
+And the more I think about this, like,
+
+these days somehow my job is to think
+
+about how to write better code.
+
+And the more I think about it,
+
+the more I think that all of the problems
+
+we cause have the same simple solution,
+
+and that when people ask me now,
+
+when people ask me how to write object-oriented code,
+
+I tell them, I give them one small piece of advice.
+
+I say make smaller things. That's all it is.
+
+Make smaller classes. Make smaller methods.
+
+And let them know as little about each other as possible.
+
+And lately I've been on a quest. I've had
+
+this obsession, for the last couple of months, and
+
+it's been about conditionals. There's a lot of code
+
+out there with nasty conditionals in it. And I've
+
+been wondering, when should I replace conditionals with small
+
+objects? And how should I do this? And what
+
+will happen to my code if I do? And
+
+I was at RubyConf in Miami in November, and
+
+I inflicted this obsession upon Jim Weirich, who some
+
+of you probably knew. And he pointed me in
+
+the direction of the Gilded Rose.
+
+Now, this is a Kata. It's apparently really well-known,
+
+but I don't get out much, so I had
+
+never heard of it. And so, it's, it's so
+
+famous that you can just Google it and get
+
+an explanation of the problem. But I didn't do
+
+that. I, I wanted to treat this problem as
+
+if it was a real production problem, and that
+
+my only source of information was the tests in
+
+the code. And so I looked at his, I
+
+checked it out of his repo and I looked
+
+at the problem, and I was so interested in
+
+it that it became the skeleton around which I,
+
+I have hung the ideas for today's talk.
+
+I have altered his code just a little bit.
+
+But it's just to make it easier to talk
+
+about. This really is The Gilded Rose Kata. And
+
+here's how it goes. There's a GildedRose class, and
+
+it's structured like this. It has attributes for :name,
+
+:quality, and :days_remaining. It sets those in an initializer.
+
+And then there's a tick method.
+
+Now, here's the tick method. Well, actually, no, that's
+
+just the first half of it. Here's the rest.
+
+Now, I know you can't read this. Well, don't
+
+even try. Even if you can. Right, this is
+
+the whole method. I just want you to get
+
+some sense of the size and shape of it.
+
+It's a forty-three line if statement. And this seems
+
+really, really hard, to me, but I am known
+
+to be boolean-impaired. So I know that my subjective
+
+sense of how difficult this is to understand is
+
+probably not correct. And so instead, I ran, I
+
+used some metrics. I ran a complexity metric called
+
+Flog against it.
+
+So, Flog is a metric. OK. What's a metric?
+
+A metric is a crowd-source idea about something. Right.
+
+I have my own opinion about how complex this
+
+is. But I can use this sort of wisdom
+
+of the crowd metric, the Flog metric, which scores.
+
+It's an A, B, C metric, so it scores
+
+assignments, branches, and conditionals. It just counts things and
+
+adds them up. Higher scores are worse. They indicate
+
+more complex code. Code that's gonna be harder to
+
+understand and reason about. And so Flog says this
+
+GildredRose class scored a fifty, and that one method,
+
+tick, scored a forty-five.
+
+Yeah. It just hurts, doesn't it. So, so Flog
+
+says it's complicated. But before we go on, I
+
+want to introduce another, a very subjective metric about
+
+complexity. So, I spend a lot of time these
+
+goes going, going to places and looking at code
+
+I know nothing about. People call me up and
+
+I go to their shop and I spend a
+
+few days. And, as you might imagine, no one
+
+calls me if things are going well, right. And
+
+when I get there, they don't ask me to
+
+look at the code they're proud of. They ask
+
+me to look at the most heinous bitch of
+
+their app. So it's the things that have sort
+
+of complex, lengthy context and history. Code that has
+
+just absolutely gotten out of hand.
+
+And this, not only are the explanations long and
+
+confusing because the problem is hard, but they do
+
+that thing we all do. You know that thing
+
+you do when you're trying to, when you have
+
+to explain a bit of code you wrote that
+
+you're embarrassed about to someone? You don't just tell
+
+them how it works. You feel compelled to explain
+
+all the reasons why it got that way. All
+
+right. You laugh. I do it. I know you
+
+do it too, right. It just hurts. We hate
+
+that. And so, these explanations are long and confusing
+
+and they have lots of sort of, you know,
+
+sideways kind of information. And there's a point in
+
+time, I really mean well, but there's a point
+
+in time during every explanation when I start feeling
+
+like that dog Ginger in this Gary Larson's cartoon
+
+where I, it starts turning into blah, blah, blah,
+
+Sandi, blah, blah, blah. And then suddenly I get
+
+startled back into awareness when I hear them say,
+
+So. What do you think we should do about
+
+this line of code?
+
+And it used to terrify me, right. I felt
+
+like I had to understand everything in order to
+
+help with anything. But it turned out, after a
+
+few trips, I realized that there was a really
+
+simple thing I could do that would help me
+
+identify code that they could benefit from changing. And
+
+I call this the squint test. Here's how it
+
+works. You squint your eyes and you lean back
+
+and you look at the code. And we're looking
+
+for changes in shape and changes in color.
+
+Changes in shape mean you have nested conditionals, and
+
+they're always gonna be hard to reason about. Changes
+
+in color means that your code is at differing
+
+levels of abstraction. And it means the story it
+
+tells is gonna be hard to follow.
+
+Now, what is it about this code? Well, it
+
+has sixteen if statements. Seven of those are not
+
+equal. Two of them connect something with an and.
+
+There are three magic strings. They're used all over
+
+and a number of magic numbers. I don't even
+
+know how many.
+
+Now, at least it has tests. Oh, I'm sorry.
+
+And here are the magic strings. These three things.
+
+'Brie', 'Sulfuras', and 'Backstage passes', whatever that means. And
+
+it does have tests. And they pass. Now, there
+
+are six skipped tests. All right. So I don't
+
+know, I don't know what that's about.
+
+And so I pry open the code. I just
+
+look at this first test. Oh, I'm sorry. The
+
+tests cluster around the magic strings. Except for this
+
+set, which is for something called normal, which is
+
+never mentioned in the if-statement. I suspect there's something
+
+in an else branch somewhere that matters here, right.
+
+So I, I pry open the tests and I
+
+look at it. Here's one. They all look just
+
+like this.
+
+I'm selling something. OK. Given a GildedRose that has
+
+this name, attribute, and quality - those are our
+
+three attr_readers - when, when I tick, in this
+
+case, quality goes down by one, days_remaining go down
+
+by one. They both go down by one. So
+
+it's, it's as if that I'm selling milk or
+
+eggs or cheese or something, and it has a
+
+sell_by date that's gonna expire where, you know, they
+
+go bad at some date.
+
+OK. So I'm still exploring around, trying to figure
+
+- I don't even know what my job is
+
+yet, right. And so I open, I look at
+
+the six skipped tests and they're for something called
+
+conjured. And they all follow the same pattern. All
+
+the tests look kind of like, given that when
+
+I tick I see this change, and I realize
+
+at this point, I realize, holy crap. I'm supposed
+
+to change this code.
+
+Now, and so I tried. I tried. Very obediently
+
+I tried. But I was a miserable failure. I
+
+couldn't do it. That forty-three line if-statement defeated me.
+
+Every time I went, I would like pry open
+
+a conjured test and I'd go make some change
+
+in that if-statement to make that test pass, it
+
+would break something else. I spent hours on it.
+
+Now, I am impaired. But, really, it was hard.
+
+It would be hard for you too, I think.
+
+And so if changing that if-statement was so hard,
+
+you have to ask. Why was I trying? Why
+
+did I try to, what possessed me to try
+
+to alter that incredibly complicated bit of code? And
+
+the answer is that I felt like I was
+
+supposed to. And here's what happens, right. You write
+
+some code. Someone asks for a change. What do
+
+we do? You go look around the code base
+
+for code that looks, that's the closest thing to
+
+the new thing you're trying to do. And you
+
+put the new code there.
+
+That's how we behave. Novices especially. They're afraid to
+
+make new objects. So they just go put more
+
+code in where they can find a thing like
+
+the thing they're trying to add. And if that
+
+place already has an if-statement, they just put another
+
+branch on it. Right? That's how it works. And,
+
+and what happens is, so the natural tendency of
+
+code is grow bigger and bigger and bigger. And
+
+there comes a point, as it gets bigger and
+
+bigger and bigger, there comes a point where it
+
+tips, where, and at that point, it's so big
+
+that you cannot imagine putting code anywhere else.
+
+We have a bargain to follow the pattern. And
+
+if the pattern is a good one, code gets
+
+better. And if the pattern is a bad one,
+
+we exacerbate the problem. Nobody adds a ten-line helper
+
+class to a five-thousand line ActiveRecord object. They just
+
+get bigger. Once they reach a certain size, they
+
+just get bigger.
+
+And so, I could not follow the pattern. I
+
+was not good enough to follow the pattern, and
+
+so I decided I was gonna make a new
+
+pattern. That I was gonna refactor this code. Now,
+
+this is real refactoring according to the definition of
+
+refactoring. I'm going to refactor this code. I'm gonna
+
+change its arrangement without altering its behavior. I'm not
+
+gonna try to add conjured. I'm gonna try to
+
+move this code around so that I can add
+
+conjured.
+
+And for refactoring, for refactorings like this, tests are
+
+the wall at your back. You gotta have tests
+
+or you don't know what you're doing. And so
+
+I'm just gonna start at the top. I'm gonna
+
+start with these normal tests. And I got this
+
+code. This is what tick looks like. Now, this
+
+is a big, long procedure. This is not object-oriented
+
+code. In object-oriented code, you have lots of little
+
+objects, and you send messages between them. And those
+
+messages give you a level of indirection so that
+
+you can substitute different objects at the back.
+
+Messages create seams so that you can do a
+
+different thing. And there is no seam here, because
+
+this is a procedure. And so the first thing
+
+I have to do if I want to refactor
+
+is I have to make a seam. And I'm
+
+gonna do that just by trapping normal and bailing.
+
+At this point, four tests should fail. And they
+
+do. All right. I am not about to add
+
+more code to the tick method, so I'm just
+
+gonna set a message to myself and four tests
+
+should still fail. And they do.
+
+And so now that I believe that I have
+
+caught that execution path, I'm gonna just break open
+
+the first test, and I'm gonna write the code
+
+to make it pass. Quality goes down by one.
+
+That's easy enough. I can write that code. days_remaining
+
+goes down by one. And that test passes. All
+
+right. One down. Three to go.
+
+Here's the next test. In this case, it looks
+
+like I'm out of time. I'm on the sale-by
+
+date, so now quality goes down by two. So
+
+I'll just make sure my old test keeps on
+
+passing, and I'll write code to make this test
+
+pass. And so now I think two, two tests
+
+should pass. I should have two failures.
+
+But something I just did made some test I
+
+haven't looked at pass. And we love that. I'm
+
+not even gonna look at it. All right? I
+
+don't need to understand it. I got tests. OK.
+
+So, I'm gonna just go. I'm gonna make this
+
+one pass. All right. I'll just open the last
+
+one. So this one says, if there, if quality
+
+is already zero, don't change it. And so I'm
+
+just gonna wrap this whole thing in a if-statement
+
+and not do anything if quality is zero. OK.
+
+So now I'm back to green. That code was
+
+not smart or clever. But that's the whole point.
+
+Once I get to green, I can now refactor.
+
+So my goal is to get to green as
+
+quickly as possible. Red is not when you ponder
+
+the abstraction. Red is when you scramble towards green.
+
+You're trying to reach for the, the lowest-hanging green
+
+here. And so I got there. I'm at green
+
+now. And I confessed to you already that I'm
+
+boolean-impaired, and I've written code that even I, at
+
+this moment, do not understand. But now I'm green
+
+so I can refactor.
+
+It looks to me like they always subtract one
+
+from days_remaining, so I'm gonna do that first. I
+
+like that story better. Looks to me like, quality,
+
+they don't do anything. I can just bail if
+
+quality is zero, so I can just take that
+
+whole outer-nesting out of that if-statement. And now once
+
+I get to here I can ponder these two
+
+remaining cases. Are there two cases here? Is there
+
+a case where I subtract one from quality and
+
+two from quality? Is this, I, I don't think
+
+so. Now that I look at it this way,
+
+I think I always subtract one from quality, and
+
+there's a special case in which I subtract another.
+
+If I'm passed the sell_by date.
+
+And so I can just delete all that code.
+
+And so now I have this, which is all
+
+the same level of abstraction, and I can understand
+
+it. I love the story this code tells. It's
+
+very simple. It was easy to get here. And
+
+now my tests still pass.
+
+All right, so we're gonna do this over and
+
+over again, much more quickly than this one. I
+
+want, I'm gonna just take you through a quick
+
+reprise here, so I, I create a seam. I
+
+send a message to myself. I trapped all the
+
+execution paths into here. I wrote some code. I
+
+hate it. I got to green as quick as
+
+possible, and then I used green to let me
+
+refactor to code that was sensible. And now normal's
+
+done. All the normal tests pass.
+
+And so now I'm just gonna bust right through
+
+all the other cases. Here's Brie. There's a whole
+
+bunch of stuff. I'm gonna turn that into case
+
+statements so I can trap Brie. There's seven tests,
+
+so they're all failing now, so I have confidence
+
+that I've got them. I'm gonna write that code,
+
+but you don't even need to look at it,
+
+cause you can see how easy it is. Right.
+
+Now that I've is- now I'm only having to
+
+write code for one test at a time, it's
+
+pretty simple to write the code. What I end
+
+up with looks like this. And now Brie is
+
+done.
+
+Now, and now a really interesting thing happens. When
+
+it, when this stuff was buried in the forty-three
+
+line if statement, I had no idea the ways
+
+in which normal and Brie were alike. But now
+
+that I'm using this, they seem a lot alike
+
+to me. Now, there's differences sort of in the
+
+driving data here, but the algorithm, you can see
+
+the shape of the algorithm here, the algorithm is
+
+really the same. And it is very temping, we,
+
+we have been, we've had that DRY rule brow-beat
+
+into us so strongly, it's very tempting at this
+
+point. I'm on a road. I'm on a refactoring
+
+road. It's very tempting now to go on a
+
+tangent and try to clean this up. Because we
+
+believe the greatest, we've been taught, like the greatest
+
+virtue is DRY. And I would tell you that's
+
+the wrong idea here.
+
+I'm about to get a lot more information about
+
+what this algorithm looks like. I, and I want,
+
+I need to finish the refactoring I'm on before
+
+I go on any tangents. So I'm gonna notice
+
+that similarity, but, and keep the duplication, and just
+
+keep on going down this path and see where
+
+it leads. And this brings me to my first
+
+big point of this talk.
+
+It is far cheaper to keep duplication than it
+
+is to have to mess with the wrong abstraction.
+
+The first rule we teach novices is don't repeat
+
+yourself. DRY. And, but, have you ever thought about
+
+why we teach them that rule? It's because they
+
+can't understand anything else. They don't know anything. But
+
+by god they can recognize duplication, and it's a
+
+good rule. I'm not saying it's a bad rule.
+
+But I'm saying that it's, now you're grown up.
+
+You know more. And with, with the, you have
+
+enough experience now to tolerate a little duplication and
+
+wait on a better abstraction. It's really hard to
+
+deal with a wrong abstraction.
+
+I often make a, I make a dup tag.
+
+You know how you can make a to_do tag.
+
+Like, the pro- people say, oh, I'm gonna lose
+
+track of my duplication. Well, fix that problem. Right,
+
+make a dup tag, and give every dup like
+
+a number, so if you have a code, the
+
+same code in six, you know, in two, three
+
+places. Like, if that's the sixth instance of duplication,
+
+give it an id like a database and put
+
+dup6 in a bunch of places in your code.
+
+You'll know. You'll see the duplication if you change
+
+a part. Like, fix the problem of not being
+
+able to find it rather than reaching too soon
+
+for an abstraction. It's much easier deal with the
+
+duplication.
+
+All right. So moving on. Here's sulfuras. There's three
+
+tests. You'd think if I put my shim in
+
+and put an empty method, I would have three
+
+test failures. And yet they all pass. So what's
+
+this about? Well, I look at the test, and
+
+I realize that all the tests assert that nothing
+
+happens. If it's sulfuras. And I, again, I had
+
+no idea when I was looking at the forty-three
+
+line if-statement that no, that somehow it all asserted
+
+that nothing happened. So it turns out, this is
+
+the code that makes the tests pass. How nice
+
+is that? We love that, OK.
+
+So here's backstage. There's a whole bunch of these,
+
+and it looks like this. That's the code that
+
+makes the tests pass. And so now we're totally
+
+back to green. This looks exactly like it did
+
+when I started. And this is what I got,
+
+right. I put this case statement in the front.
+
+It trapped all the execution paths. I have a
+
+bunch of methods that look like this that I
+
+created and added to the GildedRose class, and the
+
+rest of the tick methods still contains that monstrous
+
+forty-three line if-statement, which I don't understand but I
+
+no longer need so I'm just gonna delete it.
+
+It's gone. Now, if you don't have good tests,
+
+this may freak you out. And then, but then,
+
+if you feel freaked out by this and you
+
+don't have good tests, you're, you're really making a
+
+choice here, right. If you have code that you
+
+don't understand and that you're afraid to change, you
+
+can keep it forever, if you think that's a
+
+good idea. Or you can put some kind of
+
+test harness around it so that you can refactor.
+
+But keeping it forever is not really a good
+
+choice. So you want to get to the point
+
+where you have confidence that you can safely refactor,
+
+and then you, but, and it means you never
+
+have to understand that code.
+
+You can do characterization tests around the edges to,
+
+so that you'll have green, you'll have a wall
+
+at your back for tests, and then you can
+
+refactor your way to the point that you can
+
+delete the code that you don't understand.
+
+And the moral of this story is that small
+
+methods are simple. Here we have, this is the
+
+code we just wrote. This is the squint test
+
+version. Don't try to read it. It's code we
+
+just wrote on the wrote. This is how we
+
+started on the left. You notice that the, the
+
+shape is flat, and the colors are starting to
+
+cluster. Now, I, again. I believe in metrics, cause
+
+I know that my, my personal notion of what
+
+is simple or complex is just my opinion. And
+
+I, I totally know that metrics are fallible, but
+
+human opinion is no more precise. And that metrics
+
+are kind of a crowd-sourced idea of what a
+
+bunch of people thought a metric should be. It's
+
+a useful data point for me to compare to
+
+my own.
+
+The original class Flogged to fifty, and this new
+
+class Flogs to forty. But that overstates its complexity,
+
+because now there's a bunch of methods, and the
+
+most complex in it is backstage, and it Flogs
+
+to twelve. This code's way simpler.
+
+Well, this is great. And you'd think everyone would
+
+just do this. And so, it's an interesting question
+
+why they don't. Now, one of the things I
+
+already told, I already gave you one reason, right.
+
+We do of what's there. And so the tendency
+
+is to add more to the if-statement if that's
+
+there, but I think, I think there's another reason
+
+why we don't undertake these refactorings. And it's because
+
+of this. I'm just gonna make the fifty smaller
+
+and move it over. This, I did, it took
+
+me ten refactoring steps to get from the big
+
+conditional to a bunch of, to a bunch of
+
+small methods. And here's the Flog score of all
+
+the intermediate steps.
+
+All the intermediate refactorings made code more complicated. I
+
+know that I'm gonna get to that forty. I
+
+understand the principles of object-oriented design and I know
+
+the value of small methods. And because of that,
+
+I believe in the refactorings, and that lets me
+
+tolerate the intermediate complexity. But if you don't know,
+
+if you haven't learned about the value of small
+
+methods, it's hard to undertake those intermediate steps. They
+
+seem like academic things that people will do that
+
+are for the, are, are for some pie in
+
+the sky principle that don't improve code. But I
+
+can promise you that if you can see far
+
+enough to see the end, to the end, this
+
+intermediate complexity leads to ultimate simplicity.
+
+And so, now, I'm gonna circle back around my
+
+task. Now that I've done this refactoring, I can
+
+circle back around to my original task, which is
+
+to implement conjured. How should I do this? Here's
+
+what I got. I got this. Should I do
+
+that? It would be easy. It would be really
+
+easy. But the answer to that is no I
+
+should not do that. That is not the way
+
+I should solve this problem. And it's because this
+
+code is not open/closed. It's not open for extension
+
+and closed for modification. Open/closed supplies the O in
+
+solid, and it is, I'm gonna say it out
+
+loud. It's a principle of object-oriented design.
+
+It's one of the pieces of, of cumulative wisdom,
+
+created by folks who've written a mountain of object-oriented
+
+code, and they have, they have experienced every possible
+
+kind of programming pain. And over time, they have
+
+noticed some principles, and they developed a style guide
+
+about how to organize code. That's what object-oriented design
+
+is. That's what the rules of object-oriented design are.
+
+There is a style guide about how to organize
+
+code, with all the obvious trade-offs. All the places
+
+where you can make your own decisions.
+
+In this case, you can feel free to ignore
+
+their discoveries, in which case you'll get to experience
+
+all that pain over again for yourself. That's what
+
+will happen. On the macro level, this style guide
+
+says it's best to arrange code so that adding
+
+new behavior does not require that you edit existing
+
+code. I know that seems impossible. I'm gonna say
+
+it again, right. Open/closed says, you ought to be
+
+able to add new behavior without editing existing code.
+
+Now, forget about how impossible that seems for a
+
+minute. I just want you to imagine something for
+
+me. Imagine the world, imagine your apps, if that
+
+is true. Imagine that you can add new behavior
+
+without editing existing code. Think about what that means.
+
+It means you always have green tests. It means
+
+you're always safe. It means you never break, you
+
+never cause some distant and unrelated side-effect. That is
+
+a sweet, sweet world, if your code is open/closed.
+
+And so, on the macro-level, we're trying to get
+
+to the point where we can add new behavior
+
+without editing existing code. And on the micro-level, what
+
+that means here, right now, in this code, is
+
+that when we see methods that have a repeating
+
+prefix, or repeating suffix, there's a tortured object in
+
+there that's trying to get out.
+
+[laughter]
+
+Right here, in this place, you're about to make
+
+a decision that's gonna have consequences that echo through
+
+your code base forever. Are you gonna write procedures,
+
+or are you gonna trust objects? If you insist
+
+on having all the logic visible, right here where
+
+you can see it, you're insisting really on knowing
+
+both the condition on which you switch and the
+
+thing that you do the action that you take
+
+when that switch happens. If you're uncomfortable unless you
+
+know both those things at once in this file,
+
+under your eyes in this code, then you're gonna
+
+be forced to add a new method right here.
+
+You have to put that conjured_tick method right here.
+
+But if you don't, if you're OK with that,
+
+you can listen to object-oriented design, and it says
+
+that when you have differing prefixes and common suffixes,
+
+that what you really have is a normal class
+
+that ought to have a method tick, and that
+
+GildedRose ought to be holding on to an instance
+
+of it. And it really easy to write that
+
+code. If you can think of that thing, thinking
+
+of the thing is far harder than writing the
+
+code.
+
+Here's how the code looks. I got this normal_tick
+
+method. I'm just gonna call it tick. I'm gonna
+
+put it in Normal class. I'm gonna throw all
+
+the cruft in there to get the initialization and
+
+the attributes to find. I'm gonna go back into
+
+GildedRose in the normal_tick method there, I'll get an
+
+instance of my new class and I'll forward this
+
+message. Boom. That's it.
+
+All right. Well, so I got this. But now
+
+I'm, so normal's an object, but nothing else is.
+
+And I'm about to go back on that path
+
+where I have to increase intermediate complexity. Cause look
+
+what just happened, all right. I got this, my
+
+new normal_tick method looks like this. It uses this
+
+Item class, but brie, the brie_tick method is still
+
+calculated inside the GildedRose. The quality and days_remaining are
+
+part of the public API for GildedRose, and so
+
+now I have to say, if I have an
+
+item, go get the item's quality otherwise get the
+
+one I know about. And I have to do
+
+the same thing for days_remaining. Right. It looks messy.
+
+But it's short term. It will go away.
+
+And so, let's just walk through all the other
+
+objects. Now that you understand this pattern, it's really
+
+easy, right. Class Brie, move method tick. Put the
+
+cruft in there for the message. Easy enough. This
+
+is really interesting. This is, now some trust is
+
+coming into play, right. I have an empty method.
+
+Look what I have to do. Make a new
+
+class. Put the method in it. Pry this method
+
+open. Get an instance of that class, forward the
+
+method. You can forgiven, you can be forgiven for
+
+being suspicious about this.
+
+But if you trust the refactorings, you'll have confidence
+
+that it's gonna turn out well in the end.
+
+I'm just, I'm not gonna diverge. I'm not taking
+
+a detour. I'm gonna go all the way down
+
+this path and finish this refactoring. Backstage, I'll make
+
+the tick method. I'll make that stuff. I'll do
+
+the forwarding. All right. So now they're all objects
+
+and I got this.
+
+And I'm back here. So now, in the beginning,
+
+I didn't put, I, I moved logic into methods
+
+of their own, cause I didn't want to put
+
+a bunch of code in this case statement. But
+
+now that I have objects, everything is simpler, and
+
+I'm gonna just start rewinding my decisions. I'm just
+
+gonna shove, I'm gonna delete the method and shove
+
+the code that used to be in the method
+
+back up in the branches of the case statement.
+
+We'll do that.
+
+Now, earlier I said that duplication was cheaper than
+
+a wrong abstraction, but now we're starting to see
+
+abstractions, and I'm just gonna go and abstract away
+
+some duplication. I'm gonna put the cruft back up
+
+in here so it, in GildedRose, I no longer
+
+need that. What I really need to do is
+
+be able to get Item. And the way I
+
+need to get an item is it's that. That's
+
+how I'm gonna get it. If I just new
+
+the class name I could send that message to
+
+it and it would work. And it's actually really
+
+easy to figure out the class name. The code's
+
+already here. It's this.
+
+There it is. That'll get me the class name
+
+back. So if I just give that a name
+
+I can send that message to myself, and now
+
+I have the right kind of item. I don't
+
+know, I don't need name anymore. So that got
+
+simpler. So now I have, I have separated the
+
+reason I'm switching from the thing I do when
+
+I switch. And I can just forget about what's
+
+inside that klass_for method. I don't really care anymore.
+
+It just answers the right class. It's gonna work.
+
+It's gonna hand back a thing that can answer
+
+the message I send into it.
+
+And now tick looks like that, and these now
+
+- so I'm rewinding the complexity. I don't need
+
+this anymore. I have items in every case, so
+
+I'll get rid of all that. And now here's
+
+the whole body of code that I have. I'm
+
+holding an instance of the correct Item object and
+
+I just send it the tick method.
+
+So, we have four different, down at the bottom
+
+there, you can see we have four different kinds
+
+of item classes that, from GildedRose's point of view,
+
+Item is a role. It doesn't think of it
+
+like this. It thinks of it like that. It
+
+just, you just need someone in there that can
+
+answer that API, that knows those messages, a duck
+
+type, if you will.
+
+And if you look at the code I have
+
+now, the message passing looks like this. Like, all
+
+these messages get forwarded, and if you had a
+
+food that had a GildedRose that sent those messages,
+
+it would look like this. And so now I'm
+
+in a situation like this. When, when an objects
+
+only purpose is to forward messages somewhere else, you
+
+have to wonder if it justifies it exist- its
+
+existence. And this actually is a code smell that
+
+has a name. It's middleman. So, if that's all
+
+that GildedRose does, it probably shouldn't exist. But it
+
+turns out it does, it still does something important.
+
+Given a string like normal, it can figure out
+
+what Item class, what class plays the appropriate Item
+
+role. And so now I'm gonna use another word
+
+that you should love. You should love this word,
+
+right.
+
+GildedRose, the only thing that GildedRose is, it's an
+
+Item Factory. I just need to figure out how
+
+to get the right object, and then I can
+
+send it a message. We, we've simplified our problem
+
+by separating the thing I'm switching on from the
+
+thing I do when I switch. We've divided those
+
+things in half, so I can make thing- code
+
+can know less, we can do smaller things. I
+
+don't need to know what they do. I just
+
+need to know how to get the right one.
+
+And so I'm gonna change this code to reflect
+
+the reality. I'm gonna make GildedRose a module. I'm
+
+gonna say for, some people put new. They make
+
+a new method on module, and I just can't
+
+bear that, but it's OK with me if you
+
+do it that way. So I'm gonna make that
+
+a class method, cause I'm calling it. I'm no
+
+longer keeping an instance of anything so I don't
+
+need an attr_reader. All these middlemen messages now, since
+
+you're, you're really gonna talk to the item that
+
+you get back when you call for messages they
+
+just, they just go away.
+
+So now this is what we have. And the,
+
+the way you use it is you send for
+
+to GildedRose and it gives back and Item. And
+
+it's the Item that you talk to. And so
+
+now we've fixed the GildedRose, I'm gonna take, turn
+
+my attention to the classes that play the Item
+
+role. They have, there's a lot of duplication in
+
+here that we've been tolerating for a long time.
+
+They all have this in them. And I'm gonna
+
+use, I'm gonna create an inheritance hierarchy and clean
+
+that up.
+
+I'm gonna make a little Item class, push all
+
+that stuff up to it, then all these guys
+
+I can delete that code from all these guys
+
+and make them sub-classes of item. Now, despite what
+
+you may have heard, inheritance is not evil. And
+
+I can tell you exactly when it's safe to
+
+use it. And here's what you want. You want
+
+a shallow, narrow hierarchy. You don't want it to
+
+be deep and you don't want it to be
+
+wide. All right. Shallow, narrow. You would like the
+
+sub-classes to be, OK, this is, I'll, I'll say
+
+this twice. You want the sub-classes to be at
+
+the leaf nodes of your object graph, right. So
+
+you have objects and you have other objects and
+
+you have other objects, and then at the end
+
+of your sort of tree, there are objects that
+
+don't know about any other things, right.
+
+So we want the sub-classes to be the leaf
+
+nodes of the object graph to be at the
+
+edge, and we want all the, the sub-classes to
+
+use all of the code in the superclass. Now
+
+I'm gonna repeat that again. Shallow, narrow, subclasses at
+
+the leaf nodes, and subclasses use all the behavior
+
+in the superclass. If that is the problem you
+
+have, there is no better solution than inheritance, and
+
+you are free to use it.
+
+So, however although that I, I, I love inheritance.
+
+I use it in appropriate ways. And it is,
+
+it is not evil, but sometimes we are. You
+
+might, you might be. And this, it's easy to
+
+get inheritance wrong, and this tree has a little
+
+problem. And it's this. I don't like this. The
+
+public API of Item is quality and days_remaining, and
+
+the public API of those four sub-classes contains one
+
+additional method, tick. And I think that superclass ought
+
+to play the Item role, which means to me,
+
+it's gotta implement tick. And the question then becomes,
+
+what is the appropriate implementation of tick to put
+
+in the superclass?
+
+You could define tick and have it raise an
+
+error that says sub-classes have to implement tick. You
+
+could do that. I do that sometimes. But here,
+
+I think, there's a default implementation that's appropriate, and
+
+it's this. Do nothing. I'm, that's perfectly OK with
+
+me. Tick to do nothing. And now, I did
+
+that, because the inheritance hierarchy bothered me. I'm just
+
+gonna, I'm just removing code now.
+
+Now that I've done that, you might notice something
+
+about sulfuras's implementation of tick. It overrides Item. It
+
+sub-classes Item to override tick to do exactly what
+
+the superclass does. And what that means is that
+
+here, it would be equally correct to say this.
+
+Which means that this class is not necessary, and
+
+all the intermediate complexity that I created as I
+
+was following this refactoring just went away. There's no
+
+more sulfuras class.
+
+So I'm gonna do one last thing. We're almost
+
+finished here. So this case statement contains two different
+
+types of information. It contains a set of string-to-class
+
+mappings and it contains the algorithm to hook them
+
+up. And I contend to you that case-statements are
+
+meant for business logic, and this doesn't really feel
+
+like business logic. This feels like configuration information. And
+
+so I'm gonna just extract configuration data here. I'm
+
+gonna make a hash and then I'm gonna change
+
+the algorithm to just be the algorithm that uses
+
+that hash.
+
+Now, in real life, this would probably go through
+
+some transitions where if the, now the hash can
+
+change independently of the algorithm that matches these things
+
+up. And if you find the hash changing a
+
+lot you might be tempted to maybe make it
+
+a yml file. And if you find the yml
+
+file changing a lot, you might be tempted to
+
+put it in the database. Now I can vary
+
+that data independently of this rule about how they
+
+get hooked up together.
+
+And so, that's it. That's the whole refactoring. We've
+
+got a bunch of small objects now, instead of
+
+small methods. Here's the whole code. I got Item
+
+in the, in the GildedRose module there's an Item
+
+class and then there's three item subclasses. Each of
+
+which contains a tick method. There's a, there's a
+
+set of configuration information and it's, that's used by
+
+this algorithm to decide what Item class is appropriate
+
+for what string. Here's the squint-testable version of small
+
+objects, and this is it compared to the original
+
+big conditional.
+
+Now, that's interesting, in, in the small objects thing,
+
+it looks like it's nested too deep, but it's
+
+not. I just have the classes inside the modules,
+
+right. So that is only really one level of
+
+indenting. It, the more interesting comparison here is the
+
+squint test between the intermediate solution, the small methods
+
+solution, and the small objects solution. Notice that small
+
+objects is a little bit longer, but colors are
+
+clustered more tightly together. So we have really distilled
+
+the things that change together in single places.
+
+Here's the Flog scores that we used to have.
+
+So, OK, I have time to make you guess.
+
+I made a bunch of small objects. What's the
+
+Flog score?
+
+AUDIENCE: Twelve. Fifteen.
+
+S.M.: But, you know what, OK, here. And let's
+
+go. In the intermediate place, we'll come back to
+
+that. I like that fifteen guess. That was an
+
+excellent guess, and you'll know why in a minute.
+
+Here's the intermediate complexity scores. All right. So I
+
+got this. That thirty-three vastly overstates the complexity of
+
+the final solution, and it's because of this. When
+
+you have, the first thing was one class. The
+
+whole GildedRose class. And you gotta kind of know
+
+all about that class. And the second solution, the
+
+one with small methods, it was the GildedRose version
+
+two, right. It was a single class, and you
+
+gotta kind of know. You gotta hold that class
+
+in your head.
+
+This third solution is a bunch of small classes.
+
+It's a bunch of different classes, and you don't
+
+need to reason about all of them at once.
+
+As a matter of fact, you really only need
+
+to rea- the most complicated object in there, the
+
+most complicated class is that Backstage class, and it
+
+Flogs to twelve. Close to the fifteen. And the
+
+average complexity of the set of classes in that
+
+final solution is seven.
+
+And so I contend to you, the complexity has
+
+fallen by 75%, because I made many small objects.
+
+And so now I'm gonna circle back around in
+
+my task and implement conjure. Take a minute and
+
+imagine how to do it. There's the code. That
+
+makes all the tests pass. Here's how I use
+
+it. And now we're done.
+
+All right. So, summary. When you were new at
+
+this, they told you DRY. All right. Don't repeat
+
+yourself. And I'm not saying it's bad and I'm
+
+not saying that duplication is good. But I'm telling
+
+you that if your choice is between duplication and
+
+the wrong abstraction, you should choose duplication. Trying to
+
+fix a problem by increasing the complexity of the
+
+wrong abstraction is like chasing a beach ball in
+
+the outgoing tide. Every time you take a stroke,
+
+it recedes ahead of you, and pretty soon you're
+
+out way over your head. It is very hard
+
+to fix those problems.
+
+Next, don't try to guess the future. Open/closed. Write
+
+code that can adapt to the future when it
+
+arrives. New requirements, this requirement to implement conjured was
+
+the impetus to make a change. The only, it
+
+gives you the information you need about how to
+
+make a choice about how to rearrange your code
+
+now so that you can do the next thing.
+
+Kent Beck has a, Kent Beck who's, has a
+
+wonderfully succinct way to put this. He says make
+
+the change easy and then make the easy change.
+
+He says, he actually put it a little bit
+
+longer. He said, make the change easy, this might
+
+be hard. And then make the easy change. And
+
+so we spent ninety-nine percent of this talk making
+
+the change easy, and then it took one slide
+
+to make the easy change.
+
+At the core of this, the underpinnings of all
+
+this is this idea of making small objects. Making
+
+objects that have a single responsibility. And, finally, trust
+
+the principles of object-oriented design. They let you predict
+
+the consequences of your code arrangement choices, and learning
+
+something about what those consequences are is gonna let
+
+you raise your game. Metrics are useful, but they're
+
+fallible. But opinions are no more precise. Like, use
+
+metrics to give you another body of information about
+
+how complicated your code are, your code is, and
+
+then learn the rules of object-oriented design so that
+
+you can choose which direction you want to go
+
+in.
+
+Intermediate refactorings often make code more complicated. But if
+
+you know the rules, you can trust yourself to
+
+work through complexity and finally reach more open/closed code
+
+that's simpler and smaller and that lets you have
+
+straightforward, changeable, beautiful code.
+
+I'm Sandi Metz. I wrote this book. I'm writing
+
+this book. OK. It'll be in the slide deck.
+
+I'm teaching in London. There's a public course in
+
+London coming up in June and July in case
+
+you're from over there. Thanks to you all, and
+
+thanks to Jim Weirich, who gave me this kata.
+
+[applause]
+
+[microphone bangs]
+
+Ooh, sorry.
+

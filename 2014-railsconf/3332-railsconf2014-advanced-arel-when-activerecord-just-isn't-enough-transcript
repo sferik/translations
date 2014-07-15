@@ -1,0 +1,193 @@
+RailsConf 2014 - Advanced Arel: When Activerecord Just Isn't Enough - Cameron Dutro
+
+CAMERON DUTRO: OK. Sweet. Welcome, everybody. Thank you all for coming to this talk. This is the, the second talk that I've given at a RailsConf, and first one that I gave was on internationalization, and there were like, maybe, fifteen people in the audience. And now there are a lot more. I guess this is a more popular topic, I don't know. So, cool.
+
+So, again, thanks all for coming. I am Cameron Dutro. I work for the U.S. Government. No, no, not really. I work for Twitter. I'm on International Engineering, which explains the topic of my previous talk, two years ago. You can follow me at camertron on Twitter. Look at me on GitHub as well.
+
+A little bit of personal background, this is my cat. He's pretty cute. His name is Chester. You can follow him at @catwithtail. All right, so, we're gonna do a little bit of an interactive exercise before I dive into the deep technical portions of this. How many, raise your hand if you've ever written Rails 2 code? You guys, wow, look at that. OK. Nice. How many of you, in your Rails 2 code, saw maybe a query that looked like this? Yeah.
+
+So, a ton of strings in here. There's not really an object-oriented way to construct queries in Rails 2. So, thank heavens for Rails 3 and 4, because they introduced a much more chainable object-oriented pattern for doing query construction. So, how many of you wrote Rails 3 or 4 code that looks like this?
+
+That's pretty much the same thing as before. And, I don't want to say, you know, you're doing it wrong, but, you're doing it wrong. So, let's go into this code and maybe clean it up a little bit, right.
+
+So I just moved one of those strings that defined a join association, or a join, on, on this table, and I moved it up into a symbol, so I'm joining the comments table on Post. So this is a lot cleaner looking, and it's allowing ActiveRecord to introspect the associations between these two models, derive the columns to use, and then automatically construct that query for you to do the right thing.
+
+So that's awesome. But, we still have a couple other problems with this code, right. We still have these question marks in the where clause, and we still have that second join. And the reason that join is not yet a symbol is because it's an association that doesn't pertain immediately to Post, right. It's joining authors in relation to comments.
+
+And, by the way, in this system, authors are a part of comments, not part of posts. I know it's a little confusing. So, you could simplify this even further and you could use this cool hash rocket syntax that says, even though comments and author are not, well comments is, but author is not directly related to posts, I want to get there through comments. And so I can add this hash rocket style syntax also.
+
+But we still have these question marks. So, fortunately ActiveRecord has given us a lot over the past couple of years that have passed between 2 and 3 and 4. But this is still a little bit, you know, a little bit dirty, and, especially if you wanted to do something like an outer join in this join clause, or if you wanted to do something a little bit more than say I want to say something is equal to something else, right. A column is equal to a value.
+
+So I kind of look at this style as better but, you know, you're still handed a great weapon and not quite using it appropriately, right. So let's look at parts of this query. I'm gonna reuse the previous string example to identify what's wrong with these queries, but let's look at the previous queries. And we'll extract little bits of this and talk about why they're less than ideal.
+
+So you've got this join, and the first thing that's wrong with this is you have to write the words join and the words on. And that's not difficult for somebody to do. It's not difficult to type J-O-I-N on your keyboard. But it does mean that you have to know MySQL or PostGreSQL or SQLite syntax to get this done. You also have, essentially, no syntax checking. So, you don't have any idea, having written this string, you don't have any idea that authors is an actual table, or that authors dot id is a column. All you know is that you have this string and that's getting handed to the, to ActiveRecord, and then it's executing it for you.
+
+Let's look at the where clause here as well, and I kind of alluded to these problems before, but we'll go over these in detail. So, again, you have to know MySQL syntax, you have to know that there's an and between these two things. And, which of course, and all these syntactical issues, you know, these may not persist across different flavors of databases, so maybe MySQL has this particular construction for and, but it could be that PostGres has a different one. And it probably doesn't, but you know, you don't know that.
+
+It's confusing also to match arguments with question marks. I mean, how many of you have looked at a piece of code and thought to yourself, man, there are so many join conditions, or so many where conditions here? And I don't know which argument matches up to which question mark. Yeah, I mean I've done that a bunch of times.
+
+It's also not very object-oriented, right. You have this where string and then comma, comma, comma. It's almost functional in its style. And, again, we have that no syntax-checking problem.
+
+So, you might think to yourself, boy, I wish there was a better way to do this, and maybe I'll do a search, and you might come across a StackOverflow article that tells you to use strings in your queries. And you might come across RailsCast 202, which tells you to use strings in your queries. You might find blogs. You might ask coworkers. You might ask friends, family members, or even your cat, and they'll all tell you that you should use strings in your queries.
+
+But I'm here to tell you that no, you can avoid doing that. You can keep calm, you can avoid literal strings in your queries. Let's look at the previous query, but completely, I like to use the word, arelized. This is the query arelized. So, notice, there's a bunch of cool things going on here.
+
+First, you don't have to know SQL syntax. All you have to know is Ruby syntax. And, you know, of course, this is a little bit of a DSL, so you might have to go about learning Arel as well, learning what it can do. But that's what this talk is for. That's why you're here.
+
+Ruby syntax-checking, you get that for free. So if you have an unbalanced parenthesis or you're referencing a model that doesn't exist, it will throw an exception and you can go and it'll fail fast, in other words, you can go fix that bug before you deploy to production.
+
+So, because ActiveRecord 3 and 4 are chainable, it means Arel is chainable as well. It allows you to compose queries in kind of step-by-step pattern, a step-by-step fashion. So it's also chainable. And you have none of those dang question marks.
+
+It's also a lot easier to read, at least in my opinion, because what I'm reading is Ruby, not SQL embedded in Ruby, which to me is weird. So, here's what we're gonna cover today. I've kind of already gone over the, the initial, you know, diagram of, of how, kind of the state of the world now, and so when I cover what ActiveRecord is, what Arel is, there's kind of a, an indistinct line separating those two, and I'll try to separate that.
+
+Talk about how to reference tables and columns. What terminal methods are and why they're confusing and when they happen. We'll talk about, of course, the meat of SQL. So select, where, join, and this special thing called join association, and order. Group is, is way easy so I'm not gonna cover that. And, or, greater than, less than - all these great things you can do with Arel that you can't necessarily find online. And then we'll also talk about the match, which is executed SQL-like, and in, which allows for sub-queries.
+
+OK. So what is ActiveRecord exactly? Well, you all know this, but it bears repeating here. ActiveRecord is a database abstraction. So there's no need to speak a dialect of SQL. It connects to queries, it returns data back to you. And it also functions as a persistence layer, you know. Database rows are Ruby objects. You can pull them out, you can put them back in. And they also encapsulate, in many cases, your domain logic. And I know people say no fat models, no fat controllers, but the truth is that a lot of domain logic gets shoved into those models.
+
+They, they contain validations, they contain all that good stuff. And they also define associations between your models. So, Arel is distinct in that all that it's really used for is building queries. So it's described, on its GitHub page, as a relational algebra for Ruby. And that didn't make any sense to me because, it didn't until I started reading more, because relational algebra, those two words really don't, I don't know how those work put together, but that's how they describe it.
+
+Essentially what that means is that it just builds SQL queries in an object-oriented way. It generates abstract syntax trees, or ASTs for your queries, and then uses the visitor pattern to put those out to SQL strings and then hands those off to ActiveRecord to execute. It also enables chaining, as we talked about, because ASTs are kind of nicely composable, because all you have to do is reference a subtree in order to pull in, you know, some other branch of query logic.
+
+So, one blogger also described Arel as vexingly undocumented. So you can look at find pieces of Arel all over the place, but joining that all together is a, something that took me a long time. In fact, this talk came out of a project that I was working on at Twitter. I work on the Twitter translation center. We needed to implement an access control system. And to do that, we had permissions and we had groups and all that kind of thing, and in order to join all that logic together and decide whether a user was able to see a particular phrase, it turned out that that was a difficult thing to do. We would have had to do a lot of, a lot of, you know, strings in our SQL queries. And we wanted to avoid that. We wanted to be able to be composable and use scoping and all that great stuff.
+
+So, having done that project, I'm trying to, and I'm taking that knowledge and kind of imparting it to you. So that project was a, a direct reason why this talk was created. I find it very difficult to find the information I was looking for.
+
+So, as a, as a recap here, you know, Arel knows nothing about your models. It knows very little about your database. All that it knows is that you have these queries you're trying to construct. It doesn't care if those tables exist. It doesn't care if those columns exist. ActiveRecord cares. But Arel really doesn't care. And it does not store or retrieve data. All of these are ActiveRecord's responsibilities. So, in summary here, Arel constructs queries and ActiveRecord does everything else.
+
+If you were to look at this as a hierarchy, and kind of a diagram I guess, you've got ActiveRecord, which you would interact with as a developer. ActiveRecord calls out to Arel to, to process a query, form a query, and then sends that query to the database, and the data comes back and ActiveRecord will package that into nice Ruby objects for you.
+
+So, something also that bears some introduction here is what an AST is, because as DHH so eloquently put it in his keynote this morning, not everybody comes from a computer science background. And ASTs are very computer science-y. So, an AST essentially is, or really what a tree, in this case, this is a basic tree, this is actually a binary tree, and what this means is that, so, it's made up of nodes. Each node has left and right children, unless it's the bottom. It's called a leaf, or it's called a, yeah, a leaf node.
+
+So we have left and right children. In this case, it's a binary tree because you have two children. You could have an n tree which could have multiple children. So, why are trees important? Why are they cool? Well, a tree is cool because you can represent things like equations with them or, or expressions. So five times parenthesis six plus three, you can represent this in a tree by defining a node at the root here, which is multiplication. That's an operator. And then each left and right child represents the two different operands of that expressions, of that, of that operator. So five times six plus three.
+
+So the six plus three would be evaluated first, because it's in parenthesis. So, notice also the parenthesis are grouping this expression together. And then five times that. You can kind of expand this concept into how this would look for a SQL expression, by looking at this example. So, you might have a query root and then a select from, and select has two columns, id and text, and from has just one child post, posts. And this would be an entry.
+
+Now, I don't actually know if this is how Arel does this in the background. This is a representation that you could imagine is going on behind the scenes.
+
+OK. So let's get to some code. And, and the first thing I want to talk about is a little gem that I put together to kind of help with this talk and do some Arel things that just take kind of some of the verbosity out of Arel. So it's called arel-helpers. Go ahead and install this thing. It's got three kind of helpers. Very small.
+
+And let's also, so, let's jump on from there and we'll talk about how to reference tables and columns in Arel. So, let's pretend you have this table. It's called post. It has many comments. And let's say you wanted to reference the id in this table. Well, post dot arel_table(:id). So any class that inherits from ActiveRecord::Base has this method called Arel table. And it returns to you an instance of Arel colon colon table that was a, is a way of referencing your table in code.
+
+Now brackets :id of course gives me what's called an Arel attribute, and I can look at, I can do the same thing for text, and I can even do this for columns that don't exist. So if I wanted to derive a column, I could also use this to reference that column. Now, that's not always true. But that's almost always true. So this returns an Arel::Attributes::Attribute.
+
+Now you don't really care what it returns. You just want, you care that you can use it in your code. So, the arel-helpers gem kind of makes this a little easier. If you include ArelHelpers::ArelTable in your model, you can now reference columns off your tables with just square brackets and eliminate arel_table, it just delegates down to arel_table. And it still returns an attribute to you.
+
+All right. So kind of going off of that, what does this statement return? It's a little pop quiz. Does it return "Rails is Cool." Just an array of strings. Does it return an array of instantiated objects that are records, ActiveRecords? Or does it return an ActiveRecord::Relation? You guys might know the answer to this. Who thinks it's A? Who thinks it's B? OK. And who thinks it's C? Nice. OK. It is, in fact, C.
+
+One thing that's very cool about Rails 3 and Rails 4, ActiveRecord 3 and ActiveRecord 4, is that any of these methods, these database methods, like select, join, where, they actually return an ActiveRecord::Relation. They don't actually execute right away. So, that means that they are also chainable. So if I said post dot select title, and I assigned that the query, that's not actually executing anything. That's storing this intermediate AST in the variable called query. Which means that I can also say query equals query dot select another column name, and then if I were to say query dot to_sql, I would get out the string the ActiveRecord will send to the database to grab data from.
+
+So, it's also important to notice here, I've kind of introduced this to_sql method. Any ActiveRecord relation that you have, you can call to_sql on it and it will give you the string that it would execute against the database. So that's very handy. And I'll use that throughout the whole presentation.
+
+Yeah. So relationships can be changed.
+
+All right. So let's get into some of the specifics here. So let's talk about select. We talked, we looked at select a little bit. You can actually select multiple columns using array syntax, so this is actually just ActiveRecord at this point, we're not even diving into Arel right now. And you might think, OK, so we're using this to_sql again. We get :id, :text from Post. Everything's great.
+
+Let's say that we wanted to get the SQL, though, for count. So we just say give me all of the Posts, the counts here, and you, you probably wouldn't say select(:id) and then count, but, you know, it's an example, so. And instead of getting back a SQL string, you instead get back a NoMethodError.
+
+So why did that happen? Well, it turns out that count is a terminal method. So, let's dive into why that happened. So. Being a terminal method, it would, it's executing immediately and returning a result to you instead of giving you an ActiveRecord relation, so that's why, it's good to distinguish between, and know which ones are going to do this to you, right.
+
+The way to actually get a count, and get a SQL string back out for it, would be to kind of dive into Arel here. Use your Arel table knowledge from before and call count on an Arel attribute. And then, of course, you can pass that to select as an array. Pass text as a symbol. And out comes this count, like you're expecting.
+
+So let's look at what terminal methods are. So, terminal methods execute the query immediately. They do not return a relation. They're mostly count, first, and last, so first and last are kind of like array accessors, right. To_a, pluck, and any of the enumerable methods will all execute your queries immediately. So, for example, this, each over these objects, and you would expect this to happen, because this is not a lazy enumerator. This is a regular enumerator and you're iterating over all of these things and you're putting out the text. And that's obviously going to execute right away.
+
+But, more surprising is this one. So, if I say each slice here and it's a lazy enumerator, in other words, I don't pass a block to it, this will also execute immediately. So just beware of that.
+
+All right. So let's go actually for real into select here now. So we've already seen how we can say dot count on an attribute, on an Arel attribute. We can also say dot sum, and that will give us this sum method. This is, these are all, by the way, MySQL examples. Notice, also, that Arel and ActiveRecord have nicely added this AS sum_id for you. So, any table, any, any column like this will automatically get a derived column name as well.
+
+You can change that column name by adding an as here. So just chain as right on the end of sum. Post visitors sum as visitor_total, and that will give it kind of a custom derived column name for you. You can also say dot maximum and dot minimum, and these will all use kind of the built-in SQL methods that you're expecting. Let's say, though, that you're trying to, you know, run a function that isn't part of Arel's DSL or Arel's knowledge, I guess. It's kind of outside of Arel's abilities. You can actually define a function call that, of any arbitrary function. This covers things like length or, like, any of the other methods that MySQL provides, or PostGres, that may differ from database to database. So, in this case, I am saying a named function dot new, passing in the name of the function and then giving it an array of arguments that function takes.
+
+And, then again, I'm also aliasing the result of that as length, in this case. So giving it a derived column name.
+
+So, we can shorten this a little bit by, cause it's a little bit verbose, by including Arel::Nodes. And then this just becomes NamedFunction dot new. So that's kind of a little hack you can add to your queries.
+
+Something kind of also pretty cool about Arel, this is kind of one of the other little cool select things, you can also say Arel dot star here, if you wanted to select every single record, right, so, or every single column from the record. So select start from post. Arel dot star exists, you can use it in a bunch of different places.
+
+OK. So, many people also don't know that select and Arel and ActiveRecord, I should say, have the ability to also just specify a from. So you want to specify a, a sub-query inside a from. This is pretty common. You can do this instead of a join or instead of a, a more complicated query here. So I'm saying select ID, and then I'm passing a sub-query into the from.
+
+So one thing that's really important to notice here is you'll notice that the end of the sele, the second select, I say dot AST. So also at any point in your construction, you can call AST on your relation, and it will give you back this massive tree that it's constructed. And in this case, from requires you to pass it an AST otherwise it gets confused. It doesn't know what to do with a relation. It only knows what to do with it if it's an AST or the column or things like that. So. Or a table, in this case.
+
+All right. So that pretty much covers select. There's a lot of things you can do with select. I was kind of breezing past a lot of it. If you have any questions, you can always talk to me or, or you know, I guess, go online. But there's not that many resources. Anyway. OK. So, the wonder of where.
+
+So, where is also gotten a lot better since Rails 2. I can pass in a title to my where here, where post dot where title is "Arel is Cool," and this will do what you expect. It will say, it'll construct the SQL query, user dot title equals this value. So no question marks here, which is very nice.
+
+But what happens if you want to, you know, do something a little more. Oh, here's the, here's the Arel version of this. So, you can do this with pure Arel. It's a little more verbose. You wouldn't really do this. But let's say you wanted to say not equal to or less than, things like that. You can do the same thing. So you can say not equal in this case, and notice that it'll put the band equals in MySQL. You can also say, kind of something cool here, not equal to nil, and it will serialize that as is not nil, which is what your, what you should be expecting.
+
+Some of the cool methods. Greater than, GT. Less than. LT. All makes sense. And all of these are just chained right off of this, this, this column attribute here. Here's greater than equal to - GTEQ, and also LTEQ.
+
+So, we also, oftentimes, in our queries, need to be able to and and or our way to a kind of a multiple where. We can do the same thing here. So, if you were to say where multiple times just with ActiveRecord, it would automatically give you an and. But if you wanted to specify an or, you would need to do something like this. So we have our title and attribute from post, we're saying equal "Arel is Cool", and the post id is equal to twenty-two or twenty-three. And notice that I have actually injected, so I have put, inside the and, I put another attribute and a dot or, and this will, Arel will just know, it will, the visitor pattern will know how to add the right parenthesis to this query.
+
+So, notice the output query has an and and then parenthesis and the or, so that no operator precedence messes us up here. Now, notice that I said equals twenty-two or twenty-three. I could also have put an in here. So in also accepts arguments here that could, essentially an array of values here. So it's the same thing, this will have the same effect.
+
+You can also compose your wheres. You can add named functions in here. So you can also do dot count, dot sum, all that stuff works. Those are aggregate functions. Here's length. Oh, I'm aggregating this stuff together and it all, it all just kind of works. It's pretty cool.
+
+All right. So let's get to my favorite part of Arel, and that's joins. So ActiveRecord makes joins pretty easy, except for when you're trying to do an outer join, and we'll just, we'll just see how that looks in a second here.
+
+So let's pretend we have this data model. It's a basic blog, essentially, so you've got a post. Post has_many comments. And each comment has an author. So let's, let's see what happens when we dive into some joins here. So we say join. This is without any help from Arel. Joins comments, or comment in this case, where id is forty-two.
+
+So, very cool. ActiveRecord inspects this model. It inspects the association between author and comment. And automatically generates the right join conditions for you. Pretty cool. You can also specify, as I mentioned, kind of a, a through table in this case. So I want to join comments, and then I also want, you know, using author, I've got comments, and I also want to find the posts of the comment reference or that, that comment is part of.
+
+So, this will also do what you expect. It will grab all the correct attributes for the models. Hook them all together. A lot of cool introspection. But, again, what about outer joins? So, you notice back here, it's inter-joined. And there's really no way to specify an outer join without diving in to Arel. At least that I'm aware of.
+
+OK. So let's look at this guy again. So let's say I wanted to add an outjoin again. Well, first, it kind of bears mentioning here that you can turn this stuff into, also, pure Arel stuff. So, we have a joins comment. We can also say comment dot joins post, and then call this method called join sources. So, join sources is a way of saying, I have gotten this query from ActiveRecord. And this is, again, it's just using ActiveRecord. And I just want to grab the join sources. I don't care about the select or the where. Just give me the join sources and pass that onto whoever is wrapping. In this case, another query.
+
+You can do the same thing with first join. And then you can also specify the on conditions manually here. So, we have a, a join comment Arel table, and we're joining that on :comment_id is equal to author :comment_id, and then saying join sources. And we're doing this for both.
+
+Now, this is gonna get pretty verbose, but at this point, we can finally add our outer join. OK. So notice that the attribute, Arel attribute dot join takes a third argument, or a second argument, that is the join type. So you could say inner join here, or outer join. And that results in, essentially, the same query. But this time an outer join.
+
+You're thinking, that is a lot of code. Why would I ever type that much code? And you're right. That's way too much code. So, part of the Arel-helpers library is called JoinAssociation. And this will introspect your model, just like ActiveRecord would do. Hand those off to what's called a select manager, and then use the second argument Arel::OuterJoin to give you an outer join, but without all the tedium of specifying all these conditions.
+
+So I can slide this in here. JoinAssociation, and I supply the original model and then the association name, and then Arel::OuterJoin. And I can do that for both of these guys. Pretty cool.
+
+But wait, there's more. All right. So you've got this guy, and you're like, you know, I really want to supply some extra custom on conditions. Fortunately, join dependency or join association, rather, will yield a block to you that has both the association name, which is a string or symbol, and also the, a join condition's intermediate query object. So you can say join conditions and, and then pass in anything else you would like to construct. In this case, we're making sure that the created_at date is less than or equal to yesterday.
+
+So this will, again, in the same query, but this time. And it would have been an outer join except that I, I actually took out, for space reason, I took out the extra OuterJoin call there. So this, this would return inner join and then an outer join.
+
+All right, so let's talk about join tables. As for, for, so far we've been talking about tables that have defined associations between them, and those associations are not has_and_belongs_to_many. So I'm trying to kind of freshen us a little bit and say, let's talk a table that, or two tables that are associated but via a join table. So, you might have a series of courses that are taught by a series of teachers. Multiple teachers can teach one course, and courses can have multiple teachers.
+
+So, in this case, you've got three tables. Courses, teachers, and courses underscore teachers. This is pretty common in Rails, I think. So, it means you have, again, the course table. You can refer to that with course dot arel_table like we saw before. Teacher table, again, reference that with Teacher dot arel_table. But then we've got some magic in here for courses_teachers, because there, there really is no model for this. There's no constant we can use to reference this table. So instead, we need to create an object for it.
+
+So we'll create an Arel::Table. This is doing this manually. We're giving it the name courses_teachers, and now we can use this variable ct anywhere we cant to refer to this table. So, for example, this query. I want to say joins, and we have, you know, courses join teachers, and then just for the purposes of illustration here I've shown, you know, what you would do in Arel to construct the join conditions here, so. You know, on this on this and then dot join sources.
+
+And I didn't show the SQL output of this but I think it's pretty, pretty clear from the previous examples.
+
+OK. So that wraps up join. So let's talk about order. Order is actually the simplest of the kind of SQL constructs I'll talk about today. You all know that you can say post dot order visitors and visitors in an integer in this case, then dot to_sql. And this will give you a, a return value of, you know, all of your, all of your posts ordered by the number of visitors. You can also, and some people don't know this, but this also just an ActiveRecord construction here. Post.order, that should be (:visitors), reverse order. This will add a descending clause or a descending keyword to the end of your query.
+
+Now, you can also do this in Arel. You can say post(:views) descending to SQL here, and this is essentially the same thing. All right. So let's talk about sub-queries with in.
+
+So we talked about sub-queries with from. You can also do sub-queries with in, and you can use that AST that we talked about before. SO here's an example of that. This is a very trivial example, but we say post dot where and then we say Post.arel_table in and we supply it another query. So we're adding a sub-query into this in call.
+
+So that's pretty cool. And it does the right thing. It adds the correct parenthesis and everything's great. All right. And then like queries with matches, you can also do this with Arel. So most of the time you'd probably have to say, well, I'd like to, if I wanted to do a like, in other words match, kind of fuzzy match against a column in your database, you would need to add a like or, I guess, what is it in PostGres? Like. What is it, double ilike or something. Anyway. So it's one of those things.
+
+So and then usually you have to add wild card characters to this, and this would normally be a big string in your query. But, you can fix that with Arel. So, Post dot where, and we have a matches Arel and then I just put my - so you do have to add these. Unfortunately you have to add these, these wild card characters, but it's just dot matches. Super easy. And that gets serialized out into a like.
+
+And, interestingly enough, I didn't know this when I started out, but it looks like it's actually taking that string and encoding it into Base, Base16. Hexadecimal.
+
+All right. So we've learned all this awesome stuff about Arel. We know that it can do joins and wheres and likes and ins and all kinds of awesome stuff, all without the use of, well, mostly without the use of strings. We also learned that it's pretty chainable. So, when you think about something that's chainable, the thing that comes to mind, for me at least, almost immediately, is the builder pattern.
+
+And I think, well, why would I want to construct a huge query inside my model or controller? I'd much rather have an object do this for me. Now, is that always the right choice? No, of course not. But it's, it can be nice to encapsulate logic, like building a huge query. So that's why the next step, or the next point I'm gonna bring up, is how to construct a query builder. And this is also part of the ActiveRecord, or the arel-helpers gem that I mentioned before.
+
+So this is pretty much the entire implementation of query builder. You have something that can forward some methods for you. It'll query, it'll forward to_a, to_sql, and to_each, this variable called query inside your object. It accepts a query and sets that as an instance variable. Then it also has this kind of funky method name reflect, and reflect just instantiates a new instance of the class and adds the query. So it's essentially implementing that chaining idea.
+
+All right, so here's a lot of code, and we're gonna go over each of these pieces individually, but this is a, a post query builder. So I was trying to query some posts. Let's look at this first method. So, notice this first inherited from QueryBuilder. So let's say we have a method called with_title_matching and it accepts a title. Calls reflect and says dot where title matches and it adds, you know, you can see it adds the percent signs for the wild card characters. This is all encapsulated inside this guy. So you all you have to do is just call with_title_matching on your QueryBuilder.
+
+Let's go down to with_comments_by. With_comments_by(username), so we join comments and authors, and then where(Author[:username].in(usernames)). So we are expecting an array of usernames and this, again, reflects this query back to a new instance, returns a new instance to QueryBuilder, too, this time with. Cause, again, we're chaining all these things, right, so now we have both. If we call both these methods in a row, we would have find_by_username and with_title_matching, both together.
+
+So the last method I have here is since_yesterday. The post[:create_at] greater than equal to Date dot yesterday. Which means that now I can do something like this. There's not a lot of ugly syntax in here. It's all pretty clean. PostQueryBuilder.new with_comments_by pass in an array of usernames, dot to_sql. And notice it's doing all of the joining for me, like you'd expect. I can then just say dot with_title_matching("arel"), it adds that like, and then I can say since_yesterday and it will add that third condition.
+
+Pretty cool. Thanks.
+
+Cool. Appreciate that. But you might be sitting here thinking, god, this is super complicated. There's got to be something out there to help me write these queries better, because, you know, it's a lot of verbosity, it's a lot of code, it's a lot of extra stuff to remember. Well, fortunately, there is.
+
+So, I worked for a little while on a project called Scuttle. It was gonna be called Ariel, like Little Mermaid, Ariel, you know, but it was, unfortunately, too linguistically similar to Arel and so I thought I would have trouble saying it on stage. So I named it after Ariel in The Little Mermaid's best friend Scuttle. So if you go to scuttle dot io - thanks - if you go to scuttle dot io, you'll see a screen like this. It's an editor. You can enter in a SQL query, and at the bottom it will convert it to Arel for you.
+
+[applause]
+
+Thanks. Thanks.
+
+Again, it's gonna be pretty verbose, but you can tune your queries. There's a lot of other kind of text below explaining what it does. This is kind of a combination of three different projects, and you can check these out on GitHub if you're curious. So, I could not find a SQL parser in Ruby. I tried so hard to find one of these. And there just isn't one. The only, as far as I can tell, the only SQL parsers that I could find were written in Java, and using this thing called Antler, which is a parser generator.
+
+So, I finally found an Antler grammar for the Apache incubator tajo project, and grabbed that, generated these appropriate classes, and then wrote a JRuby wrapped around that that allows you to parse, it allows you to parse queries. So it only works currently with select and, I think, insert, because Apache incubator tajo apparently doesn't need to do anything else. So, and I wasn't ready to go write a bunch of other Antler stuff. So, if you guys, if somebody knows Antler around here, please, help me out. We can, we can make it better.
+
+And then the third part of this is something called scuttle-server, which is just a Sinatra app on top of JRuby that uses these two components. And, also I forgot to mention there's also this scuttle-Java. But anyway. Anyway, it uses these components to, to drive the website.
+
+OK. So that was a whirlwind. I have, like, five minutes left. Thank you guys all for coming and for listening.
