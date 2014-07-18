@@ -1,0 +1,109 @@
+RailsConf 2014 - The Power of M - Charles Lowell
+
+CHARLES LOWELL: All right everybody. Thank you so much for coming. I'm really, I'm really honored. This morning we're gonna be talking about client-side UI. These are, this, your client that's, that's running inside the browser. Not in the server. And some of you might already be doing this a lot. Some of you maybe a little. But wherever you fall along that spectrum, you're going to be doing more of it, chances are, as time, as time goes on, and not less of it. And so I want, my goal here is to share with you some of the ways that I've come to think about clients, UIs, that can help you build user interfaces that reactive, that are educational and ultimately satisfying to your users. What I want to share with you is the power of m.
+
+My name is Charles. I'm cowboyd on GitHub and Twitter, and I work at the Front Side, where we've been doing UI for almost ten years, exclusively. And when I talk about m, of course I'm talking about m as in MVC. We're all familiar, we've probably heard about the MVC pattern, model-view-controller. It's what underpins all UIs. At least ostensibly.
+
+But it can actually be pretty notoriously difficult to pin down what, exactly, is MVC. It's a difficult question, and if you ask two people, you're likely to get a very different answer. And my, what I'm. I don't want to, to, to go in too much to try and define, give you one particular version of MVC. I think there are many. And, in fact, you find people asking the question, is Rails MVC?
+
+And some people are really, really stodgy about this. They're, Rails MVC - pshaw. I'm more relaxed about it. I say yes. Rails is MVC. It's server-side MVC. It's a flavor of, of MVC. But what I've come to realize is that MVC is, it's kind of like Kung-Fu. There's lots of different schools. There's lots of different ways to, to practition. Each with its own strengths, each with its own weaknesses, and, you know, which one you choose, you need to, is, is, needs to be appropriate for the context.
+
+But today we're gonna be talking about client-side UI, which is different than, different than the, than the server-side MVC, and one of the things that, that really sets it apart is, when you're working on the client, you constantly have to manage state. The client's always on. It's not like a Rails application where you're basically setting up the world and then throwing it away with every request. On the client, you're always on. And so you have values that relate to each other, and when one of those values changes, you have to update the, the, the other values to reflect that.
+
+So, when we're thinking about MVC, I've come to, to realize that really what you want to do is you want to focus on the model. When you first come to the, to the acronym, MVC, model-view-controller, you tend to, to give equal billing to the letters, because they're, they're, there's, no one is set apart from, in, in the acronym. But I've come to find that while the view and the controller are important, they orbit the model.
+
+So, I actually draw inspiration from, from this guy. This is Plato. He's one of the ancient software developers. You can actually tell. He's got a ChromeBook Pixel there in his, in his hand.
+
+And I think that he made an analogy, long time ago, that I think really, cleanly captures this concept. He had this allegory of a cave, and the idea is that living in this world is, is like being inside a cave, and back up at the entrance of the cave, where you can't see, there's this fire burning. And shapes pass in front of the fire, and they cast shadows on the wall. And we, inside the world, the only thing that we can actually see is the shadows. The shapes and the fire are hidden from us. But if we look at the, the, the shadows, we can extrapolate those shapes, and the shapes that we see on the wall take their form purely as a function of the shape in front of the fire. They are as they are and are no other way because, because of those true forms and then the way that they interact.
+
+And so this is all, this is all very, very abstract. We've covered, you know, who I am. We've covered the, the, an ancient philosopher, which I guess is obligatory. But, I really want to give a demonstration of this principle in action so that you can see a little bit more concretely what it is that I'm talking about. And so, to do this, we're going to explore the concept of a color. It's a, a, a very simple concept. It's something that most of us can perceive very easily. We, we, we know what it is, but can be surprisingly difficult to, to pin down.
+
+There's many, many, many different ways to represent it. But we're gonna have, we're gonna have a color, and this is gonna serve as the basic value in our system. You can think of it as like, an integer value or a string value, or, or something like that, and we're going to see how this when, when we have this color, what kind of, what kind of reflections we can make on that wall.
+
+So, the first example is we're just going to, we're just going to project this color onto a single div. We're going to list this color value on the right. We're going to be able to set a color, remove a color, set a color, and as we do that, the, the, the swatch, the color swatch will, will update itself. And I actually have a little demo here. And I've got it hard-coded, just statically, so that when I check this checkbox, the, the swatch will turn green. And I can uncheck it and check it.
+
+It's not, not too much. It's simple but it's surprisingly satisfying. When I was putting this talk together I actually would just sit there and click on, off. It's great.
+
+And you can do the same thing. We can actually connect one color to two swatches. So we've got, there's no reason we can't, can't duplicate that. We'll take two of these swatches and, and bind them to the, the, the same color. The, there's, there's, so there's only one color in the system, but the effect is the same.
+
+Again, I could do that forever.
+
+And this is what data binding is. You might hear about data binding, and most people kind of equate data binding with templates, because that's usually where we come to it first, right. We change this one value and the string value updates, right. But templates are really just a special case of data binding. In the abstract, it's really just about taking two values and putting, putting them together so that they occupy the same space in your application. There really is no difference, conceptually, between them.
+
+Some, this is, this is different than observation, which is kind of another pillar on which client-side UIs are built, where you can observe for value changes in a model, and when that value changes you get a callback. But. With data binding, you really need to think of it taking two separate properties and really just making them overlap and becoming the, the absolute, the, the same thing.
+
+Now, it is built on observation. So, when we have a model and it's got some property. I've got one named a and one named b. We can use observers to, to, to implement the data binding, so if a value appears at a, we observe that and we immediately copy it onto b. And if a value appears on b, then we immediately copy it over into a. But I'm showing this, the mechanics of it, so that you can forget about them. Because you, when, when we're talking about sound traveling, you don't really want to think about the particles knocking together. What you really want to think about is the data flowing through, just like it's a pipe.
+
+And this is good, because it, it, it decouples that data flow from your computation, so you can compose your different models together just by making them overlap at well-known points. So to, to, to show this in action, I've got a model here called the desaturator. And on the left, it takes a color and on the bottom, there's a, a, a value, a real number between zero and one, and then the color on the right is a desaturated version of the color on the left.
+
+So and, and that relationship is, it's, it's a, it's, it's, it's pure. The, the value of that color on the right, no matter what the color on the left, is always going to be a desaturated version of that color. So if we see this, we can now plug it into our swatch assembly, just using data binding. So, let's see that in action.
+
+Here's our desaturater. I've got the green turned on. And as we up the desaturation, you can see that it literally just sucks the color right out until, if you're fully desaturated, you're at gray. If you ever, never heard the term of desaturation before, that's, that's, that's what it is.
+
+And, of course, if I change it to a different color, in this case black, which is the absence of color, then they're, they're both black, because a desaturated nothing is still nothing. But if I shine the color through again, then the, the desaturation remains.
+
+And this is all well and good when it comes to binding colors to colors. But when you've got two separate data types, because remember, you know, bindings can only work on the same data type. When  you've got two separate data types, what are you gonna do? Well, you just need another model.
+
+And in this case, what I've implemented here is what I call a color syntax. And it's a model that's got a color on one end and a string on the other. And I'm, you know, there's a little bit of hand-waving here, because this model is a little bit complex on the inside, but from a composability standpoint, it's very simple. It just relates a color and a string.
+
+And it goes both ways. So that if a color appears on the top, that implies a string value on the bottom. And if a new string value appears on the bottom, that implies a different color value on the top. And so I can plug this in to our assembly, and I'm gonna go ahead and plug it in twice, to kind of fast forward and show you a little bit more the power of data binding here.
+
+So we've got two text inputs which produce strings. But they're bound to our color syntaxes, but both color syntaxes are bound to the same color, which is that swatch on the right.
+
+So we can see this in, in action here. So I've got my two, two text fields, and I can change the color of one, where probably most, we're used to dealing with hex values, and you can see that the, the colors update. Both in the swatch, the, the desaturated value of the swatch. And also in the other text field. So I can set it to cyan and then I get a desaturated cyan. Cause all I'm really doing is changing that one color value.
+
+Incidentally, these, these text fields, there's nothing special about the format, because the way I implemented it is a, a color syntax, I actually can take this here and, and copy it up here, and it'll still update the color because the, the syntax is format agnostic. So it doesn't really matter. And I can also use a RGB constructor here to make this red again.
+
+So. And that's good. You know, we can, we can play around with the colors. We can enter in RGB values here, one at a time, and see the kind of the affect they have on the mixed color. But that doesn't give us real insight about the, the, the individual components. So what we can do is we can actually add another model to decompose this color into its RBG value. So we've got, again, we're relating over here on the left a color value, and over on the right, three different, three different coordinates, red, green, and blue. And we can see how those things relate to each other just by binding it into, binding it into our application.
+
+Now I've gotten rid of the, the desaturator and put this RGB selector in here. So let's see what this ends up looking like. You can see I've got these sliders bound to those RGB values, and I can do things like bring in red so that I've got, now, a pure yellow, and I can fade out the green until I've got my pure red. And so I can see how each individual color affects the, the final value.
+
+Which is, you know, this is, this is, this is pretty neat. We're starting to, to get something of a, of a more non-trivial application. But we still, we're still not seeing how the color is actually constructed by the computer. And to do that, we can use, we can, we can visualize not just the, the final output in that swatch, but we can actually visualize each value for red, green, and blue, and how that relates to the original color.
+
+So, what I did was I made an RGB visualization component, and bound it to the color, so that when the color updated, we visualize not the whole color, like the swatch, but the actual different red, green, and blue values. And that's what this looks like. You can see we've got, right here a pure green. But we can bring red in, slowly. And you can see how you get that, that yellow there, and then if we bring in blue, how it goes to white. But what we're seeing, now, is we're actually seeing how the color is added by the, the, the actual hardware. RGC is an additive model. We're taking a red value, a green value, and a blue value and we're adding them together so that the part where all the circles overlap, that's all three colors added together.
+
+And then where only two of the circles overlap, those are where the other two circles are, are together. So you can see that if I've got a pure yellow or I've got a pure cyan. Oops. If I've got a pure cyan, you know, I have no, I have no red component, and so the, the, the swatch or the part in the middle is the exact same as the overlap for green and blue. And so you can kind of play around with this and see how the individual colors mix and not be, not be distracted by the, the, the overall sum.
+
+And RGB is a great. RGB is great, if you happen to be a pixel. It can be difficult for us to understand RGB. The reason that we use RGB coordinates is because it's very easy for a monitor to take three values, add them together, and like, that's the frequency of light that I need to emit. But that's not how we, as humans, actually perceive it. And so there are, there are other coordinate systems that are more in tune with the way that we perceive color, which unfortunately we don't actually use. You know, RGB is kind of like the assembly language of, of color. It's what the machine understand.
+
+So, probably the most, the other most popular format, the most popular coordinate system for describing color is called HSL. And it, it stands for hue, saturation, and lightness. To read briefly what these, these mean or what they're defined as.
+
+So, hue is the degree to which a stimulus can be described as similar to or different from stimuli that are described as red, green, blue, and yellow. Saturation. The colorfulness of a color relative to its own brightness. Lightness. The subjective brightness, perception of a color for humans along a lightness/darkness axis.
+
+Now, if you're like me, that really, even though it's aimed at me, it's completely and totally incomprehensible. The, the, the vocabulary definitely is about humans and human perception, but it's still a black box. It's still completely opaque. But, what we can do is we can add another model, and we can decompose that to unpack those individual coordinates and see how they effect our, the, effect the different color values.
+
+So let's go ahead and plug that in. I've got an HSL selector, just like I had the RGB selector, and we can see the, the, the hue, saturation, and lightness coordinates over there on the left. So, right now we have a pure green. I can take it down to a pure red. We can move the h. We're gonna keep s and l, and you can see as I go to green, the red fades out til I've got a pure green, and then the blue fades in till we've got a pure cyan. Then the green fades out so that we've got a pure blue, and then red fades back in to purple, and then blue fades back out to red.
+
+I particularly, I love as I, as you watch the hue, seeing where the RGB sliders are going. So you can see that the hue is going around that color circle. It's going around the color circle. And then as you adjust the saturation, you can see, OK. The red's coming down and the green and the blue are coming up in unison, and when I fully have zero saturation, then we're at a gray. And if I bring the saturation up, the, the green and blue go down in unison, and we're back to that pure color, that pure hue.
+
+So I think that this gives a, a much better view on, on these different coordinates. Same thing with lightness. You can see as we go from point five to one, it's almost like we're just mixing in white unless you've got nothing but white, and as we decrease the lightness, you can see those, the green and the blue come down together. And then as we go from point five lightness to zero, we're just fading that hue to black.
+
+And so I think, even though the terminology that you might read on Wikipedia about what HSL is is very opaque, it actually becomes pretty clear about what it is when you, when you can play with the individual coordinates and see how it relates to both the color at large, the, the, and, and also the, the additive color model that the computer's using.
+
+And we can also, and we can, we can visualize the HSL by making another visualizer, just like we did with RGB. And we can bind it into our color model. I think we've got what, one, two, three, four, five different things. Six different things. Let's see. One, two, three, four, five, six, seven different things bound to this color.
+
+So, we've got quite a robot we're building here. And so this is, this is actually HSL space, and you might already be familiar with the color selectors that use HSL. You can see that as I adjust the hue here, I'm going around that color wheel. And those, you can see where the color wheel fits on those, along the points. And the color that's selected is, is right down there.
+
+This, so what we're seeing here is the hue goes around in a circle. It's an actually a radial component. So, which is why it's from, you know, zero to three-sixty. And then the saturation, or the intensity of the hue, is the radius of that circle. And then if we look at the lightness here, you can see that the lightness, we fade up to white at the top and then fade down to black. There, so as we adjust the, the lightness, we can go, we go up to white at the top and down to black at the bottom.
+
+So, that's, that's pretty neat. I think, I think there's a lot of power in that. By taking, you know, just, just, just by binding to a single value. But values, values are actually not just on the client. You can actually treat a server, for example, as a simple model. And so here, I'm, we're going to have a server component. And a server's a black box, but from the perspective of the rest of the client, it behaves just like any other model.
+
+If a color appears at that point, it's sent into the black box. It can be sent to the server, serialized, whatever. And by the same token, something can happen on the server and it can make a color value appear right there.
+
+So, we can use this concept to develop color book, which is the first social network for color values, which I'm about to show you. And we can do this just by plugging in our server into our robot. I was actually kind of running out of room, so same basic concept. It's a little bit of a snakey cable there.
+
+And so now we'll do an actual live demo in here. So I've got, I wrote a little Rails app that uses web sockets to implement those servers. Or implement that, the, the, the endpoints on the servers. So, we can now open up that example that you saw in two separate tabs.
+
+And then we can see them acting in unison here. And so what's actually happening here is I got two different client-side applications, but they're all bound together.
+
+So, one of the things I hope to demonstrate is that there is actual power in simplicity, with keeping your models simple and keeping them composable. I think that, you know, this is probably, in terms of API, this was probably the, the most complex model that we had in the system. It's got, you know, four points that you can, you can bind to.
+
+But because, you know, because we understand the relationship between them, we can use each one of these individual models, which are very, very simple, to link together in simple ways to make a very complex and, and interesting application. And so I shied away from, from actually defining a model, because like I said, I don't want to get into nomenclature wars. But I think it's fair to define a model as just a group of values with well understood relationships. Values with well understood relationships.
+
+And if we understand those relationships than we can compose them in very simple and easy ways. But it's actually understanding the relationships that's the hard part. The is where the, the bulk of the work is.
+
+And I think that, that Plato got that, you know, when he original made this allegory of the cave, one of his goals was to explain to people what exactly a philosopher does. What his job is. The philosopher's job is to look at those pictures, which is the only thing that we can conceive, and from it, infer and construct that model or form that's standing in front of the fire.
+
+And so when it comes to UI and, and software in general, the philosophy part falls to you. That's your job. It can be very satisfying and, and rewarding and I hope you have fun with it.
+
+Thank you.

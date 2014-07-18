@@ -1,0 +1,722 @@
+RailsConf 2014 - Don't Forget Your People - Emily Dobervich
+
+EMILY DOBERVICH: Hello. Yay. I'm turned on now.
+
+Cool. So it's ten by my clock, so let's get started.
+
+I am Emily Dobervich. This is don't forget your people.
+
+Some quick introduction about me.
+
+I work at a company called TeamSnap.
+
+We make organization, management, and
+
+communication software for sports teams.
+
+We tend to target youth sports teams,
+
+but pretty much any group that has
+
+a schedule will find us useful.
+
+Outside of work I'm a jazz pianist and an
+
+improviser, which you're going to not like in a
+
+moment. So, just as a way of getting started,
+
+who here ever works in a non-development role, like,
+
+say like, more than four hours a month, every
+
+month? Raise your hand. Cool. So, if it's support.
+
+Raise your hand. OK, cool. So a few of
+
+you are actually doing support, which is awesome. It's
+
+what I do.
+
+And so this is what you're not gonna like
+
+about me being an improviser. Of course, the slides
+
+are a little high. I decided on Wednesday night,
+
+after staying up far too late and not being
+
+able to fall asleep, that I'd come up with
+
+a way to torture you guys. And it turns
+
+out I wrote a script to find random images
+
+on the internet. I had someone else check them
+
+for appropriateness, so if any of them are inappropriate,
+
+it's not my fault. And I will be justifying
+
+their inclusion on each slide. Or, probably, just ignoring
+
+them.
+
+So, at TeamSnap, I do four hours of front-line
+
+customer support every month. Pretty much everybody does it.
+
+And it happened by mistake. It wasn't a grand
+
+design. It wasn't some great thought that someone had
+
+- hey, we should do this, this will be
+
+awesome. It just kind of happened.
+
+And the story behind that is we had a
+
+single support person when the customer, or when the
+
+company was about five people large, about a year
+
+before I started at the company. And she kind
+
+of was able to do support all by herself.
+
+In the weekends the load was relatively low. But
+
+she didn't get weekends.
+
+And so she asked if she'd ever be able
+
+to have time off. And since the support was
+
+low and the load was low and, you know,
+
+we had five other people at the company, it
+
+didn't make sense to hire somebody to do, like,
+
+two hours of work over two days. So people
+
+just kind of pitched in.
+
+And as we grew, we kept doing this. But
+
+not because it made any sense for, like, you
+
+know, higher reasons, but just like, there were other
+
+benefits that we didn't realize until we started doing
+
+it.
+
+And so the first thing is sympathy. And this
+
+cat picture, I guess, is totally appropriate, because the
+
+cat is sympathizing with a computer, which looks to
+
+be a, maybe like, Retina MacBook Pro with image
+
+persistence problems. I don't know. That block there. But,
+
+but sympathy is really great because, you know, you
+
+don't necessarily know what your coworkers put up with
+
+on a day-to-day basis. And once you do, you
+
+have, like, a better appreciation for them, and that
+
+makes everybody happier. And happiness is largely a good
+
+thing.
+
+And for support, in particular, I am just constantly
+
+amazed. And there's another cat. OK. This cat's const-
+
+looks pretty amazed. But support, where I work, puts
+
+up with clueless customers. You know, the kind where
+
+you ask, hey, what web browser are you using
+
+and they write back, Dell? There's abusive customers who
+
+don't realize that their message is actually going to
+
+go to a real human being and type obscenities
+
+and racist things. Those probably also fall into the
+
+annoying customers category.
+
+But there's also the lack of information, and that
+
+lack of information sometimes comes from within the company.
+
+One, one time that, that this happened to me
+
+when I was working support, there was a customer
+
+problem. I tried to diagnose it. Couldn't. Turns out
+
+that there was an A/V test being done via
+
+some JavaScript magic, so nobody knew about it by
+
+looking at code, and the email that was supposed
+
+to go out. Oh, it's cut off, great. Basically
+
+it went to a wrong group email address, so
+
+nobody actually got it.
+
+That cat didn't get an email, I guess.
+
+Email sucks. Please, someone, fix that. That cat. I
+
+shouldn't have trusted the person who looked over these
+
+images. So, anyway, email sucks. Someone please fix that.
+
+It would make me really happy.
+
+And when I was talking about those, those things
+
+that make me constantly amazed about the support team
+
+where I work. I left something out. And this
+
+is probably the most important thing that I've learned
+
+by doing support, and it's poor administrative tools. They
+
+put up with poor administrative tools. And I'm sitting
+
+there, using these tools, trying to do their job,
+
+essentially, and I'm thinking, wow, these really suck. Who
+
+made these?
+
+And it, it kind of hits really close to
+
+home, because I know that I might not have
+
+made the initial versions of these tools, but I
+
+definitely am one of the people, where I work,
+
+with the power to make these tools far, far
+
+better. And it just kind of hurt me inside
+
+that I hadn't done this.
+
+And so one of the big problems is just
+
+deficiency with the tools. And this cat, apparently, doesn't
+
+know how to soap properly. But anyway. With our
+
+tools at TeamSnap, there were problems like you would
+
+search up some information about a customer, but then
+
+a lot of it was hidden and you'd have
+
+to click through multiple times. And that's just not
+
+cool. Like, that information should be readily available. And
+
+so we made many, many patches to fix this
+
+sort of stuff.
+
+One example of something a little more involved was
+
+manual password resets, an issue that kept coming up
+
+over and over again was that users didn't like
+
+to reset passwords via emails and click on links.
+
+They pretended it would be broken, even though it
+
+definitely works, and would absolutely request a password be
+
+sent to them in an email no matter what.
+
+It was the only thing that was gonna make
+
+them happy.
+
+And so users can trigger the password reset email.
+
+Support can trigger it, too. But, you know, they
+
+want that password. And we didn't have a way
+
+to send them a password that would only work
+
+one time. And so we, we added it, cause
+
+I got really annoyed after dealing with this, like,
+
+every single time I did my four hours every
+
+month.
+
+And it turns out that with lots of these
+
+tools, you add them to solve one problem and
+
+they actually solve several others. So once we finally
+
+had mobile apps, this provided our support team a
+
+very easy way to log in as a customer
+
+to try to verify an issue.
+
+Has anyone ever seen this out of you people
+
+who have said you do customer support at work?
+
+Anyone? Yeah. It, it, it's, it's something that we
+
+have tons of trouble with, and I think it's
+
+because at TeamSnap, a couch or owner of a
+
+team can actually delegate power to other members of
+
+the team. The power to pretty much do just
+
+about anything if it's set up the right way.
+
+And those other people are clueless. And they will
+
+frequently delete things. And that's almost what it is
+
+every single time. Ninety-five percent of the time, someone
+
+they've given power to on a team has deleted
+
+things. And support wants to be able to like
+
+quickly answer these questions and give them a good
+
+answer. Like, where did all your data go?
+
+But if you just say someone on your team
+
+probably deleted it without having any actual knowledge about
+
+that, that's like a terrible, terrible thing to do,
+
+because if that wasn't the case, you've just made
+
+them mad at somebody on their team and that's
+
+not cool.
+
+And so this brought up a really big problem,
+
+which is that we didn't have support-accessible logging. Logs
+
+were on multiple servers. They weren't friendly formatting, so
+
+like they could be hard to read if you
+
+weren't super technical. You couldn't really search them very
+
+well to find ones that pertained just to a
+
+single customer. And, most importantly, only developers had access.
+
+And so what this meant is that there'd be
+
+this back and forth between support and development that
+
+took forever to try to get the logs that
+
+support needed to answer a request. It took like
+
+more than ten hours a week between all the
+
+developers, which is a insanely, insanely awful thing.
+
+And so we, you know, were thinking, this is
+
+ridiculous. We should do something about it. And so
+
+we, we actually built something. It didn't take us
+
+very long. It took us far less than the
+
+ten hours we were wasting looking through logs, and
+
+it's, this is what I did on a staging
+
+server in July last year. I logged in a
+
+lot of times. Didn't really do anything else.
+
+But, as you can see here, it's, it's a
+
+much easier format for someone non-technical to understand. They
+
+don't have weird formatting, it's nicely spaced, there's time
+
+stamps and if you click on those question marks
+
+on the right you can get even more detailed
+
+information about what happened in instances where it actually
+
+matters.
+
+And so we call this Bunyan. It's got the
+
+friendlier format, which is cool. It's far, far easier
+
+to search, and by far easier to search, I
+
+mean that our support team didn't really need a
+
+whole lot of training. We just kind of showed
+
+it to them once and they were good.
+
+The important part is that anyone at TeamSnap who
+
+does support can access it. Because we realized being
+
+on both sides of this problem, both from the
+
+development side where we have to access the logs
+
+and on the support side where we had to
+
+request the logs, that it was really vital that
+
+everyone could access it.
+
+And we, we have these things we call chains
+
+of events, and they're indexed by important things like
+
+user id, IP address, team id, and that sort
+
+of stuff.
+
+And what was so cool about this is that
+
+support surprised us. You can't see the quote so
+
+I'll have to read it for you, because I'm
+
+bad at slides apparently. So, we, we often have
+
+customers write in and say, every time I try
+
+to login your site tells me that I'm entering
+
+the wrong user name or password. I have to
+
+reset my password every single time. Even when I'm
+
+sure I have my password correct.
+
+And the, the thing about the customers in this
+
+case and, this is where the sympathy for support
+
+comes in, is that customers will write in, and
+
+they actually have their problem, like, the solution to
+
+their problem in the words they've written and they
+
+don't realize it.
+
+They say username or password. They know they have
+
+their password correct, so clearly the answer is that
+
+they don't have their username correct. Which is what
+
+is, what is actually case in 95% of these
+
+emails that come in. And we get an astonishing
+
+number of these emails. We haven't been able to
+
+figure out quite why they come in. But they
+
+do.
+
+And so we, we end up having these emails.
+
+This is what it looks like actually when a
+
+person tries to log in and reset their password.
+
+These emails do tell them what their email is
+
+and they miss that and it's kind of awful.
+
+These, these emails could be a ton better, as
+
+evidenced by the fact that no one every notices
+
+what their username actually is.
+
+AUDIENCE: How do they reset their password?
+
+E.D.: Yeah. I don't know. I'm, I'm really, really
+
+astonished. Like they, they, they reset their password by
+
+entering their email correctly, but then they can't login.
+
+And it's. I, I'm really as puzzled as you
+
+are, actually.
+
+And so, so getting back to how support surprised
+
+us and this kind of cool thing that went
+
+on once we started having this team work where
+
+we're both doing each other's work, to a certain
+
+extent. They, they realized that it really sucks if
+
+you accuse a customer of not knowing their username.
+
+Because you, you, you've effectively called them stupid or
+
+dumb or forgetful, and even though 95% of the
+
+time, it was actually the case that the customer
+
+was forgetful and didn't know their username, the, that
+
+5% of the time is still a pretty large
+
+number when you get hundreds of these a month.
+
+And so calling a customer stupid's just, you know,
+
+not a great thing to do. And they realized
+
+that they could use this tool that we built,
+
+this tool that we thought was just going to
+
+be a simple replacement, for looking up logs. Things
+
+like, you know, an event happened, or an event
+
+was creating. A rockstar entry was changed. A team
+
+was created. These simple, kind of linear data, they
+
+realized they could do a lot more with it.
+
+And so they realized they could actually figure out
+
+whether or not a customer knew their username or
+
+not when they were trying to login. And the
+
+way it works is that they try to find
+
+the customer's user id via, like, first or last
+
+name or their email address they wrote in from
+
+support. They use the administrative tools they already have
+
+to find this. And once they have it, they
+
+can look up the chain of events in Bunyan
+
+for that user id, and then they can look
+
+at the associated IP addresses and look up those
+
+events.
+
+And so when a customer logs in with an
+
+incorrect username that doesn't exist, we have no way
+
+of actually associating it to their user. But via
+
+these logs that we have in this friendly, searchable
+
+format, our support team figured out that they could
+
+actually figure out, you know, whether or not a
+
+customer actually had this problem. And here, I've misspelled
+
+my name. I typed an n instead of an
+
+m, and I totally never do that. Ever.
+
+But it's this really cool thing, because we, we
+
+built this tool to solve a tiny problem. Not
+
+tiny, a big problem actually. Ten hours is a
+
+lot. But a problem that we had even more
+
+first hand experience with, because we were on both
+
+sides of the problem. But it didn't just solve
+
+that problem. It solved many, many more.
+
+And so this says perspective up at the top.
+
+And the, the thing about, about this is that
+
+it's not just these cool things that you can
+
+build with tools and help make everybody on your
+
+team happier. But there, there's this business perspective, too.
+
+You get this idea of what's going on with
+
+your business. For support, it's customer pain points. What
+
+they wish was better. And, you know, why customers
+
+just decide not to use your software anymore.
+
+And you're, when you're in other areas, like sales
+
+or marketing or just general business things, there's plenty
+
+of other good information that you get. And it's
+
+all super, super valuable.
+
+I want to take a moment to, to go
+
+back to the thing I was saying about this,
+
+this back and forth kind of, I want to
+
+say synergy, but that's a terrible word, between support
+
+and development that's happened because everyone uses, or everyone
+
+does support. It's, it's this really great thing, because
+
+it used to be that our support team wouldn't
+
+ask for improvements in their tools, because they didn't
+
+realize that things could be a whole lot better.
+
+They're not dumb or anything. They're actually really smart,
+
+intelligent people, but they're not technical and they don't
+
+know what the underpinnings of the system look like.
+
+So they don't even know if it's possible to
+
+do something like build that tool that we built.
+
+And they wouldn't ask. And by doing this we
+
+realized, you know, we built these initial sets of
+
+tools that we realized were problems, but by building
+
+those tools, our support team actually learned that that
+
+sort of thing can be made. So they actually
+
+now ask, any time they find a problem with
+
+their tools, if there's something that can be done
+
+to make them better.
+
+And they've had to learn that sometimes, no, there
+
+isn't anything. But they still ask, and that's great,
+
+because sometimes there's these problems you don't even realize
+
+exist until you do things like this.
+
+And so ultimately, this all gets down to helping
+
+your people. And by your people, I mean your
+
+coworkers, your direct coworkers, you bosses, everybody that you,
+
+in theory, work with. Cause when you, when you
+
+help them and you work with them, you gain
+
+these things like sympathy, compassion, and you, you help
+
+them have better tools. And they'll be happier, which
+
+will probably make you happier, cause they're going to
+
+ask you lots of questions, or more questions to
+
+make things better. But really just everybody, including your
+
+customers, will be a ton better because of it.
+
+The best part of it is it's really, really
+
+cheap. It doesn't cost very much to have someone
+
+do a few hours a month in a different
+
+area of work. And I would contend that the
+
+extra happiness and efficiency that comes out of doing
+
+something like this, once you take that into account,
+
+the cost is probably negative. So, you know, it's,
+
+it's super cheap and easy to do.
+
+And so I'm gonna implore you here to just
+
+go and try it because it's awesome and I
+
+realize I have talked far too fast, so that's
+
+actually the end already. Those are the images that
+
+were randomly fetched from the internet. That's where you
+
+can find them.
+
+So. I guess if no one else has any
+
+questions, that's actually it. Thanks.
+

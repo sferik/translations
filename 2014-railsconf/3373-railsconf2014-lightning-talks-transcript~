@@ -1,0 +1,655 @@
+RailsConf 2014 - Lightning Talks
+
+***
+
+SEAN MARCIA: Thanks for letting me follow that. Oh, my pleasure. So I just wanted to announce a hack fest we're putting on in August. August first to the third we're putting on a hack fest, Ruby for Good at rubyforgood dot com. Check it out. This is a, it's a three-day long hack fest to get an entry into open source. We're gonna be hacking on social good projects. So come on out.
+
+In the D.C. area. It's gonna cost about $200, a little less, unless we get some sponsorships. So maybe if you work for a company like GitHub, where you have this great project, product, but no one's heard of you. Maybe you can sponsor us. It'll get your name out.
+
+[laughter]
+
+Or RackSpace or, or whoever. Yeah. So it's gonna be three days. All your lodging, all your food, everything is gonna be covered. And it's gonna cost about $200. We're gonna work in open source. If you want to sell it to your work, we're gonna have works ops on the second day. We've got one of the guys from the RSpec core team giving a talk on RSpec, and I'm almost out of time. So Angular and building APIs, thanks.
+
+**
+
+JOSH: All right. You guys need to send messages between your stuff, right. So normally we do that with JSON or XML or something. My laptop has gone out to lunch. Ah, there it is. So it's not in front of me. All right, so, well that's gonna be confusing as hell. All right.
+
+Where is the thing? OK. JSON. You're used to that.
+
+AUDIENCE: JSON's awesome!
+
+JOSH: JSON's awesome. There we go. All right. JSON's cool. There's this other thing called MessagePack. It's like JSON, but it's binary. At least on the stuff that you can binarize very easily, it's totally agnostic as to what kind of data you're transmitting, but it's binary. So it's awesome. That's cool. In case you hadn't heard of that, check it out. Also there's, Google has a project called Protocol Buffers. It's even more binary, in that you actually set up a, an IDL, Interface Definition Language, where you can transmit exactly what you intend to transmit and yeah. Yo dawg, I heard you like transmissions.
+
+All right. Anyway. So those are what we're talking about. Why would you use one of those? Well, let's see. This is hard to see. All right. So, just-
+
+V.O.: This monitor's here in front, too. Don't forget.
+
+JOSH: Oh, yeah, sweet. Thank you. OK, so
+
+V.O.: Short guys can't see them.
+
+JOSH: Yeah.
+
+[laughter]
+
+On the left, you've got a Rails controller. You got your index action. It's responding to the different formats. I just quickly tossed in some mime type so you can get the various formats. It's actually really easy to use. These are the data formats. Except the Protocol Buffers, you actually have to define, like, an Interface Definition Language, and that's always fun.
+
+Oh, there's the protofile. All right, so you have to like, whoa. Yeah. That's not the right one. Go away. All right. Just, well, anyway. There's a file. OK. So you define your message structures and, you know, that's kind of cool sometimes. But then  you have to version them. At least Protocol Buffers let you, like, kind of toss stuff that you don't care about so you can have, like, optional fields in there. Who cares about that?
+
+So, then how fast are they? Why would you use these things? Well, you can see if that works, cool. OK, so there we gotta benchmark as to how fast these are, which is actually really surprising. So I expected the really binary formats, Protocol Buffers and stuff like that to be, like, super fast, like way faster than everything. But it turns out in Ruby, they're way slower. So I was like, well, that's kind of weird. So I tried it in Python and, let's see, so I wrote the same thing in Python and turns out their Protocol Buffers are, well, you know they're slower. But they're not as slow as MessagePack, which was even slower in Python. So I mean, you know, don't do that if you care about Python.
+
+So I was like, well, maybe it's these dynamic languages. So I wrote it in Go. So turns out that it is. Whoa. Not working. Oh no, there it goes. So, Go, Protocol Buffers are the fastest. Which is, you know, kind of cool I guess. There's a lot of, very little memory allocation there. And JSON and MessagePack are kind of the same, so.
+
+Anyway, bottom line is, like, you should probably know what you're gonna be doing with your data. If you don't know, then just use JSON, it's cool. I mean, it gets the stuff done. Or, you know, XML if you're from 1990.
+
+[laughter]
+
+But you can. If you're using Ruby on both sides, then you probably want to use MessagePack, cause it's actually really fast. Or then, again, you have to consider, like, how much data you're transmitting. So, like, if you're using, like, this is ten thousand parses of the various messages that I had. So you see Protocol Buffers used two and a half megs. JSON was almost ten megs. And MessagePack was somewhere in the middle. So, like, if you are not running it over localhost like I am, it might actually make sense for you to do something different than, like, use Protocol Buffers and eat the parse time so that, anyway.
+
+There's the trade offs. I figured you guys should know about it, and think about it when you're making things talk to things. Thanks.
+
+[applause]
+
+***
+
+SACHIN SHINTRE: Hello. Good evening everyone.
+
+AUDIENCE: Good evening.
+
+S.S.: Good evening. Hi. I am Sachin and I work at JOSH Software. We work out of a Pune office. OK. So this is very interesting, you know, why I am talking about this here. Very recently I got into a, bumped into a problem. Well, I had to, you know, I had a legacy application and I had quickly pro, you know, provide support for a native mobile app. And that had to be done, you know, really very quickly.
+
+So that, that is the real reason, you know, I thought really quickly share, you know, what I did on that. And, this, you know, so somebody might, you know, would be wondering why I'm talking about it because yesterday we had a great session by ??, you know. (00:05:40) Here about this. However, let me tell you that, you know, whatever ?? did, that was great, that was an awesome presentation. However, that works great, you know, if your consumer is a web application. And that probably doesn't work if it is a native mobile app.
+
+So, that, that's the reason. Let's, you know, see what I'm talking about here. So, there are, you know, when we analyzed, basically in an application, there are two scenarios which need to be handled, so that a mo- native mobile application can authenticate to the backend service application. So one is where the user is created in sign up, and the second is where the user is created when he signs up using a third-party provider like Facebook or LinkedIn.
+
+These are the two scenarios that had to be handled, otherwise, you know, the application won't work. So, as a standard appli- you know, API implementation solution is obvious. We had to enable, you know, token authenticable and add an API framework. And once you do that, if you go back, the first scenario, and you see this. Is it visible to everyone, in the back? OK.
+
+So basically a client is a mobile app and it, so get_token and det_data are essentially APIs. They are gonna make call, pass in the credentials. These credentials are sitting in the backend server, so the server authenticates the user and sends back the auth token. And henceforth, you know, the client can use this token to get any data from the backend server.
+
+However, this is not going to work in scenario two, because a typical native mobile application does not authenticate with a backend server. It uses the SDK provided by the providers like Facebook, Twitter, and it authenticates directly with the service provider, and then it, once it is authenticated, it would expect the backend service to return data for a particular user. This is sort of complicated, and you know, you can't even store the credentials. You can't pass the credentials to the backend server.
+
+Any guesses how to solve this? Anyone here who has done this?
+
+V.O.: Chewing gum?
+
+S.S.: Sorry?
+
+V.O.: You solve it with chewing gum.
+
+S.S.: Oh, yeah. That's what I do.
+
+V.O.: OK, good.
+
+S.S.: Great. Very good. That's what I did, and you now, I got the solution. OK. So basically, what you need to do is you need to pass back the access token that you get from Facebook or Twitter back to your server. Along with the provider that is, so, for example, Facebook and the u_id, which is essentially the Facebook u_id. If you pass these three details to the backend server, the backend server will be able to serve data based on the user.
+
+However, there is one trick here. When you pass this information at the backend server, you must authenticate that the u_id that is being passed belongs to the user who is asking for the data. And that's very simple to do. You can use the, you know, access token, call the provider, ask for information, and validate it against your u_id. If you do that, you're good. The server can send back the information.
+
+That's all. Thank you guys.
+
+***
+
+GYANI: Good evening, friends. My name is Gyani and here my friend Siddant with me.
+
+SIDDANT: Good evening.
+
+GYANI: We already have spoken on accessibility on the first day here. The keynote of DHH. But after interacting with few of you, we realized that we, again, need to reiterate what, why, and how of accessibility. So, what to Siddant.
+
+SIDDANT: So, am I going?
+
+GYANI: Yeah.
+
+SIDDANT: So, the first of all, what of accessibility. And accessibility issue is something that is, when I'm walking down the street, I come across someone and I'm trying to ask him for directions, and I am saying, where is x, y, z? He says, it's right there. So where?
+
+And then, this is kind of accessibility issues everyone face on the web. We, like images not having some descrip, descriptive text. So, why should you really care about accessibility? I mean, there are line, end users, and that's too small a percentage. Should I really care? No. It's not about that. It's, like, if you want to care about accessibility, there is an appeal I would like to make. Please do care, because if you don't, there will be consequences that you might need to face. And there are legal obligations, right.
+
+So, it's not only about legal obligations. Accessibility actually helps you improve your business. The end user of your web presence increases to great extent. On the first day talk we also mentioned about fifteen percent of, of real, like, fifteen percent of world population being disabled and, and that's like a huge, over a billion people. So it increases business. As developers, if you are into accessibility, if businesses are going to need accessibility, then you are on demand. You have no accessibility, you will be getting, getting some work.
+
+And accessibility helps you to improve search engine optimization, and finally, of course, legal obligation are done away, done away with, right. So, that is why accessibility is important.
+
+How should you really go about it? Trying to study about web content accessibility guidelines, or accessible rich internet applications. Just Google out for WCAG two point two or ARIA. And I think you will be pretty much set. And there is something more to it, of course.
+
+GYANI: So, how accessibility can be implemented. There are three ways. You can learn it yourself, you can get professional training, and third ways to get the subject matter experts and the end users involved. Here, when I say end users, I mean to say the screen users who are actually the end users who can tell you and who can certify whether the site is really accessible or not. So, we also are into accessibility. We do provide trainings. We conduct the workshops and certify the websites whether they are accessible or not, so do get in touch with us to know more about accessibility.
+
+Thank you very much.
+
+SIDDANT: Thank you.
+
+V.O.: Thank you.
+
+***
+
+V.O.: Go ahead Andrew.
+
+ANDREW NORDMAN: Excellent. So, my talk is pairing from the remote world of your couch, and we are commencing letdown number five in three, two, and one. So.
+
+Who is this mohawk guy that is currently talking to you? I am a software *engineer*, engineer, at Articulate. Now, what is Articulate? Articulate is an e-learning company. We focus on creating tools primarily designed for the teacher and trainer, and we have a hundred and twenty employees, roughly. I couldn't figure out exactly how many people we have. But we have zero corporate offices. Everyone works remotely. Yeah. That's a very exciting thing.
+
+But that can, that causes some interesting things. So, for example, I work there. I sometimes work there, with my two children. I have to throw them in because they're cute and it has to compensate for my talk. But sometimes I also work here, and now before you ask, no I am not Breaking Bad. No. No, instead, in addition to being a software engineer for Articulate I am also the magistrate of fermentation and co-founder of Cademon Brewing company, a new brewery outside of Chicago. Magistrate of fermentation is there because I thought beer, Brew Master was just a little too formal. So.
+
+So, I want to talk to you about remote development and the concept that remote development is hard, and the reality is, it's not. It's different. It's a completely different mindset when you're working. It's focused a lot on time management. The end result is that you have to focus on blocking out your time, because the very first thing that I hear every time I talk to someone that does not work remotely is that, oh, well, every time I work from home, I get so little done. I get maybe twenty or thirty minutes of work done and that's it.
+
+And the reality is that's a time management problem, not a symptom of working remotely. I'm gonna give you a demonstration, because I happen to have children and two jobs, because I am absolutely insane. I end up doing things like this. This is my usual brew day, when I'm working on both children. I start it, or both children? Both jobs. And children.
+
+[laughter]
+
+It starts at 6:30. I have my heating of the brew water at 6:40. I watch Magic School Bus with my son at 6:45, yeah. Coffee, number one at 7:05. Milling the grains and preparing the brew at 7:15. I start the mash at 8 o'clock. 8:10 I start reviewing PRs, looking at Pivitol Tracker and I bullshit on HepChat for awhile. Then I actually start the lauter process at 8:55, begin coding at 9 o'clock and then stop the lauter process and begin the boil process at 10 o'clock. Coffee number two because I've already been up for about four hours. Standup is at 10:30, at 11 o'clock I start the boil process, having been pairing with my pair and on my development team around noon. I finish the boil, transfer to fermenter, stop automating the cleaning process, and by 12:15 I'm all done with that and have lunch. Then I resume pairing, coffee number three, solo code pair while my pair who works, who's actually down the Pacific coast has his lunch. Then we decide whether or not we're gonna pair or have a solo code session. Finally, when I'm done doing all of that stuff, I clean my brewery, I eat my dinner, and I go to sleep.
+
+On my non brew days, it looks a lot less crazy, but the reality that we should be taking away from both of these situations, that t comes down to blocking out your time effectively when you're working remotely, and having the opportunity to make sure that you're having an, an effective amount of time. And as I put my slides out of order, the key here is that remote pairing also helps with remote development because you are now forced to not only be on your own schedule but with someone else. And you have that opportunity to be let down when someone shows up and you're off doing something else with your children.
+
+So, the, the other concern that I hear from people is the whole concept of live pairing versus remote pairing. So let's look at the technology required for live pairing. You need a shared computer, you need two keyboards. Sometimes one, but I feel like you need to have two because I don't want to touch other peoples' keyboards. You need one or two desks, and you need some verbal communication.
+
+Now let's take a look at what it means for remote pairing. Wow. It looks very similar. So let's take a look at the shared computer side and what do we do to solve that problem instead of having a physical computer specifically in front of us? We've got two real options, which is remote sharing of a pair's machine, that's just turning on the remote login capability which has SSH, and now you're in there. Or an independent pairing machine. Now your solutions for that, you could have tmux plus editor plus shell as long as you're using a terminal editor, which, if you don't, I'm sorry. But we've got other solutions here for you. If you happen to be in that situation.
+
+So, you've got, basically installing tmux, running a new session with your project name and then your pair attaches session with that project name. Now, if you don't do that, you happen to utilize something like Sublime Text, you've got the option of Screen Hero, which is a complete desktop sharing tool and I encourage you to check it out. It's basically connecting on it. If you don't want to have that, you have something like Floobits which is an entire collaborative service that integrates with every IDE. Finally, verbal communication. Utilizing HipChat Video, Google Hangouts, Appear.in, Talky.io, and Skype.
+
+V.O.: [alarm sound] Finish. Finish this as is.
+
+A.N.: Awesome. Finally, dedicated pairing setups are an option. If you really feel like it, I feel that that's a little overpriced but you can always utilize the VPS or some middle ground. And do not be afraid that remote development means alone development. You can work remotely without having to be, feel like you're isolated. Pairing is perfectly fine.
+
+Finally, Articulate's hiring. Come talk to the mohawk. Done.
+
+V.O.: Thank you Heisenburg.
+
+***
+
+JUSTIN LOVE: My name is Justin. Anyway. Did anybody get some password resets may, emails in the last couple of weeks? Ah, just a few. And it, OK. I am Justin Love. I helped out a little with the Ruby group here. I run the JavaScript group. They were all talking smack about Rails on Tuesday night. I also do independent development and hang out at a place called the Oldset Technology Center in the suburbs.
+
+So, basically we're not gonna get rid of passwords right away. But we can add a little bit to it. In this case, it is a QR code. We all know these. We've all seen them. You scan it with your phone, you get a url. An app on your phone recognizes the url and logs you into the site. You're done. This is the idea of squirrel, or I can say SQRL, which is a, like, essentially public domain method for doing user authentication without password databases and third parties and all that stuff. And because it is a url, you can also just click on it if you are on a desktop browser.
+
+There's a lot of stuff in the proposal about protecting the master keys. As web developers, you're gonna be only concerned about authentication. So, your web's app generates a cryptographic challenge. It's just a number basically. And then the application signs that with a public private key. There are libraries for this. Hopefully libraries can take care of a lot of it. The important thing here is that, to the, for the protocol, the public key is your identity. So it is not shared with any other site. It does not really leak any information. Now, the sites are still free to gather your email, phone number and credit card number and store it in plain text. The protocol can't help with that, but at least the protocol itself doesn't require shared information.
+
+So, this is actually once you get the library to take care of the hard implementation bits, pretty easy. And then the real world comes along and the protocol starts getting a little bit more complicated. So, there is, there is a full protocol here behind that initial request, and there, there is a two-step process. And this is all to help with, like, man in the middle and those types of attacks, where you say, you, you check with the server, make sure it's a server you wanted to contact, and then you say, OK, now, now log me in. So there's some extra stuff here. I'm playing around with some libraries that will hopefully do this. Other people are as well. There's, there's a whole bunch of activity on a mailing list.
+
+There are challenges. I'm not gonna talk about password challenges because you know they all stink. So there is a protocol complexity. Hopefully libraries will reduce that. It is still in development. The person who came up with the idea is still working on the first implementation and some of the specifications are still a little bit poorly specified because it hasn't been nailed down yet. But I, I think it will be interesting to look into. And, and probably the biggest thing is user responsibility. The ideal here is the user controls their own private key. So there is nobody to send a password reset link to. You might be able to do it out of band and say, hey, reset my account so I can reconnect, but it is gonna place a lot of responsibility on the user to create effective backups and things, so it might actually be like a social and user experience issue to really get this adopted.
+
+Now, why am I telling you about this? It, it's simple. You are web developers. You have built the current web and you will build the future of the web. People talk about how bad passwords are, but nobody does anything about it. But you are the people who have the power to get rid of passwords and give us all a better, safer world. So I, I'm hoping that I'm pushing you in that direction.
+
+To learn more about SQRL, or squirrel, and I am gonna have a master link to all of this. Steve Gibson is the person who came up with this. He has the Secure Now podcast. And he likes to program in Assembly languages. His website has what information there is. There is a friendlier version at sqrl dot pl. On the newsgroup there is a diagram that has all of their gnarly bits if you're trying, actually trying to implement something. And then that is my pinboard page. User wondible, tag SQRL. That one has links to all of that and a bunch of other stuff.
+
+And that is really all I have to say. So I can either move on or any burning questions? Cause I'm also blind here. That helps. No? All right. OK.
+
+V.O.: OK. Thanks Justin.
+
+***
+
+MATTHEW NEILSON: All right. Thank you. So. I'm up here today to talk to you about punchlines and silly hacks. And punchlines usually come from jokes. Here's the structure of a basic joke. You have the setup and you have the punch. So I'm gonna tell you a joke. Here is my setup.
+
+It's a Tweet I saw a few months ago, from a quote. Says, should array indices start at zero or one? My compromise of zero point five was rejected without, I thought, the proper consideration. So, this got me thinking. Well, what happens when you actually try to use zero point five as an array index? Well, unfortunately, it turns out, it's actually not much. When you use an array index numerically, Ruby calls absolute on it, so zero point five becomes zero. One point five becomes one. And that's not really fun. That's not our joke. So I decided I needed to come up with a better punchline than this.
+
+This is a gem called array-subindex, and what it does is it allows you to use floats as array indexes. Sounds like a great idea, doesn't it? No. Do not use this code in production. Do not even look at the code in the same room as your production servers. So, that disclaimer out of the way. We go back to this code that we had before, except we're requiring this beautiful gem, and now we have our same array. And we're gonna go after array index zero point five. And this time it does exactly what a sane person would expect it to do. It returns one point five. And the clever person in the audience will note that that is half of array value zero, half of array value one, added together. This makes sense to everybody except for programmers. The real world operates like this.
+
+Of course, it doesn't stop there. We're not just gonna do halfsies. We can do zero point two-five. We can do one point zero zero one. It's gonna take the appropriate adjacent values and add them together, but, you know, why do decimals have all the fun? We can pass in any valid Ruby numeric class. We can do rationals, we can do big decimals. And let's say you're tired of numbers. Well, you can actually do arrays of strings, and it's going to take the piece of the string and stitch it together. For things that don't divide evenly, it's gonna go down - oh, oh it gets better. We can do arrays of strings. We can do arrays of numbers. Arrays of hashes. And it still does exactly what you'd expect.
+
+OK. I'm gonna stop now. Or else I'll go, I'll go on forever. Cause there is actually a real reason. Not, just this, to show you this, to you. So, why? Well, obviously, I love standing in front of crowds. But to show that humor is a great way to teach complicated concepts. This hack I came up with, this gem, it's relying on the, on Ruby's ability to reopen classes and change their guts. And this is a complicated thing for new Ruby programmers to understand. And doing it in a humorous situation like this allows a new developer to look at a small, kind of toy problem and figure out what it is, then, other than having to worry about, like, doing it in production and trying to figure out all the moving parts. There's very small, very few moving parts in, in these toy problems such as this. So it makes it really easy to digest.
+
+And the other really big reason why you want to do things like this is because they will make you a better developer. Because experimentation leads to writing better code. And, for example, I've been programming Ruby for about seven years now. I wrote this gem a few months ago. I learned more about the Ruby array class writing this gem a few months ago than I had learned in all of the time before programming Ruby. Because I had to not only make my code do the fun part, but I had to make it compatible with everything else. So I had to read documentation. I looked at source. I looked at tests. I learned the differences between arrays in 1.8.7, 1.9.3, 2.0, 2.1, and it just taught me so much stuff that I would not have learned in production. Because you're never gonna write code like that in production. It'd be crazy if you ever were.
+
+But in situations like this where it's a joke, you are freed up to do just whatever you want, and it will expand your mind. Experimentation leads to better code and silly hacks are just experimentations with a punchline. So in conclusion, I'm, I'm, this is my call to action. Write more silly hacks. Write more punchlines. But please never ever ever use that gem in production. Thank you.
+
+***
+
+Andrew Cantino 00:29:34
+
+ANDREW CANTINO: So I should, I probably should have put my name on the board. I'm Andrew. And I'm gonna talk about Huginn, which is a system for building personal agents. I actually talked about it last year at this conference, but it's come a long way since then and so I wanted to show you guys.
+
+So it's open source, has an extensible Ruby API, and over the last year we've gotten about thirty collaborators. There's lots of new features coming. We actually just released Rails 4.1 today.
+
+So, in Huginn, events flow between agents in an event flow diagram. I'm just gonna dive in and go quickly. So one task I might want to automate in my own life would be, hey, remind me to take an umbrella if it's gonna rain tomorrow. So I'd make a new weather agent, I'd give it an API key and a location. I then make a trigger agent and I give it the path in the output JSON of the previous agent, in this case it would be the conditions path, which can take any JSON expression. I'd give it a regex of rain or storm. I'd feed that into a digest email agent, which just can bundle up a bunch of incoming events from a bunch of sources and send out a specific time, in this case, six in the morning. So when I check my email in the morning, if it's gonna rain tomorrow, I have an email telling me to take my, take an umbrella.
+
+So let's look at another example. Tell me when things I care about are happening. Well, that's kind of generic. But turns out the Twitter stream API is really awesome. It gives you sub-second response times on up to four-hundred key words of things you care about. So, let's put in some examples. So the Super Bowl date announcement or gravity wave detected or Huginn open source. And I also have things like machine learning or RailsConf CFP. And then I feed that into a feed detector agent, that you can give it a standard deviation over which you care about, and, and which isn't perfect but it works pretty well. And you feed that into an event-forming ag- formatting agent that just makes it clickable, and finally into another digest email. And then you get peaks.
+
+So here's a hypothetical example for the gravity waves. Cause I didn't have that one being watched. But this worked very well. When the RailsConf CFP happened I got an email within like five minutes. And it works on, I have NASA Mars and a bunch of other terms that I care about listed, and it works really well. So I get emails when something happens.
+
+We have a bunch of integration, SMS, location tracking, web hooks in and out, web scraping, sentiment analysis, public transit. You can run arbitrary JavaScript inside the agent, et cetera. There's lots more.
+
+So here's location tracking and then here's an example of, this is a full agent. It's an extensible Ruby API, and I'm gonna be ambitious and try to show you a live demo until I run out of time. So, Huginn. We're gonna actually make an RSS feed from HackerNews, as if it didn't have one. So we're gonna use a tool called SelectorGadget, which is a Chrome extension, and BookMarklet, that helps you make css selectors. You install it like this.
+
+Once you've launched SelectorGadget, you select a region you care about, you reject things you don't want. Oops. I do want that. I don't want that. It gives me a selector at the bottom. I copy that. I go into Huginn. I make a new, this is gonna be a Hacker News title agent. It's a, just scrapes a website with css that I care about. So I paste it into these two places. I save that. Then I make a new RSS agent, which is an output agent. I tell it which JSON paths I care about, which were these, and feeding it from the previous agent, the Hacker News titles. And here they are. So there's a feed of Hacker News from right now.
+
+And then let's say I wanted to filter it and only get news about, say, Ruby. So then I can make a trigger agent. I would tell it to receive data from the Hacker News titles feed. There it is. It shows me what those events will look like. I would go into the regex. I put a value, like Ruby in this case. And you could do other things besides regex. I give it a path. In this case, I care about the JSON path of title. I would save this and I'd re-re-network the agents and I would only get things about Ruby.
+
+That's it. Thank you, thank you, thank you.
+
+**
+
+YEHUDA KATZ: So, first of all ?? (00:29:37) took me way too long, two years to get this done. I'm really sorry. Happy to apologize in more length when I'm not on a five minute deadline. Also want to say, we upstreamed a lot of stuff from Tokaido into other parts of Ruby, so RVM Movable actually was an upstreamed part of Tokaido, so it's pretty cool that, you know, we worked on a UI tool, but there's a lot of stuff that actually helped other people.
+
+So let me just give you a demo. So I'm gonna open Tokaido over here. It opened up. One of the things that happens when it boots up for the first time is it unpacks the Ruby, but it'll also automatically repatch your rb config if you installed the command line cools in the, the command line tools in the mean time.
+
+The first thing I'm gonna do is I'm just gonna say open in terminal, and open in terminal is basically just a thing that gives me a isolated Ruby environment that's totally disconnected from what your, from what your environment's actually doing. So I'm just gonna go and I'm gonna make a new Rails app. I'm just gonna make a new Rails app called MyApp, and this is all totally isolated. So I didn't have to do anything on my system. My system doesn't have, doesn't have anything on it. In Ruby dash v you can see what's going on.
+
+So I made a new Rails app, and now let me go back to Tokaido. Let me add that Rails app in here. What did I call it? MyApp. So, where am I at? I'm in my own directory. So let me open MyApp over here, and then I'm just gonna double click it, which is gonna run bundle install and boot the server. If I open this up and say open in browser, I get a browser. Says MyApp at Tokaido. Now let me do, sort of, the normal thing that you might want to do, here, which I'll Rails g scaffold, article title:string body:text, right. Oops. Generate that. I'll run Rake db:migrate. And, again, all this is totally isolated. This is all you needed to get this working. And then if I go and reload the page, if I go to articles, right, I get my normal scaffolding. I can say new article, whatever.
+
+So this is kind of boring, because we could do this five or ten years ago. Whatever. So, let me instead, let me add a discourse, which is sort of a, a real application. So before I do that, I'm gonna actually open up PostGres dot app, so Tokaido automatically integrates with PostGres dot app, and I'm gonna go to code, discourse, which I already had checked out. It takes some time to run bundle install. And I'll say open in terminal, and this gives me a new terminal with discourse. I'll just run bundle just so you can see that everything, everything's working here. And then I'll say bundle exec rake db:migrate and, well I should say db:setup, right. Db:setup and db, db:migrate.
+
+Actually it's gonna fail. So, actually what I need to do is I need to open up the Redis server, so I'll just open that in a new terminal, and Tokaida actually ships with some common stuff like that so you can say redis server over here, and I'll rerun that command. Setup and rake db:migrate. Come on.
+
+I opened up the PostGres app in the background there. So it, it runs all these migrations, and then if I double click on this thing - so remember, discourse is a somewhat complicated and involved Rails application, and part of the goal of this was to actually be able to do complicated and involved things with Tokaido. So now we've booted the server, and if I say open in browser, I get discourse dot Tokaido here, just like I had in MyApp before. And discourse, at first boot, takes a few seconds. So I'm here. If I click login. Just to show that this is not a gimmick. This is sort of the, the blog in fifteen minutes demo of 2014. Hang on. I'm not gonna say count. Reload the page, and now I can say create a new topic. Zoh my god, my god, I am on stage.
+
+Discourse has rules. You have to, you can't just say small things. I am on stage at RailsConf. Right. Create a topic. Makes a thing. It's here. So, the TL;DR here is just, we wanted to build something that actually would be useful for real applications. Actually uses the terminal. Can integrate with the command line tools. But also integrates well with things like PostGres dot app and connects to redis. So all that's awesome. If you want to check it out, it's released here. It's GitHub Tokaido slash tokaidoapp, and you can just download over here and install it and file bugs and let's make it better. Thanks.
+
+V.O.: Thank you.
+
+***
+
+RYAN ALYEA: OK. My name's Ryan Alyea. I have social mediums. I work at Fan Gamer. We have a humblebundle that came out, like, five hours ago. So that's cool. But now I'm gonna talk about something completely useless. So we're gonna build a Rails app in a single file, because we can. And I call it Reverse Archeology Through Ruby Golf, because we're gonna be learning a little bit about Rails through a limited number of lines.
+
+So, of course, obviously, don't try this at work. Rails is all about convention over configuration and this is not that. But the thing is that a lot of people seem to say that, you know, Rails is this big, giant monolithic app that thus though shall not on high, you know, to do, to get you this RESTful thing. Like, no, you can totally use the Rails modules independently.
+
+So, we're just gonna start with a basic rack app, right, and so that's rack. Pretty simple, right. It just gets a, you just provide a block. You know, you determine the path and you just return a special array that has your tuple of the status, the headers, and the body, right. And so you need to add is just the routes, the controllers, the views, and, well, everything else. Right. So let's add the everything else. You know, you can add the ActionPack, add your dispatch and add your route sets and create your routes. And if you notice the routes look exactly like Rails routes, just like your routes dot rb file. Including the point where you have the main page controller with the index and show file.
+
+And so let's make our main page controller. That's a basic Ruby object. Like we don't need to include anything, right. But, here's the thing though. At least when it comes to Rails routes, like it needs to create a class method called action that has the method in a string, right, and it requires a block. So you put that in the block. That doesn't look very Rails-like. So, I mean, let's just make it look like Rails, all right.
+
+So you reflect and create a new instance of itself and use the block methods to be able to do so. And then you have that. And, of course, that, that looks nice but that, you know, that still doesn't look very Rails like. But hey, it could be down to one file. Now one thing you can do is you can probably include the Rails medal, which is basically just a, a rack, like, abstraction, right. So you can just include the response body. If you want to. If you want to change the status you can do so. You know, the status always assumes that it's like, it always assumes that it's html and that its status is 202. Unless you technically say so, right.
+
+And then at the bottom there, all you gotta do is just say run routes and that's it. That's a Rails app in, like, twenty-five lines. And you're done. Of course, that's it. But of course, you want to do more things. Of course, that doesn't, not very nice and neat. So if you wanted to add your stack traces or you want to do sprockets, like, you can do that in a middleware, if you wanted to do more of the more basic things. You could include all your callbacks, redirects, your url helpers. That sort of deal. You can always include that if you want to.
+
+If you want templates, well, just use templates directly, straight up. I mean, that's the first option. If you want to do templates on, your own sort of templating engine, you can just include some of the rendering helpers and do that. And one thing that's really interesting about this is that if you're trying to do your own template engine, that's a good way to start and a good place to look cause you're sitting on it thinking about, OK, I want to do something from, you know, mustache or liquid or something like that. You know, you don't have to do render tax. So you can create your own renderers if you like.
+
+Course if you want ActionView in it you can include ActionView. All you gotta do is just tell it where your views are. Or you want to include all the things. Just do include ActionController::Base and you know, make sure you've still gotta tell it where your views are, but that's it, right. And that's still the exact same config rack up file we start with, and we're basically ending with. That's still twenty-five lines. A single Rails app in twenty-five lines.
+
+And that's the bear essentials for a Rails app to go from request to response. So, I hope this was englightening to show modular Rails internals or inspired you on your next thin-sized mini app. And if you want to stalk me, here is how you can do so.
+
+***
+
+ADAM CUPPY: Hi. So, my name is Adam Cuppy. I'm a partner of a consultancy that specializes in test-driven development. Oh, anyway. And, Ruby on Rails. So, something that we've encountered a decent amount of time is that, you know, whenever you're running a command as simple as like this to, you know, basically run your specs, basically you run into this kind of challenge where it becomes fairly cryptic, you know. It's not really telling you everything you need to know about the important information when you are running your specs, specificially. I mean, you know it's giving you information about failures, but the problem is is it's not really an experience. And we're an experience company.
+
+So, what I did is I put together a gem. I just lovingly called it superstar-formatters. But, anyway, it's a collection of formatters that are designed to provide a little bit more to the Rspec spec runner experience. Now, I created just a set of just simple aliases on my computer, but if you want to go back you can actually look up how you can run a formatter and specify that. The first former that, formatter that I would like to you show you is actually the Sandi Metz formatter. And basically what it does is, oh. Yes I do.
+
+Wait. Yes I do. Yes I do. Hold on just a sec. I'm sorry. Yes I do. No I don't. Oh, OK. Yeah. I'm good. Yeah. OK. OK good. So basically it just gives me a little bit more feedback. Now, another formatter that I was actually quite a big fan of was something that I really like to illustrate as the Tenderlove formatter. And basically the way this formatter works is, after your tests run, it actually opens up a picture of Tenderlove.
+
+Thank you. The last former that I'd like to show you was actually inspired by a talk that we all heard just a little bit earlier. But, again, you know, this is something that's really important. You know, really inspired, and basically this was the DHH formatter. Just gonna run my suite.
+
+See, the beautiful thing with this formatter, if you didn't know it, is that it actually it, it, it makes a callout to the DHH API and it, it actually runs the series again, you know, randomly selecting text from DHH quotes.
+
+Now, if you're interested in getting involved in this Rspec formatter project, oh. I'm sorry. That's still Aaron. You can actually do that. You can go to the superstar-formatter's CodingZeal repository and you can add your own formatters. I'm looking forward to your pull requests. If you want to find out any more information, well, you can just, you can check us out online. Thank you guys.
+
+V.O.: Thank you very much.
+
+***
+
+Mark Lorenz & Mike Gee 00:44:28
+
+MARK LORENZ: Hi. This is my first RailsConf. It's also my first Lightning Talk. It's also the first time I've had my incredibly vanilla name butchered. So, I'm Mark. And this is Mike.
+
+MIKE GEE: My pleasure.
+
+M.L.: Like I said, first RailsConf. The talks have been enlightening. I've learned a lot. We've noticed some commonalities and we've distilled them down to a couple of tips for having a great RailsConf presentation. So let's take a look.
+
+The first you thing you do is to burn a ridiculous strawman. After you've done that, you can show some terrible code so we can all feel good about the terrible code that we've written. Something, something SOA. There's hexagons. That's what I got out of it. And promote a gem that you don't even use in production.
+
+M.G.: So let's burn a ridiculous strawman. All right. So you probably have JSON services. Actually, you all have JSON services. We know that. So here's a response from a JSON service. It's got drugs. There's a particular drug object. It's got some attributes, and similar drugs are embedded within. And you all do this to parse that data. You use JSON.parse and you index into it with square indexes into the hashes and arrays they're in. Nothing can go wrong there, of course.
+
+Wait, what's that?
+
+M.L.: Yeah. Here's what's gonna happen. NoMethodError on square brace for NoClass. So you see the bug here? Similar isn't spelled write. And this is probably in your test. So who's gonna catch that?
+
+M.G.: So, what do the experts say? I'm gonna quote Gary Burnheart. He reminds us never, never to use square brace on array or hash. Always be fetching. Always be fetching.
+
+James Colgan says the same thing. Let's just alias. Alias and be done with it.
+
+M.L.: All right. So we're gonna do what the experts say. We take that stuff we had earlier and just put a chain of fetches instead. That's better, right? Well, I mean, it's a little bit better, to tell the truth. When this blows up, at least you have the line number, so you know which one failed, and you. I mean.
+
+M.G.: All right. We actually have the solution. And a hexagon.
+
+So let's do away with the primitive data structures. Don't use them. So what was once JSON.parse with square brace chain becomes fetching from JSON. Give it to JSON and now you have method syntax, and you can use square braces and arrays, but it is checking the length for you so you can't roll over.
+
+M.L.: Or we also provide a conversion function that accepts any object that responds to to_hash or to_array, and it, like, such as a hash or an array or a party response. So you get the same data structure. And what this is doing underneath for a hash-like object is just defining those methods right away.
+
+So your error messages become useable.
+
+M.G.: Yup. So what was once undefined method square brace for no class is now NoMethodError: simlar_drugs not found. And showing us what we actually had. And so now we can see exactly where the mistake was.
+
+So, in conclusion, why would you use this? We have strict key-checking on hash-based objects. Strict bounds-checking for array objects. Error messages with the complete context, so now you can see exactly what the problem is. And lazy deep instantiation. A lot of other value object libraries don't go deep. They're real flat. So hurray for science! Recursion.
+
+M.L.: Thank you. If you want to look at the gem, it's covermymeds slash fetching-gem. If you don't want to use it, I don't care, that's fine. Just stop using square braces. Like I said, I'm Mark.
+
+M.G.: I'm Mike. We're from Cover My Meds. We're hiring. Look us up on weworkremotely. Thanks.
+
+***
+
+TREVER YARRISH: Hello. My name is Trever Yarrish. I am with Zeal. Please stand up for a mid Lightning Talk stretch. Yes. That is stolen directly from the Ben Orenstein's school of giving talks. I don't know if you guys saw that last year. It was pretty awesome at RailsConf. It was, like, the most interactive awesome talk ever. And I, you guys all kind of look like this one here right now, so it's like. Ah. Ah. Gosh. And then you smile cause it's funny. Yeah, there you go. All right.
+
+Anyways, so Adam, I'm pretty long-winded as you can already tell. And so he, you know, he dared me to try and not use the five minutes, and especially don't make Evon tell me to be done. So, I'm gonna go through this quickly, and you will not laugh anymore, from this point forward.
+
+Can't waste it on laughter. So I'm here to talk about company culture. Thank you.
+
+V.O.: My pleasure.
+
+T.Y.: Company culture. Yeah. So, it's made up of basically the way that we see it, I'm sorry. I'm gonna- let's see. Uh-oh. Yup. That's awesome. Great. I'm just gonna go ahead and skip ahead.
+
+So company culture. So it's made up of three key elements, four key elements, three of which are experience. And we are a very experience-driven company. We love to share, define the roles that are involved in a company experience, and share passion, excitement. Make it unreal. Like, exceed the expectation. That's everything, what we try and do with our, our people, our team members, with our clients, customers, users, whichever the role may be.
+
+Grow. So, like, create an environment in which your people can grow. And, again, I'm gonna go ahead and skip a lot of the details, but I'd love to talk afterwards about how we achieve these things in our company. And if you've got some ideas of your own that would be awesome. We use multi-discipline pairing. All kinds of cool things in order to grow our, our team.
+
+Collaboration. So, you know, contribution, pair programming, yadda, yadda, yadda. Communicating, communing meals, end of day show and tells. Things like that. In which we create a lot of collaboration amongst our team.
+
+Time flies, Evon. Time flies.
+
+V.O.: I know.
+
+T.Y.: Time flies, I'm telling you what, man.
+
+V.O.: I know. I know.
+
+T.Y.: Just go.
+
+V.O.: Don't tell me. I'm up here the whole time.
+
+T.Y.: The most important thing that we've found, though, is to, is to. Is it going? Is it gonna go? Yeah. There we go. Is to work really hard to empower our people. And we do that by, we create tools and processes that empower our team members to be able to solve problems and serve clients or build product.
+
+We allow our team members to own parts of the experience, right. So they're like the champion of, you know, this part of the experience, whatever it may be. We keep the roles tidy and the lists short, meaning it's really important that people know exactly what their role is in the company. And also that you keep that list attainable, you know, that back log of things that they're supposed to keep up, keep doing. Above and beyond the day to day, right.
+
+And so keeping that list short, keeping the roles tidy, these are very important in making people feel good about themselves at the end of the day, and when that accountability time comes. And, let's see. So, promote your people. Send them to conferences. Get them involved in talks. Get them involved in open, you know, open source projects. Those types of things. Get your people out there.
+
+And let's see. So, have awesome gear. Things that, like, help your people sort of bond under an umbrella that they're proud of. Something that they want to go out and share with the world and become an ambassador for, for your company. And, be transparent. Like, death to the black box, right. Get, encourage your people to sound an alarm when something feels like a black box, right.
+
+So, like, essentially turn your company, sort of like open source your business with, with your people so that they feel like they're a part of it, they understand it. And that they can call BS, bull shit, when they need to. And, and then respond to that, right.
+
+So, as a result, we found, as a company, like, we sort of are a flat-ish company. I'm not here to preach the flat model, but we found that by practicing and focusing on these four principles, we became flat-esque. So thank you.
+
+V.O.: Thank you.
+
+T.Y.: Hey!
+
+V.O.: Hey!
+
+T.Y.: Thank you very much.
+
+***
+
+MIKE BOURGEOUS: Thank you. And thank you spot lights so making it so I can't actually see the audience, who I'm very grateful is slightly inebriated after coming from Happy Hour.
+
+Today, gotta love screen biking. On Tuesday, on Tuesday and Wednesday, we've had some great sessions about distributed systems and service-oriented architectures and big Rails. One of those questions that was asked in one of the sessions was, How do you handle failures? What can go wrong? And there wasn't really enough time to address it. So that's what I wanted to do in my lightning talk.
+
+By the way, my name is Mike Burgeous. I currently work for a publishing company called DesRead Book in Salt Lake City. In the past I've also worked with many other types of distributed systems besides Rails apps, like luxury home theaters, automation systems for home automation. All of these things are distributed systems and all of them apply to what we are learning about with our Rails applications.
+
+So, first of all, I want to talk about when distributed systems go wrong. A few years ago I was signing up for internet service access. You all know who this company is. It shall not be named. It's a big cable monopoly in half the country. I signed up for automated billing on my credit card. Everything on the web looked good. Everything on the customer service looked good. Yet, for three straight months, I kept getting billing notices that had a higher and higher balance, saying that I wasn't paying my bills, but every time, on the back of that billing notice, it said, you are set up for direct-debit. Don't send payment. It's all taken care of.
+
+So what's going on here? We have two separate distributed systems. We have a system a that's the web system. The customer service system. That said your billing's all good. You're set up to go. System b was the actual billing system. Somehow it didn't get the message from system a. So, when money's at stake, if your systems aren't talking to each other, things can go horribly wrong.
+
+This is an area where software writers can learn from software engineers. The reason for that is engineers study failure. So, if you're writing your own application in Rails or any other system, you want to take a look at what can fail at each step of the process. If you have an HTTP request, that fails, the user is going to have to retry.
+
+HTTP response fails, but the request was successful, sometimes you might have the user try, but the server actually already did the thing, so you need to consider that. In your backend systems you might have distributed job processing. If your job queue misses a job event, then you need to figure out a way of making sure those jobs don't get dropped from the queue. And finally, user notification at the completion of a job. If your user doesn't receive their notification, you have to consider what happens in that scenario.
+
+So, how do you survive the failure of distributed systems? You need to make sure that each action that your system can take is repeatable, or idempotent, which I am sure I mispronounced. You need, you can use unique request identifiers to ensure that's the case. When a request fails you can use expen, exponential retry to account for network congestion. You can use persistent queues in your internal systems that will store your jobs and retry them if they fail.
+
+You also want to have background monitoring systems that look for orphaned jobs as well as occassionally validate your systems to make sure that the data that the data that's in each system corresponds with each other system. Any of these, several of these solutions would have solved my ISP billing problem without having to walk into the customer service center and have it fixed manually.
+
+So, how do you apply this in your own applications? You consider each piece of a system. Ask how it can fail and who will be effected by it and then figure out the right way to respond. In the case of a failure of a user request, like I said, they just have to click reload on their browser. Internal failures you want to handle automatically so that the user experience is as smooth as possible.
+
+And if we take these engineering principles and apply them to our software writing, then we can write code on distributed systems as software writers and software engineers. Working together without fear. Once again, my name is Mike Boureous. You can find more information about my projects at those locations. Thank you for your time.
+
+***
+
+GOSTAVO ROBLES: Hello. Hello, my name is Gostavo Robles, Gostavo Robles. I come from Crowd Interactive in Mexico. And we at Crowd have this little process that whenever one of us sends or submits a pull request, two other guys have to actually review it to, to see that everything's cool.
+
+So, we used to do this, the old way, like going actually on GitHub, find the repo, find the pull request and then comment there and see if, if, it was like all OK. But some guys at the office decided to build this app, this pull request dashboard. And what, what is pull request dashboard? Well, it's a single-page app built with Rails 4, Ruby 2, 2.1, and Ember.
+
+And basically you get to see all the, all your pull requests, so you can review in there, merge there. So we, so we can make everything quicker. Why did we decide to build it? Well, we decide to build it because it take, it take more, it takes more time to actually review all the, all the code in GitHub, so we needed to get through things faster, because, you know, time is money. So, that's the address.
+
+And I would like to have a quick demo. OK. Not that. That. I think, wait. That's it. OK. So, you have to actually log in with GitHub. And once you log in, it pulls all your information. You get to see your private repos, your public repos, or all your repos. And I already created a pull request for demo purposes. It's a public repo called pr-dashboard, and you get to see, to search for not only one, but any, any other repo. And you will see, like, every, every single pull request is there.
+
+And you can click here, review, and they'll just see all the changes there. And you have these quick buttons to close the pull request, to merge it, to add the classic looks good to me comment or, or, or actually go and see the files in GitHub. So, once you click on look good to me, well, you can see that there's a comment now by me. And I can merge the pull request as well. And it will be already merged.
+
+So, this made all, all the pull requests like faster, all the, all the reviewing process for us, and it's open sourced. So, I will like to invite you guys to help us. Contribute. Make, make this better. And this is the, the url, so feel free to, to send your pull request. We will review it and we'll make it, we'll make this better, hopefully, with your help.
+
+Thanks.
+
+V.O.: Thank you.
+
+***
+
+Hector Bustillos 01:02:00
+
+HECTOR BUSTILLOS: Hi guys. I work at, in Crowd Interactive as well. My name is Hector, or you can find me as hecbuma on the social networks, GitHub, whatever. And last week we were like talking, I think, at the office, just hanging around, and we were talking about, what if we have this dashboard to see the contributions that we make to the open source, and I said, why not?
+
+So we build this thing. Well, I build this thing in a couple of nights last week. It is still in beta. Beta. I, I have a couple of bugs. So, basically I create this dashboard where you can see all the contributions of all the members of the organization that you select. So it's pretty cool.
+
+So basically you log in with the account. You click in the big octogram there, and then I will fetch your organizations, and you will select one of those. Then I will, I will get all the members of your organization, then I will, I'm gonna look through all their pull stories that the members have, or all the members have, and then I'm gonna check if they have a fork on one of those repositories, and then I'm gonna check if they pull, I'm gonna fetch all the pull requests with that fork and then I'm gonna check if you have of, one pull request in that specific fork.
+
+That's just pretty much the result. You have your open pull requests, your closed pull requests, and the pull stories that you have been contributing. You will get these kind of rank, where you can see is the top contributor of your organization, and I'm using the github gem to connect to the GitHub API. Sidekiq, because well, I will explain a little bit about why I'm using sidekiq. And of course redis and I am doing it in Heroku, because one of the main goals is to make it free.
+
+So, it was kind of hard, because in Heroku you only have thirty seconds request, request time, and if you use a worker, you have to pay like thirty dollars per month and you only have five hundred megabytes of, in that specific worker. So it's a pain in the ass. So after digging a little bit I am doing this. I create two Heroku instances. One with just one web dyno. The only one, its only worker, and basically you start. You create those instances, and then you do these great thing, basically use up both. The web and the work- the dyno (01:00:17 -- ?? wtf?)
+
+Then, in the, in the instance that you want to have to be the web application, you, you set the web as one and then the worker. Sorry, it's one here. That's typo. And then you do that, first you have to set a ??. If it's not, Heroku's gonna charge you. So we don't want that. It's gonna, we want it free.
+
+After that, we have to coin the first, the worker instance to our redis to go free contributions that we have in the, in the main application. That's pretty simple. You use, you only do Heroku config as Heroku config. Well, you'll see it's really simple. And then there came another issue that in Heroku you only have limited database connections. So it's kind of hard. So we have these two, remember that url. You go here, you set how many workers, how many dynos you have, and that's, it, it makes some calculations, and you can setup that configuration into your application.
+
+Then you get deployed. It is hosted in contributron dot herokuapp dot com. I want to asy thank you to the guy who designed the logo, and I'm using, I am the beta for Skylight, but it's, it is flat as a pancake because I don't have any requests. So please go ahead and, if I, if you find some bug, let me know and I will fix it.
+
+Thanks.
+
+V.O.: Thank you very much.
+
+***
+
+VICTOR VELASQUEZ: Hi guys. How are you? Hey, well. I am Victor. I come from Mexico. I work at Crowd Interactive. I'm a solo engineer there. We are a e-commerce consultancy firm. So, I just came here just go, to tell you have, how I enjoy this and how, how I can want that you share everything, and I want to share you.
+
+So, first of all, I will talk about Mexico. This is. We have delicious tacos there. We have tequila. And we have other part, we have, well, developers. So, but we, where, we, I trying to push hard to, to make the connection with them, because it's kind of hard to, to do it, like, to talk with us and talk with them.
+
+So, they, therefore we doing, we are like, handling how to push them, to have that. So we, we create this community. It's Rails dot mx, where right now like at three hundred people, and it's growing. Also, girls in the company, they have their own community. Is Codificadas, so. And the other thing we have is MackmaConf?? (01:03:38). So I just want to tell you how is MagmaConf??. This is MackmaConf. With there, we use tools, techniques, and experiences about solo development, and just go, we want to do this conference just for Ruby and Rails. But now we are also getting allowed to other technologies, web development, like JavaScript and everything else.
+
+And this, and MackMaConf is not a regular conf. Welcome to Manzanillo. It's a beach. It's there. In this small spot. We have the Magma Village. It like fifteen beach houses. Like this one. Where you can hang out with other attendees and speakers. I told some, somebody else there, like, is very good, because you can hang out with everyone, because almost all the people stay there.
+
+You have, you can go swim. And super cool. You can play soccer. Play music because we bring all the instruments??. It's a six minutes from the venue. And also we have the live Real lucha libre. Like this one. This was last year. We invited guys, we saw a guy from HashRocket who was ?? in there as well. It was nice. (01:05:11) From GitHub. And also we have great parties. Tequila, you see.
+
+We have a boat party as well. ?? dancing Gundam style.
+
+So you're wondering, who is the people who attend this conference? Well, we have there before Bryan Lyles, ??, ??, ??, ??, and also Tenderlove. So, it's time to wear your mask. Are you ready? Gracias.
+
+V.O.: Thank you very much.
+
+***
+
+KAY RHODES: So. I'm gonna be asking you a whole bunch of questions, and all of them are rhetorical except for one of them. And they're rhetorical because these are things that you probably should have asked yourself already, and if you haven't, you should start thinking about them. And that's what this talk is about.
+
+So the first question, which isn't rhetorical, is what sets great companies apart? And I actually want an answer. Anyone.
+
+Do - yeah? Culture sets great companies apart. What sets great companies apart from a customer perspective? Two good things. Kind of, what?
+
+AUDIENCE: Working code.
+
+K.R.: Working code. Yeah. And all of these play into what I say sets companies apart, and that is their disasters, or, more specifically, what they do when they have a disaster. And the questions that I'm about to ask, which are all rhetorical, are, what do you do when you handle your disasters?
+
+But first, I want to talk about you. Because you are awesome. It's true. There's one problem. You're human. And that means you're fallable. Which wouldn't be so bad, except that because you're human, you have an ego. And this ego makes you think that you're really not that bad. But we are. And we are all going to mistake, make mistakes. And if you can embrace these truths, you can make your customers love you.
+
+And with that in mind, your app is going to break. And your app is going to break badly. Or maybe just annoyingly. But it's going to do either of those at the worst possible moment. And you need to be able to answer some simple questions when it does. Like, who? Who do you call when the sign up form is broken? WHo do you call when its a database error? Who do you call when something's going horribly wrong with the css and the submit button is hiding itself underneath the logo for no apparent reason? And who do you call at four AM when the site is down and who do you call at four AM when the site isn't down but you can't charge anyone's card. And then there's what I call the secretary test, which you should be able to pass.
+
+Imagine that you have a new secretary, and she, and I say she because obviously men are incapable of rising to the challenges of the secretarial job, that's why they're all stacked by women. Now, she started last week. But she doesn't know anyone at your company, and she finds a major bug at four AM. Why she's working at four AM in her first week, I don't want to know. But you should tell her not to.
+
+And should she call someone and who should she call? And what should you do if that call comes in? Do you wake the CEO? Do you wake your customers? Do you write a post explaining what's going on? And where do you put that post? And do you even have access to it? And where do you go to coordinate the bug fix at four AM. Do you go into a chat room? If so, which one, and do you get onto a conference call? And if so, which one? And, you know, what number?
+
+ANd how how do you know how severe the problem is, because the severity of a problem effects the response that you're going to have. And how do your workers communicate during an incident. And, and how does the CEO that you woke up at four AM two hours ago get an update about what's going on? And if you've got the fix ready. And how do you know if you're really done fixing it and how do you know if your fix is safe? And how do you keep making smart decisions when you're seven hours into an oh-my-fucking-god bug that started at four AM? And how do you make sure it doesn't happen again? ANd how do you make sure you handle the next instance better than you handled this one. And how do you reinstill confidense in your clients when they just saw your site go down badly at the worst possible moment?
+
+And how do you know what other questions you should be asking? And I put it to you that you should go to a website called GracefulDisasters dot com, which is an open source project to answers these questions. It's markdown documentation. It's a template for your group or company to fill in the blanks, almost literally, on how to do this, and have a process for handling these issues. And for making sure that the next time you handle them, they're better.
+
+That's it.
+
+***
+
+KEVIN FALLON: How many people have heard of Docker? Keep your hands up for a second if you would. How many people have installed Docker? And how many people are using it in production? We gotta buy this guy a beer.
+
+So I'm giving you the beginner's guide to Docker, and you might have thought the beginner guide is about you, but really it's about me. I'm kind of a beginner at Docker, but I see a lot of potential. I want to kind of get people up to date on that.
+
+With Docker, everyone is a beginner, because it was only released as open source in March of 2013. And it hasn't even yet reached version one. But maybe it is ready for production, because Spotify is now using Docker containers in production, and by Baidu, the Chinese version of Google, is using 500,000 containers to run their site. That, that's crazy. That's a lot of containers.
+
+As well, it's supported in openstack and AWS just announced this week that they are supporting Docker. But what is Docker? So a lot of people have heard of it already. Docker stands on the shoulders of giants. It is not a virtual machine. It is, instead, a Linux container. It allows you to have a clean namespace container. It gives you a lightweight thing that you can pass around.
+
+One of the key concepts in Docker is images versus containers. You use images to build containers. This is the key thing I wanted to get to, and the reason I decided to give this talk was the use cases. As I've been going around the RailsConf, hearing a lot about hexagons and service-oriented architecture, one of the things is, how do you set these up? A lot of people talking about Faker, about vcr and whatnot. One of the other ways you can do it is you use a vagrant virtual machine that supports Docker. Use Docker containers to play the part of all of your other services, and now you can actually test the thing that you're working on.
+
+They boot in about a quarter of a second. They have their own IP stack and they can be linked. Another great use case, and this is probably the, the one that we use the most, is database images. We have some fairly large databases, and a lot of times with a bug, you want to be able to use the production, not production data, but a representation of production data. Maybe it's a bug based on the data.
+
+So  you might have a Jenkins job go off in the middle of the night. Does a pg dump. And then a second job that loads that pg dump file into a Docker container. If you think that the containers and the images, sorry, it does not load them into a container. It loads them into an image.
+
+Think of the images as a stack of post-it notes. Now when a developer comes along, needs to troubleshoot a bug, they can pull the top post-it note off, which is your PostGres data already loaded in. As they trouble shoot it, they find the bug, they fix it, whatever. You now throw that one away and pull another one off the top of the stack of post-it notes.
+
+Another great use case is testing your app against different versions. For example, looking at moving to Ruby 2 point 1 or whatever the next one is, you can now have a container that contains Ruby 2 point 1, and then run your tests against Ruby 2 point 2. Or different versions of PostGres.
+
+Another use is for static files. Your JavaScript, whatnot. Or you may have image files that your site requires. One of the tips that I do recommend is one process per container. I've seen a lot of sites and blog entries that say you can use system d to get multiple processes in a container. But it's not a VM. You don't run your entire app and all of its requirements.
+
+Do use Docker files. They're like chef recipes or vagrant files. And they allow you to have repeatable results. For those that have used it, consider the order of your Docker file. The stable things going first allows you to take advantage of the caching and ADD may not work the way you expect. You can only add files that are below your current directory.
+
+And the final thing is, when you're starting out, start in an empty directory. If you start in a directory that has a lot of files, it will say uploading content. It's creating a tar of all the files below. Takes a lot of time you don't want to waste.
+
+That's it.
+
+V.O.: Thank you very much.
+
+***
+
+V.O.: And go right ahead.
+
+ANDREW VIT: Thank you. Hi everyone. I'm here to talk to you about something that is not very glamorous, but you have to do it sometimes and it can be a pain. So, this is about two kinds of data flows. We have a push flow and a pull flow. And, you know, when you integrate with partners that you're dealing with getting data from, you ideally want to tell them, just integrate with our API and then you can just sit back and the data comes in. It's like water pressure. So you just let it come in and it's great.
+
+On the other hand, sometimes you need to go and you need to get the data. So, this is kind of like a vacuum. It doesn't flow. It sucks. And it's different every time, because you're dealing with different kinds of data, and you know, it can come from different, different sources. You know, it might be a file. It could be an HTTP endpoint. It could be an FTP mailbox. Maybe email.
+
+It comes packaged differently. Sometimes it's CSV or it's XML or it's JSON. Who knows what it is, right? And then, of course, you have your app domain, and it. I'm sorry about that slide. There's little vegetables down there. And your data can, of course, it doesn't match your own formats. So you have your own attributes. The data comes in differently. Date formats, perhaps, are different, and they're not so easy to parse. So you have to deal with that stuff.
+
+But do we have to reinvent the wheel every time? I think maybe not. Maybe there's some common patterns here. If we can break it down, maybe, and come up with a Ruby DSL for this. So ideally we want to get to this point where you have a single interface for all the data that's coming to you. You just want to call process on it and get it.
+
+So I built something called Stockboy. And we use this in production. You can get, you can delcare where you get your data from. So you can say it comes from a file. You tell it what directory. How to pick which file to get. That last, for example, might be the last file in directory. Or you can pass in a, a lambda there and say, give me that one.
+
+You can use FTP. Same thing. You can use IMAP email. You can use this thing called SOAP, which is great. You might have other ways of getting data. I don't know. Maybe you can write me a plugin or something. You can get the data and then how do you read it? So it might come in as a CSV. It comes in as XML. Other things. And then you say, how, you know, like, how do we shape the data now so we can map it? So, for example, you know, the names that come in are different. You might want to say something like this. You might want to say formatted as a time or whatever it comes as. Again, lambdas. You can chain these things together.
+
+Combo move. So you can say take two fields and add them together. You can, if your fields match up perfectly, you've just gotta name the attributes and you're done. That's it. Combine all of that above and you come up with something like this where you just name them and convert them. Then there's filters. So you can then say, well, if it's missing email, we're not really interested. Just put that over there. Again, you can look at the input values, the output values, map it all together.
+
+So. What do you actually get out of this? So, your data workflow becomes configuration. You don't have to define these things using real code. This becomes a file. You can put them all into a config directory, and you can have a lot of them and they can all be different. And you end up with this.
+
+So, you can have an XML file that comes over FTP. You just define it like this. It loads up. You can have an, a CSV file that comes over iMap. You define it in your file, load it like this, and then you end up with a way to process over your records. You can then go over each row and say what you want to do with it based on how you filtered it. Is it something we want to keep or something we want to drop. Is there different things we want to do with it based on the filters. ANd you end up with this kind of situation, where you define where it comes from, how its packaged, and what you want to turn into.
+
+So you get a little helicoptor and stuff. Many sources. One interface. Sometimes you have to do this. And we solve these kind of problems, and maybe you do too sometimes. So go check it out. And my name's Andrew Vit. I work at Guestfolio and we're based in British Columbia. And thank you everyone.
+
+V.O.: Thank you very much.
+
+***
+
+BRIAN GARSIDE: OK. So, I'm gonna talk about magic today. And if everybody knows magic, you actually have to save the word for it to, to work right, so. When the magic word comes up and I'll cue you, I need everybody in the audience to yell really loud the magic word.
+
+So I'm Brian Garside. I'm mostly a designer but I know enough Rails to pull my gets and break my dbs. I'm the Manager of Web Experience at the Infotech Research Group in London, Ontario. And just like every other company in the world, we're hiring.
+
+What's cool though, we just recently bought the Masonic Temple in Toronto and turned it into a really cool space. So if you're interested in working in a cool place in Toronto, come talk to me.
+
+One of the neat things that we've done at Infotech recently is we broke down walls. We broke down walls between BAs in the business. We broke down walls between developers and designers. And we changed a fundamental thing, which is, we no longer say that's a styling issue and just throw it over to the developers. We're trying to turn developers into designers and designers into developers.
+
+The first way we did that is by getting together and bringing them together in a little team. I am a designer, primarily. I've, I've drawn my entire life, and I know that drawing is a super power. Because it shortcuts the communication channels. If I can draw you a quick sketch of what I want, it's a lot easier for you to build it.
+
+So we created a team called Team Awesome. And Team Awesome was a cross-functional team. It was designers and developers, and once a week we'd get together and we had this little sware, where one of the people, and it rotated every week, would come up with a design challenge and then would, would lead the team on some discussion of design.
+
+What is a good design? So my favorite one, and the one that I started out with was the squiggle. So what you do is you, you take a squiggle, and you have to really quickly look at that squiggle, and in about two minutes, come up with a, a drawing out of the squiggle. So whatever that looks like to you, you turn it into a drawing. You tell a little story about it. And what really frustrated me was three-quarters of the team, and remember, half the team is designers, said I can't draw.
+
+So, I told them a magic word. And this magic word is gonna work for every one of you. It's gonna turn every developer in this room into a designer. So on the count of three, when you see the magic word, I want you to say it real loud.
+
+One. Two. Three.
+
+AUDIENCE: Bullshit!
+
+B.G.: That's right! Bullshit. And why is this bullshit? This is my son. He's five years old. He wakes up every morning at seven AM and shrouds himself in a blanket to protect himself from the cold Canadian winters. He sits there and draws and he draws a ton.
+
+And this is one of his drawing. Now. His anatomy is not great. His circles are not perfectly circle. His feet are a little janky. But you know what, I have never once heard him tell me? Never once heard him tell me, I can't draw.
+
+This is my daughter. She's eight years old. And one day she broke my heart. She came up to me and said, Daddy, I don't want to draw with you and Max anymore cause I can't draw. So you know what I said to her?
+
+No. I'd be a horrible father if I said bullshit to my eight-year-old daughter! Course I didn't. I told her, of course you can draw. Everyone can draw. Drawing isn't a skill that you're granted from God. It is something that you just develop. And the way that you develop it is by doing it more. ANd it's a superpower. So who doesn't want a superpower?
+
+Oh, I popped my peas and I'm a broadcaster. I should know better.
+
+All it takes is time and an open mind.
+
+So everyone sat at their squiggle. And some of them struggled a little more than others. And some of them did really good things. And they all had great stories at the end, and they told us little stories of what their squiggle looked like to them. So I just threw together a quick little squiggle. That's what mine looked like to me.
+
+And it's also kind of emblematic of what I'm trying to say here. We're not the stories that we tell ourselves. We're not the scripts that we run in our head. We're not I can't draw. We're, I'm not great at drawing. But you know what, tomorrow I'll be a little bit better. Because I guarantee every one of us in this room couldn't code at some point in their life.
+
+And it's not like a light came down and shown upon you and suddenly you could code. It's because you sat there and you worked on it. And you developed this super power of coding. And you can develop the same super power of drawing. And the only thing that's stopping you is bullshit.
+
+Thanks guys.
+
+So, that's me. Just a little last thing. My friends and I have built a little app. It's a, a billing platform. And we've developed, we're working on an API right now so that you can tie all of your cool apps into it and start to get builds for them. It's not like Stripe. It's actually sending out invoices and stuff. So, a little bit different. So check that out too. Thanks a lot.
+
+***
+
+MIKE VIRATA-STONE: All right. So. I am Mike Virata-Stone. And I am going to probably have that Let Me Code song stuck in my head for about a week or so. And.
+
+V.O.: You can sing it now if you want.
+
+M.V.: I'd like to, but I don't think I can do it as well.
+
+V.O.: Bullshit.
+
+M.V.: So. I'm here to talk about NginXtra. Just a quick show of hands. How many of you use EngineX? Awesome. So, last night, just to prepare you, I was out gaming pretty late. So a shoutout to all the werewolves and Magic players and whatnot.
+
+So I did this pretty quickly. So if you want to check Twitter, I wouldn't blame you. So what is NginXtra and why should I use it, or, why should you use it, I guess. So let's look at the GitHub README and find out.
+
+Oops. So. Sorry, Farrah, about that. I will try to fix that as soon as possible. So first, what is Nginx itself? Its an efficient web server. It compiles all the modules into it rather than, like, Apache, where you compile the modules separately. And it has a clean and consistent configuration. So, and it has much more, which many of you know.
+
+So then what is Nginxtra? It wraps nginx source in a gem. It is an intuitive Ruby DSL to configure nginx, and it's one place for configuration and compilation options. It also autocompiles you, for you just in time, and it breaks common config out to partials.
+
+It translates existing nginx config to nginxtra DSL so if you want to get started with this pretty quickly, you can. ANd it has some start-stop status and other actions you can use through the gem. And I, I've been working on this for awhile, and it has, as you can see, a lot of the versions for nginx, the version numbers match nginx. So pretty easy to figure out which one you might want to use. Although I've only been doing the stable versions of nginx.
+
+And I just pushed today the current 1 dot 6 dot 0 version of nginx which was released today as far as I can tell. So let's see some code.
+
+So, if you have your nginx dot conf, which just is just a simple one right here, you can say nginxtra convert and it will create your nginxtra dot conf dot rb, which you can place in  your, directly in the directory you want to run it from, or in a config directory if you want to put it in your Rails config directory.
+
+it pulls the compilers, the compilation options from your existing nginx binary, so it will know how to use what you're already using. And then here's what the configuration loosk like. It's just pretty much straight one to one mapping between the two. Just do-ends instead of braces, although if you prefer braces you could probably do that.
+
+SO that's that. So. 
+
+I'm gonna do my cheat sheet right here a little bit real quick. So let's look at, so I got rid of all the compilation options cause it was basically the default nginex. And here we go with a simple configuration.
+
+Can start it. And I had it open on port 12345, and here we go. It's just some static server serving a couple of static files. And so that's, that's that, and I can also do nginxtra status, which will show me that the server is running. nginxtra stop. And then nginxtra status again, see that it stopped.
+
+And nginxtra print will print your nginx configuration that will be generated. And partials just really want to, if I have my stuff broken out into partials I can say static site, load my, specify where to load my partials and then my partials directory, nginx dot conf is the file we want to load. There it is.
+
+And that had three servers. So now all three sites are loaded using the same thing. And that's almost it.
+
+So, if you want to help, I have a GitHub account with this set up, and I'd love to work with you on more ideas if you, if this rings true to you. And that's pretty much it. Thank you.
+
+V.O.: Thank you very much.
+
+***
+
+KIYOTO TAMURA: Cool. My name is Kiyoto, and today I'm gonna talk about Fluentd, a open source project that I'm a maintainer of. So, I don't know why this thing is going ahead, but it's the curse of using windows.
+
+So, can I get a quick show of hands, how many people know Fluentd? Awesome. You guys don't have to lie, but, oh, I see like, two hands going up. And so that's why I'm here. And over the past, like, three days - this is my first RailsConf, and I've been asking people like, hey, do you guys know Fluentd? No. What is it? It's like a log management thing. A data collector. And everyone's like, is it like New Relic? And it is not.
+
+And I was like, you know, fuck it. I'm not gonna rely on my language. I'm gonna rely on diagrams. So, in many organizations, this is what your data pipeline looks like. If you, if you're like data engineer, you probably find this kind of familiar. I worked in finance basically doing algorithm trading. I ran into this problem all the time. Like, basically there were like twenty scripts written by forty people. Like, fifteen of them are fired because it's financed and you have no idea how your data's coming.
+
+And this is, this sucks. And this, what I call this like, m times n problems, because there are m data sources. There are n places you want to shove your data into. Hopefully in as realtime as possible and that's never the case. And Fluentd fixes that.
+
+So, that's what it is. And this seems to get understood better. But still I'm like a maintainer slash community manager, so I tried to give a laundry list of stuff. But one of the things about me is I have terrible memory, and so if I tried to repeat the same line twice, I'm gonna get like three versions of it.
+
+So here's a little mnenomic that I came up. And it's not like this, but more like that. It's written in Ruby, actually the core program is only like five thousand lines of Ruby. It's open in terms of, of course, open source, Apache 2.0 license, but also has a very open architecture. So you can write your plugin when, like, anywhere between like thirty and two hundred lines of Ruby code. And people have done that. There are about two hundred plugins out there covering pretty much any kind of data storage system and a lot of like input sources.
+
+And I wasn't that familiar with many, like, functionalities of Ruby before I became a maintainer. But in my day-to-day duty of answering a lot of questions on the mailing list, I became pretty good at Ruby. So this, like, don't be afraid even if you're not familiar with Ruby. And if you're like, a Ruby expert - I'm pretty sure like a lot of you are - it's actually very easy to get started.
+
+And, yeah, so those plugins give you a lot of flexibility, and it's super lightweight. Consumes anywhere between like ten to twenty megabytes of memory. And there are some alternative log collectors, but they tend to be pretty heavy-handed. So it's easy to get started.
+
+So, the other thing, who uses it. Nobody wants to be a guinae pig. So, like, from this point on, it's gonna be pretty much a brag alert, so Nintendo, apparently, for their video games. Especially for online game data collection. The other one, the other big user is Slide Share. They installed it on five hundred servers I heard. And you can learn more about their writeup at that bit.ly url.
+
+And even more brag alerts, who is this guy? Yeah. He's like the most famous Japanese person alive in this room probably. He's not here, right? And here's his quote. I didn't touch this. I would have, I would have touched it if I, if it wasn't like, you know, euphoric enough, but it's as good as it gets. Fluentd proves you can achieve programmer happiness and performance at the same time. And a great example of Ruby beyond the web.
+
+And one, one testimonial is not enough. So here's another one. Who's this guy? I guess he's a little less famous. He's Adam Wiggins, the former CTO of Heroku. And he's very into this twelve-factor app thing. And logs are streams, not files. I love that Fluentd puts this concept front-and-center, with a developer-friendly approach for distributed systems logging.
+
+So, that's pretty much it. Gem install fluentd. You can get started really easy. We have, like, the usual web presences, and you can also reach me at kiyototamura, which he got right. And a little shameless plug - I'll be speaking at MongoDB World this summer. So if you happen to be a MongoDB user or going to the conference, I'll be looking forward to seeing you there, too. Thanks a lot.
+
+V.O.: Thank you very much.
+
+***
+
+DAVID PADILLA: Something. Is the audio on? Yeah. All right.
+
+[rhythmic drum-like beating]
+
+Oh. Crashed.
+
+[laughter]
+
+It's OK. It'll come back.
+
+[applause]
+
+It's because this is not right.
+
+[bass-driven music]
+
+

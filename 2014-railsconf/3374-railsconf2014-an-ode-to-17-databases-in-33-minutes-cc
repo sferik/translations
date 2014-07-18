@@ -1,0 +1,1354 @@
+RailsConf 2014 - An Ode to 17 Databases in 33 Minutes - Toby Hede
+
+TOBY HEDE: Good morning everybody.
+
+Friday. Yes. It's been a long week. I'm excited.
+
+I'm highly caffeinated. So without further ado,
+
+I present An Ode to 17 Databases in 33 Minutes.
+
+I'm gonna mangle a large number of metaphors.
+
+There'll be a lot of animated gifs.
+
+I've learned that this week, if you see it like that,
+
+there's Star Wars, Dungeons and Dragons,
+
+and all of that's very, unfortunately, stereotypical.
+
+So a bit of an indictment.
+
+This whole thing started as a joke. Seventeen databases.
+
+I actually did in five minutes. Thirty-three minutes is
+
+worse. The whole thing is just a catastrophe, really.
+
+But anyway.
+
+We're gonna cover a whole bunch of different databases
+
+and a little bit of the underlying theory, and
+
+hopefully you'll walk out and you'll understand why to
+
+use PostGres.
+
+[laughter]
+
+I'm Toby. You can find me on the internet.
+
+I work at a company called Nine Fold.
+
+V.O.: We're having a problem, there's no screen.
+
+T.H.: Oh. No screens. Is that me?
+
+Before it was, there was no red. So, now
+
+there's no any, anything.
+
+V.O.: Nothing.
+
+T.H.: Hey.
+
+AUDIENCE: Hey!
+
+T.H.: I have no slides.
+
+Well, you missed my beautiful slides. There's. You missed
+
+the first animation. That's a shame. You missed the
+
+list. It's awesome. You missed me and my excellent
+
+job titles. So yes.
+
+I work at Nine Fold. They have very kindly
+
+flown me over here from Australia, which explains why
+
+I sound like I come from the deep south.
+
+Cause I do.
+
+Most of this week, this has been me. So
+
+today I'm finally over the jetlag just in time
+
+to go home and have it all over again
+
+next week.
+
+So, a couple of quick facts about Straya. There
+
+are much fewer syllables than you're used to using.
+
+This is an, a genuine Australian politician. He's a
+
+mining magnate billionaire and he is currently running a
+
+MVP Jurrassic theme park with giant fiberglass dinosaurs. And
+
+I, I for one am for it. So I
+
+realize there wasn't enough Star Wars references so this
+
+is just completely gratuitous.
+
+Anyway. So. The thrust is that distributed systems are
+
+hard and databases are fun. Pictured here is a
+
+distributed system. You can see there's two app nodes
+
+and then there's two, there's like a master/slave kind
+
+of setup going on here as well. So we're
+
+gonna talk about some of the complexities of running
+
+these types of systems, and it's really fun stuff
+
+once you get under the cover and start thinking
+
+about some of the complexities.
+
+So. NoSQL is a thing. We have NewSQL now.
+
+I'm gonna be covering some of these things. We've
+
+also got PostSQL, Post-Rock Ambient SQL. And there's a
+
+whole gammit of these things. They all make my
+
+brain explode and the, I think the trick to
+
+understanding all of this stuff is to actually think
+
+about some of what's happening underneath. And you can
+
+make decisions about your databases.
+
+Hopefully you're all familiar with some of the concepts
+
+of traditional relational databases. We have Acid, which provides
+
+certain guarantees about the way that your data behaves.
+
+You can update data and be sure it was
+
+updated. Things are isolated from each other. Things persist
+
+over time.
+
+Another thing that you may have heard of, this
+
+is a, this is a leap that I need
+
+to another animation, is a thing called the CAP
+
+Theorem. So this gets talked about a lot when
+
+we start talking about this new generation of databases.
+
+CAP stands for consistency, availability, and partition tolerance, and
+
+it provides, basically, some strong foundation for reasoning about
+
+the way distributed systems behave and how they interoperate
+
+and how they communicate. So I'm gonna give you
+
+a brief introduction to how that all kind of
+
+works.
+
+So, the original CAP Theorem, as stated, was, is
+
+called Brewer's Conjecture. A guy called Brewer just sort
+
+of had this idea. It's actually on some really
+
+awesomely-designed PowerPoint slides from some thing he did. And
+
+he was saying that with consistency, availability, and partition
+
+tolerance - so the data can, can only be
+
+two of these things at any one time. So
+
+the data can be consistent or it can be
+
+accessible or it can handle network failures.
+
+So people then took this conjecture and actually made
+
+a formal kind of proof in, in much more
+
+rigorous computer science terms. And actually said, it's impossible,
+
+in an asynchronous network model, to implement a read/write
+
+data object that is simultaneously available and is also
+
+atomically consistent.
+
+And so all of this stuff around NewSQL and
+
+NoSQL and bleh, all of that stuff, is about
+
+manipulating these different variables. There's also a thing called
+
+Base but I'm not gonna talk about it cause
+
+it's actually just a made-up acronym that has no
+
+relevance to anything.
+
+So, what, what does CAP actually, what, what are
+
+we talking about here? And why is it important?
+
+It's important, actually, because everything is already distributed. What
+
+we do today is inherently a distributed system. You
+
+have a browser talking to a server, an app
+
+server, Rails server - cause we're at RailsConf -
+
+and then that's talking to a PostGres database, or
+
+a MySQL database or something even fancier and shinier.
+
+That's a distributed system. And as we move into
+
+more heavy client-based operations, that distribution is getting much
+
+more front-loaded, so you, you've got state in the
+
+browser that's now synchronizing with state on the server.
+
+So we already actually suffer many of these problems.
+
+This is a handy and completely untrue guide to
+
+NoSQL systems and breaking them into this idea of
+
+some things are available and some things are consistent.
+
+So, all of that is almost but not quite
+
+entirely untrue.
+
+What the actual theorem says is that under a
+
+network failure - so you've got multiple nodes and
+
+they now can no longer communicate - you can
+
+choose whether the data is consistent or whether the
+
+data is available. And I have some demonstrations here
+
+to just - it actually ends up being very
+
+easy to understand.
+
+So, here we have typical cluster of nodes working
+
+together. We're gonna model some communication between them. So
+
+there's a, there's a write on this system. It
+
+comes in, that gets replicated across, and then on
+
+the other system we now have that data coming
+
+out. Someone's doing a read. And so this is
+
+the kind of situation that we're talking about. So
+
+whether you're doing master/slave setup in a relational database
+
+or something trickier, this is kind of the way
+
+it works. A node gets some data and it
+
+gives it to another node, and they have the
+
+same information.
+
+So when there's a network partition, that, they no
+
+longer can communicate. So a write comes in, and
+
+now we have to make a decision. And all
+
+of this is actually just science, as you can
+
+tell from this diagram. If those two nodes can't
+
+communicate, you can talk to the one that got
+
+the write - that's consistent. It got the write.
+
+It can now, can read out that same data.
+
+That's all cool.
+
+Or, you can have both nodes still communicating, and
+
+now you have someone reading data that is no
+
+longer in the write state. So we've got, you
+
+know, we have updated a bank account. It's got
+
+a hundred dollars in it. It used to have
+
+ten dollars in it. These people are reading ten.
+
+These people are reading a hundred. That's available. The
+
+data is now not consistent. But all of the
+
+nodes can send back that data.
+
+And so all of the discussion about CAP Theorem
+
+and, and you know, people even claiming, we've defeated
+
+the CAP Theorem in our database at, you know,
+
+low-low prices is incredibly awesome. Just remember this image.
+
+Two things that cannot communicate cannot communicate. It's science.
+
+And then when they can communicate, we're back into
+
+the realm of normal operations and things get a
+
+lot easier. If you were interested in any of
+
+the guts of how these things work, definitely have
+
+a look at a thing called jepsen, which is
+
+this crazy motherfucker who is just analyzing the network
+
+operations of a whole variety of distributed systems, and
+
+it will, it's just, it will blow your mind.
+
+OK. Good. That's, that's why. Now I remember.
+
+So, here is our cast. We're about to go
+
+on an adventure through a tortured maze of ridiculous
+
+Dungeons and Dragons metaphors. But, first of all, a
+
+shout out to the OwlBear. Yeah. The thing I
+
+love about the OwlBear is they've taken the wrong,
+
+the least scary aspects of a bear and an
+
+owl, like if that was an owl with, you
+
+know, if it had a bears head and wings,
+
+that would be way more scary. Anyway.
+
+It's just been bugging me for months. So.
+
+PostGres. As we all know, it's MySQL for hipsters.
+
+It's actually pretty good. So here's its character reference
+
+sheet. We, it's a relational database. It has a
+
+consistent model. So under conditions in network partition, you
+
+know, your, your slave is not in contact with
+
+the master, it's, it's essentially unavailable. That's the way
+
+we treat it.
+
+PostGres is actually really, really interesting tic, because it
+
+has a bunch of cool stuff hidden underneath it.
+
+So there's a thing called Hstore which is a
+
+key-value store that's baked right in. So if you
+
+need a lightweight key-value store and you're already running
+
+PostGres in production, you, you have one. You don't
+
+need to spin up any other thing. You can
+
+actually do that today.
+
+The really interesting thing about that is, you can
+
+index those keys. You can do joins across an
+
+Hstore reference into, across multiple tables. It looks and
+
+feels exactly like the kind of thing that you're
+
+already working with.
+
+We've got, there's some things already baked into the
+
+Rails ecosystem that make this really easy if you're
+
+doing that kind of information. But the really exciting
+
+thing about what PostGres is up to at the
+
+moment is JSON. And 9.2, 9.3, and upcoming 9.4
+
+have pretty much a fully baked in JSON document
+
+database. And it is crazy awesome. The new one
+
+is super high-performance. If you were sort of, it's
+
+the same thing. If you're thinking, ah, you know,
+
+documents would be easier for this use case, let's
+
+install something else, we're actually, you already have one,
+
+and it, it has all of those same properties.
+
+You can index. You can do joins across your
+
+normal table into the documents. It's crazy cool.
+
+MySQL. It's pretty much the same as PostGres, is
+
+my answer. But there's a slight caveat. So, you
+
+know, I, I recall, they're a company. Many of
+
+the same things apply. Like, this is why, you
+
+know, they're, they're kind of in the same bucket.
+
+For me, it doesn't particularly matter at the end
+
+of the day. Whatever you happen to have expertise
+
+in, it's cool. It's got some kind of interesting
+
+things that you can do. You can switch out
+
+storage engines to actually get your different performance profiles.
+
+It is everywhere. It's got a thing called Handler
+
+Socket, which is essentially raw, right. Access through a
+
+low-level socket into the table infrastructure. There's some paper
+
+with really high performance kind of things.
+
+You can actually just sort of bypass the whole
+
+SQL engine, which is kind of interesting. The other
+
+thing that's happened since Oracle took over, which is
+
+kind of a really good thing, is that there's
+
+some alternatives. So MariaDB is sort of the, the
+
+more open fork. There's a semi-commercial addition that has
+
+lots of really high-performance features, and they basically run
+
+binary compatible patches, that's Percona. And they have, like,
+
+huge expertise. And this Toku is quite interesting. It's,
+
+they're doing all of this crazy fractal indexing and
+
+things for particular use cases on very large datasets.
+
+But it still just looks and behaves in many
+
+ways like the MySQL that you are kind of
+
+used to.
+
+So, there's some interesting things happening there. So these,
+
+hopefully none of that's a huge surprise. That's databases.
+
+You use it. It comes in the box, and
+
+ActiveRecord talks to it.
+
+So now we're gonna get slightly off the beaten
+
+track. So, a lot of what we know SQL
+
+comes from Dynamo, which was actually a paper that
+
+Amazon released years ago. I'm not gonna labor too
+
+much on this one. The paper's quite interesting. It
+
+talks about how you make a distributed system.
+
+The interesting thing is actually that Riak is essentially
+
+an implementation of the underlying Dynamo theory. So Riak
+
+is crazy awesome. This is what happens to you
+
+when you run Riak in production.
+
+[laughter]
+
+I pretty much, like, it's a conversation I, I
+
+often have with people is like, wouldn't it be
+
+awesome to have a problem that needed Riak? And
+
+it was like, yeah, that would be so cool.
+
+I'd be like the awesomeness engineer.
+
+So Riak is, it's just crazy-well engineered. They're doing
+
+all sorts of interesting stuff. It's inherently, it just
+
+understands clustering. You know, you add a new node,
+
+it just, it's there. You know. With, with those
+
+older kind of databases, it's, it's a pain in
+
+the ass to actually get it working.
+
+So, yeah, they're doing some really interesting things. It's
+
+got a cloud storage thing so you've got an
+
+S3-compatible API and all of these kind of stuff.
+
+A lot of the magic of the way this
+
+works is through consistent hashing. So, my slides are
+
+all mucked up. But anyway.
+
+So, basically what it does is it just partitions
+
+all of your data into a giant hash ring.
+
+Excuse me. Physical nodes then just own parts of
+
+that hash. You add a new node or take
+
+a node away and it repartitions all the rest
+
+of the data across the remaining nodes. And all
+
+of that is just completely in the background of
+
+how Riak just works operationally.
+
+So for large scale data and, you know, you,
+
+you get away with, it has some really nice
+
+operational characteristics that, that make it quite cool to
+
+manage.
+
+And then the other thing is, it's a very
+
+simple API. It's key-value store, you can store JSON
+
+documents in it, and it's just a bucket that
+
+has keys, and then it's got other stuff on
+
+top to retrieve data, do secondary indexes and searching
+
+and all of that kind of stuff.
+
+So, it's a very cool piece of tech.
+
+So, the other one we've got is, Google. Fucking
+
+annoying. And you'll see why in a second. So,
+
+Google had this thing called BigTable that, again, kind
+
+of comes out of the internal research. You have
+
+access to it through some of their cloud properties.
+
+As you can see, it's got, it's actually a
+
+sparse distributed multidimensional sorted map, which is good, I
+
+guess. I imagine. It's awesome.
+
+The stuff they're doing with this is crazy. So
+
+this is actually a, all, a couple years old
+
+I think now. Some of these, some of the
+
+information, so. Hundreds of petabytes of data, you know,
+
+ridiculous numbers of operations a second. You do not
+
+have any of these problems.
+
+So, then they, they took this stuff, they were
+
+like, ah, we've got BigTable. You know, that was,
+
+that was fucking easy. Whatever. And so now they've
+
+got two other things. They've got one called Spanner
+
+and one called F-one, where they're basically doing, you
+
+know, proper, sort of relational looking data across multiple
+
+data centers and, you know, and. They're kind of
+
+really pushing the boundaries of some of that CAP
+
+stuff that's going on.
+
+But all you need is a GPS in every
+
+server, a couple of atomic clocks in each data
+
+center, and you, great. So, Google's basically telling everyone
+
+to, you know, just fuck off.
+
+So, another one that I really, I really like,
+
+and have used a long, a long time ago
+
+in, in tech land, tech time, is Cassandra. Cassandra
+
+is a column-oriented database. Eventually it's awesome. It's really
+
+all about eventual consistency.
+
+And you can see here, this is a man,
+
+he eventually gets it right. So that's well done
+
+to him there. So Cassandra's a lot like that.
+
+And, again, you know, the cool thing is, it's
+
+a sparse distributor multi dimensional sorted map. It, when
+
+I was working with it, you, it was, you
+
+had, you described your tables kind of thing in
+
+XML and hated yourself, and then every time something
+
+changed you rebooted the server and that took awhile
+
+and, yeah, the whole thing was really difficult.
+
+What it basically does is it takes the availability
+
+side of the question. Like, that's its world model.
+
+It has, again, a very simple clustering system. New
+
+nodes, add in, the data gets streamed out. It
+
+has a data model that is really complicated, and
+
+I, even though I've used it, it's really hard
+
+to explain how it actually works.
+
+So column databases basically kind of invert the, the
+
+whole table structure that you're used to from the
+
+relational world. And the advantage is that, for some
+
+types of data, and for some queries, it is
+
+crazy blazing fast, cause you can just. Time series
+
+are always a good one, where you can just
+
+have long streams of time series and it will
+
+actually put that on disk or next to each
+
+other and you can just pull it all out.
+
+The cool thing in the new versions of Cassandra
+
+is that they've abstracted all of that out, and
+
+you actually just get tables, so you can create
+
+a table and give it a primary key, and
+
+under the covers, it's setting up rows and column
+
+families and columns and all of, all of these
+
+really abstract concepts, and they've completely made some of
+
+that go away. Which is really nice.
+
+So you end up with something that looks a
+
+lot like just SQL and, you know, a normal
+
+table kind of structure. It's just clustering out lots
+
+of nodes. It's very tunable, so you can actually
+
+set up, you know, it writes to a node
+
+and you can say, actually write to five nodes
+
+and that's a quorem and now we're cool. So
+
+you can tune how much redundancy you have.
+
+So that's kind of cool. That is a reminder.
+
+Thank you.
+
+That went cold really fast. Thank you.
+
+So, the next one on our list is Memcache.
+
+Memcache, there was, there was a talk earlier in
+
+the week that was describing using Memcache and caching
+
+and it, it had a very interesting observation, which
+
+was, it just works. He didn't even know what
+
+version he was running in production, cause neh. Doesn't
+
+matter. That API has been stable for ages.
+
+And I know, I know what you're saying. It's
+
+not a database. It's a cache. Technically true. But
+
+it's interesting to think about, because the moment you
+
+add caching, even if you've been ignoring the fact
+
+that you had a distributed system before, with caching
+
+you now really have a distributed system. You've got
+
+data in one thing that may or may not
+
+be fresh, and you've got data in your database
+
+that, you know, you assume is up to date,
+
+and now you've got a synchronization problem.
+
+So, Memcache is actually really, you know, it's, it's
+
+just rock solid, old as the hills technology, completely
+
+simple. The API is everywhere. Lots of people actually
+
+have made their, you know, key-value store they made
+
+in the hacknight, which, you know, is a useful
+
+hobby if you want to annoy everyone.
+
+You have the, their API is actually the Memcached
+
+API. It's got a handful of things. You can
+
+set a key, you can replace one. It does
+
+have something atomic operations so you can increment and
+
+decrement so that there is some flexibility to actually
+
+do a little bit of data storage in a,
+
+in a more traditional sense.
+
+It's actually a client-server model. Your, your driver is
+
+responsible for the clustering in a way, so you
+
+can have multiple Memcache nodes and the, the hashing
+
+algorithm determines which node, which node a particular piece
+
+of data is gonna be on.
+
+That has the property of making it very, very
+
+simple to use. And there's no cluster state. There's
+
+no coordination that nodes have. Like, a lot of
+
+the heavy lifting all of these other things are
+
+doing is about coordinating around all of that information.
+
+There's a whole bunch of awesome stuff just baked
+
+into Rails. So you can just easily cache into
+
+Memcache, or your normal Rails fragment mutations. All of
+
+that kind of stuff.
+
+And there's even some things we can, you can
+
+actually put, push that into ActiveRecord and have, have
+
+caching at that level as well.
+
+Redis is an interesting one for the, the Rails
+
+community. Cause it's basically a queue, now. Everyone seems
+
+to be running Resq, Sidekiq, and, you know, Redis
+
+is, again, one of those just pieces of technology
+
+that is beautifully engineered, incredibly simple, incredibly robust. The
+
+maintainers are just absolute, you know, scientists, I guess.
+
+Just a whole other level of crazy algorithm stuff.
+
+And they make blog posts and, you know, I'm
+
+so stupid. I don't understand what you're talking about.
+
+It's really fast, it's slightly hard to distribute. A
+
+lot of that's in the pipeline with Redis. It's
+
+much more, it's much more simple to, to stick
+
+it on one node and increase the RAM. It's
+
+mu, more complicated then Memcache. It's essentially just an
+
+in-memory cache. It has a bunch of really interesting
+
+data structures, though. I think if you've been confused
+
+all week, now, which country I'm from, whether I
+
+say dayta or dahta, so now I just changed
+
+them randomly.
+
+So, you can, you have hashes you have lists,
+
+you have strings. You've got all sorts of other
+
+interesting things. You can do optimistic locking and have,
+
+you know, a bunch of operations that are essentially
+
+batched. You can do sort of, there's long ways
+
+of doing this kind of stuff. It's Resque and
+
+Sidekiq both just make this, make it super simple
+
+to do background tasks with Rails and install the
+
+gem, have a worker, and it's all just magic.
+
+It is Lua baked in, which is a whole
+
+other thing. But Lua is a really cool programming
+
+language that is designed for embeddability. But one of
+
+the things that happens if you can actually write
+
+little rule, Lua scripts that end up going into
+
+the Redis server to do more complex operations. So,
+
+in this case, this is a little script that
+
+grabs something off a sorted hash and then deletes
+
+them and then returns the first thing, like, then
+
+returns what we had done. But it's, it's an
+
+atomic kind of transactional way.
+
+And, good news everybody! We've just invented stored procedures.
+
+So that's very exciting. Except now they're much more
+
+hip, because it's an in-memory database with a language
+
+no one's heard of. So. We are rocking it.
+
+Also, maybe use a queue. Just, I know it's
+
+crazy. But, if you're actually queuing, using Redis as
+
+your queue, maybe you have a queuing problem and
+
+you have queues. They exist. They're a thing. It's
+
+ridiculous. I know.
+
+So, RabbitMQ is sort of the gold standard, and
+
+Kafka is another one that was talked about earlier
+
+this week, and it is crazy cool.
+
+Where am I? Man. All right. Just gonna stretch.
+
+I've lost count, so I don't know, now I'm
+
+just gonna talk faster. Cool.
+
+Neo4j is really interesting. It's a graph database. That's.
+
+It's slightly hard to explain. But you, the way
+
+I actually think about it, we'll just jump straight
+
+to here, is it's almost but not quite entirely
+
+unlike a relational database. The difference, essentially, is that
+
+it is optimize for the connections rather than aggregated
+
+data. So relational database, you, puts things in, in
+
+a way where you can get a sum and
+
+a count and like, that's kind of the heritage
+
+of that kind of world view.
+
+Whereas what the Neo4j people are doing is actually
+
+thinking about connections between pieces of data, and for
+
+some use cases, this is actually really, really amazing
+
+stuff. So you have, a graph is basically a
+
+collection of nodes, and those nodes can have relationships
+
+between each other, and then a node just has
+
+properties.
+
+It's essentially an object database in a way. It's
+
+like very similar to the way that we think
+
+about objects. So it has some really nice properties
+
+if you're working in a language like Ruby. And
+
+then it just does stuff that, you know, in
+
+a really intuitive way. So if we've got a
+
+graph of movies and actors, you actually define a
+
+relationship by name. Then an actor acts in a
+
+movie. And then when you were doing your queries,
+
+this is a language called Cypher, you actually, that's
+
+a first-class thing.
+
+Whereas in a relational world, you're, you're using a
+
+foreign key, which has no semantic meaning at all.
+
+You, you just have to remember that, you know,
+
+an actor, you know, there's a table with an
+
+actor id, and a movie id, and we're joining
+
+across somewhere. Whereas Neo4j actually makes those relationships first
+
+class citizens. So if you've got problems that are
+
+graph problems, like social network friend cloud stuff, some
+
+of that stuff, Neo4j just makes trivially easy in
+
+a way that you would have had to do
+
+a recursive self-join in PostGres and hate your life
+
+and, you know.
+
+Couch is cool. I guess. Pretty much that's my
+
+opinion of it. It's really awesome. But, you can't
+
+query it. So cool.
+
+That's it. That's a slight disservice to Couch but,
+
+you know, whatever. MongoDB, as we all know, it
+
+is webscale and that's excellent. If you think of
+
+it as Redis for JSON, that's good. Sixty percent
+
+of the time, it works every time. Everyone's familiar
+
+with that.
+
+So, the thing that's really, I mean, Mongo, it
+
+reminds me of My, MySQL. Like, Mongo is kind
+
+of terrible, but MySQL was kind of terrible, too.
+
+Like, when that came out, it didn't do transactions,
+
+for example, and I, I was working in enterprise-y
+
+land, and transactions are actually a thing. And, you're
+
+like, you script kiddies with your database.
+
+So Mongo feels like that, and not, you know,
+
+what we learned is, if you make something that's
+
+awesome and useful and everywhere and ubiquitous and it
+
+doesn't work, you can make it work. And eventually,
+
+you know, MySQL is a real database. So Mongo
+
+feels a bit like that. It's come a massive
+
+way, right about really early on with very early
+
+versions.
+
+It stores JSON. Well sort of it. It stores
+
+BSON, anyway. That's just binary JSON basically. And it's
+
+a, it's a really beautiful model to work with
+
+in a development cycle, which is why think is
+
+why there's, why there's so much appeal. You've just
+
+got kind of, people treat it like an object
+
+database. You've just got an object that's in there,
+
+and you can pull out objects and manipulate them
+
+and do all of this kind of crazy stuff.
+
+The people who know what they're talking about, though,
+
+with distributed systems, if the reason you're using Mongo
+
+is because you think it's a panacea for all
+
+of this, you know, we need to be webscale
+
+and do all of this kind of stuff, that
+
+is not a good reason to use it. Cause
+
+there, there's still a lot of operational problems and,
+
+and stuff going on.
+
+This, this one is interesting. It's essentially, RethinkDB is
+
+coming from the PostGres world view. Cause PostGres made,
+
+you know, MySQL was like, whatever, we'll fix it.
+
+PostGres was like, we'll do it right and it,
+
+you can't use it cause it's so slow, but
+
+at least it's correct. And they took lots of
+
+iterations to make it usable. So Rethink is kind
+
+of that school of thought. It's like, we're gonna
+
+make it all correct first, and then we'll make
+
+it usable. So it's very similar idea. JSON, you
+
+know, they're trying to make it operationally great with
+
+automatic clustering and all this kind of stuff. You
+
+know. Who knows what it is and how it's
+
+actually gonna behave in the real world. It's still
+
+a very early piece of tech.
+
+And that leads me into, there's a whole world
+
+of databases around what I'm loosely calling the commercial
+
+fringe. So Couchbase is the Couch guys and sort
+
+of some commercial Memcached guys who got together to
+
+make a hybrid something. Aerospike is, their marketing is
+
+great. That's about the best you can say about
+
+it.
+
+So there's a whole bunch of people trying to
+
+solve these problems in interesting ways. But all of
+
+these ones cost money and, you know, they're, the
+
+mileage varies and all of that kind of stuff.
+
+The cool thing about open sources ones is you
+
+get it and you try it and you hate
+
+it and you go back to PostGres so it's
+
+all fine.
+
+So, Hyperdex. This is my favorite. Because they have
+
+HyperSpace Hashing, and it is so cool. These guys
+
+are making some really broad, amazing claims about the,
+
+the kind of things that they can do. Crazy
+
+fast. It's, it's a key-value store but it will
+
+index, you know, it's not just a key but
+
+it will index the properties of a value. So
+
+now you can do que, you know, genuine queries
+
+into the structure of objects that you're storing.
+
+They've got a whole bunch of papers around what
+
+they're doing. So, you can read that as, who
+
+knows what it means. It maps objects to coordinates
+
+in a multi-dimensioned Euclidean space. HyperSpace. And I'm like.
+
+Take my money!
+
+And there's a, there's a picture of HyperSpace. And,
+
+like, I've read that like eight times. I don't
+
+understand what's going on. But if, it does seem
+
+to be true. They're trying to solve some of
+
+these problems and, you know, they call themselves like
+
+a second generation NoSQL thing, in a similar way
+
+to Google, you know, kind of taking all of
+
+this stuff and trying to push the science underneath
+
+it forward.
+
+So you can, you know, it's got a Ruby
+
+client. You can use it now. It's got, just,
+
+normal key-value. It's got atomic stuff. You can do
+
+conditional ports, so this is some code that's basically
+
+is only updating if the, only updating the current
+
+balance if the, updating the balance if the current
+
+balance is what we think it is. Otherwise some
+
+other thread has updated it.
+
+So there's some really interesting stuff they can do.
+
+And they're guaranteeing those operations across the cluster. And
+
+it's also got a transactional engine as well, so
+
+that's really exciting.
+
+Running out of time. HBase and Hadoop. You don't
+
+have any of these problems. Don't worry about it.
+
+You probably don't want to have any of these
+
+problems. Cause this just ends up, you need to
+
+install every fucking thing the Apache foundation has ever
+
+made. And this isn't even the full list. This
+
+is like, you probably need those.
+
+I have a friend, he's a bit of a
+
+dick, and he, he calls it, cause he, he
+
+works in an actual big data organization, and he
+
+just, he goes, oh, you people with your small
+
+to medium data. So, yeah, like, most of us,
+
+we don't have big data in any sense of
+
+the word, really. Like, if, if it's got GB
+
+on the end of it, meh. You're not there
+
+yet.
+
+So, again, this is just you know, Facebook is
+
+using the hell out of this stuff, and they're
+
+just like, this is all out of date. They're
+
+like now just, they can't buy hard disks fast
+
+enough. It's crazy. Yeah. There was a punch line
+
+at the end of all of that.
+
+But my friend, the guy who I said was
+
+a bit of a dick, he, he recommends having
+
+a look at this. And this is his quote,
+
+if you want to appear really cool and underground,
+
+then I reckon the next big thing is the
+
+Berkeley Data Analytics Stack. So, there's a whole bunch
+
+of people who are looking at that, you know,
+
+crazy big data situation and trying to work out
+
+what that means and what the future is.
+
+And so Apache and Berkeley are kind of in
+
+a cold war for that at the moment. And
+
+then there's heaps of people in the enterprise space
+
+because you can sell lots of products and or
+
+services to large companies who think they have a
+
+big data problem. So that's cool.
+
+That's fine. This isn't, this is just a little
+
+thing that's an embeddable document key-value store that you
+
+can, it's just kind of a fun team and
+
+has an API that looks very similar to the
+
+Mongo one. And it just sits in process.
+
+Oh, ElasticSearch. Every time I use it, I think,
+
+why can you not be my database? It's awesome.
+
+But it loses a couple of points there because
+
+of its configurationability. It went, it works when you
+
+know how to make it works, and it's crazy
+
+complicated sometimes.
+
+So anyway. Thirty. Four minutes over technically, I think.
+
+Yeah. So that's good.
+
+That's databases in a nutshell. I'm Toby Hede. I'm
+
+around the conference if you want to talk about
+
+databases. I think of myself as a lapa-, a
+
+lap- a butterfly collector, I guess, is what I'm
+
+looking for, of databases.
+
+Yeah. So come and say hi. Cool.
+

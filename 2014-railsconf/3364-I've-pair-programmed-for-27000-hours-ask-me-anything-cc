@@ -1,0 +1,1812 @@
+RailsConf 2014 - I've Pair Programmed for 27,000 Hours. Ask me Anything! - Joe Moore
+
+JOE MOORE: My name is Joe Moore,
+
+and I've pair programmed for almost thirteen
+
+and a half, almost every single working day.
+
+And for the last four years, I've pair programmed
+
+remotely using remote pair programming full time,
+
+out of those thirteen years. I work for Pivotal Labs.
+
+We're a Agile software-development consultancy.
+
+And I work remotely from Atlanta.
+
+There's two of you who didn't hear this. I'd
+
+love feedback at bit.ly dot com slash pairprogrammingama, it's
+
+totally anonymous. And, also, for the other people who
+
+walked in, there's a microphone here and a microphone
+
+over here. If you have questions, it'd be great
+
+if you could make your way that way and
+
+start, and queue up while I kind of blab
+
+on about some other stuff. If not, I'm gonna
+
+grab these mics and I'm gonna run around, and
+
+do a, I don't know, a Maury, maybe. I
+
+don't know who's, is he still around?
+
+Anyway. So, again, thank you for all, everybody for
+
+coming here. Who is familiar, at least somewhat, with
+
+pair programming? I'm gonna call that eighty to ninety
+
+percent. That's great. So, for those of you who
+
+don't know, pair programming is a software development technique,
+
+by which two programmers work on the same code,
+
+at the same time, solving the same software problem
+
+on the same computer. That's what pair programming is.
+
+And you can throw the word remote on there,
+
+and guess what, that's all that stuff, just using
+
+some remote collaboration softwares, such as video chat and
+
+audio chat and screen sharing and such.
+
+So what are the benefits of pair programming? I
+
+could have slides and slides and slides, but I'll
+
+just give you a few. It's everything from having
+
+a continuous code review to cross-training junior people and
+
+older people, or, or more experienced people. Cross-training people
+
+from different disciplines. You tend to introduce fewer bugs
+
+because you have two eyes on the same thing.
+
+You have differing opinions, which is really great, because
+
+that ends up raising what I call the whole
+
+team to what I call the highest common denominator.
+
+Because that kind of disagreement and such is really
+
+great. And it goes on and on and on
+
+and on from there. In general, the general principle,
+
+I think as most of us know, in almost
+
+everything, two heads are better than one when you're
+
+trying to solve hard problems.
+
+What are the challenges of pair programming? It's extremely,
+
+it can be very exhausting. Personality conflicts can be
+
+difficult when people don't necessarily get along. It's definitely
+
+what I would consider to be the most difficult
+
+software development practice to implement, both from a social
+
+point of view, from selling it to people on
+
+the ground people, to selling it to management that
+
+it's, not it's not just, it's not double the
+
+money and twice the time, et cetera. But it
+
+also, I feel, has the greatest benefits. So, it's
+
+the hardest, but it's got the biggest pay off,
+
+if you're willing to dedicate yourself to it.
+
+And this is the, one of the top three
+
+questions, so I thought I'd go ahead and take
+
+care of that now. When do you decide to
+
+breaks? When do you decide to go to the
+
+bathroom? And the answer is, whenever you need to
+
+go to the bathroom is the optimum time when
+
+you should probably do so. And it kind of
+
+points to, you know, you're just people working together.
+
+You know, you, you decide to take breaks when
+
+you're ready to take breaks. If you've been going
+
+for an hour, you've been going for more than
+
+an hour. Yeah, take a break. Stretch your legs.
+
+Play from ping pong. Use facilities. What you're kind
+
+of into. Take breaks. It's a super intense discipline.
+
+You, you do get tired, and taking breaks is
+
+super important. And do so whenever you feel like
+
+you need it. Need to.
+
+And with that, ask me anything. Who's got a
+
+question? Over here there's a question.
+
+QUESTION: So, my team has been doing pairing, but
+
+we find that, just subjectively, that it tends to
+
+slow things down by maybe fifty to a hundred
+
+percent.
+
+J.M.: Wow.
+
+QUESTION: In other words, things tend to go up
+
+to twice as slow when we do it. But
+
+we still use it for our hard things, like
+
+ramping up a new developer on a project, or
+
+laying the, the foundations for a new project. But
+
+not for a lot of other things, because of
+
+the time cost. And I was wondering if you
+
+could comment on how it effects your velocity and
+
+maybe we just need to look further down the
+
+road to see pay offs and velocity? Is it
+
+one of those things?
+
+J.M.: Sure. So, I'm hopefully not going. Raise your
+
+hand if you could not hear the question. Everybody
+
+could hear the question. That's great. Cause it'd be
+
+great not to spend time repeating. So it looks
+
+like the mics are working.
+
+So, you all heard the question. Velocity seems to
+
+slow down. I think that the empirical evidence has
+
+shown that, at least in a controlled environment, pair
+
+programming has been shown to slow down accomplishment of
+
+tasks by fifteen - one five - percent in
+
+a controlled environment. And I think that this is
+
+often with college students who are either paired up
+
+or doing solo. So that's certainly not fifty -
+
+well, five-zero - to a hundred percent.
+
+And there, there are other pay offs. But I
+
+guess my initial reaction would be, you know, pair
+
+programming is a tool, and the, you know, the,
+
+I would call it the lower-case agile toolbox. You
+
+know, not the, you know, it doesn't, it's not
+
+necessarily mandated. But there are other things that you
+
+might be able to apply if you find that
+
+things are just going really slow. And that is
+
+identifying the issue. And maybe you've already done this.
+
+You've already identified, this is taking twice as long
+
+and here are the five reasons why. And they're
+
+insurmountable reasons.
+
+So, I would say, you might want to use,
+
+you know, what's called a retrospective, or investigate, you
+
+know, dig deep into why things are taking too
+
+long. Are you arguing about stuff? Are, are the
+
+pairings so unbalanced that the senior people are constantly
+
+trying to pull up people who are, are, are
+
+more junior? Are there differing opinions and people are
+
+just constantly arguing? Those are, you know, there could
+
+be many, many reasons, so identifying the problem is
+
+the first step to figuring out maybe why it's
+
+taking that long, because in my experience, it should,
+
+potentially be a bit slower, on the metric of
+
+from moments on the keyboard typing the first characters
+
+to maybe doing a commit. And that's not what
+
+encompasses done software. That's just two people coming up
+
+with the best solution. And you can have other
+
+pay offs further down the line, such as your
+
+code is not as buggy. Your code is hopefully
+
+better-factored because two people are coming up with the
+
+design versus just one, et cetera, et cetera. So
+
+I would encourage you to dig deep into why
+
+you're having these problems, and see if you can
+
+address those problems. And then try it again, and,
+
+and measure again. Thank you.
+
+QUESTION: Just as a, kind of following, my big
+
+impression is that, in many cases, the tasks are
+
+relatively straight-forward, and so it just, you know, wouldn't
+
+take a single person much longer to do them.
+
+J.M.: Sure.
+
+QUESTION: And then, so the other person is kind
+
+of, you know, avoiding, helping avoid typos and, and,
+
+you know, that sort of thing. But maybe not
+
+adding as much value as they might be doing.
+
+J.M.: Right. So we've, we've had clients decide that,
+
+you know, they measure, you know, we use a
+
+particular project management tool that lets us estimate stuff.
+
+And it's called Pivotal Tracker. You don't have to
+
+use it. Cards on a wall. Whatever works for
+
+you. So we tend to estimate things sort of
+
+on like a one to eight scale. And we've
+
+had clients who have said, after they disengage with
+
+us, you know, anything that's a zero or a
+
+one, I guess I should have said zero to
+
+eight, they choose not to pair on those things,
+
+cause they find they don't get much value. That's,
+
+that's great for them. But they have made a
+
+rule that, well anything that's more of a, than
+
+a zero to a one on an eight point
+
+scale, that that must be paired.
+
+And so then maybe you re-evaluate the twos and
+
+the threes and then ah, looks like maybe the
+
+threes, they have, they're, those are getting pretty buggy.
+
+So let's bring pairing back into that. So that's
+
+a strategy as well.
+
+Let's go over here.
+
+QUESTION: If you could clarify, I have another question,
+
+but, if you could clarify just for a moment
+
+that fifteen percent increase, was that compared to one
+
+developer doing the task? Or was that compared to
+
+the relative work that two developers would do, you
+
+know, each individually, right? So, one developer doing a
+
+task takes this much time. Two developers doing the
+
+same task takes fifteen percent more time? But then
+
+that other developer isn't doing any work, right? So
+
+there's actually less benefit than might, might be-
+
+J.M.: Right. So the, I believe it was against
+
+a solo programmer-
+
+QUESTION: Right.
+
+J.M.: -working by themselves.
+
+QUESTION: OK.
+
+J.M.: But there, you know, but I, there were
+
+lots of other measures that showed, you know benefit
+
+of pair programming-
+
+QUESTION: Sure.
+
+J.M.: -above, you know, it sort of out, in
+
+the opinion of the report, outweighed this, this particular
+
+slow-down.
+
+QUESTION: So I, I think that kind of plays
+
+into my, my main question, which was how do
+
+you quantify to other stake-holders, particularly in the business,
+
+even other developers, and maybe measure the benefits of
+
+pair programming? I'm trying to incorporate it into our
+
+process more, but getting some resistance. We, we've given
+
+it enough to like experiment with, but how do
+
+we actually measure the benefits and say whether it's,
+
+you know, working for us?
+
+J.M.: That's a great question. Measuring the benefits and
+
+selling it to management, or your team. Selling it
+
+to anybody is I, I feel one of the
+
+hardest things to do. And even when I've been
+
+going over the empirical evidence, even the empirical evidence
+
+has said, like, more studies need to be done.
+
+More sort of metrics for measuring this, this stuff
+
+needs to, need to be developed.
+
+It's, it is really, really hard to sell it,
+
+because the math is just too easy. One plus
+
+one equals two. You just can't, like, fight that
+
+math. It's going to be, take twice as long
+
+and it's gonna be twice as expensive, right? And
+
+why would anybody ever do that? And I think,
+
+yeah, and in my experience, you, you know, I
+
+could, I could, we could try to come up
+
+with some metrics and we could look at, you
+
+know, I could point you towards these empirical studies
+
+and they have particular measures of how they measured,
+
+you know, different kind of factors. And I, I
+
+find that stuff it, it bounces off people. You're
+
+like, ah, yeah, that's all neat. But you've heard
+
+of one plus one equals two, right?
+
+And I think that this is an unsatisfying answer
+
+that I'm about to give you. There's a leap
+
+of faith that needs to happen, and I think
+
+you can kind of come back to like, let's
+
+pretend we're in a world where we can still
+
+do TDD. In a world where we did TDD,
+
+that was a leap of faith, too. Because it's
+
+like, that's twice as long. Why would you, you
+
+can't test something you haven't written yet. And that's
+
+gonna take twice as long. And I'm willing to
+
+bet almost everybody in this room has had that
+
+argument with somebody who doesn't practice, like, not just
+
+TDD but any kind of testing. It's too slow
+
+and it takes twice as long.
+
+And, finally, you're spouting all this stuff when you're
+
+talking about all the things that you, make almost,
+
+I'm willing to bet everybody in this room, love
+
+testing, to somebody, and it's just bouncing off and
+
+it's just bouncing off. And finally you're just like,
+
+ah, you just gotta, you gotta try it. You're
+
+going to see the benefit, I swear. And then
+
+finally they do, and usually you win them over.
+
+But actually, and I'll turn this around, because I
+
+know that there's lots of people in the audience
+
+here who have been more on the sales side
+
+of pair programming than, than I have. Has anybody,
+
+would anybody like to comment on success stories they
+
+have had selling management or clients of your consultants
+
+on how they've addressed this issue? Anybody? Maybe in
+
+this row here? Could I encourage anybody? Does anybody
+
+have anything to say? I've got a mobile mic.
+
+Ah, excellent sir. Don't break your ankle.
+
+AUDIENCE MEMBER: Hello, hello.
+
+J.M.: Does that work?
+
+AUDIENCE MEMBER: So one the, is this working?
+
+J.M.: Could I get this mic, this hand-held mic
+
+on?
+
+V.O.: It's on.
+
+J.M.: Oh, OK.
+
+AUDIENCE MEMBER: Hello.
+
+J.M.: Excellent.
+
+AUDIENCE MEMBER: That's better.
+
+One of the easiest ways that I've found to,
+
+to get pair programming into a team is to
+
+talk about the benefits of bringing, increasing your ability
+
+to absorb junior developers into your team. A lot
+
+of, I'm from San Francisco. A lot of companies
+
+in San Francisco are hiring their first junior developer.
+
+Like, right now. And so, one, a lot of
+
+discussions I've had recently have been along the lines
+
+of, OK, so we're bringing on our first junior
+
+developer. Everything we do has to change, because we
+
+need to vocalize a lot more things that we
+
+used to. And, so, what I tell them, oftentimes,
+
+is like, OK, one of the ways you can
+
+practice that, before the junior developer shows up, is
+
+by pairing amongst yourselves. Getting used to this idea
+
+of, like, vocalizing your thought process, understanding how you
+
+talk about writing code with each other, and then
+
+you can bring someone in who's in a very
+
+different place, and you'll be better-equipped to talk to
+
+them about it.
+
+J.M.: Thanks a lot. Thank you so much.
+
+Excellent. So, go ahead.
+
+AUDIENCE MEMBER: I had two things to say. Part
+
+of like, selling pair programming, like, for me, as
+
+a developer, it's been really awesome, just cause it
+
+forces you to get out of your own box
+
+of thinking and see how other people think about
+
+writing code and sort of, like, maybe you thought
+
+this one practice of how to do something was
+
+bad because you got bitten by it once, but
+
+maybe you can be convinced that, oh, no that's
+
+actually worth doing. It's a great way to like
+
+just share knowledge about gems that someone found on
+
+another project if you're coming into something.
+
+And then, like, to the junior developer point, like
+
+it's great cause you're there and you know, you
+
+ask, have you seen this part of the code
+
+yet? No? Then you go through and you explain,
+
+like, everything about it, cause you, you know, have,
+
+you write it and you can, or you understand
+
+it, and so that helps bring them in more
+
+than just sort of looking through all this code
+
+that may not have comments or was written by
+
+someone who left the company later. So those are
+
+my, like, big selling points. Like, I think it's
+
+made me much better and much more open minded
+
+developer, and like, made it much easier for me
+
+to collaborate, which yields, I think, like better code,
+
+and like, you know, over all makes your, your
+
+group better cause you're just better at collaborating and
+
+sharing ideas. And it sort of tears down the
+
+barriers of like worrying about, about bumping shoulders in
+
+communication.
+
+We'll get kind of heated, like you said, like
+
+and we'll just get through it, and in the,
+
+in the end come to an agreement on what
+
+will hopefully be a better idea or revisit it
+
+later.
+
+My question was kind of around pair rotation. So,
+
+like, if you're working on, on a team in
+
+an office or, we work with one of, we
+
+work with the clients' developers separately, like remote pairing,
+
+like we'll spin up an EC2 instance and we're
+
+trying to sort of figure out, like, proper pair
+
+rotations, so like, on a particular feature, two developers
+
+won't be the only ones like, who work on
+
+it, know it, and make, like, to some extent
+
+make all the decisions. And I'm curious, like, what
+
+your thoughts are on that, and like sort of,
+
+what you have found to be a good way
+
+of pair rotation, if, if you've practiced that at
+
+all.
+
+J.M.: Sure.
+
+AUDIENCE MEMBER: And things like that.
+
+J.M.: Yeah. Absolutely. So pair rotation. Super important. I
+
+think, several things can help encourage pair rotation. So
+
+one, yes, we do rotate pairs on a regular
+
+basis. There are extremes to this. There's something called,
+
+I've never done this, but it's been dubbed promiscuous
+
+pairing. I don't know if anybody has heard of
+
+this. And it's where you pair many times per
+
+day, like, on a timer basically. And there's been
+
+a little bit of evidence to show that that
+
+can be very productive. It's also shown to be
+
+disruptive and exhausting. So I think that, give it
+
+a, give it a try, perhaps.
+
+But for us, for practical purposes, what we tend
+
+to do is, it, it ties into the art
+
+of breaking down work. So we call our, the
+
+stuff we're working on, we call them stories. And
+
+we've gotten quite good at being able to break
+
+down deliverable stories to small enough pieces. This is
+
+all, in almost every case. To small enough pieces
+
+that, ideally, our pair developers will be able to
+
+get one or two of them done per day.
+
+And a long story, we'll say a big story,
+
+that's gonna take a long time, quote on quote
+
+long, that might be several days. Two days, maybe.
+
+Three days.
+
+So what I'm not saying is, this is going
+
+to take three weeks to do. Now, maybe there
+
+is a giant track of features, a huge feature
+
+set - the entire profile page rewrite. That might
+
+be weeks of work. But getting that link photo
+
+upload thing, just that small thing, that might be
+
+a day's worth of work or less. And so
+
+we tend to rotate pairs every day, if we
+
+can, at our morning stand up meeting. And, because
+
+ideally people will have completed one or two things
+
+the previous day and they're, they're ready to move
+
+on. And if they're not, and if they didn't
+
+complete it, there's, like, just a little bit left,
+
+and you could wrap it up with a new
+
+pair the next day and, and go on from
+
+there.
+
+What will happen, sometimes, is that pairs will request
+
+to stick, we call it. We're working on this
+
+thing, it's really long. We have a lot of
+
+context. We'd like to stick on this. OK, second,
+
+you know, that's the next day. Cool. Then the,
+
+you know, the third day comes around. Like, we
+
+still. We're almost done. We'd like to stick. And
+
+the whole team collectively is like, hmm. Maybe. OK.
+
+Maybe. OK. Go ahead.
+
+Fourth day rolls around. We're really almost done, I
+
+swear. And then at that point, like we, as
+
+a group, agree as a team collectively, like, we
+
+should get somebody else in. Often, at that point,
+
+the pair will say, one of us is gonna
+
+swap out. You know, Bob's gonna stay on. Let's
+
+get, who's available? Sally, you're available. Jump in. Fresh
+
+pair of eyes. They're probably stuck. You need a
+
+new perspective. And so we will force rotation that
+
+way, too. And just maybe taking it a step
+
+further, something that will often come up after this
+
+is, yeah, we rotate very often, but it's kind
+
+of like the same people, like. We're the same
+
+people on the time and kind of the same
+
+four people just kind of, like, go around and
+
+around and around, what you can do to combat
+
+that kind of a situation, where there's, there's rotation,
+
+but it's not balanced amongst the entire team, is
+
+you can just start tracking it. Just, you could
+
+do a white board. Like, keeping track of who's
+
+paired with who how many times, all the way
+
+to, there's even a website called pair tricks, I
+
+believe. Where you can sign up your company and,
+
+and you can put all the pairs in and
+
+it'll randomly assign people and do weighting based on
+
+how long, how long it's been since they've paired
+
+and things like that, but.
+
+So you can do something like that, like, every,
+
+or just keep track of it on a white
+
+board or a Google doc or something like that.
+
+K. Good questions.
+
+AUDIENCE MEMBER: Kind of a follow-up to that.
+
+H.M.: Sure.
+
+AUDIENCE MEMBER: How do you combine that with, like,
+
+sort of junior developers, like, sort of making sure
+
+that they're not going through so much context-switching that
+
+they're not really getting anything out of it, they're
+
+just sort of starting a feature and then, like,
+
+you know. So like, in our case, we'll start
+
+something and it won't, won't be done in one
+
+day, and then sort of, they'll switch and it's
+
+just kind of like, well like, I'm kind of
+
+like lost. Like I-
+
+J.M.: Right. Right.
+
+AUDIENCE MEMBER: I was barely beginning to grasp, like-
+
+J.M.: Sure.
+
+AUDIENCE MEMBER: -that part of the code that I
+
+was working on.
+
+J.M.: So I think just being flexible, you know,
+
+just because it's nine o'clock the next day doesn't
+
+mean that, you know, the judge comes in and,
+
+you know, breaks everybody up or something like that.
+
+And I think that if, if the team decides,
+
+you know, hey, it seems like this junior developer,
+
+they're three-quarters of the way, the, the senior and
+
+junior developer, they're three-quarters of the way through this
+
+task. They're trying to complete, yeah. Let them. Let
+
+them complete the task. And, because they're gonna get
+
+a lot of benefit out of seeing it from
+
+beginning to end.
+
+So don't be, I'm personally an advocate of just
+
+kind of playing it by ear. Just kind of
+
+seeing how it works out. Don't be so strict
+
+that you're being too disruptive, but don't be so,
+
+don't let people stick so long that you get
+
+these little sort of knowledge cylos and ownership and
+
+such. Great.
+
+AUDIENCE MEMBER: Thank you.
+
+J.M.: Sure.
+
+AUDIENCE MEMBER: A few questions on, I guess, team
+
+dynamics with pairing. This one's kind of a follow
+
+onto this one.
+
+J.M.: Sure.
+
+AUDIENCE MEMBER: I guess I'll spit them all out.
+
+J.M.: Go for it.
+
+AUDIENCE MEMBER: Monopolize things a little.
+
+One is, do you have any thoughts on, if
+
+you have a group of, a spectrum of people
+
+at different experience levels, are, can you talk about
+
+sort of the pros and cons of going with,
+
+like, senior senior, junior, junior, people at like levels,
+
+or to go junior senior to get more mentoring.
+
+Have you had any barriers with tools, where people
+
+just would be incompatible, say one guy likes Vim
+
+and one guy likes Sublime? And then, thirdly, do
+
+you have any, any wisdom to share on adding
+
+a test or QA person to a pair to
+
+get that person involved early in what role a,
+
+a QA engineer would play throughout a, a, working
+
+on a story with a pair.
+
+J.M.: OK. I may have to refer back to
+
+you to remind me what all those are. But
+
+I believe they were, experience level pairings, tool conflicts,
+
+and adding, like, a QA or a support person
+
+to the team.
+
+So let's do, let's do experience level pairings. I,
+
+I like, personally, I don't, I don't consider it
+
+being a big deal to mix up almost any
+
+kind of experience level pairs. Except the junior-junior situation.
+
+I wouldn't just randomly, personally, do that. So the
+
+obviously one is senior and junior. Those can be
+
+great pairings, right. Just, especially for the junior person.
+
+And that, maybe, a lot of people talk about
+
+pairing and say, oh, you know, we pair when
+
+we're wrapping somebody up. And they'll kind of use
+
+that as the only excuse for pairing. You know,
+
+we're wrapping up this junior person.
+
+But, that can put a lot of burden on
+
+the senior person. If they're always ramping somebody up.
+
+You know, if they're, if you get a new
+
+person every so often, then they're, if they're a
+
+senior person they might feel like they're always wrapping
+
+somebody up. I'm gonna encourage everybody to have the
+
+attitude of, well, one, share, share the load. Like,
+
+the junior person shouldn't just stick with the same
+
+person all the time. And also have the attitude,
+
+if you're a senior person, or have your senior
+
+people have the attitude that, they can always learn
+
+the junior person.
+
+On the last project I was on, you know,
+
+I've been doing software development for sixteen years. And
+
+I was pairing with a guy who was fresh
+
+out of college. And he didn't even have a
+
+CS degree or anything. He was just, well, you
+
+know, one of those smart people who just graduated
+
+from college, and he was doing something that was
+
+clearly way below his skill level. We're like, you
+
+should probably do some programming. Here, get over here.
+
+And, I learned something new from him every single
+
+day. You know, and I, the supposed expert, and
+
+everyday he's like, oh, did you know about this?
+
+Whoa. No. That's really cool. I would usually write
+
+it down. I kept trying to keep track of
+
+the things I learned each day. And then people
+
+at the same experience level, that's, that's great as
+
+well. You do sometimes have to watch out for
+
+people, especially senior, senior people, who maybe, let's say
+
+they once had the word architect on their names.
+
+Sometimes people are gonna be extremely opinionated and not
+
+want to budge from ideas. It's something to watch
+
+out for. People kind of, we call it thrashing.
+
+Junior-junior. Should you ever pair junior people together? And
+
+I think the answer is sometimes yes. Especially if
+
+they've both been through multiple, been through multiple pair
+
+rotations. They're kind of, maybe one of them has
+
+kind of been on that, let's make up the
+
+user, new user profile rewrite or something like that.
+
+And that junior person has kind of bounced between
+
+pairs, all kind of in that area. And they're
+
+kind of getting pretty good at learning some stuff.
+
+It might be good to swap in and have
+
+a junior person who doesn't have any experience in
+
+that area pair with this newbie but newbie with
+
+a lot of context. And then you can really
+
+help them exercise what it's like to have them
+
+own something. You know, own's a bad word. But
+
+whatever. You know what I mean.
+
+Tre- you know, bringing this other person up to
+
+speed. Transferring that context. And it, I've always found
+
+it amazing how, when I feel like I don't
+
+really know anything and I'm really relying on this
+
+other person, and suddenly the person I'm relying on
+
+kind of drops off, and I have to explain
+
+it to somebody else, it really forces me, personally,
+
+to dig deep, understand the problem much better. And
+
+I almost always surprise myself, both in how much
+
+I actually do know, and how much I don't
+
+know.
+
+So, once in awhile, having those junior people pair
+
+up and, and yes, struggle, like, have problems. Have
+
+to figure some stuff out, the way we all
+
+used to have to do when we were working
+
+by ourselves. OK. So that was a lot of
+
+that stuff.
+
+Tools. Wow. If you could see the email threads
+
+go around at our company, these guys know. These
+
+guys know. Key bindings. Tools. Vim versus RubyMine versus,
+
+versus Sublime versus TextMate versus frikin' Decorak. I mean,
+
+give me a break. Come on people.
+
+Yeah. That, that's, that's, it's a, it can be
+
+a huge struggle. And you can go to an
+
+extreme, that I don't really know of anybody else
+
+doing. Maybe some of you do this. I don't
+
+know. But we pretty much standardize on a particular
+
+kind of keybinding, and often an editor. It, it
+
+evolves. It isn't like, the manager doesn't come down
+
+and say, today we're a Vim company. The, the
+
+team ends up, you know, adopting, and the people
+
+who are kind of holding onto those other texts,
+
+they inevitably kind of like, OK, fine. Fine, I'll
+
+do it. And I did that, because I used
+
+to work out of the San Francisco office. Now
+
+I'm working out of the New York office. And
+
+they use different tool sets. It just evolved that
+
+way. And rather than stomp that out, we've let,
+
+we've let it evolve. And it's been great.
+
+My advice on that front would at least be
+
+this. One, be open to learning new things. Two,
+
+if you have your super awesome custom setup that's
+
+just for you, and your own, your precious, Vim
+
+bindings, don't stomp the defaults. Because maybe that person
+
+who doesn't really know Vim very well, they might
+
+at, or, or RubyMine or whatever your editor or
+
+tool of choice is, they may not know your
+
+thing. But they may know kind of enough of
+
+the default settings, that they can kind of get
+
+around and maybe, maybe they start adopting yours. Or
+
+maybe they say, yeah, I don't really use that
+
+key binding for this, I use it for something
+
+else. And, and be open for that. But people
+
+can sometimes be too closed minded about, you know,
+
+they build this little ecosystem just for themselves, and,
+
+and not want to, to change, and I encourage
+
+people be open to change, but leave the defaults.
+
+And be open to trying other stuff. But there's
+
+no silver bullet unless you mandate, our office is
+
+an X office and everybody just learn it.
+
+OK. Integrating other people into the team. Like, QA
+
+folks. And if you don't mind, I'll sort of
+
+mutate that question into pairing across different disciplines, or
+
+integrating anybody of any other discipline into the pairing
+
+structure. I'm a big fan of that. Be it
+
+a QA person, design people, design, you know, front
+
+end design or visual design, designers. Even your product
+
+owners, product managers, whatever you want to call them.
+
+I think that that's great. One, it builds up
+
+a lot of empathy. Just from a person to
+
+person point of view. Two, it can be super
+
+practical, especially with, say, visual design. And, and actually
+
+QA as well. Like, that last mile, I've always
+
+found, of say a visual design, where, you know,
+
+you've pretty much got all the assets in. Let's
+
+say you're building a web page. Got all the
+
+assets in and you're, you're tweaking the css, and
+
+all the stuff that came from visual design, it's
+
+pretty good right now, but you know that field,
+
+or that area of the page that looked great
+
+with lorem ipsum, that only had like twenty-five characters.
+
+If somebody puts in a thousand characters, and they
+
+can, the whole thing goes blah. Right? Crazy.
+
+Getting visual design in to say, hey, like, the,
+
+the last bit, let's just sit here and work
+
+on this. And then you can just, especially if
+
+you're using, like, web, if you're doing web development,
+
+and you can literally tweak it right there on
+
+the screen together. That could be super powerful. And
+
+I've even been in situations where you'll, they were
+
+so good that they were working on this thing
+
+and were like, moving stuff around. They're like, ah,
+
+now that we've moved this from here to here,
+
+those icons look terrible. Hold on, and they're like,
+
+somehow spew out an icon out of their fingertips.
+
+And they're like, OK, now pull in this icon.
+
+And wow, it's just. It's like the most rapid
+
+changing finalization wrapping up of, of something I've ever
+
+worked in, and that was one of the best
+
+experiences I've ever had pairing was with this person
+
+who was not technically a software developer.
+
+QA, as well. I think, like, a really good
+
+QA person is worth their weight in, in gold.
+
+I think if anybody here is kind of tied
+
+into the capital A Agile community, or at least
+
+extreme programming, you know, somehow this strange notion came
+
+up that, like, you don't need QA. We've got
+
+tests for that. And it's like, nah. Those are
+
+two different things. So, integrating QA people can be
+
+really good, especially if you're, if they're in a
+
+mode of, maybe you've got a big release coming
+
+up, and they're hammering the site and finding all
+
+these bugs, and you know, pairing with them as
+
+you're fixing the bugs, as they're like pressing, you
+
+know, trying all their different attacks on the system.
+
+They're saying, OK, well you fixed that one, but
+
+that makes me think of this other thing. Oh,
+
+look. It's broken. OK. Try this. Try this. And
+
+just, like, just kind of, you know, purpose, purposeful
+
+pairing when it's needed can be super valuable as
+
+well.
+
+Now I haven't, say, just, you know, like, where,
+
+hey, we're making an android application and today I'm
+
+doing some, you know, a big feature, and it
+
+just pair with a QA person instead of another
+
+software developer, in the middle or at the beginning
+
+of the development process. I haven't done that. But
+
+give it a shot.
+
+All right. That was three. I hope they were
+
+good. Cool.
+
+AUDIENCE MEMBER: Quick comment about the cross-tooling,
+
+or cross-editor,
+
+there's a tool called Floobits - F-L-O-O bits, which
+
+lets your Vim people work with your Emacs people,
+
+and the idea is, like, one of them's got
+
+their computer and the other one's got their computer,
+
+and they're each running the same damn thing, but
+
+it's all synced and good and there's a fall
+
+back, which is like a diff shipper for other
+
+apps. So it's-
+
+J.M.: OK. Cool. Floobits.
+
+AUDIENCE MEMBER: Yeah.
+
+J.M.: I've heard of it. I haven't, well, I
+
+did, I technically did try it when it was
+
+early. And it didn't really work very well, but
+
+I'm gonna try it again, cause people-
+
+AUDIENCE MEMBER: Yeah. It's, it's still-
+
+J.M.: People have mentioned it.
+
+AUDIENCE MEMBER: -fairly early, I think. But the promise
+
+is there and more plugins would probably help it.
+
+But.
+
+J.M.: Excellent.
+
+AUDIENCE MEMBER: So, a couple questions. One, when you're
+
+driving, how much vocalization do you do to the
+
+other person explaining your thoughts? And the other one
+
+is, when you've got a senior developer paired with
+
+a junior developer, there's, you know, I frequently find,
+
+I'm the senior one on this side. And there's,
+
+I know I need to let them work through
+
+it, but at the same time I want to
+
+rip it out of their hands and type it,
+
+you know, it's like, how-
+
+J.M.: It's hard.
+
+AUDIENCE MEMBER: -what tools do you, techniques do you
+
+use to combat that and work with that and
+
+help them to learn?
+
+J.M.: Sure. So, the first question was. Wow, this
+
+is really terrible. What was the first question again?
+
+AUDIENCE MEMBER: Vocalization.
+
+J.M.: Vocalization. Yes. Ironically. So vocalization and then being
+
+a keyboard hog, right? I'm that, like, I'll, I'll,
+
+I'll take on a trip with that one. Cause
+
+I'm, I can be that way.
+
+Or, at least, letting new people struggle through something
+
+when you already know the answer, for example.
+
+Vocalization. I vocalize a lot. Especially because I do
+
+remote pair programming. And I lose a lot of
+
+the, a lot of the visual cues and physical
+
+cues that you might pick up sitting side-by-side. I
+
+lose a lot of those. So, when my whole
+
+view into somebody is from, say, the neck up,
+
+you know, or like the midsection up, it's harder
+
+for me to say, see anybody's hands. I almost
+
+never see anybody's hands. So are they reaching for
+
+the keyboard right now? Are they reaching for the
+
+mouse? Are their hands on their laps? You know,
+
+what are they about - are they about to
+
+do something? I don't really know. Well like, when
+
+you pair side by side, and out of, you
+
+know, right now I can still kind of see
+
+you over there. And if I see this hand
+
+going out then that's a cue for me to
+
+be like, oh, it looks like they want to
+
+do something. I wasn't in the middle of doing
+
+something, so I'll kind of back off.
+
+So, maybe a little bit less verbalization, consciously verbalizing,
+
+anyway. But, when I'm remote, I'm constantly saying things
+
+like, I'm gonna grab the mouse. Can I look
+
+at this? Would you like to drive? Do you
+
+mind if I drive? All that kind of stuff.
+
+And, you know, to the point where, I've pair
+
+programmed with, remote paired with people, and they've told
+
+me later that they, they found themselves doing that
+
+much more when they were pairing side by side,
+
+and they felt it made them a better programmer,
+
+or a better pair anyway, because they found themselves
+
+being more vocal even when they were in person.
+
+Which was, which I thought was great.
+
+AUDIENCE MEMBER: What about vocalizing, like, OK, now I'm
+
+making this case statement because of such and such,
+
+do you go to that level, or?
+
+J.M.: Yeah. We, I will sometimes go to that
+
+level if, if I feel like that it's needed.
+
+Often, yeah, I'm kind of like, constantly talking. And
+
+I've recorded myself doing it, so I could show,
+
+like, for a presentation or something like that. I
+
+actually kind of hate listening to myself do all
+
+that. But I, I think it's valuable. And I
+
+find that often, my pair will in, sort of
+
+call me out when I'm not doing that. You
+
+know, I'll be kind of, like, in a zone
+
+and kind of going and like the thoughts are
+
+coming out and they'll say, like, well, what, what,
+
+what do you, what are you, what are you
+
+doing? And I'll realize, ooh, I haven't, I'll realize
+
+I haven't been, I haven't been saying anything. I
+
+haven't been vocalizing it. And so, you know, that,
+
+I think, is also kind of a tick mark
+
+in the be more vocal column.
+
+Were those the two questions?
+
+AUDIENCE MEMBER: Junior developers.
+
+J.M.: Junior developers. My god.
+
+AUDIENCE MEMBER: Letting them-
+
+J.M.: What's happening to me?
+
+AUDIENCE MEMBER: -work through the problem when you know
+
+it.
+
+J.M.: Yes. So, techniques for trying to let the
+
+junior people drive more when you're more senior. It's
+
+certainly hard. Some people never get it. Some people,
+
+it can be especially bad if you have a
+
+person who is, let's say, naturally, or professionally more
+
+passive, and somebody who is naturally or professionally more
+
+assertive. Tricks for that are just both sides trying
+
+to be more honest and vocal about things.
+
+Like, oh, in saying, like, hey, do you mind
+
+if I drive now? Would you like to drive?
+
+I have physically sat on my hands. Like, underneath
+
+my thighs. And when I feel myself, like, pull
+
+my hand out, I'm like, ah, get it back
+
+in there. Sit down. And ping pong pairing, if
+
+people haven't heard of that, is a great sort
+
+of structure to, to implement, to kind of enforce
+
+a rigidity in the bounce back and forth. So,
+
+again, this is testing, test-driven development. So if you're
+
+doing test-driven development, you can have one person write
+
+a failing test, and the other person implement the
+
+code to make it pass. And then they, the
+
+second person, writes a failing test, and the other
+
+person writes the code to make it pass. And
+
+you can sort of enforce that rigidity while you
+
+need it.
+
+And it was, it can actually be a not-so-subtle
+
+cue, that somebody is being a keyboard hog. And
+
+I encourage people to do this if they maybe
+
+don't want to be confrontational about, like, gimme the
+
+damn keyboard. But if somebody's kind of going, or
+
+let's say, if you're going along, and your coding
+
+and everything is great, and then your pair says,
+
+hey, how about if we do some ping pong?
+
+Like, oh. Hmm. Maybe I'm driving too much. Or
+
+you can, you can say, like, oh, let's ping
+
+pong this one. What do you say? Like, that
+
+can be a, maybe a less assertive way of
+
+saying let's balance it out.
+
+Trace, you have something to say?
+
+AUDIENCE MEMBER: Oh, just, I'm really glad you mentioned.
+
+Thanks. I'm really glad you mentioned ping pong as
+
+a, a technique to help manage that. When I
+
+first started pairing, it was definitely something that was
+
+very hard for me to do, and I had
+
+to do the same thing. I sat on my
+
+hands for three weeks. I, I saw people like,
+
+you know, when I sat side by side with
+
+someone, I'll see their hands come near the keyboard,
+
+and my will always leave. Or if their hands
+
+leave the keyboard, I'm, OK. It's my time to
+
+speak. And I'll raise them up.
+
+So I've heard of some of the other paradigms,
+
+like driver-navigator, for example. What are some of the
+
+other pairing patterns in addition to ping pong and
+
+when might they be good to use, and what
+
+are their names?
+
+J.M.: Oh, let's see. Yeah, driver-navigator is sort of
+
+the, the canonical pairing structure people think about, where
+
+one person is literally driving and one person is
+
+literally saying, oh, OK, well you missed this and,
+
+hey, maybe, you know, let's use an if and
+
+not an unless there, and that kind of a
+
+thing. And they're kind of also kind of looking
+
+over the rest of the code and say, like,
+
+hey, how about we extract, you know, finish that
+
+up, but let's extract that as a method next.
+
+And kind of a thing.
+
+As far as, those, that's the one I'm most
+
+familiar with. The, and, and that can be great.
+
+I think that's kind of the natural mode of
+
+most pairings. Is like, one person is like actively
+
+engaged and, and driving, the other one, or, actively
+
+engaged in typing, the other person is, is doing
+
+more navigating. I think that the challenge can be
+
+figuring out when, when to switch. Testing really helps
+
+for that. And if you don't do testing, let's
+
+say you don't, then maybe you can use some
+
+other kind of bounds. Like, you know, you just
+
+wrote this method. OK, now the next guy writes
+
+the next method. Or, you know, you're doing a
+
+bunch of refactoring and extracting classes and, and methods
+
+or something like that, then, you know, you bounce
+
+back and forth between the thing you're extracting, for
+
+example.
+
+OK. We gotta couple minutes. One minute actually.
+
+AUDIENCE MEMBER: The most useful thing that I ever
+
+did for stopping myself from over driving was getting
+
+a chess clock. So that we could actually see
+
+how much time I spent driving. And so when
+
+I'm looking at the clock and I'm forty-five minutes
+
+ahead, it, it's very helpful.
+
+J.M.: That is excellent.
+
+AUDIENCE MEMBER: And another technique is to just turn
+
+your keyboard over if you have two keyboards. Just
+
+make it so you can't type.
+
+J.M.: That's a really good one, too.
+
+OK. Forty seconds, go.
+
+AUDIENCE MEMBER: Based on your experience, can you share
+
+what you consider to be good habits and effective
+
+habits in pair programming? And then can you, are
+
+there, are there pitfalls that people tend to fall
+
+into that, are there commonalities that you see in,
+
+in?
+
+J.M.: Sure. In twenty-five seconds I will, I'll put
+
+it this way. I think it's, the main thing
+
+is to remember that we're all human, and that
+
+it's not really about technology or, really, about programming,
+
+per se. It's about being patient and having a
+
+good attitude and building trust. So as long as
+
+we all have a good attitude with each other,
+
+trust each other, are patient with each other as
+
+we're all learning, I think that's really the key
+
+to pair programming. You can apply that to almost
+
+any situation, but especially this very strange and extreme
+
+version of software development. I hope that helps.
+
+That's it. We're out of time. Like I said,
+
+thank you.
+

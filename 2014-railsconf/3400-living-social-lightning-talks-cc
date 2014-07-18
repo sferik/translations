@@ -1,0 +1,2206 @@
+RailsConf 2014 - Living Social Lightning Talks - Rodrigo Franco, Nick Sieger, Dan Mayer, Ed Weng, Tyler Montgomery
+
+??: Hi everyone. So we're gonna do,
+
+we're at Living Social.
+
+We build this consumer marketing platform.
+
+We, you go to LivingSocial dot com and
+
+it looks like it's just deals.
+
+I know it's small and boring.
+
+But there's like, actually a phenomenal
+
+amount of stuff under the water line.
+
+We have, most of our apps are written
+
+in Ruby and Rails. But we also have teams
+
+working in Clojure, Scala. I almost said SmallTalk.
+
+That would be a lie. iOS, like native iOS,
+
+native Android, big data stuff, operations.
+
+All sorts of stuff. So there's tons of interesting,
+
+wei- like, big problems that we come upon.
+
+And we're gonna do a few lightning talks on
+
+those technical things, and then also a
+
+few on how we operate as a distributed team,
+
+and how we just operate as developers.
+
+So, the first person that's gonna speak to you
+
+is Ed Weng. He's a, he's a graduate from
+
+our Hungry Academy training program,
+
+where we pull basically just, like,
+
+thirty random people off the streets.
+
+No. They, they, it was not,
+
+we did not press gang them.
+
+We, they applied, we put them through a,
+
+was it nine weeks? Nine, nine months?
+
+ED WENG: Six months.
+
+??: Six months.
+
+E.W.: I don't know where you got nine weeks.
+
+??: Nine. It was some number of months. It
+
+was six months. They did a really intensive training
+
+program, and are all really amazing developers. And so
+
+he's a Hungry Academy grad. He works on our
+
+mobile consumer apps and if you meet him later,
+
+ask him about his pen pal. So this is
+
+Ed.
+
+E.W.: Hey guys.
+
+[applause]
+
+So, so my name is Ed Weng, and what
+
+I'm gonna talk to you today is about sharing
+
+templates in a service-oriented architecture.
+
+Cool. So, if you've never been to our site
+
+before, if you go to LivingSocial dot com, this
+
+is the page that you land on. And to
+
+give you some context about our architecture, about two
+
+and a half, three years ago, we were still
+
+a monolithic Rails app, right. So everything was inside
+
+this one gigantic Rails app.
+
+Since then, we've been working very hard to kind
+
+of break things out into smaller micro services. So
+
+if you come to this page, this is actually
+
+in an app that we call browse, and browse
+
+is responsible for surfacing the browse experience to our
+
+customers.
+
+So, you can see some of the deals on,
+
+on our site. If you click on, let's say,
+
+the Audible deal, you actually get taken to a
+
+page that looks like this. So, most of our
+
+users won't be able to tell, but they actually
+
+just left the browse app, and now they're in
+
+an app that we call sponsors. So, sponsors is
+
+responsible for surfacing deals that are sponsored. So this
+
+deal is sponsored by Audible dot com, hence its
+
+free. And let's say a user then decides to
+
+click on this tab up on the top. The
+
+shop tab.
+
+They'd get taken to here. And this app, again,
+
+is not the sponsors app anymore. It's an app
+
+that we call products, and products is responsible for
+
+surfacing physical goods that we sell to our customers.
+
+So, if we were to look back at the
+
+last three slides I just showed you, and I
+
+were to ask you, what is the one common
+
+thing that appears on all three slides? You might
+
+say it's the nav bar. And you'd be correct.
+
+One of the things that we kind of discovered
+
+along the way of splitting things out into smaller
+
+services, is things that might be very simple in
+
+a monolithic Rails app can become quite complex when
+
+you move towards a service-oriented architecture. So the big
+
+question that, that we're gonna ask ourselves today is,
+
+well, when it comes to sharing views, how exactly
+
+do we keep ourselves dry, right?
+
+So, I don't need to tell you guys that,
+
+you know, out of the box, in a monolithic
+
+Rails app, you have partials and layouts, right. So,
+
+how much you show the nav-bar in every single
+
+page. Well, you'll throw it into a partial called
+
+nav-bar, and then you'll just go into your application
+
+layout, you'll render the nav-bar, and then it just
+
+shows up everywhere, right. This is great for a
+
+monolithic Rails app. But as soon as you move
+
+to a service-oriented architecture, it starts to break down.
+
+Well, why is that? The first thing is that
+
+it's a lot of copy and paste coding, right,
+
+so any time you want to make a change,
+
+you have to copy that nav-bar into a bunch
+
+of different places. The second thing is that it
+
+requires changes in multiple places, and so it, it
+
+kind of slows your development down. Any time you
+
+want to make a tweak, you have to go
+
+to five, ten, fifteen services and issue a, a
+
+pull request, so that you know, the nav-bar is
+
+updated in that specific application.
+
+What we've noticed is that, things tend to get
+
+out of sync very quickly if you, if you
+
+take this approach. So, it leads to a bad
+
+kind of user experience, in that the nav-bar starts
+
+to change as you go from page to page.
+
+So this doesn't really work for us.
+
+The next thing that you might think of doing
+
+is, well, what about putting everything inside an engine
+
+or a gem, right? And this is a, a
+
+much better solution, right. Why is it much better?
+
+Well, the first thing is that it, it eliminates
+
+that copy and paste coding that we were just
+
+talking about, right. So everything is kind of stored
+
+in this single central repository, and then, and then
+
+any time you want to make a change, you
+
+just update the gem and kind of release it
+
+into the wild.
+
+One of the great things about putting this in
+
+an engine or a gem is that you can
+
+share more than just the mark up, right. You
+
+can share translation files, you can share images, JavaScript,
+
+stylesheets, et cetera, et cetera. So that's great. The
+
+problem with it, though, is that any time you
+
+make an update, you still have to go to
+
+every single app and issue a bundle update.
+
+So, you know, it might work fine if you
+
+have a couple of apps. As soon as you
+
+move to five, ten, fifteen apps, it becomes a
+
+hassle. So this is not quite good enough. And
+
+at LivingSocial, we, we have a saying, that if
+
+services aren't solving all of your problems, you're probably
+
+not using enough services. So, what did we do
+
+to solve our problem?
+
+Of course. We build another service. And the service
+
+we built is called Stepford. It was designed by
+
+a guy named Eric Brody. And Stepford is responsible
+
+for sharing our views across our service-oriented architecture. So,
+
+when we were first building Stepford, we went through
+
+kind of a DDD approach. A desi- a dream-driven
+
+development approach. And we asked ourselves, what do we
+
+really want the interaction with a service to look
+
+like? And this is kind of what we came
+
+up with.
+
+So, we have a client app. We wanted the
+
+client app to be able to ask Stepford and
+
+say, send me the footer, right. Stepford would then
+
+go off, do some stuff behind the scenes, and
+
+then just come back and say, here's your package.
+
+So, let's kind of break that down into three
+
+separate steps.
+
+So the first step, send me the footer. We
+
+tried to come up with the simplest possible thing
+
+that we could think of. And that is just
+
+a GET request to some JSON endpoint, right. So
+
+this is what the request looks like inside the
+
+Stepford app. It's a GET request to, to the
+
+packages controller, and we just put the things that
+
+we want. So, different elements inside the query string.
+
+So, here we're requesting the footer. We can also
+
+pass additional variables. Things like city id, if we
+
+need that footer to be semi-personalized or modified.
+
+So now you're probably asking, well, what's inside a
+
+package, right? So a package is actually made up
+
+of three separate things, right. It's made up of
+
+markup, it's made up of styles, and it's made
+
+up of scripts. And everything kind of revolves around
+
+the markup that, that you're requesting. So you might
+
+imagine that if you're requesting the footer, there's an
+
+associated set of styles with it, and associated set
+
+of scripts with it.
+
+If the styles don't come through, then your footer
+
+looks really ugly. And if the scripts don't' come
+
+through, then your footer probably isn't gonna work the
+
+way that you want it to work. So, we
+
+kind of package all of the three things up,
+
+cause they all kind of have to come together.
+
+And we put it in this concept of a
+
+package.
+
+OK, so the next step. So the next step
+
+is, Stepford gets that request, and what does it
+
+do behind the scenes? So, it's a little bit
+
+complicated, and this is a very simplified high-level version
+
+of it, but in the top-left corner, we see
+
+that the GET request comes into that package's end
+
+point. Stepford then tries to make the package. So
+
+it grabs the mark up, it grabs the styles,
+
+it grabs the scripts, it tries to precompile the
+
+styles, it precompiles the scripts, it throws everything into
+
+the database, and then it actually tries to render
+
+the mark up on the server side. So that's
+
+super interesting. It takes the erb template that is
+
+stored inside Stepford, and it actually renders it into
+
+raw html. It then sends it back via JSON.
+
+So that's the last step of the three-step process.
+
+The here is your package. And I'm about to
+
+show you what a package response looks like. So,
+
+the package response contains the three things that we
+
+talked about, right. The styles, the scripts, and the
+
+mark up. And here, you can see that all
+
+we requested was the footer, right. But you can
+
+imagine that in our, in our architecture, we're, an
+
+app generally requests more than just the footer. It
+
+probably requests the footer, it might request the nav-bar,
+
+it might request button styles, et cetera, et cetera.
+
+And that is kind of all going to show
+
+up in that mark up as raw html.
+
+And the nice thing is that Stepford will kind
+
+of package together all of the styles and all
+
+of the scripts for every single mark up element
+
+that you've requested. So, everything just kind of boils
+
+down into one precompiled stylesheet and one precompiled JavaScript.
+
+Cool, so let's spend a little bit of time
+
+talking about the pros and cons of spinning up
+
+a service like Stepford. The obvious, biggest pro is
+
+that you keep your views DRY, right. I don't
+
+need to tell you the benefit of, of having
+
+all of your views in a, in a single
+
+central repository, right. There's huge benefits. It's easy to
+
+maintain. Et cetera, et cetera.
+
+The second thing is that it's super easy to
+
+release changes. So Stepford is all pull-through, which means
+
+that any time you update a nav-bar or any
+
+time you update the footer, you don't have to
+
+go to every single app and tell them, there's
+
+a new nav-bar. There's a new footer.
+
+The next request that it makes to Stepford, it's
+
+actually going to, Stepford is actually going to send
+
+back the latest version of whatever element there is
+
+on, on the, in the database.
+
+OK. So, there's obviously some cons. The first con
+
+is that it's another service. So one thing that
+
+we've realized by spinning up so many services at
+
+LivingSocial is that, any time you make a service,
+
+you're trading application complexity for network complexity, right.
+
+So that means that your tech-ops team has to
+
+maintain one more application. They have to make sure
+
+that it's up all the time, otherwise, you know,
+
+your styles won't come through. The next thing is
+
+that, because it's another service, it also means that
+
+there's another network request going on. So Stepford does
+
+introduce some amount of latency into your application, right.
+
+There's another HTTP request that goes on on the
+
+server side.
+
+At LivingSocial, the way that we kind of have
+
+gotten around that is we put in a lot
+
+of, a lot of caching, right. So we have
+
+bonus caching around Stepford. We also have Memcache around
+
+it. The reason is is because, a lot of
+
+times, our main UI elements don't change all that
+
+frequently. And so it's OK to put things like
+
+varnish in front of it. It's OK to put
+
+Memcache in front of it.
+
+And the last thing is that changes have a
+
+much larger impact. So when I said it's easy
+
+to release changes, sometimes it's too easy to release
+
+changes. You know, there have been instances where we'll
+
+make the change in JavaScript, and we quite, and
+
+we can't quite anticipate what the effects downstream will
+
+exactly be. And so as such, you really need
+
+very close JavaScript monitoring to make sure that you
+
+understand when errors come through.
+
+So that's it. That's my talk on Stepford. If
+
+you have any questions, please come find me after
+
+the talk. And we, we'll chat.
+
+[applause]
+
+***
+
+??: Thanks Ed. So, the, these guys get to
+
+watch me use a computer. It's great fun. Over
+
+my shoulder. This is Tyler. Tyler works, also, on
+
+our consumer apps team. He's from Southern California, which
+
+is, his handsome looks, as you can see.
+
+TYLER MONTGOMERY: Northern California.
+
+??: Nor- I botched it. Sorry. But still handsome.
+
+But he's taken ladies. And I just learned from
+
+his website that he wants to learn everything, so
+
+if you see him in the hall, just liter-
+
+tell him anything and it will be the best
+
+part of his day.
+
+T.M.: Howdy. I'm Tyler. I live in Northern California.
+
+I work remote. So, how do you work a
+
+computer? OK. Let's, let's start at the beginning. It's
+
+a good place to start. All right. Ready and
+
+play.
+
+All right. So I'm gonna talk about internal gem
+
+infrastructure. Basically making it easy to write gems, release
+
+gems. For us, you know, sharing is caring. Being
+
+able to share code effectively across your apps makes
+
+things really awesome. It's easy, like we said, to
+
+extract things into services, break down the monolith when
+
+you can share code and you can put it
+
+into a gem really easily. It's, reduces the copy-paste
+
+mayhem that we've had, you know, we put up
+
+a little service and someone writes a little client
+
+that gets copy-pasted fifty places, and then we make
+
+changes. It's really hard to track down who's hitting
+
+what end points, so we've had to go back,
+
+put those things into a gem so we can
+
+share and keep things maintainable.
+
+Building gems and having this, you know, code in
+
+gems really helps build this culture of internal open
+
+source. A gem gets its own repo, gets its
+
+own README. It's really easy for anyone to contribute
+
+to it and people know where things are. You
+
+get all the benefits of pull requests.
+
+It helps with separating concerns. Like, we're told, like,
+
+hey, you shouldn't make a mess, you know. But
+
+where do you put that mess in a Rails
+
+app? It's kind of weird, like, where do I
+
+put all these little tiny objects with single responsibilities?
+
+Where do they live? How do I keep track
+
+of it?
+
+And putting the stuff in a gem is really
+
+nice. It helps you draw boundaries around your code
+
+to find your domain better. Isolating your code is,
+
+is actually really great for deleting it later. It's,
+
+you can track it down. You can find where
+
+it needs to go and get rid of it.
+
+But you don't necessarily have to delete the code.
+
+You don't have to go, where is that one
+
+commit that one time where I did that one
+
+thing? And I gotta go look through all these
+
+old commits. You just go look at the repo,
+
+but you've deleted all that code out of the
+
+other code bases you still have some of that
+
+history around.
+
+Isolating is good too, because it forces you into
+
+how does your code interact with Rails? How do
+
+you interact with the database? How do you do
+
+logging when you're isolated in your own little gem?
+
+Do you even need Rails for this little business
+
+project that you're working on? Does it need to
+
+be part of a Rails app?
+
+This has really helped me, like, try to constrain
+
+my code in the simplest form it needs to
+
+be to get the job done. This helps me
+
+mock and stub boundaries in my tests, cause it's
+
+clearly defined where it needs to define other, other
+
+pieces of our architecture.
+
+This has really helped me with writing good docs,
+
+because I have a README for this thing. It's
+
+really easy. So, a real example, a few weeks
+
+ago I was tasked with automating a daily seatsbe??
+
+(00:15:18) report out of the database, and uploading it
+
+to a third parties FTP site. They then will
+
+return us a plain text email telling us the
+
+results of processing this data. a coworker commented, 1997
+
+wants its architecture back.
+
+So we've all done this. We say, hey man,
+
+I'm just gonna drop this in the model, you
+
+know. This FTP goes to CSV, it uploads. Gets
+
+the job done. You know, fat models, bro. And
+
+a couple weeks later you're like what is, what
+
+is this code? Who put this here? What does
+
+this even do? Or, a year later. Two years
+
+later. Who, who did this?
+
+And, so, you know I was thinking, this is
+
+really gnarly code. It has, just, it has just
+
+kind of a single responsibility. It has just one
+
+thing it needs to do. So, I'll make a
+
+gem. So, the rest of my talk, I'm just
+
+gonna quickly go through building gems, releasing gems, and
+
+then hosting your own gems internally.
+
+So, building a gem. This is another crash course
+
+inside a crash course. This might be review for
+
+some of you, but this is just kind of
+
+the easy way that I see how to do
+
+it. So, it's a, it's another crash course, so.
+
+So building a new gem is this easy. You
+
+already have this installed. You already have bundler installed.
+
+You just type bundle gem your gem name. The
+
+ls on the front there, that's to help us
+
+with namespacing. I'll get into that in a second.
+
+But bundler will do that for you.
+
+This is what it creates. This is your basic
+
+fresh gem. It's the gem file, a license which
+
+is MIT, you get your README, like I said.
+
+You get your Rakefile and then you get your
+
+lib directory with all your program code in there.
+
+The most important file there is the bottom and
+
+that's the gemspec. Without that, you don't have a
+
+gem. There's plenty of documentation on, you know, what
+
+goes in a gemspec. But bundle does a good
+
+job of doing defaults for you.
+
+Namespacing. If you hadn't seen this before, I've done
+
+this with a couple different companies and it's really
+
+helpful. You basically take your company name, shorten it
+
+down to two letters, and you put it in
+
+a module and you put all your classes under
+
+this global kind of module. That's how you use
+
+it there. It's LS for this one, GeminaboxClient, and
+
+you require it. If you see that, like, ls
+
+slash thing, that's how it's, that's how you're doing
+
+namespacing.
+
+This is really helpful. We have some early gems
+
+that didn't do this, and I wasn't sure when
+
+I first started. Is this an open source implementation,
+
+or is this internal? Like, where did this thing
+
+come from? So, maintaining this namespace is, it's, it's
+
+helpful, and knowing where your code is coming from
+
+and that it's an internal project.
+
+So, basic example. This is just kind of an
+
+example that has a few more things in it.
+
+We threw a changes file in there so we
+
+know what happened when the version changes, and then
+
+we've got our, you know, some more program code,
+
+and we have our tests. Like, everything is nicely,
+
+tightly compacted for, for this little project.
+
+A quick review on semantic versioning. You can go
+
+to SemVer dot org. Yeah. Thanks. Some people don't
+
+understand it so I wanted to review it. The
+
+last number in a version number is the bug
+
+fix number. You increment this when things change. Like,
+
+when you fix bugs, but you haven't broken the
+
+public API. You haven't changed or broken anything.
+
+The minor version number is when you added a
+
+new feature. Yay. We have new stuff. But you
+
+haven't removed anything. You haven't broken the public API.
+
+You haven't forced people into changing things.
+
+And then finally, the major version number is, you
+
+broke something. You have changed significant amounts of things
+
+and people beware. Like, this might break your code.
+
+And you can think of this like how hard
+
+it is to upgrade from Rails 2 to 3
+
+or from Rails 3 to 4. That's a big
+
+change so that is a major version number.
+
+If it's stable, it should be 1 point 0.
+
+If it's not stable, it should not be 1
+
+point 0. This is a good signifier that just
+
+says hey, this has been used in production. It's
+
+stable. It's, everyone can use this when you go
+
+to 1 point 0. If it's before then, you
+
+probably see gems that are zero zero twelve-hundred and
+
+thirty-seven. And it's like, I'm not sure if I
+
+should use this. That's a lot of version numbers.
+
+So, that's just quick refresher on building gems and
+
+versioning, namespacing. Now, we need to let the world
+
+behold your awesomeness, or, at least the people at
+
+your company. Releasing should be easy. We say deploying
+
+should be easy. Deploying and releasing gems should be
+
+an easy thing. This is not easy. Remembering the
+
+version number and tagging it and rake build and,
+
+like, this is not easy.
+
+This is easy. Rake release. This is really easy.
+
+When you use bundler you get this rake command
+
+for free. But, don't accidentally open source your code.
+
+This happens, and there are bots that mirror RubyGems
+
+right away. It's very hard to take that back.
+
+So how do go from this to this, but
+
+keeping everything internal?
+
+You can monkey patch, I mean subclass Bundler. Geminabox
+
+will actually tell you on their Wiki page to
+
+monkey patch Bundler. Don't do that. So what we
+
+can, we wrote our own gem that just inherits
+
+from Bundler's gem helper. There's tutorials on this. But
+
+I'm just gonna go through real quick how this
+
+works.
+
+In your, in your Rake file you see this
+
+bundler/gem_tasks at the top. What that actually does is
+
+that gives you those three default rake tasks. The
+
+build, the install, and the release. By default, it's
+
+going to push it to RubyGems, and we don't
+
+want that.
+
+So, when we subclass it, what we want to
+
+do is we want to say, we use geminabox
+
+as our gem server at Living Social. We want
+
+to say, hey, don't push to RubyGems. Push to
+
+geminabox. So we've subclassed Bundler and said hey, don't
+
+push to RubyGems. If you try to, if you
+
+even try to call the private, the protected method
+
+there, you're gonna get an error. So just don't
+
+do it.
+
+And then once we release that gem, it's just
+
+a really small gem, we put ls/gem_tasks in place
+
+of bundler/gem_tasks in all of our other gems. So,
+
+by default this goes to our gem server when
+
+you release. It's really easy.
+
+So, gem servers. You, you know how to get
+
+it out there and now you need some place
+
+to put it. So there's three options. There's geminabox,
+
+stickler, and then gemfury. So if you're hosting your
+
+own, it should be behind the firewall. It's internal
+
+code. You don't want anyone else accessing it.
+
+Geminabox provides a nice web interface for managing your
+
+code. It has authentication. You have to build your
+
+own Rack middleware to do the authentication. It does
+
+pull through mirroring, which is kind of cool. You
+
+can tell it to mirror everything from RubyGems as
+
+you install things, so you don't need to depend
+
+on RubyGems being up when you deploy. Geminabox will
+
+pull down everything for you.
+
+And it has a nice command line client. It's
+
+pretty simple. Patches gem with this inabox command and
+
+allows you to push and setup your own machine
+
+to talk to your server.
+
+The other option for open source thing, gem servers
+
+is stickler. Provides authentication in the same kind of
+
+way. It does selective mirroring, so you can tell
+
+it, you know, mirror ActiveRecord 3 point 2 and
+
+it'll pull it from RubyGems. You can also give
+
+it a whole gem file, gem file lock, and
+
+it'll take everything in there and it'll mirror all
+
+of it for you. Which is handy.
+
+It has a really full-featured command line client. You
+
+can do everything that you can do from their
+
+web interface. And then it's, the author wanted me
+
+to note that it's going to support the bundler
+
+dependency API in the next release coming soon.
+
+For a hosted server that's not behind the firewall,
+
+it's on someone else's machine, there's only one option
+
+I know about. It's gemfury dot com. They provide
+
+authentication obviously because it's not on your machine. They
+
+don't appear to do mirroring, which is, you know,
+
+if you're still rolling on someone else's service you're
+
+gonna probably be relying on RubyGems, too. So, they
+
+don't do mirroring.
+
+They have command line client, and they do support
+
+node.js and Python packages. So that's it. My name's
+
+Tyler Montgomery, and I'm @ubermajestix on Twitter.
+
+***
+
+??: Thank you, Tyler. Next up we have Dan
+
+Mayer. He's also on our consumer app team. Not
+
+everyone is on the consumer app team. He does
+
+a lot of teaching in the D.C. area, teaching
+
+people Ruby. And I just learned that he can
+
+fix bugs from ski lifts. Over the phone. So
+
+that is a useful parlor trick. And take it
+
+away Dan.
+
+DAN MAYER: All right. Hello. I'm gonna be talking
+
+to you about production code analysis. Obviously as you
+
+build up all these services and split out all
+
+your code, it gets much harder to debug and
+
+start finding out things about your code. Like a
+
+small application is easy to reason about in your
+
+head, but as your systems grow and the architecture
+
+grows it gets more difficult.
+
+Oh. Could somebody fix the projector and get us
+
+all on? Shrink down. Is that one on? Or
+
+is that off as well? If somebody could fix
+
+that one too, that'd be great.
+
+You can't improve if you don't measure. You can't
+
+improve what you don't know. We often focus on
+
+performance and exception monitoring. Some fixate on test code
+
+coverage. There's a lot to learn from what your
+
+code actually does in production. Ruby tools aren't quite
+
+as good as, like, the Java tools, so we
+
+really are still trying, as a community, to improve
+
+those tools. So that's some things we're working on
+
+internally.
+
+And then, I wanted to mention Etsy. They have
+
+some great posts all about measuring production systems. Graphing
+
+everything and actually release Statsd, which we rely on
+
+quite heavily. So I wanted to just say thanks
+
+for that.
+
+All right. So, I like to focus, as we
+
+split things out and kind of forked off code
+
+bases on getting rid of unnecessary code, because I
+
+want to be able to only think about and
+
+reason about the code that we actually care about
+
+and what's actually being used in a system.
+
+That code ends up in production for a whole
+
+lot of reasons. I'd list up a whole bunch
+
+there, but we don't really need to go through
+
+every one. If you've ever worked on a team
+
+as it grows, you eventually find code that you're
+
+like, this was written three years ago and nobody's
+
+using it. Why is it here?
+
+I think it's important to try to track that
+
+down and get rid of it as soon as
+
+possible. Especially as you're adding a lot of code
+
+very quickly to systems.
+
+So there's various ways to find that code. Some's
+
+as simple as just using New Relic, or formally
+
+trace Linux. You can do custom stats instrumentation, which
+
+I'm gonna go, going to talk about a little
+
+bit. There's production code coverage. There's the gem I've
+
+been working on that does code coverage, but not
+
+on your test suite. It's actually live code running
+
+in your system.
+
+And after seeing some of the talks by Tilde,
+
+I also realized I could make it much more
+
+performant in Ruby 2.1.1, so I'll be working on
+
+doing that, cause right now there's a, a high
+
+cost, which I'll talk about a little later.
+
+You can use logs. You should definitely have your
+
+logs all searchable. And we'll go into that. Using
+
+stats in implementation and production code coverage we've deleted
+
+twenty plus thousand lines of app code. And then
+
+hundreds of thousands of lines of code, if you
+
+start including our assets, our JavaScript, test files and
+
+that sort of thing. We've really been able to
+
+shrink down our code bases as we expand out.
+
+So, third-party, real quick. If you use New Relic,
+
+you can go to the transactions. Go look at
+
+the last seven days. Sort by count. The things
+
+at the bottom, likely, are dead, deprecated, or you
+
+can start working on killing them. They have, like,
+
+one request in the last seven days. You might
+
+want to go look at what those are.
+
+It's really easy but it's still useful. If you're
+
+ever finding an end point and you wonder, wait
+
+a minute, what is this? Go check. It might
+
+not be hit in the last seven days. You
+
+can probably kill it. It's really easy. It's actually
+
+even easier, because we have a gem, newrelicroutecheck, which
+
+basically you can download the CSV from New Relic.
+
+This generates your Rails routes file and then compares
+
+your routes versus the output of New Relic, and
+
+then starts telling you, this was in your routes
+
+file but never actually hit. You can go look
+
+at those end points.
+
+Stats instrumentation. We're gonna step through all of these
+
+fairly quickly. But basically there's a lot of different
+
+things you can do with stats to help you
+
+find code and tell what's going on in your
+
+systems. So, background events. You want to know which
+
+jobs are being executed. You want to know if
+
+they're completing successfully. You might want to know how
+
+long they take. This is an example for Resq.
+
+We actually have our own wrapper around most of
+
+our background jobs, so we do it at a
+
+different layer.
+
+Statsd. Before preform. After preform. You can throw in
+
+whatever else you want there. If you want timers.
+
+Anything. But it's really easy to instrument that. Then
+
+you have your nice graphite graphs, where you can
+
+kind of follow and see the, see the charts
+
+and everything. You can also look at graphite and
+
+see if a job's no longer ever being performed.
+
+Emails. Email templates, especially transaction emails. Eventually, you have
+
+a one-off transactional email for some holiday thing. Some
+
+special product. Something that's no longer being triggered. You
+
+can check all your emails. There's no, no reason
+
+to work on updating them or fixing them, especially
+
+when you're doing, say, a Rails update and you
+
+have to change all your ActionMailer code. This will
+
+let you know if it's worth your time.
+
+Views rendered. Eventually your view layer will get very
+
+complicated, with layers and layers of partials. If you
+
+have layers and layers of partials, it's hard to
+
+reason about which ones are still in use, which
+
+ones have been refactored away entirely. You can actually,
+
+really quickly, using ActiveSupport::Notifications, find all your layouts and
+
+all your partials and templates and track them. This
+
+is an example showing it to Statsd, or you
+
+can just render it into your Rails logger and
+
+then you can search it in something like Splunk,
+
+ElasticSearch, see if it exists.
+
+Again, we made a gem for this to make
+
+it easier. You can see flatfoot. Basically, you set
+
+up flatfoot. It does this for you. And then
+
+it gives you some helpers to find used views,
+
+unused views. You can reset it on each deploy.
+
+It makes it really easy to kind of automate
+
+this process and generate reports on it.
+
+One off trackers. Sometimes you just find some code
+
+and you're not quite sure what's going on. It's
+
+very easy, with Statsd, to just throw on one-off
+
+trackers. This is an example of a controller. We're
+
+trying to figure out which of the types, or
+
+paths in the controller are still being hit. You
+
+can go ahead and throw increment on each of
+
+the formats. On that request dot XHR. Now you're
+
+going to be able to say, oh, actually we
+
+stopped using the, you know, JSON format months ago.
+
+Let's get rid of all the related code.
+
+Production performance comparisons. This one I owe thanks to
+
+uberjemef- ubermajestix over here, Tyler. He actually just threw
+
+this out and didn't really make any fanfare of
+
+it on one of our applications. Then I saw
+
+this and I was like, that's really cool. We
+
+had two different options for stripping out some html,
+
+and we wanted to know what's faster. You could
+
+benchmark it locally on some fake data, but the
+
+production data is very different than what you're going
+
+to test with. And it, it will vary a
+
+whole lot over all our applications.
+
+He threw this in there. Splits it fifty percent.
+
+Throws the timer around it. Measures both one implementation
+
+of the algorithm versus the other. Couple days later,
+
+it's incredibly obvious that nokogiri is much faster than
+
+just using the regular strip tags from Rails.
+
+And that, that I, I just thought was so
+
+interesting that I've kind of been carrying around to
+
+point out to everybody I can find that's interested.
+
+Translation usage. This one I owe Chris Morris some
+
+credit. He is another engineer at Living Social. He
+
+works a lot on our payment systems. But he
+
+used to do a lot of our translation and
+
+internationalization work.
+
+And eventually, your translation files get really
+
+large. And they actually take up a lot of
+
+memory in your running Ruby processes. So if you're
+
+trying to shrink down your memory so you can
+
+foot, fit more workers on a box, you might
+
+want to look at your translation files. They tend
+
+to be a pain point for a lot of
+
+companies that have a lot of languages.
+
+This lets us track which keys are actually being
+
+used. What are we still translating in production? Or
+
+what is it we no longer use the translations
+
+for. As you delete all these views, it's easy
+
+to forget about all the translations that were in
+
+the views. This actually makes it very simple to
+
+go and find those.
+
+Production code coverage. This is a little bit more
+
+experimental at the moment. We do run it on
+
+production. I have it on a lot of systems.
+
+I cannot use coverage, which is what, like, simple
+
+cov and things use in your test suite, because
+
+there's a bug in Ruby. If you sample and
+
+turn it on and off, it will crash. Which
+
+luckily I learned prior to production.
+
+So I switched to using set trace func, and
+
+this lets us see each line as it's being
+
+run live, and then we do sampling to cover
+
+the fact that set trace func is extremely slow.
+
+Sometimes four hundred, eight hundred percent slower. So we
+
+can sample a very small rate of requests, but
+
+it still will, over a whole lot of volume,
+
+give you a pretty good idea of what's used
+
+in production.
+
+And, like I said, in 2.1.1, I just learned
+
+that you can actually get the CPU profiler, is
+
+a sampling profiler, and you can get the line-number
+
+data out of it with a very small C
+
+extension. So I'll probably be updating this, and that
+
+will only help 2.1.1. It'll still have to use
+
+set trace func on 1.9.3 and 2.0.0. But you
+
+can get some really interesting data and delete a
+
+lot of code this way.
+
+Here's a quick example of the setup, but really,
+
+go to the gem's home page. You can see.
+
+You can do ignores on things. It'll check your
+
+app path. It tracks in Redis. I use a
+
+startup delay, because Rails is very slow on the
+
+first few requests, because it actually builds a lot
+
+of code in memory at that time. And you
+
+really don't want to be checking your code coverage
+
+as it's building new methods. It's just not a
+
+good use of CPU.
+
+Yeah. And this shows how to set it up
+
+in your Rakefile. And real quick I'll, I'll -
+
+I was gonna have a demo. I think I
+
+missed the slide. But we're, we've got other speakers
+
+so I'm gonna skip ahead real quick.
+
+On logs, I just want to mention. Make sure
+
+to get all your logs from all your applications
+
+in one place. ElasticSearch, Splunk, Cabana, doesn't really matter.
+
+You just want everything in one place so you
+
+can actually see how requests are going across your
+
+system.
+
+I've been working on a gem called imprint. But
+
+also you can look at Zipkin, which is, I
+
+guess, some of like Twitter's work. Mostly they do
+
+Scala, but I guess they have stuff for Ruby
+
+as well. I just learned about that at this
+
+conference. But basically, if you put a trace id
+
+on your requests, you can see as they're coming
+
+in your system, and then as you make multiple
+
+API requests to your backend, you can see how
+
+that fanned out in your system.
+
+You can also drop it to all your events.
+
+So any event that fails, you can track it
+
+to the incoming request. If you have an exception,
+
+it's going to be in the headers. It'll be
+
+on your exception. You can actually take the exception
+
+and go see all the logs for all the,
+
+the requests and debug what was coming in that
+
+was so awkward to cause this exception.
+
+And, I think all these tools can help you
+
+clean up your code and actually understand what's happening
+
+in production, much better. And that's all I've got.
+
+***
+
+??: Thanks Dan. Right. Are, are you going next?
+
+Or is, K. I don't know.
+
+I, I'm telling Rodrigo to sit down. Nick. Nick
+
+is gonna go next. Nick is a, a Minnesotan.
+
+He's on our Mail tools team. A JRuby contributor.
+
+He, and for one, he's six foot four inches
+
+tall and can help you get things off of
+
+tall shelves. And he's gonna talk to us a
+
+little about meditation.
+
+NICK SIGER: [French]
+
+Which is French for, I think, therefore I am,
+
+of course, by the famous philosopher Renee Descartes. I'd
+
+like us to ponder today a little bit about
+
+whether that's really an appropriate frame of mind. You
+
+can interpret that statement to mean that we identify
+
+ourselves, our entire existence, by the fact that we
+
+can think. And I personally think that's a really
+
+bad idea.
+
+Early in my career, I was obsessed with my
+
+capacity of work done. I wanted to work all
+
+the time. And I was constantly searching for that
+
+sort of state, that elusive state of flow. But,
+
+in fact, what I think I really got stuck
+
+in, most often, was a, an oft more common
+
+state of rat hole.
+
+So, when you think of yourself during the work
+
+day, you know, how often do you find yourself
+
+getting distracted? Running down a rat hole, and then
+
+once you get done with that hole, that hole,
+
+once you finally unwind the stack get all the
+
+way out of that rat hole, how many times
+
+do you find you saying, wow. That felt great.
+
+Like, no. It probably did not. And I'm arguing
+
+that one of the reasons why it doesn't feel
+
+great is because we all too often let our
+
+minds run wild. We take every thought that comes
+
+into our head and we believe it's truth or
+
+we believe there's some element of truth to it.
+
+We might even have perceptions about ourselves and the
+
+way other people perceive ourselves, and we think that
+
+for some reason those are true.
+
+And I'm here to tell you that they're not.
+
+I think that we have, all of us, inside
+
+of us, we have a sort of a silent
+
+watcher-observer of our lives that's behind all the thoughts.
+
+And if we can all take a little bit
+
+of time in our day to access that part
+
+of ourselves, we find that we're gonna be happier.
+
+We're gonna be healthier. And that's kind of a
+
+little bit of what I'm gonna, what I'm gonna
+
+outline today.
+
+So, as far as meditation goes, in terms of
+
+discussion for today, I'm gonna say that meditation is
+
+sort of spending some quiet time, you know, attempting
+
+to find sort of an absence of thought in
+
+your head. And if you've ever tried meditation you
+
+know this is actually extremely hard. People have been
+
+meditating for thousands of thousands of years, and it
+
+is most-certainly a life-long practice. And when you realize
+
+how hard, you think, oh my gosh, how am
+
+I gonna actually- will I ever get to a
+
+state where I feel comfortable with this? Is this
+
+something that's really worth while to do?
+
+And I would advise up front that meditation, like
+
+many other things in our lives that we find
+
+worth while to do, all it requires is just
+
+a little bit of time and making it a
+
+habit to get the most out of it. So
+
+don't make, don't, don't listen to the voices in
+
+your head again. Don't listen to your thoughts that
+
+are saying, oh my gosh, I have no time
+
+to do this. I'm, I'm not gonna do this
+
+right. I don't know how to do this. It's
+
+not gonna be perfect. So therefore I'm not gonna
+
+try. Just ignore all those and just try to
+
+do it.
+
+There's a number of studies out there, meditation does
+
+have actual tangible, scientific health benefits. There's one study
+
+that had people meditate for thirty minutes a day
+
+for eight weeks, and they did brain scans on
+
+the people before and after and found that their
+
+gray matter in brain regions associated with memory and
+
+stress and empathy actually increased in just eight weeks.
+
+So you can actually, you know, even as an
+
+adult, you know, we're long passed puberty, even as
+
+adult you can spend time and change the composition
+
+of your mind and the composition of your body.
+
+Another study at UC Davis foc- said that focusing
+
+on the present, doing activities like meditation, rather than
+
+letting the mind run away, adrift, actually lowered levels
+
+of the stress hormone cortisol in your body. So,
+
+meditation also will allow you to get on top
+
+of your, your hormones, and get a better hormonal
+
+balance. You'll feel a lot better about yourself.
+
+So, unfortunately, a lightning talk is probably a bad
+
+place to actually try to, try to lead a
+
+meditation session, since I think you, to do it
+
+justice, you'd want to probably have just at least
+
+a five minutes quiet time to yourself. But instead,
+
+what I'm gonna do is take just a few
+
+moments and actually ask all of you to, you
+
+don't have to do this yet, but what I'm
+
+gonna ask you to do in a minute here
+
+is close your eyes and just try to get
+
+comfortable, and try to clear, clear your mind of
+
+any thoughts.
+
+And then what I'm gonna ask you to do
+
+is to just spend some time trying to obtain
+
+that, that, that clear head, and watch your mind
+
+for the very next thought that comes out. And
+
+watch your mind like a cat would watch a
+
+mouse hole. So I'm gonna ask you all now
+
+to close your eyes, and watch your mind, and
+
+just try to watch for the very next thought
+
+that comes in. And just try to be focused
+
+and attentive. Don't try to follow it, don't try
+
+to lull yourself to sleep or anything. Just be
+
+focused and attentive and try to look for that
+
+very next thought.
+
+And I'll just give you a few moments. And
+
+when that thought comes in go ahead and open
+
+your eyes. OK. Some of you actually lasted quite
+
+awhile there. That's pretty good. So what you may
+
+be finding with this little exercise is that when
+
+you take the time to be really attentive about
+
+having a clear mind, it actually takes a little
+
+while longer for that thought to come in.
+
+So this is, this is actually the very beginning
+
+of the meditation practice. You're actually trying to, rather
+
+than being completely, completely lifeless or, or almost like
+
+a, well, you, you're actually trying to be very,
+
+very attentive to the immediate present moment.
+
+So, when you're doing this, it's important to not
+
+be self-critical, right. So maybe a thought rushed in
+
+right away, again, and you feel like, oh gosh,
+
+I have no control of it. Well, don't try
+
+to control what's happening. Don't try to be on
+
+top of it. We, you know, we're all control
+
+freaks a lot. We're in technology. We like things
+
+to work. We like to control computers. Don't try
+
+to be in control of the situation. Just observe
+
+where your thoughts are jumping to. And just, just
+
+try to be that passive observer of what's happening
+
+in your mind.
+
+And then, so, once you start to get in
+
+this habit of taking time to at least check
+
+in with yourself, maybe you start a meditation practice
+
+or maybe you just want to take moments out
+
+of your day to just take a break from
+
+things and be a little bit more mindful and
+
+a little more self-aware. Ask yourself throughout the day,
+
+am I at ease at this moment? You know,
+
+ask yourself, how do I feel at this moment?
+
+Am I at ease? Or what's going on inside
+
+me. And just, just pay attention to those feelings
+
+and those, what's going on inside you without judging
+
+or, or trying to make any changes about it.
+
+We're just trying to cultivate self-awareness here.
+
+I also find that doing meditation has lead me
+
+to doing other things really mindfully as well. I
+
+like to, I like to cook. I like to
+
+clean. I like to do all these little kind
+
+of tasks that don't require a huge amount of
+
+mental energy. And I like just focusing on them
+
+intently. And I find that even doing things like
+
+chopping vegetables or, or clean- or doing dishes or
+
+any task which you think normally would be completely,
+
+you know, oh, what a waste of time. I
+
+don't want to do this right now, I really
+
+don't want to do these chores. You can actually
+
+find a little bit of pleasure in just focusing
+
+completely on the task.
+
+And that's another way to just kind of open
+
+yourself up and be, be more at ease. And,
+
+you know, of course, we all have screens on
+
+us at all, at all times of the days
+
+these days, and that's another, you know, where it's
+
+like, looking at a screen is, you're putting your
+
+attention out into the ether, out somewhere else from
+
+where you are right now. So when you're with
+
+someone, even when you're by yourself, maybe every now
+
+and then put the screen down and just focus
+
+on, on just what you're doing.
+
+And I think, for me, my opinion of, of
+
+the, you know, this, this lifelong process of trying
+
+to be more mindful, trying to meditate, trying to
+
+make, make ourselves better through meditation, is actually a
+
+contagious thing and one that we can contribute to
+
+the well-being of the entire planet. So I hope
+
+you will consider, you know, reducing the crazy noise
+
+in your mind and maybe check out what meditation
+
+can do for you and kind of follow up
+
+on some of those studies I, I mentioned.
+
+I will have, I'll Tweet a link later on
+
+it. I was planning on posting it before this
+
+talk but I forgot to do it. I have
+
+to get back to my computer. But I will,
+
+I will Tweet a link later. My, my Twitter
+
+handle is @nicksiegr, N-I-C-K-S-I-E-G-R, and I'll Tweet a link
+
+later with some of the, the articles and links
+
+to thinks that I, that I look, that I
+
+refer to during the course of my talk. So,
+
+meditate. Be happy. Make the world better. Thanks.
+
+***
+
+RODRIGO FRANCO: Can I go now?
+
+??: Now's your time, Rodrigo. So, Rodrigo is a
+
+developer on our merchant team. And he's an avid
+
+game, both board and video, right?
+
+R.F.: Yes.
+
+??: And you're from Brazil, right?
+
+R.F.: Yes.
+
+??: Definitely south of the Equator.
+
+R.F.: Yes.
+
+??: And, if you see him in the hall,
+
+ask him about his goat.
+
+R.F.: They're gonna, they're gonna see them.
+
+??: All right.
+
+R.F.: But yeah.
+
+??: Take it away.
+
+R.F.: Thank you. Is this one? You're strong. All
+
+right. So, hello everyone. My name is Rodrigo. And
+
+I'm here to give you one trick to boost
+
+your productivity when working from home. My Twitter handle
+
+is @caffo. My wife call me that. So you
+
+can call me that, too. Or Rodrigo. Whatever you
+
+want.
+
+I wrote an article for, or tech blog, about
+
+how I do work from home, and how I
+
+try to focus on things while doing that. The
+
+most important thing that people talk about was the
+
+pet goats, and that they were in the article,
+
+like, briefly. I'm gonna show you some.
+
+Here's me with my pet goat in a hangout
+
+for work. If you want to read the article,
+
+it's available here. It's a sign in link. And
+
+I have been working remotely from home for about
+
+ten years. So, I had to find my way
+
+to focus on stuff. Otherwise I'd just play video
+
+games all the time. And, that's why we have
+
+this unrelated cat picture.
+
+And, this article name is One Weird Trick, because
+
+while I was browsing the internet without ad block,
+
+I saw a lot of these, these like ads,
+
+like. One tip for a flat belly. And, like
+
+DHH said, like, there's no way we can have
+
+like a quick flat belly. So, what, what would
+
+be, like, this one trick that we can get
+
+to have focus? And I think it's boundaries.
+
+Like, I had a couple things I do that
+
+limit my work day and my personal day, because
+
+at home they are very together. And I'm just
+
+gonna briefly show you some of these things, like
+
+everyday I start my day with a startup ritual.
+
+I get presentable, because we do hangouts and I
+
+need to be properly dressed. Not undressed. Whatever. And
+
+then I do what I call a, I open
+
+the cafeteria. I get, like, some fizzy water done.
+
+I put coffee in the press and I grind
+
+the beans. And then I have a very good
+
+cup of coffee.
+
+The other thing that I think it's important, after
+
+all of that done, I get my cup of
+
+coffee. I sit down. I start working. And I
+
+think you really, you really need to eliminate distractions.
+
+You need to find a way to be in
+
+your mind office while in your home. And what
+
+I found out was very good for me was
+
+having a good pair of head phones. The head
+
+phones are nice because they allow you to focus
+
+on stuff, and like people around you, like, my
+
+wife knows when I'm with the headphones, she can't
+
+talk to me. The dog don't care about, a
+
+lot about it, and pet goats just get sad
+
+because he can't get my attention.
+
+And I also have all sorts of gizmos. Like,
+
+I plug the headphones there, so I can have
+
+even more like better sound. And that way my
+
+wife just, like, needs to throw stuff at me.
+
+Like, wake up, get out of here. I need
+
+something. And I call that my focus flag. It's
+
+like a way I can show to the world
+
+and to myself that it's time to work. I'm
+
+not here. I may be here, in my body,
+
+but my mind's doing other things for my company.
+
+So, OK. You got there. You had your startup
+
+ritual. You got your computer. Your headset. Goats away.
+
+So, you can really start working. And then you're
+
+done, because you do a lot of multitasking. And
+
+you can't do that. Like, why we spend all
+
+the time in Hacker News, on Reddit. Because it's
+
+way more fun than do work. Like, you have
+
+that huge list of things to do, but you
+
+want to be on Reddit.
+
+So we need to cut down multitasking. You need
+
+to find ways to not change what you're doing.
+
+So if you're coding, you're coding. You don't have
+
+like, if gmail is loaded, you should not open
+
+a new browser tab. Oh, but I'm just gonna
+
+browse a second. Your day is gone.
+
+So, what I done, for example, I had these,
+
+these tiny Arduino plugged into my computer, so if
+
+someone sends me an IM message and they are
+
+in a white list, I would get a light
+
+that says you need to answer them because it's
+
+your boss or someone from your team. If it's
+
+not, like, you can answer whenever you have time.
+
+So you need to find ways to not multitask.
+
+Another important thing is, don't work all the time.
+
+When I started working remotely, I said like, yeah.
+
+I need to make sure I don't play video
+
+games all the time. And I started working all
+
+the time. And I would never stop. So, you
+
+need to find a good balance between one thing
+
+and the other. You should also spend time with
+
+others. Like, don't spend all the time at the
+
+computer, like just working mindless. Like, find time to
+
+spend time with other people. And also find time
+
+to learn new stuff, like challenge yourself on Code
+
+Wars. Do some Khan Academy stuff. Like, you need
+
+to have a good balance in your life to
+
+make sure your work is, works well, and everything
+
+goes fine. Yeah.
+
+That's it. Thank you so much.
+
