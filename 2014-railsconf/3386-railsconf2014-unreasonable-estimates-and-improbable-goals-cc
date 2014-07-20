@@ -1,0 +1,1092 @@
+RailsConf 2014 - Unreasonable Estimates and Improbable Goals - Adam Sanderson
+
+ADAM SANDERSON: All right folks.
+
+This is Unreasonable Estimates and
+
+Improbable Goals. My name's Adam Sanderson.
+
+I'm a full stack developer at LiquidPlanner.
+
+I've been there for about six, nearly
+
+seven years, working on Rails, databases,
+
+like, front end, back end. You name it.
+
+If you want to, you can find me on
+
+GitHub. Twitter. These slides are gonna be on Speaker
+
+Deck. It's all under Adam Sanderson. That makes it
+
+easy. But more awkward, I write code, or I
+
+write about code on monkeyandcrow dot com. If you
+
+like the talks about, like, reading and learning about
+
+Rails, I'm actually writing a series called reading Rails.
+
+So go check that out if that's what you're
+
+in to. And hey, it's RailsConf. You probably are.
+
+So, like I said, I work for LiquidPlanner. We
+
+make online project management software. Probably the most interesting
+
+thing for you guys is that we do probabilistic
+
+scheduling, which is pretty awesome. So if that sounds
+
+kind of cool, like everyone else here, we're hiring.
+
+And I need somebody to come help me build
+
+new stuff. So really, if you're in Seattle, let
+
+me know.
+
+So, you can't really work on project management software
+
+without thinking about the work of work. Specifically, I'm
+
+talking about estimating projects, finding the hidden costs involved
+
+in those, and then dealing with deadlines. Sounds like
+
+fun, right? Sounds like life.
+
+All right. How hard would it be? I get
+
+asked this question all the time. People come up
+
+to me, and they say, hey Adam, how hard
+
+would it be? How hard would it be to
+
+change all of our buttons from red to blue?
+
+How hard would it be to implement a new,
+
+like, class of user? How hard would it be
+
+to implement email integration? What should I do?
+
+Clarify. Before I tell somebody how hard it would
+
+be - and, pro tip, they don't care how
+
+hard you gotta hit the keyboard. What they're actually
+
+asking is, how long is it gonna take you
+
+to get this done? Before you tell them, clarify.
+
+Make sure you know what they want. Make sure
+
+that what's in your head is what's in their
+
+head. Because a lot of times when people come
+
+to us, developers have a very specific vocabulary. Things
+
+that we think mean one thing mean a different
+
+thing to somebody in sales, or marketing, or QA
+
+or support.
+
+So make sure that you know what they mean
+
+when they say, hey, how hard would it be
+
+to integrate email integration? Does that mean sending emails
+
+out of our system? Does it mean receiving emails
+
+from someone else? Does that mean a plugin for
+
+like Outlook or Gmail? If you don't clarify up
+
+front, you could spend a lot of time wandering
+
+off into the woods, and when you come back
+
+with your amazing feature, they're gonna look at it
+
+and be like, what? What is this? And you'll
+
+have just wasted, like, an hour. A day. A
+
+week. Oh, that's gonna suck. So clarify.
+
+Next, clarify. Ah. Again. So. Look, you know what
+
+you're doing, now you gotta figure out why you're
+
+doing it. Ask them. Hey, why do you need
+
+to me to integrate email integration? Maybe they turn
+
+around and they say, well, look, we've been getting
+
+a lot of customers sending us screenshots and it'd
+
+be nice to just be able to email those
+
+into the system. Does a better, does a solution
+
+already exist? If it does, you might be able
+
+to point them towards that. And a bonus for
+
+you, now you don't have to do anything.
+
+Maybe they turn around and they say, yeah, I
+
+know that that exists. But it's kind of a
+
+pain to use. Well, now maybe you've found that
+
+there's a better approach to solving their problem. Maybe
+
+you just need to fix existing functionality. People come
+
+to us, all the time, with prescriptions for solutions
+
+to problems. It's really useful for us to take
+
+a step back, and before we say, yeah, I'm
+
+gonna do that, to say, wait, why do you
+
+need me to do that? Maybe you can help
+
+them come to a better solution. And, by doing
+
+this, you're gonna get a better idea of what
+
+you need to do.
+
+All right. Once you know the what and you
+
+know the why, it's time to start thinking about
+
+estimating how hard it's gonna be. How long it's
+
+gonna take you. I want you to think about
+
+the major pieces of work that you're gonna need
+
+to do. Imagine the project and, instead of thinking
+
+about it in their terms, in terms of the
+
+domain of the person asking you, think about it
+
+in terms of what you have to do.
+
+Is it gonna require a lot of database work?
+
+Well, think about the tables. Is it gonna require
+
+a lot of work in Rails? Think about your
+
+models, your views, your controllers. Is it gonna require
+
+a lot of front end work? Well, think about
+
+the different components on the screen. Break these large
+
+tasks down into smaller things, and write it down.
+
+You're gonna need to refer back to this later
+
+anyways. This is the stuff that you need to
+
+do in order to, like, service their request.
+
+Next, sometimes it could be overwhelming to get some
+
+of these asks from people. You'll find that they
+
+have so many, like, business rules that they want,
+
+they've got so many little details that they want
+
+to impart upon you. It can make it really
+
+hard for you to see the forest for the
+
+trees. Step back for a moment. Try and find
+
+unifying principles in what they're asking for. Is there
+
+some model that you can make, in your head,
+
+that explains what they're looking for? It doesn't have
+
+to be perfect. It's just gotta be enough so
+
+that you understand what direction to be going in.
+
+Again, write this stuff down. You'll need it later.
+
+All right. You've broken stuff down. You've grouped stuff
+
+back up. It's now in a stage where you
+
+can sort of wrap your head around it. Think
+
+about other things that you've done. Have you done
+
+anything like this before? One of the unique things
+
+about our profession is that we tend not to
+
+do the same thing twice, and if we do,
+
+we're kind of doing it wrong. So, if you
+
+can, think about similar things. But maybe you haven't.
+
+Turn and ask one of the other developers in
+
+your company. Maybe they've worked on this code before.
+
+Maybe they've dealt with this type of issue before.
+
+They can help you get a better estimate.
+
+And on top of that, if they're doing their
+
+job right, maybe they'll ask you what it is
+
+that you're trying to do, and they'll ask you
+
+why. This is awesome, because it turns you around
+
+and makes you be the person who is asking
+
+you for work. It's really helpful for clarifying what
+
+you've got to do.
+
+Now, there are dozens of different methodologies. Different approaches.
+
+Different sciences of estimation. Here's what I want you
+
+to do. Make a guess. That's it. I know.
+
+You could play planning poker. You could do all
+
+number of things. But, just make a guess. Here.
+
+I'm gonna make it flash. There. Isn't that awesome?
+
+Seriously. Look, an estimate's just an informed guess. A
+
+lot of times, we put way too much value
+
+on an estimate. It's OK for you to be
+
+wrong and it's OK for you to be uncertain.
+
+In fact, if you're not uncertain, you're probably wrong.
+
+I want you to quantify that uncertainty. Embrace it.
+
+Are there things that you're being asked to do
+
+that you don't know how they're gonna spa- like,
+
+turn out? Maybe, like, you've got to load a
+
+whole of data into the database and you're not
+
+sure if it's gonna handle that. Maybe you've got
+
+to make some, like, flippy clicky thing that's gonna
+
+be, like, really hard to implement in Internet Explorer
+
+8. Do you know how that's gonna work? Maybe
+
+it will. Maybe it won't.
+
+Raise these things up. Let other people know. If
+
+they're asking you to do this work, say, you
+
+know, I'm not really sure about how this is
+
+gonna impact our database. I'm not really sure whether
+
+IE 8's gonna support this user interaction you're asking
+
+for. This is helpful, because it gives the other
+
+person a better understanding of what you need to
+
+be doing.
+
+Now, next, play a spread. Tell them a story.
+
+If everything goes well, I think that this might
+
+be done in a week. If I need to
+
+denormalize my database, if I need to do something
+
+really crazy to get this supported cross-browser, this could
+
+take me four weeks. Look, it's a lot easier
+
+for you to hit an estimate, a range, than
+
+it is for you to give them one hard
+
+number. So that's great for us. But it's also
+
+good for the person asking you to do the
+
+work. Because you're giving them a story about the
+
+future. You're telling them useful information about how this
+
+could play out. And if they've got that information,
+
+they can start making better, better use of that.
+
+They can plan better based on that. And it
+
+starts a better dialogue between you.
+
+But you're not done there. You've got to deal
+
+with this uncertainty. Nobody likes to get bad news.
+
+Nobody likes to find out that the project is
+
+doomed. But you know when they like to hear
+
+that? Never. OK. Do you know when they'll tolerate
+
+it? They'll tolerate it right at the very beginning.
+
+You know when they won't tolerate it? In the
+
+eleventh hour.
+
+Oh, man. Are you gonna be ever so happy
+
+when your fellow developer says, hey, guys, I know
+
+we're gonna ship, but I just checked the clicky
+
+flippy thing in IE-8, and it doesn't work.
+
+Wait, we're supposed to ship when?
+
+Nobody wants to find out that the uncertainty got
+
+left to the end. So do it first. It's
+
+really hard to do this, but deal with uncertainty
+
+up front. That way, when you find out that
+
+something's going to take a long time, you can
+
+communicate that back to people, and you guys can
+
+adjust your plans to accommodate that.
+
+I know. We always want to do the fun
+
+things first. I want to like, jump in and
+
+do the stuff that I know really well first,
+
+because I feel like I'm making progress. That's a
+
+great way to set yourself up for failure later.
+
+Now, doing that alone isn't enough.
+
+You remember that estimate? Change it. Change it continuously.
+
+As you learn new things, as you figure out
+
+the uncertain things, and as you make progress, circle
+
+back and tell anybody who depends on you how
+
+long this is gonna take. Give them your vision
+
+of the future. Give them your mental model of
+
+what the risks are. Give them the understanding that
+
+you have, right now, about what you think is
+
+gonna happen.
+
+Communicate often.
+
+All right. Let's talk about the Dark Arts of
+
+project management, for a moment. Look, you know what
+
+you're doing. You know why you're doing it. You've
+
+got an estimate and now. Oh. Shoot.
+
+We can get screwed, as developers. We think that
+
+we're all logical. That we're sane. Now. This ever
+
+happen to you? It happens to me all the
+
+time. Somebody comes up to me and they say,
+
+hey, Adam, how long's it gonna take? And I
+
+say, it's gonna take about three weeks. And they
+
+say, look, we need this done really quickly. Could
+
+you maybe do it in one? And I say.
+
+Well. Oh. How about two weeks?
+
+I thought that I was just being nice. I
+
+thought that I was just splitting the difference, right.
+
+Wrong. I just screwed myself.
+
+It's natural for people to haggle. But you don't
+
+win when people are estima- or bargaining over estimates.
+
+Look, you're estimate is your best understanding of what
+
+the future holds. What made it go from three
+
+weeks to two weeks? How did you suddenly manage
+
+to shave off a whole week of work in
+
+five seconds? Cause I want to know. I need
+
+to be able to do that later, so you
+
+come up and you tell me.
+
+No, look, you can't negotiate time. But you can
+
+negotiate features. And as you learn more about the
+
+project, you can re-estimate. Moral of this story, don't
+
+give people estimates that you think are gonna make
+
+them happy. Give them estimates that you think are
+
+true.
+
+If they keep badgering you about it, point it
+
+out. Say, hey, look, I know what you're doing
+
+here. I see what you're doing. Estimation bargaining. It's
+
+not gonna work. Not only is it not gonna
+
+work for me, it's not gonna work for you.
+
+If you give into this kind of thing, you're
+
+actually setting up not just yourself for trouble but
+
+your team. The people who rely on you. And,
+
+whether or not the person asking you to do
+
+the work knows it, you're setting them up for
+
+failure as well. Because they depend on that estimate
+
+that you just gave them.
+
+So, you know what you're doing. You know why
+
+you're doing it. You've got an estimate. You defended
+
+it. Maybe you shouldn't do it at all. There
+
+are hidden costs involved in everything. Like complexity costs.
+
+Look, some features that we build incur future, incur
+
+costs on all the future work that we do.
+
+For instance, if you build a new RESTful API,
+
+great idea. If you build a new, like, axis
+
+controls, you're just dropping in can-can. If you build,
+
+like, a new mo- native mobile client. Yeah. You're
+
+not done there. From now on, every new feature
+
+that you implement has to take those old features
+
+into account. So what you just did is you
+
+made it so that your future work, future work,
+
+is gonna hate past you.
+
+You're just incurring new costs for the future. So
+
+watch out for these cost-cutting concerns. they can really
+
+bite us sometimes.
+
+Now, there are ways to do this that are
+
+gonna cut down on those costs. You can never
+
+get rid of them entirely. But, if you want
+
+to, do the extra engineering up front, factor that
+
+into your original estimate. Let the people know that
+
+you're gonna need a little bit more time.
+
+What about operational costs? Look, are you introducing new
+
+moving parts? You're gonna build a new job queue.
+
+You're gonna throw resq and redis in place. They're
+
+awesome tech. But guess what? They're costly.
+
+How are you gonna test this in production server?
+
+How are you gonna monitor it? How are you
+
+gonna deploy this? How are you gonna make sure
+
+that it's running every time you spin up a
+
+new server?
+
+It's not necessarily hard. But it does take time.
+
+And once you've done it, it still takes time.
+
+And you know what? When resq goes down, who
+
+are they gonna call? They're gonna call you. You're
+
+the one that put it in place, right. So
+
+dealing with that is gonna take more time out
+
+of what you consider to be your budget for
+
+developing.
+
+Support costs. These are awesome. There are a lot
+
+of things that we can do as developers that
+
+are just really easy. We can knock out a
+
+feature in like ten minutes. The downside? Nobody understands
+
+how that feature works.
+
+So what if your users don't get it? Like,
+
+you built this awesome thing, and they've got no
+
+clue what it does. Who are they gonna talk
+
+to? Well, if you've got one, they're gonna talk
+
+to your support team. I hope your support team
+
+understands - your support team doesn't understand it. OK.
+
+Awesome. Your support team's now talking to you.
+
+And that takes time that you're gonna be not
+
+able to develop in. What if your business, as
+
+a whole, doesn't get it? Meetings. That's what. And
+
+you know what meetings mean? It's not just your
+
+time that's being used up then, it's the entire
+
+company. Everyone around that table? You're sinking more and
+
+more costs into this.
+
+So, again, you can combat some of this, but
+
+go back, update those estimates, to factor this in.
+
+What about opportunity costs? Slightly different thing. But think
+
+about this. You can really only do one thing
+
+at a time. So what's the highest priority thing
+
+for you to be doing right now? What's the
+
+highest priority thing for your team? For your business
+
+as a whole? Because, whatever you're doing now is
+
+excluding every other feature that you could be working
+
+on right now.
+
+Think about it. Prioritize all the things that you
+
+would like to be doing. All the things that
+
+you know you should be doing. Make sure that
+
+this is actually the most important thing. Not just
+
+the most immediate thing that you need to deal
+
+with.
+
+Look, I'm not saying don't do anything, but weigh
+
+the costs. Understand them. Recognize them. Everything that we
+
+do as developers costs us down the road. Choose
+
+which ones you're willing to pay.
+
+All right. More Dark Arts, cause I love these.
+
+This one's the most insidious. This one trips us
+
+up as developers, because we've got egos, and it's
+
+really easy to manipulate us. This happen to you?
+
+Somebody comes up to you, they say, hey, how
+
+long's it gonna take? And you say, I don't
+
+know, about a week? And they say, really? Oh,
+
+and they look so disappointed. And then they say,
+
+I thought you were smarter than that.
+
+Wow. That hurts. Then, it's like, kicking you when
+
+you're down. They say, oh, I'll go ask her.
+
+I'll go ask the intern. She seems pretty smart.
+
+Ah. Even worse. You know what happens next? I
+
+don't know about you. But me? I start begging
+
+to do the work. I'm like, you know what?
+
+Did I say a week? I meant maybe, like,
+
+three days.
+
+Whoa, stop going towards the intern. One day? I'll
+
+have it to you by noon.
+
+Fuck.
+
+Aw. Don't let your ego get you into trouble.
+
+Stand by those estimates. Really, the best thing that
+
+we can be as developers, in this case, is
+
+have a little humility. And if you see somebody
+
+trying to do this to you, call their bluff.
+
+Like, they're not really gonna go to the intern.
+
+Well, they might. And it might be a learning
+
+experience for everyone.
+
+But name this. Say, I know what you're doing
+
+there. It's not gonna work on me. Stand up
+
+for yourself. And if you can't, find a new
+
+job.
+
+All right. Deadlines. Like, I've got one coming up
+
+in eleven minutes.
+
+Deadlines come in all forms. They come in a
+
+spectrum. From soft deadlines to hard deadlines. Soft deadlines
+
+are things like goals. They're things we would like
+
+to achieve. For instance, we would like to ship
+
+this by the end of the week. We would
+
+like to get this out by, I don't know,
+
+this next conference. Hey, we're gonna try to get
+
+this out for the customer by Q1.
+
+Hard deadlines are things like, RailsConf. For me, anyways.
+
+Can you imagine, RubyCentral sending out an email. They
+
+say, hey guys, funny story. Adam didn't do his
+
+slides, so we're postponing RubyConf by, like, a week.
+
+Just change your reservations.
+
+Yeah. I'm not DHH, so I can't get away
+
+with that.
+
+It's a hard deadline. So when hard deadlines come
+
+up. Actually, when all deadlines come up, what do
+
+we do? You gotta deal with it. Ignoring it's
+
+not gonna work, and panicking also doesn't work. So,
+
+we've really got four options. The first two are
+
+ones that we as developers think that we really
+
+like, and the second two are ones that managers
+
+think that they really like. Nobody really likes any
+
+of these options, when you get down to it.
+
+But, if it's a soft deadline, if it's just
+
+a goal, you guys can ship late. You can
+
+miss. Maybe. It's probably not the end of the
+
+world. Don't do this all the time, cause you're
+
+gonna look like an idiot. But recognize. Weigh the
+
+balance, weigh the thingies that you've gotta weigh. I
+
+don't know.
+
+Yeah. This talk is about work. Not about how
+
+to give a good talk.
+
+Rad. So, yeah. Sometimes you can ship late. Of
+
+course, there are hard deadlines, right. There are things
+
+like RubyConf. And I can't miss this deadline. If
+
+I did, we would all be standing here and
+
+I would be stammering like I was. So what
+
+else can we do?
+
+Well, we can cut scope. We can cut features.
+
+Like, honestly, prioritize the things that you've gotta do.
+
+Figure out what you can get done by the
+
+deadline. Cut the rest.
+
+For instance, I illustrated like all of these slides,
+
+except for, I got about here and I ran
+
+out of time. So I cut my little illustration.
+
+One of the things that is scary about this,
+
+though, is that some of the things that get
+
+cut are the things that we, as developers, think
+
+are important. Performance. Testing. Correctness. All these things can
+
+get cut if you're not careful. So if you
+
+value that, make sure that it's put high in
+
+your priority. Make sure that you guard that against
+
+the deadline.
+
+OK. Another option. If you're not gonna get it
+
+done and you can't ship later and you can't
+
+cut features, well you can add more people, right?
+
+Well, you could go read the Mythical Man Month,
+
+but basically boils down to this. Unless you've got
+
+a project where everybody can work completely independently, you're
+
+gonna have to start talking to each other. Eh.
+
+It's kind of uncomfortable.
+
+So, I'm about to miss my deadline. They pull
+
+you in to work with me. Now you and
+
+I have to start talking. We've gotta make sure
+
+that we aren't gonna be stepping on each other's
+
+toes. We've got to keep each other appraised of
+
+the situation. We've gotta understand which direction we're both
+
+going in.
+
+That adds overhead. And if you're splitting up work
+
+between two people, it means that you're gonna start,
+
+like, depending on the other person to get things
+
+done. And if I'm waiting on you and I'm
+
+twiddling my thumbs, that's sort of wasted time. That's
+
+time that's not actually going towards getting the work
+
+out.
+
+So, adding more people sometimes works. But sometimes, it's
+
+just gonna make everything go more slowly.
+
+Oh, and if you do add more people, make
+
+sure they get along. Cause nothing is more awkward
+
+than running up against a deadline, working with somebody
+
+who you want to punch. Like, this is how
+
+sparks fly, right? You don't want to do this.
+
+All right.
+
+The final way that you can deal with a
+
+deadline. If you can't two people to do the
+
+work twice as fast, maybe you can make one
+
+person work twice as hard. Ah. This really sucks.
+
+And I'll tell you why.
+
+It works. It can. Honestly. But it's not sustainable.
+
+And I don't think any of us enjoy it.
+
+Look, think about this. You've got eight hours to
+
+work. You've got eight hours to sleep. And then
+
+you've got eight hours for your daily commute, for
+
+cleaning up after your dog, for cooking dinner, for
+
+spending time with your friends, your family, for reading
+
+seventeenth century poetry.
+
+Where's that overtime gonna come out of? I gotta
+
+hint for you. It's not coming out of work.
+
+Bummer. OK, your only two remaining options are sleep
+
+and what I would like to call life. So,
+
+if that time's coming out of sleep, you're gonna
+
+be tired. You're not gonna be very proficient. You're
+
+not gonna be thinking straight.
+
+We make the stupidest mistakes when we're up at
+
+3 AM pounding on our keyboards. So quality takes
+
+a hit. Shoot. Well, OK. What about life?
+
+Use up a little bit of life to get
+
+this out the door. This, this is the path
+
+to burn out. To depression. Use it very sparingly.
+
+Use it wisely. Think to yourself, is this more
+
+important than cleaning up after my dog? Is this
+
+more important than spending time with my kids? Depends
+
+on how much you like your kids, right.
+
+Just be careful. That's all I can say.
+
+All right. Let's talk about one more of the
+
+Dark Arts. Deadline hardening. This is the magical thing.
+
+Whoops. I don't want to show this to you
+
+yet. I gotta tell you about it first. Because,
+
+here's what I love about this one. It happens
+
+to us all the time, and every time it
+
+does, we're like, totally surprised that it happened. We're
+
+like where? Where did that come from? And I'm
+
+like, what? Didn't this happen to you last week?
+
+Or yesterday? All right.
+
+Here's roughly how it goes.
+
+Somebody comes up to you and they're like, hey,
+
+let's try to release by the end of the
+
+month. And you're like, um, I don't think we
+
+can actually do that. But I'll try.
+
+OK, and you go back to your keyboard really
+
+quick, right. You know. Clock spins. Pages fly off
+
+the calendar. Eighties work montage. All of a sudden,
+
+manager comes back and they're like, hey, we need
+
+to release by the end of the month. And
+
+you're like, wait, what? Why? Why do we need
+
+to release by the end of the month? And
+
+they're like, we've got customers waiting on it now.
+
+It's like, what? Why, why did you promise that
+
+to them? And I'll tell you why. They heard
+
+you say that you were going to try to
+
+do it by the end of the month. Now,
+
+I know that what you said, in your head,
+
+was hey. Get out of here. I know that
+
+what you said was, leave me alone, I gotta
+
+code. I know that what you said was, I
+
+don't see you.
+
+But what they heard is, I'm on it.
+
+It's a bit of wishful thinking on their part,
+
+but it's true. Look, don't commit to making any
+
+deadlines that you don't think that you can meet.
+
+And saying that you'll try is committing.
+
+Look, people are less likely to turn a goal,
+
+a soft deadline, into a promise, a hard deadline,
+
+if they think it's risky. When do they think
+
+it's risky? They think it's risky when they know
+
+that there's uncertainty. They know it's risky when they
+
+know that the amount of work that you've got
+
+to do is large. And that you're likely to
+
+go over the deadline.
+
+So, communicate your status and risk often.
+
+Communicate uncertainty.
+
+If you take nothing else away from this, communicate.
+
+Make sure that other people understand what your view
+
+of the world is right now. Because if you
+
+don't, that's how you're gonna end up with unreasonable
+
+estimates and. The other thing in my title. I
+
+can't remember it. Awesome.
+
+That's my talk. You guys have any questions? Wait.
+
+Clap first.
+

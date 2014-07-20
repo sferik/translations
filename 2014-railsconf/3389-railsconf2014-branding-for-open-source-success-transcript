@@ -1,0 +1,191 @@
+RailsConf 2014 - Branding for Open Source Success - Bree Thomas
+
+BREE THOMAS: Hi. How's everybody doing? It's nice to see you. In case you're wondering what I'm doing - this is a tip from Ben Orenstein, who said to get rid of pre-presentation jitters, you should power pose. I want you to know that, if this doesn't work, I am going to fucking punch him.
+
+So, my name is Bree Thomas. I think we can put these down now. I also wore black so you couldn't see the armpit sweat. It's a good trick.
+
+My name is Bree Thomas. I am a brand-spanking new developer, as of like, eight months old. Yes. Yes, thank you. Thank you.
+
+So I, I'm, I work with a product company called iTriage and so I spend much of my day spelunking a very intimidating code base, and I spend a lot of my time studying and pairing with anybody who will have me, to be honest. But in a past life, not too long ago, I was a product marketer. Dun duh duhh.
+
+And that's what I want to share with you today, a little bit of that experience. Specifically, I want to talk to you about brand. What brand is, why you should care, and how you can use brand in your open source projects to start differentiating yourself in, face it, what is now a very saturated and competitive landscape.
+
+But before we can, before I can tell you how to do this, we've got to level set at the what, right. So what is brand? And to do that, I'm gonna show you some logos, K. Don't worry. They're not. Some big brand logos, and I just need you to tell me what they sell.
+
+K. Does anybody know what this brand sells? Anybody? Mike! What does this brand sell?
+
+MIKE: Sporting equipment.
+
+B.T.: Very good. Are you a runner? Not so much. OK. Just checking. Just checking. What about this brand? Does anybody know what this brand sells?
+
+AUDIENCE: Computers. Hardware.
+
+B.T.: Hardware! OK. Great. Good. What about this brand? Jeremy Jackson, what does this brand sell?
+
+JEREMY JACKSON: Shoes?
+
+B.T.: Oh, shut up. See, and here's what he doesn't want you to know. He doesn't want you to know that he drives on of these.
+
+All right. So, those were good answers, OK. But really, let's start with Nike. What Nike sells is more than just shoes. Nike sells empowerment.
+
+Nike sells a belief that greatness comes from within. It's not a gift. It's not destiny. Actually, it's a fierce commitment, right. An unyielding focus, that you can make yourself into anything you want to be.
+
+You just have to do it.
+
+And, how they communicate empowerment, well, that takes different forms, depending on who they're talking to. How they communicate with women. How they communicate with men. What they're advertisements look spanning sports, race. It's all different. But at the core, it's really about empowerment. They are the constant voice of empowerment, telling you that you can do it. You can be better.
+
+And when Apple launched their Think Different campaign, at that time, for Apple, it was a summation of what that company stood for. At the time. And in positioning Think Different, they didn't do it with products, right. No. They did it with humans. Accomplished, iconic humans, right, to quote some of their advertising that I'm sure we're all familiar with. The crazy ones. The misfits. The rebels. The ones who see things differently.
+
+And while their ads have changed quite a bit, Think Different is still a very prevalent part of their DNA. So whether we're looking at the iPod ads from way back when, when there was literally nothing about their product on these - just a silhouette on a bright-colored background - to the ads you see today. There's just this very inherent attitude that is simply and beautifully executed.
+
+And, what's great about their ads is, for them, I mean, they spark immediate iconic status. So there's lots of creative spin-offs of their ads. And copy cats. But really what they do is they spark this crazy group of devout followers on every single product release.
+
+BMW. The passionate driver's car. They are about aspiring, not actually to luxury, but the joy of driving. And that that happiness, the joy of driving, that's inherent in the BMW itself. Regardless of your station in life, be that a biker or a mother, the BMW is the car to suit your inner-driving enthusiast. Because at the end of the day, it isn't about status. It really is about joy.
+
+So why did I show you these brands? Because they don't just sell a particular style of footwear or fancy color of an iPod or even heated seats in a car. Actually, what they sell is a belief. Empowerment. Think different. Joy.
+
+And beliefs are held by humans. And humans build relationships. And relationships build community. So take a look around you right now. For better or for worse, we are all a community. Right, we share some common beliefs in how to build software, for instance.
+
+But just having a good product, right, just having a good product anymore, or some pristine lines of code that you've written, whatever the metric dujour is of what pristine is, that's not enough anymore. No matter how amazing your project or your specific product is, if only you, or a very small few are at the epicenter, then it's just a matter of time before it breaks down.
+
+And while we can all completely understand Ryan's burnout with RailsCast, it's really doesn't lessen the blow when we lose that. I can speak for me personally as a new developer.
+
+So as you look to develop your open source project, how are you going to foster a community? How are you going to attract contributors, maintainers, adopters, for that matter, how are you actually gonna keep them?
+
+So the really great brands, they symbolize more than just those products that they sell. The really great brands are a culture of people who share some common beliefs.
+
+The really great brands are human. And that's what I want to talk to you about today. I want to talk to you about how you can build a who at the same time that you're actually building your what.
+
+And so to do that, we're gonna walk through just some brilliant basics, and I've got a couple open source projects who are doing parts of this really well. So I'll illustrate that with them. And then we'll move to in practice. I'm going to give you actually a scalable framework that you can start using immediately, and I'm gonna give you some methods for how to populate that framework with content.
+
+And then lastly, I'll give you a couple examples about how you can actually, in real life, apply this.
+
+So the basics of brand, right, is really just about personality traits. How would you describe your best friend to someone you've just met? How do you set your sister up on a blind date?
+
+Brand strategists have a go-to set of personality traits that they like to use. We'll start with purpose. Why does a brand exist? What do they seek to change in the world, right? What, where did their motives originate from? What do they stand for? What do they hold as dear and unshakable truths as they're interacting with us and the rest of the world?
+
+What do they say? When they speak, do they speak the truth? And what do they do? I mean, are they doing it? How would I know that they're doing it? And do their actions speak louder than their words?
+
+What do they look like? What is their image? How do they portray themselves? Is it something that I want to be seen with? More importantly, do I, on a personal level, identify with them enough to do this? For the record, I do not have any Harley Davidson tattoos.
+
+But the beauty of this guy and this tattoo is that he isn't making a statement about Harley Davidson. He's making a statement about himself. And Harley Davidson symbolizes things about him.
+
+So, let's take a look at some of these traits that I just ran through across a couple open source projects.
+
+We'll start with Ember. I mean, seriously. An adorable identity. OK. This is just the cutest thing ever. And here's what's great about Ember, right, they deliver this character that is inviting and approachable, but most important, when I look at this, here's what else they're conveying, that's really important.
+
+A child-like easiness. Even their shwag is in-line with their persona. And that's really interesting to me, because when I look at their purpose, a framework for creating ambitious web applications - holy shit, that's scary to a new developer. I just want something that works.
+
+But it just sounds big and daunting. But what you see here is that right below that, around more adorable and inviting cartoons, they have this comfortable, easy feeling with more productivity out of the box. And they're very clear in what they value. Writing less code. Avoiding trivial decision turn. And, my favorite, developer ergonomics. I don't actually know what that is, but I know that ergonomics is healthy, which means it's beneficial so I love it.
+
+So they're good at that, right. Like, this feels good to me. This feels like, OK, I can use this.
+
+Here's something else that Ember does that I really like. They post all the minutes from their core team meetings. And this creates a transparency, right, which invokes a trust from me. I gravitate towards this. And, and as a new developer, this really reinforces to me that they are approachable. That they are inviting.
+
+Another open source project. Ghost. Ghost is just a blogging platform. So talk about an open source project with a tremendous amount of competition, right. I mean, there are tons of static sites, blog site generators out there right now. WordPress. SqaureSpace. Jekyll. OctoPress. Some of these players have even got the backing to be running TV commercials.
+
+But here's what I love about Ghost. They put a very, very, very specific stake in the ground that they're just a blogging platform because they really stand for one thing, and that is publishing. This is why they're going to focus on just one thing, because they want to do this one thing better than anyone else does it.
+
+And for them, focusing on publishing, from a value perspective, this is about taking the future of freedom of speech to the next level. OK, I can get behind that. That sounds good. I should be involved in that. And Ghost is guided from some very, some values that support this, right. Users first. Always, for them. That's what it's about.
+
+Secondly, it's for love, not for profit. Right, so they are free. And they do this because to accept money would consequently impose some changes in how they approach development, and I think that's really interesting, right.
+
+So these brands, these brands I showed you, they're very clear in their beliefs. You know what they stand for and you see that represented from everything. Coffee. How they, how they talk. Their aesthetic. Their shwag. Even down to their development ethos, right. How they're making choices in features and enhancements.
+
+So it should be simple enough to do, right? I think it's important to know that developing an honest, believable, truly authentic brand, it's more than just slapping a bunch of adjectives out there or paying for a really slick logo. It's a little bit more than that. And that there's actually a method to that madness.
+
+So, I'm gonna walk you through a process to get to kind of your who, right. That's what we're trying to build. And the first order of business is that you can't do this alone. You can't do this in a vacuum. Cause, let's be honest. You've been drinking your particular open source Koolaid all day long. You need some healthy perspective, OK. You need one other person who's willing to go sit in a room with you for four to six hours, at least, and psychoanalyze the shit out of your project.
+
+And if you can find more than one of those people, great. Grab them. But let's not get a classroom, OK. Let's keep it small. Small team. People who are, have no problem telling you what they really think. So you do want them to understand the space, OK. And you want them to know a little bit about you and you want them to know about the project.
+
+Now, for the process. You're gonna see that the, the exercises I'm gonna take you through, they really consist of the same three basic steps. We're gonna have a shit ton of sticky notes and we're gonna write a lot of words on them. That's the ideation process. After that, we're gonna take those words and we're going to start to group them. Categorize them by common themes. Once we have that done, then we're gonna prioritize, OK. We're gonna have some winners.
+
+To get started, we gotta know where we're going. Right, like, what is this thing that we need to fill up, if you will, with all of these words? And so, I have a simple brand structure in mind. Because when you're starting out, I think when you think about words like purpose and mission and values, that feels really heavy. Or, for some of you, it just feels like marketing jargon. Whatever your take on it. That can be a very daunting thing, right.
+
+So, I actually like to start here, with just a simple why, how, and what. And what you'll see is that at the end of this, we're gonna get to the same juicy stuff.
+
+Why? This is a sentence, OK. This is why you get out of bed in the morning. Or I'm presuming, for most of you, stay up till four AM. Whatever the case may be. This is a personal and a passionate statement, OK. This is why you are doing this.
+
+How? How you do this, right. This is where we're gonna talk about what are those things that make you different. What are your points of difference? And what's your personality? So if we do need to describe you or set you up on a blind date, how are we going to describe you?
+
+And then, lastly, what. This is what you really deliver. And a hint here, this is gonna be more than just a list of your product features. It's gonna be bigger than that.
+
+A few notes on the content that fill this brand structure. Before we get started. It's, it's not copy. So, don't get so wrapped up in the words because you're worried about them being printed somewhere forever. It's really about getting the words down on paper and making sure that they express the intent.
+
+It should be organic, OK. It can grow and it can change as your brand and your team changes. But you do want to try to get to kind of that core piece of positioning, much like Nike has a core piece of empowerment positioning. But they express that differently, depending on venue and audience.
+
+And lastly, this is probably the more important one. As we go through this work, remember to make it about you. Because, if your reason for being, the why you get out of bed in the morning, is just focused on your competitor, someone you see as your competitor, then your brand is automatically gonna have a pretty short life.
+
+OK. So now that we know where we want to be, it's a matter of how to get there. And to walk through this, I'm going to use a current open source project to walk through these examples. I don't know, maybe you've heard of it. Yesterday, even. Exercism. So Exercism is something that's really important to me as a new developer. This, this tool has been instrumental in my learning. And Katrina, as well, who developed this, has been instrumental in my learning.
+
+And for those of you who don't know, Exercism is essentially crowd-sourced code reviews for daily practice problems. Here's how it works. As a user, you pick a language. You pick an exercise. You download a test suite. You write the code to solve that problem, and then you resubmit that solution back to Exercism, where all other members of Exercism can come in and comment on your solution.
+
+OK. And the goal here is iterating over small chunks of code. And also to engage in a thoughtful dialogue. Some back and forth. Constructive feedback about new ideas. Things we could be doing better, or what if you chose a different label for this or that method.
+
+OK. And so for our structure, I also want to let you know that there is some purpose in this line up with why being at the top. I mean, that's really kind of your archarching umbrella. Like I said, it's also the hardest thing to fill out.
+
+So when I start this exercise, I like to start smack in the middle. Because for most people, their points of difference - how what they have is different - is just the most straightforward. So what makes your brand different enough to care about? And your points of difference can span implementation. They can span customer service, language, design patterns. The idea right now is you want to get all of those out onto sticky notes, write them all out. You've got you and your other friend in the room. And then get them all up on a whiteboard. Maybe, for exercism, it looks something like this.
+
+Imagine this is a whiteboard of sticky notes. Keep it short and simple here, OK. No novels. That's part of the reason why you use post-its. And now once you have them in front of you, now you're gonna start to group them, right. How can  you start to align these in categories that make sense? And then once you have them in a category, what are you gonna label those categories?
+
+For exercism, it might look something like this. Mentorship is a point of difference. How Exercism creates a platform for people of all skill levels to be mentored by others. Intrinsic motivation, right. So, if you saw before, Exercism doesn't use score boards. OK. This isn't about, like, trying to get to a badge. OK, this is about becoming a better programmer working on small, little problems iteratively.
+
+And so there's an intrinsic motivation about that. That's really the goal. And then a safe forum, because it's a very important piece of Exercism. OK, we must be nice to one another and have constructive feedback. And as you can see, these are, so for Exercism, these are points of difference, but they also start to sound like values, right. Things that Exercism really cares about.
+
+Now, when it comes to your points of difference, I personally am a fan of three categories. That's not a scientific rule by any means. I'm just a fan of three categories. I think four categories is fine. I think if you only have two, that's good too. I will say that five and above, baby kittens start to die, because people just cannot focus on, like, what you're talking about. That's too much.
+
+OK. So let's slug these into our framework and move onto personality. Again, with the sticky notes. We're going to start to think about how Exercism looks on the inside. And what does it look like through a competitive lens? Who else are doing things like this?
+
+What does it look like to users? What should it look like to users? And we're gonna use adjectives here, right. Some personality type adjectives. This is what we're gonna write down. And the goal here is to get as many words as possible. So you write, you write all the words out, and then the first thing you should do is grab a thesaurus and add to them. K.
+
+Now we're gonna group the words. Again, looking for common themes, overlap. And this might be what it looks like for Exercism. And you want to make sure that the group is weighing in on these, on these categories here, right. You want to make sure that within the room, everybody's very clear about why the word was offered. What was, what was the thinking that was happening at the time. What are they trying to express with this or that adjective?
+
+And you can have as many categories as you want here. There's no danger to kittens. Yet.
+
+Now you're gonna vote. So per category, you're going to vote for your first, second, and third word. And the objective here at the end is to tally the results, and for each category, one word wins. And so now that you've got those words, these are gonna be your working elements moving forward.
+
+This is what many brand strategists would call your brand DNA. So for Exercism, we've got engaging, analytical, obsessive, education, motivating. And now we've got to start building a person. So how do we do that, right? We have these DNA elements. Well, we've got to start thinking about a character that matches these words.
+
+And if we've got a character, we've gotta think about, what does, what does that character sound like? And to do that,  you take your DNA and then you just map additional words against that, right, corresponding. So if a DNA element is analytical, well, that's probably a very rational character. It has a very reasonable, calm voice. Right, those are, those are some words that might come in to start describing a person.
+
+And now to actually get it to a place where we can describe it as we would our best friend, we've got to make it do something. You've gotta make it do something. So you've got that working set of words, and now we want to craft a sentence, several sentences actually, where we are trying to kind of introduce Exercism as a person.
+
+So, Exercism is inviting, and always looking to collaborate, for example. An infectious enthusiast. Pushy, but in a thoughtful way. So let's record those into personality. And now we can move on to the what you really deliver.
+
+As a reminder, what you deliver is actually bigger than just a product description. Often, this is really a promise. This starts to become your mission statement. To do that, we're gonna have to go back to our brand DNA, where we started, and first we made it do something. Now we have to make it say something.
+
+So to make it say something, this is where we want to craft a sentence that expresses the collective meaning of these words. Not just their meaning from the dictionary, but, again, when we were in the room, what was that collective intent? Why did these words win our vote? What was the conversation that was happening?
+
+And as a platform, Exercism is about improving your skills in writing code. It's about giving and taking feedback and solving problems. So if we're gonna make it say something, I often like to start with, Exercism delivers - whatever your product is delivers. Maybe it looks like this.
+
+Exercism delivers practice for those who do not settle at good. That's what what. So let's add that to the framework and let's keep trucking.
+
+So for the why. I like to start this one with, I do this because, OK. This is that personal and passionate statement. So think about things like, what was the event that sparked you starting this open source project. Was there something that was pissing you off at the time? Were you searching for something but you couldn't find it? What do you really believe in at the end of the day?
+
+For Exercism, it might look like this. I do this because I hate lazy code, and teaching actually takes a village, for example. That persistence in the detail matters. And so once we've got these on our sticky notes again, now we want to start to group, right. This is a slightly different grouping exercise here. We want to group, but what we're really trying to get to is what is the one liner?
+
+Cause this is the why. Now we want to look at these. These are gonna be similar in a lot of different ways. And now we want to get to just, what is that, that one liner, be it a word or a short sentence. A statement. That sums up the belief. Like, what is most representative of all of this about why we do this? And what we're passionate about.
+
+As a reminder, here's what it was for some of those larger brands. Whoops. Damn it.
+
+Totally ruined it. OK. So where we started was Exercism, which is a crowd sourced platform for code reviews, right. But if we're really gonna get to the why, OK, the thing that is so important about, about why Katrina stays up till four AM in the morning, or for those of us who participate in Exercism, why we love to be nit-picked.
+
+It might look like this. That the Devil is in the details. That this is really what's important and what matters about thinking about becoming a good programmer. About mentoring others.
+
+This is what it takes to be better than just good. That you have to practice this. A lot. And so this is a different story and a different feel than just a platform for daily practice problems and crowd source code review.
+
+So now that you have this story, what are you gonna do with it? Now that you have a who in your brand structure, how do you use it? Oh shit. Marketing.
+
+Don't worry. I'm gonna keep this simple. And really focus on some low-hanging fruit. Because while it's true that I've shown you a lot of big players here, if you take the time and the due diligence up front to not just think about what you're building but who that looks like, what, what that is as a person, then that upstream work is gonna reap some rewards in your downstream work.
+
+Because now you have a place in which to start communicating out of the box differently, right. Immediately, in your README. I mean, I know we've heard tons of talks, READMEs are important. One thing that I think really is important about a README that I don't see very often is voice.
+
+How it sounds. I mean, yeah, it's great to have a README that has plenty of directions, but I want to know a little bit more. I wanna, I wanna feel a little bit of personality when I'm reading a README and I'm going through instructions. At least for a new developer, it's very hard sometimes, to work through some of this.
+
+So, understanding a little bit more of the who makes an open source project stand out for me. I remember it better. And so when you're constructing your README, think about all of this work that we've done, all of these adjectives that we've put up on the wall, and so write, in that tone of voice.
+
+Because here's the thing. You might be a total jerk. Or boring and passive. But your code doesn't actually have to be. You can build a whole new character. And once you've got a voice, now you're ready to tell your story. OK. You can tell your story everywhere. Blogs, conferences, events, social media. And what's important is, as you're telling your story, make sure you're hitting those key points of difference, OK. Those things that you value. That are most important. And that you hold dear. And be clear about what you deliver.
+
+Because it actually is more than just a list of your product features. Otherwise you wouldn't stay up until four AM in the morning doing this. It does mean more to you, right. And it probably means a lot more to the community, too. So don't just tell people what you've made. Tell them why you've made it.
+
+Tell them what you believe. Because beliefs are held by humans. And humans build relationships. And relationships build community. Thank you. That's it.

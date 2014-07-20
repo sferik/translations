@@ -1,0 +1,1588 @@
+RailsConf 2014 - The 'Rails of JavaScript' won't be a Framework - Justin Searls
+
+JUSTIN SEARLS: Good morning everybody.
+
+That was an excellent talk that we just
+
+saw from Brandon. Happy Friday.
+
+It's been a long conference.
+
+Thanks for being here. Friday hug to you all.
+
+This, if the house lights were
+
+up I'd take a picture. Yes.
+
+The title of this talk is The Rails of
+
+JavaScript won't be a framework.
+
+And the slightly less
+
+provocative version of that title is, the Rails of
+
+JavaScript will be more than just a framework.
+
+My name is Justin. We're not gonna have time
+
+for questions afterwards. It's gonna be a very, very
+
+fast talk-y slide-decky thing.
+
+So please Tweet me with
+
+questions, feedback, praise is always
+
+welcome, at searls, and
+
+critical feedback is always welcome
+
+at hello at testdouble
+
+dot com.
+
+Let's just talk about three of my favorite things.
+
+One is cupcakes. Two is the planet earth. And
+
+three is monolithic application architecture. So, on cupcakes, say
+
+that you own a bakery and a customer walks
+
+in and they say they want something sweet. So
+
+you bake them up a beautiful cupcake, and they
+
+say hey, you know, this is really good but
+
+I like a little bit more sweetness. Maybe a
+
+little crunch. So you put some sprinkles on top.
+
+The customer is, like, digging the cupcake, but says
+
+you know, on second thought, I really think I
+
+want something like with some hot fruit filling. And
+
+then you just think to yourself as the baker,
+
+ah god damn it. What they really wanted was
+
+a fresh-baked pie.
+
+So you throw away the cupcake and you make
+
+them a pie. And that's an honest mistake if
+
+it happens once. But if your workflow as a
+
+baker is to assume everyone needs a cupcake only
+
+to have to inevitably throw it away and then
+
+bake something else, that's a real problem, you know,
+
+for your business.
+
+So say you own a software studio, and a
+
+customer walks in and says hey, I need a
+
+web application, and so you say, oh great. What's
+
+its name so that I can type rails new.
+
+And you build them a little graph, you know,
+
+you render it on the server and they say,
+
+hey, you know, this graph is great but I
+
+need some zooms and some filters. And so you're
+
+like, hey, you know, I, we can do that.
+
+Sprinkle some JavaScript on top. And then they say,
+
+you know, this is awesome, but let's load all
+
+of the data all at once so that the
+
+user can really, really like just see absolutely everything
+
+at a glance, really dynamically, like an app, you
+
+know? And then you, the developer, are like ah,
+
+god damn it. Cause there's no logical path from
+
+that solution to what they really wanted, which was
+
+a fat-client JavaScript application.
+
+I mean, Rails is probably still involved, providing API
+
+services. But it's not the center of the application.
+
+That monolithic approach doesn't work. And it's an honest
+
+mistake, if it happens once. But if part of
+
+your workflow is to immediately assume that Rails is
+
+the solution to every single web application, and then
+
+you only realize later that you've guilt a gigantic
+
+mess with JavaScript, that's a problem.
+
+The reason that I think that a lot of
+
+web developers fall into this trap is that Rails
+
+is too convenient. When you're a Ruby developer, you
+
+have all these awesome tools right at your disposal.
+
+We've got this great convention-based framework so I can
+
+just add a gem and it, maybe a couple
+
+lines, and then I get all this great behavior
+
+on the cheap. And when we ask Ruby developers
+
+about their favorite client-side tools, they usually come up
+
+empty. Nobody hates JavaScript more than Rubyists.
+
+So they, they, they just can't think of any.
+
+And of course it's not like there's no client-side
+
+tools. I'm just kidding. There are plenty of client-side
+
+tools available to Rubyists. But this is their reputation,
+
+right. They're jagged and rusty and terrible. So, every
+
+time a new story comes down the pike, we
+
+have to make a decision, right. Where's the best
+
+place for this to live? What's the concern here.
+
+If a user brings me a, a user interface
+
+card, it might be that the best place to
+
+write that, the best place for that to live
+
+is in the browser. But the second thing I
+
+ask when I get a new card is like
+
+hey, where's, what'd be the easiest thing for me
+
+to actually do to build this? Take the least
+
+time? Be the quickest to market? And because Rails
+
+is so convenient, the answer is often Rails. So
+
+even though the best place for the code to
+
+live might be the frontend, I'm incentivised to start
+
+solving client-side problems on the server-side, and taken to
+
+an extreme that's really unhealthy.
+
+So I have a provocative statement to make. Non-Rubyists
+
+write better JavaScript. I went to a dot NET
+
+conference, my first dot NET conference, last year in
+
+Sophia, Bulgaria, and I was blown away by how
+
+much we were talking the same language. We were
+
+using great, brand new node.js based tooling. Everyone was
+
+talking about and excited about Angular, even Ember. But
+
+what my expectations were was it's dot NET, this
+
+is crusty, you know. And what I found in
+
+actually talking to people was, because dot net wasn't
+
+so incredibly awesome, they didn't have that same moral
+
+hazard, you know. They were willing to solve the
+
+problem in the right place.
+
+And when I think back over my own experience,
+
+before Rails was easy, for me, whether that was
+
+before 2005 or when I was doing projects in
+
+other tech stacks, JavaScript wasn't hard. You know, I
+
+actually really quite enjoyed JavaScript until I was told,
+
+you know, to hate it.
+
+And granted, we can have a long discussion. We
+
+can have a lot, like, screencast here about why,
+
+is asking, is JavaScript a terrible language? And I
+
+would just like clear the air, right. Yes definitely.
+
+I spend most of my time in JavaScript. I
+
+agree, it is terrible. But I'm careful not to
+
+conflate that with hey, well, is that why writing
+
+JavaScript is terrible? The problems I have always had
+
+with JavaScript have nothing to do with, have nothing
+
+to do with map and parsein and fundamental problems
+
+with the language, because I'm usually working at a
+
+higher level of abstraction, right.
+
+The problems I have with JavaScript are all of
+
+the tooling. The ecosystem. The community. So I, I
+
+challenge you to ask again later if you think
+
+the language is the one at fault. After this
+
+talk, hopefully I'll be able to persuade you a
+
+little bit.
+
+Let's talk about the planet earth. I love Ruby
+
+and I love Ruby mostly for the community. I
+
+love the language, but I love the community, because
+
+they changed the world when it comes to web
+
+application development. If you were to chart all of
+
+the great new tools for the web that have
+
+released over time, starting in 2005, the fantastic gems
+
+that were sort of the foundation for, for, for
+
+Ruby on Rails and this community. Over time, haml,
+
+sass, all of these great extensions. Alternate stacks that
+
+we can have an Omakase and a Prime stack.
+
+Rspec. Cucumber. These great innovations, helping us build better
+
+web applications. The world, Ruby with gems became this
+
+mature market place of free stuff that would help
+
+us write better code.
+
+But then, right around 2012, I started to notice
+
+that when a new feature would come out for,
+
+like, say, webkit, it wasn't immediately followed by gems
+
+that would exploit it. Instead I was finding JavaScript
+
+tooling written in JavaScript on node. And that started
+
+popping up, and in 2013 it really seemed to
+
+take off. And you come into 2014 and a
+
+lot of Rubyists, I think, have this latent fear
+
+that JavaScript is gonna devour planet earth. And I'm
+
+here to tell you that it probably will.
+
+Where the best tools? If you were to ask
+
+yourself this, you can add up a, add up
+
+a bunch of fact values. For example, Ruby's tool
+
+ecosystem, it's mature but it's crowded. That's not a
+
+lot of room for growth because everyone already has
+
+a lot of tools available that they, that they
+
+love. But node's ecosystem, it's immature, right. It's innovative,
+
+because so much new stuff gets pushed up, and
+
+it's frustrating, but it's great, because as soon as
+
+a new feature hits a browser, there's a tool
+
+to exploit it. I mean, granted, I get as
+
+frustrated as anybody else that when I run MPM
+
+install on something, like, by the time the install
+
+finally finishes at least two of those dependencies have
+
+probably had updates pushed.
+
+But that's the fantastic, that's what I loved about
+
+Ruby in 2006 and 2007. And tool authors are
+
+not immune to trends. I read a lot of,
+
+like, open source tools and I want to go
+
+where the people are. I want to go where
+
+I'm gonna have a big impact. And so tool
+
+authors are now gravitating to, to the world of
+
+JavaScript, because the universe of people who have to
+
+deal with JavaScript is about seven billion people, and
+
+the universe of people who have to deal with
+
+Ruby is in the tens of thousands.
+
+Yeah. All seven billion are JavaScript developers. I realize
+
+that's flawed.
+
+Also, tools, they address the problems of their day.
+
+A gem that was written in 2008 was written
+
+to solve problems that person was facing in 2008.
+
+Not 2014. A tool that was written in 2014
+
+surely must be useful in 2014, and so it's
+
+just a better fit for the web as it
+
+exists today. You add all that up and I,
+
+you know, I really believe that web tools in
+
+node tend to better solve today's problems.
+
+And this is maddening for those who insist on
+
+only using Rails for absolutely everything. But, hey, speaking
+
+of Rails, let's talk about monolithic application architecture.
+
+Rails won the war, right, on web application frameworks.
+
+It came in with a whole bunch of great
+
+reasons that we can go into later about why
+
+it was just the best. It was, it was
+
+fantastic, and all of these frameworks since then have
+
+adopted a ton of great ideas from Rails. But
+
+what we don't often think about when we consider
+
+that phenomenon is to ask ourselves, which war did
+
+Rails win? All web applications? Like, generally? Or is
+
+there some sub-set of applications for the web that
+
+are a better fit for Rails than others?
+
+DHH last year at RailsConf said that good frameworks
+
+are extractions, not inventions. Extracted from real applications and
+
+not just invented. And so when you look at
+
+Rails, obviously the story is that the company Basecamp
+
+made Basecamp and they extracted the good bits, the
+
+common bits that they were seeing across a lot
+
+of their projects into Ruby on Rails.
+
+And those kinds of bits that are common to
+
+many of us, almost all web applications: url routing,
+
+to point you to custom actions that you write.
+
+Modeling behavior of, of the models in your objects,
+
+the validations and all of that at a fundamental
+
+level. Persistence. Storing stuff in a database, querying for
+
+the stuff. The relationships between stuff. Session management and,
+
+in a way that's abstracted from where the session
+
+stuff was stored was hugely convenient, obviously. All of
+
+those ancillary concerns of the wheels that you don't
+
+want to reinvent like mailers. And then there's this
+
+last little bit that's like all these JavaScript alternatives.
+
+Like there's sort of like the, the means by
+
+which to sprinkle JavaScript on top. Like, AJAX erb
+
+tags that dump a whole bunch of JavaScript into
+
+your on-click handlers in your, in your markup, or
+
+later on r.js, or later on unintrusive AJAX erb
+
+tags. Or later on, turbolinks, right. It's not that
+
+those are bad, that those alternatives are bad tools.
+
+It's that they're there to solve, they've been abstracted
+
+from an application that just didn't have the problem
+
+of trying to solve and, and write JavaScript in
+
+the way that I want to write JavaScript.
+
+Because if you consider Basecamp, you start a page.
+
+It's a traditional web workflow. You start on a
+
+page, you click on a thing, you get another
+
+page, you click on a thing, you get another
+
+page. It's a, it's a multi-break process, and that
+
+represents a huge proportion of the web. And that
+
+percentage of the web was almost 100% in 2005
+
+but it's much lower now. If your app isn't
+
+a one to one mapping of, like, CRUD in
+
+the database and you're just exposing that as an
+
+interface to users, if there's any layer of indirection
+
+you, it might not be a good fit.
+
+Yesterday, Sandi Metz made the comment, as an aside,
+
+that there are Rails apps and then there are
+
+apps that use Rails. I'm finding that more and
+
+more, the apps that I'm writing are apps that
+
+use Rails. I can love Rails and not necessarily
+
+take advantage or, or really find a lot of
+
+benefit from the front-end aspects.
+
+So Rails promotes an html user interface in the
+
+frontend, cause that's what Basecamp needed. And what I
+
+mean when I say that is you're writing stuff
+
+like html markup. I have an anchor tag here
+
+with a, with a ref and, and content, or
+
+I might have a form action here with, you
+
+know, an input submit, and when you're writing html
+
+like this, it feels like you're making the UI.
+
+But you're not writing, like, UI programming. What this
+
+is is this is the specification of a UI.
+
+The user agent, the browser, is the thing responsible
+
+for figuring out how to render a link and
+
+what to do when you click it. It's how
+
+to render and what to do when, you know,
+
+how to paint a button and so forth.
+
+It's, you're not, you're kind of outsourcing the UI
+
+programming. If you're building an application with the browser
+
+as your runtime, though, I'd call that a JavaScript
+
+UI, and fundamentally the activity is just different and
+
+more complex. You know, you're responsible for finding the
+
+point and the DOM where you want to render
+
+stuff into. Or you're responsible for binding to an
+
+event that the user does something, and then you
+
+need to take some custom action. You're the one
+
+in the driver's seat. They're fundamentally different concerns.
+
+But our tools, I think, file, I like tree,
+
+to tree stuff out, because I think that tools
+
+tend to betray their biases based on the layout
+
+of the files that they give us. You know,
+
+a naive Rails app might look like this, and
+
+it screams MVC and it screams server-side. But, of
+
+course, in reality, one of the kind of, like,
+
+you know, dust-bin corners is that we have this,
+
+this ghetto, right, under assets, and then the most,
+
+you know, unfortunately named directory ever, javascripts, and then
+
+application.js, and it's telling us, all this stuff at
+
+the top - this matters. And this thing at
+
+the bottom, just write one big long bowl of
+
+spaghetti, and it'll work out. And that's how a
+
+lot of people write, you know, JavaScript and Rails
+
+applications, still.
+
+Some people, though, that's not good enough, and so
+
+they, they, they realize that they need to write
+
+more structured JavaScript, and so we end up with
+
+this new thing, like an html UI and a,
+
+and a JavaScript UI combined. And you might notice
+
+a pattern here, right. There is a, a, an
+
+MVC in the back, and then it's also MVC
+
+in the front. It makes command T really difficult,
+
+but it, you know, we see this duplication of
+
+backend concerns and frontend concerns, and there's also this,
+
+this little nit, negging doubt about, do we really
+
+need this views here? Right, if we're building a
+
+full-blown fat-client JavaScript application, the backend views that Rails
+
+provides just are less useful. So those often get
+
+cut out now, and we, we just have sort
+
+of a JSON API in Rails, and then this
+
+deeply-nested JavaScript UI.
+
+And so at this point, if like a new
+
+person comes to your project and they ask, hey,
+
+so what exactly is that thing? Right. I would
+
+call that a vestigial appendage. Because it can only
+
+be explained in terms of the past. You have
+
+to pull up your, you know, your forensics of
+
+like, well, in 2008 we were all, you know,
+
+thinking this and now it's still like this.
+
+What's wrong with that vestigial appendage? Well, what's fundamentally
+
+wrong is that, a fundamental problem in, in programming,
+
+is that when we move way faster when we
+
+can fit the whole application in our head at
+
+once, and when, on day one of any project,
+
+you can fit the whole thing in your head
+
+at once. But on day 1000 of the project
+
+that's probably not gonna be true.
+
+So if you build a monolithic thing up front,
+
+as that app gets bigger, eventually you reach a
+
+point where you can't fit it all in your
+
+head and you start to page, right. Part of
+
+the application that you're working in you can think
+
+of, and then over here you sort of page
+
+out. And if you don't modularize things well, then
+
+that, that, that thrashing is really, really risky. Because
+
+it might mean that, like, I'm in this part
+
+of the app, and I just kind of have
+
+to hope that my tests are gonna cover me.
+
+Although by the time you're this big, your tests
+
+in a typical Rails app are like ten hours
+
+long. So maybe tomorrow you can find out that
+
+it worked.
+
+But if you, via common concerns, and find a
+
+good module point to, to separate on, if you
+
+were to identify that you could have, like, a
+
+frontend app and a backend app, as those two
+
+things grew, even if the net complexity is higher,
+
+at some point they're not gonna fit in your
+
+head either, but the paging story is much nicer.
+
+Because they have a clean, well-defined separate contract. So
+
+the application that you're working in the backend application,
+
+if you have to work in it, you can
+
+work in it, and then when you page out,
+
+it's not thrashing, cause there's a clear, understood contract
+
+between the two.
+
+Relatedly, I like to say that late extraction costs
+
+more than early abstraction. Yesterday, Sandi's talk was great
+
+at telling us about wrong abstractions that have been
+
+found and refactoring away from those, but when we've
+
+seen the same project a dozen different times, I
+
+would much rather extract seldom and, and, and abstract
+
+early, and that's really confusing sounded so I'm gonna
+
+talk about yarn now.
+
+Imagine you have two balls of yarn. If you
+
+decided, like, man, I really just wish instead of
+
+these two ugly balls of yarn, I had a
+
+big know of yarn all tangled together, that's really
+
+easy to do, thanks to the basic laws of
+
+entropy. But if I have a big tangled know
+
+of yarn and decide that I really would love
+
+two nicely-balled, you know, nice balls of yarn, turns
+
+out that's very, very difficult to do. That doesn't
+
+work.
+
+So that's why, what I mean when I say
+
+that late abstraction, all of these, like, fancy refactorings
+
+that we can do, cost a lot more than
+
+just knowing you needed two things in the first
+
+place. So, back to this, this two step that
+
+I see in a lot of Rails applications, where
+
+one project, you've got the JSON API but you
+
+also have all the JavaScript. This isn't problematic until
+
+you consider this kind of stuff. You, you have
+
+a template that renders a script tag at the
+
+top, and then in the erb certain bits of
+
+data are kind of taking this sneaky back door
+
+instead of actually using the, the proper API, to
+
+just dump data into the JavaScript application needs. When
+
+you see this, it really means your yarn is
+
+tangled, right. Even though you think you have separate
+
+things. And your API is a lie. Because it
+
+means that even though your application is mostly using
+
+that API, if somebody were to come and say,
+
+hey, I want to build a mobile app for
+
+your site, they're gonna have to spend a month
+
+figuring out how to get that token, right.
+
+But it's hard not to cheat. And I agree.
+
+It's very, very difficult, especially given what we talked
+
+about earlier, where the tooling is so bad. So
+
+my objective in the last four years of, of,
+
+of my, my open source contributions, and now at
+
+TestDouble, where we spend a lot of our time?
+
+We want to help make JavaScript apps easy. As
+
+easy as Rails.
+
+When you think about Rails and the responsibilities of
+
+Rails, there's really three distinct parts. We have an
+
+application framework. Stuff that we extend - ActionController and
+
+so forth. We have conventions and configurations that are
+
+laid out for us, that we learn through the
+
+community and the documentation. And we have build automation
+
+stuff, like Rails CLI and Rake. And Rails owns
+
+the whole stack.
+
+If I had to grade them separately, I'd say
+
+that Rails as an application framework - when I
+
+first found it, I loved it. But I found
+
+on, like, many year, five year, six year projects,
+
+it encourages a lot of things that problematic. So
+
+maybe I'd give that a B minus, if I
+
+was grading it separately. But the conventions and configurations,
+
+that's awesome. I love that I can hit a
+
+new Rails team's project and, because of the tribal
+
+knowledge that we have as well as the conventions
+
+laid out and the sensible defaults, I can see
+
+how is their app different from the norm really
+
+easily.
+
+Build automation stuff is pretty good. I think it's
+
+gotten a little bit stagnant. Fantastic in 2005 and
+
+I haven't seen a lot of really cool stuff
+
+lately. But it's still solid. What I really want
+
+to talk about today is convention and configuration and
+
+the value that that can bring to our JavaScript
+
+tooling. Also keep in mind that a lot of
+
+people that are new in Rails or have only
+
+ever worked in Rails just see one big things.
+
+They don't see these as separate problems. So if
+
+that's you, try to think about these responsibilities separately,
+
+because I think they can be solved by separate
+
+tools.
+
+For example, in JavaScript, application frameworks are everywhere. If
+
+I decided I wanted to solve that middle problem
+
+by writing another application framework, then I'd have to,
+
+you know, go and popularize it against all the
+
+other application frameworks. I think that they can be
+
+separated. You know, whether I'm writing backbone or Angular
+
+or Ember - lately I've been writing a lot
+
+of Ember and I love it. But every six
+
+months I keep changing my mind. It's a fact.
+
+So, so at this point I just wanna be
+
+like, eh, I want to write awesome tools that
+
+are framework agnostic that anybody can, can exploit.
+
+From the build automation perspective, like I said, the
+
+community is already in node.js. Worldwide. As soon as
+
+stuff is happening, great tools are showing up in
+
+node.js first. I just want to be this little
+
+guy in the middle, right. I want to be
+
+the convention and the configuration, right. And that's why
+
+we built lineman.
+
+Lineman, like a, like a lineman on a railroad,
+
+is on Twitter here, and you can find his
+
+url. And you install him with npm. So you
+
+have node.js install and you can just say npm
+
+install globally lineman, and you create a new app
+
+really easily with the cli, just like Rails. Lineman
+
+new app.
+
+So, here's me typing in lineman new, start a
+
+new project, and I get a little. I get
+
+a handful of commands that I can run. But
+
+first I'm just gonna cd in and I'm gonna
+
+tree out all of the files that I have.
+
+Like I said, it betrays the biases, right. One
+
+way to learn the conventions is see what it
+
+generates. So you can see I have an app
+
+directory with css and images and JavaScript and then
+
+pages that render on the backend and templates on
+
+the front. A handful of configuration files. A whole
+
+bunch of spec helpers to help you test. And
+
+then places for all of your vendored third-party libraries.
+
+And it's convenient, right. It's nice to get that
+
+bootstrap for you. But our goal is to make
+
+it convenient throughout, to switch between projects to reduce
+
+duplication to make things more common across all of
+
+our work.
+
+One aspect of that is our productivity workflow. I
+
+want to be able to write some code, save
+
+the code, have that code automatically compile for me
+
+every time I save. Have it concatenate every time
+
+that I save, and then I want to be
+
+able to hit command r and refresh and play
+
+with it. But I want to be able to
+
+do all of that in less than a hundred
+
+milliseconds, because I want a fast feedback loop so
+
+that I can keep working quickly.
+
+In lineman, we do this with a command called
+
+lineman run. So you say lineman run, it does
+
+a whole bunch of initial build stuff, but then
+
+it just starts watching for file changes. So I
+
+can hit this server, the dev server. It says
+
+Hello, World! I'm gonna make a quick changes, say
+
+Goodbye, World! It's already updated. I refresh the page
+
+and that's that.
+
+Now, this is a simple app, but even on
+
+large apps it scales very well. On our large
+
+applications it's still roughly a hundred milliseconds.
+
+So, this is great. But command-r driven development isn't
+
+the whole story, right. I also like to write
+
+tests, too. Sometimes I'm doing test-driven development. When I
+
+do, I also want the same story to slot
+
+in really nicely with, with tests. And I want
+
+the same feedback cycle to be super duper fast.
+
+Lineman ships with a cool tool called testem, written
+
+by Toby Ho, that's really fantastic. What you do
+
+is you open up another shell, a second shell,
+
+and you run lineman spec. And you get this
+
+interactive test runner, launches Chrome here, and here I'm
+
+running a test already. Gonna just change the spec
+
+to say that I'm specifying that that function returned
+
+Goodbye, World!
+
+Save it off. Got a failure. That quickly. I
+
+can debug cause it's in the browser. I'm just
+
+gonna fix it. Save. And that's it. My tests
+
+are passing. In addition to the interactive runner, we
+
+want a really solid CI story. So you just
+
+quit out of testem with the q key, and
+
+you can type lineman spec ci, and this is
+
+gonna run it all in phantom.js with a nice
+
+reporter output. And every lineman project generates a travis.yml
+
+file when you lineman new. So you literally just
+
+push it to GitHub, and if you use Travis
+
+as your CI service, it's a one button thing
+
+and now you have a CI build for your
+
+JavaScript. Which if we were to ask people to
+
+raise hands, I don't think every hand would go
+
+up if, if I asked if you have one.
+
+The deploy story is similar easy, because since lineman
+
+is just a static asset generating tool, can your
+
+server host static files? Then yeah, you're good. When
+
+you write a lineman build, and then you tree
+
+out its dist directory, which is where it puts
+
+its built artifacts, it looks a little like this
+
+out of the box. You have an html file
+
+that references a css file and a JavaScript file
+
+and both of those have already been concatted and
+
+minified for you and they're ready to deploy.
+
+There's a single flag in the config that you
+
+can set, and then just like Rails, you get
+
+asset fingerprinted that makes it really nice for deploying
+
+when you have a CDN. Everything else that ever
+
+is gonna end up in your dist directory is
+
+gonna be stuff that you added, so it'll be
+
+stuff that you understand. It's a really easy build
+
+story.
+
+Pushing to Heroku is also really easy. We host
+
+most of our testable stuff on Heroku, so we
+
+just set, we wrote a custom buildpack. You set
+
+that up and then you say git push. It'll
+
+build it with node.js, but then at runtime we
+
+don't need it and so it just runs statically
+
+without node.
+
+And we also have a whole bunch of starter
+
+projects to help get people up and running quickly.
+
+Not everyone's just writing vanilla JavaScript, right. We have
+
+some people who want to get started with Angular
+
+quickly, Backbone or Ember. You can just clone and
+
+go. Clone the project and get started. You'll have
+
+a little bit of example code. It's a great
+
+way, if you want to learn Angular or learn
+
+Ember, just to clone our example project, because it'll
+
+build right away. Like, you already know how to
+
+run it.
+
+We also have a, a really cool. It's because
+
+it's all flexible, we also use lineman to build
+
+all of our JavaScript libs, libs that we maintain,
+
+as well as our blog and, and you're free
+
+to use lineman, of course, to, to write a
+
+markdown blog. It's really, really convenient.
+
+So back to planet earth. We're using Grunt. We,
+
+Grunt is a build tool descended from, you know,
+
+a whole bunch of other build tools, that is
+
+used for task definition. There's a lot of different,
+
+there's a lot of competition here right now in
+
+node.js. A lot of people using Gulp. A thing
+
+called Broccoli came out recently. It's really cool. But
+
+what we use Grunt for, primarily, is a place
+
+to get awesome stuff from the community.
+
+All these tasks ship with lineman out of the
+
+box. Or are, and, and so many more are
+
+available. We really, really love that we're able to
+
+so easily pull in new behavior through Grunt in
+
+a consistent manner. Lineman itself is comically extensible. We
+
+have a plugin system that is built a little
+
+bit around this mental model. We'll talk about it
+
+in a second. But it's really easy from a
+
+user's perspective. All you do is save it. npm
+
+install, then you save the, save the dependency. Run,
+
+like, lineman-bower. When you do that, after you run
+
+lineman run, the next time after you save that,
+
+lineman will pick it up from your packaged JSON,
+
+know that it needs to load it, and bower
+
+will be slotted in at the appropriate step into
+
+your build's workflow. No more configuration. It even generates
+
+your bower JSON for you if it's not there.
+
+Cause deep down, there is an npm module out
+
+there, bower, right, published by Twitter, and around it
+
+is the, a, a grunt-bower-task that somebody in the
+
+community published, and then at the top we have
+
+this lineman-bower plugin that we maintain. Bower is the
+
+thing that actually does the thing. That's where most
+
+of the hard work is.
+
+This, this power-task here, from Grunt, it automates the
+
+thing. There's a lot of hard work there, too.
+
+What lineman does is it just knows, given lineman's
+
+conventions, how to configure the thing for you. And
+
+so we have this kind of boxed approached to,
+
+to how we conceptualize plugins.
+
+So you, in your application, you might have a
+
+lineman-bower plugin that you use, but you can also
+
+have a lineman-ember plugin that's gonna handle all your
+
+templates the way that Ember likes to see it.
+
+And recently we, we learned and were really excited
+
+that RackSpace is adopting lineman for its frontend development,
+
+and I encouraged them to write a metaplugin, because
+
+you can have recursively arbitrarily many plugins down the
+
+line. So this plugin here - name it whatever
+
+you want. Maybe your company's stack or something. It
+
+can bundle as many plugins at the appropriate versions
+
+that you want, but you can also override any
+
+of the configurations in those plugins, get them just
+
+how you like. That way you don't have all
+
+this duplicated configuration across all of your team's files,
+
+team's project.
+
+Back to monolithic application architecture, I've painted a picture
+
+where we can separate into two things. But I
+
+want to talk a little bit more about the
+
+benefits of doing that. So say that you have
+
+a client in the server. One of the first
+
+questions that comes up is like, hey, well, how
+
+am I gonna run stuff in development, but it
+
+still needs to see the server? I'm not gonna
+
+build all these extra stubs for my server side.
+
+And we agree. That would be really onerous. So
+
+we built a feature into lineman that we call
+
+API Proxying. Basically, think of the browser hitting lineman,
+
+and maybe we have Sinatra in the backend. The
+
+browser's only gonna know about lineman. It's gonna make
+
+all of its requests to lineman. But whenever they
+
+ask for any API routes that lineman doesn't know
+
+how to respond to, we've got it configured to
+
+call back to Sinatra. Sinatra responds and then lineman
+
+proxies that request back to the browser.
+
+So it's a seamless environment. It's as if you're
+
+developing on one thing at runtime even though the
+
+code has all the benefits of, of, of physical
+
+separation.
+
+It looks a little bit like this. So here
+
+I'm gonna uncomment a little bit of configuration that
+
+we give you. Change the port to 4567, for
+
+Sinatra. My application's real simple. It's just got a
+
+simple route hi. It gets it and then it
+
+paints it onto the screen, whatever the text is.
+
+And my Sinatra app just returns I heart Ruby
+
+at that particular route.
+
+So when I write lineman run, you can see
+
+it, instead of proxying I'm gonna look at Sinatra's
+
+logs. I refresh, and it got the request from
+
+lineman and it returned through the browser. Super easy.
+
+Now there's other cases, too, cause the benefit of
+
+separating frontend and backend, a big part of that
+
+story is that now development of those two things
+
+doesn't have to run in lock step, right. We
+
+can make a little bit of extra progress in
+
+the frontend, maybe do some prototyping. We can have
+
+a separate backend team after we get big. But
+
+a lot of times we have, like, you know,
+
+it being handy to be able to stub stuff
+
+out that doesn't actually exist on the server yet,
+
+so we can get faster feedback cycles while we're
+
+developing our frontend.
+
+And we offered this in lineman with a tool
+
+that we called API stubbing. So same situation. We
+
+have a browser and it's gonna be hitting lineman.
+
+And instead of actually phoning through to Sinatra, we're
+
+gonna kind of stub our a particular route and
+
+prevent Sinatra from getting it. And we're gonna return
+
+that stub back to the browser.
+
+So same, same, same exact code base. We're gonna
+
+go into config slash server.js. This is a, an
+
+express application that's just kind of bundled in. We
+
+can define any route we'd like. We can overwrite
+
+that hi route. And we're gonna, we're gonna troll
+
+our coworkers here by sending that We heart Node
+
+Even More. Sacrilege.
+
+So run lineman. Refresh the page. And now our
+
+stubbing is in place. You can build entire toy
+
+applications inside of that express application. We've had clients
+
+in the past, TestDouble is an agency, and so
+
+we're, we're as consultants. We've had clients in the
+
+past who've asked us, hey just give us the
+
+specifications of the services that you want, and our
+
+specification is a living document of, well, just make
+
+it do this. And it's been a really, really
+
+seamless - it's certainly better than traditional documentation.
+
+Another case that I like a lot is I
+
+had a project once with a thirty-minute long test
+
+build, and I split it up into, I split
+
+the application up into two. A frontend and a
+
+backend, just like we're talking about. Then I went
+
+to recover that new application with tests, and I
+
+found that the frontend tests had a runtime of
+
+only four minutes. That made me very worried about
+
+the state of affairs in the backend. I figured
+
+that might mean that the twenty-six minutes was hiding
+
+there somewhere. But as it turns out, I wrote
+
+that, and that only took four minutes, too.
+
+So then I got really suspicious and I'm like,
+
+I should probably have some smoke test to make
+
+sure that when this is all plugged into, plugged
+
+together correctly, it works. And the smoke test, of
+
+course, when you plug it in both, it's a
+
+little bit slower, and that ran at a whole
+
+two minutes.
+
+So this thirty-minute test suite somehow got reduce to
+
+a ten minute build, even though the next, the
+
+logical and physical complexity of the system increased. And
+
+if you understand how build duration tends to build
+
+super linearly, any savings that you can get upfront
+
+in the beginning are going to mean a big
+
+difference, you're going to get a lot longer runway
+
+and traction out of the build suite in the
+
+far future.
+
+And, additionally, it's habit-forming, right. I mean, having a,
+
+a, there's a lot of operational problems that you
+
+have to solve when you have two different things
+
+to maintain and manage and version, as a deploy
+
+story, two different projects. You can make it simple,
+
+but I mean, once you solve that problem, once,
+
+you can have arbitrarily many microservices popping up.
+
+And if you're viewing the world as going in
+
+that direction, it's a great problem to solve now
+
+with a problem that you already understand really well.
+
+Frontends and backends.
+
+Additionally, this is not a frontend versus Rails talk.
+
+It's an and. We love Rails. We use Rails
+
+all the time for our services. And lineman and
+
+Rails play together really nicely. We've got a gem
+
+called Rails lineman and lineman plugin called lineman-rails. You
+
+install both those things and you just magically, everything
+
+gets auto-configured. And, and your development story is great
+
+and assets precompile is just wrapped with a lineman
+
+build first.
+
+You can learn more about that at linemanjs dot
+
+com dlash rails dot html. And we have this
+
+fantastic little documentation site put together for us by
+
+Derrick Briggs from neo. More recently, you can actually
+
+see me do this myself, live coding, unedited, in
+
+an Ember screencast that I did - how to
+
+get setup, like we would setup a project. And
+
+that's at our blog. It's the current, most recent
+
+article. So just hit the blog dot testdouble dot
+
+com and you'll see the, the embedded screencast.
+
+It's a fantastic tool. We love working with it.
+
+I also, real quickly, I just want to thank
+
+my friend Marissa Hile. She's a visual designer who's
+
+available for contract. She did all of the good
+
+illustrations in this talk. And, and, you know, we'd
+
+love to help you. If these are problems that
+
+are, that are, that are new and hard for
+
+your team, let us know. You know, we are
+
+consultants, and we'd love to like, engage with your
+
+company and, and, and work on great stuff alongside
+
+you, but we'd also just love to answer your
+
+questions, because I think we want to all make
+
+an impact and, and move the conversation forward.
+
+Also, like everyone else at RailsConf, we are hiring.
+
+Just set an email to join at testdouble dot
+
+com and we'll respond to you promptly and have,
+
+start the conversation. Also, a couple of my fellow
+
+double agents, Todd Coffman and Zack Briggs, are giving
+
+a, a workshop this afternoon on JavaScript testing. I
+
+think they'll probably be using lineman. So it might
+
+be a good place to practice both of those
+
+things.
+
+And I want to thank you. You know, please
+
+reach out. I'd love to hear from you. It
+
+was an absolute honor and a privilege to get
+
+to speak to you today. Thank you very much.
+

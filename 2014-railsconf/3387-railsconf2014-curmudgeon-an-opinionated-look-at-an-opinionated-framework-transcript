@@ -1,0 +1,265 @@
+RailsConf 2014 - Curmudgeon: An Opinionated Look at an Opinionated Framework - Ernie Miller
+
+ERNIE MILLER: Good afternoon everybody.
+
+AUDIENCE: Good afternoon.
+
+E.M.: How's it going?
+
+AUDIENCE: It's going good! Hi Ernie!
+
+E.M.: Hi. My name's Ernie Miller. I work for a company called Appriss in Louisville, Kentucky. Please ask me about them later so that I can justify expensing the trip.
+
+AUDIENCE: Whoo!
+
+[applause]
+
+E.M.: If I could ask you all to do me a favor, as it turns out, most of my fellow co-workers that had come out to RailsConf have had to catch a flight to go back home, and so they're missing my talk. And so what I'd like you to do is to Tweet very enthusiastically about the talk, regardless of if it's very good, so that, you know, for at least until it goes on video, they're gonna think they missed the talk of a lifetime.
+
+So, RailsConf, huh? Have you guys had a good times?
+
+AUDIENCE: Whoo!
+
+[applause]
+
+E.M.: Yeah? Yeah.
+
+I've had a ball, too. I've had a ball, too.
+
+So.
+
+AUDIENCE: Ah, yeah!
+
+E.M.: I am not.
+
+AUDIENCE: [indecipherable - 00:01:10]
+
+E.M.: Yes. Yes it was.
+
+So, I am not a member of Ruby core. I am not a member of Rails core. However, last month, this game came out, and I'm an avid gamer, and I'd like to happily report that I am very frequently a member of Damage core, at this point.
+
+Unfortunately, membership only lasts for about fifteen seconds at a time. Then I get booted again. So, so there is that. But, you know, I'm thinking, you know, it's, it's moving up in the world. I'm a member of something core.
+
+So, so, it's come to my attention recently that I have been giving a fair number of talks that usually involve me ranting about something, and I think I'm becoming a bit of a curmudgeon.
+
+[applause]
+
+So, you're not supposed to clap for that.
+
+[laughter]
+
+OK. So, one of the things that I want to start off by doing is saying that I recognize that most of us would not be in this room if it weren't for Rails, and that we really owe a lot of our opportunity to get paid for doing Ruby, I know I do anyway, to Rails's existence. So, first off, I'd like to get a hand for Rails and how awesome it is and how it enables us to do everything.
+
+[applause]
+
+OK. OK. Nope. Nope. That's enough. Nope. No more. We're done celebrating.
+
+[laughter]
+
+Just that much celebration. Nothing more.
+
+[laughter]
+
+OK. All right. Stop the part.
+
+So. That. That gets me every time.
+
+So, that being the case, I, I have to say, a lot of us have been hitting brick walls. How many of you have been building something relatively complex with Rails, and you sort of feel like you've, you've gone up against a brick wall. You can't make anymore forward progress and you feel like you've been kind of, you know, so- yeah, OK. So some hands are going up right.
+
+And, and, and so it seems to me, like, if there is that much talk about it, you know, it seems like we often get the response that, you know, we just need to run with more passion at the wall. Run faster. And, and if we just fully commit that we'll burst through and we'll be in this sort of magical land where everything works the way that it's supposed to, and just don't fight so much, right?
+
+I have to think that if so many of us have kind of run into these sort of problems, that maybe there's something there. Maybe there's, there's some kind of an issue there, and I wanted to give a few opinions about, you know, why that might be.
+
+So, Rails is a convention over configuration advocate, right. That's, that's the big thing that we always talk about, that we would prefer to have convention over configuration. Now, conventions are really what, what opinions want to be when they grow up, right. So, most conventions have stemmed from an opinion. We hopefully share the opinion, but I want to be clear that, when I talk about the opinions that Rails has today, I am not talking specifically about any members of the core team. I'm not talking about the people, though the software may in fact reflect opinions of people, what I want to talk about is what does the software tell us, right?
+
+Because we know that Rails is opinionated software. So, with that out of the way, let's go with the first opinion that Rails, Rails has, that I believe Rails has anyway, which is that code should read like English. And we see this pretty frequently in comparisons between straight-up Ruby versus Rails kind of code, right, so.
+
+Here's something that a lot of us actually like. Like, I know this is one of the things that hooked me on Rails right off the bat, was like, oh, I can say, like, five dot days ago, or, you know, because I'm writing something in old English, I can say one dot fortnight.from_now. That's very useful. Right.
+
+So there's nothing particular, when we say like, one dot megabyte, right, there's, there's nothing megabyte-y about the number, right. It just does some multiplication.
+
+Similarly, we have some, oh yeah. Fortnight. Yeah. Similarly, we have some differences where we have something that array already has, for instance, on it, like the sh- I just found out it's called the shovel operator. I always just said less than less than, but whatever it is, right. So we have, like, array less than less than object, right, and we've, we've got that alias to append, so that we can say append.
+
+We have object dot in, so we can ask whether an object is in an array include of ask an array whether it has an object. Things like that.
+
+We have string methods that have been, you know, kind of patched in for, for instance, the string inquirer. That's one of my, one of my favorite ones. Right in the middle there, we have a check on the left. In Ruby, you simply ask if the environment string equals production. But in Rails, there's a thing called a string inquirer, which simply patches method_missing so that you can actually say, OK. Is the string actually containing the method that you just sent minus the question mark? And so, that's really all its doing - the thing on the left.
+
+Here's another one. So, in time, we can say beginning_of_day, we can say midnight, we can sat at_midnight, we can say at_beginning_of_day. We can say midday, noon, at_midday, at_noon, at_middle_of_day, right. They're all the same thing, and yet there's this really clean API that's exposed this whole change thing, right. It's fairly discoverable. Like, I could make a reasonable guess that if I said change_minute to something, or if I said change any piece of the time to something, it would be able to do exactly what I ask it to do just then. But instead we have these, these aliases that allow us to write code that's like English.
+
+Now, when I go into a coffee shop and I want something that's got a high caffeine content, I may order one of these. You all know what this is, right. This is coffee brewed by forcing a small amount of nearly boiling water under pressure through finely ground coffee beans. And that's what I go up to the counter and ask for, right.
+
+Nope. You know. They'd probably go, you mean an espresso, right? Because espresso is what we call a loan word. We borrowed that word from Italian because it was concise, it was a good way to say what it was that, that we wanted to say without all of those words, right.
+
+Ruby is a language in-and-of-itself. It borrows from English where it makes sense. But it is my opinion, anyway, that if there is a concise way to say something in Ruby, we don't necessarily need to borrow a loan word in English. You know how you sit across the table from that guy who always like to use a foreign word for something just to sound clever, right? Right. That's what we're doing, right. Like, it doesn't make a lot of sense.
+
+Now, here's one you may initially disagree with. I believe that Rails believes that models descend from ActiveRecord, or at the very least an ORM. Now, if you disagree with me, I have three words for you. Rails generate model.
+
+What do you get? You get an ActiveRecord subclass, right. Now, you might say, well that's silly, right. But this is the first exposure that Rails developers are likely to have to what goes in a model's directory, and I have talked to extremely smart developers who have told me that they went a number of years before they realized they could stick plain-old Ruby classes in app models, because they just thought that, that's not what models are. Right?
+
+And so, rightfully so then, Rails believes that the data is the domain, right. That's the ActiveRecord pattern. That's the whole point of it. And if you don't believe me, I'll show you some README information, right.
+
+The prime directive is that we're minimizing the code needed to build a real-world domain model. Lots of reflection and runtime extension is the understatement of the year. And magic is not inherently a bad word.
+
+Now, what this really comes down to is, is Rails was very much a reaction to very configuration-heavy frameworks in Java, XML files and the like. Big reaction to that, right. So what we had determined at that point was that configuration is the devil, right. And once you have, once you have determined that there is a greater evil out there, then a lot of lesser evils start to seem pretty great by comparison, right. So you can rationalize yourself into a really tricky spot.
+
+And so, our goal is to be able to write class Post inherits from ActiveRecord::Base end and have magic happen, right. Like, for instance, we infer, and I want to talk a little about, about one thing that we do in that case, right. We infer what the attributes should be on that, on that model without writing a single line of code.
+
+Now, there's a problem with that. Namely, that in order to infer the attribute names, you must first invent the universe. So I want to walk us through what that looks like. We're gonna do one deep dive into some Rails internals, and then I promise we'll come back up for air and we'll, we'll talk about happy things.
+
+So, so you might imagine pretty, pretty early on, that we're gonna go ahead and initialize a module, and we're gonna actually have a module to store our attribute methods in. That's actually something I kind of like, right, because as a Rubyist, I expect to be able to call super if I define my own method on the class, so that makes a lot of sense, right.
+
+So if we look at what happens when we generate the module, we have a new anonymous module that extends Mutex, cause we don't want to be modifying the module from two different threads.
+
+And, then in method_missing, we have this handy little hook that defines the attribute methods, right. And so, in method_missing, we call this every single time, right. And the idea being that once we've defined the methods, they're, we're not gonna hit method_missing, at least for those methods anymore.
+
+And so we bail out, if, in fact, we've already generated them. And we call super with column names, right. Now, where do we get column names from? Well, it's not there. In fact, method_missing was the only thing that actually sits on, on the instance level. The rest of the stuff that we're gonna be looking at sits on the singleton. It sits on the subclass of ActiveRecord itself as a class method.
+
+So, when we call super, we're actually calling super into ActiveModels. Definition of defining attributes, right. So we're saying, define attributes methods from ActiveModel. We're passing it the column names. So here's column names. Well, column names is, again, a singleton method. It knows that it needs columns, right. And below here, we have columns.
+
+Well, columns needs the connections, for starters, to the database to talk, to figure out, you know, what table it's gonna read from. And it also needs to determine table name, right. So now we need to know the table name. So we don't have the table name yet, so we call a reset table name, and most of the time I'm gonna skip past some of the, some of the more convoluted things and just talk about the compute table name, right. So we have to compute the table name. It makes sense, right?
+
+So, this is kind of a big method. Hopefully you all can see the, the part that matters, which is we call undecorated table name with the, again, we're sitting on the class. So name refers to class dot name, right. The string name of the class. The full module name.
+
+And, undecorated table name basically does exactly what you see here. Let's say we have a namespace model, Conferences::RailsConf becomes RailsConf becomes rails underscore conf becomes rails_confs, OK. Which is great. And then, of course, if we have Animals::Moose it becomes Moose it becomes moose it becomes mooses. Which makes lots of sense, right?
+
+Well, that means we need to handle irregular pluralization. So we check and we see whether or not there's a default pluralization to find for moose. There is not. There, there, there are some interesting ones, I think. We've got, like, sheep. We do have sheep, so we're at least in the ball park. We have jeans. We have fish. But we don't have moose.
+
+So, we go into an initializer and we set inflect.uncountable "moose" and then it works, right. But. Configuration. Or we can say self dot table_name equal 'moose' and then bypass all of that altogether, right. But, again, configuration.
+
+Now, if configuration is the devil and magic is the goal, then we have to think to ourselves, what is, what is magic, really? And, and an enjoyable magic trick is basically willful suspension of disbelief, right. So, that is, if this magician came up and said, I'm going to saw my assistant in half, and you didn't think, there's a trick here, like, it's based in the rules of reality, like, there's something going on. It would be pretty horrified, right. We'd be like, I don't be- where have I gone? Like, what is going on here, right?
+
+And so there is this level where we would do better to consider, how can we root this kind of magic in some reality that the average person is going to be able to understand? And then kind of build on that knowledge, sort of scaffold, if you will. And, otherwise, you end up with what I, what I referred to as douche bag magic, which magic that bites you, magic that screws you over in all sorts of wonderful ways.
+
+So, let's imagine, for a moment, a world, a world where we do have magic that we can understand. And, so let's just say we have ImaginaryRecord::Record that always asks us to configure a table name. That always asks us to define the attributes in a very mapper style, data mapper style. Right?
+
+Given an attribute name, tell it's how its to load the attributes. Tell it how to load the attributes. Maybe some other stuff. We don't, we're just, we're imagining here, right. We're, we're just in your imagination.
+
+And then let's say that we have a MagicRecord that inherits from the ImaginaryRecord::Record, and does all the same stuff that we did before, except it calls these methods on the class in order to set the table name programmatically, in order to set the attributes programmatically, right.
+
+Well, that would be pretty cool. We would have to make some trade offs, but we'd basically get to the point where we could do something like inherit from MagicRecord and get the exact same behavior as we wanted. But as a freebie, now we have the ability to drop down another layer, if we want. And to actually define this stuff with less magic.
+
+And you say, well that's great. So that's attributes. We kind of understand that. That's pretty simple, right. Big whoop. ActiveRecord also does all these other things, I mean, you know, it's got like attribute typecasting and associations and serializations and secure passwords and transactions and macro reflection and nested attributes, time stamps, lifecycle callbacks, validations, dirty tracking, mass assignment, sanitation, to name some, and oh, by the way, we have querying and persisting, right. That's kind of a important thing in a persistence library.
+
+And so, I say yeah. Yeah, exactly. That's. That's an interesting problem that we have, right. Because they're all kind of living in one place, and how do you expose this kind of interface, this kind of way of interacting with, with your library, to cover all of these things. And my answer would be basically that you, you don't. You, you allow this to tell you maybe I've got a crazy idea.
+
+So, this is the ancestry chain of, of an ActiveRecord::Base subclass. I just wanted to show it to you real quickly. Now, yeah. Yeah. Three cheers for the, for the ancestry chain of ActieRecord::Base. So, somebody's clapping. Oh no. Right.
+
+SO, in Rails we call this clarity. You may have heard that earlier. Because API surface area is irrelevant. We don't care about that. In other words, the Single Responsibility Principle is super simple for sufficiently large values of responsibility. Like, if you're responsibility is to do everything, then you just say, OK, gotta do everything. It's gotta work, right. That's my responsibility. Well, it works. All right. Done.
+
+And so awhile back, actually last weekend, I Tweeted some of these statistics about an observation on an, a brand new Rails 4.1 app, what a subclass of ActiveRecord has, what the view has, and what the controller has in terms of ancestors, public protected class methods, public protected instance methods, and same for private methods, right.
+
+Now, look. It may very well be that this is exactly the API size that we need. I'm not gonna argue that one way or the other right now. But what I will say is that there are other ways to get there. Just because we want these methods does not mean they all actually have to be implemented in modules that are included onto the class.
+
+And so what I'm getting at is that, it's very, very hard to keep track of just what you're doing. I've been writing Rails for over seven years. I'm not exactly sure how long at this point. But, I know that, since I've been doing it, I still have to have documentation open most of the time when I'm doing anything serious. Like, maybe I'm just dumb. Possible. I don't know. But I need documentation. It's a really big namespace to try to keep in your head all at one point.
+
+So, this is on, online at GitHub, and you are free to do science to verify my empirical observations and see whether or not they are accurate, and I would love to see PRs to this repo, actually, with, you know, different versions of Rails to see how things have changed, complexity-wise.
+
+Now, it's not enough really for ActiveRecord to just do this on its own. It actually encourages us to do this, right. Rails has this whole helper thing, right. And, let me give you an example of something I actually encountered and, I'm embarrassed to say, spent like half a day trouble shooting with the, with helpers.
+
+So, I decided I had a really great idea, and I was gonna use something that I heard that OO developers like to do, which is polymorphism, and use it at the view layer, right. And I'm like, I can have something that is summarizable, and so I might have a helper for posts that's summary, and I might have a helper for reviews that's summary.
+
+And I can share a partial that prints that summary in an appropriate way for that particular thing, right. That seemed pretty cool. So this is how it would look in a partial. And in development it worked wonderfully. It worked exactly the way I expected. And then I deployed to production.
+
+Now, how many of you think it worked? Right. How many of you think it didn't work. Well, it's kind of a trick question, because honestly you can't really tell me, because you don't have enough information right now. Because there's this thing, right.
+
+OK, so, seven years ago, there was a commit to Rails that said, we are going to make it default assumption you want all helpers all the time. No comment.
+
+And, for a long period of time, I'd like to imagine it was some kind of a dark age in Rails. There was really no way to opt out of this, per se, until a patch came in that added include all helpers as a configuration option. So I thought, this is great. I found this, now I found this after hours of searching, like, because I just somehow missed the memo that we had done that. It was way back in 2.3, like, this has been the way for awhile, right.
+
+But, like I just kind of assume, like, it's named post_helper, it should help posts. Not, like, other things. But that's not how it works. So there's this kind of big namespace, right. And so, I would recommend that nearly all of you consider adding this to to your application dot rb. You will be much more sane for it. If you're going to use helpers, at the very least, having a namespace that you can kind of control. If you want to be available to all controllers, then throw it in application_helper or have a module. You can still use modules, I hear. It works.
+
+Now, we did all this in the name of convenience, right. Convenience is, is going to trump everything else. We want convenient usage at expense of anything else. And, you know, so I own a house. And I think to myself often that, you know, when nature calls, I have, like, to get up and like, go to a special room to go do my business, right.
+
+[laughter]
+
+And I mean that's really inconvenient. So like, why don't I just install a toilet, like, in every room in the house, right? Because then, like, if I'm watching the tube, it doesn't matter you know. Do my thing. It's all good. but the problem with that is, right, that first off, you've got, like, plumbing now to help support this, this aspiration of having a toilet in every room. And plumbers are expensive and, like, stuff breaks and then it's like, I've got a leak and I've got damage and stuff, and then the other problem is, like, every room is a toilet, right.
+
+So, I would encourage you to consider that if this is kind of what you're looking for, if a giant namespace of, of, of methods and functions is what you would really like to have, then have I got the language for you.
+
+It is super convenient, like, everything is at arm's length. What's that? You want to do something with a string and an array, yeah, doesn't matter. MySQL, sure. Absolutely. I mean, just a thought.
+
+So now another, another Rails opinion is, who needs classes when we've got modules? And I say this primarily because of one interesting piece of code, which is ActiveSupport::Concern. So, ActiveSupport::Concern you may think is mainly for having a convention around having a class methods module inside your module. And instance methods and so forth. But it's not.
+
+The problem the it's designed to solve is that, in this world, the Ruby world, the one that we live in lots of times, we, we actually would have to include. There's a lot of extension onto a class, right, when you include a module in the Rails world. Like, a lot of the modules that Rails is built on go and do metaprogramming and add methods to the singleton or whatever onto the class itself, right.
+
+And if you're adding stuff to the singleton, then it's not sufficient for you to go ahead and, and do that in a module that is itself included, right. Because when it gets included in the module, it modifies the module singleton, not the class singleton. With me so far?
+
+Right. This is a huge problem. So. So let's solve it. Now, we have this ability to have dependencies that get trapped by ActiveSupport::Concern, so that each singleton knows what, what its dependencies are, and then at the time that you include the, the dependency that you're really looking for, it can also go back and include into your module all the other ones that it needed, and so then that way they can do their metaprogramming magic on your singleton instead of their singleton.
+
+It's great. And it's, you know, so what it is is that there was this, this, this problem. There was this problem that we had. And, you know, we decided to bundle a, a, a free razor with every yak. And, I mean, I guess that's one solution, sure. And so, so I've been thinking a lot about this lately.
+
+And one of the things that sort of bothers me is that, you know, we're regularly told not to, not to fight the framework, right. But our framework pretty actively fights the language. There are things that the language is saying, hey, this might be crazy. Maybe you don't want to do this. And we're like, I won't do what you tell me.
+
+I will do exactly what I want to do. And it encourages this, this kind of module-centric design. Limits the entry points that we can have. So, you know, Yehuda made a really great point, actually, when he talked about that we're kind of on the 400th story, right. And, and I agree. We are, we are like way up here in terms of abstraction.
+
+But, like, I've heard rumors that, like, maybe, on most buildings, like, those other floors like have people in them, and like, they do things. And like maybe you can not just be trapped on the 400th floor forever, but maybe you want to like go down, cause like, I heard, like, on floor 350 there's like an ice cream store, and like, I like ice cream. Right. So maybe I want to go down and have some ice cream.
+
+But, like, I can't. Because I could only do things with things that are instantiatable, right. And if everything is a module, I'm not instantiating that. I guess I could write my own class and include half of what's going on, but that seems like I'm just perpetuating the problem.
+
+So, here's another, here's another Rails opinion. Rails believes that your conventions suck. First example is, now, I know it's gonna be hard for you to believe, but there were conventions for building applications before Rails came out. Like, people were actually building - I know, it's a little weird. They were building web applications, and, and one of the things that they used was JavaScript, right.
+
+Now, love or hate JavaScript, it, it, it's here to stay at this point. We, we, we're gonna be writing it. And so, Rails, once upon a time - you guys remember this? You remember this? Like, let's, so. If this was before your time with Rails, we had, we had this great idea, right, which is, JavaScript's a pain to write. And let's write Ruby that writes JavaScript instead. And so we called that RJS, and you could write these, there were these methods that if you said page dot whatever, it would generate some JavaScript. And you could go look at the JavaScript and it was, you know, about what you would expect generated JavaScript to be.
+
+And then we decided, you know, OK, maybe that was crazy. But we're still not happy with the whole state that we have to write JavaScript. So we decided to use JavaScript that looks like Ruby, right. OK. Great. All right. Fine. I can see that.
+
+And then, at that point, now, we were at a point where there's this other convention, where like, if you're using jQuery, and many of us are, like, let's say, let's say that I want to render, I have decided I'm gonna be on the straight and narrow, I am going to render my, my, my views in Ruby. I want to render static html that I spit out. But I need some dynamic parts, and so I'm gonna render some, some JavaScript as well that's gonna do some things, right. Use jQuery.
+
+This is a pretty standard convention, right. I mean, how many of you have this exact code in your code base somewhere, right. If you're not raising your hand, I'm very shocked. So, we thought, you know, that's, that's great. It's really cool to be able to hook into $(document).ready and do some stuff. And so, so Rails said, that's a horrible idea.
+
+You should use Turbolinks. And so now, look, you can yank Turbolinks out of your gemfile and that's true. You can do that, right. But it's my opinion that convention should probably not completely break someone's expectations if they're doing server-side rendering, and this is something that you, you are going to run into if you're just starting out with Rails. You'll be like, well, why isn't this doing? Well, we don't fire. We don't fire the doc.
+
+No, there are, there are other gems that will make this seem like that is not the case. But the fact of the matter is, it's gonna bite you. So, so Rails said, you know, we have opinions about how you should write JavaScript.
+
+Rails has opinions about how you should maintain data integrity as well. And so in the Rails world, this is a typical, typical way to handle some, some validation of data integrity, right. Maybe you make sure that you have a customer, and you need a unique reference number, and you have a typo there.
+
+validates_associates. Validates :associates and :line_items, right. And you won't save an order unless its :line_items are valid. And that's really interesting to me, because objects, unfortunately, you know, they don't really understand their relations to other things very well, because those live somewhere else. They're in the data store separate, right. And, you know, I, I really think that it would be great, like, if there was some sort of a system that we could use. So, like, I don't know, it would be like a system for managing, I don't know, relational data, maybe? I don't know.
+
+It would be great if we had one of those. And it turns out that, like, we do. And they are, like, super good at understanding relationships between data. And they are super good at, at validating the data that goes in and out and ensuring that things are atomic, right, and that, that our updates are not gonna run into race conditions and the like, right?
+
+I mean, and I'm talking about, even the, let's say, less than civilized versions of databases, those are, those are also able, able to do pretty well at this. Because, Ruby, the Ruby land has to cross a process boundary to know any of this stuff, and that's pretty lossy, really.
+
+So, I don't think it would be fair, you know, I've griped a lot at this point about a few of the opinions that I think Rails has, and I feel like you came here hoping that I would offer you some solutions, right. I want to show you some solutions that I've found. These are my solutions. They look pretty nice, I think.
+
+Science.
+
+No. So, I've been doing this thing lately, and I'm calling it IDD. And that stands for Ignorance-Driven Development. It's really blissful. And it's this, this crazy idea that, like, maybe starting with Rails g model, like starting out thinking about your persistence, is maybe not the way to go.
+
+If you're thinking about your persistence for - I mean, I can tell you, all right. Raise your hand if you have stopped to consider what your database scheme, schema is gonna look like after you've typed Rails g model, and you're just kind of frozen there, like, crap. Analysis paralysis sets in, right. Because, like, migrations are a pain and databases are, ew, yuck. We want to do everything in Ruby, right?
+
+And, and so that's a problem, right, because I don't necessarily know what the best way to store my data is off the top of my head, right? I may find that out as I go. So here's a crazy idea.
+
+Start with Ruby and ignore persistence, off the bat. Like, probably that is not your domain. Your domain is not to be a CRUD app. Most of us here, anyway, our domain is not to just be a CRUD app, right. We have some business logic.
+
+And after you start with Ruby, then you start to identify the scary things, right. And this is like the part of our domain that we're really scared we're not gonna be able to implement. Like, what is the thing that's gonna be super hairy, that we're just kind of like, afraid to tackle, right. And removing the, like, the analysis paralysis that can set in when you're trying to figure out where your, what your data's gonna look like, while you're just kind of playing around with, with an algorithm, is great, because it gives you this sort of power to attack the scary things. You can do, I know it's crazy to say, some TDD and attack these scary things.
+
+And it's, the cost of experimentation is a lot lower when you're not messing around running migrations. You're just running super fast tests. Everything is really nice. And you validate that the business logic that you're trying to write is going to be sane before you go any further.
+
+And so, so what that might look like, for instance, is let's say I have a monster class, right. I simply give it some teeth and some claws, right, and it can bite and it can scratch, and I write my test. And let's just assume that biting and scratching is a very, very difficult thing for a monster to do, right.
+
+And, and so it starts out that way. And you gradually iterate on the things that you want your monster to do, right. And then what you find out is that, eventually, after having iterated through maybe, maybe many, many iterations on what this class looks like, what its collaborators might look like, you get to a point where you're like, OK. I know how to make this monster now. I know how to, how to tackle it, right.
+
+And now is a time for you to admit persistence. Right, now you start to think, OK, well, I've gotta persist this stuff somewhere. I have some, some things about this business logic that are gonna require me to save some data to the database. And so you decide, well, what database am I gonna use? Or is it gonna be NoSQL or is it gonna be SQL or is it gonna be, I don't know, something in memory? Right.
+
+And then from that point, let's just say you decide, well, now I'm gonna do some ActiveRecord. And so you say, all I do is now inherit from ActiveRecord::Base. The teeth and claws are no longer supplied via injection. But instead they come from relationships in some way, and we maybe have determined that we require that we have teeth and claws.
+
+And then, you guys are gonna think. You notice there's no methods here, right. Right. No methods. It's not doing anything yet, except the ActiveRecord stuff. You're gonna think I'm trolling you. But here's what I've started to do.
+
+I use modules. Now, the way I see it, you know, in firefighting there's this thing called a back fire, where it's like, OK, so, when they say, like, fight fire with fire, that's actually a thing. And like, I'm like, you know what, Rails, if you really wanna burn the whole place down, that's OK. I got my own little fire going over here. And it's gonna, it's gonna allow me to have some semblance of order. And let me show you what that looks like. And before you think that it won't work, I can only just say that it has worked for me. Give it a try. Strangely, I'm not going to prescribe that it's gonna be the solution for everyone. I know that's kind of the hip thing to do is to say, like, my solution will work for you. But it worked for me.
+
+And what it would look like is this. So I now have behaviors that I expose in modules, right. These behaviors are specifically intended to provide one isolated thing, one isolated capability to the persisted record, right. And so in this case, like, here is the biting module, for instance, right. And it knows how to bite. And let's say this is after we have developed all of our, all of our stuff in plain Ruby, right, this is what we landed on for what bite need to, need to perform, right.
+
+And so once we've done that, we can write a class, you know, we can actually just test against the class that limits the API service that our behavior interacts with. This was the goal. Like, this is why I do this at all, is because thinking about how I'm gonna interact with this, like, essentially infinite API that, that a lot of, a lot of Rails provides, particularly ActiveRecord provides in this case, is, is too hard for me. Cause I'm dumb, OK. So, what I need is some help to help me just be able to see into the test. This is the part of the API I care about.
+
+And you may be concerned about this. You may say, this looks a lot like ActiveSupport::Concern. I can understand why you would say that. Let me show you why that's not the case. So, earlier we talked about how ActiveSupport::Concern's primary goal is to solve the problem of modules that depend on other modules that modify their base class, right.
+
+The intention in this, and that might look like this. Like, let's say now there's like a whole fighting behavior that might bite and might scratch, we don't know yet. There may be some probability associated with it, that against a particular target or maybe more than one target or whatever, and so it sort of has this dependency, not just on the API that the class that it's being included into has, but also the stuff that's getting included into that class already. So it expects bite and scratch, which are provided by other two behaviors. So, that kind of thing becomes actually painful. That actually becomes painful when you're not using ActiveSupport::Concern.
+
+And so, what you actually have here is a canary in the coal mine, a sentinel animal, right. It's, it's something that's telling you, there's this thing that's doing more than one kind of thing that's more complex, right. And it really isn't fully encapsulated in the stuff that I've got so far. And it leads you to understand that maybe there's another thing. Like maybe there's an encounter, right, and it might include one or more combatants that select targets and do one of their actions, right. Either bite or scratch. All right.
+
+So, to kind of start to sum things up, it, we, we, a lot of us work in the startup world, right. And it's really frustrating and surprising to me that we embrace this idea of a minimal, minimum viable product in the startup world, right. Build the smallest thing that could possibly work and then go from there.
+
+I, I kind of feel like in software, the whole goal, really, is to make as few decisions as you possibly can in order to make, get the desired result, right. Every decision you defer till later is going to give you some capability to be able to react to change, right. So I would like to see us, both in Rails and in the software that we write, start off with fewer opinions. Start off with fewer assumptions. Make sure that the floors that we build have a purpose. One great way to do that is to make sure that you can instantiate a lot of the things, right.
+
+If you can instantiate a lot of the things then they must have a purpose that we can reason about. We can think about. As opposed to, well, they might modify five hundred methods on another class. And in general, just be a considerate software writer.
+
+Thanks for your time.

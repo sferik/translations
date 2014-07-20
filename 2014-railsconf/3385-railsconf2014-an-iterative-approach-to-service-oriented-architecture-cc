@@ -1,0 +1,1418 @@
+RailsConf 2014 - Iterative Service Oriented Architecture - Eric Saxby
+
+ERIC SAXBY: Thanks for coming.
+
+So, I am Eric Saxby. Today I'm gonna be talking
+
+about iterating towards service-oriented
+
+architecture. I may have time for questions
+
+at the end, but I may not.
+
+This might go forty minutes,
+
+so I'm just gonna get started.
+
+So, if you're like me, you can't really pay
+
+attention in talking about programming
+
+unless there are pictures
+
+of cats. So really, we're going from this to
+
+something a little bit more like this. But working
+
+together, as a family.
+
+So why should you care? Why should you listen
+
+to me? So you may not know this, but
+
+I'm kind of a big deal. But, but really,
+
+I've, I've actually not been doing this for that
+
+long. I've been doing Rails for about six years.
+
+Before and after that, I had been using various
+
+different technologies. And I have been fortunate to work
+
+with some very smart people and be able to
+
+learn from them and to break a lot of
+
+things really quickly. And right now I work at
+
+Wanelo. Also, I'm trying to collect all of the
+
+buzzwords on my resume. I have more. I have
+
+more than just this.
+
+But, so, why is Wanelo important? We're like a
+
+social network for shopping, but really it's because we
+
+have many millions of users, active users, and databases
+
+with billions of records. And we've gone through the
+
+pain of getting there and keeping the site actually
+
+running. So, you can save any product from any
+
+store on the internet into your own collections and
+
+have your own wishlist. That's what we do.
+
+More importantly, we've gone from having this as one
+
+main Rails application, doing all of this, to a
+
+central Rails application that's still fairly large, but supported
+
+by a lot of services. We've done as much
+
+as we could open source. Some of the, the
+
+business domain logic, it's really hard to open source.
+
+But, but we try as much as possible.
+
+We've done almost all of this in Ruby, including
+
+some things that people who prefer other languages say
+
+can't be done in Ruby. And we've done this
+
+with a very, very small team very quickly.
+
+If you're like me, though, you're really not so
+
+interested in the success story as you're interested in,
+
+how did you screw up, how did you, how
+
+did you break. So, let me take you on
+
+a journey to another company that a friend of
+
+mine once, recently, called "The Anti-Pattern Goldmine." Completely hypothetical
+
+company. Not naming any names. That I may or
+
+may not have worked for. Some of you in
+
+the audience may or may not have worked for.
+
+After some of this story, you might think you
+
+did. Come in, it's a startup. It's new. Small
+
+team. And come in and say, wow. For a
+
+startup, you have a lot of code that's really,
+
+really tangled. It's all Rails 2 code base. You
+
+know, if you remember vendoring Rails, we, we did
+
+that. If you remember how vendoring Rails can go
+
+wrong? Yeah, yeah. Yeah, that was there. That was
+
+there.
+
+And I think a lot of this might have
+
+come down to the fact that at least early
+
+on, success of a product, success of a feature,
+
+really was launching it as quickly as possible. And
+
+no, no, no, no. Don't worry about that stuff.
+
+Don't worry about design. And we have thirty engineers
+
+doing that as rapidly as possible. Like, five or
+
+six teams all doing that as rapidly as possible,
+
+trying to get it into production. And releases were
+
+a mess, you know. I'm sure a lot of
+
+you can relate to this. Deployments. Multiple hours with
+
+all of this engineer, all these engineers trying to
+
+put all of this code in as quickly as
+
+possible. Invariably, deployments went wrong.
+
+And eventually this got a little bit faster from,
+
+from monthly releases to weekly releases. But then we
+
+would have code freezes, where for three months, everyone's
+
+trying to cram in all the features without deploying,
+
+and you can imagine where that goes.
+
+And, over time, really, things are just getting worse.
+
+We, our rough estimates that we're trying to give
+
+to see how long things are gonna last come
+
+back, and we say, oh, that means we were
+
+deploying on this date. You know, hey, we told
+
+the board, great. That's awesome. You're gonna deploy on
+
+this date. Ah. Whoo. With a deadline like that,
+
+the only really way to meet it is to
+
+make serious shortcuts. And then as soon as a
+
+product finishes, because we're invariably missing those deadlines, and
+
+there's the next project that is supposed to be
+
+out in, in a week, based on the estimates
+
+that you were supposed to do. Team gets dispersed.
+
+Finish these new projects. And no matter how worse
+
+case we are in our estimates, it's just never
+
+worst case enough. It just, it just keeps getting
+
+worse.
+
+So some of you might, might be familiar with
+
+this story. So, during the course of this, I,
+
+I, I, I think I've learned a lot. You
+
+know, programming is one of the most fun careers
+
+that I've, that I've had, and when it's not
+
+fun, you know, you know something's wrong. And keep
+
+reading about service-oriented architecture, and, you know, a lot
+
+of us latch onto this. This is the solution
+
+to all of our problems. And you know at
+
+dev ops, that's pretty cool over there. You know,
+
+dev ops is the answer. That's how we're gonna
+
+do services. It's just gonna, it's a done deal.
+
+All we have to do is do services, dev
+
+opsy, and like, we're done.
+
+So around this time, I move into the operations,
+
+not, not the operations team, cause dev ops. Not
+
+the operations team. Not the team over there that
+
+you just throw the things over the wall and
+
+they just make it work. No, no, no. Not,
+
+not the operations team at all.
+
+And certainly me, a number of other people in
+
+the engineering team, I, I could say, really decided
+
+services are the only way forward. And really quickly,
+
+product, and, and I don't mean an individual project
+
+manager or anything like that. By product, I mean
+
+really, all of the people, all of the teams
+
+going into designing the product, planning the product, really
+
+how it was going forward, they quickly come to
+
+the conclusion that services are really just that, just
+
+that, that thing getting in the way of us
+
+cranking out these features. Cause features is success.
+
+But at first, if at first you can't succeed,
+
+I have, I have, I have learned, you know,
+
+there's, there's a few things. You can take a
+
+firm stance, breathe deeply, and become the loudest person
+
+in the room. Really, really helps. Also, if there's
+
+anything that I've learned from my cats, it's throw
+
+shit, you know. Done. It really, really helps in
+
+situations like this.
+
+So, we, we have a few things coming up.
+
+A few products. These, these aren't necessarily concurrent, these,
+
+these features. These projects. But we have a new
+
+login feature and login, in this application, is as
+
+homegrown as you could possibly imagine it could go
+
+wrong. And it's this core, core login functionality, and
+
+we're like, no, no, no, no, no, no. No,
+
+no, no, no, no, no. That's not going in
+
+this code base. That's gonna be a new application,
+
+we're. That's the only way we're gonna do this.
+
+Otherwise we're just not gonna do this. It's gonna
+
+fail. We know it's gonna fail. So let's just
+
+skip to not doing it.
+
+And, also, we have this enterprise software over here,
+
+and we have this homegrown Rails application, and all
+
+the data really needs to kind of be synced
+
+between it in order for the company to actually
+
+work. So a lot of iterations on this, but
+
+really this time, we're gonna do it right, and
+
+it's gonna be a, a data service. We're gonna
+
+have our Enterprise software in our Rails app and
+
+that is totally just gonna make this an Enterprise-Rails
+
+app. It's gonna be amazing.
+
+And I remember saying this a lot to a
+
+lot of different people. Like, we're gonna screw this
+
+up. We're gonna fail. I know we're gonna fail.
+
+But it's the only option that we have. It's
+
+the only way that we're actually gonna be able
+
+to get to be able to do this and
+
+succeed at some point in the future.
+
+OK, so on, on a side track, hopefully this
+
+is not new to very many of you, but
+
+really there's a lot of different ways to do
+
+service-oriented architecture. It can mean a lot of different
+
+things. Read blog posts. You get a lot of
+
+different ideas. It can be synchronous, asynchronous. Use a
+
+message bus. Maybe some services require actually hitting them
+
+over HTTP, TCP sockets. You know, there's a lot
+
+of ways of different doing, of doing this kind
+
+of thing.
+
+But why would you really want to? So, you
+
+know, scale the organization. You have a lot of
+
+different teams. A lot of different engineers. Maybe you
+
+really want this team over here to just have
+
+their own code base that they deploy separately. Also,
+
+maybe you want to outsource this to a different
+
+team, and you really don't want to give all
+
+of the code to the other team. You really
+
+just want to isolate this and say, you know,
+
+you guys over here, you know, just, here, here's
+
+this. Sorry. I'm, I'm actually trying to explain it
+
+all gendered pronounce from my vocabulary but it's really
+
+hard. Sorry.
+
+So, you can also scale the code base, you
+
+know. Performance of this thing over here might be
+
+completely different than this thing over here, and that
+
+might actually be easier in a service. You can
+
+really tune the code to the work load. You
+
+might have this really complicated code that, for various
+
+reasons, needs to be complicated. It might be really
+
+complicated functionality. But you can, you might be able
+
+to hide that behind a, a clean interface. An
+
+API.
+
+And tests, usually, not always, but a small code
+
+base can mean fast tests. And if you're sitting
+
+around for hours waiting for tests to complete, you
+
+know, that can be, that can really eat into
+
+your productivity. But it, but it comes at a
+
+cost. All of this comes at a cost.
+
+And I think one of the things that, that
+
+I've been learning is that sometimes the cost of
+
+not doing this is greater than the cost of
+
+doing. The cost of the infrastructure, new servers, how
+
+they talk together. It's really complicated. Things will go
+
+wrong. But sometimes not doing this is gonna, is
+
+gonna mean that your productivity is going down and
+
+down and down and, and it actually is more
+
+costly.
+
+OK, so back to these projects. We have this
+
+data service. It's sometimes, I think six engineers, sometimes
+
+eight. I don't, I don't really remember. And nine
+
+months of, of work. It's really complicated, like state
+
+transactions, and this is really critical data that really
+
+needs to be done right. And there are, so,
+
+there, there might have been, when deploying it, some,
+
+some slight data things. But they were fixable. Really
+
+quickly. It was fine. There were actually no major
+
+data problems.
+
+And there were some applications that were built on
+
+top of this data service. And depending on who
+
+you talk to, they, they were more or less
+
+successful. Some people using that, these applications are like,
+
+oh, thank you, this did exactly what, what I
+
+need. It's actually helping me with my workflow. Some
+
+people are like, oh, OK.
+
+But engineering, you know what, this was really critical
+
+data. It was really hard. Totally new for us.
+
+This was a success. We did not break anything.
+
+Product is like nine months? Nine months. Eight engineers,
+
+nine months. How could you possibly call that a
+
+success?
+
+OK. So different application. Login flow. Depending on the
+
+time period, two engineers, four engineers, plus the dev
+
+ops team. Dev ops. Three months, you know. You
+
+know, we were figuring out, like, the system's automation
+
+was really tangled and in, in a few weeks
+
+we had some staging servers. And about two months
+
+later, someone comes up to me and says, hey,
+
+where, where, where are the servers gonna, gonna be?
+
+Can we get those? And I'm like, deep breath.
+
+Deep breath. Which servers? Oh, this, those staging servers.
+
+But it went, we worked it all out.
+
+Something that I learned about dev ops. Everyone actually
+
+needs to be invested and it's new to people.
+
+So, and it was released with a feature flag.
+
+Only a small amount of people were actually running
+
+through it. So it, we had some really good
+
+time to break it in production and really figure
+
+out how, how it was really gonna run.
+
+And we launched it to all of our users,
+
+and it was actually, I would say, very successful.
+
+It worked exactly intended. It was very resilient to
+
+failures. We had to do some unexpected database maintenance.
+
+Restart master databases and we're like, you know what,
+
+just do it. You know, just, just restart the
+
+database. No, no, no, no, no. Don't turn off
+
+the service. It's gonna recover. It's gonna be fine.
+
+Maybe like one user will notice.
+
+And the company's actually sort of figuring out that
+
+user metrics might be more important than dates as
+
+metrics, and the user metrics were generally successful. So
+
+engineering, like, this, this is good. This is good.
+
+This is, this is how we do this. This
+
+is, you know, the next project, this is how
+
+we're gonna, we're gonna have to figure this.
+
+And products is like three months? What are you
+
+talking about? Success? That's not success. We have these
+
+other product features that needed to be done. And
+
+we have these four engineers that are sitting in
+
+the corner, not able to do these things.
+
+OK. So I would say that this is a
+
+really important question to ask. What is, what is
+
+success? If engineering says it's a success, and product
+
+says it's a failure, who really wins? So, this
+
+is actually a trick question, because it's a zero-sum
+
+game. Like, nobody wins in this interaction.
+
+So let's go a little bit deeper to ask
+
+why we needed SOA in the first place. And,
+
+I, this is really complicated. There's lots of moving
+
+parts, but some of the things that, that I
+
+think now were because engineering didn't trust product, and
+
+we actually didn't, what that really means is we
+
+didn't trust that we could do our jobs well
+
+given the shortcuts that we needed to do to
+
+actually do our job and actually meet our metrics.
+
+And product didn't trust engineering to meet the products
+
+we were given, and we, we couldn't actually meet
+
+those promises. And, again, over time, this was changing,
+
+but product was accountable for features, not or quality,
+
+and, and the actual how users interacted with them.
+
+And this is probably the subject of much more
+
+discussion, and would love to continue this and, and
+
+learn more myself, but I think that a lot
+
+of this comes down to trust. If, if, if
+
+you can't trust that you can do your job
+
+successfully, how, how can you actually do your job
+
+successfully? If, if product, if different parts of the
+
+company don't trust each other to do their jobs
+
+well, how can they actually do their jobs well?
+
+So, what did, what did we learn? You know,
+
+fuck it, next time it's SOA from the beginning.
+
+Like, before we even do Rails new it's gonna
+
+be RabbitMQ. We're gonna have a cluster. It's gonna
+
+be amazing. So, no. No, no, no. Not, not,
+
+not the right answer. I almost went here, and
+
+thankfully I worked, then, with some very humble, empathetic
+
+people, who were also very convincing. No.
+
+So, I think what I've, what I have really
+
+taken from this, is Agile's not just one sprint
+
+after the next. It's like four miles is great.
+
+You just break it up into a hundred meter
+
+increments and you just, each one is a sprint.
+
+It's gonna be fine.
+
+What this really is about iterating. Deploying things, small
+
+things, really quickly, using the data that you get
+
+from that to figure out what to do next,
+
+and refactoring. Refactoring is really, really important. You might
+
+be able to do a small thing quickly, and
+
+with some shortcuts, not really needing to know how
+
+it needs to be designed. But when you see
+
+the pattern, you, you have to fix it. And
+
+SOA's not gonna solve larger organizational problems.
+
+It's not gonna fix your code. Really what it
+
+is is another tool at our disposal to solve
+
+our pain points, and our, and our organization's, our
+
+company's pain points. And how we do that is
+
+through iteration. So, small changes deployed, deployed quickly, using
+
+feature flags so that you can actually get code
+
+into production as soon as possible, knowing that it's
+
+off and it's not gonna affect users. And prioritizing
+
+this when it's necessary.
+
+So when might it be necessary? I would say
+
+performance. That's a really big thing. This is actually
+
+driving a lot of what we're doing. Code complexity
+
+might be less in a service than it would
+
+be outside of a service. So if you have
+
+these two things and you're like, this is actually
+
+gonna be easier to do over here than to
+
+put in this tangled mess, maybe, maybe it is
+
+better.
+
+May, and also maybe, sometimes you have a new
+
+feature and it is completely unrelated to everything else
+
+that you've already done. With the caveat that you,
+
+in the short term, you might be able to
+
+put it in with all the rest of that
+
+mess, trusting that when it becomes a problem you
+
+will be empowered to fix that problem.
+
+OK. So, performance. As I said, this is driving
+
+a lot of, of our work. So, Winelow is
+
+getting slower. We're running into some problems. We just
+
+got ring that the databases are becoming I/O bound
+
+on disk. This is a really, really bad place
+
+to be. But our user growth is increasing dramatically.
+
+The, the activity is increasing dramatically. We're starting to
+
+see exponential tendencies in our graphs, and if you
+
+see exponential tendencies in your user graphs, it's kind
+
+of like giving a talk to hundreds of people.
+
+You're like, why are you all looking at me?!
+
+It's, it can be scary. It can be really
+
+scary. But we have, so we have one table
+
+that's really outstripping the others, and that's causing problems.
+
+That's, it's, we discover, because of our data, because
+
+of our graphs, that it's really one table that's
+
+really destroying the performance of the rest of the
+
+table. And we're in the cloud, cause we have
+
+all those buzzwords. So there's really a maximum size
+
+of a host that we can get. So there's
+
+really, like, an upper limit of how much we
+
+can actually solve this with one database.
+
+Even after read-write splitting, we've already done that, and
+
+we, and, and pretty soon, we realized that the
+
+site is gonna break. If we don't do anything,
+
+we're just not gonna have a company anymore. It's
+
+just gonna, it's gonna fall down. But, we have
+
+really, really, really active committed users joining us right
+
+now. Now is not the time to stop feature-development.
+
+Now's the time to really learn from what our
+
+users are doing, double down on it, really tweak
+
+our features and figure out what is gonna make
+
+our business successful.
+
+And we only have ten engineers at this point.
+
+We don't really have that much, that many resources
+
+to, to, to work with this.
+
+So, our first step of iteration is realizing that
+
+this is one problem. How do we solve this
+
+one problem? And this is maybe going to be
+
+a service. How do we get to a point
+
+where it can be a service? So first step
+
+is isolating the data. So ActiveRecord gives you these
+
+really nice things. Associations, has_many, has_one. Things that really
+
+make the joins between your tables easier.
+
+When you have a service, you don't have joins.
+
+So these need to go away. These, these just
+
+don't exist. But it's actually really easy to get
+
+rid of these, honestly. A product has saves, you
+
+know. You save this product into a collection. You
+
+know, we could just take that where clause that,
+
+that ActiveRecord was gonna sort of do for us
+
+with, with a join, and just pull it out
+
+as a, as a where.
+
+Really not that hard, actually. And you know what,
+
+ActiveRecord also gives us ways of talking to a
+
+different database. But, you know, we can actually use
+
+this to just pretend it's in a different database.
+
+Establish connection allows you to have this model live
+
+in this database and all the rest of your
+
+stuff live in your main frames. It's really not
+
+that hard.
+
+And, one of the key things is that each
+
+step of this, each slight change, is deployable, and
+
+it's testable. And you can deploy it to staging.
+
+You can click around to see where, where your
+
+test coverage is maybe missing. Figure out where, where
+
+it breaks. And one thing is that, that I
+
+will say, is you might be doubling your database
+
+connections at this point. And when you database hits
+
+the max connections, just everything stops. It just stops
+
+working.
+
+So, we've learned this lesson the hard way. But
+
+now that we have this code deployed that pretends
+
+like it's in a different database, we can make
+
+it a different database. Without actually that much work.
+
+You have a Postgres - we love Postgres -
+
+we have a master database. And we spin up
+
+a replica over here, and we put the site
+
+into maintenance mode. If you have more critical interactions
+
+with your company that maintenance mode might, might not
+
+be possible, brain tree has some really great blogs
+
+and, I think, talks about this. But, for us,
+
+the operational overhead of making it so we can
+
+do this without the site being down was way
+
+more than it was worth.
+
+So we just take the site down. Push in
+
+new database dot yml, saying now this connection is
+
+talking to this database. And we just promote that
+
+to master and restart everything, bring the site back,
+
+and now we have two databases. Five minutes of
+
+downtime. Not, not that bad, actually. And you know,
+
+after the fact, you can clean up. You know,
+
+we have a redundant table over here. A bunch
+
+of redundant tables over here. You just truncate them
+
+and delete them. Very carefully.
+
+Not that hard. And actually, you know what, at
+
+this point, you might not need a service. You
+
+might be done. Your site might just be working.
+
+It's fine. For us, we, we knew, based on
+
+how things were going, that we were gonna have
+
+to horizontally shared this data. Now it's in a
+
+different database. That is gonna have to be many
+
+databases.
+
+And we want to hide that complexity. We don't,
+
+we do not want our main application to have
+
+any of that code. So, we know we're gonna
+
+have a service. Now isolate the interface. And now
+
+what this, by this, I mean, how are you
+
+actually accessing this data? And what is your long-term
+
+goal? You know, ours is sharding, and Wanelo is
+
+saves, and anytime we're actually getting saves, we're either
+
+looking at by product - a product has these
+
+saves - or we have it by user. A
+
+user has saved these things.
+
+So, this is actually really helpful, how to plan
+
+out what, your DSL, what your API is gonna
+
+look like, you know. We know that things are
+
+gonna have to get to it via product or
+
+via user. And so, you have some where clauses,
+
+you know. Where is ActiveRecord? We are not gonna
+
+have ActiveRecord.
+
+So, instead a save has a by_product method that
+
+is also. Oh, so one thing I will say
+
+is, at this point it's really helpful to remove
+
+redundancy. If you have different ways of accessing kind
+
+of the same data, do you really need that?
+
+You know. Can you change the product to mean
+
+that you don't actually have as many of these
+
+fingers as you have. And very soon, things are
+
+gonna break. So if you don't have tests, this
+
+is a really good place to add tests.
+
+So, now, we have a, a small sort of
+
+Ruby DSL. How do we actually pull that out?
+
+And I would say, right now, it actually doesn't
+
+need to be a service. Really what you need
+
+is a client. And how do you build the
+
+client out? And that's where adapters really come in.
+
+So, we use the module. This could be a
+
+base class. Some of the reasons why we thought
+
+we needed a module. Maybe we didn't Maybe we
+
+could have actually done this as, as a base
+
+class. But now, a save is a SaveClient. And
+
+that SaveClient is where your fingers go as, their
+
+class methods. And one thing I would point out
+
+is that that, that finder is calling through to
+
+an adapter. A database adapter.
+
+And really, that's what's wrapping up all your database
+
+calls. Hiding them from, from your application. And really
+
+one of the core pieces of this is that
+
+your database, your, your adapter is your feature flag.
+
+It's also deployable in place, you know. You, you
+
+can have this in your lib folder. You can
+
+actually start a gem now. And you can just
+
+deploy it and it's, your main application is still
+
+talking directly to this other database. But you're starting
+
+to build out your client. And later, when you
+
+have a service, you can replace it with a
+
+different adapter.
+
+So that adapter gives you back, when you, when
+
+you call, like, a, you know, you get save.by_product
+
+and you call all on it, that's actually, when
+
+you call by_product, you're getting back a relation. And
+
+this is something that we thought we didn't need,
+
+but turns out ActiveRecord does this for very good
+
+reason, and that's because threads and because state.
+
+If you say I want this type of data
+
+and you save it away to a variable, and
+
+now you call some other method, order.by_this, and it
+
+changes state, you might do something else on this
+
+variable over here, not realizing that you've altered its
+
+state later. So any time you make a change,
+
+a state change on these objects, you really want
+
+to get back a new instance. A different instance
+
+with different state. And when you call, you know,
+
+all, first, or pluck any of these things, what
+
+you're really calling it on is your relation instance.
+
+And the, the key thing that we learned is
+
+that that relation is sharable between all of your
+
+adapters. So the actual work done to get the
+
+data is on your adapters. So the relation delegates
+
+back.
+
+So, in our database adapter, the thing actually getting
+
+the data, is ActiveRecord. We've just moved our ActiveRecord
+
+class into the library and hidden it from our
+
+application. We, in this case, we were using ActiveRecord,
+
+so you could just, we'd do ActiveRecord. If you
+
+have another favorite database adapter, great.
+
+So you call Save.by_product. You, you get an adapter
+
+that, or so the, sorry, that calls through to
+
+the adapter and gives you back relation. You call
+
+Relation dot all and that just delegates back to
+
+the adapter, which calls through to an ActiveRecord, gets
+
+to your data, takes the attributes out of it
+
+and gives you back an instance of, of your
+
+core class. Because you're hiding ActiveRecord. You don't want
+
+to get back an ActiveRecord class.
+
+And I would say it's critical to deploy at
+
+this steps, because you've made mistakes. I guarantee you've
+
+made mistakes. And the cost of fixing this is
+
+really low right now, as opposed to spending a
+
+lot of time trying to design your server, how
+
+that's going to interact, and realize, whoa, whoa, whoa,
+
+whoa, we screwed up the client. All of this
+
+work we've done on the service, we have to
+
+through away because we did it wrong.
+
+Now, you have a client. Now you need a
+
+server. And it doesn't matter. What, whatever you want.
+
+It's fine. It's actually the, the cost of writing
+
+this is really, really low. Because the server is
+
+the simplest part of this, and if you did
+
+it wrong, if you chose the wrong transport method,
+
+mechanism, you know what? You build a new adapter.
+
+That's actually really quite easy.
+
+So let me take a moment to just reiterate,
+
+why should we have deployed by now? And I'd
+
+say it's because the client is much, much more
+
+complicated than the server, so your bugs are in
+
+the client. Your bugs are not in the server
+
+at this point. And the server is going to
+
+be dictated by the choices you've made in the
+
+client. So if you've made wrong choices and you
+
+build your server, you've built the wrong server.
+
+We used Sinatra and Oj, just cause it's awesome.
+
+It just, it really just works. It's small and
+
+it's useful. We thought we would need to move
+
+away from HTTP, but we've grown a lot and
+
+we haven't had to do this yet. It just
+
+works. Things that we thought we would have to
+
+change immediately, you know, it's almost a year later
+
+and it's just.
+
+OK, so now we use the service. And that's
+
+really a feature flag. You just write a new
+
+adapter that talks to the service instead of the
+
+database. So now you call, you know, by_product, you
+
+get a HTTP, it calls through to the HTTPAdapter
+
+which gets you back the same time of relation.
+
+When you call all on it, you know, it
+
+calls adapter dot all, which now goes to an
+
+HTTPClass that actually gets the JSON and takes the
+
+attributes out of it and gives you back your
+
+save class. You're getting back the same object you're
+
+getting back as save.
+
+So, retrospective. Great. We've isolated the data. We've isolated
+
+the interface. We started to build our DSL. We've
+
+pulled that DSL out into a gem. Now we've,
+
+now that we actually kind of understand what that
+
+gem needs to do, we can launch the service
+
+and then just build a new adapter to switch
+
+to this.
+
+If, I would say that if we hadn't, if
+
+we had realized that this was the order that
+
+we needed to do it on, we, we would
+
+have done this in two weeks. Instead. So that
+
+first part of it was like a day worth
+
+of work. That second part of it was like,
+
+three hours worth of work. And deployed immediately.
+
+The, the harder part was realizing that we needed
+
+an adapter. And at this point, people, we didn't
+
+really see anything about hexagonal architecture. This might have
+
+been before some of those talks and papers have
+
+been coming out. But, but it's actually really useful.
+
+Tests. We, we use Sunspot for some of our
+
+Solar things. And we're already used to spinning up
+
+a Solar instance using a gem, trap-it-up. You know
+
+you can do that for your integration tests. But
+
+for unit tests, you know what, we have tests
+
+around all of this. So we can have tests
+
+around a fake adapter that proves that it behaves
+
+the right way, and then that just saves, saves
+
+data in, in memory, in your application.
+
+And redundant tests, you know, you might say, eh,
+
+do I really need this test? Yes. Because one
+
+thing, you can delete your tests later that are
+
+redundant, and you want to be really confident that,
+
+that when you do switch over, it's gonna work.
+
+Foreman and Subcontractor are, are really helpful for this
+
+kind of thing. So subcontractor is a gem that
+
+really says, for this service, change directory over here
+
+and run this command in a completely isolated Bundler
+
+environment. Cause you really don't want to mix your,
+
+your dependencies. You don't want your server dependencies and
+
+the versions to be conflicting with your main application
+
+dependencies. You want to be able to, to change
+
+those separately.
+
+OK. So what about a new app? I'm spinning
+
+up a completely new thing. Not extracting. Totally new.
+
+How do I do that? How do I iterate
+
+on something that doesn't exist yet? And I would
+
+say that some of the lessons that, that we've
+
+learned from this, and actually from just doing our
+
+product development in general is iterate. Find a way
+
+to get to the smallest deployable thing as quickly
+
+as possible, and whatever tool you use to deploy,
+
+to spin up infrastructure, one of the sort of
+
+heuristics that, that, that we've found is really focus
+
+on organizing that code around being able to change
+
+things easily, and understand how this thing is different
+
+from this thing.
+
+You know, the Chef makes it really easy to
+
+define a giant hash of global state over here
+
+and then just run this thing over here and
+
+it's magic and it'll just do it. When you
+
+actually start to spin up different services, this thing
+
+is gonna need to be slightly different than this
+
+thing. So how can your code make that as
+
+easily understandable as possible?
+
+So feature flags, also, on or off. Do customers
+
+see this, or they don't. But you know what?
+
+Maybe it's just kind of half on. Maybe everything,
+
+every request that's gonna actually call through this, use
+
+Sidekiq to just every time, just spin off a
+
+job to hammer your, your service. And if it
+
+breaks, you've learned that before you've launched it to,
+
+to your users. There's a lot of other ways
+
+you can do this.
+
+On to these five years users, and let's see
+
+how we can break it, see how the interaction
+
+feels. It's, it's really useful.
+
+Also, one thing that we found is, it's often
+
+helpful to inter, integrate very deeply before you go
+
+widely. So, if you have a code-interaction that goes
+
+through all this process, do it kind of once
+
+through all the process, without worrying so much about
+
+the edge cases or the errors, because those are,
+
+you're gonna find those. Those are gonna, those are
+
+gonna come up. But it's re- really useful to
+
+kind of go all the way through the interaction
+
+knowing that it's really kind of sketch and doesn't
+
+do everything, and really let that drive the design.
+
+And this is also a thing of like letting
+
+the feature kind of drive the design and figuring
+
+out, what is the pattern for how you really
+
+need to organize the code, before you have. Don't
+
+just like whiteboard everything and say this is gonna
+
+be perfect. You know.
+
+Production is going to destroy every single design that
+
+you think you have. Also, if something seems clever,
+
+it's bad. If you're like, eh, this is kind
+
+of cool. No. No, no, no. It's bad. Complexity
+
+is gonna come to you. Don't, don't seek it
+
+out. It's, it's, it's evil.
+
+So if there are any kind of take aways
+
+from this, I would say you know, hexagonal architecture
+
+is really cool, but you don't have to design
+
+it from the start. If you have trust, if
+
+everyone in the organization has trust that you can
+
+do your job and that you're all going, working
+
+together to build an awesome product, an awesome company,
+
+you can fix this later. You can actually let
+
+the needs of your product determine where your boundaries
+
+are.
+
+So, thank you. I actually have a few minutes
+
+of, of questions, to answer questions.
+
