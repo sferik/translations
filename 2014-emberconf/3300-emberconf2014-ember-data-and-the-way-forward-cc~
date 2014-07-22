@@ -1,6 +1,12 @@
 EmberConf 2014 - Ember Data and the Way Forward - Igor Terzic
 
-Note: This transcript should make the talk easier to follow. However, it is a work-in-progress, and any community input on question spots (denoted by time-stamps) is very welcome. If you happen to spot a word or phrase that you can correct and would like to help Confreaks reach the widest audience possible, please either download the transcript from github.com/confreaks/translations and submit a pull request, or email wendy@confreaks.com with your correction and its appropriate time stamp. The transcript and captions will be updated accordingly. Thank you for your patience in this matter.
+Note: This transcript should make the talk easier to follow. However, it is a work-in-progress,
+and any community input on question spots (denoted by time-stamps) is very welcome. If you happen
+to spot a word or phrase that you can correct and would like to help Confreaks reach the widest
+audience possible, please either download the transcript from github.com/confreaks/translations
+and submit a pull request, or email wendy@confreaks.com with your correction and its appropriate
+time stamp. The transcript and captions will be updated accordingly. Thank you for your patience
+in this matter.
 
 IGOR TERZIC: Hi everyone. I hope this works. It's
 
@@ -112,7 +118,7 @@ Stack Overflow basically came up with its first non-English
 
 port.
 
-It's a special coding in Porteuguese. And I've written
+It's a special coding in Portuguese. And I've written
 
 a couple discussions with friends and colleagues, about how
 
@@ -122,7 +128,7 @@ very well. Of course. And actually I started learning
 
 about computers, I started learning about programming, when I
 
-was pretty young, when my Enlish wasn't really fully
+was pretty young, when my English wasn't really fully
 
 functional. And because of that, I have a couple
 
@@ -514,7 +520,7 @@ So data transformation is pretty simple. Data comes in,
 
 you need to transform it from whatever source you
 
-have, to basically supprt, what sense do you have,
+have, to basically support, what sense do you have,
 
 and so basically, you have to deal with how,
 
@@ -572,7 +578,7 @@ to reason. And you might need more features and
 
 ideas behind it to make good use of it.
 
-BUt let's start with an easy one. Let's start
+But let's start with an easy one. Let's start
 
 with the data transformation.
 
@@ -620,7 +626,7 @@ I said. They, because it does not, it is
 
 true about easy problems. It doesn't matter. Because it
 
-does not propogate your app, it's easy to think
+does not propagate your app, it's easy to think
 
 about. You can fix it easily. If you tell
 
@@ -794,7 +800,7 @@ You have one method that says normalize, and you
 
 do stuff there, and you just kind of decide,
 
-whetever kind of JSON, XML, so whatever you've got,
+whatever kind of JSON, XML, so whatever you've got,
 
 you just, you can do it normalize. If you
 
@@ -1236,7 +1242,7 @@ comes back. I like to compare the story where,
 
 where I try to go to my friends' place
 
-to get a lightbulb cause mine broke. All seems
+to get a light bulb cause mine broke. All seems
 
 pretty simple.
 
