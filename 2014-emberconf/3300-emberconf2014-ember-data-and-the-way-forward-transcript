@@ -40,8 +40,6 @@ Engine. Oh. I am so smart. I know what the engine is. It has to do with somethin
 
 So, that's the unimportant thing. Let's move on. And then I spent the next couple of weeks wondering why that guy over there was me.
 
----00:05:14
-
 [laughter]
 
 And looking, and so I said there were a couple of decent side-effects. The other cool side effect of cool, for me at least, side effect of learning programming before learning [00:05:26-00:05:27] English is that you, I would get my mind completely blown by the semantics and ideas behind some of the technical terms we use. Because most words don't have any meaning behind them.
@@ -75,8 +73,6 @@ And it, it's not always exactly clear what problems they solve. Because a typica
 You might notice you don't run into the problems you had before, but you, you probably won't understand why, why that is. Like, unless you read about how Ember is structured, and the core ideas behind it, it's not immediately clear why it gives you so many benefits over differently structured frameworks.
 
 So, if you look at say, for example, frameworks, it's like, for example, handlebars. Handlebars are a way to, one of the core problems they solve is that you have too much logic in the view.
-
----00:10:03
 
 So, Handlebars solves that indirectly by hiding logic from your view. You have Rails. You have too much repetition in your server-side code. You waste so much time repeating your code. So let's not do that. Rails solves that problem.
 
@@ -116,8 +112,6 @@ And, so we're saying that, problems can be easy or hard. And they can be also co
 
 and it's a bit harder to replicate results for those [00:14:53] cases. Which is why, basically, you should give developers, it's important to give developers more feedback if the, if the problems are more unique.
 
----00:15:02
-
 So we have a really nice graph here. Because we can, so we can look at these features on this on a basis of how hard or easy are they to implement compared to others, and how common or unique of a use case does this solve?
 
 So, easier problems should be locked down less, as I said. They, because it does not, it is true about easy problems. It doesn't matter. Because it does not propogate your app, it's easy to think about. You can fix it easily. If you tell yourself you have to focus on the hard problem, in your multi-purpose app, then you're pretty much screwed. And that's why it's really important for framework authors to make the hard problems really locked down, and have a very strong happy path hard-coded for hard problems, while the easy problems don't matter as much. Because even if you screw up, it's easy to go back.
@@ -153,8 +147,6 @@ You have one method that says normalize, and you do stuff there, and you just ki
 And they get very, very frustrated, where they have to learn a couple of pages of diagrams like this, when all they want to do is make argv stuff with an underscore.
 
 So, that's what happened recently with the data transform within like the last six to nine months is that all the adapter/serializing that we have already written. So now it's much more easier. It's nicer to use. And it's, and is kind of delicious, so to say.
-
----00:20:00
 
 But as I was saying, in the future, because we kind of built this nice API that lets you do whatever, there's not, thankfully, there's not that much work for us to do anymore here. So we might want to tighten up some APIs, you want to clean up, you might want to clean up a bit. But there isn't much more here, and this would be good to go.
 
@@ -200,8 +192,6 @@ Which seems kind of weird, but it's actually really, really awesome, because thi
 
 And, so, this is just an example how promises are brought. So, all the relations are gonna be promises in the future. And this code seems kind of crazy. Like, you'll have to do this entire thing over again. You're gonna have a bunch of gems and stuff. It turns out, if you're writing Ember, because Ember is so awesome and really easy to pick up with this, most of your code doesn't look like this. Most of your code looks like this.
 
----00:25:03
-
 You basically have different user properties. You have observers, and these work amazingly with Ember Data promises, because Ember Data actually has something called a pomiseproxymix- a promise proxy, where you initially return a promise, and later when the data loads, it will forward all the requests, all the accesses, for example if you try to get user friends, it will forward everything through the promise, and all your code that's written with user properties, observers are still gonna work.
 
 It's a bit more detailed, if you look at the Ember.js Ember Data blog post, and you'll see how you can easily keep your code the same, while switching to an easier mode of operation, have a bunch of free features, and at the same time be able to reason about your pro- your Ember Data.
@@ -243,8 +233,6 @@ That's the problem of, hey, data's coming in all the time, maybe through sockets
 That one controller shouldn't impact another controller. That one view shouldn't impact another view, unless they share a scope in their components. If this was the case, if Ember worked like this, that would be unable to go, to effect anything.
 
 And this is how your data situation, if you don't think about it particularly hard, is. Because your data comes in, not only has to see your friend request, but to impact your data from that. And it gets even crazier.
-
----00:30:26
 
 Because if you add relationships, and this does, this is the point that if you look, looked at the talk description, this is the point that you probably have PTSD from. But if you add relationships, if you look at this, you have post, post has an id, has text and has comments. This is why id is one, comments are fifty-four.
 
