@@ -1,0 +1,1473 @@
+EmberConf 2014 - Ember Data and the Way Forward - Igor Terzic
+
+Note: This transcript should make the talk easier to follow. However, it is a work-in-progress, and any community input on question spots (denoted by time-stamps) is very welcome. If you happen to spot a word or phrase that you can correct and would like to help Confreaks reach the widest audience possible, please either download the transcript from github.com/confreaks/translations and submit a pull request, or email wendy@confreaks.com with your correction and its appropriate time stamp. The transcript and captions will be updated accordingly. Thank you for your patience in this matter.
+
+IGOR TERZIC: Hi everyone. I hope this works. It's
+
+my first time. I'm usually at [00:00:18-00:00:20]
+
+I am here to talk to you [00:00:21-00:30:00].
+
+So I'm here to talk to you about Ember
+
+Data. And if you've been, for example, at the
+
+previous Ember Camp, a year ago, you will notice
+
+that in the last half year, or year, Ember
+
+Data has made tremendous strides, and made huge progress.
+
+Because basically, from another source that has nothing to
+
+do with your current speaker, I can tell you
+
+that Ember Camp was basically a small gathering of
+
+Ember developers designed to troll Tom and Yehuda about
+
+Ember Data and why it was so broken a
+
+year ago.
+
+But in the, since then, we really have made
+
+huge progress. And I'm here to report on that
+
+and teach you a little bit about Ember Data
+
+and some of the ideas behind it.
+
+So we are going to take a step forward.
+
+I'm going to talk a bit about where it
+
+came from, where it is now, and where it's
+
+going to. See and, but, with the basic ideas
+
+of Ember Data is a data persistence framework. What
+
+I'm hoping that you get out of this talk,
+
+is not only, oh, Ember Data has these cool
+
+features, or I should use it, or you've sold
+
+me on so many things that I'm definitely gonna
+
+use it, or please never mention the words Ember
+
+Data again.
+
+I hope that my talk kind of gives you
+
+some of the like core insights that we developed
+
+in the last year, year and a half or
+
+two years that we've been working on it, and
+
+then through those insights, you get, you can think
+
+about more deeply about how data is structured and
+
+how it works in your path.
+
+But, I'm being terribly rude. I didn't even introduce
+
+myself. Hi everyone. My name's Igor. I work at
+
+Addepar. We make all open source things. You see
+
+us at addepar dot github dot io. We've made
+
+tables, we've made charts, we've made widgets, we've made
+
+lots of things with the open source. And in
+
+case you didn't notice, English is not my language.
+
+It is my accent is particularly- or you try
+
+to figure out my last name, so if you
+
+have trouble with my accent, I guess tough luck.
+
+[laughter]
+
+At least until like Google translate figures out how
+
+to do time syncing and then choose to have
+
+a very deep, authoritative American voice. [00:02:51-00:02:55]
+
+But until then, you'll have to bear with me.
+
+And actually, I don't want to seem, while we're
+
+on the topic of ?? [00:03:02] English programming, that
+
+Stack Overflow basically came up with its first non-English
+
+port.
+
+It's a special coding in Porteuguese. And I've written
+
+a couple discussions with friends and colleagues, about how
+
+it is, how is talking programming without knowing English
+
+very well. Of course. And actually I started learning
+
+about computers, I started learning about programming, when I
+
+was pretty young, when my Enlish wasn't really fully
+
+functional. And because of that, I have a couple
+
+of outrageous insights. ?? 00:03:33
+
+So, for example, I, I'm sure many of you
+
+started learning programming in order to make games. And
+
+I would get whatever magazines or books or whatever
+
+was available ?? (00:03:46), let me tell you. There
+
+are not as many as you might expect.
+
+[laughter]
+
+But, but there were books available. I would read
+
+them and I would try to figure out how
+
+big projects work, how games work. And I would
+
+often see things like, for example, it's like a
+
+game engine, and at this time, because my English
+
+wasn't that great, I would have to figure out,
+
+because used all these English words, I would have
+
+to figure out from the context what it meant.
+
+So when they said, like, game engines, I thought
+
+like this new game uses the unreal game engine,
+
+and it looks amazing. And it looked something like
+
+this probably. You can see [00:04:22]. I am, have
+
+to assume that the word engine had something to
+
+do with the way things look like, which seemed
+
+fine for awhile, until a couple of weeks later,
+
+I tried to play a racing game, where you
+
+get to update cars, you get to invest into
+
+them, and I was like OK. I can deal
+
+with this.
+
+So let's see. Oh, I have this. So I'd
+
+be like, OK, chassis. I have no idea. I
+
+have no idea what that is. I'll look it
+
+up in the dictionary. And I would be like,
+
+OK. That makes sense. I'm impressed with that. That's
+
+pretty cool. Breaks. I know what breaks are. I
+
+need those.
+
+Engine. Oh. I am so smart. I know what
+
+the engine is. It has to do with something
+
+of the looks of the car. So I don't
+
+need that. I don't care.
+
+[laughter]
+
+So, that's the unimportant thing. Let's move on. And
+
+then I spent the next couple of weeks wondering
+
+why that guy over there was me.
+
+[laughter]
+
+And looking, and so I said there were a
+
+couple of decent side-effects. The other cool side effect
+
+of cool, for me at least, side effect of
+
+learning programming before learning [00:05:26-00:05:27] English is that you,
+
+I would get my mind completely blown by the
+
+semantics and ideas behind some of the technical terms
+
+we use. Because most words don't have any meaning
+
+behind them.
+
+Like, a tomato is called a tomato. And there's
+
+really no reason why it's called that. It just
+
+is. And it's, like, small tomatoes are like, tomato
+
+babies or whatever, that kind of makes sense. I
+
+guess in German, words make more sense. But most
+
+words don't have any meaning behind them.
+
+And when you learn programming and computers from that
+
+kind of perspective, and learning from context, you kind
+
+of ignore the meaning behind words.
+
+So [00:06:02-00:06:05] For example, a couple years ago, I
+
+realize that a driver is actually called a driver
+
+because it guides the thing, it drives the hardware.
+
+[laughter]
+
+And this means, basically, as I [00:06:17], that [00:06:20]
+
+as Ember Data is a framework, is a data
+
+persistence framework, I realized that the framework is actually
+
+a great name for what frameworks do. Because they
+
+literally a frame for working. They keep your, they
+
+not only give you code to structure with, they
+
+not only give you things to use, they give
+
+your brain a way to abstract things, and give
+
+your brain a way to think about ideas.
+
+So, they also have all these other benefits. Like,
+
+[00:06:48-00:06:51]. It was awesome, because of of all the
+
+benefits of framework, framework stack. It also caused be
+
+to have to read, read the slides twice. But,
+
+data also benefits just in terms of making it
+
+more productive, making you a faster coder. But they
+
+also have other benefits, like, for example, the, the,
+
+giving your great abstractions and ideas about how to
+
+organize code, and how to communicate your ideas.
+
+So, I mean, there's some other benefits if you're
+
+a crazy European. You use frameworks for plunges. But
+
+mostly, they give you a way of reasoning about
+
+problems and dealing with abstractions. And that's tremendously useful.
+
+It's almost as useful as [00:07:33-00:07:35].
+
+And I think that's easy, it's easy to illustrate
+
+this with a really short story. And a thought
+
+exercise. Cause I've been looking through the schedule for
+
+EmberConf, and I've seen that there's an Angular talk
+
+tomorrow. So if you were to suppose that Angular
+
+talk is actually just a ruse, to keep us
+
+all respected here, all four hundred of us, while
+
+[00:07:55-00:07:56] because we kind of getting a better idea
+
+in Ember, basically. So I think, like, the key
+
+point to consider that we're going to send somebody
+
+to talk about Angular, you know, to distract us,
+
+so [00:08:06] can steal all our bright ideas. [00:08:09-00:08:11]
+
+[laughter]
+
+But even if that were to happen. Even if
+
+all of Ember was lost and all the source
+
+code was lost, because we used it, we would
+
+still have tremendous benefit. Well, I mean, we would
+
+also have, you know, Yehuda, because he could probably
+
+rewrite it now in a couple days. But even
+
+if all Ember was to disappear, we would still
+
+have tremendous benefit from just having been exposed to
+
+it and seeing the ideas in it, like performance,
+
+like how Ember structures controllers. How it structures views.
+
+How developers work.
+
+And having given us those abstractions, that's immensely useful.
+
+So, I kind of want to approach the Ember
+
+Data data structure from the perspective of framework. And
+
+I'll talk to you a bit about how does
+
+it think about the world, and what kind of
+
+problems does it solve for you?
+
+So, let's start from beginning. Most frameworks, I hope,
+
+at least, solve some sort of problem. And they
+
+usually solve some sort of a hard problem, otherwise
+
+you wouldn't need this much code. You could use
+
+a small library. So let's think about a problem
+
+that, what problems frameworks solve.
+
+And it, it's not always exactly clear what problems
+
+they solve. Because a typical conversation about ecology works
+
+something like this. Doing X sucks! Hey, use Y
+
+so X doesn't suck anymore. And that doesn't really
+
+tell you, I mean, even if you use it,
+
+unless you read about or understand that, yes, behind
+
+the library or the thing that you're using. Just
+
+using a framework doesn't tell you why it's so
+
+good.
+
+You might notice you don't run into the problems
+
+you had before, but you, you probably won't understand
+
+why, why that is. Like, unless you read about
+
+how Ember is structured, and the core ideas behind
+
+it, it's not immediately clear why it gives you
+
+so many benefits over differently structured frameworks.
+
+So, if you look at say, for example, frameworks,
+
+it's like, for example, handlebars. Handlebars are a way
+
+to, one of the core problems they solve is
+
+that you have too much logic in the view.
+
+So, Handlebars solves that indirectly by hiding logic from
+
+your view. You have Rails. You have too much
+
+repetition in your server-side code. You waste so much
+
+time repeating your code. So let's not do that.
+
+Rails solves that problem.
+
+MongoDB solves the problem that data persistence frameworks are
+
+too reliable.
+
+[laughter]
+
+So, I guess, this is [00:10:28-00:10:31]. But most of
+
+these stack of core ideas reside, I mean, honestly,
+
+?? the source code of Handlebars and the source
+
+code of Rails and Mongo, they're all there by
+
+these core ideas. So, I tried to dig deeper
+
+into Ember Data, and seen its progress it's made
+
+from early on to this day, to see how
+
+some of the core ideas changed. Because, they definitely
+
+didn't get every idea at first, or the second
+
+time, but by this point, [00:11:01].
+
+So, Ember Data, a data-persistence framework, evolves very loose
+
+to solve data persistence. And I will be like,
+
+OK, [00:11:08-00:11:11], maybe no more jokes.
+
+But, it does actually solve a tiny bit of
+
+a data persistence problem, because, to be honest, data
+
+persistence, people have been working on it since the
+
+'60s. They've got a bunch of Ph.D's. And it's
+
+a very, very hard problem.
+
+But actually, [00:11:30], it was some ideas about new
+
+data structures that were being created. Though I had,
+
+I put them in the slides, I'm super excited.
+
+But I recently found out he's not doing a
+
+Ph.D, he's doing a Masters, so at [00:11:44].
+
+I'm still pretty excited. But, if we ignore all
+
+the hard problems, all the big persistence problems where
+
+people get Ph.D's, [00:11:56], we are left with an
+
+old coding problem of how we organize our content
+
+code. How you present your code, how we organize
+
+our data, so it works and makes sense, and
+
+people [00:12:09].
+
+So, it might be easiest to look at a
+
+couple good Ember Data features, analyze them, and see
+
+how they changed from two years ago to now.
+
+Because these were all kind of core features of
+
+Ember Data since the beginning, but they all changed
+
+in subtle ways, or not-so-subtle ways, for, I hope,
+
+the better.
+
+So, these are kind of the core features of
+
+Ember Data, [00:12:34]. Data transformation, asynchronicity, and caching. And
+
+those are pretty self-explanatory. So if you think about
+
+them while I take a drink of water, I
+
+think they'll be pretty clear.
+
+[laughter]
+
+So data transformation is pretty simple. Data comes in,
+
+you need to transform it from whatever source you
+
+have, to basically supprt, what sense do you have,
+
+and so basically, you have to deal with how,
+
+basically, the data is structured, and caching is a
+
+core feature of Ember Data, at a model-level framework
+
+such as Ember.
+
+Like, Ember model, Ember Data, all of those solve,
+
+try to solve the caching problem for you. With
+
+a whole stack from Memcache, you really don't want
+
+to request Models all the time, because you think
+
+about your app on the internet, offline, and it
+
+will be fast and explosive.
+
+So they tried to solve the caching problem for
+
+you. So let's quickly go into some of these,
+
+and see how there's such a [00:13:31], and how
+
+they changed from the large Ember Data, and what
+
+it tells us about Ember Data's approach.
+
+So, I think we realized, basically, well, as we
+
+work on this, that, these problems data are [00:13:46]
+
+hopefully, so twice off. So these problems, so these
+
+problems actually look at the same, I'm not, some
+
+are harder than the others.
+
+So if you look at, data transformation is a
+
+pretty easy problem. At least to grasp. Data comes
+
+in. Try to transform it. And it has to
+
+come out. [00:14:05] hey, transforming data is pretty easy.
+
+[00:14:11]
+
+but, basically, asynchronicity is harder to think about. Harder
+
+to reason. And you might need more features and
+
+ideas behind it to make good use of it.
+
+BUt let's start with an easy one. Let's start
+
+with the data transformation.
+
+And, so we're saying that, problems can be easy
+
+or hard. And they can be also common or
+
+unique. Basically, if it's a, lots of problems that
+
+are hard to solve are common across the, across
+
+all the user base. And this is how you
+
+solve them. Because you can use already written code.
+
+But some of these are more unique. And you
+
+can assume, for example, data transformation is unique. It's
+
+very-
+
+and it's a bit harder to replicate results for
+
+those [00:14:53] cases. Which is why, basically, you should
+
+give developers, it's important to give developers more feedback
+
+if the, if the problems are more unique.
+
+So we have a really nice graph here. Because
+
+we can, so we can look at these features
+
+on this on a basis of how hard or
+
+easy are they to implement compared to others, and
+
+how common or unique of a use case does
+
+this solve?
+
+So, easier problems should be locked down less, as
+
+I said. They, because it does not, it is
+
+true about easy problems. It doesn't matter. Because it
+
+does not propogate your app, it's easy to think
+
+about. You can fix it easily. If you tell
+
+yourself you have to focus on the hard problem,
+
+in your multi-purpose app, then you're pretty much screwed.
+
+And that's why it's really important for framework authors
+
+to make the hard problems really locked down, and
+
+have a very strong happy path hard-coded for hard
+
+problems, while the easy problems don't matter as much.
+
+Because even if you screw up, it's easy to
+
+go back.
+
+And you'll see some of the examples here. And
+
+also these two. So all these features. Map really
+
+nicely to Ember Data source code. And to pass
+
+in the source code that you care about.
+
+So, for example, data transformation lives in the adapter/serializer.
+
+While the asynchronicity and the caching lives in the
+
+store and the models. And, as you expect, you
+
+would normally be, be able and expected to extend
+
+the adapter/serializer, because that's what, when we are dealing
+
+with our own app.
+
+While the store and the models you really shouldn't
+
+be messing too much with, because those deal, deal
+
+with the hard problems, that you really don't want
+
+to customize as much, because they'll be much harder
+
+for you to, if you code yourself into a
+
+corner, it will be much harder to reason about.
+
+It'll be much harder to solve later.
+
+So, let's start with data transformation. As I said,
+
+it's a pretty easy problem. Well, I don't really
+
+want to say it's easy, because if I say
+
+it's easy, then I guarantee you, five minutes after
+
+my talk, somebody's gonna come up to me and
+
+say, hey, you said this is easy. How come
+
+there is still these bugs in Ember Data?
+
+So, I'll preface that they are tractable. You can
+
+think about them. You can use them. Maybe not
+
+easy, or impress [NAME?? - 00:17:02], but you could,
+
+they're pretty approachable. And they deal with kind of
+
+basic features, like the fact that we have, for
+
+example, a JSON, JSON for the user, and/or some
+
+sort of a physical XML, if you are unhappy
+
+and you see code like this, come talk to
+
+me more about that.
+
+[laughter]
+
+But, it basically deals with, with a really common
+
+feature set. If you're even using jQuery, you're using
+
+Backbone, let's say, let's say some kind of important
+
+data in this form, so it's in the right
+
+size in our app.
+
+And the other part is that it deals with,
+
+so, for example, here we have this user, we
+
+know its name and yay. These slides are not
+
+readable, because they're black.
+
+[laughter]
+
+And the other part is that it deals with
+
+mapping models in a kind of RESTful way for
+
+Rails. And this is also kind of easy. You
+
+might want to override it, and make it's gonna
+
+be custom to your app. But it's a pretty
+
+easy problem to reason about.
+
+Which is why, before, so this is, wasn't clear
+
+before. Before if you looked at Ember Data serializer
+
+and adapter, this is, in part, what it used
+
+to look like. This is an old slide, which
+
+I used to teach people how adapter/serializer worked, a
+
+year ago. And this is crazy. And even though
+
+now when we ask adapter and serializer might be
+
+a big conquest, you were before expected to work
+
+with this.
+
+And this is insane, because these are easy problems.
+
+If you give a simple hooks, you should be
+
+able to override them, no matter how much, you
+
+don't need as much pressure, you don't need as
+
+much hand-holding, because you need, it's easy, these problems
+
+are contained, they're easy to think about. And you
+
+can work through them yourself.
+
+So, as Robert Jackson said this morning while he
+
+was talking at 7 AM, the hooks are now
+
+insanely better. Because we made them very easy to
+
+use. It's, for example, you have a normalized string
+
+for any sort of model, and you just say,
+
+normalize. Give a hash, and it contains the hash.
+
+You move whatever you want to the hash. You
+
+don't need to have two-hundred and fifty methods and
+
+figure out which one you need to use.
+
+You have one method that says normalize, and you
+
+do stuff there, and you just kind of decide,
+
+whetever kind of JSON, XML, so whatever you've got,
+
+you just, you can do it normalize. If you
+
+need a bit more crazier things, you can use
+
+extractSingle or extractArray. But there needs a couple basic
+
+core ports, that like you basically write the code
+
+like you would in jQuery, like using Backbone. Because
+
+these, of course, are easy because you know how
+
+to do it.
+
+And they get very, very frustrated, where they have
+
+to learn a couple of pages of diagrams like
+
+this, when all they want to do is make
+
+argv stuff with an underscore.
+
+So, that's what happened recently with the data transform
+
+within like the last six to nine months is
+
+that all the adapter/serializing that we have already written.
+
+So now it's much more easier. It's nicer to
+
+use. And it's, and is kind of delicious, so
+
+to say.
+
+But as I was saying, in the future, because
+
+we kind of built this nice API that lets
+
+you do whatever, there's not, thankfully, there's not that
+
+much work for us to do anymore here. So
+
+we might want to tighten up some APIs, you
+
+want to clean up, you might want to clean
+
+up a bit. But there isn't much more here,
+
+and this would be good to go.
+
+So, data transformations. Easy.
+
+Asynchronicity. Well, that's kind of harder. But, luckily, if
+
+you read anything by Justin in the last year
+
+or two, you know the promises are. Oh. Data
+
+transform. Easy. So asynchronicity.
+
+Promises. So I was saying. If you read anything
+
+by Justin in the last couple years, you know,
+
+you know that promises are super popular. They solve
+
+a lot of casing problems. And basically, unless your
+
+name's, unless your Twitter handle starts with an S
+
+and ends in [00:20:49], you might use the promises.
+
+You use them often and they solve your problems.
+
+[laughter]
+
+So, I just have to say, that now I've
+
+burned MongoDB-
+
+[laughter]
+
+[00:21:12 - drowned by applause] saying, my name's Tom
+
+Dale and I approve this message.
+
+[laughter]
+
+So, going back to asynchronicity. Promises really help you
+
+to do this well. And this is a great
+
+example of what I was saying before, about how
+
+frameworks and libraries give you ways to think about
+
+the problem. Because never make the leap, it's own
+
+kind of broken with the promises, but promises were
+
+just started, and solved these problems in a really
+
+bad way, because they didn't have the mental methods
+
+of thinking about these problems that a good promise
+
+is made on the foundation it uses.
+
+So, a, just to be crazy, just be user
+
+fine, and unload the method when the user loads,
+
+and then they've moved on, and then all of
+
+this is gone. This was crap. It was a
+
+good first attempt, but it broke [00:21:58] and serializations.
+
+And plus this is, we switched to a completely
+
+async- promise-based implementation of everything. Almost. And, right now,
+
+all you do is, you find the user, and
+
+you yield to the user.
+
+If you save, you just solve problems that you
+
+saw before. If you had this in the records,
+
+you can save one after the other. That's all
+
+fine.
+
+And in the future, what they're trying to do
+
+is, we need to add promises on top of
+
+a couple more APIs. And this is, from this
+
+point, everything. So you can deal with async in
+
+a very visible way.
+
+So one thing that, if you read the blog
+
+post about Ember Data, and if you didn't, it's
+
+online at Ember.js, I won't go too deep into
+
+this. But, currently, we have a notion called relationships
+
+being async or synchronous. So, [00:22:45-00:22:48], this has gone
+
+away because this was a bad idea.
+
+Fortunately. We wanted to give you a way, if
+
+you knew that the records were there already or,
+
+if you knew, for example, that friends model had
+
+already loaded, you wanted to have a way to
+
+access the directory. But the problem here is that,
+
+for example, there are many problems.
+
+A great one, a good example is the fixture
+
+adapter. If you go online and read about it,
+
+it says, if your, if your server's not ready,
+
+if you use the fixtures adapter to begin developing
+
+Ember.js apps, and then later you can switch to
+
+our REST, REST API. Sounds like a good thing,
+
+though. It's a trap.
+
+[laughter]
+
+Because at least right now, the problem is, if
+
+you want to start, and in order to [00:23:31-00:23:32]
+
+you must start with all your relationships being async.
+
+And, this is false, you know, with the fixtures
+
+adapter. And then later, you know, after switching with
+
+the REST adapter, and all your code is going
+
+to break.
+
+And one of the core principles between- behind Ember
+
+Data is that the changes to the API should
+
+not impact app code. If you change the REST
+
+API, if you change the fixtures adapter or MongoDB
+
+- if for some reason somebody forces you to
+
+use Mongo - you, that those things, should not
+
+effect your app code.
+
+And these implementations broke that. And that's why we
+
+defeated them, and all relations should now be async.
+
+And what's more, so, for example here, notice we
+
+get friends and then do stuff, and what's more,
+
+even object app, or has_many is probably async. So
+
+when you say firstfriend get zero, object at zero,
+
+that is the promise as well.
+
+Which seems kind of weird, but it's actually really,
+
+really awesome, because this is a very natural way,
+
+you want lazy arrays. So if you should have
+
+relationships that have thousands of records, now you have
+
+a way easy way to reason about them, and
+
+a way to implement them with promises so that
+
+they work really well.
+
+And, so, this is just an example how promises
+
+are brought. So, all the relations are gonna be
+
+promises in the future. And this code seems kind
+
+of crazy. Like, you'll have to do this entire
+
+thing over again. You're gonna have a bunch of
+
+gems and stuff. It turns out, if you're writing
+
+Ember, because Ember is so awesome and really easy
+
+to pick up with this, most of your code
+
+doesn't look like this. Most of your code looks
+
+like this.
+
+You basically have different user properties. You have observers,
+
+and these work amazingly with Ember Data promises, because
+
+Ember Data actually has something called a pomiseproxymix- a
+
+promise proxy, where you initially return a promise, and
+
+later when the data loads, it will forward all
+
+the requests, all the accesses, for example if you
+
+try to get user friends, it will forward everything
+
+through the promise, and all your code that's written
+
+with user properties, observers are still gonna work.
+
+It's a bit more detailed, if you look at
+
+the Ember.js Ember Data blog post, and you'll see
+
+how you can easily keep your code the same,
+
+while switching to an easier mode of operation, have
+
+a bunch of free features, and at the same
+
+time be able to reason about your pro- your
+
+Ember Data.
+
+All right. So we're down to two. So we've
+
+figured out data transformation. We've figured out asynchronicity. Caching
+
+is a really very simple one.
+
+[laughter]
+
+So. Kind of. Data transforms, see, they're an easy
+
+problem, but they're a unique kind to have. While
+
+asynchronicity is a pretty hard problem, but most times,
+
+like, there's only, there's a couple ways to be
+
+asynchronous, and if you implement the full Ember Data
+
+and given the code that we went through and
+
+solidify it and, like, use them.
+
+So, caching, when I say caching is easy, I
+
+don't mean a general purpose solution that I'm sure
+
+that no one [00:26:24 - is this a name?
+
+node, as in, node.js, or Noah??] is working on.
+
+[laughter]
+
+But, I mean that, a basic implementation of [00:26:27-00:26:28]
+
+of an identity map. For example, I use, like,
+
+the whole idea of identity map and caching is
+
+that if you try to pass it the same
+
+records, multiple, in multiple places in the, in your
+
+app, you should be able to, you should get
+
+the same object.
+
+So your changes to property, immediately, your object will
+
+be saved in the store, and you can access
+
+them from wherever. So, that's seems pretty simple.
+
+Ember Model does this. Ember Data does this. It's,
+
+I mean, this part of the code hasn't changed
+
+since forever because pretty much it's just a, a
+
+hash map where you accesses servers with the right
+
+id.
+
+So, so far we have data transformation. We have
+
+asynchronicity. And we have caching. We have all the
+
+main features that I promised you that I will
+
+talk about, but it still feels like, I've kind
+
+of been through this, it seems that step forward,
+
+it seems like, guys, we've been working on this
+
+for, like, two years. Why is this, what's going
+
+on here?
+
+And there, there are a couple of core thoughts
+
+that I, that I want to talk about. Is
+
+that, first, this is still pretty awesome. So, yeah,
+
+as you can see, asynchronicity and caching, they're kind
+
+of hard but there are common solutions that we
+
+have.
+
+But yeah. I'm saying, it's kind of like saying,
+
+what have you guys been working on for three
+
+years? This, what is our next step forward? Well,
+
+there are a couple of core ideas here. Is
+
+that first one, standardized data retrieval is still awesome.
+
+If this was all that Ember Data did, it
+
+would still be awesome, because you would get, get
+
+your, you get your REST API, you get Rails
+
+API. Any sort of API, you get a standardized
+
+adapter, and you would know within a couple minutes,
+
+and you can access your data. That's one thing
+
+that it does that for you.
+
+So even if your data, your data transforms and
+
+promises were the only things it did, it would
+
+be a tremendous speed booster, regardless. But there's a
+
+trick here. Because, if you think about data transformation,
+
+asynchronicity, and caching, by themselves they're easy, medium, and
+
+medium-hard. But you have to kind of scale those
+
+from easy to medium.
+
+And it's all, all this is a problem. But
+
+if you think about it, the problem is that
+
+you put all these things together, you get pain
+
+in the ass. And that's kind of what Ember
+
+Data has been dealing with for the past year,
+
+year or two, other than making it faster. Because
+
+if you think about it from basic level, this
+
+seems easy, right. Think of the user as it
+
+comes back. I like to compare the story where,
+
+where I try to go to my friends' place
+
+to get a lightbulb cause mine broke. All seems
+
+pretty simple.
+
+Except, if I do that, I get stuck, I
+
+get stuck, I usually just sat there for about
+
+a half an hour, I come back with a
+
+package of light bulbs, lunch for two days, a
+
+new set of sheets, and a bunch of new
+
+things and probably get a new exam schedule to
+
+the doctor because I haven't had my blood drawn
+
+in years.
+
+So I tried to think, I tried to think
+
+of REST API the same, some of the REST
+
+API behave the same way, because you have no
+
+control over them. You try to say, hey, find
+
+me a user, and the same thing that happened
+
+with the light bulb, the light bulb at my
+
+friend's, and it comes back all crazy. It says,
+
+here, here's a user. But here's also a bunch
+
+of other emails. Here's a bunch of other stuff.
+
+Maybe some things came over a socket.
+
+All of the data and kinds of things that
+
+APIs can throw at you, because you have no
+
+control over them. And this is the really, really
+
+hard problem, because this is going to get crazier.
+
+And I like to call this problem locality.
+
+That's the problem of, hey, data's coming in all
+
+the time, maybe through sockets, maybe through [00:29:44], and
+
+this entire thing goes almost all over your app.
+
+Now imagine if you had a, from that framework
+
+like Ember that did that. Where one, the whole
+
+idea with Ember as a framework is to scope
+
+changes.
+
+That one controller shouldn't impact another controller. That one
+
+view shouldn't impact another view, unless they share a
+
+scope in their components. If this was the case,
+
+if Ember worked like this, that would be unable
+
+to go, to effect anything.
+
+And this is how your data situation, if you
+
+don't think about it particularly hard, is. Because your
+
+data comes in, not only has to see your
+
+friend request, but to impact your data from that.
+
+And it gets even crazier.
+
+Because if you add relationships, and this does, this
+
+is the point that if you look, looked at
+
+the talk description, this is the point that you
+
+probably have PTSD from. But if you add relationships,
+
+if you look at this, you have post, post
+
+has an id, has text and has comments. This
+
+is why id is one, comments are fifty-four.
+
+If you get more of them, look at this.
+
+You first have a post with comments fifty-four, and
+
+then the id of comments has a post id
+
+of one. Now, you have to go back and
+
+find the first post, and add, add this comment
+
+to the comments array. And this is just a
+
+simple example how things go wrong when you have
+
+unbounded, crazy APIs that can push you, push your
+
+data to you at any point.
+
+And then you also have, care about merging. But
+
+if you have scaled data with your new data.
+
+So, what Ember Data tries to do right now
+
+is, is basically make good, make the score level,
+
+make the level that seems to stop together really
+
+really solid, and easy for you, so you don't
+
+have to worry about this problem as much.
+
+If you look at the Ember.js, the Ember Data
+
+blog post, they also talk about a thing I'm
+
+working on, a thing that I'm working on, that's
+
+called a single source of truth. I'm out of
+
+time, so, I have, if your need it, or
+
+you come back, if you have some data problems
+
+I'll be happy to explain to you. But this,
+
+this is gonna fix the relationship syncing problem. This
+
+is that problem that I talk about here.
+
+But then there are other problems that you run
+
+up as you study, as you evolve your app.
+
+And then basically what Ember Data is trying to
+
+do now, and one of the main reasons why
+
+it is so much better now, is that we
+
+basically focused ourselves. Basically think about it like the
+
+Core Team's beard situation.
+
+[laughter]
+
+It's the same thing, it was tested over multiple
+
+Novembers by the Core Team, and they were all
+
+kind of medium. Now there's one beard there, but
+
+it's really, really good and it's majestic.
+
+[laughter]
+
+So I'd like to think of Ember Data the
+
+same way, basically, but we're focusing now on the
+
+core parts, that are either easy, and you can
+
+leave to the developers, or they're really, really hard,
+
+and important to get right, so you have, so
+
+you don't have to worry about it in your
+
+app. And the other easier problems, you just solve
+
+yourself.
+
+So, it's the, asynchronicity and the caching problem, and
+
+the locality problem up there, and locality is more
+
+unique because it depends on your API. Your locality
+
+depends on your data transform, depending on how data
+
+comes in, and all these things together - so,
+
+locality is really the thing that we are trying
+
+to solve right now.
+
+And, it's looking pretty good, and if you use
+
+Ember Data, you use its primitives with all the
+
+promises, and everything, you should actually have the step
+
+forward and work pretty well for you. But that's
+
+why we had to staple a lot of other
+
+features, because they were hard. They were causing problems
+
+and they were actually solving easy problems and just
+
+causing trouble.
+
+So now, I think we're really close to reaching
+
+the home point though, which is to focus on
+
+a small subset and fix that, fix it really,
+
+really well, so you can be sure that when
+
+you're dealing with data, that's it's a proper, that
+
+it's a proper state and it helps you reason
+
+about it.
+
+Well, thanks. [speaking drowned out by applause]
