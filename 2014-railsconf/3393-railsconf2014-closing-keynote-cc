@@ -1,0 +1,2454 @@
+RailsConf 2014 - Keynote - Aaron Patterson
+
+??: Our final presenter - calling him simply a
+
+speaker does his pants a disservice -
+
+hardly, he hardly needs an introduction.
+
+In addition to being a Rails core team member,
+
+he's an avid beard grower and meat connoisseur.
+
+In addition to 90s fashion hoarder.
+
+He, he's here, I actually got the,
+
+I actually have the slip of paper.
+
+He's here with written permission
+
+from Garby Puff. I had to get that,
+
+I had to make sure that it was OK.
+
+And with that, I'd like to welcome up on
+
+stage, Aaron Patterson.
+
+AARON PATTERSON: Thank you. Thank you.
+
+[laughter - applause]
+
+Thank you. Thank you. I am very excited to
+
+be here today. May I be the first person
+
+to welcome you to RailsConf. If you notice any
+
+typos in my slides, please let me know. So.
+
+Just Tweet it at me.
+
+I want to start my talk off with a
+
+couple of quotes. The first one is, "My mom
+
+has the Ferrari of sewing machines." This is from
+
+Kate Heddleson. We were talking about her awesomely embroidered
+
+jacket last night. You should follow her.
+
+And the other quote I want to start with
+
+is, "Dad Gummit," by Bill Dance. That's actually why
+
+I have this hat is because I am a
+
+fan of his.
+
+I love that animated gifs work in keynote now.
+
+Anyway. So my name is Aaron Patterson. If you
+
+don't recognize me, this might help. I, that is
+
+what I look like on the internet. I learned
+
+from the sketchnote talk that I should put my
+
+Twitter handle there. So hopefully you can remember it.
+
+I have a cat, and that's, that's him. This
+
+is him from a different angle.
+
+So, if you like this talk, or if you
+
+like anything, you should give it Tenderlove's seal of
+
+approval. So I'm on the Rails, or, Ruby core
+
+team, and I'm also on the Rails core team.
+
+I think I'm the only one on both teams.
+
+That doesn't mean I know what I'm talking about.
+
+It just means I'm really terrible at saying no.
+
+So.
+
+So, I work for a very tiny start up
+
+that's based in Dallas, Texas. AT&T. I actually do
+
+work for AT&T. So. I have to say, I
+
+really have to say thanks to them for employing
+
+me to do nothing all day basically. So, I'm
+
+an open source developer for AT&T and we're gonna
+
+talk about stuff that I do. Anyway, my job
+
+titles in the past, 2011, my job title was
+
+Carey Haines. 2012, Senior Facebook Integration Engineer Elect. I
+
+lost that election, unfortunately. Then I became a Senior
+
+Software Architect, so I got like a drafting table
+
+and all that stuff. It was very cool.
+
+This year, this year I'm a Thought Leader, In
+
+Training. That's. So. I want to get out of
+
+development, and I've heard that, like, thinking is on
+
+the rise, possibly. So, like, somebody needs to lead
+
+those thoughts, so, I figured, like, that, you know,
+
+it's a great market for me.
+
+So I noticed there were some people around here
+
+with Google Glass. Like that's, that's pretty exciting. I
+
+also have a Google Glass. I did not bring
+
+it. This is my Google Glass. I saw there
+
+was a talk about, like, someone was giving a
+
+talk about doing twenty-seven thousand hours of, or, twenty-seven
+
+million hours of pair programming or something, and like,
+
+ask them anything. I thought that was really cool.
+
+I also do pair programming. But not for as
+
+long. Like, here's, I want to show you a
+
+couple action shots of me pair programming. I'm pair
+
+programming there. This is a very close-up pear, pear
+
+programming shot. I can't do it for twenty-seven thousand
+
+hours. My pear goes bad after a couple days.
+
+So I don't know how, I don't know how
+
+he did it. Anyway, this is, like, the USB
+
+interface on this is terrible. I couldn't, it was
+
+very hard to figure out.
+
+Anyway, I have two cats. This is my lesser
+
+famous, my not-as-famous cat. Her name isSeaTac Youtube FaceBook
+
+Instagram. But we call her TooToo for short. And
+
+then this is Gorbachev Puff Puff Thunderhorse the Third,
+
+and you can follow him on Twitter at gorbypuff.
+
+That is his Twitter name, for those of you
+
+sketchnoting.
+
+This is me with my cat. I love them.
+
+So. It's a Christmas card in the works, right
+
+here. So. I, like I said, on the internet,
+
+I am @tenderlove. I write a lot of puns
+
+on my Twitter and I also give people hugs
+
+and stuff, cause I hug, I work from home
+
+and I get kind of lonely working from home,
+
+so I hug the internet on the weekends. That's
+
+why we did that thing, although I'm extremely shy
+
+so I would not make you all do that.
+
+So, let me give you, I want to give
+
+you a breakdown of my Tweets. These are my
+
+Tweets. It's 90% puns, hugs, cat photos, and sometimes
+
+tech stuff. I also brought a bunch of stickers
+
+with me that look like this. This is my,
+
+this is stickers of my cat. And the thing
+
+is, like, so, it, it has come to my
+
+attention that people might know who I am. And,
+
+and this concerns me very greatly, because I am
+
+very introverted. So I'm really, really shy, and I'm,
+
+like, I'm, you know, you might be saying to
+
+yourself, you're talking in front of many, many people.
+
+How is it possible that you're doing that, and
+
+really shy? Well, the thing is, I'm actually incredibly
+
+scared and I'm using that fear to, to say
+
+stuff in front of you. Also I'm wearing a
+
+ridiculous outfit, so if I mess up, it's like,
+
+ah, look at these! Distraction!
+
+Anyway. So, people have said to me, like, people
+
+have said to me, like, Aaron, you're very famous
+
+and I'm afraid to talk to you and I
+
+want you to know that, this is why I
+
+carry around a whole bunch of stickers with me,
+
+is because, I am also afraid to talk to
+
+you. I don't know what to say. So, if
+
+you want to come talk to me, this is
+
+like, a totally easy thing to do is just
+
+say, hey, Aaron. I heard you have stickers. Can
+
+I have one? And I will say, yes, I
+
+do. I love my cat. Here is a sticker
+
+of my cat. So please, you know, don't, don't
+
+be afraid to approach me.
+
+Now let's talk about some Chicago stuff. We're in
+
+Chicago. I, I noticed, like, so people have told
+
+me, you need to connect with your audience. Like,
+
+it's important to connect with the audience. And I
+
+didn't, I noticed that nobody really did this so
+
+much in their presentations, but I'm gonna do it
+
+now. I'm just gonna say a bunch of Chicago
+
+stuff to, like, connect with all of you. Like,
+
+the Bears. Da Bulls. Mike Ditka.
+
+So now we're all, now we're all connected on
+
+Chicago, right? OK. Perfect. So, last year, I want
+
+to talk a little bit about what I did
+
+in my keynote last year and then we're gonna
+
+go into this year. Last year, I introduced my
+
+consulting company. Here it is. Drr drrr drrrr, drrr
+
+drrrrr. Bum bum bum.
+
+So, there. This is my consulting company, Adequate. Adequate
+
+Industries. I, you know, I did the same joke
+
+last year, but I figured this would be good
+
+enough. Like. It should work.
+
+Figured that would be adequate.
+
+Anyway, I also dropped a lot of F-bombs. It
+
+was pretty sweet.
+
+I also got into a really awkward situation. So,
+
+before my keynote last year, like, I always, before
+
+I give a talk, I always do one thing.
+
+This one weird trick that I do. Which is,
+
+I go to the bathroom before I give a
+
+talk. And unfortunately I was very, very nervous, and
+
+I went into the women's bathroom. But there was
+
+nobody in there so I didn't know. I was
+
+like, wow, there's a lot of stalls in here.
+
+That's OK, I need to use a stall anyway.
+
+All right!
+
+Use the stall, come out, and then I'm like,
+
+OK, there is a, there is a women janitor.
+
+I'm OK with that. I am, you know, I'm
+
+a progressive person. It's fine. I don't mind if
+
+there's a woman in the bathroom. And then I
+
+see that there's another woman washing her hands, and
+
+then I'm like. Oh shit.
+
+And the janitor's like get out of here, and
+
+I'm like, ahh! And, of course, the only thing
+
+running through my head is like, do I wash
+
+my hands? Do I wash my hands? Like.
+
+Anyway, last time, so last time I was in
+
+Chicago was about ten years ago. This was before
+
+I had an iPhone or anything. And this, so
+
+this story is rated PG-13. So, like, I know
+
+we're not, we're not in Prime Time yet, it's
+
+only like, 4:30, so hopefully you'll forgive me.
+
+Last time I was here, I accidentally went to,
+
+well, not accidentally. I guess it was accidentally. I
+
+ended up at a party at Cynthia Plaster Caster's
+
+house. OK, I see, not, none of you know
+
+who this is. If you Google her, like, only
+
+click on the Wikipedia link. Please. Like. That's the
+
+only one you want to click on.
+
+So my friends, I, I was staying with some
+
+friends, and they're like, hey Aaron, let's, we're gonna
+
+go, let's go to a party. We're gonna go
+
+to a party at Cynthia Plaster Caster's house, and
+
+I was like, that sounds great. I'm, I'm hip.
+
+I know artists. People who like to do things
+
+with plaster. That's cool.
+
+So, I didn't. Like, I didn't want to seem
+
+uncool, so I didn't ask who this person was.
+
+And we went to, we went to this party.
+
+Went to the party. And it turns out that
+
+Cynthia Plaster Caster is famous for, in the 70s
+
+and 80s, making plaster casts of rock stars' penises.
+
+And I did not know this in advanced.
+
+So we go to this, we go to this
+
+party, and at the time, a, a, an adult
+
+video had just come out with Jimmy Hendricks in
+
+it, but, allegedly Jimmy Hendricks. And they weren't sure
+
+whether or not it was him. So she was
+
+called in as an expert witness.
+
+And, so she's there, and they had just come
+
+out with the DVD, with her being the expert
+
+witness, you know, and she, like, puts in the
+
+DVD, and we're like, watching it. And I'm like,
+
+what is going on? She's on the DVD, she's
+
+like, yes, you see here and here. That's, that's
+
+him. That's definitely him. And I lean over to
+
+my friend and I'm like, who is this person?
+
+Why are we here?
+
+And so then she explains it to me and
+
+I'm like, oh, I see. So it was incredibly
+
+awkward and, like, the most, the most interesting part
+
+of it to me was that there was a
+
+guy there dressed in a hot dog costume, which
+
+seemed most appropriate for the place where we were.
+
+Anyway, so that was my last, my last encounter
+
+in, in Chicago. And the moral of the story
+
+is, like, if you don't know something, you shouldn't
+
+be embarrassed to ask about it, because down the
+
+line it could be potentially even more embarrassing. Anyway.
+
+So, Rails is ten years old. And that's really
+
+exciting. I was thinking about, like, OK, so Rails
+
+is ten years old. What did I look like
+
+when I was ten years old? And so I
+
+decided to dress like that today. And that is
+
+why, that is why I am dressed like this.
+
+So, this is what, about what I looked like
+
+when I was ten years old. Maybe twelve or
+
+so. I'm not sure. Like, around in that ballpark.
+
+And I know you, you probably can't see the
+
+back of my t-shirt. I'll turn around here. It's
+
+probably hard to read. But what it says is
+
+this. It looks like this. It says, it says,
+
+if you can't surf with the big dogs, stay
+
+off the net.
+
+And I love it. It's like, that's a dog
+
+zooming, surfing by. It's like the literally interpretation of
+
+the internet. And you know in the early 90s,
+
+like, this is how most people thought the internet
+
+worked. It was like these, these things going around
+
+the globe with like, bubbles and stuff and there's
+
+a dog flying by. And I'm just thinking to
+
+myself, like, yeah, there's some guy sitting there clicking
+
+his mouse, like, yeah. If you can't surf with
+
+the big dogs you gotta get off the net.
+
+Just kills me.
+
+Anyway, so I think we, I think we've made
+
+a lot of progress since then, because basically what
+
+dogs look like on the internet now is this.
+
+Like. I mean, this is surfing with the big
+
+dogs right here.
+
+Anyway. So ten years ago, ten years ago, like,
+
+Rails, the Rails community started solving incredibly hard computer
+
+science problems. So, ten years ago, we were able
+
+to solve the problem of naming. Check. It's solved.
+
+Say Rails generate new model or whatever. And we
+
+got the names down. You use plural. Super exciting.
+
+Last year, last year during DHH's keynote, it was
+
+very exciting. Incredibly exciting. We solved caching. Boom. Russian
+
+doll caching. Throw it in there. Don't worry about
+
+it at all.
+
+Also, in the last, in the previous year, like,
+
+another insanely hard computer science problem solved was dependencies.
+
+We solved that. In fact, I have a quote
+
+about it here.
+
+"The genius behind MPM is that it solves dependencies,
+
+a long-time problem in computer science."
+
+Boom. Solved.
+
+Unfortunately, that was with MPM, so I just have
+
+one thing to say. It's like, get your act
+
+together, RubyGems. What is the deal? Why have we
+
+not solved dependencies yet?
+
+So this got me thinking, like, what's left in
+
+computer science, right? I mean, we're doing, we're doing,
+
+like, ground-breaking work here on the Rails core team.
+
+It's, it's amazing. There's one thing left.
+
+P equals NP. And you know what? I'm gonna
+
+solve this one for you, on stage, tonight. I
+
+don't even know why, I don't even know why
+
+this is so hard.
+
+You just divide both sides by P.
+
+Done. We're done. Yeah!
+
+I think we're done here. We can all go
+
+home now.
+
+Anyway, so this is my, this is my anti-keynote.
+
+DHH opened. He gave the keynote. I am closing.
+
+I will give the anti-keynote. Tonight we are going
+
+to talk about coverage, speed, metrics, and hard effing
+
+science.
+
+So. So things I've learned at RailsConf. Yehuda taught
+
+me that it is nearly five PM on a
+
+Friday at the end of a very long conference,
+
+so your batteries are, your cognitive batteries are probably
+
+very low, which means that I am your default.
+
+It means that you need to listen to me.
+
+Science is good. TDD is great. Baratunde taught me
+
+that I am white. I did not. Didn't realize
+
+that until the other day.
+
+Farrah taught me that I need to code hard
+
+and code fast, so tonight I'm gonna troll fast
+
+and troll furious.
+
+So, DHH. DHH's presentation gave me a really awesome
+
+workout for my eye muscles. You can see from
+
+this diagram right here, this is the eye roll
+
+muscle. I'm not. Had a lot of exercise back
+
+there.
+
+Super strong.
+
+So, I'm like, OK, ah, man, we got this
+
+person with a birth year on it. How do
+
+we test this? Well, obviously we have to pass
+
+in today. We modify the, we modify our API,
+
+pass in today. And then we can test it,
+
+and I just have to say one thing. Stop!
+
+This is, this is not how you test it.
+
+This is not dependency injection. I, like. So, let
+
+me, let me show you the way I would
+
+test this. The way I would test this is
+
+I would use the API that we already have.
+
+Your person has a constructor. You can give it
+
+a birth year. So pass in the current year
+
+and then test whether or not the current, birth
+
+year is equal to that, and whether or not,
+
+you know, then refute it as well.
+
+What's really cool about this, what I think is
+
+really, really awesome, is that there's now new API
+
+necessary. Wow. Amazing. Constructors are pretty cool, I think.
+
+I like constructors a lot. But the lesson from
+
+this is that you need to make construction easy.
+
+If you make construction of your objects easy than
+
+they should be easier to test.
+
+So, OK, we did, there was some trolling. I
+
+want to start out, I want to start out
+
+with my controversial opinions. These are my only, well
+
+no. I'm gonna give you some controversial opinions now,
+
+and then some at the end of the talk.
+
+So I'm gonna start out with controversial opinions.
+
+I am a software engineer. I am not a
+
+software writer. I am sorry. I imagine, when I
+
+hear, when I hear software writer, I imagine somebody
+
+sitting in their villa in France at a winery.
+
+Oh, look at how that brace lines up with
+
+this other brace. It's beautiful.
+
+So amazing. Look at how those methods are indented
+
+just one underneath private. Oh, it's so readable. What
+
+kills me about this is that beauty is in
+
+the eye of the beholder. Like, if you, for
+
+example, look at this ridiculous outfit I'm wearing. In
+
+the 90s, this would have been acceptable.
+
+Science is important. I can't believe I had to
+
+say this. So, you may not have to be
+
+a computer science, scientist to be a web developer,
+
+but having some sort of scientific background might be
+
+important for things like making money. Like, I mean,
+
+sure any of us can sling out some html,
+
+but can you make money with that? You need
+
+to be able to measure things. Like, for example,
+
+A/B testing. There is math. Money. More math.
+
+I, it just. Anyway, yes. Science is important. To
+
+me.
+
+So I want to talk about mutable state. I
+
+think I said in the title I was gonna
+
+talk about mutable states, so I'm gonna do that.
+
+I promised I would.
+
+A. Matz sort of said in his talk, Rails
+
+has many bugs. So we're gonna look at some,
+
+we're gonna look at some bugs. These are my
+
+favorite bugs recently. And I've actually, I've found two
+
+of the three bugs we're gonna look at. And
+
+all of these, all of these bugs have to
+
+do with mutable state in one way or another,
+
+and we're gonna see how.
+
+The first one is inconsistent return values. Typically, I
+
+assume that if I call a particular function twice,
+
+it will return the same thing. I know this
+
+is probably silly in Rails. SO I think that
+
+those two, those two methods should return the same
+
+thing. If you call that once, and this literally
+
+happens today in your Rails code. If you do
+
+these two particular lines of code, the first time
+
+it'll return false and the second time it'll return
+
+true.
+
+And when I look at this, I, I feel
+
+like this. I feel like I'm Bill Dance with
+
+a dog going. Let me just watch that gif.
+
+I love the dive.
+
+Anyway. This, there's another problem with this too. It
+
+also has a memory leak in it. Look at
+
+that. So we actually, these are action control parameters.
+
+This is the params thing that's in your controller.
+
+That hash that you deal with in the controller.
+
+There is a memory leak and if you do
+
+this, if you do this particular code. Like, if
+
+you write this, if you fetch a value and
+
+then delete it and then assign a new one,
+
+you'll get a memory leak and it'll look like
+
+that.
+
+So if you run that program, it'll just go
+
+infinitely. And the reason is because we're doing a
+
+conversion on the stuff that we pull out when
+
+you do fetch. And that conversion gets shoved into
+
+an array. And unfortunately, this parameter's hash, it allows
+
+you to delete things from it. But when you
+
+delete stuff from it, this internal array thing is
+
+not updated. So it deletes from the hash but
+
+doesn't delete from this other converted array value. And
+
+this is something that was missed because the parameters
+
+hash inherits from a hash with a different access,
+
+and hash with a different access inherits from hash,
+
+and hash implements a whole bunch of methods that
+
+maybe you didn't think about.
+
+For example, delete.
+
+So, when you, when you inherit from something like
+
+hash, you have to think about all these different
+
+ways can, can interface with your code. And it's
+
+similar to this. You're like, ah, oh, they, they
+
+might call delete. They might update. They might replace.
+
+What do we do about that?
+
+So, this is one thing that is, I do
+
+not like. It is not very fun, and I
+
+mean, you can tell this is not done with
+
+TDD, possibly. I'm just kidding. I'm just kidding. It
+
+probably totally was.
+
+So, another, another example here is an inconsistent return
+
+value. So the first time we call size on
+
+this one, on this relation, it'll return a hash.
+
+And the second time, if you call to_a on
+
+it, the second time it'll return a one. So
+
+I, I would expect that both of these return
+
+a hash or return a one. But they don't.
+
+And the cause if because we have a mutated
+
+state inside of the relation object, which is, if,
+
+when we load the records from the database, we
+
+shove that into an instance variable so that if
+
+you try to reload them again, we don't actually
+
+go hit the database.
+
+So, if it's loaded, then we'll return the length
+
+of the records that are in there, and if
+
+it's not loaded then we'll actually do an, we'll
+
+do a count on that. I'm not totally sure
+
+how to fix that. These first two problems, I'm
+
+not sure how to fix. I feel like, like
+
+this one.
+
+Another Bill Dance. Ah! I should probably tell you,
+
+whenever we find issues like this, or mistakes, we
+
+take one of these gifs and put them into
+
+camp fire, which is why I own this hat.
+
+I feel like I am screwing up all the
+
+time, because it's probably my fault.
+
+The next one we're gonna look at I like
+
+to call wtf SQL. This one is courtesy of
+
+@ilenecodes. She did not call it wtf SQL. That's
+
+my name.
+
+You can see her speak at Ruby Nation and
+
+I highly encourage you to do so. Actually I
+
+saw her present this, I saw her present this
+
+bug at Mountain West Ruby Conference. She was giving
+
+a talk on ActiveRecord stuff, like internals, and she's
+
+going through all this stuff and she's like, if
+
+you call it in this certain way, then it's
+
+incredibly inefficient. Like, it does this weird stuff and
+
+it's incredibly inefficient, and of course during Q&A I
+
+was like, why don't they fix that?
+
+And then I was like, oh, they is me.
+
+OK. Anyway. So let's look at, let's look at
+
+the bugs. So, we have a, we have a
+
+object here. Like, this is just using pictures. We
+
+have an author. The author is David. We create
+
+a whole bunch of posts for it and then
+
+call delete all. If we think about what the
+
+SQL is for that, we would expect that it's,
+
+like, OK, delete all from posts where the id
+
+is whatever, and if you execute this, yes. That's
+
+what happen.
+
+Delete all from posts where author id equals one.
+
+OK. Now, let's say you're messing around with this
+
+thing in IRB. You say, OK, David dot posts,
+
+and you inspect the return value of it. So
+
+this, this test is simulating that. We're calling inspect
+
+on that, because that's what IRB does to any
+
+return value. It calls inspect and then shows you
+
+the text below it.
+
+So what do you think the SQL would be
+
+for this?
+
+If you thought it was the previous one, you
+
+are wrong. Otherwise I wouldn't be showing this to
+
+you. This, this is what the SQL looks like.
+
+A giant IN statement. So yes. This is definitely
+
+inefficient compared to the other one. Anyway, the cause
+
+of this is exactly the same as the cause
+
+of the previous one. We had state saved. We
+
+said, OK, if this is loaded then we do
+
+a different thing versus if it's not loaded. So
+
+we're like, OK, if it's loaded then we're gonna
+
+do a delete with an IN, otherwise we're just
+
+gonna delete all the records, when actually we just
+
+wanted to do a delete without the IN.
+
+So, this is my, my next Bill Dance gif
+
+that. Ah, I love this one. So the lesson
+
+that I hope you all to take from this
+
+is avoid subclassing built-in classes. They probably implement stuff
+
+that you're not expecting. They're probably implementing an API
+
+that you may not need or may not want.
+
+You should be conservative about the API that you
+
+implement. It's much easier to add a method than
+
+it is to take one away.
+
+If you take one away, you need to deprecate
+
+it, and there's a lot more work. It's a
+
+lot easier to introduce something new. The other thing
+
+is that you should be extremely careful with mutations.
+
+I'm not saying, like, don't mutate stuff, I'm just
+
+saying be very careful about it. If you keep
+
+a small API, then it's much easier to be
+
+careful with your mutations.
+
+So you might be asking yourself, Aaron. You find
+
+all these bugs in the Rails and there's all
+
+these bugs, why would you want to work on
+
+this piece of code. And I'll tell you, the
+
+reason I like working on Rails, the reason I
+
+love being on the Rails core team is actually
+
+because I love Ruby.
+
+Is that weird? I just Googled for heart images.
+
+I don't know if that's, like. Anyway. The reason
+
+I love working on Rails is because Rails is
+
+what gave me a job as a Ruby programmer.
+
+So I want Rails to give everybody jobs. I
+
+want to be able, I want everybody to be
+
+able to work in Ruby on a day to
+
+day basis. So it's really important to me to
+
+make Rails a better place so that companies will
+
+continue to adopt it and that people will be
+
+able to have jobs and get paid using Ruby.
+
+So the next portion of the presentation I want
+
+to talk about is AdequateRecord.
+
+This is a thing that I've been working on.
+
+It's from Adequate Industries. So, what is, what is
+
+AdequateRecord? AdequateRecord is a fork of ActiveRecord with some
+
+performance improvements put on top of it, and I
+
+want to talk about those performance improvements. But first
+
+off, like, I gathered a whole bunch of quotes
+
+about AdequateRecord. Like, what people are saying about it,
+
+like, using it, using it on their applications and
+
+how they find it.
+
+So I want to share those quotes with you
+
+just to, you know, so you know the quality
+
+of the software. It's like ActiveRecord but more adequate.
+
+I'm quoting myself.
+
+That's how you know it's legit. It's all right,
+
+but I've seen better. Thanks Jeremy. I appreciate that.
+
+It was really good. Yehuda says, oh, it seems
+
+to work. Josh Szmajda says, Sometimes good enough is
+
+good enough.
+
+I actually, I tried to get a quote from
+
+Matz, and he just said, what? What is that?
+
+So, why did I name it, like, why did
+
+I actually name this library Adequate? I actually had
+
+a motivation behind naming it AdequateRecord, and the reason
+
+is humility. Like, I'm actually super tired of libraries
+
+that are named, like, ActiveSomething and TerribleThis and all
+
+that, like. Why? Why do we have to have
+
+things that are named, like, super awesome whatever software?
+
+Like I, I just want to know what your
+
+software does. I don't care how awesome it is.
+
+I just want something that works.
+
+So, that's why I named it AdequateRecord. It's also,
+
+it's another thing, like, I think it's an anti-marketing
+
+term. I feel like a lot of software is
+
+trying to be sold to me, and it really
+
+bugs me. I don't like it when people try
+
+to sell stuff to me. It's kind of like,
+
+I don't know, the new version of people coming
+
+to your door and trying to sell you stuff.
+
+I want people to buy the software based on
+
+its merits, not based on, like, how cool the
+
+name is or whatever.
+
+So, why did I fork?
+
+The reason I forked is that I don't actually
+
+want new features. SO this is a dirty little
+
+secret of mine. I don't actually want new features
+
+in Rails. Yet. I think that Rails accomplishes, like,
+
+90% of the stuff that we need to have,
+
+make great web apps. And I'm afraid that if
+
+we try to keep going that extra ten percent,
+
+we're just gonna be adding cruft that nobody wants
+
+to use, or it's just, increasing the complexity of
+
+the code that's there.
+
+It actually makes me incredibly paranoid when we, when
+
+we add new features to Rails, because, you know,
+
+a lot of people think, like, hey, there's a
+
+new feature there. This is really awesome. I can
+
+do these super magical things, and I look at
+
+it, and I'm like. Oh man. How many years
+
+of refactoring is that gonna cost me?
+
+So let's talk about, let's talk about Adequate's history,
+
+so I can give you a little bit of
+
+background about why I have opinions like that.
+
+I've actually been working on this project for about
+
+three years. So I've been refactoring the Rails code
+
+base with this particular optimization in mind, and I,
+
+it's taken me three years of refactoring this legacy
+
+code just to get to the point where I
+
+could actually add this stuff. If you look at
+
+my talks for the past three years, I've been
+
+talking about this stuff in theory, like talking about,
+
+talking about doing prepared statement caching, talking about doing
+
+yack shaving.
+
+All these things are actually just leading up to
+
+this. So, I, I'm actually very glad to have
+
+all of you here today, because this is probably,
+
+to me, the most important talk that I've given.
+
+Because I've spent so much time on this. I've
+
+had this idea in my head for three years
+
+now and I really want to talk about it.
+
+Adequate.
+
+So, in order to talk about this, we need
+
+to talk about how ActiveRecord works. So I'm gonna
+
+just show like a brief overview of how ActiveRecord
+
+works, and then we'll talk about the performance improvements
+
+of AdequateRecord.
+
+This is what it looks like when you say
+
+post dot find ten, we go through a process
+
+that looks similar to this. When you say post
+
+dot find, we create new ActiveRecord relation object. Those
+
+ActiveRecord relation objects eventually get translated into aRel SQL
+
+nodes, into a SQL AST. That AST is then
+
+transformed completely into a string. Literally a string. That
+
+string is sent to the database. The database returns
+
+a bunch of records. Those records are turned into
+
+ActiveRecord base objects and then sent back to you
+
+wherever you called that.
+
+So this is basically the high-level overview of what
+
+happens with ActiveRecord.
+
+So the chance, the first change that we had
+
+to go through was bind parameter introduction, and I'm
+
+gonna show you why we need to do that.
+
+If you looked at the, if you looked at
+
+the logs in Rails many years ago, you'd see
+
+something that looks like this. If you did post
+
+dot find one or find three, you'd see these
+
+SQL statements in your, in your logs.
+
+And you may notice about them, the only thing
+
+that changes is that number. The rest of the
+
+string is constant. it does not change. So what
+
+we did now, if you look in later versions
+
+of Rails, you'll start to see something in your
+
+logs that looks like this. Select star from post
+
+where id equals question mark. And then some square
+
+brackets there saying ID comma one.
+
+And what the idea here is that we're trying
+
+to separate static and dynamic content. Those are ids
+
+are the only dynamic thing in that string, right.
+
+We want to be able to generate something that's
+
+always the same. The Adequate theory is that, in
+
+this, in this diagram, if everything that generates that
+
+string always generates the same thing, we should be
+
+able to cache it. If you say post dot
+
+find and it goes through all this stuff and
+
+it generates a SQL statement that's always the same,
+
+we should be able to cache that computation.
+
+It means that we can say, OK, let's just
+
+cache that. Then the next time you call post
+
+dot find, we don't have to generate the SQL
+
+statement. It's already there. Because we don't have any
+
+dynamic values embedded in it. So this was done
+
+quite awhile ago.
+
+The next thing that we needed to do is
+
+decouple our code. Now, separating the dynamic, the static
+
+and dynamic content sounds, like, easy enough, but it
+
+actually is not because it is embedded deep within
+
+the Rails code. I am gonna show you where
+
+it is. This is the worst part. Right here.
+
+Yeah. You don't need to read that. Don't worry.
+
+Those are, those three arrows are pointing at dynamic
+
+values that are being inserted into your code. This
+
+is deep within the call. Deep within the callstack.
+
+This is actually inside the association's code. That's, and
+
+that is one method. It is one method.
+
+It is one method to rule them all and
+
+in the legacy code bind them.
+
+So this method defines how all the joins are
+
+done inside of, inside of a relation. Like, basically
+
+the problem with this method is if you have
+
+specifically was, STI. So if you have single-table inheritance
+
+and you need to insert that value for the,
+
+the model name in there, that's what that was
+
+handling.
+
+So in order to simplify that, that, so that
+
+code was, I think I said this was only
+
+to do with associations. Like, has_many, has_many_through et cetera
+
+et cetera. And I wanted to simplify that code,
+
+so in Rails 4.1, I deleted has_and_belongs_to_many. It is
+
+gone.
+
+Thank you. I am extremely proud about this. And
+
+don't, for those of you that haven't upgraded to
+
+4 point 1 yet, it still works, OK? has_and_belongs_to_many,
+
+the keyword is still there. You, you will be
+
+able to upgrade your app and it will actually
+
+work. And the way that I got it to
+
+work is, has_and_belongs_to_many is actually a subset of has_many_through.
+
+If you think about.
+
+So, if you think about has_and_belongs_to_many, it's got three
+
+tables. Has_many_through also has three tables. But has_many_through forces
+
+you to define a middle model. So the, the
+
+refactoring that I did is just on has, has_and_belongs_to_many,
+
+it translates your, that call into a has_many_through with
+
+an anonymous middle model.
+
+So it should be completely transparent to you. And
+
+because I was able to do that, I could
+
+remove a bunch of code from that very complex
+
+method, and I want to show you that I,
+
+like, I don't expect you to read this diff.
+
+I'm gonna show you a diff. I'm just showing
+
+you a diff cause I'm very, very proud of
+
+it. It, it's one of my favorite commits in
+
+the Rails code base.
+
+All you need to see that there are red
+
+parts and no green parts. And there's a bunch
+
+of commits that look like this. And the reason
+
+I love these commits so much is because they're
+
+removing stuff, not replacing it, and they're specifically removing
+
+conditionals. There are if-statements in there that are just
+
+getting pulled out and thrown away.
+
+It makes me so happy, because when you look
+
+at this code, you don't have to think about
+
+those conditionals. Those conditionals are what tire you out.
+
+You look at that and you're like, oh, if
+
+it's this thing, then it does this, and you
+
+think, well how did it get that way?
+
+How, and you have to go figure out, how
+
+did it get that way? So I felt very
+
+happy about this. I was eating code out of
+
+the Rails codebase. It made me super happy.
+
+So, the next part. Wow, I'm actually making it
+
+on time. I'm happy. OK. The next part, part
+
+three, was to introduce a cache. This is finally
+
+where we get to see our speed improvements. I'm
+
+gonna show you the cache, what the caching API
+
+looks like, but this is totally internals. Like, don't
+
+use this. The API is unstable. But I'm just
+
+gonna show you what it, what it looks like.
+
+What, I'm gonna show you what it looks like
+
+so that you know what the cache is or
+
+what we're caching.
+
+This is what the cache, this is a cache
+
+code example. So, we can say, like, person dot
+
+where, name, parameters dot bind, and then limit one.
+
+And what that does is it caches the relation
+
+that you created in there. And we can execute
+
+that, we can execute that cached statement multiple times
+
+with dynamic values.
+
+So, wherever that params dot bind is, that's a
+
+dynamic value. So, there's our normal, ActiveRecord relation object,
+
+and that is where we execute it with different,
+
+different values. Now, the thing about this is, the
+
+reason I haven't exposed this to anybody, or one
+
+reason I haven't exposed this to anybody is because,
+
+the return value of that statement inside the block
+
+must be an ActiveRecord relation object. And probably, I'm
+
+figuring most people outside of the Rails core team
+
+don't know which methods return ActiveRecord relation objects.
+
+So, I know this, but probably not many other
+
+people do. So I don't think it's a very
+
+good interface for public consumption. So I want to
+
+show the ob, cache object internals. This is what
+
+the actual statement cache looks like. We have in,
+
+from that previous example, we have the bind values.
+
+These are the bind values. This keeps the offset.
+
+It indicates the offset into the SQL statement where
+
+that dynamic value is. And it also contains the
+
+information for how to cast that dynamic value.
+
+So, for example, when you get an id that
+
+comes in from the request, that id is a
+
+string, and we need to be able to cast
+
+that to an integer. This contains that information. And
+
+then down below is where the actual SQL statement
+
+is cached and you can see it's just a
+
+string.
+
+So the next step after defining these cache, this
+
+cache, was to update the internals and cache any
+
+relation objects. And this is very interesting because, we
+
+went through and looked through all the places in
+
+ActiveRecord where relation objects are actually used. So, they're
+
+used, these are the examples of things that are
+
+used and I know it's a cardinal sin. Dots
+
+with stuff to read. But I don't care. I've
+
+been working on this forever so screw you guys.
+
+So, all these things use ActiveRecord relations. Internally. Basically,
+
+everything that you do with ActiveRecord uses relations and
+
+relations internally. All of these are cacheable. So we
+
+can add caches to all these things, and I'm
+
+gonna show you an example of the cache that
+
+we added internally. This is an example implementation.
+
+So this is the implementation for find with an
+
+id. You can see in there, we, we have
+
+a key, and we say OK, create that relation.
+
+So, in your Rails code, you may have typed
+
+post dot where primary key arrow. That thing. We're
+
+basically just doing that internally. So it's really not
+
+much different than what you would do inside your
+
+app code.
+
+So that is our, that is our static values
+
+for the SQL statement. And then here are our
+
+dynamic values. That's the id that you actually passed
+
+into find, so we just always call with that
+
+id.
+
+So I want to share a few, after looking
+
+at that, it's really exciting. I want to share
+
+a few fun facts. These are the different ways
+
+that you can call post dot find.
+
+I don't know if you knew this. You can
+
+call with an array. You can call with an
+
+array of arrays. You can call with a hash.
+
+You can call with an ActiveRecord id. You can
+
+call it with a block. You can call it
+
+with scope. And you can call it with a
+
+block and a scope with any of those combinations
+
+above it.
+
+So, only that one is cacheable. The rest of
+
+these are, like, I have no idea why we
+
+even support that. I don't even know what they
+
+mean. So when I was trying to figure out
+
+what we could cache and what we couldn't cache,
+
+I felt like this. So if you go look
+
+at the method, if you go look at the
+
+method, I'm like, OK, this is all the stuff
+
+that we can't cache. I don't know this, this,
+
+any of these. So I'm gonna show you some
+
+performance statistics for this. And if we could remove
+
+all of that API, that would actually be super
+
+nice. I would like that. Cause we could have
+
+ActiveRecord even faster.
+
+So let's talk about measuring performance, because we want
+
+to see the performance of these things. I'm gonna
+
+talk about some benchmarking tools. The way that I
+
+benchmark this stuff and the way that you should
+
+benchmarking things. The first tool I want to talk
+
+about is benchmark/ips. This is a library that, actually,
+
+Evan wrote. And I'm gonna compare this to the
+
+normal benchmark library that's in, that comes shipped with
+
+Ruby.
+
+This is the normal benchmark library. So you say
+
+like, OK, benchmark something, and then you need to
+
+loop over something and see how long it takes.
+
+That'll report to you how long it takes to
+
+call that thing. The problem with this benchmark is,
+
+like, we loop n-times, but how big should n
+
+be? Have you ever written a benchmark and you
+
+run it and it's like, oh, zero time?
+
+Good job dude. So you have to sit there
+
+and think, like, OK, I gotta increase the n.
+
+Maybe decrease the n. And maybe you send the
+
+benchmark off to somebody who has a faster machine
+
+than you or a slower machine than you. Then
+
+they have to, then they have to change the
+
+n. What benchmark/ips does is it actually measures the
+
+iterations per second. The number of times it can
+
+call that method per second.
+
+So you write a benchmark that looks like this.
+
+And it will run that block as many times
+
+as it can in five seconds. So it just
+
+defaults to five seconds. And the output looks like
+
+this. It says, OK, we can call it that
+
+many times in five seconds. And the other thing
+
+I really, really like about it, is it gives
+
+you a standard deviation report. That plus or minus
+
+three percent that's shown there.
+
+The problem with the previous benchmarking tool is it
+
+doesn't tell you standard deviation. So let's say you
+
+write some code. Let's say you do some sort
+
+of performance improvement. You think you've done a performance
+
+improvement, and you compare your benchmark, you, you have
+
+this benchmark. You compare your code to the old
+
+code. And it looks like it's slightly faster. You're
+
+like, great, it's slightly faster. But you didn't know
+
+what the standard deviation was. If you don't know
+
+what the standard deviation was, it could just be
+
+noise. It could be other programs impacting your benchmark.
+
+You don't really know that information. It's better if
+
+you have the standard deviation, so you know, ah,
+
+I'm one standard deviation outside, or I'm two standard
+
+deviations outside. So, yes, this is definitely a performance
+
+improvement. Getting standard deviation with your benchmarks is important.
+
+The next tool that I use is GC dot
+
+stat. I'm not sure what version of Ruby this
+
+is in. I think 2 point 1. GC, this
+
+is, in order to count object allocations when we're
+
+doing queries. So this call will do a total
+
+object allocation count. So this actually counts the number
+
+of objects that have been allocated in your system
+
+ever. Not, like, now, or not inside a loop,
+
+but ever. Every time you allocate an object, this
+
+value increases.
+
+So, what we do, is I say, OK, I'm
+
+gonna call, I'm gonna warm up this benchmark. I'm
+
+gonna call person dot find. Then I'm gonna count
+
+the total number of objects that were allocated in
+
+the system. Then I'm gonna actually execute my benchmark
+
+and say, OK, call, you know, find this person
+
+so many times. Count the objects again. Subtract and
+
+divide. And then we know the number of objects
+
+that have been allocated per call. Science.
+
+I should have put a slide of Jesse Pinkman
+
+in here.
+
+Anyway, so let's, let's actually look at some numbers.
+
+Let's look at the performance of AdequateRecord. So let's,
+
+we're gonna look at post dot find and post
+
+dot find_by_name.
+
+So, I wanted to benchmark these because they're, they're
+
+essentially the same thing. One is just finding by
+
+id the other one's finding by name. So they
+
+should be approximately the same. And this is a
+
+graph of their performance, essentially over time. The x-axis
+
+along the bottom is the branch. So on the
+
+left side is 2.3 stable to 3.0 stable, proceeding
+
+to the right. The very right is AdequateRecord.
+
+The bar along the y-axis is the calls per
+
+second to the, to post dot find. So the
+
+higher that is, the better. You can actually see
+
+there around in 3.1 stable, it was tanking, like
+
+super hard. I mean look at that.
+
+What's also interesting here is that yellow line. That
+
+yellow line represents mySQL, and I should say these,
+
+along the bottom there, I say SQLite and mySQL
+
+2 and mySQL and PostGres. That actually represents that
+
+particular adapter that we were using. So, not exactly
+
+mapping to the database. We were testing mySQL twice.
+
+And I think this graph is interesting because you
+
+can see, in 2.3 stable there was actually a
+
+bias towards mySQL. MySQL was significantly faster in 2.3
+
+stable than PostGres was, but you'll see that those
+
+actually even out along here.
+
+Now, this is the same, same benchmark put with
+
+post dot find_by_name, and you can see, basically, the,
+
+the look of the graph is about the same
+
+as the previous one. We started out faster in
+
+2.3, it slowed down, and then over on AdequateRecord
+
+we're going much faster. And I just wanted to
+
+call out this one here. This is mySQL. This
+
+is that same graph, but I specifically pulled out
+
+mySQL to show you, like, exactly the performance, the
+
+performance changes of mySQL over time. So you can
+
+see it just tanked super hard at 3.1 and
+
+then slowly came back up.
+
+This is the percent faster that AdequateRecord is than
+
+4.1 stable. So, let's see, what is that? Some
+
+of these are over a hundred percent faster, so
+
+it's two times faster. This is the percent faster
+
+it is than 3.2 st- or, 2.3 stable. We
+
+can see mySQL, it is faster on AdequateRecord but
+
+not by much. So we are faster.
+
+This is a graph of the object allocations. So
+
+this is the number of objects that are allocated
+
+per call. And you can see there around 3.1
+
+stable and 3.2, we're actually increasing the number of
+
+objects that we allocate per call to this.
+
+So it doesn't necessarily directly impact the calls per
+
+second. It does have an impact on it, and
+
+GC.pressure() does cause issues. But it's not, they're not
+
+exactly aligned together.
+
+Same issues with find_by_name. And you can see there,
+
+again, on 2.3 stable a strong bias towards mySQL.
+
+So AdequateRecord allocates 70% fewer objects than 4.1 stable
+
+does per call. It allocates 55% fewer objects per
+
+call than 2.3 stable.
+
+Now I want to look at belongs_to. Like, I'm
+
+gonna look at the, I'm gonna look at each
+
+of the relations. So, belongs_to graph looks very similar
+
+to those previous ones, except that SQLite3 is insanely
+
+faster. So, again, along the bottom is time. Along
+
+the y-axis is calls per second, so higher is
+
+better. Percent faster than 2.3 stable and 4.1 stable.
+
+The mySQL 2 bar doesn't have a 2.3 stable
+
+one, because mySQL to that adapter didn't exist until
+
+2.3 stable so I didn't test it. But we're
+
+all, AdequateRecord is faster in all cases.
+
+has_many :through. So I want to show has_many as
+
+well as has_many :through. This is the performance graph
+
+for that as well. You see exactly the same
+
+thing. Started out fast. 2.3 stable, went down, and
+
+now we're faster in AdequateRecord. Also, has_many :through call
+
+speed over time.
+
+So, again, we're also faster than 2.3 stable in
+
+every case. Much faster than 4.1 stable in every
+
+case. And the last thing I want to look
+
+at is has_many :through growth. So caching these SQL
+
+statements should give a, should give us constant time
+
+performance with regard to generating the actual SQL statement
+
+string. And that's what I want to demonstrate here
+
+is show you that constant time performance compared to
+
+actually any of the other branches.
+
+So what I'm talking about with has_many :through growth
+
+is, let's say we have a model that looks
+
+like this. We say has_many :through one thing. What
+
+I want to study here, in this case, is
+
+what if we add another has_many :through. So what
+
+if there's two of them? We go through two.
+
+And then what happens if we go through three?
+
+And what happens if we go through four? Et
+
+cetera, et cetera, et cetera. So we keep increasing
+
+the number of tables that we're joining against on
+
+has_many :through, and this is what the graph looks
+
+like.
+
+So you can see, on master, well, actually, 4.1
+
+stable, actually, any of the, any of the branches
+
+will look similar to this. Along the bottom is
+
+the number of tables that we're actually joining against.
+
+So that's the number of has_many :throughs that we're,
+
+we're joining against. So at the very right hand
+
+side, we're joining against sixteen tables.
+
+And you can see on master we actually have
+
+linear growth and on AdequateRecord we have constant time
+
+growth. And it does grow just a little bit
+
+there, and the reason, the reason it grow just
+
+a little bit is because we're actually sending those
+
+queries to the database, so database time is impacting
+
+this. But the algorithm is constant time.
+
+So, I am extremely, this is my favorite graph.
+
+Aw yeah. Constant time!
+
+So, this is, this is one of the things
+
+that I'm talking about with why I think studying
+
+computer science is important. OK? If you study this
+
+stuff, you can say, you can look at these,
+
+this performance, you can increase your code and you
+
+can talk about it. You can quantify it. DHH
+
+gave the example of, like, oh, I take a
+
+lot of pictures, and now I've taken a lot
+
+of pictures, so I'm just good at pictures. Which
+
+is very nice. Except that, there is, I'm happy
+
+that he takes pictures. That's cool. I like to
+
+cure meats. I mean, we all have things.
+
+But, even with, even with studying picture-taking, people are
+
+like, OK, we have the rule of thirds. We
+
+have the golden rules. There are these things that
+
+we do that it, we can all talk about.
+
+We have a common language and we also all
+
+discovered that, hey, if we do these particular things,
+
+our photographs turn out better. Generally speaking.
+
+We have these things we can talk about, and
+
+I think that's exactly what studying science brings to
+
+the table. We can talk about this. I can
+
+say to you, here is exactly why the performance
+
+is much better. Generally constant time is better than
+
+linear growth.
+
+Anyway. TL;DR, 100% faster.
+
+Thank you.
+
+9001% better. It's over 9000.
+
+So what I want to talk about now, is
+
+I want to talk about the Adequate pricing model.
+
+How much are you willing to pay for AdequateRecord?
+
+$200? $300? Well, today I'm offering a very special
+
+price. Today I'm offering it for $2.99 plus in-app
+
+purchases.
+
+I'm just kidding.
+
+Let's talk about some the challenges, like some of
+
+the issues with this thing, because we're not, like,
+
+it's not all, you know, Unicorns and fairies and
+
+all that stuff. Like, there are, there are definitely
+
+trade-offs for this code, and I want to talk
+
+about that.
+
+We're trading memory for speed, obviously. Like, we can't
+
+just get this speed from nowhere. We have to
+
+cache this stuff. So we need to understand what
+
+the cache size is, and I'm gonna give you
+
+a little formula for the cache size. I'm sorry.
+
+It's math.
+
+So, we need to be, we need to count.
+
+The cache size is equal to the number of
+
+relations that you have, all those has_manys, and also
+
+the number of find_bys that you have in your
+
+system total. But it's bound by that, and it's
+
+multiplied by the size of that cache object. So
+
+I can't tell you exactly what the size of
+
+the cache objects are, because they are variable depending
+
+on the size of the SQL queries that you
+
+have in there. But they're not very big.
+
+So, we are definitely paying for memory. So these
+
+will, this will actually increase the amount of memory
+
+that your system is consuming. So we need to
+
+study this. We need to study this because maybe
+
+we should introduce an LRU cache to this and
+
+expire, expire things as they go out. But since
+
+the, since this particular cache is bound, I don't
+
+think it's gonna be a problem.
+
+The other issue is raw relations. So you're saying
+
+to me, Aaron, you know, you might be saying
+
+to me, Aaron, I'm really excited for you, you
+
+increased the speed of all the stuff. But I
+
+don't use find_by_name. I use this. Person dot where
+
+and name. That thing. I use that. I don't
+
+use find_by_name. Why don't you just make that faster?
+
+And I say to you, why don't you make
+
+it faster, jerk?
+
+And the question is, so the question is, can
+
+we, can we cache this? Like, can we cache
+
+that thing? Can we make that thing faster? And
+
+we can. It's true. We can do it. It's
+
+possible. I have an experimental branch to do this.
+
+This isn't in AdequateRecord right now. Where we take
+
+those values and then generate a key from the
+
+values that you passed to each of those relation
+
+objects, and then cache the SQL query that's generated
+
+from that. And we actually see a 30% speed
+
+improvement.
+
+This is person dot where, you know, name, to_a.
+
+So blue is master and green is the experimental
+
+branch with the caching built-in. So it's about 30%
+
+faster. So that's good. The problem, though, is if
+
+you take a look at the implementation, like, this
+
+is, this is approximately the implementation. That blue part
+
+is calculating the key for the cache, and then
+
+the red part is actually executing the query.
+
+Now, the problem with this code is that over
+
+eleven different variables impact the cache key. So I
+
+have to actually inspect eleven different variables and say,
+
+like, is this, are we sure that we've seen
+
+this query before? Are we sure we've seen this
+
+query before? On eleven different variables. And in fact
+
+that implementation that I showed you only handles two
+
+forms of person dot where. I only cached like,
+
+person dot where and person dot limit. Those two.
+
+Cause I wanted to show some, I wanted to
+
+show you one more experiment.
+
+One more experiment is doing a finder comparison. So
+
+let's say we have person dot where name Aaron,
+
+like, what you might write in your controller and
+
+then person dot find_by_name Aaron. These are both on
+
+the experimental branch of AdequateRecord. So the person dot
+
+where does have the speed improvements that I just
+
+showed you. And if we benchmark these two, this
+
+is what, this is what the results look like.
+
+Where, compared to find_by_name. It's not even a contest.
+
+Find_by_name is three times faster in this case, and
+
+that's even with performance improvements to the where case.
+
+And the reason is because every time we call
+
+that person dot where, we're actually allocating a new
+
+ActiveRecord relation object, and we can't get around that.
+
+We're always gonna be allocating those objects. So, my
+
+actual question is, like, should we, should we cache
+
+these relations? Should we do this? I'm not sure.
+
+I'm really not sure if we should do this.
+
+It introduces some very complex code, and if you're
+
+doing a bunch of, like, dot wheres and all
+
+those things, I'm not sure exactly what you'll be
+
+caching. In AdequateRecord today, the cache is bound. But
+
+if you're doing a bunch of crazy stuff, like
+
+all that wheres and stuff, maybe it will be
+
+unbound, and you'll see unbounded memory growth and I
+
+would not like that.
+
+B-T-W, unmounted memory growth is bad. Science.
+
+So, I want a new API. I want something
+
+that looks like this. So, like, cached query, find
+
+all by name, do name, and you pass in
+
+a name. So you could define a method that
+
+does this and we pass in the dynamic values
+
+to that. So we build up a cached relation
+
+in here, and then we can execute that cache
+
+relation multiple times.
+
+The reason I want that is because the cache
+
+key is easy. The cache key is just that
+
+thing you pass to me. And we're bound in
+
+size.
+
+The relation API is maintained as well. That's another
+
+advantage of this thing. And you, I know you
+
+might be thinking, Aaron, this looks like scope. We
+
+can't use scope because people, in their applications today,
+
+expect that the scope block will be executed multiple
+
+times. I expect that there are many of you
+
+in the audience who have a scope that are
+
+like, today's posts, right. Where it generates a date.
+
+It says, like, give me all the posts that
+
+are after your, that happen today. And you expect
+
+that that date is calculated every time that block
+
+is executed. So we can't just go off of
+
+the scope block.
+
+All right. So I've got one more, one other
+
+more thing.
+
+I think, I think Steve Jobs said that, right?
+
+So let's, let's merge AdequateRecord. Should we do that?
+
+Yes? OK.
+
+So I know this is, like, this is a
+
+totally cardinal sin of presentations, but I'm gonna do,
+
+do it live. Is that OK? Would you forgive
+
+me? All right.
+
+All right. So let's do this. All right.
+
+Hold up. I'm not very good at typing. Sorry.
+
+OK. OK.
+
+OK. This'll work. This'll work. OK. So we're Git
+
+pulling now. It's downloading from the internet. The internet
+
+might be a little bit slow. Hopefully it'll work.
+
+Please work. Ah. Ee. Maybe we won't be able
+
+to do this live. Oh. Oh. OK. I think
+
+it's there. Ah! Oh!
+
+How do you merge? I don't know what I.
+
+I don't know what I'm doing here. I mean,
+
+don't you think that Git has really good documentation?
+
+Isn't that, isn't that true? Like, we can read
+
+through all the help pages there. That looks. Ah!
+
+Oh! I didn't know about that one. OK. Ah.
+
+Oh. Back to the merge. Back to the merge.
+
+OK. We're merging it in. We merged it in.
+
+Ah. All right. Let's commit the merge. Commit. OK.
+
+Doing good. Good job Aaron. Oh. That was, that
+
+was a wrong way. OK. Now let's merge it
+
+in. Now let's merge it in. OK. Merged. Ah,
+
+nice.
+
+OK, that's master, right? Are we doing it right?
+
+In the terminal? And. And. And. Ah.
+
+Pushed.
+
+OK.
+
+AdequateRecord has been merged.
+
+Three years of horrible stuff done. OK. So one,
+
+this is my last, very, very strong opinion. My
+
+last strong opinion of the evening. I think that
+
+Rails 4.2 will be the fastest Rails ever. This
+
+is what I am working for. I also think
+
+that this is just the beginning. This is just
+
+the beginning of the performance improvements that we can
+
+do to Rails.
+
+So thank you.
+

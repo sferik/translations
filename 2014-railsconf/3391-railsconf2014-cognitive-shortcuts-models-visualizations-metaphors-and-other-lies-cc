@@ -1,0 +1,1405 @@
+RailsConf 2014 - Cognitive Shortcuts: Models, Visualizations, Metaphors, and Other Lies - Sam Livingston-Gray
+
+SAM LIVINGSTON-GRAY: Hello. Welcome to the very
+
+last session of RailsConf.
+
+When I leave this stage,
+
+they are gonna burn it down.
+
+AUDIENCE: Yeah!
+
+S.L.: I have a couple of items of business
+
+before I launch into my presentation proper. The first
+
+of which is turning on my clicker. I work
+
+for LivingSocial. We are hiring. If this fact is
+
+intriguing to you, please feel free to come and
+
+talk to me afterwards. Also, our recruiters brought a
+
+ton of little squishy stress balls that are shaped
+
+like little brains. As far as I know, this
+
+was a coincidence, but I love the tie-in so
+
+I brought the whole bag. I had them leave
+
+it for me. So if you would like an
+
+extra brain, please come talk to me after the
+
+show.
+
+A quick note about accessibility. If you have any
+
+trouble seeing my slides, hearing my voice, or following
+
+my weird trains of thought, or maybe you just
+
+like spoilers, you can get a PDF with both
+
+my slides and my script at this url. It's
+
+tinyurl dot com, cog dash shorts dash railsconf. I
+
+also have it up here on a thumb drive,
+
+so if the conference wi-fi does what it usually
+
+does, please go see Evan Light up in the
+
+second row.
+
+I'm gonna leave this up for a couple more
+
+minutes. And I also want to give a shoutout
+
+to the opportunity scholarship program here. To quote the
+
+RailsConf site, this program is for people who wouldn't
+
+usually take part in our community or who might
+
+just want a friendly face during their first time
+
+at RailsConf. I'm a huge fan of this program.
+
+I think it's a great way to welcome new
+
+people and new voices into our community. This is
+
+the second year that I've volunteered as a guide
+
+and this is the second year that I've met
+
+somebody with a fascinating story to tell. If you're
+
+a seasoned conference veteran, I strongly encourage you to
+
+apply next year.
+
+OK. Programming is hard. It's not quantum physics. But
+
+neither is it falling off a log. And if
+
+I had to pick just one word to explain
+
+why programming is hard, that word would be abstract.
+
+I asked Google to define abstract, and here's what
+
+it said.
+
+Existing in thought or as an idea, but not
+
+having a physical or concrete existence.
+
+I usually prefer defining things in terms of what
+
+they are, but in this case I find the
+
+negative definition extremely telling. Abstract things are hard for
+
+us to think about precisely because they don't have
+
+a physical or a concrete existence, and that's what
+
+our brains are wired for.
+
+Now, I normally prefer the kind of talk where
+
+the speaker just launches right in and forces me
+
+to keep up, but this is a complex idea,
+
+and it's the last talk of the last day,
+
+and I'm sure you're all as fried as I
+
+am. So, here's a little background. I got the
+
+idea for this talk when I was listening to
+
+the Ruby Rogues podcast episode with Glenn Vanderburg. This
+
+is lightly edited for length, but in that episode,
+
+Glenn said, The best programmers I know all have
+
+some good techniques for conceptualizing or modeling the programs
+
+that they work with. And it tends to be
+
+sort of a spatial/visual model, but not always. And
+
+he says, What's going on is our brains are
+
+geared towards the physical world and dealing with our
+
+senses and integrating that sensory input.
+
+But the work we do as programmers is all
+
+abstract. And it makes perfect sense that you would
+
+want to find techniques to rope the physical sensory
+
+parts of your brain into this task of dealing
+
+with abstractions. And this is the part that really
+
+got my attention. He says, But we don't ever
+
+teach anybody how to do that or even that
+
+they should do that.
+
+When I heard this, I started thinking about the
+
+times that I've stumbled across some technique for doing
+
+something like this, and I've been really excited to
+
+find a way of translating a programming problem into
+
+some form that my brain could really get a
+
+handle on. And I was like yeah, yeah, brains
+
+are awesome. And we should be teaching people that
+
+this is a thing they can do.
+
+And I thought about it, and some time later,
+
+I was like, wait a minute. No. Brains are
+
+horrible. And teaching people these tricks would be totally
+
+irresponsible, if we also didn't warn them about cognitive
+
+bias. I get to that in a little bit.
+
+This is a talk in three parts. Part one,
+
+brains are awesome. And as Glenn said, you can
+
+rope the physical and sensory parts of your brain
+
+as well as a few others I'll talk about
+
+into helping you deal with abstractions. Part two, brains
+
+are horrible and they lie to us all the
+
+time. But if you're on the look out for
+
+the kinds of lies that your brain will tell
+
+you, in part three I have an example of
+
+the kind of amazing hack that you just might
+
+be able to come up with.
+
+Our brains are extremely well-adapted for dealing with the
+
+physical world. Our hindbrains, which regular respiration, temperature, and
+
+balance, have been around for half a billion years
+
+or so. But when I write software, I am
+
+leaning hard on parts of the brain that are
+
+relatively new in evolutionary terms, and I'm using some
+
+relatively expensive resources.
+
+So over the years I have built up a
+
+small collection of techniques and shortcuts that engage specialized
+
+structures of my brain to help me reason about
+
+programming problems. Here's the list.
+
+I'm gonna start with a category of visual tools
+
+that let us leverage our spatial understanding of the
+
+world and our spatial reasoning skills to discover relationships
+
+between different parts of a model. Or just to
+
+stay oriented when we're trying to reason through a
+
+complex problem.
+
+I'm just gonna list out a few examples of
+
+this category quickly, because I think most developers are
+
+likely to encounter these, either in school or on
+
+the job. And they all have the same basic
+
+shape. They're boxes and arrows.
+
+There's Entity-Relationship Diagrams, which help us understand how our
+
+data is modeled. We use diagrams to describe data
+
+structures like binary trees, linked lists, and so on.
+
+And for state machines of any complexity, diagrams are
+
+often the only way to make any sense of
+
+them. I could go on, but like I said,
+
+most of us are probably used to using these,
+
+at least occasionally.
+
+There are three things that I like about these
+
+tools. First, they lend themselves really well to standing
+
+up in front of a white board, possibly with
+
+a co-worker, and just standing up and moving around
+
+a little bit will help get the blood flowing
+
+and, and get your brain perked up.
+
+Second, diagrams help us offload some of the work
+
+of keeping track of things, of different concepts, by
+
+attaching those concepts to objects in a two-dimensional space.
+
+And our brains have a lot of hardware support
+
+for keeping track of where things are in space.
+
+And third, our brains are really good at pattern
+
+recognition, so visualizing our designs can give us a
+
+chance to spot certain kinds of problems just by
+
+looking at their shapes before we ever start typing
+
+code in an editor, and I think that's pretty
+
+cool.
+
+Here's another technique that makes use of our spatial
+
+perception skills, and if you saw Sandi's talk yesterday,
+
+you'll know this one. It's the squint test. It's
+
+very straight forward. You open up some code and
+
+you either squint your eyes at it or you
+
+decrease the font size. The point is to look
+
+past the words and check out the shape of
+
+the code.
+
+This is a pathological example that I used in
+
+a refactoring talk last year. You can use this
+
+technique as an aid to navigation, as a way
+
+of zeroing in on high-risk areas of code, or
+
+just plain to get oriented in a new code
+
+base. There are a few specific patterns that you
+
+can look for, and you'll find others as you,
+
+as you do more of it.
+
+Is the left margin ragged, as it is here?
+
+Are there any ridiculously long lines? There's one towards
+
+the bottom. What does your syntax highlighting tell you?
+
+Are there groups of colors or are colors sort
+
+of spread out? And there's a lot of information
+
+you can glean from this. Incidentally, I have only
+
+ever met one blind programmer, and we didn't really
+
+talk about this stuff. If any of you have
+
+found that a physical or a cognitive disability gives
+
+you a, an interesting way of looking at code,
+
+or understanding code I suppose, please come talk to
+
+me, because I'd love to hear your story.
+
+Next up, I have a couple of techniques that
+
+involve a clever use of language. The first one
+
+is deceptively simple, but it does require a prop.
+
+Doesn't have to be that big. You can totally
+
+get away with using the souvenir edition. This is
+
+my daughter's duck cow bath toy. What you do
+
+is you keep a rubber duck on your desk.
+
+When you get stuck, you put the rubber deck
+
+on top- rubber duck, excuse me, on top of
+
+your keyboard, and you explain your problem out loud
+
+to the duck.
+
+[laughter]
+
+Really. I mean, it sounds absurd, right. But there's
+
+a good chance that in the process of putting
+
+your problem into words, you'll discover that there's an
+
+incorrect assumption that you've been making or you'll think
+
+of some other possible solution.
+
+I've also heard of people using teddy bears or
+
+other stuffed animals. And one of my co-workers told
+
+me that she learned this as the pet-rock technique.
+
+This was a thing in the seventies. And also
+
+that she finds it useful to compose an email
+
+describing the problem. So for those of you who,
+
+like me, think better when you're typing or writing
+
+than when you're speaking, that can be a nice,
+
+a nice alternative.
+
+The other linguistic hack that I got, I got
+
+from Sandi Metz, and in this book, Practical Oriented
+
+Design in Ruby, PODR for short, she describes a
+
+technique that she uses to figure out which object
+
+a method should belong. I tried paraphrasing this, but
+
+honestly Sandi did a much better job than I
+
+would, describing it, so I'm just gonna read it
+
+verbatim.
+
+She says, How can you determine if a Gear
+
+class contains behavior that belongs somewhere else? One way
+
+is to pretend that it's sentient and to interrogate
+
+it. If you rephrase every one of its methods
+
+as a question, asking the question ought to make
+
+sense.
+
+For example, "Please Mr. Gear, what is your ratio?"
+
+seems perfectly reasonable, while "Please Mr. Gear, what are
+
+your gear_inches?" is on shaky ground, and "Please Mr.
+
+Gear, what is your tire(size)?" is just downright ridiculous.
+
+This is a great way to evaluate objects in
+
+light of the single responsibility principle. Now I'll come
+
+back to that thought in just a minute, but
+
+first, I described the rubber duck and Please, Mr.
+
+Gear? as techniques to engage linguistic reasoning, but that
+
+doesn't quite feel right. Both of these techniques force
+
+us to put our questions into words, but words
+
+themselves are tools. We use words to communicate our
+
+ideas to other people.
+
+As primates, we've evolved a set of social skills
+
+and behaviors for getting our needs met as part
+
+of a community. So, while these techniques do involve
+
+using language centers of your brain, I think they
+
+reach beyond those centers to tap into our social
+
+reasoning.
+
+The rubber duck technique works because, putting your problem
+
+into words forces you to organize your understanding of
+
+a problem in such a way that you can
+
+verbally lead another mind through it. And Please, Mr.
+
+Gear? let's us anthropomorphize an object and talk to
+
+it to discover whether it conforms to the single
+
+responsibility principle.
+
+To me, the tell-tale phrase in Sandi's description of
+
+this technique is, asking the question ought to make
+
+sense. Most of us have an intuitive understanding that
+
+it might not be appropriate to ask Alice about
+
+something that is Bob's responsibility. Interrogating an object as
+
+though it were a person helps us use that
+
+social knowledge, and it gives us an opportunity to
+
+notice that a particular question doesn't make sense to
+
+ask any of our existing objects, which might prompt
+
+us to ask if we should create a new
+
+object to fill that role instead.
+
+Now, personally, I would have considered PODR to have
+
+been a worthwhile purchase if Please, Mr. Gear was
+
+the only thing I got from it. But, in
+
+this book, Sandi also made what I thought was
+
+a very compelling case for UML Sequence Diagrams.
+
+Where Please, Mr. Gear is a good tool for
+
+discovering which objects should be responsible for a particular
+
+method, a Sequence Diagram can help you analyze the
+
+runtime interaction between several different objects. At first glance,
+
+this looks kind of like something in the boxes
+
+and arrows category of visual and spatial tools, but
+
+again, this feels more like it's tapping into that
+
+social understanding that we have. This can be a
+
+good way to get a sense for when an
+
+object is bossy or when performing a task involves
+
+a complex sequence of several, several interactions. Or if
+
+there are just plain too many different things to
+
+keep track of.
+
+Rather than turn this into a lecture on UML,
+
+I'm just gonna tell you to go buy Sandi's
+
+book, and if for whatever reason, you cannot afford
+
+it, come talk to me later and we'll work
+
+something out.
+
+Now for the really hand-wavy stuff. Metaphors can be
+
+a really useful tool in software. The turtle graphic
+
+system in Logo is a great metaphor. Has anybody
+
+used Logo at any point in their life? About
+
+half the people. That's really cool.
+
+We've probably all played with drawing something on the
+
+screen at some point, but most of the rendering
+
+systems that I've used are based on a Cartesian
+
+coordinate system, a grid. And this metaphor encourages the
+
+programmer to imagine themselves as the turtle, and to
+
+use that understanding to figure out, when they get
+
+stuck, what they should be doing next.
+
+One of the original creators of Logo called this
+
+Body Syntonic Reasoning, and specifically developed it to help
+
+children solve problems. But the turtle metaphor, the turtle
+
+metaphor works for everybody, not just for kids.
+
+Cartesian grids are great for drawing boxes. Mostly great.
+
+But it can take some very careful thinking to
+
+figure out how to, how to use x, y
+
+coordinate pairs to draw a spiral or a star
+
+or a snowflake or a tree. Choosing a different
+
+metaphor can make different kinds of solutions easy, where
+
+before they seemed like too much trouble to be
+
+worth bothering with.
+
+James Ladd, in 2008, wrote a couple of interesting
+
+blog posts about what he called East-oriented code. Imagine
+
+a compass overlaid on top of your screen. In
+
+this, in this model, messages that an object sends
+
+to itself go South, and any data returned from
+
+those calls goes North. Communications between objects is the
+
+same thing, rotated ninety degrees. Messages sent to other
+
+objects go East, and the return values from those
+
+messages flow West.
+
+What James Ladd suggests is that, in general, code
+
+that sends messages to other objects, code where information
+
+mostly flows East, is easier to extend and maintain
+
+than code that looks at data and then decides
+
+what to do with it, which is code where
+
+information flows West.
+
+Really, this is just the design principle, tell, don't
+
+ask. But, the metaphor of the compass, compass recasts
+
+this in a way that helps us use our
+
+background spatial awareness to keep this principle in mind
+
+at all times. In fact, there are plenty of
+
+ways we can use our background level awareness to
+
+analyze our code.
+
+Isn't this adorable? I love this picture.
+
+Code smells are an entire category of metaphors that
+
+we use to talk about our work. In fact,
+
+the name code smell itself is a metaphor for
+
+anything about your code that hints at a design
+
+problem, which I suppose makes it a meta-metaphor.
+
+Some code smells have names are extremely literal. Duplicated
+
+code, long method and so on. But some of
+
+these are delightfully suggestive. Feature envy. Refused bequest. Primitive
+
+obsession. To me, the names on the right have
+
+a lot in common with Please, Mr. Gear. They're
+
+chosen to hook into something in our social awareness
+
+to give a name to a pattern of dysfunction,
+
+and by naming the problems it suggests a possible
+
+solution.
+
+So, these are most of the shortcuts that I've
+
+accumulated over the years, and I hope that this
+
+can be the start of a similar collection for
+
+some of you.
+
+Now the part where I try to put the
+
+fear into you. Evolution has designed our brains to
+
+lie to us. Brains are expensive. The human brain
+
+accounts for just two percent of body mass, but
+
+twenty percent of our caloric intake. That's a huge
+
+energy requirement that has to be justified.
+
+Evolution, as a designer, does one thing and one
+
+thing only. It selects for traits that allow an
+
+organism to stay alive long enough to reproduce. It
+
+doesn't care about getting the best solution. Only one
+
+that's good enough to compete in the current landscape.
+
+Evolution will tolerate any hack as long as it
+
+meets that one goal.
+
+As an example, I want to take a minute
+
+to talk about how we see the world around
+
+us. The human eye has two different kinds of
+
+photo receptors. There are about a hundred and twenty
+
+million rod cells in each eye. These play little
+
+or no role in color vision, and they're mostly
+
+used for night time and peripheral vision.
+
+There are also about six or seven million cone
+
+cells in each eye, and these give us color
+
+vision, but they require a lot more light to
+
+work. And the vast majority of cone cells are
+
+packed together in a tight little cluster near the
+
+center of the retina. This area is what we
+
+use to focus on individual details, and it's smaller
+
+than you might think. It's only fifteen degrees wide.
+
+As a result, our vision is extremely directional. We
+
+have a very small area of high detail and
+
+high color, and the rest of our field of
+
+vision is more or less monochrome. So when we
+
+look at this, our eyes see something like this.
+
+In order to turn the image on the left
+
+into the image on the right, our brains are
+
+doing a lot of work that we're mostly unaware
+
+of.
+
+We compensate for having such highly directional vision by
+
+moving our eyes around a lot. Our brains combine
+
+the details from these individual points of interest to
+
+construct a persistent mental model of whatever we're looking
+
+at. These fast point to point movements are called
+
+saccades. And they're actually the fastest movements that the
+
+human body can make. The shorter saccades that you
+
+make, might make when you're reading, last for twenty
+
+to forty milliseconds. Longer ones that travel through a
+
+wider arc might take two hundred milliseconds, or about
+
+a fifth of a second.
+
+What I find so fascinating about this is that
+
+we don't perceive saccades. During a saccade, the eye
+
+is still sending data to the brain, but what
+
+it's sending is a smeary blur. So the brain
+
+just edits that part out. This process is called
+
+saccadic masking. You can see this effect for yourself.
+
+Next time you're in front of a mirror, lean
+
+in close and look back and forth from the
+
+reflection of one eye to the other. You won't
+
+see your eyes move. As far as we can
+
+tell, our gaze just jumps instantaneously from one reference
+
+point to the next. And here's where I have
+
+to wait for a moment while everybody stops doing
+
+this.
+
+When I was preparing for this talk, I found
+
+an absolutely wonderful sentence in the Wikipedia entry on
+
+saccades. It said, Due to saccadic masking, the eye/brain
+
+system not only hides the eye movements from the
+
+individual, but also hides the evidence that anything has
+
+been hidden.
+
+Hides. The evidence. That anything has been hidden. Our
+
+brains lie to us. And they lie to us
+
+about having lied to us. And this happens to
+
+you multiple times a second, every waking hour, every
+
+day of your life. Of course, there's a reason
+
+for this.
+
+Imagine if, every time you shifted your gaze around,
+
+you got distracted by all the pretty colors. You
+
+would be eaten by lions.
+
+But, in selecting for this design, evolution made a
+
+trade off. The trade off is that we are
+
+effectively blind every time we move our eyes around.
+
+Sometimes for up to a fifth of a second.
+
+And I wanted to talk about this, partly because
+
+it's a really fun subject, but also to show
+
+that just one of the ways that our brains
+
+are doing a massive amount of work to process
+
+information from our environment and present us with an
+
+abstraction.
+
+And as programmers, if we know anything about abstractions,
+
+it's that they're hard to get right. Which leads
+
+me to an interesting question. Does it make sense
+
+to use any of the techniques that I talked
+
+about in part one, to try to coral different
+
+parts of our brains into doing our work for
+
+us, if we don't know what kinds of shortcuts
+
+they're gonna take?
+
+According to the Oxford English Dictionary, the word bias
+
+seems to have entered the English language around the
+
+1520s. It was used as a, a technical term
+
+in the game of lawn bowling, and it referred
+
+to a ball that was constructed in such a
+
+way that it would curve, it would roll in
+
+a curved path instead of in a straight line.
+
+And since then, it's picked up a few additional
+
+meanings, but they all have that same different connotation
+
+of something that's skewed or off a little bit.
+
+Cognitive bias is a term for systematic errors in
+
+thinking. These are patterns of thought that diverge in
+
+measurable and predictable ways from what the answers that
+
+pure rationality might give are. We have some free
+
+time. I suggest that you go have a look
+
+at the Wikipedia page called List of cognitive biases.
+
+There are over a hundred and fifty of them
+
+and they are fascinating reading.
+
+And this list of cognitive biases has a lot
+
+in common with the list of code smells that
+
+I showed earlier. A lot of these names are
+
+very literal. But there are a few that stand
+
+out, like cursive knowledge, or the Google effect or,
+
+and I kid you not, the Ikea effect. But
+
+the parallel goes deeper than that.
+
+This lif - excuse me - this list gives
+
+names to patterns of dysfunction, and once you have
+
+a name for a thing, it's a lot easier
+
+to recognize it and figure out what to do
+
+about it. I do want to call your attention
+
+to one particular item on this list. It's called
+
+the bias blind spot. This is the tendency to
+
+see oneself as less biased than other people, or
+
+to be able to identify more cognitive biases in
+
+others than in oneself. Sound like anybody you know?
+
+Just let that sink in for a minute. Seriously,
+
+though.
+
+In our field, we like to think of ourselves
+
+as more rational than the average person, and it
+
+just isn't true. Yes, as programmers, we have a
+
+valuable, marketable skill that depends on our ability to
+
+reason mathematically. But we do ourselves and others a
+
+disservice if we allow ourselves to believe that being
+
+good at programming means anything other than, we're good
+
+at programming. Because as humans we are all biased.
+
+It's built into us, in our DNA. And pretending
+
+that we aren't biased only allows our biases to
+
+run free.
+
+I don't have a lot of general advice for
+
+how to look for bias, but I think an
+
+obvious and necessary first step is just to ask
+
+the question, how is this biased? Beyond that, I
+
+suggest that you learn about as many specific cognitive
+
+biases as you can so that your brain can
+
+do what it does, which is to look for
+
+patterns and make associations and classify things.
+
+I think everybody should understand their own biases, because
+
+only by knowing how you're biased can you then
+
+decide how to con- how to correct for that
+
+bias in the decisions that you make. If you're
+
+not checking your work for bias, you can look
+
+right past a great solution and you'll never know
+
+it was there.
+
+So for part three of my talk, I have
+
+an example of a solution that is simple, elegant,
+
+just about the last thing I ever would have
+
+thought of.
+
+For the benefit of those of you who have
+
+yet to find your first gray hair, Pac-Man was
+
+a video game released in 1980 that let people
+
+maneuver around a maze eating dots while trying to
+
+avoid four ghosts. Now, playing games in fun, but
+
+we're programmers. We want to know how things work.
+
+So let's talk about programming Pac-Man.
+
+For the purposes of this discussion, we'll focus on
+
+just three things. The Pac-Man, the ghosts, and the
+
+maze. The Pac-Man is controlled by the player. So
+
+that code is basically just responding to hardware events.
+
+Boring. The maze is there so that the player
+
+has some chance at avoiding the ghosts. But the
+
+ghost AI, that's what's gonna make the game interesting
+
+enough that people keep dropping quarters into a slot,
+
+and by the way, video games used to cost
+
+a quarter.
+
+When I was your age.
+
+So to keep things simple, we'll start with one
+
+ghost. How do we program its movement? We could
+
+choose a random direction and move that way until
+
+we hit a wall and then choose another random
+
+direction. This is very easy to implement, but not
+
+much of a challenge for the player.
+
+OK, so, we could compute the distance to the
+
+Pac-Man in x and y and pick a direction
+
+that makes one of those smaller. But then the
+
+ghost is gonna get stuck in corners or behind
+
+walls cause it won't go around to catch the
+
+Pac-Man. And, again, it's gonna be too easy for
+
+the player.
+
+So how about instead of minimizing linear distance, we
+
+focus on topological distance? We can compute all possible
+
+paths through the maze, pick the shortest one that
+
+gets us to the Pac-Man and then step down
+
+it. And when we get to the next place,
+
+we'll do it all again.
+
+This works find for one ghost. But if all
+
+four ghosts use this algorithm, then they're gonna wind
+
+up chasing after the player in a tight little
+
+bunch instead of fanning out. OK. So each ghost
+
+computes all possible paths to the Pac-Man and rejects
+
+any path that goes through another ghost. That shouldn't
+
+be too hard, right?
+
+I don't have a statistically valid sample, but my
+
+guess is that when asked to design an AI
+
+for the ghosts, most programmers would go through a
+
+thought process more or less like what I just
+
+walked through. So, how is this solution biased?
+
+I don't have a name, a good name for
+
+how this is biased, so the best way I
+
+have to communicate this idea is to walk you
+
+through a very different solution.
+
+In 2006, I attended Oopsla, this is a conference
+
+put on by the ACM, as a student volunteer,
+
+and I happened to sit in on a presentation
+
+by Alexander Repenning from the University of Colorado. And
+
+in his presentation, he walked through the Pac-Man problem,
+
+more or less the way I just did, and
+
+then he presented this idea.
+
+What you do is you give the Pac-Man a
+
+smell, and then you model the diffusion of that
+
+smell throughout the environment. In the real world, smells
+
+travel through the air. We certainly don't need to
+
+model each individual air molecule. What we can do,
+
+instead, is just divide the environment up into reasonably
+
+sized logical chunks, and we model those.
+
+Coincidentally, we already do have an object that does
+
+exactly that for us. It's the tiles of the
+
+maze itself. They're not really doing anything else, so
+
+we can borrow those as a convenient container for
+
+this computation. We program the game as follows.
+
+We say that the Pac-Man gives whatever floor tile
+
+it's standing on a Pac-Man smell value, say a
+
+thousand. The number doesn't really matter. And that, that
+
+tile then passes a smaller value off to each
+
+of its neighbors, and they pass a smaller value
+
+off to each of their neighbors and so on.
+
+Iterate this a few times and you get a
+
+diffusion contour that we can visualize as a hill
+
+with its peak centered on the Pac-Man.
+
+It's a little hard to see here. The Pac-Man
+
+is at the bottom of that big yellow bar
+
+on the left. So we've got the Pac-Man. We've
+
+got the floor tiles. But in order to make
+
+it a maze, we also have to have some
+
+walls. What we do is we give the walls
+
+a Pac-Man smell value of zero. That chops the
+
+hill up a bit.
+
+And now all our ghost has to do is
+
+climb the hill. We program the first ghost to
+
+sample each of the floor tiles next to it,
+
+pick the one with the biggest number, go that
+
+way. It barely seems worthy of being called an
+
+AI, does it? But check this out. When we
+
+add more ghosts to the maze, we only have
+
+to make one change to get them to cooperate.
+
+And interestingly, we don't change the ghosts' movement behaviors
+
+at all. Instead, we have the ghosts tell the
+
+floor tile that they're, I guess, floating above, that
+
+its Pac-Men smell value is zero. This changes the
+
+shape of that diffusion contour. Instead of a smooth
+
+hill that always slopes down away from the Pac-Man,
+
+there are now cliffs where the hill drops immediately
+
+to zero.
+
+In effect, we turn the ghosts into movable walls,
+
+so that when one ghost cuts off another one,
+
+the second one will automatically choose a different route.
+
+This lets the ghosts cooperate without needing to be
+
+aware of each other. And halfway through this conference
+
+session that I was sitting in where I saw
+
+this, I was like.
+
+What just happened?
+
+At first, like, my first level of surprise was
+
+just, what an interesting approach. But then I got
+
+really, completely stunned when I thought about how surprising
+
+that solution was. And I hope that looking at
+
+the second solution helps you understand the bias in
+
+the first solution.
+
+In his paper, Professor Repenning wrote, The challenge to
+
+find this solution is a psychological, not a technical
+
+one. Our first instinct, when we're presented with this
+
+problem, is to imagine ourselves as the ghost. This
+
+is the body syntonic reasoning that's built into Logo,
+
+and in this case it's a trap.
+
+Because it leads us to solve the pursuit problem
+
+by making the pursuer smarter. Once we started down
+
+that road, it's very unlikely that we're going to
+
+consider a radically different approach, even, or, perhaps, especially
+
+if it's a very much simpler one. In other
+
+words, body syntonicity biases us towards modeling objects in
+
+the foreground, rather than objects in the background.
+
+Oops, sorry.
+
+OK. Does this mean that you shouldn't use body
+
+syntonic reasoning? Of course not. It's a tool. It's
+
+right for some jobs. It's not right for others.
+
+I want to take a look at one more
+
+technique from part one. What's the bias in Please
+
+Mr. Gear, what is your ratio? Aside from the
+
+gendered language, which is trivially easy to address. This
+
+technique is explicitly designed to give you an opportunity
+
+to discover new objects in your model. But it
+
+only works after you've given at least one of
+
+those objects a name.
+
+Names have gravity. Metaphors can be tar pits. It's
+
+very likely that the new objects that you discover
+
+are going to be fairly closely related to the
+
+ones that you already have. Another way to help
+
+see this is to think about how many steps
+
+it takes to get from Please, Ms. Pac-Man, what
+
+is your current position in the maze? To, please
+
+Ms. Floor Tile, how much do you smell like
+
+Pac-Man?
+
+For a lot of people, the answer to that
+
+question is probably infinity. It certainly was for me.
+
+My guess is that you don't come up with
+
+this technique unless you've already done some work modeling
+
+diffusion in another context. Which, incidentally, is why I
+
+like to work on diverse teams. The more different
+
+backgrounds and perspectives we have access to, the more
+
+chances we have to find a novel application of
+
+some seemingly unrelated technique, because somebody's worked with it
+
+before.
+
+It can be exhilarating and very empowering to find
+
+these techniques that let us take shortcuts in our
+
+work by leveraging these specialized structures in our brains.
+
+But those structures themselves take shortcuts, and if you're
+
+not careful, they can lead you down a primrose
+
+path.
+
+I want to go back to that quote that
+
+got me thinking about all this in the first
+
+place. About how we don't ever teach anybody how
+
+to do that or even that they should.
+
+Ultimately, I think we should use techniques like this,
+
+despite the, the biases in them. I think we
+
+should share them. And I think, to paraphrase Glenn,
+
+we should teach people that this is a thing
+
+that you can and should do. And, I think
+
+that we should teach people that looking critically at
+
+the answers that these techniques give you is also
+
+a thing that you can and should do.
+
+We might not always be able to come up
+
+with a radically simpler or different approach, but the
+
+least we can do is give ourselves the opportunity
+
+to do so, by asking how is this biased?
+
+I want to say thank you, real quickly, to
+
+everybody who helped me with this talk, or the
+
+ideas in it. And also thank you to LivingSocial
+
+for paying for my trip. And also for bringing
+
+these wonderful brains. So, they're gonna start tearing this
+
+stage down in a few minutes. Rather than take
+
+Q and A up here, I'm gonna pack up
+
+all my stuff and then I'm gonna migrate over
+
+there, and you can come and bug me. pick
+
+up a brain. Whatever.
+
+Thank you.

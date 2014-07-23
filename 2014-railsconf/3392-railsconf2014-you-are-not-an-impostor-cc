@@ -1,0 +1,1492 @@
+RailsConf 2014 - You Are Not An Impostor - Nickolas Means
+
+NICKOLAS MEANS: How's everybody doing?
+
+AUDIENCE: Good! Yeah! Yeah!
+
+N.M.: Nobody's saying tired? I would have said tired
+
+if somebody asked me that question. I'm so exhausted.
+
+It's been a great conference, but it's been long
+
+and I am privileged to have the last speaking
+
+slot. Which is a really funny joke to play
+
+on a guy with impostor syndrome. So whoever set
+
+the schedule, nice job.
+
+My name is Nickolas Means, but we are about
+
+to be really good friends, so please call me
+
+Nick. You can find me-
+
+AUDIENCE: Hi Nick!
+
+N.M.: Hi. You can find me as @nmeans on
+
+Twitter if you're playing along on your laptop or
+
+your phone. I'm an engineer at WellMatch health. I'm
+
+lucky enough to get to remote pair nearly 100%
+
+of the time from beautiful Austin, Texas with a
+
+lot of really smart people, fixing some of the
+
+hard problems that vex our health care system.
+
+I want to start by asking you to think
+
+a little bit. What is your biggest fear at
+
+work? What's the worst thing that could possibly happen
+
+to you at your job?
+
+AUDIENCE: Get fired!
+
+N.M.: I can tell you mine. I've been a
+
+software developer for over a decade now. I did
+
+some PHP spaghetti for awhile. Moved into Ruby. Been
+
+doing Ruby for, gosh, eight years now. I've worked
+
+as a solo developer. I've worked as a cylo
+
+developer where I was the only guy working on
+
+a product and I brought our team. I've worked
+
+in a really good team environment which is what
+
+I'm in now.
+
+But I've had this persistent fear, the whole time
+
+I've been a software developer, that I was about
+
+to be fired. Now, how many times do you
+
+think I've been fired in my ten plus years
+
+of software development?
+
+Brandon right. Three.
+
+No, zero.
+
+I've never been fired. But it might happen any
+
+day now, or at least, that's what my brain
+
+persists in telling me all the time. It's just
+
+a matter of time until my boss figures out
+
+that I really have no idea what I'm talking
+
+about and I'm a terrible software developer and all
+
+my commits are crap. And then I'm gonna get
+
+the pink slip.
+
+Which is not true, right? Because I've convinced a
+
+bunch of people to give me a job, and
+
+I've shipped good code, and I've been through pull
+
+requests processes. My code's been reviewed. I pair now.
+
+So, I'm, I'm an OK developer?
+
+This is the, the gist of impostor syndrome. It's
+
+a set of beliefs and behaviors that was first
+
+identified back in 1978 by Doctors Pauline Rose Clance
+
+and Suzanne Imes at Georgia State University. Dr. Clance
+
+was on the psychological staff at Georgia State and
+
+Dr. Imes was a research, a predoctoral researcher under
+
+her. And they did a lot of interviews with
+
+graduate students. Female graduate students specifically. Now, these women
+
+had all gotten into very competitive graduate programs. They
+
+had all been published in very prestigious psychological journals.
+
+But they still didn't think very much of themselves.
+
+There's actually a really great definition of impostor syndrome
+
+in this abstract. Despite outstanding academic and professional accomplishments,
+
+women who experience the impostor phenomenon persist in believing
+
+that they are really not bright and have fooled
+
+anyone who thinks otherwise.
+
+So these women were all very prestigious, all very
+
+successful, but still thought that they had everybody around
+
+them fooled. And all the stuff that people told
+
+them about themselves was not true. So if you've
+
+experienced these kind of feelings, where you think that
+
+people around you say nice things about you that
+
+aren't really true, let me tell you a little
+
+bit about yourself.
+
+A pretty good chance that you're an introvert. Pretty
+
+good chance you're a perfectionist. At times you're a
+
+workaholic. At other times you are a procrastinator. You
+
+probably have a deep-seated and abiding fear of failure.
+
+You probably get really uncomfortable when people pay you
+
+a compliment. You probably feel less competent than your
+
+peers. If that resonates any, there's good news. You're
+
+not alone.
+
+As it turns out, impostor feelings are really pretty
+
+common. Dr. Clance's research indicates that about 70% of
+
+people experience impostor syndrome at some point in their
+
+careers. Now, that's not to say that everybody experiences
+
+impostor syndrome the same way.
+
+There's people like me, who have experienced it throughout
+
+their entire career as a persistent feeling, afraid that
+
+they were gonna be fired at any moment, and
+
+there's other people that maybe it only happens when
+
+they start a new job or they, they emerge
+
+from college into the workforce.
+
+But no matter where you are on the scale,
+
+there's things that you can do to lessen this
+
+reaction that you feel. So there's two things I
+
+want to do in this talk. The first thing
+
+is I want to tell you how your brain
+
+trolls you. Cause there's a lot of stuff that
+
+goes on in your head that reinforces this impostorism,
+
+and this inability to accept your success.
+
+And I want to tell you how to patch
+
+your brain. As it turns out, impostor syndrome in
+
+your head is sort of this infinite loop that
+
+goes around and around and around. And what we
+
+have to do is find places where we can
+
+hook into that loop and get out of that
+
+cycle. And if we can do that, then we
+
+can start functioning a little bit better.
+
+But, before I do that, I want to tell
+
+you a story. It's about the first conference talk
+
+I ever gave. And you folks didn't know this
+
+when you walked into the room, but you're lucky
+
+enough to be part of this grand experiment. Somebody
+
+decided it was a good idea to give me
+
+a speaking slot at RailsConf.
+
+I decided, on a whim, about an hour before
+
+the CFP closed that I was gonna put in
+
+this talk proposal. And it's one that had already
+
+been rejected by a couple of conferences. So I
+
+tweaked it a little bit. I cleaned it up.
+
+I made it a little bit better. And submitted
+
+it.
+
+And the RailsConf submission process is, like, custom-tailored for
+
+someone with impostor syndrome. Because the first round is
+
+blind. So I don't have to worry about it
+
+that I don't have this great reputation in the
+
+community and nobody knows my name. And during this
+
+process, there's the chance for people reviewing your proposal
+
+to give you feedback.
+
+So, Sarah Mae, bless her heart, read my early
+
+rough draft and gave me some great feedback. I
+
+tightened up my abstract quite a lot, and apparently
+
+it was enough to get me through the final
+
+selected, and I got a talk accepted.
+
+So I was hanging out with my wife and
+
+my three-year-old son when I got the email that
+
+my talk was accepted at RailsConf. And I gasped,
+
+and I was speechless, and my wife thought somebody
+
+important had died.
+
+Finally, I got the words out to tell her
+
+what was happening. And I was very excited. So
+
+when I put the proposal in, the whole time
+
+I'm waiting to see whether I got in or
+
+not, I'm envisioning. Our team has a Friday happy
+
+hour, and I'm envisioning getting to tell my team
+
+mates that I got a talk accepted at RailsConf.
+
+And I got to do that, and it was
+
+glorious.
+
+But, then reality sets in. I don't know if
+
+any of you have ever spoken at a user
+
+group or something, but as it turns out, you
+
+don't actually have to write the talk before it
+
+gets accepted. So once your talk is accepted, you
+
+have to start writing it. And it plunged me,
+
+immediately, into this worry, fear, panic and dread.
+
+I sat down, I tried to make an initial
+
+outline. Total creative block. I couldn't come up with
+
+anything. I couldn't organize my thoughts to save my
+
+life. The funniest thing was my brain played this
+
+great trick on me. It told me I didn't
+
+even have impostor syndrome bad enough to give a
+
+talk on impostor syndrome.
+
+So I, I pushed through it. And I, I,
+
+I took an impostor syndrome test, on which I
+
+scored very highly. And I'll share that test with
+
+you guys later. So after that, I jumped into
+
+full-on overwork. Now, normally I am a huge procrastinator.
+
+Normally, I sit and wait until the very last
+
+minute to do something. But I guess my brain
+
+thought this was important, because it jumped into overwork
+
+from day one. Like, three days after I found
+
+out my talk was accepted, my family was heading
+
+on vacation, and, you know, as you do, I
+
+loaded my Kindle up with psychological journal articles and
+
+brought books, and I spent most of my vacation
+
+reading about impostor syndrome. Which is not what I'd
+
+planned to do.
+
+And then hopefully the next step in the cycle
+
+is success. Now, clearly the jury is still out
+
+on this. But hopefully when you're done you won't
+
+feel like your time has been wasted in this
+
+room. And after that, I'm gonna feel some initial
+
+relief.
+
+A coworker asked me - I had this long
+
+list of things that I hope would happen after
+
+the talk. And a coworker asked me, OK, so
+
+what do you really want to happen after this
+
+talk? Really, all I want out of this talk
+
+is to help somebody. If I accomplish that, that's
+
+all I want out of this.
+
+So, if that happens, I'll feel some initial relief.
+
+But then, as we do, I will move into
+
+this step where I am focusing on all the
+
+little failures in this talk. I'm gonna focus on
+
+the jokes that I didn't get just right. I'm
+
+gonna focus on the times I said uh, and
+
+um and stumbled over my points and the content
+
+areas that I wish I had covered better or
+
+phrased differently.
+
+And then I'm gonna move into sort of the
+
+meat of impostor syndrome. I'm gonna start denying my
+
+success. I'm gonna start feeling like people saying nice
+
+things to me in the hallway are just doing
+
+it because they know I have impostor syndrome and
+
+need compliments.
+
+And that's, you know, that's what we do. We
+
+write off our success, and it robs you of
+
+your ability to enjoy your success. So then, when
+
+the next opportunity comes up, you cycle right back
+
+into this thing, because you've never been successful in
+
+your life. At least in your own mind.
+
+This is the impostor cycle. Again, this was, this
+
+was identified in Dr. Clance's research, and it's, it's
+
+driven by the superstition that we have to go
+
+through this fear and doubt and overwork and panic
+
+to get anything done. So you go through it,
+
+you look back on it. You did OK. The
+
+reason you did OK is because you went through
+
+this big process of being all panicky and fearful
+
+and procrastinating and overworking.
+
+So you develop this superstition that if you don't
+
+do that, if you don't go through that hell,
+
+you're not gonna be able to pull of whatever
+
+it is you're trying to pull off. And so
+
+it denies you the ability to ever absorb your
+
+success and feel like you actually are a capable,
+
+competent person.
+
+There's a lot of stuff going on in your
+
+brain that causes this to happen. I alluded this
+
+to some of these earlier. A, one of the
+
+first ones is introversion. There's probably a lot of
+
+introverts in this room. And the thing about introverts
+
+is we all spend a lot of time inside
+
+our own heads, right. We spend a lot of
+
+time replaying social interactions, wishing we hadn't been awkward,
+
+wishing we were better at small talk. We meet
+
+this hero of ours at a conference. We go
+
+talk to him and we say something really stupid
+
+and put our foot in our mouth and we
+
+spend the next six hours thinking about that. So
+
+we spend a lot of time in self-criticism.
+
+The next thing is perfectionism. And the, the two
+
+most highly-correlated personality attributes to impostor syndrome are introversion
+
+and perfectionism. So the thing about perfectionism is we
+
+have very high standards for ourselves, right. We want
+
+to get the gold standard. So what happens when
+
+we hit silver plus, plus, plus? We have failed.
+
+So, you have this inability to ever do as
+
+well as you think you ought to do. You
+
+have this inability to ever pull anything off to
+
+your own perfect standard. And then it goes into
+
+something even more sinister than that. There's this need
+
+in perfectionism that emerges to always be the best.
+
+It's not enough to be good. You have to
+
+be the shining star. And so you get into
+
+this, it, it can create some really weird things
+
+in your job.
+
+So, when a coworker, say, gets a lot of
+
+praise for pulling something off, I feel threatened by
+
+that. Which is stupid, right? I know, intellectually, that
+
+I shouldn't. I know that there's more than enough
+
+credit to go around. It's not a zero-sum game.
+
+But I still feel like, somehow, my coworker getting
+
+praise is taking something away from my shiny gold
+
+star. And so it sets you up to always
+
+have to be perfect.
+
+It's terrible.
+
+And it feeds into workaholism, because it takes a
+
+lot of work to live up to that standard
+
+that we all think we need to live up
+
+to. A whole lot of work. Or, when we
+
+get into a situation where we know we can't,
+
+we procrastinate. Now, I've been a world-champion procrastinator for
+
+the bulk of my career.
+
+And it wasn't until maybe a year ago that
+
+I realized how intertwined it was with impostor syndrome.
+
+Because what procrastination does for you, when you're a
+
+perfectionist, is it gives you a forcing function. It
+
+lets you get something out the door that might
+
+not be as perfect as you want it to
+
+be. It gives you a time box. And what
+
+you can produce in that time box has to
+
+be good enough.
+
+And it also gives you a way out of
+
+failure. Because, like I mentioned earlier, impostors often have
+
+a strong fear of failure. So if you procrastinate,
+
+if you wait until the very last minute to
+
+do something, and then you fail, well. It's just
+
+cause you didn't spend enough time on it. It's
+
+not a reflection of you as a person.
+
+Which is the perfect segue into the next thing
+
+going on in your head, which is fear of
+
+failure. As impostors, we are terrified for others to
+
+see us struggle. We are scared to death to,
+
+for anybody else to see that we might not
+
+be able to pull it off the first time
+
+we try. Because we feel like we're walking on
+
+eggshells. We have this very thin facade, that if
+
+anybody can get through, anybody can see around, they're
+
+gonna realize what a complete and total failure we
+
+are.
+
+So anytime there's a crack in that armor, we're
+
+afraid that it's all gonna come tumbling down. So
+
+we develop this deep-seated fear of failure that makes
+
+it very hard to go and try to do
+
+new things. It makes it hard to do anything
+
+you think you might look foolish doing. A perfect
+
+example of that is the dance floor. And one
+
+thing you will not see on the dance floor
+
+is this guy.
+
+Much to the chagrin of my wife, by the
+
+way. She would really prefer me to get out
+
+on the dance floor with her. But, I'm so
+
+afraid that I'm gonna get out there and make
+
+a fool of myself that I just won't do
+
+it. I won't risk that part of my personality
+
+because somehow it's gonna make people think less of
+
+me. I know it's kind of a contrived, trivial
+
+example, but it plays out on the rest of
+
+your professional life.
+
+It plays out when you're trying to learn something
+
+new, or you're trying to fight through a hard
+
+problem. You're kind of afraid to admit that you
+
+don't know.
+
+This one is really the meat of impostor syndrome.
+
+This idea of denial of success. One thing we're
+
+all really good at, as impostors, is deflecting objective
+
+evidence that we're actually competent and successful. We're very
+
+good at pushing those things away. We deflect compliments,
+
+we write off promotions. We got new jobs because
+
+we're good interviewers, not because we're good developers.
+
+In fact, when I found out my talk was
+
+accepted, the first thought that came into my mind
+
+is, man, that's gonna be such a let-down tomorrow
+
+when I get the email that their CFP system
+
+screwed up and emailed everybody a letter of acceptance.
+
+So stupid, right?
+
+But that's, the, these are the things that your
+
+brain does that traps you in this cycle. It
+
+gets into attribution theory in psychology. And that's the
+
+idea of where you attribute success and failure. As
+
+impostors, we tend to contribute success to external factors.
+
+So, it's luck. And timing. And knowing the right
+
+people.
+
+Whereas we take failure and we internalize it. It
+
+speaks to who we are as a person. If
+
+we fail, it's completely a reflection on us. But
+
+if we succeed, it's not a reflection on us
+
+at all, it's a reflection of the situations we
+
+found ourselves in.
+
+We also have a little bit of fear of
+
+success going on. There's this fear that being successful
+
+might ostracize you from your peers. I know I
+
+felt this in school a lot. I was the
+
+kid that knew the answer every time, and by
+
+about third grade I had developed a defense mechanism
+
+where I hardly ever raised my hand. Cause I
+
+didn't want to be the kid that knew all
+
+the answers, cause that kid didn't have any friends.
+
+This is part of why people from marginalized groups
+
+suffer disproportionately more from impostor syndrome than the rest
+
+of us. The only marginalized group I'm a part
+
+of is guys without hair. So, but I still
+
+have a very strong case of impostor syndrome. When
+
+you get into a marginalized group and you might
+
+be more successful than some of your peers, you're
+
+afraid it might cause you to be outcast from
+
+that peer group that's one of the only safe
+
+places you have. One of the only places you
+
+belong.
+
+It's a scary thing.
+
+There's a couple things that make impostor syndrome more
+
+prevalent in technology than it is in other industries.
+
+One of those things is the vastness of the
+
+knowledge involved in being a technology worker. Most of
+
+us have heard of the Dunning-Kruger effect. It's this
+
+idea that unskilled people may not really be able
+
+to gage their level of competence. They may feel
+
+like they're more competent than they are because they
+
+don't know their gaps.
+
+We have the diametric opposite problem of that. We
+
+know every last one of our gaps. We know
+
+all the things that we don't know. We know
+
+all the things that we need to improve about
+
+ourselves. And we know how much we don't know.
+
+And, DHH alluded to this in his keynote, actually,
+
+when he talked about the impostor plexus.
+
+We spend a lot of time wondering if we're
+
+doing it right in software. But the definition of
+
+right is always moving around. It's very hard to
+
+track. And so it sets us up for this
+
+feeling where we're never doing it right. We're always
+
+two steps behind. There's always something else we need
+
+to know to be able to be accepted in
+
+our field.
+
+The other thing is peer scrutiny. Actors, scientists, college
+
+professors, musicians, artists, all have a hard time with
+
+impostor syndrome. And the thing all those professions have
+
+in common with us is this idea of peer
+
+scrutiny. We are always one code review away from
+
+somebody telling us that our work is crap and
+
+we are crap.
+
+And it's, it's a scary place to be. So,
+
+to cope with that fear, your brain starts dutifully
+
+preparing you for someone telling you that your work
+
+is crap by telling you that you're crap ahead
+
+of time. It's really helpful.
+
+The other thing we do is we compare the
+
+finished work of other people to our messy thought
+
+process. So you, you look at this library that
+
+you admire. You look at the code. You look
+
+at the structure. You look at the way it's
+
+organized. It's fantastic code.
+
+Then you look at your own code. But when
+
+you look at your own code, you have the
+
+back story of that code. You know how it
+
+came to be. You know what a struggle it
+
+was. So you assume this guy wrote this entire
+
+text file, beautiful library in one pass. But you
+
+know how the sausage was made on your code.
+
+And you know it wasn't a pretty process. So
+
+you're setting yourself up for failure in that comparison.
+
+You're never gonna come out ahead when you compare
+
+your thought process to somebody else's finished code.
+
+So how does this work out in practice? There
+
+are a lot of things that impostors don't do,
+
+because of impostor syndrome. We don't participate in conversations.
+
+We go to user groups. We tend to hide
+
+in the wings, right. Because if we hide, then
+
+we don't have to put ourselves out there. We
+
+don't have to let anybody see us and figure
+
+out that we don't know what we're talking about
+
+and shouldn't be where we are.
+
+We don't ask questions. It's hard for us to
+
+admit that we don't know something. We pretend like
+
+we know it. Fake it till you make it.
+
+And then we come back later and frantically scramble
+
+to try to learn the things that we don't
+
+know. So we write crappy code. We blindly adhere
+
+to best practices. We don't ask questions that would
+
+allow us to become somebody with a trained eye
+
+for code that actually knows how to apply those
+
+best practices well.
+
+And we all know that if you just blindly
+
+apply best practices, you're gonna end up with some
+
+code that's really pretty rough. But if you don't
+
+ask those questions, if you don't put yourself out
+
+there to admit that, yeah, you know what, I
+
+could learn to do this a little better, you
+
+don't grow.
+
+Impostors don't teach others. We don't give user group
+
+talks. We don't give convention talks. We don't help
+
+out at workshops. And the community is worse off
+
+for this. Brandon Hayes, in his talk this morning,
+
+alluded to the fact that everybody sitting in the
+
+audience has a talk that they could give. There
+
+is something out there that you know an awful
+
+lot about. Maybe more about than anybody else. But
+
+if you're afraid to get up in front of
+
+people and share that knowledge, the community is lacking
+
+that knowledge. The community is lacking your unique viewpoint.
+
+So impostor syndrome robs our community of some voices
+
+that would otherwise be very helpful and very insightful.
+
+Another thing impostors don't do is contribute to open
+
+source. I remember when I was a PHP developer
+
+in the first year of my software development career.
+
+I said something really stupid on the WordPress mailing
+
+list. It was something along the lines of WordPress
+
+isn't supported on Microsoft stack. Or something, I don't
+
+know, something dumb. And I got my rear end
+
+handed to me for it.
+
+And ever since that happened, I have been very
+
+hesitant to do anything of any significance in the
+
+open source world. And I have a feeling that
+
+there's a lot of people in the audience that
+
+that's true for, as well. Maybe you got bit
+
+one time. Maybe you're just afraid of getting bit
+
+by trying to contribute to open source. But it's,
+
+it's something that impostors don't do, because we're afraid
+
+of that rejection. We're afraid of that failure.
+
+The other thing impostors don't do is they don't
+
+change jobs. I mentioned I was a solo developer
+
+for the first chunk of my career. I was
+
+in that job for five years. And it was,
+
+it was a bit of a cushy position. I'll
+
+admit that. But by being a solo developer, I
+
+deprived myself of the chance of learning from other
+
+developers. And by the time I left that job,
+
+I was not making anything close to a market
+
+salary.
+
+But, as impostors, we kind of feel lucky to
+
+have the job we have and to have the
+
+people that are around us fooled. It seems like
+
+an awful lot of work to go take a
+
+new job and have to fool a new group
+
+of people, right? So we just sit where we
+
+are.
+
+So, clearly, these are not things that we want
+
+to happen in our community. So how do we
+
+patch our brains to get out of this cycle?
+
+Like I mentioned earlier, impostor syndrome, that cycle, it's
+
+kind of an infinite loop in your head. And
+
+you just have to find the places that you
+
+can hook into it so that you can get
+
+out of it.
+
+The good news is, is that for starters, knowing
+
+is half the battle. If you just understand that
+
+this thing that you feel, this pervasive sense of
+
+incompetence that you feel actually has a name. It's
+
+called impostor syndrome. You know how it's affecting your
+
+thoughts. You know how it's affecting your head. That's
+
+the first start of the road to recovery. I
+
+mentioned earlier, I've got an impostor survey, I'll give
+
+you the link at the end of the talk.
+
+It's derived from research from Dr. Clance. And it'll
+
+give you a numeric score. It'll help you sort
+
+of sort through some of the thoughts in your
+
+head and figure out if it's something that you're
+
+dealing with.
+
+So once you know what impostor syndrome is, the
+
+next thing is mindfulness. You have to start paying
+
+attention. And, I apologize, cause I know this is
+
+super cheesy, but I'm gonna do it anyway. I
+
+want you to turn to somebody next to you
+
+in the audience and pay them a compliment. If
+
+it's somebody you know well, make it as specific
+
+a compliment as you can. I'll wait.
+
+AUDIENCE: [chatter]
+
+N.M.: All right. All right, come on. Reeling it
+
+back in here. I wondered if this would happen
+
+on the last day of the conference, and it
+
+did.
+
+So, think back to when the person sitting next
+
+to you paid you that compliment. How did you
+
+react? Was your initial instinct to accept that compliment
+
+and take it at face value as true? Or
+
+was it to try to write it off. To
+
+try to find some way deflect it. Cause that's
+
+what we do as impostors, right? If somebody comes
+
+up and says hey, nice job.
+
+Oh, man, I was really lucky. It was an
+
+easy topic to talk about. That sort of thing.
+
+We tend to write it off. So you have
+
+to pay attention to how you accept compliments. You
+
+have to work to accept them gracefully. If you
+
+don't know how to do that, just say thank
+
+you. All you have to say. It's very hard
+
+work, and I am still terrible at it.
+
+The other thing you have to do, that you
+
+can do to help you find how this is
+
+happening in your head is to listen to yourself
+
+talk. See if you do a lot of self-deprecation.
+
+When you make a mistake in the code, you
+
+say, oh man, I'm an idiot. Or do you
+
+do, oh, I forgot a semi-colon. Not that we
+
+ever do that because we're Rubyists and we don't
+
+write JavaScript or anything.
+
+The next thing you have to do is accept
+
+your success. Accept your success. Trust reality, not your
+
+feelings. Brandon Hayes is a friend of mine from
+
+Austin, said this probably as eloquently as I've heard
+
+it said. He was talking about leaving a previous
+
+job and coworkers paying him compliments and saying nice
+
+things about him.
+
+And he said, you know, at some point, I
+
+had to stop the thought process in my head.
+
+And I had to try to find these things
+
+that people were saying about me inside myself. I
+
+had to find them as true. And it's hard.
+
+It's hard. You have to try to accept that
+
+compliments are true. You have to accept that nice
+
+things that people say about you are true, rather
+
+than immediately writing them off. Another way to practice
+
+that is to give more compliments.
+
+I mentioned sort of this idea of a zero-sum
+
+game, where it's, you have to be the shining
+
+star and you're worried about what happens when people
+
+on your team get compliments. Well, give more compliments.
+
+Notice the genuineness with which you deliver a compliment.
+
+If you notice how genuine you're being, start assuming
+
+other people are being that genuine as well. And
+
+they're not just deluded into thinking you're something you're
+
+not.
+
+You have to own your success. And even if
+
+your success involved a lot of luck and timing,
+
+you still had to be smart enough to use
+
+that luck and timing to your benefit. So even
+
+if you try to write it off as luck
+
+and timing, you still had something to do with
+
+it.
+
+You also need to be kind to yourself. Forgive
+
+your mistakes. If you notice yourself being very self-critical,
+
+interrupt yourself. Notice what you did well, in addition
+
+to what you feel like you need to improve
+
+on.
+
+My wife's a middle-school English teacher. And in her
+
+classroom, she practices something that she calls the compliment
+
+sandwich. When she has to deliver some bad news
+
+to a student or tell them how they need
+
+to improve their writing or, or something like that,
+
+she tells them first something they did really well.
+
+Then she delivers the improvement, and then she tells
+
+them something else they did really well.
+
+Well, if you start doing this inside your own
+
+head, what'll happen is you'll have to find something
+
+you did well. Then you can indulge in that
+
+self-criticism that feels so good to us. And then
+
+you tell yourself something else you did well. And
+
+over time, you'll notice that you start to notice
+
+your success more than the things that you wish
+
+you'd done better.
+
+Another technique you can use is to ratchet your
+
+freak-out. And I use this one a lot this,
+
+giving this talk. I mentioned that I moved into
+
+that fear and doubt and, cycle, pretty early on.
+
+Well, I made an agreement with myself that I
+
+was not gonna freak out until a week before
+
+the conference.
+
+And it actually worked pretty well. So, normally when
+
+I do something like this, I would freak out
+
+a long time in advance. I would start worrying
+
+about it and feeling like I wasn't gonna pull
+
+it off. But I made an agreement with myself
+
+that I wasn't gonna do that. And I sat
+
+on it for awhile. And a week before the
+
+conference. It actually worked. When it would come up,
+
+I would push it back down and say, you
+
+get to freak out a week before the conference.
+
+You don't get to freak out now. And then
+
+the week before the conference got here and, boy
+
+did I freak out.
+
+I stayed up till two in the morning most
+
+nights not doing much of anything, but feeling better
+
+because I was doing something. Like I was making
+
+progress on my talk. It was very much a
+
+coping mechanism. I wasn't accomplishing anything. But instead of
+
+doing that for a whole month, I only did
+
+it for a week.
+
+And the magic of this, is it lets you
+
+be successful without freaking out for a month. And
+
+so you start to break down that superstition that
+
+you have to do a lot of freaking out
+
+before you can be successful. You start to chink
+
+away at that bit by bit, until finally you
+
+become convinced that it's not as necessary, maybe, as
+
+you believe it is.
+
+Another thing is embrace vulnerability. Allow yourself to admit
+
+you don't know things and ask questions. If you
+
+don't know who that is in the background of
+
+that slide, it's Renee Brown. If you haven't seen
+
+her TED talk, The Power of Vulnerability, put that
+
+very high on your to-do list.
+
+I saw it probably two years ago, and it
+
+was the start of my journey out of impostor
+
+syndrome. Because it was the first time I'd really
+
+ever embraced the message that it was OK if
+
+I wasn't perfect. It was OK if I didn't
+
+know everything all the time.
+
+When you start embracing vulnerability, it frees you up
+
+to be yourself, and to be OK with that.
+
+To be OK with not knowing everything. And once
+
+you're comfortable with who you are, it gives you
+
+a much more solid foundation to build upon and
+
+to improve. Like, instead of trying to build on
+
+top of this shaky facade, you're building on who
+
+you actually are and what you actually know.
+
+In the process of embracing vulnerability, something you absolutely
+
+need to try is pair programming. I don't have
+
+a lot of time, but I will be more
+
+than happy to pair with any of you if
+
+I can find the time. Just ping me on
+
+Twitter.
+
+I'm lucky enough to be on a team that
+
+does pair programming 100% of the time. And what
+
+you find, a coworker said this to me right
+
+as I was walking in to give this talk.
+
+What you find, is that knowledge becomes collective. Not
+
+something that you have to bring to the table
+
+individually. So it's OK if you don't know everything.
+
+Your pair probably does. And there's no penalty for
+
+them knowing things and you not.
+
+But it also makes you be vulnerable enough to
+
+work with somebody. Because if you're pair programming with
+
+somebody, there is no hiding. And it's really the
+
+first dose of having an accurate basis of comparison
+
+for my work that I ever had. Working with
+
+somebody, seeing how they worked, seeing how I worked.
+
+Seeing how we did a lot of the same
+
+things and approached problems the same ways, convinced me
+
+that maybe I wasn't that bad a developer after
+
+all.
+
+But most importantly, you gotta keep going. You have
+
+to keep going. The hell of impostor syndrome is
+
+that you are never fully recovered from it. This
+
+pattern of thought is so deeply ingrained in your
+
+head that is very hard to escape from. So
+
+what you're working towards is becoming what I like
+
+to call a high-functioning impostor.
+
+I've alluded to the fact that I have been
+
+my own walking case study in the development of
+
+this talk. So, clearly I am not out of
+
+the woods. Clearly, I still experience most of these
+
+things on a very regular basis. The difference is,
+
+I can work through it enough to be able
+
+to get up and give a talk, or to,
+
+to ship code and know it's actually decent code.
+
+And everybody can do this. It's not that hard.
+
+You just have to start working through it and
+
+continue working through it and not giving up when
+
+it's hard and continue pushing against it.
+
+The last thing I want to leave you with
+
+is this. I talked about Dunning-Kruger effect earlier. The
+
+thing that you need to remember about impostor syndrome
+
+is you have a lot of very smart people
+
+around you saying very nice things about you. If
+
+you believe that these people are full of crap,
+
+then you're saying that they're not smart enough to
+
+see through you. They're not good enough at reading
+
+code to tell that your code is terrible. And
+
+these are also the people that serve as your
+
+basis of comparison. So you're looking around at all
+
+these people that are very smart, and these are
+
+the people that you feel like you might be
+
+inferior to.
+
+Well, you're saying these people that you, that you
+
+consider to be smarter than you are not smart
+
+enough to see through this facade. They are. And
+
+they're not, because there's no facade there. So the
+
+fact that you experience impostor syndrome pretty much means
+
+that you have no reason to experience impostor syndrome.
+
+It means you know enough about your skill and
+
+your craft to see your shortcomings and you just
+
+need to focus more on the things that you
+
+know and the value that you bring to the
+
+table.
+
+Give yourself credit for that and focus less on
+
+the things that you still have to learn. Because
+
+you have a long career ahead of you. You
+
+don't have to know it all now.
+
+Thanks.
+
