@@ -64,62 +64,62 @@
 
 [*Build the API First*](https://www.youtube.com/watch?v=xlZ1A-d5x5U)
 
-An Iterative Approach to Service-Oriented Architecture - https://www.youtube.com/watch?v=886iF1tNLZ4
+[*An Iterative Approach to Service-Oriented Architecture*](https://www.youtube.com/watch?v=886iF1tNLZ4)
 
-Unreasonable Estimates and Improbable Goals - https://www.youtube.com/watch?v=h6Q2dQZ6GlY
+[*Unreasonable Estimates and Improbable Goals*](https://www.youtube.com/watch?v=h6Q2dQZ6GlY)
 
-Curmudgeon: An Opinionated Look at an Opinionated Framework - https://www.youtube.com/watch?v=uDLtgjx5_Ss
+[*Curmudgeon: An Opinionated Look at an Opinionated Framework*](https://www.youtube.com/watch?v=uDLtgjx5_Ss)
 
-Branding for Open Source Success - https://www.youtube.com/watch?v=ZxHiXIJTaxE
+[*Branding for Open Source Success*](https://www.youtube.com/watch?v=ZxHiXIJTaxE)
 
-How to be a Boss Without the B-S - https://www.youtube.com/watch?v=10_6gWK6t18
+[*How to be a Boss Without the B-S*](https://www.youtube.com/watch?v=10_6gWK6t18)
 
-The "Rails of JavaScript" Won't be a Framework - https://www.youtube.com/watch?v=Ylrm-mWALGI
+[*The "Rails of JavaScript" Won't be a Framework*](https://www.youtube.com/watch?v=Ylrm-mWALGI)
 
-Effectively Testing Services - https://www.youtube.com/watch?v=sMWthvdWS-w
+[*Effectively Testing Services*](https://www.youtube.com/watch?v=sMWthvdWS-w)
 
-How They Work Better Together: Lean UX, Agile Development and User-Centered Design - https://www.youtube.com/watch?v=zdwnogUMtc4&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5
+[*How They Work Better Together: Lean UX, Agile Development and User-Centered Design*](https://www.youtube.com/watch?v=zdwnogUMtc4&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5)
 
-Deploying With Rails is Easier than it Looks - https://www.youtube.com/watch?v=hTofBnxyBUU
+[*Deploying With Rails is Easier than it Looks*](https://www.youtube.com/watch?v=hTofBnxyBUU)
 
-Middleman: the Missing View in the Rails API Stack - https://www.youtube.com/watch?v=-q_oUyEHiEw
+[*Middleman: the Missing View in the Rails API Stack*](https://www.youtube.com/watch?v=-q_oUyEHiEw)
 
-Reading Code Good - https://www.youtube.com/watch?v=mW_xKGUKLpk
+[*Reading Code Good*](https://www.youtube.com/watch?v=mW_xKGUKLpk)
 
-Refactoring Towards Component-based Rails Architectures - https://www.youtube.com/watch?v=MIhlAiMc7tU
+[*Refactoring Towards Component-based Rails Architectures*](https://www.youtube.com/watch?v=MIhlAiMc7tU)
 
-Building kick-ass internal education programs (for large and small budgets) - https://www.youtube.com/watch?v=LPZmNfhPPOs
+[*Building kick-ass internal education programs (for large and small budgets)*](https://www.youtube.com/watch?v=LPZmNfhPPOs)
 
-Elements of Design: A Developer's Primer - https://www.youtube.com/watch?v=fN1MTmJeLew
+[*Elements of Design: A Developer's Primer*](https://www.youtube.com/watch?v=fN1MTmJeLew)
 
-Debugger-Driven Development with Pry - https://www.youtube.com/watch?v=4hfMUP5iTq8
+[*Debugger-Driven Development with Pry*](https://www.youtube.com/watch?v=4hfMUP5iTq8)
 
-Keynote: What Happens to Everyone When Everyone Learns to Code - https://www.youtube.com/watch?v=wLCXkf-e_aY
+[*Keynote: What Happens to Everyone When Everyone Learns to Code*](https://www.youtube.com/watch?v=wLCXkf-e_aY)
 
-Bring the Fun Back to JS: Step-by-Step Refactoring Toward Ember - https://www.youtube.com/watch?v=VMmaKj8hCR4
+[*Bring the Fun Back to JS: Step-by-Step Refactoring Toward Ember*](https://www.youtube.com/watch?v=VMmaKj8hCR4)
 
-Demystifying Data Science: A Live Tutorial - https://www.youtube.com/watch?v=2ZDCxwB29Bg
+[*Demystifying Data Science: A Live Tutorial*](https://www.youtube.com/watch?v=2ZDCxwB29Bg)
 
-Artisans & Apprentices - https://www.youtube.com/watch?v=96cqqEfGSFg
+[*Artisans & Apprentices*](https://www.youtube.com/watch?v=96cqqEfGSFg)
 
-Technical Onboarding, Training and Mentoring - https://www.youtube.com/watch?v=Lpg4jRSH7EE
+[*Technical Onboarding, Training and Mentoring*](https://www.youtube.com/watch?v=Lpg4jRSH7EE)
 
-Where did the OO go? Views should be Objects too! - https://www.youtube.com/watch?v=WAN_P1m76GQ
+[*Where did the OO go? Views should be Objects too!*](https://www.youtube.com/watch?v=WAN_P1m76GQ)
 
-Looking Backward: Ten Years on Rails - https://www.youtube.com/watch?v=VnhVkzop1_w
+[*Looking Backward: Ten Years on Rails*](https://www.youtube.com/watch?v=VnhVkzop1_w)
 
-How to be a Better Junior Developer - https://www.youtube.com/watch?v=GJW46x27W1w
+[*How to be a Better Junior Developer*](https://www.youtube.com/watch?v=GJW46x27W1w)
 
-Rack::Attack: Protect your app with this one weird gem! - https://www.youtube.com/watch?v=m1UwxsZD6sw
+[*Rack::Attack: Protect your app with this one weird gem!*](https://www.youtube.com/watch?v=m1UwxsZD6sw)
 
-Lightning Fast Deployment of Your Javascript-Backed Rails APP - https://www.youtube.com/watch?v=QZVYP3cPcWQ
+[*Lightning Fast Deployment of Your Javascript-Backed Rails APP*](https://www.youtube.com/watch?v=QZVYP3cPcWQ)
 
-Distributed Request Tracing - https://www.youtube.com/watch?v=L9HiJrR2RQY
+[*Distributed Request Tracing*](https://www.youtube.com/watch?v=L9HiJrR2RQY)
 
-Make an Event of It! - https://www.youtube.com/watch?v=dgUhP606F9w
+[*Make an Event of It!*](https://www.youtube.com/watch?v=dgUhP606F9w)
 
-Too Big to Fail - https://www.youtube.com/watch?v=MOTpwIwQMTI
+[*Too Big to Fail*](https://www.youtube.com/watch?v=MOTpwIwQMTI)
 
-Concerns, Decorators, Presenters, Service Objects, Helpers, Help Me Decide! - https://www.youtube.com/watch?v=bHpVdOzrvkE
+[*Concerns, Decorators, Presenters, Service Objects, Helpers, Help Me Decide!*](https://www.youtube.com/watch?v=bHpVdOzrvkE)
 
 [*Closing Keynote*](https://www.youtube.com/watch?v=BTTygyxuGj8)
