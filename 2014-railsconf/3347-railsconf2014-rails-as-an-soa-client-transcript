@@ -1,0 +1,219 @@
+RailsConf 2014 - Rails as an SOA Client - Pete Hodgson
+
+PETE HODGSON: OK. So, thanks for coming. Today I'm talking about Rails as an SOA client. So, in the beginning, there was a Rails application. And in the beginning, most of these Rails applications were pretty straight-forward. Pretty simple things. They were normally just talking to a single database. And this is how most of our Rails applications start. They're green fields, and we're talking to a single database.
+
+Quite often, we, or pretty soon, particularly now days, we start talking to services. These might be external services like Twillo or Twitter, or they might be internal services that we're using as part of doing our job in a, in a more enterprise-y situation.
+
+And as time has gone on, we've noticed, or I've noticed, that our Rails applications are depending more and more on services. So, I think there's kind of two big forces in play here. Force number one is, as time has grown and as Rails has matured and our community's matured, our Rails applications have been kind of growing into these big monoliths, mono Rails, these big, bloated applications, and now there's this kind of movement, quite a widespread movement, meant to break up our large, monolithic Rails apps into, into services and, obviously, something needs to talk to those services. And normally that is a Rails app fronting those services.
+
+The second big force is, Rails applications, which I think started off mainly being used by start ups, have moved more and more into enterprise-y places where there are a lot, lot, lot of services. And in these enterprise contexts, Rails apps are normally talking to a lot of services to get their job done.
+
+And this is, even goes to the extreme where we have Rails app that don't actually have any local data storage at all, are not doing any kind of persistence. All they're doing is, is interacting with services to do all of their work.
+
+So, I, I built an application like this fairly recently, and I'm gonna talk to you guys about what we built, some of the techniques we used to be successful in building these kind of services only application. Yup. So that's, that's gonna be the talk today.
+
+My name is Pete. I work for this consulting company called ThoughtWorks. So, we work with clients to help them build software and get better at building software. I've been with ThoughtWorks for about four years. As you can tell from my accent, I'm in the San Francisco office.
+
+I really am in the San Francisco office. And I, I, in my time in ThoughtWorks, I've done a lot of different things. I've done a fair amount of Ruby and Rails, but I've also done some Scala, some JavaScript, some, some iOS. And I've also worked in a lot of different contexts, organizations. So I've worked in really small start ups all the way through to huge, lumbering banks.
+
+And, one of the things that I love about ThoughtWorks is I get to move in all these different places. And one of the things that I think ThoughtWorks brings to its clients is ideas from one place applied in a different place. So, what we find ourselves doing a lot is taking ideas from the Rails community and introducing them to the Scala community. Or taking ideas from mobile applications and introducing them to our client-side JavaScript applications.
+
+And, indeed, taking ideas from start ups and taking them to the enterprise. And so, shockingly enough, vice versa. So, that's part of what I'm gonna be talking about today is, there's this subtext of kind of taking ideas from other communities that are successful and bringing them into the Rails community.
+
+And so this is gonna be a kind of a talk in two parts. The first part I'm gonna talk about some kind of more hand wave-y, how do we live in this ecosystem environment. And some tools and techniques that can help with that, particularly in the context of Rails. And then I'm gonna dive into some more kind of nitty gritty kind of, how do we actually build these things into our Rails applications?
+
+So, first off. Co-dependence versus independence. So, as I said, I worked for a client. We were building a large, we were building, actually, a pretty small Rails application in front of a very large set of services. We were building an online store for, for a large book retailer. They were going to a new market, and they didn't want to have to keep working in Java. So they were taking this as an opportunity to build a green-filled Rails app for a new market, which was still gonna be using all of their existing services, which were implemented in a variety of languages.
+
+So this is what the home page of this application kind of looked like. There was this kind of list of all the products and prices and descriptions and all that kind of stuff. And then across the top we had these kind of deals of the day.
+
+And the way that this worked was, was interesting or, I, I suppose is, is interesting if you haven't worked in like a large enterprise like this. But the information to power this page was coming from a lot of different places. And our Rails app was really just responsible for stitching that information together. So, we had the product service that was kind of serving up product catalog data, and then we had the deals service that was kind of telling us what the deals of the day were.
+
+And, as I said, the Rails app was just kind of there to kind of, go over here and get some information. Go over here and get some information, and then kind of plug it all together. So when you're building an app like this, you get this interesting phenomenon, where this app, on its own, really can't do much at all. In fact, it can't do anything. We, there wasn't, there was probably not a single page of this app that would render if those services weren't there.
+
+So, what, this is what I mean by co-dependence. This application was incredibly co-dependent on the ecosystem of services that it lived inside of. But ideally we don't want to be co-dependent, because we want to be able to run this thing in isolation, to test it in isolation, to debug it in isolation.
+
+So, we don't want to have to stand up the entire enterprise on our laptops just in order to, to run this thing when we're, when we're on a train or in a plane. So, we want independence, but we're in a situation of co-dependence.
+
+And this gets even more interesting when you start thinking about it in terms of teams. So, in our case, we had our team, let's call us the red team. We're building the Rails application. But we weren't building any of these services. The deals services might have been maintained by the green team and the blue team, of course, were working on the product service.
+
+And these teams were teams we sometimes, we didn't even know where they, where they were. We had vague ways of getting in contact with them, but we, we didn't have a very good relationship with them. And this leads to lots of interesting side-effects.
+
+So one thing that you might note here is the shape of the teams. Lines up pretty closely with the shape of the services. So this gets to this thing called Conway's Law. Don't tell DHH that I'm talking about laws.
+
+Conway's Law, coined in the 60s, says that the communication patterns of a software system tend to mirror the communication patterns of the people who build that system. How many people have heard of Conway's Law, by the way?
+
+So, I'm trying to avoid calling it a law but I'm not going to be able to do that. I think Conway's Law is the most important law for us to understand as software engineers. Oh, I said. As people. As software writers. Sorry.
+
+Conway's Law says that how people work together effects system architecture. And, and the flip-side. System architecture effects how people work together. And, this isn't kind of a, a possible outcome. This is reality. This is empirically shown for fifty years, sixty years almost. This does happen. This is true.
+
+So you can't, like, decide you don't want it to happen. But what you can do is you can either wield Conway's Law to your advantage, go with the grain and, and use it to your advantage, or you can kind of yield to Conway's Law and have it beat you up.
+
+So I'm gonna talk a little bit today about how we wielded Conway's Law to our advantage rather than have it beat us up.
+
+So, here's our three teams. One of the most fun aspects of, of working in a system that has more than one team is, is when you find a bug. So let's say we've got our deal, deals of the day section, and we've noticed that the prices are missing in some of the deals section when we run the application. So now we start to play this game, it's called Who's Bug is it Anyway?
+
+Hands up if you've played this game. Awesome. OK. I wasn't sure if that was a cultural reference that people wouldn't get. So, we know that the deals aren't loading correctly, but is that the deal service's fault? Maybe the product service isn't returning the right data for those deals. Maybe we're asking it the wrong questions. Or maybe we just have a bug in our rendering code.
+
+The fundamental issue of all of these things is this tension between co-dependence and independence. We are co-dependent. We want to be independent. Some people solve a lot of these problems by embracing co-dependence. So, if our Rails app needs the services to be up and running in order to run, we'll stand up the services. You can do that. You can stand up copies of the services locally on your laptop. This is more and more easy to do nowadays cause we've got kind of trendy dev-ops things like Vagrant and Chef and Puppet.
+
+That will only get you so far. Try standing up a bank on your laptop. It's not happening. Very, very common approach here is to, to use kind of shared services. So a shared dev environment. A shared kind of staging environment. That kind of thing. And that, that works quite well. But, for our team, we decided to go the alternate route. We wanted to, as much as possible, push for independence. And, the main way we did that was by rem- replacing our dependency on services with fake services.
+
+So, when we wanted to test our application, we wanted to test just our application in independence. And the way that we did that was, for each of our dependent services, we replaced those services with kind of a fake version of that service. And by doing that, we were allowed to run these things that, that we called bounded integration tests.
+
+So, these were tests that tested the entire stack of our application, of our Rails application, from top to bottom, from kind of html all the way down to the network. But, we weren't, we were testing that in isolation. We weren't actually hitting those shared services.
+
+And what's really interesting here is, do you see the, the boundary of those tests lines up almost perfectly with the boundary of our team. So this is a really good example of using Conway's Law to your advantage. Embracing Conway's Law and shaping your approach, shaping your software, with the shape of your team. And this was something that helped us win.
+
+So, if you want to build these fake services, what are your options? Comes down to, to two different kind of techniques, really. In-process and out-of-process. So in-process means you're kind of messing around with the actual Rails, running Rails process, and like replacing the network stack with a fake network stack maybe.
+
+Out of process means you're standing up a real http server. It's an actual, you know, you can actually talk to it over http. And your application, your Rails app, rather than pointing to a real deal service, it's going to point to this fake deal service. It's gonna look and smell like a deal service. You send it a request. It gives you a response. It's not a real deals service. It's a fake service that we have control over.
+
+So, you can imagine if we wanted to test unicode rendering, we could stand up a fake product service that returned a product tied tool that was all kind of snow man and that kind of stuff. And, and that allows us to test how we handle unicode titles without having, then, to need a unicode title.
+
+So, in process, a couple of popular options, vcr and webmock. We actually used vcr quite heavily on this project that I'm talking about. So basically it just kind of sits, it kind of injects itself in between your application and the network layer and records all the interactions between your application and the network, and then you can kind of flip it into playback mode, and rather than, next you time you go and make a, make a network call, it's not actually gonna call the network. It's going to just play back the previously recorded interaction. So that worked out well for us with some caveats.
+
+Out of process, you've got a lot more options, because you're not running out of process. You don't have to use Ruby. You can use whatever tool makes the most sense. So mimic is a really good option here. This is actually a Ruby gem written by Luke Redpath. It's a Sinatra application that pretends to be whatever you want it to be.
+
+Outside of the Ruby community, or outside of the Ruby language, I suppose, there's a library called moco. It's quite powerful. Stubby is another one. And then there's this interesting one called montebank. What makes montebank interesting is it doesn't just fake out http, it will fake out whatever protocol you want. So it can fake out smtp to it, so you can check emails. It'll fake out web sockets. That kind of stuff. So that's an interesting one to look at.
+
+So now we've got these bounded integration tests. And that means we have some confidence that it wasn't us that, that's creating this bug. Because our bounded integration tests are passing. So all was happy and we can go on with our day.
+
+Well, obviously not, because we actually still don't know where the bug is. And the goal here is not for us to kind of, prove that we, it's not our fault. The goal is to identify the problem and fix it, because at the end of the day it's a system. We're a part of that system and we need to fix the system and move on.
+
+So, so we're left saying, OK. We know it's not our fault. We'd like to help our, our comrades on other teams figure out where the problem is. And for that we used a technique called contract tests. So, contract tests, also sometimes referred to as consumer-driven contracts. The idea with these is we write test code that expresses what we expect a dependency, an external service to do, and then we run those tests against a real version of that service, and we find out if that service actually does what we expect. Quite simple.
+
+What's weird is we're testing someone else's code. We're not testing our code. We're, we're writing tests, but we're testing another team's services. So here's, again, our boundary, our bounded integration tests. And, so we verified that the way that the Rails app is, that the Rails app does the right thing when it talks to what we think these services are doing. Contract tests, once we add these, actually verify that what the service does is what we think it's gonna do.
+
+Cause it could be that there's a bug in the service, and these tests will find those bugs, hopefully, because we'll ask it to do something and it won't do what we expect. There could be a bug in our understanding of the service, and that's why these are called contract tests, because they define a contract between our team and the other team. Again, Conway's Law is coming in here.
+
+How many of you have worked with an external service where the, the Wiki page that documented the API was out of date? How many of you have ever worked on a service where it wasn't wrong? It's always wrong. And that's OK. Documentation tends to be stale. API documentation I think is never not stale. It just is born that way.
+
+These contract tests are a way to, to, to mitigate that. Because you're expressing your expectations in code rather than in words.
+
+So we, on, on my, on my team, we wrote contract tests for every single one of our dependencies. This was the most productive thing we did on this team is, in terms of improving efficiency of, of us creating software. It really, really helped us nail down, whenever there was an issue, where that issue was. And it really helped us communicate with, with our friends on other teams.
+
+So, if you want to do these, you've got a few different options for contract tests. We actually just did plain old RSpec. We just used standard RSpec test runner to make network calls to our dependencies and then look at the results and make sure that things looked the way that we expected them to look.
+
+There's two more kind of sophisticated options out there. There's a gem called pacto and another gem called pact. And these are kind of like real power tools. They're quite sophisticated. They're, they're very fully-featured. If you want to really kind of get into this, into this mind set.
+
+So once we had these bounded integration tests and these contract tests, we were left with this kind of CI dashboard that looked something like this. So whenever we checked in code, we'd run our unit tests, we'd run our functional tests. And assuming those passed, we'd run our kind of bounded integration tests up there at the top right.
+
+Assuming those passed, we'd then run our end-to-end tests. So these were running, testing as much of the stack as we could possibly stand up. So, our code, our team's code, maybe our team's dependency's code. So as much of the stack as possible. So really verifying, from a user's point of view, that this, this system worked as we expected.
+
+In theory, this was the picture. In reality it was almost never green. That was OK. So, this is what things looked like a lot of the time. Our tests were passing, the end-to-end tests were failing. If that was the end of the story, we'd be left constantly fighting fires of, why is it not working in product- or, why is it not working in staging? And is it the deals service or the product service, blah, blah, blah.
+
+But we had these contract tests. So now we can see here that service D's contract tests seem to be failing. So we've got some end-to-end tests that are failing. This contract is failing. That's where we can start looking for, for the cause of this problem.
+
+So this is what we spent a lot of our time, not a lot of our time doing, but this was a very frequent occurrence. The build would go red. We'd have a look at our dashboard. Oh, it's service D, again. Service D, you guys.
+
+So we go to our CI system and we would look at the logs. We'd get the log data that showed the request we were sending the response we, we got back. And we'd have a look and say, yup. It looks like they've broken it again. They forgot to turn on the database after doing a deployment, again. And we would write an email to them saying, hey, I think it's probably a bug in our code, but we've noticed when we send this request we get back this 500 error from your service, I don't know what's going on there.
+
+You can tell I'm a consultant.
+
+And, things moved a lot smoother. It, it wasn't all kind of rainbows and unicorns, but it was a lot better than if these tests hadn't have been there. We would have still ended up telling them and they would have fixed it, but it would have sucked a lot more of our time.
+
+So that's all the hand wave-y, let's all work as teams stuff. Let's talk about how we're actually gonna build this, this inside of our team.
+
+So I want to talk about this idea called service gateways. The main thing I'm gonna talk about with service gateways is this gem called faraday. And in order to talk about this gem called faraday, I need to talk about this other gem called rack.
+
+So, how many of you know what rack is? Yeah, everyone knows what rack is. How many of you hate people that ask you raise your hands when you're in the audience? I have all the power. You guys have the power but don't realize that.
+
+So, rack is this awesome abstraction over http servers. And the main idea, the main thing that makes rack awesome is, by abstracting over the concept of a request and the concept of a response, we can kind of stack these middleware components in between our application, and the, the underlying http server.
+
+So, as a request comes in, from the outside world, it travels through this stack of middleware. So, each piece of middleware can, as this request is traveling through, has the opportunity to kind of modify, modify the request and kind of transform it in some way, add some information to the request, or to kind of have some side-effect.
+
+And then, a Rails app is gonna deal with that request and then, and then send back a response. And, again, as that response is traveling back up through the pipeline, through the, the middleware stacks, again, each of those pieces of middleware can modify that request in some way, can add some information to it or can have some side effect.
+
+Rails loves rack. So this is the, the kind of the stop stack of rack middlewares that comes when you, when you just do rails generate new project. So, yeah. Pretty, pretty popular. And the reason that this is popular is because the guys that built rack are smart and the guys that, guys and gals, excuse me, that built rack are smart and, likewise, Rails. And they realized that this is a very powerful abstraction and so they're really leveraging this power.
+
+So why was I talking about rack when I was supposed to be talking about faraday? Faraday is the exact same idea of rack, but applied for an http client. So, again, we have this abstraction over request and response. This time in the context of making a request and receiving a response rather than receiving a request and sending back a response.
+
+And, again, we can stack these pieces of middleware in between our application and the underlying network library. So, in this case, it's us making a request. So, as we send the request out to the network, again, that request travels through all of these middlewares, and these middlewares, again, have the opportunity to either modify that request in some way, have a side effect, add some information to the request. Eventually it gets on the wire. Eventually it gets to our dependency. Hopefully not service D because they'll probably go down again.
+
+And then service D hopefully sends a response, and again, as that response travels back through the stack, the stack is able to modify that, that response as it comes through, add some information. Have a side effect.
+
+So, how do we use this thing? So here's a, this is a service gateway. This is a class that represents a, a connection to the outside world. Here's us building a faraday middleware stack. So we're building a connection. We're saying hey, new faraday. Please use the instrumentation middleware and do some JSON stuff and follow redirects and do some logging.
+
+And that's it. We've now got a faraday connection. This is how we use a faraday connection. So, we say, hey, faraday connection, hey, http client, we want to get this url, or this path. And we get a response back. Pretty simple stuff. I would say this is readable code. DHH would be pleased with me.
+
+And what's really nice, the real power of, of faraday, is there's all this extra stuff that we set up, this middleware, this technical junk going on. But our, the rest of our code doesn't have to care about it. So we've kind of abstracted over all of that stuff of JSON, following redirects and logging and caching.
+
+So we used faraday a lot in these things that, that I was calling service gateways. So the, as I said, the really nice thing about things like rack and faraday is they allow us to segregate the boring tech-y stuff, http, logging, caching, instrumentation, the stuff that computer people talk about at conferences like this, from the business domain, which is the stuff that people actually care about.
+
+So, these service gateways acted as the place where we pushed all of the boring techy goop out to the boundaries of our system, so the core of our system, the core of our Rails application, wasn't talking about JSON requests, urls, caching, logging, deserialization. It was talking about books and products and prices. Things that our application really should be caring about.
+
+So this is this idea of hexagonal architectures. Push all of the goopy boring techy stuff out to the boundaries of your system, so that the core of your system can focus on the domain. The stuff that you really care about. The stuff that makes your system valuable to other people.
+
+So what kind of things did we put into these? What kind of stuff, boring techy stuff did we isolate in these service gateways? One thing that we did was we isolated serialization. So, serialization means JSON parsing or, in our case, XML parsing, cause we were in an enterprise. Yay.
+
+Comes down to the same thing actually. So, when we talk about parsing JSON or XML, we're actually talking about two different things. And I think often we conflate these two. So, step one, is we have this stream of bytes or this raw string, and we want to turn it into this kind of generic structure, like a hash of arrays of, of objects, right. So that's, that's something, you know. You do JSON dot parse or whatever and you get this kind of generic data structure out.
+
+But, if we are following the principles of hexagonal architecture, we don't want to deal with JSON data structures or generic data structures. We want to deal with products and books and deals. So the next step is to actually take that generic structure and map it into a domain object that we actually want to work with.
+
+Cause our goal here is to stop talking about things like JSON as quickly as possible, at the boundaries of our system, and start talking about products and prices and deals. So this is two steps.
+
+So, the other thing that you'll, I noticed working particularly in larger organizations, is these responses that you get back are huge. And really, often times, you only really care about a small subset of the response you get back. So you get back this big chunk of bytes. You turn it into this big generic structure, and then you actually just want to pluck three or four or five or six things out of that structure, that represent the product in your, in your domain.
+
+You don't care about the, the short description. You certainly don't care about the response time. Really all you care about is the, you know, the title or the author, you know, that kind of thing.
+
+So there's some gems that can help you make this easier. So, very popular one is this thing called hashie. Hashie will just make it a little bit easier for you to work with these generic data structures. But at the end of the day, they're still generic data structures.
+
+The second step that we took was to take all of that boring boiler plate that we were doing of saying, you know, get this dot that dot the other thing and get me the price. And then this dot that dot the other thing, get me the, the offer details. And turn that into a declarative statement that we could just make at the top of a class that would make these things.
+
+So we turn that mapping, that boring boilerplate mapping, into something that was declarative rather than imperative. We actually ended up extracting that little library that we built into this thing called lazy_doc. There's another couple of gems that are very, that have very similar goals. Embedded_doc is another one. And there's this really quite powerful one called representable, which is very good. It's, it's very powerful. It almost does too many things for my taste, but it's definitely, definitely a good option.
+
+The reason, by the way, embedded_doc is called embedded_doc is cause it's, what we're kind of talking about here is this embedded document pattern. That's the name of the pattern. Sorry, now I'm talking about patterns. I'm really off-message.
+
+So what else did we put in our faraday stack? Caching. This is the most, for me, the most exciting thing to talk about. So let me talk about it. So, back to our example, let's say we've got our Rails app. And we've got our product service and we've got this pricing service. Fun fact that I didn't know before I worked on this application. Prices can change, like, multiple times a minute in some of these systems. They're really trying to optimize for prices.
+
+So, can't really cache pricing information. Product information tends to be pretty static. The author of a book doesn't change very often. The title of a book doesn't change very often. But we're always looking up this product information, almost every single request. So let's cache that. Let's make this performant.
+
+So, a lot of you are automatically starting to think about how we would implement this and, well, we would have a product cache, and then when we need a product we'll go to the cache, and if it's there, then we'll check the freshness. And if the freshness is up to some configured thing, then we'll get it. Otherwise we'll go to the network. And then when we get back from network, put it in the cache, blah, blah, blah.
+
+All of this stuff, right. And we're, we're back to thinking about boring technical goop and we're not talking about our domain anymore. We didn't want to do this. I'm, honestly, bored with getting caching wrong over and over again in each of my applications. And so, we just pretended to be a web browser.
+
+As web developers, we know that images are very cacheable, and we should put caching headers on our, on our images, so that the browser can do the right thing and cache this so that every time we want to get this image, if it's already in the cache, we don't have to go onto the network. Kind of very common practice.
+
+We don't write JavaScript cache repositories and then go and check and see if the image is in there and then, if it's not, we'll go to the network and then put it in the cache repository.
+
+The web browser just does this for us. All we need to do is set the caching headers on this, this ping. So, my argument is, and what we did was, just apply the same principle to our API. So product dot, or product slash wherever this is at - my pretend url for, for this product. We had caching headers on this API call, that said this, this url is cacheable for twenty minutes.
+
+In our faraday stack, we had a caching middleware. So, the first time that we requested that url for that product, first time we wanted that product, our Rails app would say to our service gateway, I want this product. The service gateway would say, OK, it's at this url. I'm gonna make a request through my faraday stack for that url.
+
+That request would go through our stack, and the response would go through our response on the way back, and the caching layer would say, oh look at that. There's this caching header on this JSON that says it's gonna be valid for twenty minutes. Let me just put this response in my little cache on disk here.
+
+And, five minutes later, another user comes in and wants to, by chance, look at the same product. Again, our service gateway, our code doesn't do anything different. It just says, hey, service gateway, I want this product. Our service gateway doesn't do anything different. It just says to faraday, hey, I want to get this url.
+
+The request comes through to the caching layer. The caching layer says, oh look. That's the same url I just pulled five minutes, and the, the caching headers say it's valid for twenty minutes. I'll just return what I've got in my local cache. I won't go on the network. I won't bother with all that stuff. I'll just read it from the disc.
+
+This is what web browsers do all the time. We can do this all this time with, literally, a single line of code. Sorry. That's not a single line. It's a single method call. Would be a single line, I guess everything could be a single line of code, right.
+
+So, we've just said to our faraday stack, hey, add some caching middleware. Write it to disc at this location, and there we go. We, we've now got all the semantics of a web browser. And, we didn't have to do any work apart from this single method call. And what's really powerful is the team that knows the most about the data, so the product team in this case, can define the caching semantics of their data.
+
+So, if they realized, like, you know what, these, this, the name of the author keeps on changing. We need to drop down the caching freshness, they can just say, you know what, it's gonna be ten minutes. And we just get that semantics, we just start, we change our caching rules. No, no code change. No configuration change. No redeployment. It just happens.
+
+So, again, Conway's Law. The team that knows the most about the data has control over the caching of that data. Really, really, really powerful stuff.
+
+This goes back to this principle that, that I'm really passionate about. I think a lot of times we, we, we, we think of ourselves as building these systems on the web. We, we're building our stuff on top of http. I don't think we should be doing that. I think we should be building systems that are of the web.
+
+So, we should be using principles like, like REST, like hypermedia, like caching, http caching, because these, these are the principles that have made the most successful, biggest distributed system in the world work. It's really messy, and sometimes it's a bit of a pain to use, but it works really well, and it's all done for us already. We don't have to figure this stuff out ourselves. It's all out there and it's been working for decades.
+
+We use it, in some cases, hypermedia is something we're starting to understand more and more. We can use it in more places. Caching is, is an example of that.
+
+So, some principles. I could have talked about all this stuff for hours and hours and hours, but I don't have time to do that. So I'm just gonna shove a bunch of words at the end of this talk, and, and hope that, that if they're new words to you that you go out and, and research them.
+
+Conway's Law is, is the big one. This is something I'm really passionate about. If you, software, building software today is very much a team sport. If you don't understand how to work with other teams, then someone else is gonna do it better than you. So this is important stuff.
+
+Domain-Driven Design, I kind of touched on this talking about domain objects and talking about kind of bounded contexts. It's a really, really good book. It's really, really hard to read. Eric Evans is an incredibly smart guy who's not necessarily the best at kind of succinctly expressing ideas.
+
+If you do get this book, read the second half before you read the first half. He himself has said he got the order around wrong in retrospect. The, the second half has loads of really good stuff in it. The first half does too. But the second half, I think, is where the real, the real, real great stuff is.
+
+Postel's Law. I didn't really talk about this at all. But if you're building SOA systems, this is the way that you evolve these systems over time, without having to redeploy your entire enterprise at once. So, Postel's Law is very, very valuable. Another reason why the web has been so successful is Postel's Law. html is incredibly permissive. It draws, it causes a bunch of pain, but it also is the reason why html is the system that we still use today.
+
+Hexagonal architectures. Talked about this a fair bit. This is a really, really important principle. I'm really excited that the Rails community is starting to kind of get, to get excited about this. But it's been around for awhile. There's loads of really good talks out there about hexagonal architectures as they apply to Rails. There's been a couple of talks at the conference already.
+
+There's a, there's a Birds of a Feather session tonight about it, I believe. So there's loads of res- loads of good resources out there. Not just for Rails specifically, but just, hexagonal architectures in general. Because it is a general architectural principle.
+
+Finally, we should be embracing the web. It's been around for a long time. The patterns are very well understood, very well established. The tooling is amazingly powerful. We keep on reinventing wheels. Let's not keep reinventing this particular wheel. When it makes sense to make the web and the principles of the web, we should be doing that.
+
+Thank you.

@@ -1,0 +1,283 @@
+RailsConf 2014 - Panel: Teaching the Next Great Developers - Noel Rappin
+
+NOEL RAPPIN: Hey everybody. I think we'll get started. We've got a lot of people on here who are all gonna wanna talk and we don't have that much time. So, I'm gonna quickly introduce, this is, we're doing a panel here on teaching the next great developers. I have a panel of experts here. We'll let them briefly introduce themselves, and then we will get on with it.
+
+So, I'm Noel Rappin. I'm a Table XI senior developer, and to some extent I'll be representing traditional CS education, if that ever comes up at any point over the next forty minutes, which I'm sure nobody would ever bash traditional CS education in, in this forum. So, OK. First up, we got Jeff. We also only have two microphones so you guys are gonna pass them around.
+
+JEFF CASIMIR: Hi. My name is Jeff Casimir. I run a company called JumpstartLab, and most recently started up a training program called Turing, Turing School of Software and Design.
+
+N.R.: I put 'labs' up there. I got it wrong.
+
+J.C.: It's all right. I'll just call it Table X.
+
+BREE THOMAS: Hi. I'm Bree Thomas, and I'm a developer with a company named, called iTriage. And a recent grad of this guy's school.
+
+JEN MEYERS: Hi. My name is Jen Meyers, and I am part of the team at Dev BootCamp here in Chicago.
+
+N.R.: Jen is filling in at the last minute for Dave Hoover, who couldn't make it due to a family emergency.
+
+LIZ ABENANTE: I'm Liz Abenante. I am a developer at Instructure and I also co-lead the Girl Develop It chapter here in Chicago with this gal.
+
+KATHRIN EXLINE: Hi, my name is. Is. Just kidding. Is it ready? My name is Katie Exline. You can call me Katie. I am the co-leader of Girl Develop It, Chicago. Started in Girl Develop It with Girl Develop It, Columbus with that girl. And I'm currently a software engineer at a company called Fooda. 600 West.
+
+BEN ORENSTEIN: Hi. I'm Ben. I work at ThoughtBot in Boston. I run our program for training developers there called Learn. And I write code and talk to people and do things like this.
+
+N.R.: So, I'm gonna. So, I want to start this off by, so, we have a couple of different kinds of programs here represented. We have two different boot camps that are sim- somewhat similar in structure, but different in length. We have the Girl Develop It, which is more shorter interventions aimed at bringing novices into the, into the field, and we have online, online inter- somewhat more in-depth online interventions. And, I guess, maybe, what I want to start with is, what is, what do you think is the most important part that you, in your program, bring to teaching a novice developer, and how do you think that that fits towards bringing in the next generation of developers? To start with. Anybody can feel free. Jen's got the mic.
+
+J.M.: I've got the mic. OK. I'll go for that.
+
+N.R.: So what's the most, what's the most important thing at Dev BootCamp. If, if you were to say that a Dev BootCamp boot came out of there knowing one or two things, like what, what's the most important thing that you try to impart?
+
+J.M.: Honestly, I think the most important thing that we try to foster is just being able to love and learning how to learn. And really being able to carry themselves on and our, our goal is to really produce people who know enough about Ruby on Rails to get a job where they can continue to learn, and that they have the tools and the, the muscles built up, that they know how to keep learning on their own, and keep exploring and finding out new things.
+
+So, it's a little bit meta, but I really do feel like that's one of the things that is our main goal, to make sure that people can continue learning for the rest of their careers and lives.
+
+J.C.: Kind of a similar vein, I would say the most important outcome for students is understanding really how to take difficult technical problems and turn them into sets of small, still difficult but more manageable technical problems. And we happen to do that with Ruby on Rails, but I'm, it's really validating when we see students go into jobs where they do JavaScript full time, or iOS full time, and they're still able to apply all those same patterns to a different language and framework and so forth.
+
+L.A.: And Girl Develop It comes from a slightly different perspective, because we work with complete novices in a wide range of classes, and we're just now starting to get into programming here in Chicago with our gals. But, I think the most important thing that I've found teaching these students is how to ask questions and where to ask them. Who to ask, what kind of responses are good responses, and what kind of responses are terrible and you should ignore them because they're from terrible people.
+
+B.O.: So, this is actually something that I think that it's important for all levels that I'm working on myself, honestly, is a willingness to admit you don't understand something. There's, I, there's this phenomenon I've seen in developing, in particular, where, because it's an intellectual-based activity, we have this really strong impulse to always act like we know what's going on and we understand what people are saying.
+
+And I've tried really hard to develop in myself the ability to be like, I did not follow that. I don't understand what's going on. And I think more of that is really good for the world. I think, I've seen people, I've seen myself do it, too, where you sort of fake it. Where it's like, oh, are you familiar with this? Yeah. I mean, I know I should be, so therefore I'm gonna say yes. And that definitely, that hurts you. Like, you cheat yourself out of that immediate learning, and you cheat, you know, your, your colleague or the person you're talking to out of being able to trust you when they find out you weren't telling the truth. And there's just all this negative impacts from that.
+
+N.R.: So, actually. Let's. I have a, I have a sort of jumble. Do you guys have questions in the audience? Like, I have a couple of prepared questions that are gonna be kind of vague, but if you guys have questions in the audience, yes, no, maybe? Then we, this would be, this would be, I think, more fruitful if you guys com- if we come from there.
+
+AUDIENCE: I think everyone thinks they're terrible at programming when they start, so how do you help people build confidence?
+
+N.R.: So the question is, how do you help people build confidence, given that everybody thinks they're terrible when they start, or possibly for several years after they've started?
+
+B.O.: I love that question. Did, you repeated it, right? Yeah.
+
+N.R.: Yes.
+
+B.O.: Because I still struggle with believing that I am a good programmer, and I think this happens to everybody, is, there's this impostor syndrome, and I think everybody has. Wow.
+
+N.R.: Sorry. I'm just going back in the slides.
+
+B.O.: There we go. That's OK. Shwoo. It still kind of blows my mind when people think nice things about me. And I think that impostor syndrome is, like, is very prevalent. And, again, we're in a intellectual based field, again, so I try to be, like, humility, I think, is my answer to that. Like, I try to be humble myself, because I've had those own feelings of impostor syndrome, of like, not even believing that I know what I'm doing. And so, I know that's just amplified a thousand fold when you're brand new and everything's super confusing. So when I've done stuff, particularly with like, really new people, like a RailsBridge type workshop, I like to like, open by saying, like. Don't worry. The state of being confused and like, this should work but it doesn't work. That is the normal state of the working programmer.
+
+That's like, how it is. And so, it's not you. It's never you. It's that this is hard and it's always gonna be like that. So, hopefully you like it.
+
+R.N.: Despair is what we teach. Long term despair.
+
+J.M.: Yeah, I was gonna, to back-track a little bit on what you were saying, you know, we, as Liz mentioned, we deal with a lot of people who are just starting out. So, actually, a lot of them aren't, they're not faking it, and what we're working with, they think they're totally incapable of learning it. You know, on the, on the reverse side. So, there's a few things that we do in order to make sure that they feel comfortable is, for one, we make sure to encourage them to ask questions and do not scoff when they ask any sort of question, because then we're validating them and saying, that is a totally valid question, and it's OK if you don't know that. And we may not even have the answer. So, that type of, like, open discussion, being able to ask questions is great.
+
+And then also, just providing positive feedback. Actually, constructive feedback. Both positive and even if it's constructive, providing it in a positive way, I think really helps build peoples' confidence.
+
+J.C.: Smart. Cause that's what I was thinking. Giving a set up where you can give somebody a small, a small, quick win, that they've done something that they could point to, I think is helpful in my experience as a teacher.
+
+B.T.: So I'll just add to that. As one who spent six months in a course, I wasn't getting it at all, for like, the first three months. And it was brutal. And I consider myself someone who's actually, I never had any question about my ability to learn something new. And so, I think, I think in terms of what's important, from a student perspective, when you're, when you're in a course, is having instructors in an environment where they can adapt to your learning style, so they can understand, they can look at you and they can understand, OK, here's where you're having problems.
+
+And, change course if that's what's required. Because I can say that that was my experience. I kind of went, oh my gosh. I still have no idea what's going on and we're halfway through the course and it's not clicking. And I kept getting the, it's gonna be OK. It's gonna be OK. No. It's not OK. I'm half way through, and I spent all this money and there's only three months left. And essentially, the instructors, you know, at least with, with Jeff's group, they took a step back and said, OK, let's focus on the fundamentals.
+
+And, let's do some smaller steps, and let's do that work with you, and that was extraordinarily helpful for me. And, by the time I graduated, I can honestly say I finally felt like, oh, I'm a developer now. I may not be, you know, a great one, but I like, feel comfortable calling myself a developer now.
+
+L.A.: And in terms of not seeing yourself as terrible, you're not terrible if you do one thing right. Like, in programming. If you get that image to render on your ht- your very first html page, but you cannot figure out freaking CSS for the life of you, it doesn't matter because you got that one thing, that tiny victory, reinforcing those tiny victories, celebrating those tiny victories, and using those as moments to break away from the frustrations really helps break students out of that pattern of, I'm terrible. I don't get this. It's really hard.
+
+J.C.: I think the, the whole conversation around, like, impostor syndrome, I found really interesting. I kind of want to ban that phrase. Like, I will probably stop saying it, because I, I think it's just a part of programming. Thinking, or perhaps knowing that you're not good at programmer. And, for me, when I first started, our first program as Hungry Academy in D.C., and I, when I laid out the course plan, there were pieces in there that I did not know how to do and had never done in a project. And I was so nervous and I was like, oh, we're gonna. I'm gonna be exposed.
+
+Right? But I had this co-teacher and I was like, he'll know. He's a real consultant and, like, he knows how to do these things. It'll be OK. And, I think what's happened to me over that time is just realizing that, like, I don't give a shit. Like, if I'm not the best programmer - I'm sure Ben's a much better programmer than I. So what? Like, it, it, it, probably, you know. And so, I'm fortunate, you know, through things like RailsConf to talk with amazing people and people are like, oh, you know, Jose Valim, like, building Elixir. Poof. Like, no idea. I can't even understand Elixir, much less how to build it.
+
+And, he's a much better developer, or, much better programmer than I am. But, who cares? Is really, I think, something that's valuable to your career.
+
+N.R.: One thing I feel- sorry.
+
+J.C.: Like, you're not, you're not measured on some, like, benchmark against other, there's no like, programming test, like, program this thing in thirty-seven minutes. It's like, oh, Jen can do it in thirty-six minutes. She's smarter than you. Like, it, it doesn't matter to me.
+
+N.R.: I did it in thirty-five, but.
+
+J.C.: It's that CD degree. You can do it in one minute.
+
+N.R.: I, one thing that I think is really important, is try to keep- I saw. Is to try to keep novices from comparing themselves against, like, the quote on quote heroes. Like, it's really easy for somebody to say, like, oh, I see Steve Clapnick submit, you know, I see these people who submit to open source all day long, and a lot of the people who do that, that's actually one way or another their job. And to compare their output, their very public, very voluminous output to yours, when it's not really your job to do that, is unfair to yourself, and a little bit unfair to them. But mostly unfair to yourself. And to try, I've seen, like, novice developers get kind of locked in that, that idea that they're not doing everything they could be doing. And that's dangerous for them. Like, you want them to be celebrating the victories that they are doing and not comparing themselves with the things that they're not. Sorry, what's?
+
+AUDIENCE: Yes. So, what that brings to mind, for me, is [indecipherable - 00:13:04], one of the concerns that was brought up was this idea that we were missing a lot of developers who are perhaps gonna even do some harm in their first, you know, first few gigs, perhaps.
+
+N.R.: All of us do a lot of harm in our first few gigs, right. Like. Yes.
+
+AUDIENCE: So this question's for all of you. I wonder if, if teaching the next 'great' developers is even the right question to be asking. And if that is, then how do you qualify that?
+
+N.R.: So, OK. So, the question is whether teaching the next great developers is the right question, and if so what is? Great developers was my fault. Don't blame them for calling this great developers.
+
+J.C.: That's link bait.
+
+N.R.: Yeah.
+
+B.O.: And you're here.
+
+N.R.: If I had only said, if I had only said good developers, half of you would be off learning- teaching the next half-assed developers.
+
+J.C.: Yeah. I, I think one of the privileges of working with these programs and people that come into our program and, and programs like all these people participate in is that they might not be great developers. And, like, Bree wants to be a full-time developer. In ten years, will Bree be a full time developer? I'm not so sure. But will she be doing something amazing in technology, and like probably be running a company? Will I be working for her? Like, above zero change, you know.
+
+Like, and so the people that, mostly, I guess one of the things that surprises people about our program, and I think it's probably similar for Dev BootCamp, is most of our students are career changers. It's not their first career. And so they've got these years of experience about how to be a professional. They've got years of experience in some domain, whether it's finance or health or restaurants or whatever it is. And that experience is gonna be amazing for what they do next, after their first couple jobs, right.
+
+Noel and I, we have these CS degrees. We're like, one day gonna get thrown out of a Ruby Conference. Like, marked and thrown out.
+
+N.R.: Re-education.
+
+J.C.: But those people, I'm excited to see, like, yes, they're gonna really mess up some projects in the short term. But what they do when they get to the point of leading teams and starting companies I think is, well, it's gonna be really cool.
+
+J.M.: Yeah. I think that the question really is, what does great mean? And my, my definition of it is similar to what Jeff is describing, is that people who bring a really great diversity of experience and backgrounds and to, to kind of enrich the products that we're making. That's exciting. And he's right. In Dev BootCamp, we do have a lot of people who have really unique backgrounds, and have some really cool perspectives that they bring into things, and are just, like, great people.
+
+And those are people you want to work with on teams, and they, you know, they just help you make better things together. So that, I'd like to have that definition of great, and kind of tease out the, the potential in those people who have other things that they can bring to it, and help them contribute that for making the developers they are.
+
+B.O.: I really like both those answers, because I think one of the, the best things about programming is that it's an awesome force multiplier on something else that you want to do. So rather than being like, I want to be really amazing at writing code, if you can say, I want to do, I want to change lives in this way or make this sort of thing, and programming is the super power that lets you do it harder and faster, I think that's like, the best way to think about that.
+
+I have a friend who has just enough programming background, that at, he works at a bank with a bunch of finance people, and everyone he works with, basically they massage Excel spreadsheets all day. And he has just enough programming background to write VB to do some of this massaging automatically. And he is, you know, the one-eyed man in the land of the blind. Like, he is, there is, he is revered, and people are blown away, because he can do these things.
+
+And I think that's the perfect way to say, rather than saying I'm gonna be amazing at code for code's sake, if you think, you know, I'm gonna get good at using code as this amplifier, as a tool for the other things I want to do.
+
+N.R.: What they used to say about journalism school is don't do journalism school as an undergraduate. Learn something, and then learn how to apply journalism to it. I think programming is very similar. Like, learn how to do something and then learn how to apply programming to it.
+
+One thing I have seen from both the, I've met a number of Dev BootCamp and GSchool, Jumpstart graduates, and they do seem very enthusiastic as a group, as people who have, like, chosen something and gone through and succeeded in this challenging program. They tend to come out being, being very enthusiastic.
+
+K.E.: You have to.
+
+N.R.: Yeah.
+
+K.E.: I mean, you spend eighty to ninety hours a week.
+
+N.R.: So the question is, how do we make sure that the next generation of developers has the interpersonal skills to be leaders and, and mentors within the community.
+
+L.A.: I don't know if you've noticed this about me. I'm kind of a perky person. I'm kind of, you know, friendly, I hug a lot. When I introduce myself at Girl Develop It classes, I always say, I wasn't doing this a year ago. I don't get to say that anymore because it's now been a year. I'm so proud of myself. But, I tell them, when I tell them my story, I say, I made this career transition. I went to Dev BootCamp. I made this choice. And I would not have been able to do this without the assistance of my mentors, of my friends, of the teachers at Dev BootCamp who, Jen talked me down from a ledge a couple times. It was not easy. It was really difficult. And I preach that to them, and I tell them, I'm here for you. Katie's here for you. We have meet ups. We're your friends. We're your mentors. We are here. You should be here for the people that you need help with. And we encourage them to help each other during class. So it's not just something we say, do this, maybe, you know, in a year or a month or however long, x days, until you become a developer.
+
+It's do this right now. Do this in class. Help this person next to you when they're struggling.
+
+J.M.: And, and, at Dev BootCamp, we actually kind of take it a bit further and formalize it. So we actually have a portion of our curriculum that's called Engineering Empathy. The students all go through guided sessions in feedback and communication and, you know, understanding themselves as, as kind of touchy-feely as that sounds. The goal is exactly what you described, is to get people to know how to communicate better, know themselves better, have better team dynamics, and just be well-rounded individuals that know how to connect with other people. Whether it's on their teams or clients or customers, any of those sort of things that you need to be able to, to build really good software.
+
+We formalize that, we have sessions for it, and then we try to support structure around it. Like Liz describes, of all of us being on board and all the instructors are there to kind of, to reinforce it as they go all the way through the program.
+
+B.T.: I would just add to that, specifically to your question about how do we foster this? I would say that, in, I am a very extroverted person, and aside from that, I think it's really important when you, when you work with new developers, be in their business. Like, don't let them, you know, OK, yeah, yeah, yeah, I got this. I'm just gonna go work over here on this thing, or I'm gonna do a couple hours of code school till you give me a task to do. Because I think as new developers, no matter how extroverted we are or, there, there is still a little bit, that fear of, oh gosh. We're gonna break production. Oh shit.
+
+Or whatever it is. Or you know, maybe we're just, we're too nervous to ask questions because you guys look really busy doing the real work. So, I would, I just think it's important, at least for me, I mean, I like it when mentors and people that I look up to are, they're like in my business. They're like, OK, what are you doing? Let's talk about that. Let me shoulder hawk you for a few. Let's pair program. I think all of that is really important in fostering new developers.
+
+J.C.: Anybody in the room been a mentor for a program like one of ours? So, number one, want to give you tremendous shout outs, that those relationships are incredibly valuable for our students. People like Shawn had a mentor, a mentee in our program, and like, Shawn changed that young man's life. Like, without a doubt. So, tremendous shout outs.
+
+Fostering the interpersonal communication I think is the most valuable piece we can add, right. Like, the code you can get from a book. And how to work with a team and how a team goes wrong and right, you only get through experience. And so, that's like, with our program, we're fortunate to have a very long time. And so, they work primarily in three week projects with groups of four people. And you learn all the hard lessons of, hopefully, some of those first projects that you would otherwise screw up for money, you screw up on your own time and your own money.
+
+You see the team that has all the all-stars and they go in with all the confidence, and they're like, yeah, we've been doing this Rails thing for six weeks, we're gonna build a Backbone frontend. And we're like, yeah, don't do it. And they're like, no, we're gonna do it. OK. And then it all burns down, right.
+
+Or, you see the team that is honestly kind of mediocre with their skills, but they get along and they pair well together, and they communicate well, and then they end up delivering better software than the all-star team, and the all-star team is like, hey, wait a second. Like, we should talk to each other and, like, figure stuff out. Hmm. This works better.
+
+And, just getting to iterate on those problems and learn them yourself, not just, like, hear it in a conference talk and try to follow through. We do little things like lightning talks. I know you guys do lightning talks also. So, I, I like to think that that has like, lead to like, Bree's giving a talk tomorrow and a couple of your grads are giving talks and so forth.
+
+R.N.: Sorry, next. Yeah. Go ahead.
+
+So, so the question is, is does it scare us that we're bringing in a bunch of people into an industry that's horrible at onboarding people.
+
+J.C.: I heard there's a talk about crafting your own onboarding experience that's really phenomenal.
+
+J.M.: I mean, it's a little scary, especially as somebody who has been an instructor, you really care a lot about those students, and they go out into the world and it's a little bit like, yeah, you're, you're sending your kid off to school or something like that. You don't know what's gonna happen.
+
+But, you know, I'm not really sure how to solve that problem other than just attack it. And so I think that if we can bring people, or produce people that do know how to own their own learning and know how to communicate well, then those are some of the best weapons we have to improve the overall process for other people coming in. And hopefully we can also, for those of us who know some these challenges, can provide more structure and, and, you know, we, we have a placements team who works with companies to hire our grads and things like that. So, we, we can build a structure that maybe can help provide more resources or help for the companies that are, are taking our grads, and just make it smoother for everybody. And hopefully the more we do that, the better it gets.
+
+B.O.: I'm sort of the opposite of scared of bringing more people in. I think we desperately need to do it. Right now, at, at least what I see, demand is so much higher than supply, and that works out pretty well for us as developers that already know what we're doing, right, because we're, we're very much in demand. The power is on our side right now. But if that demand are supply are mismatched for too long, the demand will drop. It'll have to drop. And I, I know someone who is a CTO for hire. And so he works a lot of companies. And so he had a start up that just got funded and was like, OK. Now we're ready. Let's go hire a Rails developer. And they couldn't. They couldn't find someone. They said, OK, let's not write it in Rails. We're gonna go somewhere else.
+
+So, if we have this mismatch for too long, I think it will be bad for us. And so I think, if we've got this crazy giant demand up top, we've got to, got to satisfy it.
+
+N.R.: Speaking of-
+
+B.O.: And it'll be better in the long run.
+
+N.R.: Speaking from the side of this of somebody who onboards novices, I think that, I mean, this is a problem that, to some extent, is outside of all of their control, right, as Jen was alluding to. What we need to do on that, on the, on the incoming, on the incoming side, is understand that in some cases, the, where, understand where these students are coming from, that the experiences that they have had and the experiences they haven't had, and ideally put them in a situation where they can be successful, and where we're matching them to expectations that are reasonable.
+
+You know, I think a lot of the students, I think that you guys would agree that, that there are better situations for your students to go to, and worse situations for your students to go to, and you want them to go to a place where there are going to be other p- you don't want them to go to a place where they're going to be the entire straw holding up, you know, the one straw holding up this huge weight of stuff. You want them to go to a place where they're going to be more senior people who can put them in a situation where they're gonna be successful.
+
+And I do think we have to get better at doing that, generally.
+
+Creating senior developers is a whole different ball. Jeff, did you have a point you wanted to make?
+
+J.C.: As far as companies that do and do not have apprenticeships, I think of it really as evolution. Like, there are so many companies that sit around waiting to hire a senior engineer and look for six months and don't find any and all that. And meanwhile, the company who brought in apprentices, they now have six months experience, and they're delivering probably, like, somebody with two years of experience, if they're doing it well. And the reality is, if your company does, in my opinion, does not work on bringing in young people, young in their career, you're gonna die. Like, you're just gonna lose. Because the teams that build up their own people keep those people. Those people are tremendously valuable six months, a year, eighteen months in. And they'll just beat you.
+
+N.R.: Dave, Dave Hoover had a theory at Optiva that the goal of a, a small company was to have people at every level. You have the best novices, you have the best intermediate juniors, you have the best people right after that. You don't just have a bunch of seniors and a bunch of novices. You have people, to the extent that you can have people at every step in between. What's great about that is, everybody has somebody who's about six months ahead of them to point what their next six months are gonna be like, and everybody has somebody who's six months behind them, that they are an obvious and immediate, like, partner for.
+
+So if you can build up a business like that, if you can build up a team like that, that's, that's fantastic.
+
+B.O.: We've embraced that like crazy. Like, bringing in apprentice level people. We have an apprentice program. And it's been huge for us. We've been able to hire so many more awesome people than we would have if we had just said, we're looking for senior only. We're not willing to invest in these people and train them.
+
+N.R.: So the question is, how do we get, how do we get the people coming in to set reasonable goals for what they can accomplish, technically?
+
+B.T.: I'll start. Well, after being a student of this gentleman, he's actually, I would say, over the, over the six months that I was school, to that point, he was actually really good in that learning time about, like, oh. You think you can do this thing? Go ahead. Knock yourself out. Right?
+
+So, much like with children, I have a seven year old, it's kind of like, you're in charge of your own fun. You learn a lot by being crushed by some of those, oh, this was a lot harder than I thought it was gonna be. So I think there's something important about that. In terms of at the work place, I'd, at least where I work, you know, they're very good about, and, and they have a, a focus on kind of onboarding, right. And so they're very good about, hey, we're going to help define these goals with you. We're gonna help ease you into the code base. And we're gonna do that with smaller sets of problems to solve. And we're not going to place this burden on you for, get this feature done by this exact time.
+
+And so I think all of that is, is really, really helpful. And the other thing that I think's really helpful and goes a little bit back to what we were talking about just a second ago is, in terms of students, you know, even in being novices, there's different levels of that. And, and people are different. And so I think that the programs that do exist right now, Dev BootCamp and the other ones, I think one thing that's really important and that was beneficial for me especially, was as I went through the interview process, my instructors were there with me through the whole thing. And they were really, really honest with me, as well as having conversations with employers, about my ability.
+
+And so, that helped, that honesty about, you know, where I'm at in my learning and the type of learner that I am and the things that I'm interested in, is beneficial so that I don't find myself in a work place where, you know, that's all I'm gonna be is, sort of buried under these goals or things that I can't, you know, where I can't really prosper.
+
+L.A.: On that note, it's also important to teach people to reassess their goals and to be able to take note of where they are and where they expected to be, and maybe think about why they're not. I think that's also a very important piece.
+
+J.M.: Yeah. I just want to kind of, I like, really both of those, and I like what you're saying, too. Maybe it's a parent thing. I have an eight-year-old. And I feel the same way, where, I feel very strongly it's important for people to make mistakes and be able to learn from them. And I don't think it's so much about preventing them from, you know, trying to scale back the goals to prevent them from making any mistakes, but, creating an environment where it's safe to do that, and them helping them in figuring out what they can learn from it when they do that.
+
+So that's kind of, in general, the philosophy that I like to ascribe to, and I think, Dev BootCamp is in a little bit of a different situation, where we don't have people as long as some of the other schools. We only have people for nine weeks. So we don't have as much time to do that, but I think we do that in general, and then also the way we structure the program starts with the basic building blocks, and then builds on top of them.
+
+We're a Ruby on Rails training program, but you don't even get to Rails until your seventh week of the program. So, we're teaching the fundamentals before then. So I think if you start out with the, the basic blocks and build up from there, and also at the same time kind of create this environment where it's OK to screw things up, and somebody's gonna help you figure out, you know, how to learn from that, or, as the two things together make it a lot easier to understand what you can achieve and how to do it.
+
+J.C.: No, hold on man. I'm going. Hold on.
+
+N.R.: I'm sorry. You can have your question after Jeff says something.
+
+J.C.: So, TDD I heard is over.
+
+N.R.: Dead.
+
+J.C.: But, we teach it anyway.
+
+N.R.: Not, not, not, not just over. Dead. Dead.
+
+J.C.: So we're old fashion. It's dead. Well, we're old fashioned. And so we, we teach TDD, and it starts on day two, and I think that the approach behind TDD is the same approach behind lean start up. And, like, breaking off incredibly small problems, getting feedback right away and iterating on that. And so by starting with TDD, as the means to build software, and then we try, through these three week projects they work on in their teams, really take, like, a lean approach to delivering it early, adding on incremental features.
+
+Well, first we let them try and build all the features and deliver it day of, and it all burns down and we're like, see. That sucks. Don't do that again.
+
+And, but, like, by, by starting with the tests, and then applying that to the product, I think it teaches you how to take an idea and figure out, what is the essential component here? Like, whether, whether it's an aspiration for a company I'm gonna build, or just the goal for, I'm gonna learn something. Like, it's critically important to figure out, like, what's the first step. And I think that's the hardest part of any good idea.
+
+N.R.: OK. Now you can ask your question.
+
+J.C.: So I'm very involved in the interview process and do a lot of like, coaching with the students and so forth. And, your technical interviews are a hot mess. Like, people have cargo culted their process from, like, two companies ago, and you'll see, sometimes, it, it makes absolutely no sense. There is a company that'll put, like, students through six rounds of interviews, and then say no. And I'm like, do you understand how much of your own time you've wasted here? Like, it's insane.
+
+Specifically with the technical questions, you'll see such a broad range. People will be like, I have an array. How do I pull out an element? And it's like, really? Come on. And then there's others, we, we did have a student get asked, like, are you familiar with binary trees? And he said, like, yeah. I've built a binary tree. And they're like, do you know, like the, the lookup efficiency of something? And he's like, oh, you mean like, n log(n)? And it's like boom. Bomb dropped on you. Like, you didn't see that coming from somebody who's been doing it for six months, right.
+
+The reality is that, code, like, everyone, I guess not everyone. You should agree that coding on a white board is dumb, right. I tell students that if somebody asks you to code on a white board, tell them how do I run the tests? And, like, question over.
+
+But the, the piece about, like, how do they learn? How do they solve problems? That is incredibly valuable. So, yeah. I, I think we need to have a lot more conversation around how, as teams and companies, do we want to build up interview processes that actually achieve the goals and, and like find the people that we want?
+
+Because, from what I've seen, there's like. There's no understanding. There's kind of like, fear and uncertainty about it. We had a student this time ask, get asked to sign an MVA about the interview process. There's, it's not that interesting, bros. Like, whatever it is, it's not that interesting. So, I think there's a lot of work to be done there.
+
+K.E.: I can just talk on a personal level of, I had a really, well, I don't want to say I had a bad technical interview. But I want to speak to the good technical interview that I had at the current company that I'm with, and part of the reason why I chose to go to that company is because of the technical interview.
+
+And, the interview I had was a take home assignment. And this is one of the different formats you can do. I had a take home assignment for three days to build an API. It was my first API, and it was just an amazing experience, in that, not only did I get to learn something, as part of the interview, I got to see how accessible my manager would be, and then he was also able to judge, how did I attack something that I didn't know? And also, what kind of questions that, did I ask? And I think we each got a really good understanding of what this type of relationship would be like. So that's just personal experience.
+
+B.O.: So the, the process that we do I think is actually pretty good. So we do have a, a technical screen, which is sort of a discussion of, how might you build this? How might you build that? But the real meat of the interview is, in person pairing in the office. A full day. And you work on real stuff. Real client work. Real open source work. Whatever people would actually normally be doing. And you sit next to somebody. And I like that a lot.
+
+You know, you can run the tests. It's not a, a fake, contrived problem. You can see, also, what it's like to sit next to somebody, and it's cause there's, there's that social fit, which is so important, too. And so that, the white boarding thing, I agree. That needs to die, for sure. And, you know, let's move more towards pairing and seeing what people are actually like on real stuff that you're working on.
+
+J.C.: I forgot to mention one of my favorite interviews that I ever saw, that you reminded me of, was ThoughtWorks asks you to create a code sample, or, like, solve a sample assignment and submit it. You have, like, a week, or something along those lines. And then when  you get into the in person interview, what you do is sit down with an engineer and pair on refactoring your submission to the assignment.
+
+And so they get to see a lot of great things that way. Like, how do you understand that you, that you wrote? Did you actually write it? You know. Like, and how do you think about refactoring. Do you go, like, what it works? Why would I change it? You know. Or, do you understand how to restructure, abstract objects, abstract methods. I thought it was awesome.
+
+N.R.: We do something like that too, while we're sharing, we've done that before. I think we have time for one more question.
+
+B.O.: That guy's had his hand up like the whole time.
+
+N.R.: OK. So I will, I will go with you. I hope it's a good question. We actually, we're last. I have no place to go, I have no place to go after this. But they may stop recording us.
+
+After dark.
+
+AUDIENCE: [indecipherable]
+
+L.A.: We spent a lot of time getting women familiar with technical concepts and comfortable talking about technical concepts so they can take on more technical roles. Not necessarily as an engineer, but perhaps as a product manager, instead of doing project management. And, that's a subtle difference to us, but it's a huge difference to them. It's a world of difference. It's more technical responsibility. They're more comfortable with their knowledge.
+
+And so, my goal, teaching people, is not to get them to be x, it's to get them to whatever their x happiness will be. I love what I do, but that may not be right for them. I want to help them in any way that I can to get to the technical career that they want to have, that will work for them. And whatever resources I have, I will just like waterfall at their face. So.
+
+J.C.: It's one of the questions I really try and watch out for in students, or applicants, at that stage, is do you want to be a professional developer? And if the answer is no, please don't come. Because it's a tremendous waste of time. Like, spending twenty-seven weeks to prepare for a job you don't want makes no sense. And I redirect them, like, you're a lot better off, like, going to Dev BootCamp, and you can come out and like, you have some programming skills and you can reappropriate those into a management position, in a project position if you want to. It makes a lot more sense.
+
+J.M.: Yeah. I'll, I'll just add to that. That, I think that, sometimes even Dev BootCamp is a little too intense for that, just because most of the people, like, it's still hard to like quit your job for nine weeks if you're just kind of doing it to, to pivot. But it is, it's less intense, or it might be a little bit easier. And we do have people who go through who want to apply it to, maybe, a, a certain area that isn't just being a straight up developer. But I think, like, Liz was talking about, things like Girl Develop It and other organizations that are working on really reaching out to people, and there's lots of them. And they have lots of different focuses. But I think that's where they really come into play, is that just opening these doors, and you get to choose where you go after that.
+
+You know, you kind of just go, maybe a door is the wrong word, but more of a gateway. And, so then you can go in many directions after that. So, I think that these are compliments, not nec- they're not all necessarily the same thing. We kind of have a spectrum of different organizations, and they compliment each other really well.
+
+The really nice thing about just being, reaching out and letting people choose where they want to go, maybe they don't know what they want and they don't know what's out there. I know, you know, as I was growing up, I didn't even have the internet, you know. Web, being a web application developer didn't even exist. So I had no idea until I was probably like in my early twenties that maybe this might exist and maybe I can start working towards it.
+
+And there are still, and that was kind of a time thing for me. But there are many people who don't have access to the opp- to the kind of opportunities that we do, and so just being able to give them more accessible ways to see what is out there, might be able to say, oh, well maybe I actually do want to do that. And then they can take one of these other programs.
+
+N.R.: Yeah. Things like CodeSchool and Rails for Zombies and stuff also have a place in that, too. You get, you get a certain amount, enough knowledge to understand. You have to have enough. There are some positions where all you need to know is you need to know when your technical person is totally bull shitting you. And that, that's, those kinds of things move to that, go to speak to that.
+
+I am obligated to tell you that we're at time. I, I don't have any place to go. I don't know about you guys. So, if people have questions, I'm willing to, with whoever wants, continue to answer questions. If you have some place, if you guys have places to go, that's fine. But first, just a round of applause for the panel. Thank you guys all for showing up. And, thank you for coming.

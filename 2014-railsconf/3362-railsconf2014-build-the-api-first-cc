@@ -1,0 +1,904 @@
+RailsConf 2014 - Build the API First - Rosie Hoyem & Sonja Hall
+
+ROSIE HOYEM: All right. OK. I think we are ready
+
+to get going. Thanks so much to everyone
+
+for being here. This is both of our first
+
+times at RailsConf and we're super excited to be
+
+here as well. It's been a fantastic week.
+
+So fantastic that I'm losing my voice and
+
+I've gotten a little cold, so please forgive if
+
+I have a crackly voice. I'm all hopped up on
+
+cold meds, so this should be an entertaining
+
+presentation, anyway.
+
+So my name is Rosie. And I am joining
+
+you here from Minneapolis, and this lovely lady here
+
+is Sonja, all the way from Washington D.C. And
+
+today, Sonja and I are going to talk about
+
+APIs. But we're going to take a slightly different
+
+approach to this talk. We both have been through
+
+fairly major career pivots, in the past few years,
+
+that have lead us to be in front of
+
+you here today as Rails developers. So we wanted
+
+to take all of our past experiences and use
+
+this to kind of frame this conversation in a
+
+way that we thought might be relevant and interesting.
+
+So, my background before I made the transition to
+
+Rails development was in architecture, as in bricks and
+
+seal architecture. Not software architecture. And city planning. Sonja
+
+also worked as a writer and graphic designer in
+
+a former life. We both spent a lot of
+
+time thinking about the building process and design elements.
+
+So to start off this presentation, I'm gonna talk
+
+a little bit about the importance of patterns in
+
+both the build environment and software that support good
+
+design. Then I'll get into the meat of the
+
+talk and describe why we think you should consider
+
+building the API first. And Sonja will go over
+
+some best practices, and I'll bring it home with
+
+a bit of conversation about some tools and best
+
+practices that you can use to build your API.
+
+So, as I mentioned, my background, before I got
+
+the wild hair to become a Rails developer, was
+
+in architecture and planning. Along the way, learning to
+
+program, and learning Rails, has been a fascinating journey,
+
+partially because everywhere I look, I find these parallels
+
+between the build environment and the Rails software stack.
+
+One of these parallels is the role that patterns
+
+play in both of these worlds. Before we dive
+
+into the meat of this talk, I want to
+
+tell a quick story about how I came around
+
+to this topic and why we thought it might
+
+be relevant to approach this topic from the perspective
+
+of design patterns.
+
+One of the most influential books in the last
+
+half a century in architecture is this book by
+
+Christopher Alexander, A Pattern Language. If you're unfamiliar, a
+
+pattern language, in a nutshell, is a method of
+
+describing good design practices. A pattern language should facilitate
+
+successfully solving very large, complex design problems. These patterns
+
+are tools to help abstract away some of the
+
+complexity in our world so our little brains can
+
+wrap around how to approach solutions.
+
+Design patterns in the build environment go back hundreds
+
+and hundreds of years, and are very much so
+
+rooted in how we, as humans, experience our surroundings
+
+and relate to each other. And, for me, as
+
+an architecture student, understanding patterns was a big part
+
+of my training.
+
+I'm sure you all guess where this is going.
+
+So this book came out in 1977, and responds
+
+to a few decades of really, really bad architecture
+
+that just went in the face of good design
+
+patterns that had developed over the ages. They ignored
+
+these patterns that support a tried and true way
+
+humans want to inhabit cities and essentially ended up
+
+creating a lot of buildings that were really awful
+
+spaces for humans.
+
+And so now, we fast-forward twenty years, and these
+
+ideas re-emerge in the software world, and, Martin Fowler,
+
+for example, is writing about patterns. Not only is
+
+he writing about patterns, all of the language that
+
+he uses to talk about object-oriented software design, comes
+
+straight out of the architecture world.
+
+On this book's Wikipedia page, they point directly to
+
+Christopher Alexander's book as an inspiration for Fowler's work
+
+in software. Most people probably take it for granted
+
+at this point, but all of the language that
+
+we use to talk about software was lifted straight
+
+out of the architecture world. And, as an extension,
+
+I think the way the profession thinks about the
+
+organization of things. We like to think that what
+
+we're doing is new. But take a couple steps
+
+back, and the concepts are really the same.
+
+I don't know if Fowler and Alexander knew each
+
+other. But I think they would have gotten along.
+
+And one of the things I like to imagine
+
+is them going out on Tuesdays to drink cappuccinos
+
+and have these really intense philosophical conversations about the
+
+order of things. Even though, at a glance, it
+
+seems they come from very different worlds, at a
+
+conceptual level, I think they would be having the
+
+same conversation.
+
+So, coming back to Rails, when I started to
+
+think about software, I inevitably brought this lens of
+
+patterns with me, which meant I was super primed
+
+to drink the Rails Kool-Aid. Convention over configuration? Obviously
+
+this was just really smart design. These conventions mapped
+
+very cleanly in my brain to patterns, and I
+
+just got it right away.
+
+At first, the process of learning Rails was just
+
+a smooth progression of these elegantly designed pieces sort
+
+of clicking into place. Then, inevitably, I stumbled into
+
+area after area where Rails does not provide conventions
+
+or strong opinions on what to do. And I
+
+would look to my right, look to my left,
+
+talk to developers around me, and realized everybody had
+
+a different opinion. And honestly this is when learning
+
+Rails got kind of hard.
+
+And so this brings us here, today. One of
+
+these areas that I, that we've found without a
+
+clear, sort of mainstream convention that everyone seems to
+
+agree on was APIs. Beyond using JBuilder and the
+
+basic happy path Rails application, there wasn't clear guidance
+
+how to deal with APIs. And honestly this really
+
+surprised me.
+
+Seems to me, and maybe many of you, most
+
+of the hard problems I deal with today are
+
+related to data transfer. At my current job, this
+
+is what we do. We build applications that manage
+
+large amounts of data. This is a really important
+
+piece of our applications. And so, thinking about this
+
+more as developers, as a new developer I should
+
+say. When we have a question, I, of course,
+
+ask the internet. This sent me down a rabbit
+
+hole where everyone was suggesting something slightly different, and
+
+nobody seemed quite satisfied with how they were dealing
+
+with this problem.
+
+I read about lots of solutions, all having varying
+
+degrees of success. It was all interesting. And somewhat
+
+helpful. But it wasn't the solid answer I was
+
+looking for. And honestly it was really frustrating. I
+
+knew this wasn't rocket surgery, and it left me
+
+feeling like, OK Rails, if you're so opinionated, why
+
+don't you have an opinion on this? What should
+
+I do?
+
+And so, here we are. And we believe building
+
+APIs is one of the critical areas where we
+
+should have a shared solution because, obviously, this is
+
+how our applications talk to each other. This is
+
+where my application and your applications cease to be
+
+my problem and your problems, and they're now everybody's
+
+problem. Especially if we have a public API.
+
+So, for one moment, bring this back to architecture.
+
+The evolution of our great cities is really the
+
+evolution of shared problems becoming shared solutions in elegant
+
+and innovative ways. We tend to think of the
+
+development of cities in terms of buildings, but buildings
+
+come and go, in reality. The interesting story, and
+
+here I take off the architecture hat and put
+
+on the city planner hat, is, is really the
+
+story of infrastructure. How we came together and agreed
+
+how electricity should be delivered. How are sanitation systems
+
+should be constructed. And how we wanted to get
+
+from point A to point B.
+
+So the starting point of this talk is that
+
+APIs should act as the infrastructure for our applications.
+
+If passing around data is the most important thing
+
+your app does, then your APIs should be elevated
+
+from something hobble together to something that we have
+
+a solid solution for. And starting with the API
+
+and building your client applications around it opens up
+
+all sorts of interesting possibilities.
+
+Carried out to the full realization of this concept,
+
+your APIs could be the foundation that supports a
+
+variety of clients, such as mobile applications or rich
+
+JavaScript framework clients. By decoupling your REST API from
+
+your client, you can more easily support multiple clients
+
+and have a system that is much more flexible,
+
+but also organized.
+
+If a mobile interface is really important to your
+
+application, your REST API can support multiple native mobile
+
+apps with minimal duplication across platforms. This is a
+
+good thing. You can also use the same API
+
+to serve data to a JavaScript framework. Again, with
+
+very little duplication.
+
+Your API should be the common denominator. Without a
+
+good standardize server solution, you can't have a standardized
+
+way for different clients to talk to the servers.
+
+All right. So we've discussed some reasons why, for
+
+this new generation of Rails applications that must embrace
+
+a variety of clients, the API should be the
+
+foundation, and where we think you should consider starting.
+
+So, one, your application will be designed to pass
+
+around data from the get-go. And reason two, if
+
+you need to support multiple clients, you can easily
+
+do this with minimal duplication across platforms. And three,
+
+if you create the standardized server code first, you'll
+
+easily support the creation of standardized client code.
+
+OK. Now I'm gonna pass it off to Sonja.
+
+SONJA HALL: All right. So, let's discuss some of
+
+the API best practices. There are a few that
+
+are very important to begin with, when you're constructing
+
+your API. But before we jump into them, I
+
+think it's important to consider this question. Why is
+
+a well-designed API so important?
+
+Well, in this image we see falling water, going
+
+back to architecture just for a moment. This is
+
+a catilever home in Pennsylvania, built in 1935, that
+
+is among one of the greatest assets to the
+
+architect and design thinker Frank Lloyd Wright.
+
+It is built partly over a waterfall, deriving its
+
+name from its situation. And will, and has been
+
+conserved as a museum now since 1963. So, in
+
+other words, this is a huge asset to the
+
+legacy of Frank Lloyd Wright. A well-designed API can
+
+be that of a company's greatest assets.
+
+Why? Because users invest their time in obvious and
+
+not-so-obvious ways. In the obvious ways, you're writing to
+
+it, buying products that use it. You tell your
+
+friends and communities about how great this API is.
+
+You start writing blog posts about it. You're creating
+
+hype, basically. The less obvious ways is that the
+
+users are digging into it and spending a significant
+
+amount of time learning how it works and playing
+
+around in the code.
+
+A poorly designed API can be a huge liability.
+
+The same users who would have been promoting it
+
+and using it as inspiration for new products are
+
+now calling it, calling in for support and asking
+
+you what to do about the problems that you've
+
+created with the API, and taking away from your
+
+productivity, or worse case scenario, they're just taking one
+
+look at your API and then running away from
+
+it.
+
+So the first guideline to follow, of the best
+
+practices, is to design your APIs for experience rather
+
+than, and readability, not for data alone. In other
+
+words, an API should reflect how something is used,
+
+not just how it is stored. In fact, I
+
+hate to say it, but nobody really cares what
+
+your database looks like.
+
+People want to know how it operates, how they
+
+can use it. The experience should not fill your
+
+fellow developer with misery or regret, it should be
+
+methodical and consistent. Which leads me to the next
+
+best practice of consistency.
+
+By providing a single API that can serve multiple
+
+clients, you get consistent client solutions across platforms. This
+
+includes having single end points and clean routes throughout
+
+your API. It's kind of like a telephone pole
+
+with all the cables and wires running through and
+
+around it. The pole is built with specific plugins
+
+for specific wires and purposes, allowing electricity to flow
+
+from the power plant to your computer screen, or
+
+your light bulb or what have you. And similarly,
+
+an API call retrieves a particular dataset from your
+
+database, and expects a consistent return every time.
+
+Without this, we get this. The alternative. Something hideous
+
+and terrifying. Unfortunately, this slum's infrastructure does not support
+
+consistency or sustained development of regulated wiring. It is
+
+inefficiency at its finest, where everyone seems to have
+
+adopted a 'to each their own' mentality.
+
+You should never have your API making someone feel
+
+like this. So avoid that. Coming from the writing
+
+and editing world, documentation is so important. Especially having
+
+learned how to code later in life. I love
+
+a well-documented gem or, you know, anything I'm trying
+
+to use, I love when I say a lot
+
+of documentation, and written the write way.
+
+So, documentation is very important to the wide-spread use
+
+of your API. Public or not. It should act
+
+as a bonus layer of information, though. Like a
+
+glimpse into a developer's mind that assumes nothing and
+
+notes everything. It should sit on top of an
+
+already easy-to-understand API, and so, in other words, don't
+
+make the documentation do the dirty work. Your API
+
+should already be understandable, and you're just providing this
+
+layer of documentation on top of it.
+
+So if you're the type who just grumbled at
+
+my last slide, I know you're out there, let's
+
+chat about a service that makes documentation a sync.
+
+One that we found was Apiary. It's a structured,
+
+interactive tool that follows the necessities documentation, using mark
+
+down and a template for easy usage. The result
+
+is an intuitive document incorporating the basic necessities that
+
+all documentation could contain. Should contain.
+
+So here's an example of Apiary and what it
+
+might look like when you're doing it. But, generally
+
+speaking, Apiary or not, all documentation should include the
+
+following:
+
+Examples of the full request and expected response, a
+
+list of error codes, their significance - like, what
+
+is causing them. A searchable html interface, and communication
+
+of versioning and deprecation schedules so you don't catch
+
+anyone off guard who happens to be using an
+
+API, a version of your API that you're going
+
+to be moving forward from.
+
+So, the life span of an API is important
+
+to consider. It can be difficult to choose how
+
+you're going to version, or what your strategy will
+
+be, but you should approach it as if you
+
+have to get the first one, the first version
+
+of your API, absolutely right. It makes it easier
+
+down the road.
+
+The most important thing, though, to remember, is that
+
+versioning is inevitable and plan for deprecation from version
+
+one.
+
+I also like to think of APIs as if
+
+they were a rescue dog. If anyone knows me
+
+from Flat Iron School - I see a few
+
+of you out there - I'm obsessed with rescue
+
+animals. So I had to tie this back in
+
+for a moment. So, this is not a West
+
+Minister Kennel Club winning dog, but he's more like
+
+a little rescue pup. He has limitless potential to
+
+be an incredible pet if you let him get
+
+there. Just like you want to set your future
+
+dogs up for success, you'll want to do the
+
+same for your API.
+
+For starters, neither this dog nor your API require
+
+any fancy things. They simply crave repetition and unconditional
+
+support in order to be successful. Give them what
+
+they need to evolve into their new versions, but
+
+don't ever forget where they came from.
+
+The JSON APIs is one standard for building APIs
+
+in JSON that is supported by the Rails community.
+
+So, this is Steve Klabnik's quote. By following shared
+
+conventions you can increase productivity, take advantage of generalized
+
+tooling, and focus on what matters: your application. And
+
+we liked the JSON API standards, so I put
+
+an example of it in here.
+
+And like so many of the tools that we've
+
+discussed already today, there are more out there, and
+
+there's a lot of great ones being developed right
+
+now. So Rosie's gonna share a few more of
+
+those with you.
+
+R.H.: So, building APIs is a shared problem for
+
+most developers. It seems there is now a general
+
+shared understanding of what a good API should consist
+
+of. A shared solution is the next step. So
+
+we can turn these best practices into conventions.
+
+For the last couple of months, we've been asking
+
+every developer we encounter what they use to build
+
+APIs. The answers were usually Rails or Sinatra, with
+
+some combination of the tools available on Ruby Toolbox,
+
+and usually a partially hand-ruled solution. We also heard,
+
+more and more, how Rails is being used to
+
+create a REST API that talks to a mobile
+
+client, and there seemed to be growing interest in
+
+using Rails for JavaSrcipt frameworks.
+
+These may not be traditional Rails applications, but people
+
+still recognize the value of Rails for creating a
+
+REST API.
+
+After talking to lots of people, it was evident,
+
+though, that an agreed upon solution still wasn't clear,
+
+and the whole thing just required way too much
+
+thinking. There's so many ways to hobble something together,
+
+but we wanted to know the Rails way. What
+
+will be the Rails way to build a solid
+
+API?
+
+Again, damn it Rails, if you're so opinionated and
+
+committed to this idea of conventions, tell me what
+
+to do. We no longer have to be pioneers
+
+venturing out into the unknown.
+
+So, in the middle of all of these conversations,
+
+we did see a Rails way emerging, though it's
+
+not baked in yet. Lo and behold, there are
+
+solutions emerging from the core Rails team that provide
+
+an opinion on how to create REST APIs. We've
+
+been exploring Rails API in combination with ActiveModel serializer
+
+for building an API where you only need the
+
+JSON end points.
+
+Rails API is Rails. It utilizes most of the
+
+same generators and conventions and will look very, very
+
+familiar. For this new generation of applications, where the
+
+API is your infrastructure that supports a family of
+
+client applications, we think this is what the future
+
+might look like.
+
+So Rails API is really just a miniature Rails
+
+stack, where they skipped all of the stuff that
+
+you need if you were creating views, producing a
+
+solution that is lighter and faster than the full
+
+Rails app. But it does still come with a
+
+full suite of baked in solutions for many poorly
+
+understood problems.
+
+And the documentation, there's a laundry list of things
+
+that are handled in the middleware layer and the
+
+ActionPack layer. This is definitely a win. For example,
+
+you might understand perfectly how to handroll a solution
+
+for IP spoofing attacks, or maybe not. But even
+
+if you do, why spend time doing this if
+
+Rails is gonna do it for you? Thanks Rails.
+
+And again, if there's a solution for something already
+
+out there, I'd rather use that than reinvent the
+
+wheel.
+
+The other tool we're exploring is ActiveModel serializers, and
+
+sure, serializers replace hash-driven development with object-oriented development. For
+
+example, with AcitveModel serializers, when you're using render JSON
+
+in your controllers, Rails will search for a serializer
+
+before, for the object and use it if available.
+
+It's an elegant solution to creating server-side APIs that
+
+doesn't require a view layer.
+
+They act a lot, serializers act a lot like
+
+models and can be easily customized. ActiveModel serializers also
+
+follows the JSON API standard, so you know you're
+
+creating a standardized API that will easily talk to
+
+a variety of clients.
+
+It really helps to take the guessing out of
+
+how your JSON API should be structured.
+
+OK. So, it's time to start wrapping things up.
+
+A few points to leave you, leave everyone with.
+
+We find it's increasingly important to design APIs following
+
+patterns and conventions that fit into the system as
+
+a whole. To do this, we can leverage existing
+
+best practices and tools, and by doing so we'll
+
+create APIs that support a more organized structure for
+
+our applications.
+
+I was inspired by Yehuda Katz's keynote yesterday, and
+
+I think it's time for us as a community
+
+to move API design out of the area of
+
+experimentation and into the area of collective shared solution.
+
+We'll all benefit.
+
+And again, trivial choices are the enemy. Drink your
+
+convention over configuration Kool-Aid. But brush your teeth afterwards.
+
+Kool-Aid's not good for you. Anyway. We're often trying
+
+to solve the same problem. And when this is
+
+the case, we should agree on a strong convention
+
+and all follow it.
+
+We'll all benefit in the end. And third, don't
+
+forget about who or what else is going to
+
+want to use this API in the future, and
+
+plan accordingly. This may include native mobile applications or
+
+a JavaScript client-side framework or something else that we
+
+haven't even imagined yet. By designing our APIs today
+
+to be consistent across platforms, we can make changes
+
+to our client-side applications in the future much easier.
+
+So tomorrow, someone's not trying to use your hand-ruled
+
+API that didn't really follow any established design patterns
+
+or conventions, and you have to explain that, well,
+
+it seemed like a good idea at the time.
+
+For those of you who aren't from Minneapolis, this
+
+is the ugliest building in the Minneapolis skyline. So.
+
+A little context for you. We all drive by
+
+and shake our heads. Like oh, why?
+
+Or worse. Your application gets scrapped because it was
+
+poorly organized from the get-go and too rigid to
+
+update.
+
+And last, but not least, document all the things.
+
+Documentation is the cool to API being used successfully.
+
+All right. And we've come to the end. I
+
+hope, just want to leave you with one thought.
+
+I hope when you approach your next project, you'll
+
+consider building your API first.
+
+S.H.: All right, thanks everybody.
+

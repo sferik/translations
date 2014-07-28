@@ -1,0 +1,783 @@
+RailsConf 2014 - Workshop: Ruby Coding Dojo - Carlos Souza & David Rogers
+
+CARLOS SOUZA: Thanks everyone for coming. It's a great pleasure to be here at RailsConf. Just so we know, who's go, coming to RailsConf for the first time? Wow. That's amazing. Cool. Welcome. And, we're gonna be talking to you today a little bit about Coding Dojo, and how you can use the Dojo to improve your coding skills and become better developers.
+
+My name's Carlos Souza, and this is my friend David Rogers. We, we're both from Orlando, Florida. We're from Code School, and we love development and we love teaching. And that love for development and for teaching others how to developer brought us to the Coding Dojo, and we formed our Coding Dojo group back in Orlando a couple of years back. And we ran that biweekly for about two and a half years? And we also used it, the Coding Dojo as a teaching tool.
+
+So what we're gonna do here today is try to teach you guys a little bit about our experience running the Dojo, and we're actually gonna run a Dojo here with you guys, and hopefully you, you can run Dojos on your own. At your company, with your friends, in your local meet ups. And this is a message to all developers, right. We're all developers here, even if you're not, if you don't spend your day-to-day coding, I'm gonna ask you to put on the developer hat for just a little bit to understand where we're coming from. And then the problems that we're trying to solve with the Coding Dojo.
+
+And we have different levels of exper- expertise, as developers. Maybe you're a beginner developer. You're just starting. You're on the first couple of years of, of working with the software development, with Ruby, with Rails. Maybe you just graduated a Dev BootCamp. Maybe you just graduated college, or maybe you're going through online classes and learning how to program in Ruby and JavaScript and whatever.
+
+Or maybe you're a little bit more advanced. You're more on the intermediate level. You've been working with the, some programming language and framework for a couple of years. You're starting to get more responsibilities at work. You're starting to lead projects.
+
+And maybe you're even more expert. Maybe you've been working with software development for maybe over a decade. Maybe you're an architect. Maybe you're responsible for the architectural decisions in your company. And, I guess, regardless of the level of expertise that you're at, you've probably realized that this point, the technology that you're working with, it gets better. It evolves. That's the natural way of things. The tools that we use, they are, they're getting better.
+
+And this, especially in the open source community, because there's sort of a natural selection. If something is not good enough for the community, the community will naturally look for better ways of doing something, for better practices, for better tools, for better frameworks.
+
+Just as an example, Rails has an average of a hundred commits every week. So, things change very, very, very fast. And, Rails is just one of the projects, or the tools that you use on your day to day, when you stop and think. You're using Rails, you're using Ruby, you're using, you're using Bundler. You're using a, a variety of open source tools, and they're always changing. Every day, there's many changes going into those projects. New features being added. Old features being removed. Existing features being changed.
+
+And it's really, really hard to keep track of all the changes that are going on in all the various tools that you're using. So, what I'm trying to say is that us, as developers, we are not necessarily getting better at the same pace that our tools are evolving. It's very hard to keep track of all the changes that are happening in the ecosystem. And still being able to put on your, your nine to five and pay the bills.
+
+And it's, it's good to look at other types of artists, other people that work with creativity or art. Say, musicians and athletes, that also rely on their art, right, and they, they need to practice, right. So martial artists, like the first guy on the, on the first slide, he goes to the gym 24/7. He's practicing a lot, right. Musicians - they practice a lot before going into the studio, before putting on a show.
+
+And. The microphone died. There's another one. Is, is there another microphone, perhaps? No? There's just one microphone. Oh man. That sucks. So. Well, so yeah. So, all these athletes and artists, they spend countless hours in the gym or at the studio practicing their art, so when the time comes to perform, they are prepared. So they all practice.
+
+You want to talk a little bit about practicing, David?
+
+DAVID ROGERS: Pass the mic. Yeah, so, I, you know, the one key point here is that as, as practitioners of an art or a craft, we need to practice as well. Anybody read Malcolm Gladwell's book Outliers, or heard of Outliers? I think the one take away from Outliers is that, the one, while it appears that some people are exceptional and live outside of the regular bell curve, what it actually turns out to be the case is that they were given, or have spent, much more time practicing. That, that, on average, it's somewhere around 10,000 hours worth of practice in order to become an expert in a particular field was, that was his assertation.
+
+The one big take away from the book is that, that is ind of summed up in one quote there, that practice isn't the thing that you do once you get good. It is the thing that you do that makes you good. And, some of you might be saying, well, I practice. Of course I practice. I practice every day. I practice every day for nine hours, sometimes ten hours, occasionally twelve hours, sometimes twenty-four or seventy-two hours at a stint. And then eventually take a shower or die and fall into a coma.
+
+But, the key thing to remember there is that work does not equal practice. Like Carlos was saying, when you look at a martial artist or you look at a concert violinist, or you look at someone who practices a craft or a art for their profession, they don't perform nearly as much time as they practice. There's a def- there's a definite separation between the performance of their art and the practice of their art.
+
+So we can't really equate what we do on a daily basis, nine to five, as practice. That's work. We need, do ship software. We need to perform. We need to hit our deadlines. We're concerned with building stuff that works. Work time is not practice time.
+
+Well, then that brings up the inevitable question, how then, do we practice what it is that we do? And how should we practice what we do? What does practicing code actually look like? How do I practice, as a programmer?
+
+Well, one way we could do that is to emulate how other artists practice their art and their craft.
+
+C.S.: And we're talking about here, is, for example, martial arts. So we have the, the term Dojo, which in martial arts means, the place where people practice those arts. And this is a term that was coined by Dave Thomas of the Pragmatic Programmers. And he brought that to the programming world, saying we should set up a Dojo for programming, so we can practice code.
+
+D.R.: And the, the keys to a code Coding Dojo is that we are providing, just like in a martial arts setting, we're providing a safe, collaborative, non-competitive location at a, at a space and a time to practice together. We get together and we code. WE learn something. We actually practice programming. WE practice learning and teaching one another. And we also have a lot of fun. Just like you would if you, has anybody taken martial arts of any sort? Yoga counts. Well, I'll give you yoga, right, we'll give you yoga, right.
+
+So, that's, that's really the goal of the, the Dojo. But, how we actually live it out is, just like in martial arts, we practice Katas. And a Kata in martial arts is this kind of detailed choreography of very ritualized movements that you practice, either solo or in a pair or in a group. And they don't really have a direct translation to, if I was a martial artist, fighting another person. Like, I would not use my Kata skills to win a battle. But, they teach me how to punch. They teach me how to block. They teach me how to evade, through the choreography. So that when the time comes to actually block a punch or throw a punch, my body remembers even though my brain is not thinking about throwing a punch here.
+
+In programmer, as Carlos was saying, Dave Thomas, Pragmatic Programmer Dave, Prag Dave, coined this term to describe, along with Kent Beck and some of the other guys, Ward Cunningham, tried to describe a method of practice inside of a Dojo. So inside of a Coding Dojo, just like inside of a Karate Dojo, we practice Katas, which are choreographed patterns of movements that we practice either in solo or in pair, to reinforce skills that we don't necess- we wouldn't necessarily use in the choreographed pattern, but we would use on a daily basis when we actually come face-to-face with that variable that needs to be punched in the head.
+
+And we break that down, when we're talking about choreographed patterns, inside of the Dojo inside of a coding Kata, as Prag Dave coined it, we're talking about test-driven development. And, regardless of what you may have heard earlier today, tests are not the devil. They will not, they are not a sin, and a lot of the Pragmatic guys, a lot of the guys that we're talking about, that coined the terms the Dojo and Katas, were in that deck referring to just enough testing.
+
+What we're doing in the Dojo is not just enough testing. It is way-too-much testing, so that we can practice the art of testing. When we practice martial arts, and we learn a Kata in martial arts, we're not punching just enough. We're punching a whole lot, so that when the time comes to actually punch, we know how much to punch and with how much force we're to punch.
+
+C.S.: And it's, it's kind of, if you play a musical instrument, you, and you practice that musical instrument, chances are, you're practicing along with a metronome. And I like to make that analogy between a metronome and writing tests when you're practicing, right. So you need to metronome when you're practicing music to keep that pace, so you can focus on repeating your movements very, very slowly, and with very close attention, so you can gradually increase the speed to which you play, to get to the point where you're shredding that speed solo. And then when you play that live it just feels natural.
+
+But, for you to get to that point, you needed to start very slowly, and you needed a tool to assist you. In music, that's the metronome. In coding, that's test-driven development. That's writing tests. And, like Dave said, in the Coding Dojo, we're not practicing just enough tests. We're practicing a whole lot of tests. So when the time comes for you to write production code, you'll naturally be able to tell whether you need to test-drive that feature or not.
+
+And one other thing that we practice is pair programming. And pair programming is not just sitting down and coding next to someone. It requires a set of social skills. It requires knowing how to suggest a feature, knowing how to accept a suggestion, knowing how to accept a criticism, and not take it personally. So there's way more to pair programming than simply sitting next to each other and either watching them code or telling them what to code.
+
+D.R.: And, and again, like, like Kaikay was saying, these are, these are social skills. And while they might be accentuated inside of the Dojo, they definitely have a lasting impact as a programmer. I, I personally, and Kaikay, we both pair program as a part of our writing production code, as a part of our performant art, and we've found a huge increase in our productivity whenever we selectively and intentionally pair with others.
+
+Maybe we don't do it all the time. We certainly don't do it all the time, because sometimes you just gotta get stuff done, right. But when we do pair, we know the etiquettes, we know the social currency to be able to use one of the styles of pair programming. Be it pilot, co-pilot, where I sit back and Kaikay's on the keyboard and he types into the, into the editor and I make suggestions, or I notice syntax errors or I ask him questions about what he's doing and he tells me how he's going to do something, and then we switch and I start typing and he plays co-pilot and helps keep me, navigating.
+
+Or you use a ping-pong type approach. There's lots of different types that we can, that we can use. For the Coding Dojo, especially when we're talking about small pairs or to practice pair programming, in this Coding Dojo we're gonna use a ping pong approach. And in that, and that approach is a lot like playing ping pong. One person serves the ball by writing some tests, and the tests then fail, right. Test-driven development. We do red-green-refactor. So the tests fail. Then he passes the mic over to the pair, his, his partner then writes some code to pass the test. They might talk, the pair will talk through it, but write some code to pass the tests. And then, immediately writes another test that will fail, to serve the ball back across the net to his partner.
+
+We'll see an example of that a little bit later. We'll do a, a, what's called a practice Kata. But, Kaikay, why don't you tell us a little bit more about the different types of Katas that we could do.
+
+Anybody have any questions so far, before we, before we go on? Is everybody tracking on that, you know, for, four to five fingers? Perhaps just one. One finger. No? OK.
+
+C.S.: So there, there's different types of Katas. The three most popular, I want to say, the Randori Kata, the Prepared and the Code Retreat, which is more like an event, but we're gonna treat it as a Kata.
+
+And the Randori Kata is the most popular for meet ups and schools and university. David is a teacher at a local university in Orlando, and he uses Coding Dojo as part of the curriculum.
+
+And the way that the Randori works, you have one computer, and the code in that computer is projected onto a screen, where an audience, between five and fifteen people, a little bit more than that gets a little bit confusing. So, the audience is watching the code, is watching the evolution of the code towards the solution all the time. So they're constantly, you know, learning things and watching where the pair is going with the code.
+
+And, in the computer, there's always two people pair programming. The pilot and the co-pilot. And every three to seven minutes, they rotate. So, the driver goes back to the audience. The co-pilot becomes the pilot. And someone from the audience volunteers to be the co-pilot. So that way we have everyone in the room collaborating towards learning.
+
+D.R.: And, and like Carlos was saying, I, I used this in my, in my courses at Valencia. We, we spend, it's an Introduction to Programming course where we spend the first half of the course learning the concepts of programming and practicing reading the code, reading open source projects, identifying pieces of the code that we've talked about, and the second half of the class is all these Coding Dojos, these Randori-style Coding Dojos.
+
+Over the, the couple years that we ran the Coding Dojo in Orlando, we got a mixed bag of folks from all over the spectrum. People that had no coding experience all the way up to people that had been coding for years and years and years and years. And strangely enough, the super experts were the ones that were least interested in the format.
+
+But we used it as a method of teaching ourselves new tools, new techniques, completely different languages. Our first attempt at a Python Coding Dojo was a complete dog's breakfast. But we came back, we learned, we learned enough Python that now I actually run the Python user group in Orlando, and teach other people how to use Python and when to use Python and that sort of thing.
+
+We, we taught a bunch of people Ruby. We've taught a bunch of people JavaScript, learned that there are like seventeen different JavaScript frameworks, and a new one every week, to run tests or implement assertions. That's always fun.
+
+But the, the key is, we give them, we give everybody a time box and we wait for, either everyone gets a chance to code, we solve the problem - which very rarely happens - or we have it, the entire thing time-boxed to maybe a two hour time frame.
+
+So that really works well for a lot of people, like a classroom setting where you know you have x number of hours to participate, and you have, you know, somewhere between that magic number of five to fifteen people so that everyone can get a chance to code inside of that two hours.
+
+C.S.: And one thing worth mentioning, too, is that the Randori-style Kata is also a great way to interview potential developer candidates. If you want to move away from the typical, where do you see yourself in five years? And cut that, cut out all that bull shit, and get to what matters, which is coding and seeing, you know, how efficient your developer is, and how willing to pair program, how willing to collaborate he is. The Coding Dojo, I want to say, is the best way to do that, right. Because you're hiring someone to be a developer.
+
+So, sit with them, code with them. Seeing how well the fit with the culture, with the pair programming culture in your company, or with the development style that your company adopts. And we use it a lot at Code School and Envy Labs, and it's worked out great, I'd say.
+
+The second type of Kata is the Prepared Kata, and that is when you watch perform a, a Kata that has been previously worked on. So, David and I are gonna show that to you in a little bit. We're going to start coding a problem from scratch, and we're going to be pair programming on that problem. You can either pair program or do it solo, but the thing is, you're showing people one way to solve the problem, and you're showing them, also, a bunch of, of tricks that you may use. Perhaps you're showing them how to use a different editor that just came out, or perhaps you're showing them one feature of an existing editor that you might already use. You're showing them different API for the language. So there's different, there's a multitude of things that you can learn by watching someone perform a prepared Kata.
+
+And lastly.
+
+D.R.: We, we actually had the, the opportunity to have Corey Haines - has anybody heard of Corey Haines? If you guys know anything about the Dojo, you've probably heard about Corey Haines. Corey Haines, yeah, he's local up here. He came down to Orlando and gave what he calls a Code Retreat, and those are fantastic, all-day events where you get the opportunity to pair up with people that you've never programmed with before, maybe never seen before. You, everyone agrees to solve the same problem. He usually uses Conway's Game of Life, which is a wonderfully brain-bending program in whatever language you're trying to learn.
+
+You all pair for thirty minutes or an hour or, or whatever the time box is for that event. You pair with different people at the end of the time box. You're free to switch pairs. You're free to switch languages. You're free to try a different approach. Add some constraints. Whatever. But you agree to do it all day. You have a lot of practice and a lot of time.
+
+That's similar to the format that we're gonna use today for the second half, or second two-thirds of the seminar. And if you want to know more about Corey Haines Code Retreat, or perhaps bug him incessantly on Twitter for him to bring a Code Retreat to your city, you can find him at his horribly ugly website, coderetreat dot org. And on the internets as @CoreyHaines.
+
+C.S.: Cool. So. I think we're good to move on to show you guys a Prepared Kata that David and I practiced and. Cool. Let's do it.
+
+Like I said, we're gonna do something that we're already worked on. We've previously worked on. And we're gonna show you how to implement a very, very, very simple calculator. And, and this calculator is going to have one operation, which is gonna be addition. This operation should be able to accept two numbers and return the result.
+
+Should be simple enough, right? Cool. We're gonna use Ruby, Ruby 2 point 0, but if you have Ruby 1.9 in your computer, it's fine. And we're gonna use miniTest, also known as Test Unit, for this, and that's it. We're not gonna use any framework. Everything is built into the standard library.
+
+If you can, you can follow along. Or if you just want to watch it, and then try to do it on your own after we're done, that's fine too. Right. So this is like the first Kata that we're gonna run.
+
+D.R.: And because pairing, because the ping pong style pairing is a lot of vocal back and forth, we're gonna shove the mic right up here in the front, and we'll attempt to talk into it as much as possible. So bear with us. If you can't hear us, just holler or throw paper or something.
+
+C.S.: And also, if you have any questions, if you don't understand anything that we do - we're gonna try to explain everything and describe as we go, but if you have any questions, please, please, please raise your hand and ask us. Don't hesitate.
+
+So, so far we have an empty file. There's nothing on this file. Kata dot rb. And we're going to develop a very simple calculator. So I'm gonna fire up Vim, open the file. Can everyone see? Good? Decent? Cool? All right. So we're going to use miniTest, the unit. Because you have miniTest unit and you also have miniTest specs. So we're gonna do the unit type.
+
+And, to run our tests, we also have to require 'minitest/auto' to automatically run this file. We're gonna start with our test case, which is going to be CalculatorTest < Minitest::Unit::TestCase. We got our test suite class, and we're going to write our first test.
+
+So test_adds_two_numbers.
+
+So if we change it and you go to that same folder, if we're in Ruby, Kata cannot load minitest/auto.
+
+AUDIENCE: Autorun.
+
+C.S.: Autorun. Thank you. There you go. Collaborative.
+
+D.R.: Thank you audience.
+
+C.S.: Right. So now we got something here. Let me add clear. And Ruby Kata.
+
+D.R.: Tada!
+
+C.S.: Cool. So that gives us proof that we were able to import the correct libraries, we were able to create the correct test suite, and that Ruby picked it up and it gives us a proper error message, or at least a proper message. Cause we don't have any assertions yet. So it's just saying, hey, we found one test. There's zero assertions, zero failures, no errors, and no skips. Right.
+
+So moving on to the first failing test, I'm going to create a local variable, and instantiate an object from a class that I want to have, but I don't have yet. So I'm gonna let my tests tell me what I should do next. If I run this again, it's gonna blow up, right.
+
+So I got a failing test. So now I'm gonna pass it along to David to solve that test.
+
+D.R.: Yeah. Thanks for leaving me a lovely mess there.
+
+C.S.: That's real life, man.
+
+D.R.: Yeah. This is a. At least you didn't commit it, right? So I'm gonna actually, gonna type only the code that I need to fulfill this task. And I'm gonna do it right in the same file. Some people would split it out, but for, for this simple example, we're gonna just do exactly what we need.
+
+And so, if I just define a Calculator, then that should, at least, change the error message. And it does. Now I have one test. No assertions. But I don't have a big giant barf.
+
+So I'm gonna write a test. This is using the ping pong method. Equals or equal?
+
+C.S.: Equal.
+
+D.R.: Equal. Of course. I'm gonna add two numbers together, say, one and one. All right? Rerun the tests. And now I get barf. And so I hand it back off to my pair. Ping.
+
+C.S.: So the error is saying there's an undefined method add. So that's simple enough. I'm going to come here and define a method add. If I run it again, now it's complaining about another thing, which is sort of good. If you're doing TDD, you want either to make the test pass or to make the message change.
+
+So, this is to ensure that whatever code you're writing in your production part is effecting your tests, right. Because, I cannot count how many times it happened to me in real life, I'm editing a file, but it just happens to be a file with the same name on a completely different project.
+
+D.R.: Right.
+
+C.S.: So I'm editing like a calculated dot rb on a different project, and I'm refreshing the browser, wondering, what the hell is this not taking effect? Right. So when you're doing test-driven development, you want to make sure that whatever code you write in production, you run the test, so, to make sure that your code is taking effect. Right.
+
+D.R.: Right. And the, the key there is, run your tests and observe the expected failure, or at least observe that something, the failure has changed.
+
+C.S.: Right.
+
+D.R.: That you're, you're having an effect.
+
+C.S.: So I'm going to save this. Add in two arguments. Run the test again. Now it's saying, now it's giving us a different message. It's saying it expected Nil, but, but it got two. So, I'm reading this, and I'm thinking. Well that's, that's, that's kind of weird. I'm not expecting Nil. I should be expecting two.
+
+So that leads me to the conclusion that maybe we passed the wrong order to our assert method. So to go back, here, assert_equal is very strict about the order of arguments. So we can produce the best error message for you. So what we should do here, instead, is put two calculator.add one and one. And when we do that and then we run our tests again, we can see that now the error message is, it makes more sense, right. It expected two but it actually got Nil.
+
+Now, it's time to write the simplest thing that could possibly make this work. And will probably make your skin crawl. Is to return two. Cool. So now we have one test and one assertion. Now it's time for me to write a test, a failing test, or David to fulfill.
+
+Equal. Seven. Five and two. So I'm gonna do that. He's got a failing test.
+
+D.R.: Awesome.
+
+AUDIENCE: Could that also lead you to splitting the two tests out of this matter?
+
+C.S.: Say that again.
+
+AUDIENCE: Will you, should you be splitting the two tests into two assertions. Two assertions, two tests.
+
+C.S.: That is a good point. I do that when I'm talking about different features, right. So there's, it's really up to you how fine-grained you want to get. Because we're testing, if you look at the name of the test method, the test_that_adds_two_numbers. So those two assertions, they still belong to that idea, to that context of adding two numbers.
+
+D.R.: Right. And we, we talk about the granularity of testing, just simple assertion testing which is what we're doing with assert_equal or any of the assert methods. That's like the smallest little piece of a test. That's the tiniest little piece of a test.
+
+We then compose those assertions together into the unit, and the unit, in this case, like Kaikay had described, is just that we can add two numbers. There might be multiple assertions that describe how we can add two numbers, and as we go through the example we'll see that, and we'll start to break out, what happens if we give it three numbers?
+
+C.S.: And that's when we break into another test.
+
+D.R.: Right. Does that answer your question? More or less? All right. Great.
+
+So, I've got this busted up test sitting in front of me. So the simplest thing that I could possibly do is, I'm gonna go ahead and do some math. Actually do some work here. Buddy.
+
+And now I've got passing tests. But I sort of see, already, that Calculator is gonna be a whole lot to type. So I'm gonna take a minute and just refactor. Rather than typing calculator all the dang time, why don't we change this to just, like, calc? That's still descriptive of what the object is, but it's a lot less repetitive.
+
+So I make my couple of changes to refactor, and then I rerun the tests. And boy, it'd be nice if these, if these tests were a little prettier. But I'll leave that to another, to another person.
+
+Now, what do you think? We've got, we've got the ability to add two numbers. Should we add some more two numbers? Or do you, maybe we can move on? Maybe we'll move on and get a little more complicated.
+
+C.S.: Yeah. Let's do that.
+
+D.R.: So yeah. Why don't we write another test? And this time, I'll, I'll throw you a curve ball. You can add three numbers. Now we're getting fancy. So, if I, if I expect nine, three and three and three, should add up to nine. But should be clearly, clear, that I'm gonna need to do some copy pasta here. Which is a great opportunity to refactor, of course.
+
+But I feel like making Kaikay work. Look at that. Ping pong, sir.
+
+C.S.: Cool. So. Says the number, wrong number of arguments. It took three but it was only expecting two. So, I'm gonna write the simplest thing that could possibly work, or change this message, right. So what I'm gonna do is add another argument. But if I simply add another argument, then I made that test pass but I make the other ones fail.
+
+Cause, if I look at the error message.
+
+D.R.: If you could look at the error message.
+
+C.S.: If I could look at the error message.
+
+D.R.: The little green.
+
+C.S.: What's that?
+
+D.R.: It's too tall. The window's too tall.
+
+C.S.: Is it? Right. All right. So, if you can see here, now I broke the other ones. So what I'm going to do is actually make. Let me fix my window. Is actually make this third one optional. If I run it again, now I don't have a syntax error anymore. Now I have an assertion error. Which, again, is good, right.
+
+D.R.: Man it would be nice if we could see the differences there. That, that white text on a white back- on a, on a black background is particularly-
+
+C.S.: You're right. I wonder if we can make this colored, right.
+
+D.R.: I wondered. If we could make this prettier.
+
+C.S.: So let's go ahead and add require 'minitest/bright' and make our tests fabulous. So now you can see, down at the bottom here, that we have a little column. Might not be able to see it clearly on the projector, but it does make a lot of difference when you're look at your terminal, right.
+
+D.R.: You get a nice big red F.
+
+C.S.: So, the big F is saying that expected nine, but it got six. So I'm gonna go ahead and add C to make it pass. Cool. And because I don't like reading a lot, I'm just gonna remove return, because Ruby automatically returns the last expression of the method. So I'm gonna run this again, and now all my tests pass, right. Cool.
+
+Let's see what we can do now. Should we add more numbers? So we can refactor this whole thing?
+
+D.R.: Yeah.
+
+C.S.: What do you think?
+
+D.R.: Let's do, let's do one more, one more test.
+
+C.S.: So, I don't want you to cheat, cause I don't want you to keep adding single arguments. I'm just gonna add five numbers, right. So I'm gonna copy and paste this, and copying and pasting never resulted in any error, ever. And, it's gonna-
+
+D.R.: It certainly results in highly maintainable code.
+
+C.S.: Twenty-five. Five, five, five, five, five.
+
+D.R.: You can tell we're mathematicians as well, right. Neither one of us aspire to computer science.
+
+C.S.: Cool. So now you got one more.
+
+D.R.: Dun, dun, duh! So. Back again we go. The simplest thing that I could possibly do is add five, and a bunch of, and a bunch of junk inside my add method. But that seems, well, stupid. So, let's, instead, just replace.
+
+C.S.: Hello? Is that a duck? Duck face?
+
+D.R.: There we go.
+
+C.S.: nice.
+
+D.R.: Let's instead replace this with a splat. That's my favorite. And that should get rid of my wrong arguments error. Oh god. But I got a whole bunch. And you know what, this, this running this test thing's getting kind of tedious. I don't like flipping back and forth between the windows. Is there a way we could automate that?
+
+C.S.: I wonder.
+
+D.R.: I wonder. Well, I'm more of a, a bash-y person than most, so, in.
+
+C.S.: So we could add auto-watch if we really wanted to add a dependency and all that stuff, right.
+
+D.R.: Oh, right. And download a gem or, you know, we know our way around Grunt. I'm more of a JavaScript guy than a Ruby guy, so I know way more-
+
+D.C.: Dude, haven't you heard? Gulp is the new Grunt.
+
+D.R.: Oh, right. And so, and then followed by Guzzle and, and Yak, I think is coming eventually, right. We could do all that and wait through like fifteen minutes of downloading stuff. But I, I know bash really well, so I'm just gonna write myself a wonderful infinite loop. But I'll add a sleep. So that I don't blow my stack out. And now every two seconds or so, it's going to run, rerun the tests, rerun the tests, rerun the tests. And I never have to touch that window again. Thank you very much.
+
+AUDIENCE: [indecipherable]
+
+C.S.: What's that?
+
+AUDIENCE: [indecipherable]
+
+D.R.: Oh, sure.
+
+C.S.: Oh, the code for the, yeah. The bash.
+
+D.R.: So it's just a simple-
+
+AUDIENCE: [chatter]
+
+D.R.: Oh, lame. Lame. Pretty simple. Here, let's. Let's do this. So, pretty simple bash infinite loop. While true, run the tests. Sleep for two. If we really wanted to make it even, even closer to what Kaikay typed last, we'll do a clear. And while I run that, every two seconds it's going to refresh the screen and rerun the tests for me. That is the poor-man's file-watcher. That's just in case you're running free BSD or a clone thereof and do not have watch installed by default.
+
+So now the simplest thing that I could possibly do here is numbers. Now, if this was JavaScript I would probably use reduce on this array, but this isn't JavaScript. So what is it in, in Ruby?
+
+AUDIENCE: Inject.
+
+D.R.: Inject? Reduce? Oh, look. You steered me wrong. And so, reduce is gonna take, does it take the same arguments?
+
+AUDIENCE: The first argument's the seed.
+
+D.R.: Right. So I take the seed. And then I give it a block. And so then I have my, my value and my number.
+
+C.S.: You might have to use params. I don't know.
+
+D.R.: I don't know. Let's, let's find out.
+
+C.S.: Yeah. Let's find out.
+
+D.R.: Find out what happens, right. So we give it a block, and then we'll just return v plus n, from the block. Write the file and see what happens.
+
+C.S.: Yeah.
+
+D.R.: Yeah.
+
+C.S.: You probably need to use params if you're passing a block.
+
+D.R.: Oops.
+
+And the best part is, I never have to touch this dang test file again. He just keeps running my tests. So now I've got a, I've got a reduce function that works for an infinite number of numbers. And I'm back to green tests. And I, I've already noticed, you know, let's just, let's go ahead and make this guy a little bigger.
+
+I've already noticed that, I've got all this repetition in here, right. I've got calc equals, calc equals, calc equals. Oh god. So, let's reduce some of that repetition.
+
+C.S.: Reduce? That.
+
+D.R.: He's a funny guy.
+
+AUDIENCE: Trying to inject a little humor.
+
+D.R.: Ha. Ha. Ha. Ha.
+
+C.S.: Nice. I liked that.
+
+D.R.: So I'll, I'll add a little set up method. Get rid of all those. Oops. Do a little find and replace. Rerun. Hey, everything's still passing.
+
+C.S.: Cool.
+
+D.R.: Groovy, groovy. Should we go further? Or, I mean, I think we've, we've pretty much added as many numbers as we can possibly add. We could add additional tests, or refactor this test to say, adds an infinite number of tes- or, numbers.
+
+C.S.: Mhmm.
+
+D.R.: And throw it all kinds of different numbers inside of there. Or we could go do something, something completely crazy and totally off the spec.
+
+C.S.: We could.
+
+D.R.: What else?
+
+C.S.: What if we added arguments, instead of numbers, as strings? Would that work?
+
+D.R.: Ah, I see.
+
+C.S.: Does Ruby automatically convert, like, each b would do?
+
+AUDIENCE: Is Ruby as good as PHP?
+
+D.R.: Is Ruby as good as PHP?
+
+AUDIENCE: I'll write that down.
+
+D.R.: Test. Ruby as good as PHP.
+
+So what should, what, what would we expect it to equal? If we do a calc dot add, say, one and banana. What should we reason we expect this to, to return to us?
+
+C.S.: So that would probably generate an error, right.
+
+D.R.: I would expect so.
+
+C.S.: So what if, instead of banana, we pass number two as a string.
+
+D.R.: Sure. That seems reasonably. I mean, Ruby should be able to convert a string with a numeric value, right.
+
+C.S.: So that should equal three integer, right.
+
+D.R.: Let's see. Oh. Oh. String can't be coerced into fixnum? That sounds wonderful. And I'll let you take over from there.
+
+C.S.: Cool.
+
+So, Ruby has a, a method. I'm not sure if it's. I believe it's injected into object. It's extended. It's in a part of object, which is to_i, right, which is gonna try to convert whatever that object is into an integer. So, in this case, we're converting the string two into an integer. And that made our test pass.
+
+But now.
+
+D.R.: But then we get back to that banana that I was trying to throw you earlier.
+
+C.S.: Yeah. So here's the thing. We're looking at the test, at the name of the method. Test adds string, right. But we want to be a little bit more specific about what that does, right. So I'm gonna rename this method to test parses valid strings.
+
+And I'm gonna write another test that says test raises error for invalid strings, which kind of, kind of gives us a bit of a path of where we're going with implementing this test, this test method. So what we want to do, we'll make sure that it raises an, I believe this is in the-
+
+D.R.: Yup.
+
+C.S.: -in the plural, an argument error, and then we'd pass it a block. If we pass it an invalid argument. So in this case, a banana.
+
+Kaboom.
+
+D.R.: So that brings us back to our original question, what is the numeric value of banana, right? Apparently to_i is not working the way we expect it to. Or, at least, Ruby's doing something with it. It's definitely not throwing an error.
+
+C.S.: Right.
+
+D.R.: So maybe we should figure out what the numeric value of banana is.
+
+C.S.: Right.
+
+D.R.: One way we could do that is to write a test for it, right. We could write an expectation. We expect x to be. Yeah.
+
+AUDIENCE: [indecipherable] Would it be easier to see?
+
+C.S.: Do you want me to do that?
+
+D.R.: Yeah. Use your magic fingers.
+
+C.S.: If you want, you could do.
+
+AUDIENCE: That doesn't work?
+
+D.R.: I don't think that helped.
+
+C.S.: Yeah.
+
+AUDIENCE: ??
+
+C.S.: Should I make this one bigger and this one smaller?
+
+D.R.: Yeah, we can. I mean, the tests. We can even make the font size on the tests smaller.
+
+C.S.: Does that help?
+
+AUDIENCE: Yeah. Thanks.
+
+C.S.: All right. Cool.
+
+D.R.: So now we're stuck with this, you know, what is the numeric value of, of, banana. And-
+
+C.S.: So, yeah.
+
+D.R.: -I would approach it by writing a test for it. Test numeric. Numberic. Numberic. Numeric value of banana. That's a drinking game actually. Every time a presenter says banana you have to take a drink.
+
+I, I would expect banana to raise an ex- an exception if I tried to coerce it to an integer. But, apparently Ruby's doing something else with that. So maybe it gives it a value of zero. Maybe it's trying to turn it into a number. I know another language that begins with a P and ends with a P that does something similar that confounds many people.
+
+And we'll use that same to_i trick that you just showed me. And let's see what happens. Oh. I get a passing test.
+
+C.S.: Yup.
+
+D.R.: So. Let's, just to verify, I'll make this another value. Like one. Maybe the value of banana is one. Nope. The actual value is zero. And, interesting thing there, you can see that the, the tests are flipping every time we run it, because it's implemented as a hash and not. Fun stuff.
+
+So then if the, if, if the numeric value of, of banana is zero, how are we gonna test- how are we gonna figure out that we've been given a banana instead of a number inside of our calculator?
+
+Well, we could start with a little refactor, right. We're probably gonna need some code inside of this block. And we run into a number, an argument that we've been given that isn't numerically, isn't a numericalized varia- or, value. Something that we can coerce. Then, we need to do something different.
+
+So, we'll put a little guard in there. Because we want to raise an exception, according to Carlos's test. And.
+
+C.S.: So the reason behind this is, we, we realized that if we pass a valid string that is able to be parsed to a number, say one, in double quotes-
+
+Or. So.
+
+D.R.: Just take it. Just take it.
+
+C.S.: So if you pass a string that is able to be converted to an integer, right, say, one in quotes, it's successfully converted into one integer. But if we pass a string that's not able to be converted to an integer, it's gonna resolve to zero. So, what we realize is that, the valid argument would be if n dash to_i equals zero, and at the same time, if the original string was zero, then that's a valid one. Otherwise, raise an error. So the only reason, the only way that it's a valid conversion is if the integer zero came from a string zero.
+
+That's what that code means.
+
+AUDIENCE: Is there a reason why you're using triple equals?
+
+D.R.: Because I'm a JavaScript guy, and my brain is programmed to use triple equals any time I compare to zero. I'm sure is something my fingers are trained to type. Oh, you're gonna type a zero now, aren't you? Let me just throw another equal sign in there.
+
+So yeah. Like, like Carlos was saying. If the number what I'm given converts to zero, the number that I'm given converts to zero but it isn't actually string zero, then that would be one of those strings that coerces to zero for us. Thank you banana.
+
+Yeah?
+
+AUDIENCE: If you, if you coerce it to a string that's the same as itself, as an alternative?
+
+D.R.: Taking, what, sorry?
+
+AUDIENCE: Take, take, take whatever comes in, and coerce it to string, and test whether it's the same as itself. If it is, then it's a literal. It's a, it's a string.
+
+D.R.: So, same as that?
+
+AUDIENCE: Well, you got. I don't mean in the second bit. Yeah.
+
+D.R.: Let's see.
+
+C.S.: Doesn't look like it.
+
+D.R.: Apparently not.
+
+AUDIENCE: Valid strings are failing.
+
+C.S.: Yeah.
+
+D.R.: Right. Now valid strings are failing.
+
+But that's the beauty, again, of the Dojo. If there's something that I want to experiment with, I'm, I'm at green tests. I can try something else. Just, just to see, how does Ruby behave this way?
+
+C.S.: Right. All right.
+
+So, we're gonna take a little break. So you all can.
+
+D.R.: Yeah. Project Euler is a great- if, if you don't know about Project Euler, spelled e-u-l-e-r, Euler. Euler. Euler. Hello. ProjectEuler dot net has a ton of, of computer science problems that seem trivial at first, but if you implement them in the most trivial manner possible, you'll do something silly like blow out your recursion stack or take an hour and a half to compute the result or something like that. So you have to think about them a little more.
+
+But, you can do it in a test-driven style, and, and once you get passing tests on your hour and a half long solution, then optimize, refactor, and get a more optimal solution. Figure, there's lots of prime number calculations inside of Project Euler. Euler. Euler. You'll never forget that now.
+
+Code Wars is another. That's, that website launched recently. CodeWars dot com. You can sign up for JavaScript, CoffeeScript and Ruby, I think right now. They've got a bunch of Code Katas. They even call them Code Katas. You get different belts starting from 8kyu and work your way up to Grand Master Black Belt. CodeWars dot com. I, I recommend that to my students as well. And it's, again, emphasizing test-driven. You totally don't have to do it test-driven, but it's a great way to practice.
+
+There are, there are books on the subject, which we'll talk about at the end of our presentation. There's a great book by-
+
+C.S.: Emily Clark, if I remember correctly.
+
+D.R.: Navigata. Bam. Coding Dojo Handbook.
+
+C.S.: Emily Bache. Yeah.
+
+D.R.: Forward by Uncle Bob. Rob Martin. So, this has a lot of Katas in it, a lot of very standard Katas. What we found in running the Coding Dojo for a great, for, for two years, two plus years at that point, was that you can recycle the same problems over and over again. Once you find a couple that are easy to explain and get everyone to wrap their heads around, you use them over and over and over again, and you try them in different languages. You try them with different constraints. You just try to see if you can solve the dang problem. All kinds of things come into your head in the weeks in between when you do the Dojo, and when you do the Dojo again.
+
+Some of the common ones are like, Roman numberals- Roman numeral conversions. Uncle Bob Martin's famous one was the bowling game. We did that one time at the Coding Dojo in Orlando. We tried to do the bowling game. One time. And what we discovered is that nerds actually do not know how to score bowling at all.
+
+It is, that knowledge is completely encapsulated in computer software now and no one has committed any of it to memory. And does not even understand how that software runs anymore. We just know that, occasionally, turkeys come on the screen. And we have, only if we have the numbers up, right. So.
+
+Those are great resources for that.
+
+C.S.: Take a break now?
+
+D.R.: Yeah. Yeah. Let's take a break, and when we come back, we're gonna, we're gonna give everybody a post-it note, a different-color post-it note. This is some logistics. You'll pair up, or, pair up. You'll group up into groups of three and we'll do like a Code, Code Retreat-style Coding Dojo with the entire group. We got a problem for you. We've got some constraints for you. You can totally use what you've, what you've learned just right now to practice. We'll do that and we'll take another break and we'll do another Coding Dojo after that with a different problem.
+
+C.S.: Cool.
+
+D.R.: Don't have to participate in all three. Don't have to participate in any of them.
+
+C.S.: Yup.
+
+D.R.: If you don't really want to. But we encourage you to, to come and, and play and practice with us.
+
+C.S.: All right. Fifteen minutes?
+
+D.R.: Yup.
+
+C.S.: Sounds good?
+
+D.R.: We'll meet back in fifteen minutes.
+
+C.S.: All right. Cool.
+
+Before we start, I want to make sure that everyone has Ruby installed. That is pretty much the only per-requisite, just to have Ruby, at least 1.9.3, I want to say, which is the version that comes with miniTest, right. No one-
+
+D.R.: Everyone know how to, everyone know how, how to figure out their version of Ruby? Everybody know how to run, write Ruby from the command line? How far down the rabbit hole do we need to go?
+
+C.S.: So if you want to see what version of Ruby you have, you run ruby dash dash version. And-
+
+D.R.: In a, in a window that you can-
+
+C.S.: There you go. Ruby dash dash version. And it should be, at least, 1.9.3. For this one, I'm using 2 point 0, which is fine. You don't have to be on 2 point 0, but at least 1.9.3.
+
+D.R.: And we'll show you that magic bash incantation as well if you want to use that in your, in your tests.
+
+C.S.: Cool. So everyone has Ruby at least 1.9.3 and at least one text editor? Cool.
+
+D.R.: Something emacs-flavored.
+
+C.S.: Not.
+
+Right. So the first problem, we want to group into pairs of three, right. So, you might have gotten a post-it from David or maybe got yourselves, and what we want to do is, we want to group together into groups of three, with people with the same color post-its. So if you have an orange post-it, you look for two other people with that same color post-it.
+
+D.R.: And that, if you have-
+
+C.S.: Someone's gonna have to get up.
+
+Going over the etiquettes real quick. Test-driven development, as you might have seen us, David and I, doing here, is red-green-refactor, so. You write a failing test before you write any production code. Giggles. You make that test pass. And if you need to, you go back and you refactor, right. And then you do that cycle. That's the cycle that you want to follow. So.
+
+D.R.: And just because you get to a green cycle does not mean you have to refactor.
+
+C.S.: Right.
+
+D.R.: But it's a good time to take a break. Look, you know, look back at the code as a pair, as a group, and say, should we refactor?
+
+C.S.: Yup.
+
+D.R.: Is there something we can make simpler? Is there something we were copying and pasting? Is there a different way we could do this? Is there another test we should add? Figure, take, take your break. Figure out what you're gonna do next.
+
+C.S.: Right. And we're gonna do the ping pong pairing, right. So just like David and I did, you write a failing test. You pass it along to your co-pilot. So you have three people. Most of you have three people. So you're gonna have, start with a pilot and a co-pilot, and then the third person is gonna be the audience, right.
+
+And what we recommend is that the audience does not talk on red. What that means is that, whenever there's a failing test, you let the pair figure out what the solution is, right. So only the driver and the co-pilot are part of trying to figure out how to make that one test pass.
+
+D.R.: But don't think that you're stuck on Alcatraz or something. If you're a pair and, you may be really new to Ruby, or maybe just new to test-driven development and you're like, I don't know what to type here. Do you know what to type here? I don't know what to type here. Please ask your audience first, and if none of the three of you know what you're doing next or what you need to do next, raise your hand. We've got some helpers that'll be walking around.
+
+C.S.: Right.
+
+D.R.: Helping out.
+
+C.S.: And- yeah.
+
+D.R.: We'll be walking around too.
+
+C.S.: And, and the internet is not super cool, but it's also good to look up. And, I mean, internet's not reliable here, right. But you're more than free to look up documentation and references and, you know, ways to use the API and different assertions that you can use. This is an open book test.
+
+D.R.: Yeah. And another thing to keep in mind is IRB is open game as well. If you are like, like, like you saw with us, when we were doing the banana test-
+
+C.S.: Right.
+
+D.R.: We wrote a test to describe, to describe, to assert what we thought the value of banana would be when we passed it to integer. You're more than welcome to just close down your editor or bring up IRB in whatever fashion you want to. And, what is banana.to_i? Oh, it's zero. That's weird, but, you know. Whatever.
+
+So, like, Kaikay was saying, don't talk, the audience shouldn't, whoever the audience member is, if you have one or two people, don't talk on red. If you're not coding, keep quiet unless you're part of the pair, right. And it's time to switch.
+
+If you have an idea, if you have something - I think it should do this or I think it should do that - rather than trying to describe too much of it in English, I mean, it might be helpful to, to talk about it a little bit in English, show your work in code. Show your idea in code. Just write an assert statement that does what you think it needs to do. Ask the code a question.
+
+C.S.: And this is not a code golf, right. We're not here to show off, right, some Perl black magic that you inherited from a previous job. So make sure that we're, whatever you write, it's explicit enough so that everyone in your group understands, right. So if you need to write a little bit more. If you need to break out do end from a curly brace, do a do end. So do that.
+
+D.R.: Right. And, as the audience, this is like, the one exception to the rule. If you see the pair deviating from red-green-refactor, like they start writing production code before they write a test, you get to say, you know, eh, or test, or if you see them sit on, they, they've written some code and they haven't run the test for awhile, eh. Give them the buzzer. Survey says. And if you see somebody starting to use voodoo where, whether or not you're part of the pair, or they just write something and you're like, what is that? Raise your hand and say no voodoo, or call voodoo on them. Call molligan. Tell them to do it over.
+
+C.S.: And that should be enough.
+
+So you guys are in groups. You've selected one machine to work off of. And, please delete all the code that you had previously. Just make sure that you start from a blank slate. You're looking at a blank canvas. Blank text editor. Everyone good to start?
+
+All right. So here's the problem that you're gonna do.
+
+Boom. A calculator. It's gonna have one operation, which is gonna be addition. It should be able to take a variable number of arguments, but, we're gonna add in a constraint. You're not allowed to use inject or, for that matter, reduce.
+
+D.R.: This somewhat limits the playing field.
+
+C.S.: Right. So that is the plan of action. And if-
+
+D.R.: Any questions about the problem? Right?
+
+C.S.: Cool?
+
+D.R.: Everybody, everybody grasps the gist of it? If you guys get done with this before we get done with the overall Dojo, feel free to do what Kaikay and I did by expanding the problem. What if we gave it strings? Or what if we gave it, you know, bananas. Or what if we threw an object at it?
+
+C.S.: Right.
+
+D.R.: Or whatever, you know.
+
+AUDIENCE: Can you clarify inject?
+
+D.R.: So, we were gonna use numbers dot inject. We were gonna use array dot inject. But, as we pointed out the audience, we can also use array dot reduce, which I'm much more familiar with since I come from JavaScript. So, don't use inject. Don't use the reduce methods. There is a third option available to you. If you wanted to look at each-
+
+C.S.: Right.
+
+D.R.: Element in-
+
+C.S.: -in an array.
+
+D.R.: Just. Just saying.
+
+C.S.: Cool. And we're gonna use three minute rotation time outs. So let's bring it up here.
+
+AUDIENCE: [chatter]
+
+C.S.: Oh no.
+
+D.R.: Oh, you've got it. You can just stick it over there.
+
+C.S.: All right. So, let's do. Simple timer.
+
+AUDIENCE: [chatter]
+
+D.R.: Pop that on the side window there. The other window.
+
+C.S.: Yup. All right. So. So if you need, or. Do we show, like, half of it and half of that?
+
+D.R.: Yeah. Yeah. Do the, do the presentation again.
+
+C.S.: This.
+
+D.R.: Yeah. Let's do that.
+
+C.S.: Well, but how do we show both at the same time?
+
+D.R.: Something bizarre.
+
+C.S.: It's called moom.
+
+AUDIENCE: Moom.
+
+C.S.: Yeah.
+
+AUDIENCE: Thank you.
+
+D.R.: I use optimal layout, because it's basically the same thing.
+
+C.S.: So if you need a start, your initial code, kind of a cheat sheet. This is what we used to start. So requiring minitest up at the top. Starting off with your test gaze. And then writing the first test. If you want to set up like the auto run thing, is down here at the bottom.
+
+Remember. Ping pong. Write a failing test. Pass it along to your co-pilot.
+
+D.R.: So then to do the timer, put the timer up on the right screen.
+
+C.S.: Full size? Close that down.
+
+D.R.: You actually have to reduce the size of the font.
+
+C.S.: Yeah.
+
+D.R.: Awesome.
+
+C.S.: All right.
+
+D.R.: So we're gonna give you three minutes to go as a pair. Oh. We'll give you three minutes as a pair, right. As the current pair. And then when the timer goes off, switch. And we'll do the same thing, and after that, we'll take, we'll do a little half time.
+
+AUDIENCE: [chatter]
+
+C.S.: All right. Let's stop for here. So, stop exactly where you are. All right. And now, it's time for us to do a little retrospective on what we just did. On this round, right. So, do we have enough pens here?
+
+D.R.: We might.
+
+C.S.: We at least have enough-
+
+D.R.: Near enough. Enough pens per group.
+
+So, just like an Agile retrospective, we're gonna ask each other just three question. What did we do well, that we would like to do the next time we do this exercise? What would we like to improve for the next time? So what did we do well that we want to repeat? What did we do maybe not so well, maybe we'd like, maybe we'd like to improve for next time. And did we meet our goals and why? And, again, our stated goals are not, did we solve the problem?
+
+That really wasn't ever an issue. That wasn't really any, I mean we, we can continue inventing different edge-cases to test this problem against. We can continue asking questions of this problem. Even this simple problem, for a very long time. So it's never really about, did we solve the problem? No, the world does not need another adder.
+
+And most of the problems that we pick are gonna be like that. But did we learn something? Did we find out something new about Ruby or about the people that we work with? Did we practice our skills? Do we feel like we have gained some skill or knowledge because of this exercise? And did we have fun?
+
+So. We can just, we can start with the. Just give you guys another three minutes to figure out-
+
+C.S.: Yeah.
+
+D.R.: Just ask yours- each other those three questions. Did we, what did we do well that we want to do for the next one? What did we do maybe not so well that we would like to improve for the next one? And did we meet our goals, and why or why not?
+
+We'll give you guys another timer for that.
+
+C.S.: Just write it down on the post-it note we gave you, and then we can.
+
+AUDIENCE: [chatter]
+
+C.S.: All right. Cool. Stop exactly where you are. Go back to your editor. Delete everything. And get ready for the next problem. Again, same group. Same three minute rotation. But now we're gonna do a different problem, right.
+
+Still on the calculator realm. Still gonna be in addition. But now your calc- your new calculator, that you're gonna start from scratch, is gonna need to take strings as arguments. As an example, you're gonna add one as a string, slash two, and it's gonna need to return the integer three.
+
+AUDIENCE: The integer or the string?
+
+D.R.: The integer.
+
+C.S.: The integer. To make it-
+
+D.R.: Stop wherever you want to stop.
+
+I, I believe there was an earlier presentation on just enough.
+
+AUDIENCE: [chatter]
+
+C.S.: Cool.
+
+D.R.: And you can choose to you, you can choose that last constraint that we offered. The don't use inject. You can, and, take it or leave it, right. Doing the calc add with strings might be-
+
+C.S.: More than a big problem to solve.
+
+D.R.: Right. So, if you want to use inject or reduce or yo mama, whatever. It doesn't matter. The only, the only requirement we will have is, you have to take, you have to accept strings, like, one, two, three, four, in, in words, t-h, you know, r-e-e. You go up to ten. You go up to one-hundred. I don't care. How far you want to go. Cause you, there may be some typing involved.
+
+C.S.: Right.
+
+AUDIENCE: You still want it to return an integer or a string?
+
+D.R.: It should return an integer.
+
+AUDIENCE: [indecipherable] - or should you forget integers?
+
+C.S.: Forget. Array delete what you had, and then start from scratch, right.
+
+D.R.: And really, start from scratch. Even back to the boiler plate that we gave you guys.
+
+AUDIENCE: [chatter]
+
+C.S.: All right everybody. Pencils down.
+
+D.R.: No more coding.
+
+C.S.: And just like we did before. Quick retrospective. Write down things that worked well for this round. Things that could have been better and need improvement for upcoming rounds.
+
+D.R.: And also as a process, as a whole. Like, what did you guys like about the whole process? What did you guys, what would you guys improve about this workshop if you were to go to it again? And did you- did we meet our goals, and why or why not? So we'll give you a couple minutes to do that real quick as a group. No more coding. I will come by and delete your files.
+
+So, did we learn something? Everybody learn something? Feel like you pulled something your way? Did we practice? Do you feel like you've practiced some? Did we solve the problem? Some? Solved some of the problem, right. Ish. Solved-ish the problem.
+
+Did we have fun?
+
+AUDIENCE: Yeah. Yes. Yeah.
+
+D.R.: Awesome.
+
+C.S.: Cool.
+
+D.R.: So, if you want to know more about the Coding Dojo, this is Kaikay's new favorite book. Coding Dojo Handbook. I'm totally picking up a copy. There's way more resources out there. There are local meet up groups. You should take this to your user group. We started a whole group around Coding Dojo in, in Orlando. But we also, because I ran the PHP group and I ran the Python group at the time, we also used it for the Python group and the PHP group. We'll probably do it again at node. We've done it at Ruby. We've done it all the user groups around.
+
+If you want to know, if you want to get some starting points for that, I wrote a blog post on getting start, getting past all the Yak shaving of setting up the automated tests running in the background and the boilerplate for each one of the, for each one of the different languages you want to try.
+
+That's in the Orlando Dojo reporepo on, on GitHub. It's, or the Orlando Dojo organization.
+
+C.S.: Talking about meet ups. The best way to actually experience more of this is to do it in practice, right. So. So go ahead to meet up dot com and look for nearby Coding Dojo meet ups. There's plenty of them out there, and if you don't find one, more than welcome to create one yourself. All you need is a friend who you can pair with every week or so, and then, if you just put it out there, put it online that you guys are meeting every week at this specific place at this specific time, people will show up. Believe me.
+
+D.R.: Right. Just be consistent.
+
+C.S.: Yeah. Just be consistent. And, I think that's it for today. If you guys want to talk more about this and that-

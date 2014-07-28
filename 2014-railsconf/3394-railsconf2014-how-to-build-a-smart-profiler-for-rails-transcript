@@ -1,0 +1,329 @@
+RailsConf 2014 - How to Build a Smart Profiler for Rails - Tom Dale & Yehuda Katz
+
+TOM DALE: Hey, you guys ready? Thank you guys so much for coming. This is awesome. I was really, I, when they were putting together the schedule, I said, make sure that you put us down in the Caves of Moria. So thank you guys for coming down and making it.
+
+I'm Tom. This is Yehuda.
+
+YEHUDA KATZ: When people told me was signed up to do a back-to-back talk, I don't know what I was thinking.
+
+T.D.: Yup. So. We want to talk to you today about, about Skylight. So, just a little bit before we talk about that, I want to talk about us a little bit.
+
+So, in 2011 we started a company called Tilde. It's this shirt. It may have made me self-conscious, because this is actually a first edition and it's printed off-center. Well, either I'm off-center or the shirt's off-center. One of the two.
+
+So we started Tilde in 2011, and we had all just left a venture-backed company, and that was a pretty traumatic experience for us because we spent a lot of time building the company and then we ran out of money and sold to Facebook and we really didn't want to repeat that experience.
+
+So, we decided to start Tilde, and when we did it, we decided to be. DHH and the other people at Basecamp were talking about, you know, being bootstrapped and proud. And that was a message that really resonated with us, and so we wanted to capture the same thing.
+
+There's only problem with being bootstrapped and proud, and that is, in order to be both of those things, you actually need money, it turns out. It's not like you just say it in a blog post and then all of the sudden you are in business.
+
+So, we had to think a lot about, OK, well, how do we make money? How do we make money? How do we make a profitable and, most importantly, sustainable business? Because we didn't want to just flip to Facebook in a couple years.
+
+So, looking around, I think the most obvious thing that people suggested to us is, well, why don't you guys just become Ember, Inc.? Raise a few million dollars, you know, build a bunch of business model, mostly prayer. But that's not really how we want to think about building open source communities.
+
+We don't really think that that necessarily leads to the best open source communities. And if you're interested more in that, I recommend Leia Silver, who is one of our co-founders. She's giving a talk this afternoon. Oh, sorry. Friday afternoon, about how to build a company that is centered on open source. So if you want to learn more about how we've done that, I would really suggest you go check out her talk.
+
+So, no. So, no Ember, Inc. Not allowed.
+
+So, we really want to build something that leveraged the strengths that we thought that we had. One, I think most importantly, a really deep knowledge of open source and a deep knowledge of the Rails stack, and also Carl, it turns out, is really, really good at building highly scalable big data sys- big data systems. Lots of Hadoop in there.
+
+So, last year at RailsConf, we announced the private beta of Skylight. How many of you have used Skylight? Can you raise your hand if you have used it? OK. Many of you. Awesome.
+
+So, so Skylight is a tool for profiling and measuring the performance of your Rails applications in production. And, as a product, Skylight, I think, was built on three really, three key break-throughs. There were key, three key break-throughs. We didn't want to ship a product that was incrementally better than the competition. We wanted to ship a product that was dramatically better. Quantum leap. An order of magnitude better.
+
+And, in order to do that, we spent a lot of time thinking about it, about how we could solve most of the problems that we saw in the existing landscape. And so those, those break-throughs are predicated- sorry, those, delivering a product that does that is predicated on these three break-throughs.
+
+So, the first one I want to talk about is, honest response times. Honest response times. So, DHH wrote a blog post on what was then the 37Signals blog, now the Basecamp blog, called The problem with averages. How many of you have read this? Awesome.
+
+For those of you that have not, how many of you hate raising your hands at presentations?
+
+So, for those of you that-
+
+Y.K.: Just put a button in every seat. Press this button-
+
+T.D.: Press the button if you have. Yes. Great.
+
+So, if you read this blog post, the way it opens is, Our average response time for Basecamp right now is 87ms... That sounds fantastic. And it easily leads you to believe that all is well and that we wouldn't need to spend any more time optimizing performance.
+
+But that's actually wrong. The average number is completely skewed by tons of fast responses to feed requests and other cached replies. If you have 1000 requests that return in 5ms, and then you can have 200 requests taking 2000ms, or two seconds, you can still report an av- a respectable 170ms of average. That's useless.
+
+So what does DHH say that we need? DHH says the solution is histograms. So, for those of you like me who were sleeping through your statistics class in high school, and college, a brief primer on histograms. So a histogram is very simple. Basically, you have a, you have a series of numbers along some axis, and every time you, you're in that number, you're in that bucket, you basically increment that bar by one.
+
+So, this is an example of a histogram of response times in a Rails application. So you can see that there's a big cluster in the middle around 488ms, 500ms. This isn't a super speedy app but it's not the worst thing in the world. And they're all clustered, and then as you kind of move to the right you can see that the respond times get longer and longer and longer, and as you move to the left, response times get shorter and shorter and shorter.
+
+So, why do you want a histogram? What's the, what's the most important thing about a histogram?
+
+Y.K.: Well, I think it's because most requests don't actually look like this.
+
+T.D.: Yes.
+
+Y.K.: Most end points don't actually look like this.
+
+T.D.: Right. If you think about what your Rails app is doing, it's a complicated beast, right. Turns out, Ruby frankly, you can, you can do branching logic. You can do a lot of things.
+
+And so what that means is that one end point, if you represent that with a single number, you are losing a lot of fidelity, to the point where it becomes, as DHH said, useless. So, for example, in a histogram, you can easily see, oh, here's a group of requests and response times where I'm hitting the cache, and here's another group where I'm missing it. And you can see that that cluster is significantly slower than the faster cache-hitting cluster.
+
+And the other thing that you get when you have a, a distribution, when you keep the whole distribution in the histogram, is you can look at this number at the 95th percentile, right. So the right, the way to think about the performance of your web application is not the average, because the average doesn't really tell you anything. You want to think about the 95th percentile, because that's not the average response time, that's the average worst response time that a user is likely to hit.
+
+And the thing to keep in mind is that it's not as though a customer comes to your site, they issue one request, and then they're done, right. As someone is using your website, they're gonna be generating a lot of requests. And you need to look at the 95th percentile, because otherwise every request is basically you rolling the dice that they're not gonna hit one of those two second, three second, four second responses, close the tab and go to your competitor.
+
+So we look at this as, here's the crazy thing. Here's what I think is crazy. That blog post that DHH wrote, it's from 2009. It's been five years, and there's still no tool that does what DHH was asking for. So, we, frankly, we smelled money. We were like, holy crap.
+
+Y.K.: Yeah, why isn't that slide green?
+
+T.D.: Yeah. It should be green and dollars. I think keynote has the dollars, the make it rain effect I should have used. So we smelled blood in the water. We're like, this is awesome. There's only one problem that we discovered, and that is, it turns out that building this thing is actually really, really freaky hard. Really, really hard.
+
+So, we announced the private beta at RailsConf last year. Before doing that, we spent a year of research spiking out prototypes, building prototypes, building out the beta. We launched at RailsConf, and we realized, we made a lot of problems. We made a lot of errors when we were building this system.
+
+So then, after RailsConf last year, we basically took six months to completely rewrite the backend from the ground up. And I think tying into your keynote, Yehuda, we, we were like, oh. We clearly have a bespoke problem. No one else is doing this. So we rewrote our own custom backend. And then we had all these problems, and we realized that they had actually already all been solved by the open source community. And so we benefited tremendously by having a shared solution.
+
+Y.K.: Yeah. So our first release of this was really very bespoke, and the current release uses a tremendous amount of very off-the-shelf open source projects that just solved the particular problem very effectively, very well. None of which are as easy to use as Rails, but all of which solve really thorny problems very effectively.
+
+T.D.: So, so let's just talk, just for your own understanding, let's talk about how most performance monitoring tools work. So the way that most of these work is that you run your Rails app, and running inside of your Rails app is some gem, some agent that you install. And every time the Rails app handles a request, it generates events, and those events, which include information about performance data, those events are passed into the agent.
+
+And then the agent sends that data to some kind of centralized server. Now, it turns out that doing a running average is actually really simple. Which is why everyone does it. Basically you can do it in a single SQL query, right. All you do is you have three columns in database. The end point, the running average, and the number of requests, and then so, you can, those are the two things that you need to keep a running average, right.
+
+So keeping a running average is actually really simple from a technical point of view.
+
+Y.K.: I don't think you could even JavaScript through to the lack of integers.
+
+T.D.: Yes. You probably wouldn't want to do any math in JavaScript, it turns out. So, so we took a little bit different approach. Yehuda, do you want to go over the next section?
+
+Y.K.: Yeah. Sure. So, when we first started, right at the beginning, we basically did a similar thing where we had a bunch - your app creates events. Most of those start off as being ActiveSupport::Notifications, although it turns out that there's very limited use of ActiveSupport::Notifications so we had to do some normalization work to get them sane, which we're gonna be upstreaming back into, into Rails.
+
+But, one thing that's kind of unfortunate about having every single Rails app have an agent is that you end up having to do a lot of the same kind of work over and over again, and use up a lot of memory. So, for example, every one of these things is making HTTP requests. So now you have a queue of things that you're sending over HTTP in every single one of your Rails processes. And, of course, you probably don't notice this. People are used to Rails taking up hundreds and hundreds of megabytes, so you probably don't notice if you install some agent and it suddenly starts taking twenty, thirty, forty, fifty more megabytes.
+
+But we really wanted to keep the actual memory per process down to a small amount. So one of the very first things that we did, we even did it before last year, is that we pulled out all that shared logic into a, a separate process called the coordinator. And the agent is basically responsible simply for collecting the, the trace, and it's not responsible for actually talking to our server at all. And that means that the coordinator only has to do this queue, this keeping a st- a bunch of stuff of work in one place, and it doesn't end up using up as much memory.
+
+And I think this, this ended up being very effective for us.
+
+T.D.: And I think that low overhead also allows us to just collect more information, in general.
+
+Y.K.: Yeah.
+
+Now, after our first attempt, we started getting a bunch of customers that were telling us that even the separate - so the separate coordinator, started as a good thing and a bad thing. On the one hand, there's only one of them, so it uses up only one set of memory. On the other hand, it's really easy for someone to go in and PS that process and see how many megabytes of memory it's using.
+
+So, we got a lot of additional complaints that said oh, your process is using a lot of memory. And, I spent a few weeks, I, I know Ruby pretty well. I spent a couple of weeks. I actually wrote a gem called Allocation Counter that basically went in to try to pin point exactly where the allocations were hap- coming from. But it turns out that it's actually really, really hard to track down exactly where allocations are coming from in Ruby, because something as simple as using a regular expression in Ruby can allocate match objects that get put back on the stack.
+
+And so I was able to pair this down to some degree. But I really discovered quickly that, trying to keep a lid on the memory allocation by doing all the stuff in Ruby, is mostly fine. But for our specific use case where we really wanna, we wanna be telling you, you can run the agent on your process, on your box, and it's not gonna use a lot of memory. We really needed something more efficient, and our first thought was, we'll use C++ or C. No problem. C is, is native. It's great. And Carl did the work. Carl is very smart. And then he said, Yehuda. It is now your turn. You need to start maintaining this. And I said, I don't trust myself to write C++ code that's running in all of your guys's boxes, and not seg-fault. So I don't think that, that doesn't work for me.
+
+And so I, I noticed that rust was coming along, and what rust really gives you is it gives you the ability to write low-level code a la C or C++ with magma memory management, that keeps your memory allocation low and keeps things speedy. Low resource utilization. While also giving you compile time guarantees about not seg-faulting. So, again, if your processes randomly started seg-faulting because you installed the agent, I think you would stop being our customer very quickly. So having what, pretty much 100% guarantees about that was very important to us. And so that's why we decided to use rust.
+
+I'll just keep going.
+
+T.D.: Keep going.
+
+Y.K.: So, we had this coordinator object. And basically the coordinator object is receiving events. So the events basically end up being these traces that describe what's happening in your application. And the next thing, I think our initial work on this we used JSON just to send the pay load to the server, but we noticed that a lot of people have really big requests. So you may have a big request with a big SQL query in it, or a lot of big SQL queries in it. Some people have traces that are hundreds and hundreds of nodes long. And so we really wanted to figure out how to shrink down the payload size to something that we could be, you know, pumping out of your box on a regular basis without tearing up your bandwidth costs.
+
+So, one of the first things that we did early on was we switched using protobuf as the transport mechanism, and that really shrunk, shrunk down the payloads a lot. Our earlier prototypes for actually collecting the data were written in Ruby, but I think Carl did, like, a weekend hack to just pour it over the Java and got, like, 200x performance. And you don't always get 200x performance, if mostly what you're doing is database queries, you're not gonna get a huge performance swing.
+
+But mostly what we're doing is math. And algorithms and data structures. And for that, Ruby is, it could, in theory, one day, have a good git or something, but today, writing that code in Java didn't end up being significantly more code cause it's just, you know, algorithms and data structures.
+
+T.D.: And I'll just note something about standardizing on protobufs in our, in our stack, is actually a huge win, because we, we realized, hey, browsers, as it turns out are pretty powerful these days. They've got, you know, they can allocate memory, they can do all these types of computation. So, and protobuff's libraries exist everywhere. So we save ourselves a lot of computation and a lot of time by just treating protobuff as the canonical serialization form, and then you can move payloads around the entire stack and everything speaks the same language, so you've saved the serialization and deserialization.
+
+Y.K.: And JavaScript is actually surprisingly effective at des- at taking protobuffs and converting them to the format that we need efficiently. So, so we basically take this data. The Java collector is basically collecting all these protobuffs, and pretty much it just turns around, and this is sort of where we got into bespoke territory before we started rolling our own, but we realized that when you write a big, distributed, fault-tolerant system, there's a lot of problems that you really just want someone else to have thought about.
+
+So, what we do is we basically take these, take these payloads that are coming in. We convert them into batches and we send the batches down into the Kafka queue. And the, the next thing that happens, so the Kafka, sorry, Kafka's basically just a queue that allows you to throw things into, I guess, it might be considered similar to like, something lime AMQP. It has some nice fault-tolerance properties and integrates well with storm. But most important it's just super, super high through-put.
+
+So basically didn't want to put any barrier between you giving us the data and us getting it to disc as soon as possible.
+
+T.D.: Yeah. Which we'll, I think, talk about in a bit.
+
+Y.K.: So we, so the basic Kafka takes the data and starts sending it into Storm. And if you think about what has to happen in order to get some request. So, you have these requests. There's, you know, maybe traces that have a bunch of SQL queries, and our job is basically to take all those SQL queries and say, OK, I can see that in all of your requests, you had the SQL query and it took around this amount of time and it happened as a child of this other node. And the way to think about that is basically just a processing pipeline. Right. So you have these traces that come in one side. You start passing them through a bunch of processing steps, and then you end up on the other side with the data.
+
+And Storm is actually a way of describing that processing pipeline in sort of functional style, and then you tell it, OK. Here's how many servers I need. Here's how, here's how I'm gonna handle failures. And it basically deals with distribution and scaling and all that stuff for you. And part of that is because you wrote everything using functional style.
+
+And so what happens is Kafka sends the data into the entry spout, which is sort of terminology in, terminology in Storm for these streams that get created. And they basically go into these processing things, which very clever- cutely are called bolts. This is definitely not the naming I would have used, but. So they're called bolts. And the idea is that basically every request may have several things.
+
+So, for example, we now automatically detect n + 1 queries and that's sort of a different kind of processing from just, make a picture of the entire request. Or what is the 95th percentile across your entire app, right. These are all different kinds of processing. So we take the data and we send them into a bunch of bolts, and the cool thing about bolts is that, again, because they're just functional chaining, you can take the output from one bolt and feed it into another bolt. And that works, that works pretty well. And, and you don't have to worry about - I mean, you have to worry a little bit about things like fault tolerance, failure, item potence. But you worry about them at, at the abstraction level, and then the operational part is handled for you.
+
+T.D.: So it's just like a very declarative way of describing how this computation work in, in a way that's easy to scale.
+
+Y.K.: And Carl actually talked about this at very high speed yesterday, and you, some of you may have been there. I would recommend watching the video when it comes out if you want to make use of this stuff in your own applications.
+
+And then when you're finally done with all the processing, you need to actually do something with it. You need to put it somewhere so that the web app can get access to it, and that is basically, we use Cassandra for this. And Cassandra again is mostly, it's a dumb database, but it has, it's, has high capacity. It has some of the fault-tolerance capacities that we want.
+
+T.D.: We're very, we're just very, very heavy, right. Like, we tend to be writing more than we're ever reading.
+
+Y.K.: Yup. And then when we're done, when we're done with a particular batch, Cassandra basically kicks off the process over again. So we're basically doing these things as batches.
+
+T.D.: So these are, these are roll-ups, is what's happening here. So basically every minute, every ten minutes, and then at every hour, we reprocess and we re-aggregate, so that when you query us we know exactly what to give you.
+
+Y.K.: Yup. So we sort of have this cycle where we start off, obviously, in the first five second, the first minute, you really want high granularity. You want to see what's happening right now. But, if you want to go back and look at data from three months ago, you probably care about it, like the day granularity or maybe the hour granularity. So, we basically do these roll-ups and we cycle through the process.
+
+T.D.: So this, it turns out, building the system required an intense amount of work. Carl spent probably six months reading PHP thesises to find-
+
+Y.K.: Thesis.
+
+T.D.: Thesis. To find, to find data structures and algorithms that we could use. Because this is a huge amount of data. Like, I think even a few months after we were in private data, private beta, we were already handling over a billion requests per month. And obviously there's no way that we-
+
+Y.K.: Basically the number of requests that we handle is the sum of all of the requests that you handle.
+
+T.D.: Right.
+
+Y.K.: And all of our customers handle.
+
+T.D.: Right. Right. So.
+
+Y.K.: So that's a lot of requests.
+
+T.D.: So obviously we can't provide a service, at least one that's not, we can't provide an affordable service, an accessible service, if we have to store terabytes or exabytes of data just to tell you how your app is running.
+
+Y.K.: And I think, also a problem, it's problematic if you store all the data in a database and then every single time someone wants to learn something about that, you have to do a query. Those queries can take a very long time. They can take minutes. And I think we really wanted to have something that would be very, that would, where the feedback loop would be fast. So we wanted to find algorithms that let us handle the data at, at real time, and then provide it to you at real time instead of these, like, dump the data somewhere and then do these complicated queries.
+
+T.D.: So, hold on. So this slide was not supposed to be here. It was supposed to be a Rails slide. So, whoa. I went too far.
+
+K. We'll watch that again. That's pretty cool. So then the last thing I want to say is, perhaps your take away from looking at this architecture diagram is, oh my gosh, these Rails guys completely-
+
+Y.K.: They really jumped the shark.
+
+T.D.: They jumped the shark. They ditched Rails. I saw, like, three Tweets yesterday - I wasn't here, I was in Portland yesterday, but I saw, like, three Tweets that were like, I'm at RailsConf and I haven't seen a single talk about, like, Rails.
+
+So that's true here, too. But, I want to assure you that we are only using this stack for the heavy computation. We started in Rails. We started, we were like, hey, what do we need. Ah, well, people probably need to authenticate and log in, and we probably need to do billing. And those are all things that Rails is really, really good at. So we started with Rails as, basically, the starting point, and then when we realized oh my gosh, computation is really slow. There's no way we're gonna be able to offer this service. OK. Now let's think about how we can do all of that.
+
+Y.K.: And I think notably, a lot of people who look at Rails are like, there's a lot of companies that have built big stuff on Rails, and their attitude is, like, oh, this legacy terrible Rails app. I really wish we could get rid of it. If we could just write everything in Scala or Clojure or Go, everything would be amazing.
+
+That is definitely not our attitude. Our attitude is that Rails is really amazing, at particular, at the kinds of things that are really common across everyone's web applications - authentication, billing, et cetera. And we really want to be using Rails for the parts of our app- even things like error-tracking, we do through the Rails app. We want to be using Rails because it's very productive at doing those things. It happens to be very slow with doing data crunching, so we're gonna use a different tool for that.
+
+But I don't think you'll ever see me getting up and saying, ah, I really wish we had just started writing, you know, the Rails app in rust.
+
+T.D.: Yeah.
+
+Y.K.: That would be terrible.
+
+T.D.: So that's number one, is, is, honest response times, which we're, which it turns out, seems like it should be easy, requires storing insane amount of data.
+
+So the second thing that we realized when we were looking at a lot of these tools, is that most of them focus on data. They focus on giving you the raw data. But I'm not a machine. I'm not a computer. I don't enjoy sifting through data. That's what computers are good for. I would rather be drinking a beer. It's really nice in Portland, this time of year.
+
+So, we wanted to think about, if you're trying to solve the performance problems in your application, what are the things that you would suss out with the existing tools after spending, like, four hours depleting your ego to get there?
+
+Y.K.: And I think part of this is just people are actually very, people like to think that they're gonna use these tools, but when the tools require you to dig through a lot of data, people just don't use them very much. So, the goal here was to build a tool that people actually use and actually like using, and not to build a tool that happens to provide a lot of data you can sift through.
+
+T.D.: Yes.
+
+So, probably the, one of the first things that we realized is that we don't want to provide. This is a trace of a request, you've probably seen similar UIs using other tools, using, for example, the inspector in, in like Chrome or Safari, and this is just showing basically, it's basically a visual stack trace of where your application is spending its time.
+
+But I think what was important for us is showing not just a single request, because your app handles, you know, hundreds of thousands of requests, or millions of requests. So looking at a single request statistically is complete, it's just noise.
+
+Y.K.: And it's especially bad if it's the worst request, because the worst request is, is really noise. It's like, a hiccup in the network, right.
+
+T.D.: It's the outlier. Yeah.
+
+Y.K.: It's literally the outlier.
+
+T.D.: It's literally the outlier. Yup. So, what we present in Skylight is something a little bit different, and it's something that we call the aggregate trace. So the aggregate trace is basically us taking all of your requests, averaging them out where each of these things spends their time, and then showing you that. So this is basically like, this is like, this is like the statue of David. It is the idealized form of the stack trace of how your application's behaving.
+
+But, of course, you have the same problem as before, which is, if this is all that we were showing you, it would be obscuring a lot of information. You want to actually be able to tell the difference between, OK, what's my stack trace look like for fast requests, and how does that differ from requests that are slower.
+
+So what we've got, I've got a little video here. You can see that when I move the slider, that this trace below it is actually updating in real time. As I move the slider around, you can see that the aggregate trace actually updates with it. And that's because we're collecting all this information. We're collecting, like I said, a lot of data. We can recompute this aggregate trace on the fly.
+
+Basically, for each bucket, we're storing a different trace, and then on the client we're reassembling that. We'll go into that a little bit.
+
+Y.K.: And I think it's really important that you be able to do these experiments quickly. If every time you think, oh, I wonder what happens if I add another histogram bucket, if it requires a whole full page refresh. Then that would basically make people not want to use the tool. Not able to use the tool. So, actually building something which is real time and fast, gets the data as it comes, was really important to us.
+
+T.D.: So that's number one.
+
+And the second thing. So we built that, and we're like, OK, well what's next? And I think that the big problem with this is that you need to know that there's a problem before you go look at it, right. So we have been working for the past few months, and the Storm infrastructure that we built makes it pretty straight-forward to start building more abstractions on top of the data that we've already collected.
+
+It's a very declarative system. So we've been working on a feature called inspections. And what's cool about inspections is that we can look at this tremendous volume of data that we've collected from your app, and we can automatically tease out what the problems are. So the first one that we shipped, this is in beta right now. It's not, it's not out and enabled by default, but there, it's behind a feature flag that we've had some users turning on.
+
+And, and trying out. And so what we can do in this case, is because we have information about all of the database queries in your app, we can look and see if you have n plus one queries. Can you maybe explain what an n plus one query is?
+
+Y.K.: Yeah. So, I'm, people know, hopefully, what n plus one queries. But the, it's the idea that you, by accident, for some reason, instead of making one query, you ask for like all the posts and then you iterated through all of them and got all the comments and now you, instead of having one query, you have one query per post, right. And you, what I've, what I've like to do is do eager reloading, where you say include comments, right. But you have to know that you have to do that.
+
+So there's some tools that will run in development mode, if you happen to catch it, like a bullet. This is basically a tool that's looking at every single one of your classes and has some thresholds that, once we see that a bunch of your requests have the same exact query, so we do some work to pull out binds. So if it's, like, where something equals one, we will automatically pull out the one and replace it with a question mark.
+
+And then we basically take all those queries, if they're the exact same query repeated multiple times, subject to some thresholds, we'll start showing you hey, there's an n plus one query.
+
+And you can imagine this same sort of thing being done for things, like, are you missing an index, right. Or, are you using the Ruby version of JSON when you should be using the native version of JSON. These are all things that we can start detecting just because we're consuming an enormous amount of information, and we can start writing some heuristics for bubbling it up.
+
+So, third and final breakthrough, we realized that we really, really needed a lightning fast UI. Something really responsive. So, in particular, the feedback loop is critical, right. You can imagine, if the way that you dug into data was you clicked and you wait an hour, and then you get your results, no one would do it. No one would ever do it.
+
+And the existing tools are OK, but you click and you wait. You look at it and you're like, oh, I want a different view, so then you go edit your query and then you click and you wait and it's just not a pleasant experience.
+
+So, so we use Ember, the, the UI that you're using when you log into Skylight. Even though it feels just like a regular website, it doesn't feel like a native app, is powered, all of the routing, all of the rendering, all of the decision making, is happening in, as an Ember.js app, and we pair that with D3. So all of the charts, the charts that you saw there in the aggregate trace, that is all Ember components powered by D3.
+
+So, this is actually significantly cleaned up our client-side code. It makes re-usability really, really awesome. So to give you an example, this is from our billing page that I, the designer came and they had, they had a component that was like, the gate component.
+
+And, the-
+
+T.D.: It seems really boring at first.
+
+Y.K.: It seemed really boring. But, this is the implementation, right. So you could copy and paste this code over and over again, everywhere you go. Just remember to format it correctly. If you forget to format it, it's not gonna look the same everywhere.
+
+But I was like, hey, we're using this all over the place. Why don't we bundle this up into a component? And so with Ember, it was super easy. We basically just said, OK, here's new calendar date component. It has a property on it called date. Just set that to any JavaScript data object. Just set, you don't have to remember about converting it or formatting it. Here's the component. Set the date and it will render the correct thing automatically.
+
+And, so the architecture of the Ember app looks a little bit, something like this, where you have many, many different components, most of them just driven by D3, and then they're plugged into the model and the controller.
+
+And the Ember app will go fetch those models from the cloud, and the cloud from the Java app, which just queries Cassandra, and render them. And what's neat about this model is turning on web sockets is super easy, right. Because all of these components are bound to a single place. So when the web socket says, hey, we have updated information for you to show, it just pushes it onto the model or onto the controller, and the whole UI updates automatically.
+
+It's like magic.
+
+And-
+
+Y.K.: Like magic.
+
+T.D.: It's like magic. And, and when debugging, this is especially awesome too, because, and I'll maybe show a demo of the Ember inspector. It's nice.
+
+So. Yeah. So, lightning fast UI. Reducing the feedback loop so that you can quickly play with your data, makes it go from a chore to something that actually feels kind of fun.
+
+So, these were the breakthroughs that we had when we were building Skylight. The things that made us think, yes, this is actually a product that we think deserves to be on the market. So, one, honest response times. Collect data that no one else can collect. Focus on answers instead of just dumping data, and have a lightning fast UI to do it.
+
+So we like to think of Skylight as basically a smart profiler. It's a smart profiler that runs in production. It's like the profiler that you run on your local development machine, but instead of being on your local dev box which has nothing to do with the performance characteristics of what your users are experience, we're actually running in production.
+
+So, let me just give you guys a quick demo.
+
+So, this is what the Skylight, this is what Skylight looks like. What's under this? There we go. So, the first thing here is we've got the app dash board. So this, it's like our, 95th responsile- 95th percentile response time has peaked. Maybe you're all hammering it right now. That would be nice.
+
+So, this is a graph of your response time over time, and then on the right, this is the graph of the RPMs, the requests per minute that your app is handling. So this is app-wide. And this is live. This updates every minute.
+
+Then down below, you have a list of the end points in your application. So you can see, actually, the top, the slowest ones for us were, we have an instrumentation API, and we've gone and instrumented our background workers. So we can see them here, and their response time plays in. So we can see that we have this reporting worker that's taking 95th percentile, thirteen seconds.
+
+Y.K.: So all that time used to be inside of some request somewhere, and we discovered that there was a lot of time being spent in things that we could push to the background. We probably need to update the agony index so that it doesn't make workers very high, because spending some time in your workers is not that big of a deal.
+
+T.D.: So, so then, if we dive into one of these, you can see that for this request, we've got the time explorer up above, and that shows a graph of response time at, again, 95th percentile, and you can, if you want to go back and look at historical data, you just drag it like this. And this has got a brush, so you can zoom in and out on different times.
+
+And every time you change the range, you can see that it's very responsive. It's never waiting for the server. But it is going back and fetching data from the server and then when the data comes back, you see the whole UI just updates. And we get that for free with Ember and D3.
+
+And then down below, as we discussed, you actually have a real histogram. And this histogram, in this case, is showing. So this is for fifty-seven requests. And if we click and drag, we could just move this. And you can see that the aggregate trace below updates in response to us dragging this. And if we want to look at the fastest quartile, we just click faster and we'll just choose that range on the histogram.
+
+Y.K.: I think it's the fastest load.
+
+T.D.: The fastest load. And then if you click on slower, you can see the slower requests. So this makes it really easy to compare and contrast. OK. Why are certain requests faster and why are certain requests slow?
+
+You can see the blue, these blue areas. This is Ruby code. So, right now it's not super granular. It would be nice if you could actually know what was going on here. But, it'll at least tell you where in your controller action this is happening, and then you can actually see which database queries are being executed, and what their duration is.
+
+And you can see that we actually extract the SQL and we denormalize it so we, so you, or, we normalize it so you can see exactly what those requests are even if the values are totally different between them.
+
+Y.K.: Yeah. So the real query, courtesy of Rails, not yet supporting bind extraction is like, where id equals one or, ten or whatever.
+
+T.D.: Yup. So that's pretty cool.
+
+Y.K.: So one, one other thing is, initially, we actually just showed the whole trace, but we discovered that, obviously when you show whole traces you have information that doesn't really matter that much. So we started off by, we've recently basically started to collapse things that don't matter so much so that you can basically expand or condense the trace.
+
+And we wanted to make it not, but you have to think about expanding or condensing individual areas, but just, you see what matters the most and then you can see trivial errors.
+
+T.D.: Yup. So, so that's the demo of Skylight. We'd really like it if you checked it out. There is one more thing I want to show you that is, like, really freaking cool. This is coming out of Tilde labs. Carl was like, has been hacking, he's been up until past midnight, getting almost no sleep for the past month trying to have this ready.
+
+I don't know how many of you know this, but Ruby 2 point 1 has a new, a, a stack sampling feature. So you can get really granular information about how your Ruby code is performing. So I want to show you, I just mentioned how it would be nice if we could get more information out of what your Ruby code is doing. And now we can do that.
+
+Basically, every few milliseconds, this code that Carl wrote is going into the, to the Ruby, into MRI, and it's taking a snap shot of the stack. And because this is built-in, it's very low-impact. It's not allocating any new memory. It's very little performance hit. Basically you wouldn't even notice it. And so every few milliseconds it's sampling, and we take that information and we send it up to our servers. So it's almost like you're running Ruby profiler on your local dev box, where you get extremely granular information about where your code is spending its time in Ruby, per method, per all of these things. But it's happening in production.
+
+So, this is, so this is a, we enabled it in staging. You can see that we've got some rendering bugs. It's still in beta.
+
+Y.K.: Yeah, and we haven't yet collapsed things that are not important-
+
+T.D.: Yes.
+
+Y.K.: -for this particular feature.
+
+T.D.: So we want to show, we want to hide things like, like framework code, obviously. But this gives you an incredibly, incredibly granular view of what your app is doing in production. And we think. This is a, an API that's built into, into Ruby 2.1.1. Because our agent is running so low-level, because we wrote it in Rust, we have the ability to do things like this, and Carl thinks that we may be able to actually back port this to older Rubies, too. So if you're not on Ruby 2.1, we think that we can actually bring this. But that's TPD.
+
+Y.K.: Yeah, I- so I think the cool thing about this, in general, is when you run a sampling- so this is a sampling profiler, right, we don't want to be burning every single thing that you do in your program with tracing, right. That would be very slow.
+
+So when you normally run a sampling profiler, you have to basically make a loop. You have to basically create a loop, run this code a million times and keep sampling it. Eventually we'll get enough samples to get the information. But it turns out that your production server is a loop. Your production server is serving tons and tons of requests. So, by simply tak- you know, taking a few microseconds out of every request and collecting a couple of samples, over time we can actually get this really high fidelity picture with basically no cost.
+
+And that's pretty mind-blowing. And this is the kind of stuff that we can start doing by really caring about, about both the user experience and the implementation and getting really scary about it. And I'm really, like, honestly this is a really exciting feature that really shows what we can do as we start building this out.
+
+T.D.: Once we've got that, once we've got that groundwork.
+
+So if you guys want to check it out, Skylight dot io, it's available today. It's no longer in private beta. Everyone can sign up. No invitation token necessary. And you can get a thirty-day free trial if you haven't started one already. So if you have any questions, please come see us right now, or we have a booth in the vendor hall. Thank you guys very much.

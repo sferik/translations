@@ -48,6 +48,22 @@
 
 [*You are Not an Impostor*](https://www.youtube.com/watch?v=l_Vqp1dPuPo)
 
+[*Workshop - Ruby Coding Dojo*](https://www.youtube.com/watch?v=d-Yc7XpELRg)
+
+[*Keynote: 10 Years!*](https://www.youtube.com/watch?v=9naDS3r4MbY)
+
+[*How to Build a Smart Profiler for Rails*](https://www.youtube.com/watch?v=pYaCcA07adI)
+
+[*Heroku 2014: A Year in Review*](https://www.youtube.com/watch?v=pu-ZWR8UISc)
+
+[*Rails as an SOA Client*](https://www.youtube.com/watch?v=CzF3g_JM1YQ)
+
+[*Panel Discussion: The Future of Rails Jobs*](https://www.youtube.com/watch?v=4OCnxb0CoUo)
+
+[*Panel: Teaching the Next Great Developers*](https://www.youtube.com/watch?v=dYkFnxUzc0I)
+
+[*Build the API First*](https://www.youtube.com/watch?v=xlZ1A-d5x5U)
+
 An Iterative Approach to Service-Oriented Architecture - https://www.youtube.com/watch?v=886iF1tNLZ4
 
 Unreasonable Estimates and Improbable Goals - https://www.youtube.com/watch?v=h6Q2dQZ6GlY

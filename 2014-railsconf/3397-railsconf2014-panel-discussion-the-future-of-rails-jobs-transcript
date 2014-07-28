@@ -1,0 +1,477 @@
+RailsConf 2014 - Panel Discussion: The Future of Rails Jobs by Obie Fernandez
+
+Panel: Allan grant, Chad Pytel, Jeff Casimir and Corey Haines
+
+OBIE FERNANDEZ: We're gonna have a lot of fun here, so I want to get started as soon as possible. Thank you all for finding us down here in this crypt. But, you know, it's really heartening to, to see a good crowd here.
+
+So, anyway. I'm gonna start by just briefly introducing myself. By name is Obie Fernandez. I'm known in the Rails community for writing The Rails Way and subsequent renditions of it. Rails 4 Way is out. It's a beta book. You can get it on LeanPub. And it's gonna be out in print within a week or two, so that's one of the big reasons I'm here. And I want to introduce the rest of my panel, starting with Allan Grant.
+
+ALLAN GRANT: Hi. My name is Allan Grant. I'm one of the co-founders of Hired, formally called Developer Auction. You might have seen us here last year. We're a pretty young company. We're about a year and a half old. It actually started out of my RailsConf trip to Austin three years ago, where I tried really hard to hire engineers to my previous start up and failed, and came back, and over drinks, this idea was born. And it was like, ah, I can hack this out in a week and let's see if it works. And here we are today.
+
+CHAD PYTEL: Hi. I'm Chad Pytel and I'm a developer and the CEO of ThoughtBot. We are, in case you're not familiar with us, we're the creators of factory_girl, should, paperclip, and we work with early-stage start ups building products.
+
+What? OK.
+
+And we, over the last two years, we've gone from nineteen people just in Boston - we're in our eleventh year - we've gone from nineteen people just in Boston and we're eighty-one people across eighty, eight offices now, in the world.
+
+OFF SCREEN: There are only two people in each office.
+
+C.P.: Yeah. Yeah. And, it's been a lot of fun growing, and we've obviously hired many Rails developers over those two years.
+
+JEFF CASIMIR: I'm Jeff Casimir. I have a company called JumpStart Labs that I started in 2009 to teach primarily Ruby and Rails programming. Since then I started a program in D.C. called Hungry Academy at Living Social. A program in Denver called GSchool, and most recently a training program called Turing, the Turing School of Software and Design.
+
+And, over the past two years, I have helped about seventy-two new developers find great jobs. So, I hope to share some of that today.
+
+COREY HAINES: Wow. I'm Corey Haines. I post pictures of cats on Twitter. I'm the CTO of a local company called View Points. That is a ratings and reviews site for consumer products. I know a lot of developers and I've worked with a lot of developers, sort of Rails developers, sort of on their code bases and stuff. Seen the sort of evolution of their skills and all of that over the last few years. I think that's why I'm here. Not the cats.
+
+Oh yeah. And I wrote a book. Obi said I could do that. Go look at Four Rules of Simple Design.
+
+O.F.: Thank you.
+
+C.P.: He'll mention it twelve more times.
+
+OFF SCREEN: Very interesting. Oh, look at that. Everyone loves it.
+
+O.F.: It's a good book. You should get it.
+
+Actually, I, I invited you because, well, we'll start out with the, with the red meat. Cause I'm that kind of panel moderator. How important is craftsmanship? I know that it, employers are, you know, can generally be all over the map, but Ruby started before it hit the mainstream. I think it was very, very important to practice TDD and, and pair programming and all this stuff. And how is that evolving, as, as we hit the mainstream? And, and you're welcome to start.
+
+C.H.: Well, I think if you have the benefit of a team of very experienced developers, then you can sort of stray from a lot of the established practices. And, as you gain more experience in, as a software developer, you start to be able to question, and be effective using different techniques. There's no one true way that is the best way. But there are a ton of really bad ways to develop software, and I think experience is about finding out what are those ways that are bad.
+
+And so, my opinion is that, especially at, when you're sort of beginner moving into intermediate - so, for me, that's usually up to about five or seven years of experience - you should sort of find a way that a lot of other people are effective doing, and do that until you're really good at that. And make sure, you know, it doesn't matter who, but if you, if you really grasp on to somebody who's very effective, really study how they do it and get good at that way, and then eventually you figure out, where are the corners and the holes?
+
+O.F.: So I'm gonna give the rest of the panel a chance to respond to that. While the, so, so here's the thing. You mention, you mention that, for the first five to seven years, but, Rails has, you know, everyone's talking about ten years. It's really, I don't know that a significant number of people started doing it until 2007, 2008, where we could really. And it's really not until the last few years it's really become a mainstream phenomenon, right.
+
+So, how does, does that change your perspective of his answer, any?
+
+C.P.: What's really important to me and my team, and what I think is the foundation of craftsmanship, is not that you are good or that you are the best, but that you are always trying to be better at what you do. And that defines a really high-functioning team of people and high-functioning developers who are crafts people.
+
+O.F.: What if you, what if you start out being really bad, though?
+
+C.P.: Well, if you don't have a team of support, people supporting you, then you should, you should seek out those people. But if you're just content to sit back and be poor at what you do, then you're not going to accomplish anything, and, and, you know, people aren't gonna wanna hire you, I think. Or, you wouldn't want to work at the place that would.
+
+O.F.: All right. So, question for, question for Allan. Given that there, there seems to be like a lot of Ruby jobs, and like, if you, if all of you guys get and go to the center of your pamphlet here, you see like an info-graphic that Hire provided. Seems like there's an extraordinary demand. Especially in San Francisco.
+
+How many people are poor programmers that are trying to cash in on, on, on the fad? Is it like the dot com era, all over again?
+
+A.G.: There are no poor programmers. Just programmers at the start of their careers. It's actually, it's an interesting question. And I want to kind of go back to the previous question for a second as well and kind of derail your question for a bit.
+
+O.F.: No, that's fine.
+
+A.G.: On craftsmanship, which is a word that I only know a little bit about. I aspire, but I wouldn't consider myself an expert, I feel like there is a cultural element, where different companies define it very differently. Like, one of the things we talked about was pairing, right. Now, there's companies that have very strong pairing cultures, and there's companies that have very strong, like, no pairing cultures and remote cultures. They still pride different types of craftsmanship. So, to some extent, it becomes a, you know, are you a fit, so to speak, for the environment that you're gonna be performing in?
+
+Now, different aspects of culture, what, you know, what you just mentioned as far as wanting to always be better and not, you know, not wanting to be selling your job, also cultural elements. I feel like they're much more universal. I don't think that there's a company that's like, I want to hire the, the developer that's stagnating. Like, that's, that's exactly what we're going after.
+
+But, I guess, before answering your question, you know, we see a variety of different candidates, and we curate the pool that actually participates in Hired. And so, to some extent, the people that are participating have already passed some sort of bar there.
+
+But, I'm kind of curious, as far as the audience, like, what brings people to, to this particular panel. Because I think that'll help us better understand, you know, what we should be talking about. Like, maybe, like, as a show of hands, like, how many people are here because you're, you're hiring Rails engineers and you really want to figure out how to, like, hire Rails engineers? Like, how many are here from the company side?
+
+OK. And then, how many are here because you're interested in sort of the future of jobs from, from your own perspective as an engineer? OK. So that's, that's the overwhelming majority. Cool. That's, that's good to know.
+
+C.P.: So then, why is there so much. If everyone here is looking for a job, then why are, is, there's apparently so much demand for Rails developers, and it's so hard to hire them.
+
+A.G.: Well. So, a better question, then, on that is, how many people that raised their hand that are here from the company side are currently employed? And how many, actually, how many are currently interested in job opportunities, that are not currently employed?
+
+O.F.: Yeah, but their boss might be in the audience.
+
+A.G.: Right. Right. So I, I don't think people are here because they have a hard time finding Rails jobs. I think it's just because, you know, what you said. Everybody wants to continue to keep learning and leveling up. What's the next step?
+
+C.H.: There's also the idea that, you know, right, today people aren't having jobs, and there's a lot of Rails jobs. But what is the-
+
+OFF SCREEN: Sorry.
+
+C.H.: What's the landscape look like, a year from now, two years from now, five years from now? You know, if, if all you know is Rails, or you enter the industry primarily through Rails, where are the places that you should be going? I don't know if this was a later question. But what should you be studying? Are you gonna be able to find a job in the future if all you know is Rails?
+
+O.F.: Thank you. Let's save that one for-
+
+C.H.: Later.
+
+O.F.: We got about a half an hour left.
+
+C.H.: OK.
+
+O.F.: Let's save that for the last quarter.
+
+C.H.: OK.
+
+O.F.: But. We. Here's another microphone.
+
+A.G.: I have a quick comment on that.
+
+O.F.: Sure.
+
+A.G.: While we're on that. It, it's actually kind of hard now to get a job doing just Rails, right. We had an engineer that started recently who is, you know, extremely smart. Passed all of our coding tests. Just stellar. Had no Rails experience. And after his first week, he was like, wow. I am really, really challenged. I'm like, why? And he says, well, I knew I'd have to learn Ruby, and that's cool. And I knew I'd have to learn Rails, and that's cool. But now I'm also having to learn CoffeeScript, because you use CoffeeScript instead of JavaScript, and I'm pretty good at JavaScript. I'm not an expert. And Angular. And Capybara and RSpec and all these different ecosystems. Like, it is a really, really rich ecosystem. And some of those ecosystems are Rails-specific, like the RSpec, Capybara. But some extend beyond that. So I feel like, even today, it's hard to just be a Rails developer.
+
+O.F.: Yeah, totally. I think that that's been one of the, the big barriers to, and, and, it's one of the things I scratch my head about. So maybe there's chance for Jeff to jump in. You are teaching, you're teaching people ostensibly to, to be hire-able as Rails devs, but to be a Rails dev, you have to know SQL, you need to know JavaScript, you need, you probably need to know some CSS, or at least understand the asset pipeline, which is really hard as a beginner.
+
+J.C.: It's really hard period.
+
+O.F.: You, you. Yeah. How the hell do you do that in nine weeks or, or, you know, five months or whatever it is that you do?
+
+J.C.: Yeah.
+
+O.F.: Starting from scratch?
+
+J.C.: I think the, the first problem is that it's really difficult to understand how many pieces there are now, right. Like, when I started writing Rails applications and you started writing Rails applications, it was like, download the Rails gem, generate an app, and like go. And now, it's like, you can't even just do that. You need V8 so the asset pipeline will do this, and you need all these header libraries so PostGres gem will build, and now we'll set up PostGres and like, good luck with that. And, it's just, there are so many pieces just to get going, where one of the central premises was, like, this is fast. This is full-stack. Like, everything's ready to go. We've kind of lost some of that, just from the physical set up of getting going. But then also mentally, you can't.
+
+When I learned Ruby, the question was, how little of this Ruby stuff do I need to know to build Rails applications, right? And I think-
+
+O.F.: Actually, let's refund that. I want each of you guys to, to answer this. How little of the Rails, you know, stack, the greater, let's call it the greater Rails stack, do you need to know to be hire-able? Like, to actually be productive for, for one of you guys?
+
+A.G.: Very little.
+
+C.H.: I would say very little, and I actually, when I do tutoring and stuff at the schools, is I tell them to stop learning JavaScript and stop learning all of the other stuff, because if you're, if you're sort of at the beginning of your career, and you join a place where you're expected to be proficient in all of that stuff, that's the wrong place. You're not going to be really effectively learning there.
+
+So, I tell them, learn a little bit more depth. Have a surface knowledge. But learn the Rails stack. Learn how to spin up a Rails app and build a, you know, just a raw html type of thing, and then when you find the job, hopefully there's people there, you're at a place where they know that already, and then they can bring you in.
+
+O.F.: Do the rest of you guys agree?
+
+C.P.: Yeah. Very much so. And I would encourage, I encourage people to be very upfront about what they do and don't know. But don't spin it like, I don't know these things so I can't do it. Spin it in the context of, here's what I've learned. And it's much more important to demonstrate that you can learn than it is that you know things now. And that's what we do every day. We learn new stuff. You know, from the smallest things to the biggest things. And being able to do that is being part of being a effective developer.
+
+A.G.: Yeah. And I would agree with that as well, based on what we've seen as far as hiring activity on the Hired platform. Specifically, like, how much Rails knowledge do employers look for? I think that, to mirror your point, it's very important to be accurate about it. So, you know, if you claim that you're a Rails expert, you're gonna get interviewed on, on deep Rails stuff. But I think the thing that employers care most about is that, do you know how to program? And it's language independent. And I think that it's actually more about Ruby than about Rails.
+
+Like, do you know how to write a loop. Like, one of the things that we've seen in our own interviews that, that actually happens more with Rails developers than, I would say, with the other kinds of developers, is not knowing how to like loop over an array of elements. Or not knowing how to loop, except for, like, you know, for each. So, then you're like, oh, I need the index. How do I get the index? For each with i. And then throwing, you know, that away.
+
+Those are the things that I feel like people stumble on moreso in interview, more so than Rails stuff. Like, I feel like people expect, like, you'll learn the Rails things on the job.
+
+O.F.: Are you guys seeing candidates that, you know, can't, can't write, and, you know, anything but a fundamental loop? I mean, back in the Java days, I had, I had a- everyone and their grandma was doing Java because it was so hot at a certain point, and I had a candidate, and the second question I asked them was, can you, can you tell me what an interface is? And he just absolutely could not tell me what an interface was. And I was like, what are we even doing here? Like, are, are you having that kind of experience?
+
+C.P.: So, at, at ThoughtBot, you know, full developers at ThoughtBot are experienced Rails developers. They've shipped multiple applications. They do test-driven development. You know, they're very good with. We don't have d- we don't have frontend developers, so they tend to-
+
+O.F.: Do, do you help your clients hire, as well, though?
+
+C.P.: Yeah. And we do. And, so, and what I tell them is that, you, if you're serious about hiring and building a team, you need to factor, you need to provide an environment of training and support. Because, you know, we, these people just didn't appear magically. Like, they don't just appear magically. And you are, you know, you're trying to hire two people. No one knows who you are. Like, it's gonna be very difficult to attract the kind of level of person that you're setting your standards to.
+
+O.F.: Is it-
+
+C.P.: And so-
+
+O.F.: So there's still, there's still ThoughtBot and Pivotal and HashRocket and other firms that attract top talent. What are the, it sounds like you just said that it's difficult for, for some of these start ups and smaller clients to actually attract let's say, quote on quote, top talent. Is that, is that a fair statement?
+
+C.P.: Yeah. I mean, that's what we see with people that we work with. You know. It's, not to say that it's not impossible, but th- those people have their choice of where they're going to work for. And so they are very choosy.
+
+O.F.: And what, what's it take to hire, you know, some of those people, and any of you can answer.
+
+J.C.: I think one of the things we see that doesn't work is salary. You know, although engineering salaries, developer salaries start off with a high floor, you won't find many developers, like, under 60k. It does top out relatively quickly, and that's something I try and warn our students of. Like, you don't find a lot of people who are doing full time programmer that are making over 200. And so, it's kind of like, you start quick and you ramp up and you're two years in and you're making 110, 120, 130, and then it starts petering out. Now, there's also, the flip side of that is, once you really get up above like a $100,000, the relative value of those dollars starts diminishing really quickly.
+
+And so I see, not infrequently, people turning down more money to do a project they're more interested in or work with a team they're more excited about. Which makes a ton of sense to us, but to business people, that's incredibly frustrating. Because they're like, no. I wanted that guy. Like, I will pay 20k more, and it's like, pay 50k more. It doesn't matter. Like, he's not coming. So. When I, so I do a lot of counseling to our students about picking a job- most of our students are fortunate to get between like two and five job offers, and if they really have a hard time choosing, I ask them to pick the job where there's a person responsible for them becoming the person they want to be.
+
+And so like, whose job is it to make the team awesome? And you, as an individual, awesome. The great Jim Weirich, that was one of his responsibilities at Neo. Like, he did not work on production code. He worked on making sure the team were learning and becoming the developers that they wanted to be.
+
+I think, I, I have this like, long talk/rant about why developers quit, and I think one of the reasons good companies lose good people is because doing the work isn't good enough to get you, to keep you growing. Like, just doing the work. You don't see, I hate sports analogies, but like, players can't just show up to the game to get better. Like, you have to practice. You have to have that learning and like, that mentoring built into the company, or else, after a little while, people are gonna leave.
+
+Because I get good enough at the job I'm doing, and then Corey's like, hey, we're selling clothes and trunks, and I'm like, yeah. Let's do it. You know, like, some new challenge I don't know about. Some area of growth for me.
+
+C.P.: Yeah I, I agree with, with that. especially the first part with salary not being, like, the primary consideration. We've seen this, actually, in data. So, when we start the company Hired, it was originally called Developer Auction. We quickly changed our name because it was a misnomer. We were saying, oh, you're putting people up for auction. It's all about the money. You know, do I have to go to the highest bidder? And it's like, no. It's not really an auction. All it means is that, you know, you get to see salary up front, and the companies that, you know, make you an offer see the other offers.
+
+That's the only part of it that's like an auction. But what we saw very early on is seventy percent of the time, the highest bidding offer is not the one that is, that gets rejected. You know, the candidates is not even interested to go and interview. I mean, there's, yeah. There's big companies in Chicago, not to name names, that have, you know, that have sometimes very, very aggressive offers, and, you know, people, a lot of times, may not be interested in moving to Chicago or working for that particular company.
+
+Now, the part-
+
+O.F.: Sorry. I wanted to see here what Corey, Corey had to say.
+
+C.H.: Oh. Just, I just really quick, I do advising for, like, start up founders looking for technical talent as well, and one of the things that I try to counsel them on is, there's a very good chance they don't need, you know, quote on quote, top talent. Like, you're building a CRUD app. You probably don't need this, like, fancy computer scientist. You can probably get away, especially at the beginning, with somebody who's, who knows how to build that sort of thing. And then counseling them on figuring out what the right technology is for that specific thing, and then you can get away with a, a mid-level experienced person, who's aggressive and really wants it, and is getting better and better.
+
+O.F.: So, so let's talk some numbers. What do you pay, what do you pay a mid-level experienced person that you just mentioned?
+
+A.G.: How many, how many years?
+
+C.H.: Where at?
+
+O.F.: So, you have a, you, in Chicago. In Chicago. Corey, you just described, you just kind of painted a picture of someone who can definitely do a CRUD app but is not a computer scientist. So, maybe DHH. How much do you say-
+
+C.H.: I wouldn't say that.
+
+O.F.: How do you say. See what I did there?
+
+C.H.: I don't have a, it depends on where at. Here in Chicago, I would probably, I would, probably, sixty, seventy.
+
+O.F.: Sixty or seventy.
+
+C.H.: I would think so.
+
+O.F.: Do you guys, do the rest of you guys agree with that?
+
+C.P.: It's a little, little higher than that.
+
+J.C.: Your answer would be higher.
+
+C.P.: Yeah, a little.
+
+J.C.: I would say, somebody who can like, effectively build a CRUD app.
+
+O.F.: Use the mic.
+
+J.C.: If you can effectively build a CRUD app, like, independently, I would say you're gonna be in like the 80, 80-90 range in like a normal market. Chicago or D.C. or whatever.
+
+O.F.: Sounds like Chicago's a shitty market.
+
+C.P.: There are different factors, though. So like, a start up company that's giving people, you know, an opportunity to work on something that they are, they, they, they actually care about, then you would be able to get people at, at you know, ten or twenty thousand dollars less than eighty or ninety, because you're gonna be able to make a compelling story. Let alone convince them to work for almost nothing for equity.
+
+C.H.: Yeah. I mean, from a numbers perspective, I don't give into that a lot with the people. So that's sort of like, what I would probably offer. So, probably no better on what the, the market is.
+
+O.F.: So, like, off in a galaxy far, far away known as San Francisco, in the valley, it's like completely different story, right. Like, what, what do you see in terms of numbers.
+
+A.G.: Yeah. I think it's very rare to see a number, like, below 100k for kind of a mid-tier, mid-tier even junior developer. I think, you know, we see, we actually see peoples' expectations get elevated, so we have a number that we ask for, which is how much are you looking to make, that we don't reveal to anybody. And we see a lot of the times people getting like, thirty, forty percent more than what they expect. Specifically when it's in the Bary area. Of course it's a very unique market. So 110 to 130 is sort of the range.
+
+C.P.: So that's not, that's not necessarily what we, we see-
+
+O.F.: For mid-tier.
+
+C.P.: -for, in, in, what we see now that we have offices in, you know, eight cities all over the world is, is sort of like, the same effect that it tops out pretty quickly. There's actually not that much range. And so, you get into situations where the, the difference in salary that you see in San Fransisco doesn't actually match the difference in cost of living. And, and you see people not making anywhere near that, because they have, you know, been convinced to work on a start up, or they really, at ThoughtBot, like, we make certain sacrifices in order to work the way that we do. And, and people want to, want to work at ThoughtBot because of that.
+
+O.F.: OK. I want to shift gears a little bit.
+
+A.G.: I had one point.
+
+O.F.: Sure. Two minutes.
+
+A.G.: Yeah. I want to add one point to your original question, which I think will actually be useful to people looking to hire. So, the question was, you know, if you want to give the top engineers, what, what makes the difference to them, and I think all the points were spot on. But one thing that, that I feel like is easy to change a lot of times is the interview process. It's crazy how many times we see great companies miss out on great candidates because, like, people are too busy to interview or something like that.
+
+They're like, oh yeah, sure, we'll talk to you next week, and the next meeting the week after that. Like, that is the one thing that every company can fix, that shoots a lot of companies in the foot.
+
+O.F.: So, given that most of the room here is not employers but employees, like, if you're on the other end of that situation, is there anything you can do about it?
+
+J.C.: Don't apply through the website. Or, if you do apply through the website, you have to find the person who's that, that website probably dumps into a box that somebody checks once a week or something like that. And, almost every student of ours that gets hired at a place, it's because we're able to introduce them to someone on the team, whether it's an engineer or senior engineer, VP of Technology, whatever it is, like, someone who's not in HR, that, can like, circumvent all those slow, slow processes.
+
+O.F.: OK. True, true or false and why. It's a dirty little secret of the industry that most of the great jobs are not gotten through recruiters and web sites and stuff like that.
+
+J.C.: All industries. Like, you advertise as a last resort, right. Like, you've already maxed out your friend network, anyone at your meetups that you knew, et cetera. And now it's like, OK, now we'll advertise and like, get some random people.
+
+O.F.: So you guys agree. OK.
+
+C.P.: Yeah. And, and, the meet ups, Ruby meet ups, Rails meet ups, are very, very important to not only finding a job but finding people. I can't stress that enough. That's where a lot of stuff happens. And it's not even just at the meet up but it's then going out afterwards and socializing with those people. Cause that's where, if you want a, if you have a company that you're passionate about working for, you really care about them and you think they might be the right fit for you, then seek, you know, not in a nefarious way, but seeking the people who work at that company and building a relationship with them is going to make it so much easier to actually get the interview or be persistent with them.
+
+C.H.: And really quick, on the flip-side of that, is going to a lot of meet ups and building your network of people around, that's also a great way to discover what jobs are out there. Cause, since they aren't posted, you might say, I really want to work at ThoughtBot, but there might be a place right down the street that turns out to be awesome and they happen to be growing, and you meet somebody at a meet up like that.
+
+J.C.: Can I throw in real quick?
+
+O.F.: Sure, real quick.
+
+J.C.: If you do apply to kind of a top-tier place, knowing somebody can be a way to stand out, but you can also find other ways, like we've had students that, they want to get to a place, I don't know people there, but we find one of their open source projects and like send them a pull request. We had a student get rejected from this company, I think it was called ThoughtBot, and in the, in the rejection email, the guy who rejected him had a PGP signature. And so the student replied back to him and said like, oh, thanks for your time. I'll, I'll apply again in the future. And encrypted it with the dude's PGP key, and then got interviewed and then got hired. So, it's like, when, when you're applying to a place that's getting like hundreds of applicants, when everyone else is getting no applicants, you have to find a way-
+
+O.F.: Find a way to stand out.
+
+J.C.: -to stand out.
+
+C.P.: And, and persistence is, is key, you know. We, so we have an apprentice program, and we have over four hundred people waiting to even get their application reviewed. And, and you know, the people who, unfortunately the people who really stand out are the people who get back to us, you know, every month or whatever, and they say, I am really interested in this. In this opportunity. And it makes a big difference.
+
+C.H.: And it's a well-established fact that if you include with your email at least one picture of a cute cat, it will get noticed.
+
+J.C.: At your, at your company.
+
+C.H.: At every company.
+
+J.C.: I want to throw one more piece on there. Sorry. We, another thing that I tell students is that companies who are hiring are hiring, and a lot of tech companies, it's very rare that it's like, we have these very defined roles of, we want two mid-level engineers or whatever. It's just like, we want to add people to the team. And if you find a company you're interested in, but they're advertising a job that is not the job you're a fit for, they're interested in hiring you too.
+
+Because, like, if they're hiring anybody, it shows that they have money and they're growing. And just, nobody advertises junior jobs. People don't really advertise that many mid-level jobs. Everybody advertises senior jobs.
+
+But you find a company that is hiring for senior people, and you consider yourself a mid-level or a junior person, apply anyway.
+
+O.F.: They, they might hire you anyway.
+
+So, I. Would you say that a strong Rails developer, you know, maybe five years experience, something like that, can easily find work as a freelancer for a $100 an hour? Just, consistent work.
+
+J.C.: I was billing $100 when I didn't know shit. So, yes.
+
+O.F.: OK. All right. So, so, maybe even $125, $150.
+
+J.C.: As a freelancer, I don't think you can bill under $100 an hour and, like, even cover your-
+
+O.F.: OK. So if you're working full time at those rates, that's equivalent to $2 or $300,000 a year. Who in their right mind would go work for an employer in that kind of market?
+
+C.P.: So, it's hard to actually bill enough hours to actually make it add up to that, and the act of getting to the point where you can bill that many hours is pretty difficult. And then you have to deal with that many customers or invoicing them and the headaches of contracts and all that stuff. So, there is, like, there are people in their right mind who just don't want to deal with all of that stuff, and would rather-
+
+O.F.: And it's worth $100,000 to them.
+
+C.P.: Yes.
+
+C.F.: I think freelancing is one of the worst jobs on Earth. Like, I would never, ever go back to freelancing, because it's all on you. There's like, no one ever shares the burden. No one, like, things, there are all these jobs that you're not qualified to do. You're now, like, reading, writing, editing contracts. You're doing accounts payable and receivable. And at first it's like, oh it's not so bad. It's so fun. I can wear my pajamas and stuff. And then, like, a year into it, you realize, like, there's this big entrepreneur myth, right, of like, start your own company. Be your own boss. It's amazing. And I'm sure it was the same for you when you guys were starting out. Like, when you're in charge, that means you worry all the time. Like, what's the pipeline? What, how full is the pipeline? OK. Now I'm, I know what I'm doing three days from now, that's cool, and then pretty soon you're like, shit, the pipeline should be like, two weeks. It should be two months. It should be six months out.
+
+Oh, maybe I'm not billing enough. Maybe I'm billing too much. This client, they're not paying on time. You send out net thirty invoices and they get paid in ninety days. And then  you're like, oh, and your friends are like, yeah, fire that client. And you're like, bitch I need the money. Like, I don't, I can't. I can't. Like. Oh, freelance.
+
+A.G.: And besides that it's like what, what about mentorship? Who are you gonna learn from? You know, are you gonna be your own mentor? And then what about the projects that, you know, never go anywhere? Like, I came from that world and, you know, had a consulting company for a number of years and the thing that kind of drove me, drove me crazy and eventually got me to do product despite, you know, a massive pay cut was never seeing projects launch. Like, working on something, I was like, you know, it doesn't go anywhere. And you're working on something else, like. What about, you know, that feeling of creating something that's really, really quality?
+
+O.F.: Corey? Anything? Any thoughts on that?
+
+C.H.: No. No thanks. I was thinking.
+
+O.F.: So, it seems like, OK. So, between, between hitting the mainstream hard, and the efforts of, of people like Jeff and, and other, and apprenticeship programs that some of the, the consulting shops, is there a possibility that over the course of the next couple of years we're gonna see a glut of, of talent on the market? And, and what, you know, what basis do you have for, for that? I mean, are we immune to like all, all the other, kind of, historical trends that happen in any sort of market?
+
+J.C.: I wouldn't take it that far. But, I worry of course, like, if we're training developers, we're gonna graduate over a hundred developers in 2015. And what point do you reach saturation? But the reality is, when you compare it to, like, Java developers, how many Java developers are coming out of college every year? It's tens of thousands. So, like, all the training programs all put together, it's not even a drop in the bucket.
+
+C.H.: I'm not as worried as much about a glut as much as a severe drop in skill level. As you start pushing beginners out like crazy, Dev BootCamp here puts out like twenty people every three weeks. And they are nine weeks in. They're absolute beginners. And-
+
+O.F.: And from what I understand, they're, they're graduating and making like 60k or more.
+
+C.H.: Yeah. I mean I don't honestly pay much attention to the money, cause I don't, I don't think that that's important. What I think is important is the fact that you start to see more rescue projects, and you start to see - there's, ideally, these people come out and they join a company that has a, either an apprenticeship program or a very heavy culture of mentoring and learning-
+
+O.F.: But there's only so many of those companies that have effective apprenticeship programs, right.
+
+C.H.: There's only so many. And they start working, you know, they need a job, so they go work at a company where they're sitting in a cube, cross-trained into another language, and basically just sit there writing bad code, because, and so. That's what I'm afraid of, more than a glut, where like, oh salaries go down or anything like that. It's just across the board, the general skill level is gonna go down, and then you're gonna start seeing projects failing. There's going to, you know. I know that there's more and more con, you know, sort of contracting companies that are, that consist of basically people out of schools.
+
+O.F.: Chad's not afraid of this trend because he does rescue.
+
+C.H.: I don't want that work.
+
+C.P.: No. We get. That's not what we exist on. That's not our primary business, and we don't want that either. Like, that would be really bad. I would be bad, not only for the, the industry, but Rails specifically.
+
+O.F.: But I mean, it seems, it really seems like these programs are popping up in every single city. They're, they're starting to come from overseas. I literally got an email two days ago from a program that's coming over from Spain and setting up shop in Miami. And there's, there's-
+
+C.P.: So.
+
+O.F.: -a new one in Atlanta now. I mean, it's, it's all over the place, so.
+
+C.P.: If, if the people can actually, if people are graduating from the programs and can actually do the work, then there's really, there's not an issue. Because there's more than enough jobs. So, you know, there's, we're just nowhere near how many jobs there is or will be. And so, the, the bigger concern would be that those people are actually not able to effectively do a good job.
+
+And-
+
+O.F.: Is it self-regulating, you think?
+
+J.C.: Well. I don't think it's self-regulating. I think there's a lot of responsibility on what I consider, like, our generation of developers that got into this community in 2005 to 2009 who, at the time, were developers, and are now VPs of Engineering and CTOs and CEOs and so-forth, and there's the pressure on us, like, we know that apprenticeship works if you do it well, right. And, like, we know how to build the teams we would have wanted to be on as junior developers.
+
+And, the question is like, will we follow through? There, there are, you know, apprentice.io is of course a great example of like companies that are doing it right, and bringing through people. You get higher attention, you get high loyalty, and there's so many benefits to it. But you have to be willing to make a three year play, a five year play. That it's not the most profitable thing for the next six months. And that's where I think everyone outside of San Fransisco has a big advantage. Like, we see if you're in Denver, for instance, where we are, like, there isn't the focus of get out. Get out. Right. Like, get in and get out. Get out with your equity and get out with your hopefully millions of dollars and so forth.
+
+It's more of, we're building a company for five years. We're building a company for twenty years. So it's worth the investment. Like, we want these people to be around in five years.
+
+F.O.: We want, we're coming up on five minutes. Anyone have any burning questions they want us to discuss or broach?
+
+AUDIENCE: Hi. I'm a, what you call a mid-level developer, and one of my experiences with Rails has been, like, you know, personal conflicts and not so much in the actual work place. So, how can I get employers to see my potential? Because [indecipherable]
+
+F.O.: OK. So the question is, mid-level developer, a lot of his experience is just personal projects. How do you get an employer to, to recognize that?
+
+J.C.: I think you have a great privilege in programming, almost unique across any field, any professional field, that you can demonstrate your skill very quickly. And if you can get a few minutes with somebody, I can, I can sit down with somebody in half an hour and tell you how good a developer they are. Like, pretty accurately. And so, how can you get them to see your code, right? The obvious answer is like open source work. I think a lot of people are intimidated by open source, that getting into projects is too hard and all that. You could just publish your own projects. We have a-
+
+O.F.: OK. So the answer is you, you know, GitHub. Get them to see your stuff.
+
+C.P.: So if you're wondering how to, you say, I can't, I don't even get the opportunity to come in and sit down. Don't do it under the context of an interview then. Contact the company and say, hey, can I come in and, like, pair with one of your developers for, for a day, or a couple hours? And, you'd be surprised at the companies that'd say yeah, that's great. We'd love to have you come join us.
+
+O.F.: Actually in a, if I can plug an old blog post of mine, one of the ways to hire senior people sometimes, even if they're working for someone else at the time is, tell them, hey, can I get you to come in and just consult for a few hours or maybe a day? And, and give them, like, a high rate for doing so. Like maybe a thousand bucks or something. And, if you start making that a habit, before you know it, you've, you've hired a senior person.
+
+We had another question in the room.
+
+AUDIENCE: [indecipherable]
+
+O.F.: So the question is how do, how do self-starters, people who are self-taught, who have a mentality of continued learning, compare to people who are coming out of programs where there was more of a curriculum and, and they were kind of, you know, were force-fed a, a certain way of doing things?
+
+C.P.: We've seen people out of all different kinds of programs and, and the people who get into the programs, largely, have the same drive and, and everything, as anybody else. And the programs aren't so structured, where you know, it's mostly just building applications and pair programming with people and, and doing programming. So that's not, it's not, like, going to school in the same traditional sense.
+
+O.F.: Can you, can I get a show of hands from people that pair program every day? Well, someone said used to. How many of you used to pair program every day and don't anymore? OK, well that's not necessarily. Is pair programming a big part of the future Ruby jobs?
+
+C.P.: No. I don't think so.
+
+J.C.: I think diversity is important. Like, there's some people that love pairing and some people that hate it, and I think both opinions are totally valid, so.
+
+C.P.: Right. I agree. But I, I just-
+
+O.F.: But you don't-
+
+C.P.: It's not a big part.
+
+O.F.: But you don't let anyone pair program at ThoughtBot.
+
+C.P.: No. No, we're the oppo- so, people pair program whenever they, whenever they want.
+
+O.F.: OK.
+
+C.H.: I think the future is understanding the benefits of pairing, in different situations, like senior-junior, peers, and applying it when it's appropriate. There are places like Pivotal that do it a hundred percent of the time and are very effective at it. There's places that don't ever do it and are still very effective. But, if you can really understand it and not look at it as, what we have to pair, because Corey said so, and instead look at it as what you get out of it, then you can find those situations and not have to say we do it all the time or we don't do it. 
+
+I would be surprised if there was any company that never paired. Because, if you don't have a situation where you go, oh, I can't figure this out. Hey, can you come over here and help me figure this out? Which is pairing, I would probably think that's not a great place to be.
+
+O.F.: OK. So, final kind of future-facing question. Are we. As a community right now, are we Java, like in 98 or 99 or, you know 2003, 2004, where, still a lot of growth left, you know. A lot of excitement, a lot of growth left. Or, you know, is something gonna disrupt this in the next couple years? I mean, obviously I'm asking you to predict a little bit. But, you know, what do you think, is it Go or JavaScript or something?
+
+A.G.: I think based on what we're seeing on our platform, there's a lot of growth left. And the reason I say that is because I, I mean, we're seeing the, the early stage start ups, a lot of the times, series A, series B funded, that are growing their early teams. And they're making investments in Rails, and that's not going away. And those things are gonna take years to unfold. I mean, but, you know, we'll see what happens. But I think that based on the number of companies that are just now starting to adopt Rails in a really big way, I think we're still in the early days.
+
+C.P.: So, I think you're absolutely right, in terms of the, the growth. I think that there, I don't think the thing that's going to attract people to switch away from Rails, especially experienced Rails developers to switch away from Rails really exists yet. Where it's gonna happen in, in large numbers. But I think that, we are on the sort of cusp of something potentially coming along that does that.
+
+I, I see people at ThoughtBot, myself, and people just in our community who are very, very interested in other things and are actively seeking them out.
+
+O.F.: And do you attribute that to maybe just being burnt out a little bit on, you know, we're approaching ten years for the oldest members of this community, you know. Are we just kind of ready for something fresh? Or-
+
+C.P.: I think that's part of it.
+
+O.F.: -or is it more of a bubble?
+
+C.P.: I think that's part of it. I think that it's, Ruby, Rails. I think it's the leader of our community getting up on a stage and telling seventy percent of the audience that they're doing something wrong year after year might wear on people a little bit.
+
+So, all those factors combined, you know, cause people to look for other things.
+
+C.H.: I, I think that Java's the wrong analogy. I think we're actually the PHP. And, and I don't mean that in a negative way.
+
+O.F.: It's hard to imagine.
+
+C.H.: So, so if you look at what PHP does, is it allows people with very little experience to write an application, get it up there, have it running, moreso than Java. Like, spin up a new Java web app as a new person. But spinning up a new Rails app, getting your idea out there, you end up, often times, with very poorly-written systems and difficult to maintain systems, which we already see in Rails.
+
+But what it is is it's giving people the power put their idea out there. And it doesn't, you know, it's not exactly conducive for building really long-term maintainable applications, if you use the standard set of ways of developing it, and you are not a highly-experienced developer.
+
+And, but the beauty of PHP was that you can just load up PH- you know, install PHP and have a website running. That's fan- that's an amazing amount of power, and when you talk to people who are just starting programming, like, the thing I tell them is, you wake up in the morning, and at the end of the day, you've created something that was not there yesterday. And that is beautiful and an amazing type of thing. And Rails, you're able to do more in a more effective way than you are with raw PHP.
+
+So, I think what we're seeing is Rails going into its, what I think is its natural state, which is taking the problems and the frustrations with PHP, layering on these sort of productivity enhancers, and then putting it back into the hands of the people to be even more productive than they are.
+
+O.F.: If you look around you at a, at a conference like this, or at your local user-group, it's really just the tippy-top of the ice burg, right, in terms of the people who are doing Rails at this point. I mean, it used to be that you, you know, you went to RailsConf, you were with, like, a significant portion of the world wide population, you know, when we first started out.
+
+Nowadays what do you, what do you think that, that you're seeing in a conference like this? You know?
+
+J.C.: Like, percentage?
+
+O.F.: You know what I'm saying?
+
+J.C.: I agree with you. I mean, just. It's a self-selecting group, right. So it is the people who are most engaged with what they're doing. If I can add onto the previous question real quick.
+
+O.F.: Go for it.
+
+J.C.: OK.
+
+O.F.: We're gonna go over time because I don't care.
+
+J.C.: The thing I, the thing I fear most is becoming a guy that I met, and I was talking to him about Rails, and he said, oh, I use wheels. And I said, what's that? Have you ever heard of this?
+
+O.F.: No.
+
+J.C.: And he said, oh, it's, it's Rails, but it's implemented in Cold Fushion. And I said like, holy shit. Like, this is delusional, that you're like, trying to perpetuate this technology that's dead. And so whenever I see people in Ruby rebuilding stuff that already exists in JavaScript or already exists in Elixir, I'm like. Oh shit. It's Wheels. Like, we're Wheels. And that's the thing that I worry about, is like, if we are too stuck in our little world that we'll lose the perspective of like, what's really happening.
+
+I think that Ruby and, and the Ruby generation are probably the last great programming communities, not because something is-
+
+O.F.: Like in the end of history kind of way?
+
+J.C.: Yeah. Like, I, because it's-
+
+O.F.: Wow.
+
+J.C.: -too easy now to get started. It's too easy to like bootstrap a community and a application framework and all those kind of things. And I think, from now on, we'll only have, like, micro communities.
+
+O.F.: So we're like bit coin and everything else is like Doje.
+
+J.C.: Well. Not, not so unevenly. But, you know, when I think you look at, like, Clojure. Great, small community. People that love doing Clojure. It's never gonna have this like, rocket to the top. Elixir. Not gonna happen. Go. It's, I just don't believe that there - there are too many good options.
+
+O.F.: People said that about Java.
+
+J.C.: Well, Java had the marketing machine, right. Like, you tie in the colleges and the AP tests and now you create this pipeline of developers, and I, I just don't think there will ever be that concentration again in one place.
+
+O.F.: What does the rest of the panel think?
+
+C.H.: Yeah, I agree with that.
+
+C.P.: I think I disagree with that to a certain extent because, when you look at Clojure, like, it's a language that is very good at solving specific problems. So it's not going to get to a general audience in the same way that, that Ruby did.
+
+A.G.: I gotta disagree with you, too. It sounds like a recipe for getting blind-sided by whatever comes next, you know.
+
+C.H.: Let me make one thing is that, I think it's important to realize that, as I understand it, he's talking, you're gonna have a lot of these micro communities that build up. And it's not to say that it's going to be only a hundred people and, forgive me if I misunderstood you, but it's not that there's a hundred people. But you're not necessarily going to get this massive group of people who all come together and all of that. You can have these small, and you already see it in the Ruby and Rails community, where you're starting to see them splinter off into these small-
+
+C.J.: And people like identify as Rubyists, but also participate in micro-communities, right. So, like, what percentage of Go programmers only program in Go? Probably almost zero, right. They have some other, like, home that they came from, and now dive into those micro communities. And I think if you don't pay attention to those, that is how you get blind-sided. Like, you do need to be participating in Elixir and JavaScript and like, it doesn't matter which other thing you try, as long as you have some outside perspective and some outside connection.
+
+C.P.: I think it's very likely that there will be, eventually. I mean, we're, what, working, like, it was only ten years ago where like, Java was this huge thing. Like, you know, I think it's very likely that in ten, twenty, thir- at some point, it's very likely that there's a new language or something becomes very popular that lots and lots of people will use.
+
+A.G.: Yeah, I-
+
+C.P.: I think it's too short, like, the end of time. To the end of time, never have anything else?
+
+O.F.: You realize that's this year.
+
+A.G.: And I think that the point that Jeff made was about the acceleration of adoption, and that point has been made about a lot of different things. Social networks, about a lot of things. Like, this is the last one, because nothing's gonna grow as fast. But what we've seen with everything is that adoption gets faster, and that doesn't lead to more clustering of community. It leads to a point where, when something fundamentally has more value than anything that's come before it, that it will take the world by storm at a much faster rate. So I-
+
+OFF SCREEN: And then Facebook will buy them.
+
+C.P.: That thing's gonna be PHP, by the way. It's gonna wrap back around.
+
+O.F.: It's gonna be Foobie. All right. Well. I want to thank, I want to thank, I want to thank my panel. Thank you guys for providing entertainment. Hopefully some value to all of you here.

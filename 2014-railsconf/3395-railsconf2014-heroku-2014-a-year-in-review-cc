@@ -1,0 +1,1806 @@
+RailsConf 2014 - Heroku 2014: A Year in Review - Terrance Lee & Richard Schneeman
+
+RICHARD SCHNEEMAN: All right. OK. Hello everyone.
+
+AUDIENCE: Hello.
+
+R.S.: Thank you. Thank you. Welcome to, welcome, let
+
+me be the first to welcome you to RailsConf.
+
+So, our, our talk today is Heroku 2014: A
+
+Year in Review. It is gonna be a play
+
+in six acts, featuring Terrance Lee and Richard Schneeman.
+
+So, of course this is a year in review,
+
+and Heroku does measure their years by RailsConf. So
+
+this is from Portland to Chicago RailsConf year. The
+
+Standard RailsConf Year.
+
+As, as some of you might know, we are
+
+on the Ruby Task Force, and, in fact, that
+
+makes us Ruby Task Force members. And, of course,
+
+this was a big year. We're gonna be talking
+
+a little bit about app performance, some Heroku features,
+
+and community features. So, first up to the stage,
+
+I'm gonna be introducing the one, the only Mister
+
+Terrance Lee. You might have recognized him in some
+
+other roles. He hails from Austin, Texas, which has,
+
+undoubtedly, the best tacos in the entire world. So,
+
+he-
+
+AUDIENCE: [indecipherable]
+
+R.S.: Them's fightin' words, friend. So that he, he's
+
+also sometimes known as the Chief Taco Officer. Or,
+
+or the CTO. And something, something very interesting about
+
+Terrance is, recently, he was inducted into Ruby Core,
+
+so congratulations to, to Terrance. All right.
+
+So, without further ado, Act 1: Deploy Speed.
+
+TERRANCE LEE: Thank you, Richard. So, at the beginning
+
+of the year Rails Standard Year, we focused a
+
+lot on deployment speed. We got a lot of
+
+feedback and realized deployment was not as fast as
+
+it could be. And we wanted to make it
+
+faster. So, the first thing we set out to
+
+do was to actually do a bunch of measurement
+
+and profiling to look at where things were slow,
+
+and how we could make it better, and to
+
+kind of gage, like, the before and after and
+
+know when the good points were to kind of
+
+stop and move on to other things. Cause you
+
+can never make, you can never, you will never
+
+be done with, like, performance improvements.
+
+So, after about six months of work on this,
+
+we managed to cut down the deploy speeds for,
+
+across the platform for Ruby by about forty percent.
+
+So it's a pretty decent speed improvement. And, in
+
+order to do this, we mainly looked at three
+
+various ways to speed this up.
+
+The first thing was running code in parallel, so
+
+running more things, running things, like, more than one
+
+thing at one time. If you cache stuff you
+
+don't have to do it again, and, in general,
+
+just like, cutting out code that doesn't need to
+
+be there.
+
+So, with the parallel code, we worked with the
+
+bundler team on Bundler 1.5. There was a pull
+
+request sent by CookPad that was sent in to
+
+add parallel bundler install for Bundler 1.5. So if
+
+you actually aren't using this yet, I would recommend
+
+upgrading your bundle to at least Bundler 1.5. And
+
+the bundler added this dash j option, which allows
+
+you to specify the number of jobs to run.
+
+And this is, basically, if you're using MRI, it
+
+forks and does a num, these number of sub-processes,
+
+and if you're on JRuby or Rubinius it actually
+
+just uses threads here.
+
+And the benefit of doing this is, when you
+
+actually do bundle install, the dependencies that get installed
+
+get downloaded in parallel, so you're not waiting on
+
+network traffic sequentially anymore, and in addition you're also
+
+install gems in parallel. And this is mostly beneficial,
+
+especially when you're running native extensions. So if you
+
+have something like Nokogiri, that takes a long time.
+
+Oftentimes, you notice, you just like hang and wait
+
+for it to install and then it installs the
+
+next thing, so this allows you to install that,
+
+basically, in the background and then go and install
+
+other gems at the same time.
+
+Also, in Bundler 1.5, Richard actually added this function
+
+that allows people, allows bundler to auto-retry failed commands,
+
+so initially, before this, we would, when we run
+
+bundle install and something would fail because of some
+
+odd network timeout, like during one chance, you would
+
+have to basically repush again, no matter where you
+
+were in the build process. So, by default now,
+
+Bundler actually will retry clones and gem installs for
+
+up to three times by default.
+
+So, it will continue going during the deploy process.
+
+And so is anyone here actually familiar with the
+
+PIGz command? So, just Richard? So, PIGz is Parallel
+
+Gzip, and the build and packaging team at Heroku
+
+worked on this feature, or worked on implementing this
+
+at Heroku using the PIGz command, and in order
+
+to understand the kind of benefit of using something
+
+like this, when you push an app up on
+
+Heroku during the compile process, it actually builds these
+
+things at Heroku that are called slugs. And basically
+
+it's just, like, a tar of your app directory
+
+of everything after the compile face is run.
+
+And, originally, we were just using SquashFS, initially, and
+
+then we moved to kind of just tar files,
+
+and we noticed that one of the slowest point
+
+in the actual build process was actually just going
+
+through and compressing everything in that, that file directory,
+
+and then pushing it up onto S3 after that
+
+was done. And so one of the things that
+
+we looked into was, is there a way we
+
+can make that faster? So, if you ever push
+
+a Heroku app and then you basically, like, wait
+
+when it says, like, compressing and then it goes
+
+to done, like that's the compressing of the actual
+
+slug.
+
+And we managed to use slug, PIGz to now
+
+improve that by sniffing them out. I don't remember
+
+the actual performance improvement, but it was pretty significant,
+
+and the only downside was in certain slugs, the
+
+slug sizes are a little bit bigger. But the
+
+performance trade off was worth it at that time.
+
+The next thing we started doing was looking into
+
+caching. So anyone here using Rails 4? So pretty
+
+good amount of the room. So the one thing
+
+is that we did which differ from Rails 3,
+
+thanks to a bunch of the work that's happened
+
+on the Rails Core team with us is that,
+
+we can now cache assets between deploys. This wasn't
+
+possible in Rails 3 because the cache was, you
+
+couldn't actually reuse the cache. There was times when
+
+the cache would basically be corrupted and then you
+
+would get, like, assets that wouldn't work between deploys.
+
+So the fix there was you actually have to
+
+remove the assets between each deploy in some Rails
+
+3 builds. But it wasn't consistent, so sometimes it
+
+would work and sometimes it didn't. And on Heroku
+
+that's not something we can rely on in an
+
+automated fashion.
+
+But luckily a lot of that stuff has been
+
+fixed for Rails 4, so now we cache assets
+
+between deploys in Rails 4. And so if we
+
+look at Rails 3, I guess this got cut
+
+off, but this is supposed to say about, like,
+
+thirty-two seconds for a Rails 3 deploy, and then
+
+on Rails 4 it got, for the average we,
+
+we measured the steps in the, in the build
+
+process, and on Rails 4, the perk fifty was
+
+about fourteen point something seconds. So a pretty significant
+
+speed improvement there, both due to caching and other
+
+improvements inside of Rails 4 for the asset pipeline.
+
+So the other thing we also looked at was
+
+just, if there's code that is doing extra work,
+
+if we remove that, it will speed up the
+
+build process for everyone who's deploying every day. So
+
+one of the first things that we did was
+
+actually stop downloading bundler more than once. So, initially,
+
+when you, when we do the Ruby version detection,
+
+we actually have to download bundler, and then basically
+
+run that to get the version of Ruby to
+
+install on the application. And then again, we would
+
+then download and install it again because it was
+
+run in a separate process for the actual, like,
+
+installing of your dependencies. And one of the things
+
+we did was to actually just stop doing that
+
+and we would cache the Bundler gem so we
+
+don't have to download that two or three times
+
+during the build process. So, so cutting network IO
+
+and other things.
+
+We also started removing, there was like duplicate checks
+
+between detection of what kind of app you were
+
+using so, and, bin detects. We would use it
+
+to figure out what kind of app you have,
+
+like if it was a Ruby app, a Rack
+
+app, a Rails 3 app, a Rails 4 app,
+
+stuff like that. And then, again, since it was
+
+a separate process in bin compile, we would have
+
+to do it again. So, Richard actually did a
+
+bunch of work to refactor both detect and release,
+
+and so now detect is super simple. It literally
+
+just checks if you have the gemfile file there,
+
+and then all the other work is now deferred
+
+to bin compile. So that means we're only doing
+
+a bunch of these checks once, like examine your
+
+jump file, checking what gems you have. So not
+
+doing that two or more times.
+
+And, if you haven't watched this talk, he gave
+
+this talk at Ancient City Ruby. I don't actually
+
+know if the videos are quite up yet. But
+
+Richard does a talk about testing the untestable, so
+
+if you're interested in learning how we test the
+
+build pack, you should go watch this talk.
+
+So I'd like to introduce Richard, cause he's gonna
+
+present on the next section. So Richard loves Ruby
+
+so much that he got married to her. I
+
+think he got married last, last year.
+
+R.S.: Right before our last RailsConf.
+
+T.L.: Yeah. Right before our last RailsConf. I remember
+
+that. He's also on the Rails Issue Team, and
+
+he's one of the top one hundred Rails contributors,
+
+according to the Rails contributor sites. And you might
+
+also know him for his, this gem called sextant
+
+that he released for Rails 3. Basically, I remember
+
+back in the day, developing Rails apps, when I
+
+wanted to basically verify routes, I would run the
+
+rake routes command, and it would, you know, boot
+
+up the Rails environment and you'd have to wait
+
+a few seconds and then they would print out
+
+all the routes. And then if you wanted to,
+
+like, rerun it using grep, you would keep running
+
+it again.
+
+So, a lot of us, when we're doing development,
+
+already have, like, Rails running in a server while
+
+we're testing things and whatnot. And so what sextant
+
+does is it allows it, supports basically looking at
+
+the routes that are already in memory and just
+
+allowing you to query against the programmatically, and then
+
+that has a view for doing this. And this
+
+was also just merged into Rails 4. So if
+
+you're using Rails 4 or higher, you actually don't
+
+need to sextant gem and it's now built in.
+
+Richard and I both live in Austin, and so
+
+when people come visit, or actually when I'm in
+
+town, which isn't often, we have Ruby meet ups
+
+at Franklin's Barbecue, so if you guys are ever
+
+in town, let us know and we'd be more
+
+than happy to take you to a meet up.
+
+R.S.: All right. So the, for the first part
+
+of this, this act, we're gonna be talking about
+
+app speed, but before we talk about app speed,
+
+we're actually gonna talk about dimensions. So, the, the
+
+document dimensions are, let me see. Here we go.
+
+Were originally written in wide-screen, but the screens here
+
+are standard.
+
+There we go. So. You're actually gonna get to
+
+see all of the slides, as opposed to just
+
+having some of them cut off. So, OK.
+
+On, on app speed. The first thing I want
+
+to talk about is, is tail latencies. Is anybody
+
+familiar with tail latencies? OK. The guys in the
+
+Heroku t-shirts and somebody else.
+
+OK. So this is, this is a normalized distribution.
+
+WE have, on one side, the number of requests.
+
+On the, on the other side, we have the
+
+time to respond. So the further out you go,
+
+the slower it's gonna be. And we can, we
+
+can see this is the distribution of our requests.
+
+So over here, it's super fast. Like you love
+
+to be that customer. You're super happy.
+
+Over here, we have a super slow request, and
+
+you don't want to be that customer and you're
+
+pretty unhappy. So right in the middle is our
+
+average, and I'm sure they talked a ton about
+
+why the average is really misleading in the, in
+
+the last session with Skylight.IO. But, but we're basically
+
+saying that, roughly fifty percent of your, of your
+
+customers, fifty percent of your traffic, is going to
+
+get a response time at this or, or lower.
+
+So, like, this is, this is pretty decent. We
+
+can say, like, fifty percent of the people who
+
+come to our web site get a response before
+
+then. Moving up the distribution, to something like perk
+
+ninety-five, we say ninety-five percent of everyone who visits
+
+our traffic will get a response by now. So
+
+I'm gonna be using those terms, perk fifty, perk
+
+ninety-five, that refers to the percentage of, of requests
+
+that come in that we can respond by.
+
+So this is kind of theorized. This is an
+
+actual application. I, and one thing that you'll notice
+
+is that it's not perfectly normalized. Like, it's not,
+
+like both sides are not symmetrical. We kind of
+
+like, steeply shoot up, and then we have this
+
+really, really long tail, and, and this is kind
+
+of the, what I'm referring to when I'm saying
+
+tail latencies.
+
+So, yes, somebody actually might have gotten a response
+
+in zero milliseconds. You know, I doubt it, but
+
+somebody for sure did get a response in 3000
+
+milliseconds, and that's a really long time to wait
+
+for your request to actually come in and, and
+
+get finished. So even though somebody is getting really
+
+fast responses, and your average isn't bad - your
+
+average is under 250 milliseconds - one customer might
+
+be getting a really slow response and a really
+
+fast response, and, and the net is a bad
+
+experience.
+
+So, the net, it, it just, it's a very
+
+inconsistent experience. So whenever we're talking about application speed,
+
+we have to consider individual request speed and average,
+
+but also consistency. How consistent is each request?
+
+So, how do, how do we do this? What?
+
+How can we, how can we help with this?
+
+Well, one of the things that we launched this
+
+year was PX dynos. So a PX dyno -
+
+a typical dyno only has 512 megabytes of RAM.
+
+It's a shared infrastructure. A PX Dyna has six
+
+gigabytes of RAM and eight CPU cores, which is
+
+a little, a little nicer, a little better, a
+
+little bit more room to play.
+
+And, and it's also real hardware. So, or, it's,
+
+it's not on the same shared infrastructure. So you
+
+can, you can scale with Dynos, you, you can
+
+also scale inside of Dynos. And that's kind of
+
+two, two important parts that we're gonna, gonna have
+
+to cover. So, of course, whenever you have more
+
+requests that you can possibly process, you want to
+
+scale up and say, I'm gonna have more Dynos.
+
+But what happens if, if you're not making the
+
+best use of everything inside of your dyno? Previously
+
+with 512 megabytes of RAM, you could just, you
+
+know, throw a couple Unicorn workers in there and
+
+you're like, oh, I'm probably using most of this.
+
+Like, if you put two unicorn workers in a
+
+PX Dyno, you're not making the most use of
+
+it all.
+
+So, recently, I am super in love with, with
+
+Puma. Evan, this is Evan Phoenix's web server that
+
+was originally written at, to kind of show case
+
+Rubinius. Guess what? It's really nice with MRI as
+
+well. Recently we've gotten some Puma docs, and so
+
+I'm gonna talk about Puma for just, for just
+
+a little bit.
+
+So, if you're, if you're not familiar. I was
+
+totally off on the formatting. So, Puma handles requests
+
+by running multiple processes, or by multiple threads. And
+
+it can actually run in something called a hybrid
+
+mode, where each process has multiple threads. We, we
+
+recommend this, or I recommend this. E- if one
+
+of your processes crash, it doesn't crash your entire
+
+web server. It's kind of nice.
+
+And so the multiple processes is something that we're
+
+pretty familiar with. As Rubyists, we're familiar with forking
+
+processes. We're familiar with Unicorn. But the, the, the
+
+multiple threads is a little bit different.
+
+Even with MRI, even with a, something like a
+
+global interpreter lock, you are still doing enough IO,
+
+you're still hitting your database frequently enough, maybe making
+
+API calls to like, Facebook or GitHub status, being
+
+like, hey, are you still up?
+
+And, and this will give our threads time to
+
+kind of jump around and allow others to do
+
+work. So you, you can get quite an extra
+
+bit of performance with, there.
+
+So, we're actually gonna be using Puma to scale
+
+up inside of our Dynos. So once we give
+
+you that eight gigs of RAM, we want to
+
+make sure that, that you can, you can, you
+
+can make the most use out of it.
+
+In general, with Puma, more processes means more RAM,
+
+and more threads are gonna need more CPU consumption.
+
+So, you want to, you want to maximize your
+
+processes and maximize your threads, kind of without going
+
+over. As soon as you start swapping, as soon
+
+as you go over that RAM limit, your app's
+
+gonna be really slow and that kind of defeats
+
+the purpose of trying to add these resources.
+
+Another issue is that I had kind of never
+
+heard of until I started looking into all of
+
+these multiple web servers, is slow-client. So if somebody's
+
+connecting to your web site via like, a two
+
+G over like a Nokia candy bar phone, uploading
+
+like photos or something like that, like that is
+
+a slow client, and if you're using something like
+
+Unicorn, it can deDOS your, your site, because each
+
+one of those requests takes up an entire Unicorn
+
+worker, whereas Puma has a, has a buffer, and
+
+it buffers those requests as similar to the way
+
+NginX does.
+
+One other thing to consider with Puma is, so
+
+I'm mentioning threads, I'm talking, talking about threads. Ruby,
+
+we're not necessarily known as the most thread-safe culture.
+
+Thread-safe community. And so a lot of apps just
+
+aren't thread-safe. And so some, you might take a
+
+look at Puma and be like, hey, that's not
+
+for me. You can always set your maximum threads
+
+to one, and then now you're behaving just like
+
+Unicorn, except you have the slow-client protection, and whenever
+
+you get that gem that's bad or you, like,
+
+stop mutating your constants are runtime or something, then
+
+you can maybe bump up and try multiple threads.
+
+OK. So, I'm, I'm talking about consistency and I'm
+
+talking a lot about Puma. How does that all
+
+kind of boil down and help? So, does anybody
+
+think that sharing distributed state across multiple machines is
+
+like really fast? Maybe. I, OK. Good.
+
+What about sharing state inside of memory on the
+
+same machine? Is that faster? OK. All right. I
+
+think we're in, in agreement. So, a, a little
+
+bit of a point of controversy. You might have
+
+heard of the, the Heroku router at some point
+
+in time. And this, the router is actually designed,
+
+not randomly, but it is, it is designed to
+
+use a random algorithm. And it basically will try
+
+to deliver requests as fast as humanly possible, or
+
+computerly possible, to individual dynos. So it's like, it
+
+gets the request. It wants to get it to
+
+your dyno as fast as it possibly can.
+
+And adding any sort of additional overhead of distributed
+
+locks or queues is gonna be slowing that down.
+
+Once inside of your, in your, your process, Puma
+
+or Unicorn has, in memory, state of all of
+
+its own processes, and is capable of saying, oh,
+
+hey, this process is busy. This process is not
+
+busy. I can do really intelligent routing and, and
+
+basically, for free.
+
+It's really fast. It, it took a little bit
+
+of convincing for me. So does anybody else need
+
+to be convinced?
+
+AUDIENCE: Yeah.
+
+R.S.: OK. Good. Cause otherwise I could totally just
+
+skip over the next section of slides.
+
+So, this is, this is a graph produced by
+
+the fine developers over at, at RapGenius, and on
+
+one side we will actually see a percentage of
+
+requests queued, and on the bottom we are gonna
+
+be seeing number of dynos. So the goal is
+
+actually to minimize request queuing, like this, this is
+
+time that your customers are waiting that you're not
+
+actually doing anything.
+
+You, so you, you want to minimize that queuing
+
+with the smallest number of resources, so the smallest
+
+number of dynos. This top line, we actually have
+
+is what we've currently got now. The random routing
+
+with a, a single-threaded server. And, like, this is
+
+pretty bad. It, like, starts out bad and it,
+
+like, it doesn't even like trend towards zero. So
+
+this is probably bad. So this is using something
+
+like Webrick in production.
+
+So. Don't use Webrick in production. Or, or like
+
+even, even thin. In single-threaded mode. So, on the,
+
+on the very bottom, we actually have a, like,
+
+mythological, like, if, if we could do all of
+
+that distributed shared state without, and locks and queues,
+
+without having any kind of overhead, we can see
+
+that, basically, it just drops down to zero at
+
+about, you know, in their case, about seventy-five dynos,
+
+and then just, you know, it's straight zero. There's
+
+no queuing.
+
+And it's great. And this would be amazing if
+
+we could have it. But unfortunately there is a
+
+little bit over overhead. What was really interesting to
+
+me is this second one, which is not nearly
+
+as nice as that mythological intelligent router, but it's
+
+kind of not too far off. This is still
+
+our random routing, and, and this was actually done
+
+with Unicorn, and workers set to two. So basically,
+
+once we get the, the request to your operating
+
+system, it's like one of those two workers is
+
+free and can immediately start working on it.
+
+Some, some interesting things known about this is, for
+
+the non-optimal case, for the, we basically don't have
+
+enough dynos to handle this, so that might happen
+
+is, you know, you got on Hacker News or
+
+whatever, slash dotted, Reddited. SnapChatted. Secreted. I don't know.
+
+And it does actually, eventually approach ideal state. So,
+
+it, it gets even better, and unfortunately they kind
+
+of stopped at, at two processes, but it gets
+
+better, the more concurrency that you add. So if
+
+you had three or four workers or, again, if
+
+you're using something like Puma, and each one of
+
+those workers is running, like, four threads, now you
+
+have, like, a massive amount of concurrency that you
+
+could deal with all of these requests coming in.
+
+So, the, the, the, if, again, and we're looking
+
+for consistency. We want that request to get to
+
+our dyno, immediately be able to process it. So,
+
+you can use Puma or Unicorn to maximize that
+
+worker number, and, again, distributed optimi- distributed routing is
+
+slow. In memory, routing is relatively quick.
+
+On, again, just in, in the whole context of
+
+speed, Ruby 2.0 came out and this was awhile
+
+ago. It's got GC, it's optimized for Copy on
+
+Write. In, in Ruby, extra processes, process forks actually
+
+become cheaper. So the first process might take seventy
+
+megabytes, the second one twenty, and ten and seven
+
+and six. So, if you get a larger box,
+
+you can actually run more processes on them. If
+
+you get eight gigs on one box, you can
+
+run more processes than you can if you had
+
+eight gigs across eight boxes.
+
+So, again, more processes mean more concurrency, and more
+
+concurrency means consistency. If you are using workers, you
+
+can, you can also scale out with Resq pool,
+
+and if your application's still slow, we rolled out
+
+a couple of really neat platform features. One of
+
+them is, is called HTTP Request ID. So as
+
+a request comes into our system, we will actually
+
+give it a uuid, and you can see this
+
+in your router log. And then we've got documentation
+
+on how to configure your Rails app so it
+
+will actually pick this up and use that uuid
+
+in tagged logs.
+
+So, like, how is this useful? So, if you
+
+are getting, like, and out of memory error, or
+
+if your request is taking a really long time
+
+and you're like, ah, like, that request is timing
+
+out and, you know, Heroku's returning a response and
+
+we don't even know why. Now, if the request
+
+id is tagged, you can actually follow along between
+
+your two logs and be like, oh, it's hitting
+
+that controller action. Maybe I should be sending that
+
+email in the background as opposed to having to
+
+actually block on it. So you can trace specific
+
+errors.
+
+We also launched Log Runtime Metrics awhile ago, and
+
+this is something that we'll actually put your, your
+
+runtime information directly into your logs. You can check
+
+it out. Liberato will automatically pick it up for
+
+you and make you these, these really nice graphs.
+
+And, again, if you're doing something like Unicorn or,
+
+or Puma, then you want to get as close
+
+to your RAM limit without actually going over.
+
+OK. So, the, the next act in, in our
+
+play, again, introducing Terence, is, we'll be talking about
+
+Ruby on the Heroku stack and in the community.
+
+T.L.: Thank you. So I know we're at RailsConf,
+
+but I've been doing a bunch of work with
+
+Ruby, so I wanted to talk about some Ruby
+
+stuff. So who here is actually using Ruby 1.8.7?
+
+Wow. No one. That's pretty awesome. Oh, wait. One
+
+person. You should probably get off of it.
+
+[laughter]
+
+But. Who is using Ruby 1.9.2? A few more
+
+people. 1.9.3? Good amount of people here.
+
+So, I don't know if you guys were following
+
+along, but Ruby 1.8.7 and 1.9.2 got end-of-lifed at
+
+one point. And then there was a security incidence,
+
+and Zachary Scott and I have volunteered to maintain
+
+security patches till the end of June. So, if
+
+you are on 1.8.7 and 1.9.2, I would recommend
+
+hopefully getting off some time soon, unless you don't
+
+care about security or want to back port your
+
+own patches.
+
+And then Ru- we recently announced that Ruby 1.9.3
+
+is also getting an end of life in February
+
+2015, which is coming up relatively quickly. It's a
+
+little less than a year away now, at this
+
+point. So, please upgrade to at least 2.0.0 or
+
+later.
+
+And, during this past Rails Standard Year, we also
+
+moved the default Ruby on Heroku from 1.9.2 to
+
+2 dot 0 dot 0. We believe people should
+
+be at least using this version of Ruby or
+
+higher.
+
+And, if you don't know yet, you can declare
+
+your Ruby version in the gemfile on Heroku to
+
+get that version. And, we've also are pretty, pretty
+
+serious about supporting the latest versions of Ruby. Basically,
+
+the same day that they come out. So we
+
+did this for 2.0.0, 2.1.0 and 2.1.1, and in
+
+addition we also try to support any of the
+
+preview releases as, whenever they get form release, so
+
+we can, as a community, help, help find bugs
+
+and test things like, put your staging app on
+
+new versions of Ruby. If you find bugs then,
+
+hopefully, we can fix them before they actually make
+
+it to the final release.
+
+And, with regards to security patches, if there are
+
+any security releases that come out, we make sure
+
+to release them that day as well. We take
+
+security pretty seriously.
+
+So, once a security patch has release and we've
+
+patched those Rubies, you have to push your app
+
+again to get that release. And the reason we,
+
+well, a lot of people ask us, like, why
+
+we don't do that. Why we don't just automatically
+
+upgrade peoples' Rubies in place. And the reason it,
+
+the reasoning here is that, not, there might be
+
+a regression to the security patch, or maybe the
+
+patch level is not 100% backwards compatible. There's a
+
+bug that slipped through. But you probably want to
+
+be there when you're actually deploying your application, in
+
+case something does go wrong.
+
+You probably wouldn't want us to deploy something and
+
+then have your site go down and then you're
+
+like, not at your computer at all. You're at
+
+dinner somewhere and it's like super inconvenient to get
+
+paged there.
+
+So, we publish all of this information, all of
+
+the updates to the platform, but also all of
+
+the Ruby updates, including security updates to the devcenter
+
+changelogs. So, if you don't, this is, I think,
+
+devcenter dot heroku dot com slash changelog. And if
+
+you don't subscribe to it, I would recommend subscribing
+
+to it just to keep up to date with
+
+what is happening on Heroku for platform changes in
+
+addition to updates to Ruby specifically on Heroku. And,
+
+there isn't too much traffic. Like, you won't get,
+
+like, a hundred emails a day. So, I highly
+
+recommend subscribing to this to just keep up to
+
+date with things like that here.
+
+So the next thing I would like to talk
+
+about is Matz's Ruby team. So if you didn't
+
+know, back in 2012 we hired three people from
+
+Ruby core. We hired Matz himself, Koichi and Nobu.
+
+And, as I've gone around over the last years
+
+talking and interacting with people, I realize a lot
+
+of people have no idea who, besides Matz, who
+
+Koichi and Nobu are.
+
+So I wanted to take the time to kind
+
+of update people on who these people were and
+
+kind of what they've actually, like, we've been paying
+
+them money, and what they've actually been doing to
+
+kind of move Ruby forward in a positive direction.
+
+So, if you run a git log, since 2012,
+
+since we've hired them, you can see the number
+
+of commits they've made to Ruby itself. So, the,
+
+so Nobu here, who we've hired, has basically more
+
+commits than like the second guy by many, many
+
+commits. And then, Koichi's the third highest committer as
+
+well.
+
+And you're probably wondering why I have six names
+
+here on a list for the top five. And
+
+so there is this, so there isn't actually on
+
+the Ruby Core Team who has the handle svn.
+
+It's not actually a person. So I find out,
+
+the hard way, who this person was. So when
+
+I made my first patch to Ruby after being
+
+on core, I found out that if, all the
+
+date information is done in JST, and I, of
+
+course, did not know that, and but like scumbag
+
+American dates. And so there's basically this bot that
+
+will go through and, like, fix your commits for
+
+you, and like, so he does like another commit,
+
+and it's like, ah, you actually put the wrong
+
+date. Let me fix that for you.
+
+So there's like 710 of those commits. I think
+
+I did this like a month ago. So these
+
+are the number of commits from a month ago.
+
+So, the first person I like to talk about
+
+is Nobuyoshi Nokada. Also known as Nobu. And he's
+
+known, I think on Ruby Core as The Patch
+
+Monster. So, we'll go into why he's known by
+
+this.
+
+So, what do you think the result of Time
+
+dot now equals empty string? I'm sure you thought
+
+it was an infinite loop, right. Or using the
+
+rational, like, so if you're using the rational number
+
+library in standard lib, like, what do you think
+
+the result of doing this operation?
+
+AUDIENCE: Segfault.
+
+T.L.: Yeah. So this is a segfault.
+
+AUDIENCE: [indecipherable - 00:32:40]
+
+T.L.: Thank you. Thank you for reporting the bug.
+
+So these, so Eric Hodel actually reported the other
+
+bug, the time thing, and he found this in
+
+RubyGems I believe. But these are real issues that
+
+are in Ruby itself. So if you actually run
+
+those two things now and you're using later patch
+
+levels, you should not see them. But, they're real
+
+issues, and someone has to go and fix all
+
+them.
+
+And so the person who actually does this is
+
+Nobu. And he actually gets paid full time and,
+
+to basically do bug fixes for Ruby. So all
+
+those two thousand seven hundred and some commits are
+
+bug fixes to Ruby trunk to make Ruby run
+
+better. And, I thanked him when I was just
+
+in Japan last week for all the work he's
+
+done. It's pretty incredible. Like, there's so many times
+
+when things segfault and other things, and he's basically
+
+made it better.
+
+I was at Oweito, and there was actually someone
+
+giving a presentation about, like, thirty tips of, like,
+
+how to use Ruby. And someone was talking about
+
+open uri, and there was code on the screen,
+
+and he found a bug during, like, the guy's
+
+presentation, and during it, he committed a patch to
+
+trunk during that guy's presentation. So, he's pretty awesome.
+
+He doesn't, he doesn't do, he hasn't done any
+
+talks, but I think people should know about the
+
+work he's been doing.
+
+So, this last bug, actually, that I wanted to
+
+talk about, that he fixed was, are any of
+
+you familiar with the regression from, in Ruby 2.1.1,
+
+which regards to hash?
+
+So, I'm sure you're familiar with the fact that,
+
+if you use Ruby 2.1.1 on Rails 4.0.3, it
+
+just doesn't work. Like, there, in Rails, we, we
+
+use this, we fetch, in hashes we use objects
+
+as keys. And if you override the hash and
+
+equal method, and when you fetch you won't get
+
+the right result back. So inside of Rails in
+
+4.0.4, they actually had to work around this bug.
+
+And, Nobu actually was the one who fixed this
+
+inside of Ruby itself.
+
+So, these were just, like, the three most interesting
+
+bugs that I found from within the last year
+
+or two of stuff he's worked on. But, if
+
+you look on site Ruby Core, you can find,
+
+like, hundreds and hundreds of bugs that he's done
+
+within the last year of, just like, rip segfaults
+
+and other things. So he's great to work with.
+
+So the next person I want to talk about
+
+is Koichi Sasada. He's also known as ko1, ko1.
+
+And he doesn't have a nickname in Ruby Core,
+
+so me and Richard spent a good amount of
+
+our talk preparation trying to come up with a
+
+nickname for him. So we came up with the
+
+Performance Pro. And this is a picture of him
+
+giving a talk in Japanese.
+
+So, if you use Ruby 1.9 at all, he
+
+worked on Yarv. So basically the new VM stuff
+
+that made Ruby 1.9, I think it was like
+
+thirty percent faster than 1.8 for like longer-running processes.
+
+More recently he's worked on the RGenGC. And this
+
+was introduced in Ruby 2.1.1, and it allows faster
+
+code execution by having, basically, shorter GC pauses. So
+
+instead of doing full GC every time, like, you
+
+can have these minor ones.
+
+So, just, he spends all of his time thinking
+
+about performance in Ruby, and that's like what he's
+
+paid to work on. So if anyone actually cares
+
+about Ruby performance, you should thank this guy for
+
+the work he's done. If you've looked at the
+
+performance of Ruby since, in the last few years,
+
+like it's improved a lot. A lot due to
+
+this guy's work.
+
+And, I was just, I was talking to him,
+
+and he was telling me that he basically, like,
+
+when he was working on RGenGC, he like, he
+
+was just like, walking around the park and he
+
+had a breakthrough. So he like spends a lot
+
+of his time, even, off of work hours, just
+
+thinking about this stuff.
+
+Other stuff that he's been working on as well
+
+is profiling work. So, if you've used any of
+
+the Man stuff for 2.1.1, with the MemProfiler and
+
+other things, he's been working on, with him to
+
+introduce hooks into the internal API to make stuff
+
+like that work. So we, I think we understand
+
+that profiling, being able to measure your application for
+
+Ruby is super important. So, if you have basically
+
+comments or suggestions on things that you need or
+
+think that you can't improve this thing, like it's
+
+worth talking, reaching out and talking to Koichi about
+
+this.
+
+And some of the stuff he's been working on
+
+in this vein has been, like, the gc_tracer gem.
+
+So, using this to basically get more information about
+
+your garbage collector, an allocation_tracer gem to see how
+
+long live, like, objects are. And then even in
+
+2.2, we're, as a team, we're working on, there
+
+is an incremental GC patch, and then also. Or,
+
+he's working on making the GC better with incremental
+
+GC and there is symbol GC for security things,
+
+which'll be super good for Rails. So we can't
+
+get, like, DOS because of the symbol table being
+
+filled up.
+
+Another, so one of the things, when I was
+
+in Japan, we had a Ruby Core meeting, and
+
+we talked about Ruby releases. And releasing Ruby is
+
+kind of a slow process, and I was, I
+
+wasn't really sure why it took so long. And
+
+so I kind of asked the question, and, and
+
+Naruse, who's the release manager of 2.1 and was
+
+telling me that it requires lots of human and
+
+machine resources. Basically, Ruby has to work on many
+
+configurations, Linux distros, you know, on OS X and
+
+other things. And in order to release, like, the
+
+CI server has to pass and, like, you kind
+
+of have to pass on like various vendors and
+
+what not. And so like, there's a lot of
+
+coordination and like checking to like make an actual
+
+release happen. Which is why things don't release super
+
+fast.
+
+So, some of the stuff that Koichi and my
+
+team and other people on Ruby Core have been
+
+working on is, like, working on infrastructure and services
+
+to help with, basically, testing of Ruby, to kind
+
+of hopefully automate and, like, basically do that per,
+
+either nightly or per commit or something along those
+
+lines.
+
+So hopefully we can get releases that are faster
+
+and are out to users sooner.
+
+If you have ideas for Ruby 2.2, like, I
+
+would love to hear them. We have a meeting
+
+next month in May, about what is gonna go
+
+into Ruby 2.2. So I'd be more than happy
+
+to talk to you about ideas that you have
+
+that you would like to see there. I'm just
+
+gonna skip this stuff since I talked about it
+
+earlier, and we're running short on time. So, here's
+
+Scheems to actually talk about Rails.
+
+R.S.: OK.
+
+Has anybody used Rails? Have we covered that question
+
+yet? OK. Welcome to RailsConf. OK, so Rails 4.1
+
+on Heroku.
+
+A lot of things in a very short amount
+
+of time. We are secure by default. Have you
+
+heard of the secrets dot yml file? OK. So
+
+secrets dot yml file is actually reading out an
+
+environment variable by default, which is great. We love
+
+environment variables. It separates your config from your source.
+
+And, so whenever you push your app, we're gonna
+
+set this environment variable to just, like, literally a
+
+random value. And if, for some reason, you ever
+
+need to like change that, you can do so
+
+by just setting your, the, the secret key base
+
+environment variable to, to whatever you want.
+
+Maybe, you know, like another OpenSSL bug comes out
+
+or something. So, another thing that was worked on
+
+a bunch is the database_url environment variable. This is
+
+something that we have spent a lot of time
+
+looking at. And it's actually, support has been in
+
+Rails for a surprisingly large amount of time, to
+
+just read from the environment variable, but never quite
+
+worked due to some edge cases and random rake
+
+tasks and so on and so forth. So this,
+
+this December, around Christmas time, I spent a lot
+
+of time getting that to work.
+
+So I'd like to happily announce that Rails 4,
+
+4.1 actually does support the database_url environment variable out
+
+of the box. Whoo! And, so, some, to describe
+
+a little, like, the behavior is, bears going over.
+
+If the database_url is present, we're just gonna connect
+
+to that database. It's, that's pretty simple. Makes sense.
+
+If the database.yml is present but there's no environment
+
+variable, then we're gonna use that. That also just
+
+kind of makes sense.
+
+If both are present, then we're gonna merge the
+
+values. Makes sense, right? OK.
+
+So, we, that sounds crazy. Bear with me. But,
+
+a lot of people, you, you want to put
+
+your connection information in your database_url environment variable. But,
+
+there's also other values you can use inside of
+
+your database.yml file to configure ActiveRecord itself. Not your
+
+database. So you can turn off and on prepared
+
+statements. You can change your pool size. All this
+
+kind of thing.
+
+And, we wanted to still enable you to be
+
+able, able to do this. So the, the results
+
+are actually merged, and for, for somebody like Heroku
+
+or, like, if you're using another container, we don't
+
+have to have as much magic. If you, if
+
+you didn't know, database_url, we actually had to over,
+
+whatever your database_url was, we were just writing a
+
+file over top of it. And it's like, forget
+
+that. We're gonna write a custom file.
+
+So people would put stuff in their database_url, or
+
+their database.yml file, and they'd be surprised when it
+
+wasn't there. Like, a different file was there. So,
+
+we no longer, we no longer have to do
+
+that. And Rails plays a little bit nicer with,
+
+with this containerized style environment.
+
+It also means that, you could actually start putting
+
+your ActiveRecord configuration in that file. Another note, if
+
+you were manually setting that, your pool size or
+
+any of those things via a, after reading an
+
+article on our devcenter, go back and revisit that
+
+please, before upgrading to Rails 4.1. Some of the
+
+syntax did change between Rails 4.0 and 4.1. So,
+
+if you can't connect to a database, then maybe,
+
+just like, email Schneemz and be like, I hate
+
+you. What's the link to that thing? And I'll,
+
+I'll help you out.
+
+OK. I think, probably, actually, the last thing that
+
+we have time for, is asset pipeline. Who, like,
+
+if asked in an interview, would say that their
+
+favorite thing in the whole world is Rails asset
+
+pipeline? Oh. Oh.
+
+AUDIENCE: Just Raphael.
+
+R.S.: Just Raphael. We have a bunch of, like,
+
+Rails Core here, by the way. So you should,
+
+you should come and thank them afterwards. For, for
+
+other things. Not for the asset pipeline.
+
+[laughter]
+
+So, the asset pipeline is the number one source
+
+of, of Ruby support tickets at Heroku. Just people
+
+being like, hey, this worked locally, and like, didn't
+
+work in production. And we're like, yeah, that's just
+
+how asset pipeline works. That's not Heroku.
+
+So, so Rails 4.1 added, added a couple things.
+
+It's gonna warn you in development if you're doing
+
+something that's gonna break production. Like, if you've ever
+
+forgotten to add something to your precompile list, well
+
+now, guess what, you get an error. If you
+
+are not properly declaring your asset dependencies, then you're
+
+gonna get an error.
+
+And this is even better, actually, in Rails 4.2.
+
+As some of these checks aren't even needed anymore,
+
+we can just automatically do them for you. But,
+
+unfortunately, those have, are not in Rails 4.1 yet.
+
+So, in general, I have a, a personal belief
+
+that, in programming, or, really in life, the only
+
+thing that should fail silently is. This. This joke.
+
+So. Thank you all very much for, for coming.
+
+We, we have a booth, and later on, what.
+
+What time, three o' clock?
+
+T.L.: Between 3:00 and 4:30.
+
+R.S.: Yeah. From 3:00 to 4:30, we'll actually have
+
+a bunch of Rails contributors coming to, to talk
+
+about. Oh yeah, the slides. Yeah. Yeah.
+
+T.L.: Yeah. 3:00 to 4:30, we'll have community office
+
+hours with some nice people from Rails Core, contrib.
+
+R.S.: Yeah. So come ask.
+
+T.L.: Basically any Rails questions or anything you want.
+
+And then Schneeman will actually be doing a book
+
+signing of his Heroku Up & Running book today
+
+and tomorrow at 2:30. So if you want that.
+
+R.S.: Yeah. So get a, get a free book,
+
+and then come and ask questions and just, like,
+
+hang out. And, any time you stop by the
+
+booth, feel free to ask Heroku questions. And thank
+
+you all very much for coming.
+
