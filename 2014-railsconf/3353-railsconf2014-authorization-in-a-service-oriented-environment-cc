@@ -1,0 +1,798 @@
+RailsConf 2014 - Authorization in a Service-Oriented Environment - Alan Cohen
+
+ALAN COHEN: OK. Can everyone hear me? Raise your hand if,
+
+yeah? Cool. This is my first talk, so I'm a little bit
+
+nervous. I'm gonna, actually, take a picture for my mom.
+
+So, if everyone can, like, wave. Awesome. Yes. All right.
+
+All right. Cool. So, my talk is about authorization.
+
+Service-oriented authorization. My name is Alan, by the way.
+
+You can find me on Twitter and GitHub.
+
+I work at a company called The Climate Corporation.
+
+I'm a Ruby developer there. I've been there for
+
+about a year and a half working on, we
+
+have an insurance product, I work on the backend
+
+as well as other parts of our web infrastructure.
+
+We have products that help protect farmers from weather
+
+disasters and improve their farming operations during the planting
+
+and, before and after the planting season. It's sort
+
+of like, if I'm gonna make it, like, buzz-word
+
+compliant, it's big data farming.
+
+So, a little bit of background before I get
+
+into my talk. What is authorization? So, if you
+
+were in this room before, you probably learned about
+
+authentication in a service, service-oriented environment. Today I'm talking
+
+authorization. So, authentication is concerned with identity. Authorization is
+
+concerned with access.
+
+There are different types of authorization. If you've ever
+
+implemented it. You can think about role-based access control,
+
+attribute-based access control, access control lists, rule-based access control.
+
+It can go on and on. I'm not talking
+
+about a specific implementation of authorization, but just, in
+
+general, right.
+
+What is service oriented architecture? Right. There's been many,
+
+many talks. I think this entire track is on
+
+service oriented architecture. And, you know, there's been talks
+
+yesterday. I've gone to a few of these talks.
+
+I, they, service oriented architecture is many different solutions
+
+to different problems. But, you know, it's around the
+
+same theme, I guess.
+
+This, where I'm not talking about a specific implementation
+
+of SOA, so I want to find a really
+
+basic definition of it, and I found this. A
+
+loosely-coupled architecture designed to meet the business needs of
+
+an organization. I found this on the Microsoft Developer
+
+Network site. And it also had this, like, really
+
+interesting quote. And it started with, SOAs are like
+
+snowflakes. No two are alike.
+
+But I wanted to find like a, a better
+
+definition. And actually, when I was watching Brian Morton's
+
+talk from Big Rails, Big Ruby last year, Rails,
+
+Services and Rails, The Shit They Don't Tell You.
+
+He says, Components that scale individually. That's sort of
+
+how he defines service oriented architecture.
+
+And I, I recommend that talk, if you want
+
+to learn about implementing service oriented architecture. Some services
+
+oriented architecture, from someone who has the battle scars
+
+moving over to something like that. But today, I'm
+
+not, I'm not, like, focusing on what it is.
+
+So, why talk about it? Right. Why, why services
+
+oriented architecture? We have to und- you know, before
+
+we get into authorization, I want to talk a
+
+little bit about why we would use SOA. SOA
+
+gives us a lot of things, right. Reusability, we
+
+can allocate resources as we need them, loose coupling,
+
+we can change out libraries, a codebase that scales
+
+across teams and so, we get, we get things
+
+that are good for both our software and for
+
+our software development process.
+
+There are a lot of problems, also, right, that
+
+you have to solve when you have a service
+
+oriented architecture. Right, services speaking to one another. Like,
+
+a lot of things become difficult. But hopefully you're
+
+here because the, the benefits of SOA outweigh the
+
+problems that you might have. And you've already sort
+
+of made that decision. I'm not gonna try to
+
+sell you on it.
+
+So, what is service oriented authorization? Well, if we
+
+think about the benefits of services oriented architecture, it
+
+should be sort of parallel to that. Reusability, I
+
+want to be able to use the, the same
+
+authorization tools, libraries, code, across multiple services. Loose coupling.
+
+My application code is not coupled to my authorization
+
+implementation. And then, lastly, scalability. So, this is like
+
+a requirement when you have multiple services. And this
+
+is just gonna be like a general requirement when
+
+we talk about, like, the framework that I want
+
+to use.
+
+So, let's imagine a typical Rails application, ignoring things
+
+like the database and other third-party services. You have
+
+your, you have Rails, you have your business logic,
+
+and then you have some third-party gems that you
+
+might use.
+
+The important part is your business logic, right. That's,
+
+like, if you have an online product, like BaseCamp,
+
+right, that's the interesting stuff. That's the part that's
+
+gonna make you money. It's what, why your cosumer's
+
+pay you money. Everything else is just there to
+
+help you deliver that product.
+
+I think authorization can be thought of as part
+
+of your business. Whether it's part of the security
+
+of your application, for example, like, you have employees
+
+that, only your employees are allowed to administer customer
+
+data, like, for customer support. Or, whether it's part
+
+of the feature of your application. Like, in BaseCamp,
+
+you have, like admin users in different groups.
+
+So, what does authorization look like today? I think,
+
+you know, the most popular authorization library is -
+
+I don't know if you can see this -
+
+but, this is like a snapshot of CanCan's GitHub's
+
+page. I think it's probably the most popular authorization
+
+gem. We use it in production. It works. It's
+
+historically been well-supported. I think it's still pretty good.
+
+But, you know, it gives you, like, a really
+
+nice declarative DSL for specifying rules, like, so then,
+
+you specify your rules, like, within your application, and
+
+it's, like, nice Ruby DSL. And then you can
+
+ask questions like, can a user manage this other
+
+user's data. Can a user purchase a policy, if
+
+you're selling insurance.
+
+But the question is, does this approach align with
+
+what we've defined as service oriented authorization? Right. CanCan
+
+is reusable, right, because it's a library. So, you
+
+know, the authorization implementation is decoupled from our app.
+
+We don't, like, bake authorization into our app.
+
+But it's, it's not really loosely coupled, right. If
+
+you think about it, your authorization rules are, are
+
+embedded in your application code, right. So like, the,
+
+the. What is it? Yeah. The, your rules are
+
+in your application. And there's some limitations to this
+
+approach, which aren't apparent at first, right.
+
+And, so what? Like, what are those limitations? Or,
+
+why does that matter? Well, I think that if
+
+we want to keep the core of our application
+
+small and understandable as possible, we want to, we
+
+want to do that because that's the part that
+
+makes us money. The business logic is what's important.
+
+And it's the part we want to keep free
+
+of bugs. If we, if we do that, we
+
+can develop with confidence, like we know we won't
+
+develop and create bugs. Our business logic is concerned
+
+with authorization only as far as we need to
+
+make sure to enforce it. But we shouldn't care
+
+about how it's implemented, but just that it works.
+
+So, this is your business logic. This is you
+
+enforcing authorization in your code. But the rest is,
+
+I think, can, should be thought of as implementation
+
+details, right. Where you define those rules. It doesn't
+
+necessarily need to be part of your system. It
+
+needs to exist somewhere.
+
+And I'll explain why, why that matters, right. So,
+
+in a services oriented architecture, right, you usually start
+
+with a monolithic application. And if we've coupled our
+
+rules to our application, then it's gonna be very
+
+difficult to split things into services, right. Especially if
+
+there, all these services are concerned with a user.
+
+You have all these user rules in your, in
+
+your monoRails app, but now they sort of have
+
+to be broken out. And that's fine if you're
+
+gonna use, right, CanCan across these different Ruby or
+
+Rails applications. But a services oriented architecture usually, by
+
+default, means you're gonna have, like, a heterogenous environment.
+
+And this is actually very similar to what we
+
+have in production today, where we don't just have
+
+the Rails stack. We have other, other things, either
+
+in Java or Clojure or whatever it might be
+
+in the future. And, there really isn't an easy
+
+way to go from CanCan to Clojure, right.
+
+So, we want to, we want to think about
+
+a different framework to, to basically do this. So,
+
+what are the goals of whatever approach we take?
+
+Well, the goal, goals, you know, restating them. Reusability,
+
+scalability, and loose coupling.
+
+So, let's go back to our app, right. We
+
+have the same Rails app, but it's, it's very
+
+simplified. Your app, when you move it onto different
+
+services, might look like this, where you have different
+
+JavaScript frontends that are, you know, we deploy them
+
+as different modules. Our users like see a single
+
+interface, but really it's several different, several different applications
+
+that are speaking to several different backends.
+
+And the business logic that used to reside in
+
+a single application now is residing across multiple applications,
+
+and those, yeah. So, the, the key take away
+
+is that this is a heterogenous environment, and so
+
+we shouldn't constrain ourselves, right, by language or run
+
+time. We want to use the best possible tools
+
+to, to grow our services, to build them.
+
+So, reusability means we want code that doesn't require
+
+us to predict the future. And, if I'm gonna
+
+extract my authorization into another service or, part of
+
+my authorization into a separate service, like, I need,
+
+I need to be able to do that without,
+
+without having to rewrite it. I don't want to
+
+have to rewrite everything.
+
+And that's, loose coupling means, like, that, we, we're
+
+gonna decouple the access decision from the access policy.
+
+So, just, restating, restating that, we can't use this,
+
+right, outside of a, outside of our Rails application.
+
+We also need whatever framework to be scalable. So,
+
+there's, you know, when I was researching this and
+
+I was like, what are, what are the available
+
+tools to be able to do something like this?
+
+And I didn't really find anything. I did find,
+
+of this, of this thing called XACML. I mean,
+
+raise your hand if you've heard of XACML.
+
+Yeah. So I see, like, maybe ten people have
+
+raised your hand. So XACML is, it's XML, and
+
+it stands for extensible access control markup language. And
+
+it's a declarative policy language implemented in XML. And
+
+it defines a processing model that describes how to
+
+evaluate access requests according to rules defined and policies.
+
+So it actually, if you read the spec it's,
+
+I think like hundreds of pages long, and it
+
+actually defines an entire architecture using XML to define
+
+authorization rules and sort of like, all these different
+
+services to implement authorization. And that, in fact, it
+
+uses a centralized authorization service, and it's pretty, it's
+
+pretty complex, I think.
+
+But, I found this from a spec, and I
+
+thought this was actually really poignant. The XACML model
+
+supports and encourages the separation of the access decision
+
+from the point of use.
+
+When access decisions are baked into client applications, it
+
+is very difficult to update the decision criteria when
+
+the governing policy changes. When the client is decoupled
+
+from the access decision, authorization policies can be updated
+
+on the fly and affect all clients immediately.
+
+So, this is what an XACML policy would look
+
+like. I got the indenting wrong, but, I mean,
+
+you get the idea. It's, it's pretty complex, but
+
+it gives us this advantage of being able to
+
+update and modify the rules without touching our application
+
+code, and so it should, we should be able
+
+to use this in sort of a hit, in
+
+a heterogenous environment. As long as we have some
+
+authorization library that we can use within our application.
+
+But, I thought that this is, this is, like,
+
+way too much for, for what we needed, right.
+
+Like, we, like, we don't have thousands and thousands
+
+of rules. Our application is actually fairly simple compared
+
+to the implementations I've seen for this. So, I
+
+wanted to, to, you know, try something a little
+
+bit simpler, right.
+
+Thing is, I didn't, I didn't really find anything
+
+simpler. So, when, when we were discussing this authorization
+
+framework that I'm gonna go over, we, we thought,
+
+like, all right, let's, let's come up with a
+
+very simple language that we can use and, you
+
+know, as we, as we build this out, as
+
+we test it, we can, we can experiment with
+
+it, and if we need to bake more features
+
+into it, let's do that. But let's, let's, let's
+
+implement as few features as we need as possible.
+
+And, so that's where we started.
+
+So, just a recap: we talked a little bit
+
+about why would we choose SOA architecture. What SOA
+
+might be. And we set our goals to be
+
+scalability, flexibility, and loose coupling. And we talked about
+
+why we chose these three goals. Like, what are
+
+their benefits.
+
+So, what, like, what did we come up with?
+
+And, I guess, I didn't, I didn't really talk
+
+about, like, what this is. What this framework is.
+
+But, you know, I worked, I worked with a
+
+few guys in my company. We said all right.
+
+Let's, let's build this, it's, it's not really a
+
+framework. It's more like let's, let's define a language
+
+where we can, we can define authorization policies, and
+
+it's really, it's agnostic to, to Rails, whatever it
+
+is, and let's, let's try to create, like, a
+
+reference implementation and experiment with it. And then see
+
+if it's, if this is a rich enough language
+
+to be able to use and replace whatever we
+
+have today.
+
+So, this is, this is sort of, like, this
+
+is the like, the v zero dot one alpha
+
+of the language, right. We don't, there's not like
+
+an official spec that we, you know, we have
+
+a very, like, early spec for this, and this
+
+is sort of like what we came up with.
+
+And I'll go through, like, each, each object in
+
+this, in this, in this JSON. So, we have
+
+a resource. A resource could be defined within a
+
+namespace, and so it could also be like, just
+
+the name of a class. So like, if it's
+
+a Rails application, it could be like an ActiveRecord
+
+model. An action, or a set of actions. So,
+
+a rule will apply to a set of actions,
+
+just like in CanCan, you sort of do the
+
+same thing.
+
+You have a set of conditions that define the
+
+evaluation context of a rule. So, whether a rule
+
+applies or not. So, in this case, this is
+
+like, how we would say, like, the, the role
+
+of a user must equal admin. So, if we're,
+
+right.
+
+And then every rule will have an effect. So
+
+it'll be either allow or deny. So we have
+
+this language. But, something is missing. And that's, what's
+
+sort of bridging that gap, right. We have an
+
+application. Now we have a set of rules. Like,
+
+what's, what's connecting the two?
+
+And so, right, I wrote this really small gem,
+
+and it's called IronHide. And, we just have this
+
+practice of naming all of our gems at work
+
+after Transformer characters. So, IronHide is this, is sort
+
+of this bridge. We define a set of rules,
+
+and we have our application, and then we include
+
+IronHide into our application, and IronHide exposes the same
+
+API that CanCan would, and so it's sort of
+
+like a drop-in.
+
+And, so like, what is it? It's not a
+
+service. It doesn't provide an authorization service for us.
+
+It's actually just a library. So, that, that's an
+
+important distinction, because we're, you know, where are the
+
+rules, right? If it's not a service, then it's
+
+gonna have to call out and get the rules
+
+from somewhere.
+
+And that's, that's actually pretty cool, because we can
+
+store the rules anywhere we want, right. They're just,
+
+it's just JSON. So, JSON can really be stored
+
+anywhere. It can be stored, like, on, on disc.
+
+It can be stored in the document store. And
+
+having this, like, plugability to different backend stores gives
+
+us scalability.
+
+So, does it meet our goals? Right. Reusability, scalability,
+
+loose coupling. The authorization rules are not part of
+
+the application code. The, the language in which we
+
+define the rules is language agnostic. So it should
+
+be reusable across, across environments. And, if we've decoupled
+
+the backing store from the authorization implementation, then it
+
+should be as scalable as we want it to
+
+be.
+
+So, today, it's still a work in progress. It's
+
+still something that we're experimenting with, right. You know.
+
+XACML is like, it's a very well-defined spec. I
+
+think it's like version three point 0 of the
+
+spec. It's, it's sort of like an enterprise-level design.
+
+This is like, you know, we're experimenting with it.
+
+You know. Could it scale to thousands and thousands
+
+of rules and to like, many, many services? I
+
+don't know yet. Right.
+
+It's not yet in production. But, and it's also
+
+something that, you know, we need to standardize and
+
+name the policy language. Right. There's no name for
+
+it. Like, so. I'd like to actually do a
+
+demo. So. Let's see if this works.
+
+Where is this? Can everyone see that? No. If
+
+I make the. Too small?
+
+AUDIENCE: We can't see the font.
+
+A.C.: Can't see-? Oh, yeah. Would it, would it
+
+be better if I made the background light and
+
+the foreground dark?
+
+AUDIENCE: No.
+
+A.C.: No. OK. Right. So, so this is, like,
+
+this is a rule, right. It's, and it's, and
+
+this is, and I've written this just directly into
+
+a flat file on my disc. So there's some
+
+resource under this app namespace, a set of actions.
+
+An effect and a set of conditions.
+
+And then, I actually made, like, a really simple
+
+-it's not an app. It's just. I created a
+
+user class. It has a manager id and an
+
+id. And if you look at the, right, if
+
+you look at the rule, I'm saying that a
+
+user, it's allowed to read or manage another user.
+
+In this case, the resource is also a user.
+
+So, we're always authorization against the user. So, the
+
+user is allowed to do something to another thing.
+
+And in this case it's another use.
+
+As long as the user's id is equal to
+
+the other thing's manager id. So, here, we have
+
+a user with a manager. I'm gonna run this
+
+and then jump directly into the console, so I
+
+can, like, start writing code.
+
+Oh. OK. So, right. I can, I can. Let's
+
+see. User. Right. So, this. This user has a
+
+manager id now that's equal to the manager's id.
+
+And then. I didn't, I didn't really go into
+
+depth, into the IronHide, like, library, but I'm gonna
+
+post a link to the source. I've tried to
+
+write a pretty well-documented README.
+
+So, it should be fairly self-explanatory. Basically, there's a,
+
+a configuration. Oh. Crap.
+
+OK. And then. So. It's like. It works.
+
+AUDIENCE: [laughter - applause]
+
+A.C.: Yeah. It's actually kind of funny, cause I
+
+tried recording this, and it was probably easier doing
+
+it live. I'm gonna try to jump back.
+
+So. So yeah. These, these are links to the
+
+source, so that's like. I tried getting a short
+
+link for the GitHub page. And there's actually a
+
+sample app with, sort of like, what, it was
+
+sort of like that, maybe with a few, a
+
+few additional things. And I also wrote, like, an
+
+adapter that would let you use, like, CouchDB as
+
+the backing store for the rules.
+
+CouchDB's pretty cool. So. It was the first time
+
+I used it.
+
+OK.
+
+AUDIENCE: [applause]
+
