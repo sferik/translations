@@ -16,6 +16,8 @@
 
 [*Discovering User Interactions*](https://www.youtube.com/watch?v=Rf0NhjMAVoY&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5&index=49)
 
+[*Service Oriented Authentication*](https://www.youtube.com/watch?v=L1B_HpCW8bs)
+
 [*Authorization in a Service Oriented Environment*](https://www.youtube.com/watch?v=6tQTwmIgclE)
 
 [*Ruby on Rails Hacking Guide*](https://www.youtube.com/watch?v=iACG4Dn_51w)
