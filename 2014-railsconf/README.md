@@ -16,6 +16,8 @@
 
 [*Discovering User Interactions*](https://www.youtube.com/watch?v=Rf0NhjMAVoY&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5&index=49)
 
+[*Ruby on Rails Hacking Guide*](https://www.youtube.com/watch?v=iACG4Dn_51w)
+
 [*Software Development Lessons from the Apollo Program*](https://www.youtube.com/watch?v=hrsT9wmPVoo&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5&index=75)
 
 [*Modeling on the Right Side of the Brain*](https://www.youtube.com/watch?v=ABIvpz50cKU)
