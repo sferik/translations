@@ -1,0 +1,865 @@
+RailsConf 2014 - Ruby on Rails Hacking Guide by Akira Matsuda
+
+AKIRA MATSUDA: So. Welcome to Ruby on Rails internal talk.
+
+This is titled Ruby on Rails Hacking Guide,
+
+which is deeply inspired by Minero Alki's Legendary Ruby
+
+book titles Rails- for, Ruby Hacking Guide.
+
+So, before I get started, let me just introduce
+
+myself. I am Akira Matsuda - amatsuda on GitHub
+
+and Twitter. I'm a committer of Ruby and Ruby
+
+on Rails projects and I'm from Japan.
+
+As a individual on GitHub, I created a pagination
+
+library called kaminari and active_decoractor, action_args and et cetera,
+
+et cetera. Such libraries.
+
+As a Rails committer, ranked in here, in the
+
+bottom, like, twenty-seventh. I've done 374 commits so far
+
+and, since I made my first commit about six
+
+years ago.
+
+I initially titled this talk as Ruby on Rails
+
+Hacking Guide, but I slightly changed my mind after
+
+I listened to DHH's keynote. This talk should be
+
+titled like Ruby on Rails Reading Guide. Since we're
+
+actually gonna spend the whole forty minutes just for
+
+reading the whole framework code.
+
+And, not gonna talk anything about, like, science. But
+
+it's like, reading a novel, reading a story. So,
+
+why should we, why should we read Rails? I
+
+think we have three big reasons here.
+
+Firstly, as DHH defined, we're software writers, and you
+
+need to read a lot in order to be
+
+a good writer, right. This is obvious. So, we
+
+need to read Rails to be a good Rails
+
+programmer. And if you don't understand any piece of
+
+code in your application, that means you don't really
+
+understand your application.
+
+So, don't let a magical piece of code exist
+
+in your app. I know that Rails applications are
+
+filled with such magics like, for example, like this.
+
+It's such simple, just one line of Ruby code,
+
+in just one method. But it, it really does
+
+a lot of things for you, right. But we
+
+need to be able to explain why, why is
+
+this controller inheriting from ApplicationController inheriting from ActionController::Base? We.
+
+Or, how the http request actually calls this in
+
+index Ruby method. Or why are we setting this
+
+u- users relation into a controller instance variable. Et
+
+cetera, et cetera.
+
+Or, think about this example. This, this, this is
+
+a typical Rails-ish DSL. This reads good. It's pretty
+
+straight forward for readers, as a documentation. But, you're
+
+not an application reader, right. We, we're application writer.
+
+So you have to write this. And as a
+
+writer, you don't, don't usually write when you don't
+
+understand what it means, right.
+
+So, so a question. What, what, what is this
+
+Rails.application.routes.draw, or get in the second line. Looks like
+
+a method call taking a hash parameter. What is
+
+it doing? Who actually knows, who here actually knows
+
+what's gonna happen with this code? Can explain?
+
+Right. So, if you think, if you think you
+
+can explain how this define a route, if, if
+
+you cannot explain. Sorry. If you cannot explain that
+
+means for, it's just a magic. And that's why
+
+you're, you're in this room now, right. So, you'll
+
+soon get to know what the get means.
+
+And as the third reason to read Rails code
+
+is because Rails.has_many :bugs. So, as I told you,
+
+I patched a lot. And mostly I, I patch
+
+Rails because I hit bugs in my production application.
+
+And I guess, you all have the same experience.
+
+I'm sure. Rails is basically buggy. And we need
+
+to deal with them. With the bugs.
+
+So, naturally, Rails programmer job is not just to
+
+maintain the application, but you also need to maintain
+
+Rails framework as well. It's our job. And it's
+
+your job. So we need to be familiar with
+
+the code base.
+
+And strangely, this talk is kind of categorized as
+
+a novice talk. But, I'm not sure. I'm, I'm
+
+gonna talk about the Rails internal. So. I hope
+
+you enjoy.
+
+Let's begin. This is what I'm gonna talk. So,
+
+first of all, Ruby on Rails is a open-source
+
+software on GitHub. There's no C-extension inside. So. I
+
+mean, there's, there's no C-code. 100% Ruby. That means,
+
+if you're a Ruby programmer, you just can read
+
+it and, and you can write it if necessary.
+
+You can get its source code here, by git
+
+cloning from GitHub. By the way, here's a tiny
+
+tip. How you can find the GitHub repository for
+
+the gem you use. You can use, you can
+
+use a gem named gem-src. It's on, it's here
+
+on GitHub. And please take a look at this
+
+repository. This is how you can install it and
+
+how you can use it.
+
+I'm not gonna explain here. But. So, what this
+
+does is after this gem installed, it will automatically
+
+git, git clone this source from GitHub repository. So,
+
+you, you need not to memorize the author's name
+
+or you can not, you don't need to search
+
+on GitHub. As a gem install, it automatically gets
+
+the code from GitHub. It's so useful for social
+
+coders.
+
+Anyway. Let's go back to the Rails source. Firstly,
+
+let's see what's included in the gem. To know
+
+what's included in gem, take a look at the
+
+gemspec. So this is taken from the file rails.gemspec.
+
+Here it defines the files included. It looks like
+
+it doesn't really include any program. It's just documents,
+
+right.
+
+And you can find these declarations. A bunch of
+
+add_dependencies. So that means Rails has no code inside,
+
+but instead if defines several dependencies. It means that
+
+this is a meta, meta-gem, meta-package, to install these
+
+seven gems, right.
+
+And these seven gems are in the Rails repository.
+
+And Rails is a full-stack framework, a full-stack MVC
+
+framework. And all these M and V and C
+
+are included in this one repository. So we have
+
+model, view, and controller.
+
+And we have these gems. I'm sorry it's, can
+
+you read it? I'm sorry it's hard to read.
+
+Anyway. We have ActiveRecord, ActionPack and ActionView. And this
+
+is something called model, and these are views, and
+
+these are controllers.
+
+So, Rails gem is a meta-package that depends on
+
+these seven gems.
+
+So let's take a look at the Rails server
+
+command and, and let me explain how, how the
+
+Rails actually boots. For, starting up the Rails server,
+
+you just need to run Rails server command. So,
+
+what's happening internally when you execute this command?
+
+When I hit the Rails command it actually executes
+
+bin slash rails in your application. So, let's read
+
+that file first. That file should look like this.
+
+It requires config/boot inside your application first, and then
+
+requires rails/commands.
+
+Rails/boot looks like this. It just bundles something. I'm
+
+gonna skip the bundler part, because it's, it's out
+
+of today's scope, but it, it, it kind of
+
+tweaks the $LOAD_PATH nicely.
+
+And so the second line. Rails/commands. It requires rails/commands.
+
+So where is "rails" directory? You can find "rails"
+
+directory in the railties gem. There's a gem called
+
+railties, which I, I didn't explain. So, next chapter
+
+is about railties.
+
+What, what actually railties is? Railties is a very
+
+wisely-crafted tiny library, initially created by Yehuda Katz and
+
+Carl, Carl Lerche. So let's dive into it.
+
+Here's the gemspec. The gemspec says this is about
+
+Rails internals. And the gemspec shows that now this
+
+gem includes some libraries. Ruby files. Actually, it includes
+
+like this. So, when you step inside the railties
+
+lib directory, you'll see these. One directory and one
+
+file called rails dot rb.
+
+So these's the rails directory. And this is how
+
+Rails/commands dot rb looks like in the railties gem.
+
+It requires commands_tasks, and then invokes a CommandTask with
+
+a given command name. ARGV, right.
+
+In this case, so, in this case server, right.
+
+So this is the file named commands_tasks dot rb.
+
+It requires rails/commands/server first. So let's take a look
+
+at rails/commands/server. And this is rails/commands/server. It requires, at
+
+very top, it requires rails. So, then jump to
+
+rails dot rb. Rails dot rb was at the
+
+very top of the repository, right.
+
+So this is how rails dot rb looks like.
+
+It requires rails/application. So, let's go to rails/application. And
+
+it defines a top-level module named Rails.
+
+So rails/application, it requires rails/engine, and it defines a
+
+Rails Application class, inheriting Rails Engine.
+
+So, jump to rails/engine. Now, rails/engine requires rails/railtie and
+
+it, Rails Engine class inherits from Rails Railtie. So,
+
+next file is rails/railtie.
+
+Railtie, it looks like this. It requires rails/initializable and
+
+rails/configuration. And defines Rails Railtie class, that includes Rails
+
+Initializable. So next follow the, next file is rails/initializable.
+
+It defines a Rails Initizable- Initializer.
+
+So, what we learned so far is, railties defines
+
+these core classes, like Application, Engine, Railtie, Initializable. Which
+
+are very, very important. Actually, the core of Rails.
+
+So railties is like this. It's the core of
+
+Rails, in the middle.
+
+And we had something called Plugin as well, but
+
+it was gone since Rails 4.
+
+So, let's skip it. So railties is a library
+
+providing something underneath the Rails Application. And I have
+
+another answer for you. Railties is, according to Wikipedia,
+
+this is the definition of something called Railroad tie.
+
+It's a rectangular piece of wood which is laid
+
+underneath the rails, sometimes called sleeper, railway sleeper.
+
+So this is rail ties. Consider this. The applications
+
+are the trains that run on Rails, and railties,
+
+Rails is the framework, and railties is something lies
+
+underneath the Rails framework. This is why they named
+
+it railties, I guess. This is a beautiful metaphor,
+
+isn't it?
+
+So how does it work? Or, how can we
+
+use it? This is how, how, how it's work.
+
+We can git grep the whole railtie repository, and
+
+you can find some uses of railtie. These are
+
+in, not only in railties, they're actually, these are
+
+in mailers, ActiveRecord, ActionPack, blah, blah, blah.
+
+We're gonna take it. So, so let's take a,
+
+take a look at it, like this. So, each
+
+component has its own railtie, inheriting from Rails::Railtie, like
+
+this. This is how we use railtie.
+
+So, railtie is not only in the core, but
+
+in, we can find railties everywhere. Railtie. It's inside
+
+each component, right. And, so, this is what's written
+
+inside the railtie class.
+
+It has some, mainly we, we see two kinds
+
+of class method calls, config and initializer, right. These
+
+are class method calls to railtie class. So, what's
+
+config?
+
+This is the definition. Railtie config create something. Instantiates
+
+something like Railtie::Configuration. And so config is a instance
+
+of Railtie::Configuration. Railtie::Configuration is something like this. It, it
+
+has one method_missing method. And it accepts any method
+
+call and just stores the given name and arguments
+
+and block into a class-level hash.
+
+So, what is initializer? Initializer looks like this. The,
+
+it just keeps the given block as a proc
+
+instance, with a name, with a given name, right.
+
+So, this is everything. This is what railties is
+
+doing. It, it sets something, some values via config
+
+method call and initializer method call. And to, to
+
+use them for the later use.
+
+And railties is actually class, but it's prohibited to
+
+instantiate. So, you cannot make a instance of the
+
+railtie class. Instead, you just can inherit and, when
+
+inherited, it, it kind of memorizes the, the children
+
+class names.
+
+So, this is a summary what, of what railties
+
+is doing. Railties is a core of Rails that
+
+provides Railtie, Engine, Application, et cetera, and we can
+
+find Railtie in other Rails components like ActiveRecord, ActionPack.
+
+And a railtie can keep config and initializer values.
+
+And Railtie ties up these railties, all right.
+
+So, let's see how, how actually Rails server ties
+
+these up. And how, how Rails server boots. So,
+
+let's go back to rails/commands/commands_tasks dot rb. After it
+
+requiring rails/commands/server, it executes, it requires the application and
+
+then executes server dot start.
+
+Server dot start is defined here, because it was
+
+defined in Rails/commands/server. Server dot start calls, just calls
+
+super. And super is, super class of this class
+
+is Rack::Server.
+
+So, welcome to the Rack world. Now, now we
+
+need to read the Rack code. Oh my god.
+
+This is not Rack hacking guide, so I'm just
+
+gonna skip it. It. Anyway. Finally calls something like
+
+this, via rack/builder. It evaluates this Ruby string. Like,
+
+Rack::Builder dot new taking contents of config dot ru
+
+in your application.
+
+And Rack::Builder just instance_evals the given block. So, this
+
+is what's written inside your application's config dot ru.
+
+It requires config/environment dot rb first, and runs Rails.application.
+
+Run is also a Rack command, I mean, Rack
+
+method.
+
+So, I just, I just, like, explained very fast,
+
+like, how the method, method call goes. How method
+
+call graph looks like. So, I guess you find
+
+it difficult to follow, and how can it actually
+
+follow these method, method call graphs?
+
+Here's one tip. Just, puts caller from, in a
+
+file inside your application. For, example, in config dot
+
+ru file, like this. Just add a puts caller
+
+here. And run Rails server. Then, you'll get an
+
+output like this in your console.
+
+And these, these are basically what I explained. Like,
+
+we see commands/task and server and, like, Rack::Builder.
+
+So, this is very useful. Like, when you get
+
+lost in the Ruby, Ruby jungle, use puts caller
+
+in caller locations, and that'll show you the path
+
+to the place you are.
+
+All right. Anybody, but. The config dot ru file
+
+requires config/environment.rb, and this is, as you know, what's
+
+written inside the config/environment.rb. It requires config/application dot rb
+
+and calls Rails.application.initialize!
+
+So, Rails.application.initialize! is the very, very important method. As
+
+you may notice from, because it, it has an
+
+exclamation mark. This is what's written in application.rb. Since,
+
+Rails 4 point 1, it, it really has nothing
+
+in its, in its class.
+
+But, but it defines a class called Application, inheriting
+
+from Rails::Application.
+
+Before that, it requires rails/all and bundles all the
+
+bundled gems. So this is rails dot, rails/all dot
+
+rb. What it actually does is something like this.
+
+It defines, so, it requires all these railties that
+
+I showed you before. Railties defines configs and initializers,
+
+as we have seen already.
+
+And then, we call Rails.application.initialize exclamation. So, so we,
+
+we define initializers here and load all initializers and
+
+then initialize exclamation, right.
+
+So, this is the initialize method. It run_initializers, and
+
+run_initializers, it calls run, run method for, for each
+
+initialize- initializable object in the initializers collection.
+
+So initializable looks like this. Run just executes the
+
+given argument. I mean, instance_exec through stored proc inside
+
+the same context, right. I mean, in this case,
+
+at sign context is actually the application instance, so
+
+it just instance_execs the stored procs in the initializers.
+
+In the application's context.
+
+So, I said initializers collection. Initializers collection is this.
+
+And initializers, so, initializers, yeah. In rai- railties initializers
+
+was created like this. So, what, what's in the
+
+initializer's collection is instances of Rails initializer, initializable initializer.
+
+Which, each initializer just, just holds a proc instance,
+
+right.
+
+And as we've seen already these are called from
+
+each Railtie classes.
+
+So. This is, this is what initialize do. And,
+
+so let's go back to the server. As we've
+
+seen, the start method calls super. I'm sorry. I'll
+
+skip this.
+
+So. Summary. So, this is what we, what the
+
+railtie does for booting up the Rails server. Finally,
+
+it runs Rails::Application in config dot ru. Do you
+
+remember? It's written in config dot ru file. Run.
+
+Run the application.
+
+So what is run? What is run method? It's
+
+defined like this. And with this, with this definition,
+
+the Rack server calls Rails.application dot call. Rails.application responds
+
+to call. So you can call this. That means
+
+Rails.application is a Rack application.
+
+And Rails.application as a Rack application, it, it has
+
+a call method like this. It calls super. The
+
+super, the Rails.application super class was Rails::Engine. So, so
+
+jump to Rails::Engine.
+
+Rails::Engine has this like call method. OK. The call
+
+goes to app dot call. App is something like
+
+this. It's a config middleware that contains default middleware
+
+stack, and the endpoint, something called endpoint. Look at
+
+this.
+
+So, what's the end point? End point is a
+
+route. Route is a ActionDispatch::Routing::RouteSet by default. OK.
+
+So. So, the next thing is routes. Route is
+
+usually defined in config/routes dot rb like this. So,
+
+let's think of this simple route. Routes, Rails.application.routes is,
+
+is ActionDispatch::Routing::RouteSet. It's defined here in ActionDispatch gem, I'm
+
+sorry. ActionPack gem in action_dispatch directory.
+
+It, it also responds to call, as it's a
+
+Rack application. And call goes to router dot call.
+
+Router is defined like this. Journey::Router.new. So, so router
+
+is a Journey thing.
+
+Then, so Rails.application routes is also a Rack application
+
+that defines endpoint, and it finally goes to the
+
+Journey thing. But for now let's go back to
+
+the Routes.draw DSL.
+
+Here.
+
+So, routes.draw is defined like this. It just evaluates
+
+the given block. In the ActionDispatch routing mapper. So,
+
+this DSL actually calls ActionDispatch::Routing::Mapper#get method, right. And get
+
+method is like this. It calls map_method. map_method calls
+
+match. match calls decomposed_match, and decomposed_match calls add_route.
+
+So, anyway. It finally goes to Mapper#add_route. And Mapper
+
+add_route calls Mapping dot new route. And add_route returns
+
+a, finally, it returns a Journey route. And then,
+
+like, adds the given, sorry, the traded route into
+
+the collection. Journey::Routes collection.
+
+So. So, this is what the Journey does. And,
+
+what's this? Yeah. It finally calls Mapper to_route, Mapping#to_route,
+
+so to_route is defined like this.
+
+I'm just gonna skip this. It's, it just returns
+
+the given app parameter, which was the endpoint given
+
+into the methods parameter. So it finally, finally it,
+
+it returns endpoint. And endpoint is if, if it
+
+responds_to call, just returns that. And if not, call
+
+Dispatcher.
+
+So. So the, the. The hash value can, could
+
+be respond_to call, for example, like this. Or mounted
+
+engine, for example. But usually it doesn't respond to
+
+call, so it calls dispatcher. Dispatcher is a Routing::RouteSet::Dispatcher.
+
+And Dispatcher is also a Rack app, so it
+
+can be called. And the call the Dispatcher goes
+
+to, dispatch method.
+
+Dispatch, so, it finally goes at the bottom line.
+
+It finally goes to controller dot action with a
+
+given action name, dot call. So, so finally, what,
+
+what the router finally calls is this. FooController dot
+
+action method with a given action, action name. And
+
+it returns something callable.
+
+So, this is the route DSL. get "/hello" =>
+
+"foo#bar" maps to FooController dot action('bar').
+
+This is about Journey. And I think I have
+
+no time, so I'm gonna skip this. I'm gonna
+
+skip this long Journey. Anyway, it resolves the route.
+
+So, this is a summary. The, the main point
+
+is that 'foo#bar' becomes a Rack application generated by
+
+FooController dot action('bar').
+
+So, the final chapter. Controllers and actions. This, what's
+
+gonna happen when the server got a request? It,
+
+it, it just calls this. So what is this?
+
+Firstly, the action method is defined like this. It's,
+
+it calls the new dot dispatch inside the block.
+
+New, new means Controller dot new.
+
+So, dispatch, dispatch method creates set, call set_response! and
+
+then calls super. So, what this dispatch method does
+
+is creates Rails response object. And then dispatch method,
+
+then creates request object. Whoops.
+
+All right. It sets the request object into the
+
+instance. And then calls process method. Dispatch finally calls
+
+ActionController::Metal#process. So, this is what's written inside the process
+
+method. process method calls process_action, and process_action calls send_action,
+
+and send_action is aliased to send. Ruby's send method,
+
+right.
+
+So, FooController dot action('bar') creates the Rails Request and
+
+Response objects into the controller instance. Then, it just
+
+calls, calls the method name bar via Ruby send
+
+method, OK.
+
+So, it can be like, FooController dot new, with
+
+something, dot bar. It's a very simple Ruby method
+
+call, finally. So, this is what's happening inside the
+
+HTTP request. When the Rails server accepts the HTTP
+
+request, it, it kind of, the Journey kind of,
+
+somehow, resolves the results, and finally calls this simple
+
+Ruby method. OK?
+
+And I guess it's, yeah. I guess it's time.
+
+I have thirty, thirty seconds left. So.
+
+Obviously there's more and more and more topics about
+
+Rails internals, but unfortunately I had, I just had
+
+forty minutes. Forty minutes was not enough to talk
+
+about, like, ActiveRecord internals or helpers or ActionPack, ActionController
+
+- these things.
+
+So, this is the end of my talk. But
+
+I'm kind of planning to write a book titled
+
+Ruby on Rails Hacking Guide. So, so hopefully. I'm
+
+planning to write it in Japanese first and then
+
+translate it into English later. So, hopefully can find
+
+it, like, next year, maybe.
+
+And, yeah. I'll write everything in that book. So
+
+please wait until the book is coming. Thank you
+
+very much.
