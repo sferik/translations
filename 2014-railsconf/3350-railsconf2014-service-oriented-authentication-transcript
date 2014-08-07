@@ -1,0 +1,197 @@
+RailsConf 2014 - Service Oriented Authentication - Jeremy Green
+
+JEREMY GREEN: All right. So what I'm talking about today is service oriented authentication. And that's how you authenticate who a user is when you want to start doing SOA and you need to be able to authenticate the same person from service to service.
+
+I nearly went with this as a title slide, but decided that I'd go with the other one so that everybody knew that they're in the right place. And then also because, I think this picture is a, is a good visual metaphor for what happens with our system sometimes.
+
+We start with a nice little shiny feature that is gonna be the thing that's gonna be unique to our app, and then we start tacking on more and more stuff and building it out and some of the things that we build up are very well-architected and well-constructed. Other bits of it are these little organic things that kind of grow off in weird ways that we don't quite understand exactly why the ended up that way, but it works. So we'll just let it be that. And just keep going.
+
+And, much like planets form by gravity attracting matter into a sphere, I think that the gravitational pull of login systems often causes monoliths to form. If you were here a couple of sessions ago when Stephen was talking about those ginormous user classes, you know, that happens because you get your login system started. Your users can log in and you want them to own some stuff.
+
+And so it's just natural that every new feature that comes along gets tacked on to where the users can log in. And so if you can figure out how to get out of that cycle, it makes it a lot easier to start dividing your systems and your features up into vertical slices of functionality.
+
+So I, I have a subtitle for this, which is Stumbling towards SOA, The story of CloudHDR. And the reason I like this as a subtitle is because SOA is not a spec. You can't go read the RFC for it and just implement it and be done. SOA is a, a way of thinking about how you architect your applications and how you design systems to interact with one another.
+
+So, what I can tell you is what I've done and what's worked for me. If these things will work for you or not is gonna be up to you to decide.
+
+So, my original app was something that looked kind of like this. It was a big monolithic app. It started out with just the core of some HDR photo-processing stuff, and then I kept tacking on more and more stuff, till I had this huge app that was slow to run, slow to deploy, slow to test. And really just not much fun to work with, as a developer, because I spent more time waiting on the computer than I did doing what I wanted to be doing.
+
+So, I had a chance recently to totally rewrite it, and I came up with a system that looks more like this. It's a collection of services that all talk to each other, only when they need to. Each one of these things can be deployed independently. Each deploy is very quick. Each app is very quick to run, to test, to boot. And I'm much happier with this now that I've done it.
+
+And the thing that allowed me to get there was getting over the hurdle of, how do I, what do I do with users? Once they've logged in, how do I handle making it be the same user as they go from app to app? And I wanted something kind of like you have at Amazon or Google. You know, most of those places, they have dozens of web properties that you can log into. But for every one of them, any time you log in, you end up at the same log in page. And then you get sent back to wherever you were trying to go.
+
+You know, you, same login page if you're gonna buy something from Amazon on their store. If you're trying to log in to AWS. Any of those things. So I wanted to try to replicate that. So what I turned to was OAuth2, and this is a, an open standard for delegating authorization across apps. And I've been really pretty happy with what I came up with.
+
+So, I know that you're probably thinking, well, this is great if you can do a total rewrite, or if you're starting with a fresh app. But, what do I do with my monolith? And that's OK. We can take baby steps to get to a better place. So what we're gonna look at is a way that you can start where you are, even if where you are today looks like that. A monolith.
+
+You can plug on OAuth2 provider functionality into your monolith to make it an app that can delay, or that, can have authentication needs delegated to it, and then you can start plugging in other services that work alongside that app.
+
+So, as a way to talk about this, I thought we could call it the Mc-SOA. And that is the Monolithic Centric Service Oriented Architecture. And I'm, of course, not affiliated with McDonald's in any way.
+
+So there's really two main portions to this talk. One is an introduction to OAuth and how it works and what it does. And then the second part is, how do you implement that? And, of course, this wouldn't be a valid tech talk if we didn't start counting at one, or at zero, I mean. And it, it's not very helpful if you don't understand the context and the goals and the requirements that lead me to make the decisions that I made.
+
+So, the first bit of context is just a little bit of information about me. My name is Jeremy Green. There's a list of some things that I'm into in chronological order, by the way. I'm one of the organizers of the OKcRuby group. That group helped me a lot in getting this talk ready. They've let me preview it for them and gave me a lot of feedback. So thanks to all of those people.
+
+And then there are some ways you can contact me. On both Twitter and GitHub, I am jagthedrummer. You can email me at octolabs or check out my website.
+
+A next bit of context is about the app. CloudHDR is a HDR photo-processing automation web app. And basically what it does is take a couple of photos that look like this that aren't very good. One's overexposed. One's a little underexposed. And turn it into something that's a lot more attractive.
+
+So, goals and requirements. It's always important to understand what your goals and requirements are, so that you know if you're getting there. And if your goals and requirements are different than mine, you might make different choices than I made.
+
+So, my goal was to have small, focused apps, that were easy to test, easy to run, quick to deploy. I wanted single sign on and single sign off across several services. I wanted to minimize code duplication. Mainly, I did not want to build log in screens for each one of these apps, and certainly didn't want people to have to log in more than once. And I wanted to support a variety of service types. I want some apps that are more or less vanilla Rails. I want some that were Ember apps that were talking to Rails JSON APIs. I've got one that's kind of a weird hybrid between a Rails app and a Ember app. And I wanted something that's gonna work for all of these things.
+
+So, OAuth2. This is kind of the meat of what the talk is about. If you've ever encountered login with Facebook, login with Twitter, login with GitHub, any of these things, you've encountered OAuth2. If you've ever implemented any of these things, then you're halfway there to being able to do SOAuth, as I'm gonna talk about it today.
+
+So, a brief overview of how OAuth2 works, or maybe a review if you've seen this before. This is a fairly simplified version of an OAuth request sequence.
+
+So, let's say you've got a web client. It's just a browser, and they're gonna try to access a page. So they send a GET request to some protected resource on a Rails app. That Rails app's gonna say, oh, you're not logged in. I don't know who you are, I can't let you see this thing yet.
+
+So what it does is then issue a redirect to an OAuth provider and say, hey, provider, can you please op, authenticate this guy and tell me who he is so that I know whether I'm allowed to show him this stuff or not. Browser's gonna follow that redirect. Go to the provider. If we assume that you've already logged in at the provider, and this would be, you know, the case if somebody's already logged into your monolith, and then you're gonna give them a link to some supporting service that they need to get to. They're gonna already be logged into the provider, but they need to be authenticated to the service.
+
+So the provider's gonna then say, oh yeah, I know who that guy is and I'm gonna redirect back to where I came from. Browsers are gonna follow the redirect again. And then when it gets to the consumer of the OAuth services, it's gonna then post back to the provider and say, hey, somebody just showed up with a token claiming to be a valid user. Can you tell me if he is or not? The provider's gonna say, oh yeah, here's a, here's a token that you can use over and over to get information on behalf of this user. Then the consumer is gonna say, OK great. I'm gonna use that token to get some more information about the user. User name. Email address. That kind of stuff.
+
+The provider's gonna respond with the JSON payload that tells the consumer more information about that user, and then finally the consumer is gonna redirect back to the resource that the user was trying to get to in the first place. In this case the protected route.
+
+Again, the browser's gonna follow the redirect, and finally we have the page that the user wants to see. Did anybody count how many request and response pairs that was that we just looked at? Many. That's a good answer.
+
+That was seven. Seven. And that's in a simplified version of, of this. I left out a couple of redirects in there that aren't really all that informative. So this kind of seems like a pain in the ass to have to implement all of this stuff. But luckily we have RubyGems, come to the rescue and give us a lot of gems that are gonna make this easier.
+
+Namely, for the provider implementation, there's a gem called doorkeeper. If you happened to be in the refactoring workshop yesterday, that Tute ran, he is now the new maintainer of that gem. And then for consumer implementation, there's a, a gem from intridea called omniauth, that handles most of the consumer tasks.
+
+So, the plan, basically, is to stand up an OAuth2 provider. This might something that you add to your monolith. And then to create a tiny gem called, in this case it's gonna be called so_auth. When you're doing this for your company or for your project, the name of your gem might be my_comp_auth or acme_auth or whatever your, whatever you want to call it.
+
+Then we're gonna use that gem to plug it into a Rails app to delegate authentication to the provider, and then once we can do that, it's real easy to stand up other services that are doing the same thing.
+
+So, real quick, a demo to give you an idea of kind of what this all looks like. So here, I have a, a client app, and from this you can tell that I sorely need to attend the design for developers talk tomorrow. So there's links where you can go back over to the provider or back to the client. And so here on the client is a link to some private stuff.
+
+When I click on that, it is going to do a couple of redirects, and then I'm going to end up at the sign in page on the provider. Once I sign in here, then it is going to redirect me back to where I originally wanted to be.
+
+Well. This was working immediately before the talk, and for some reason it's not happy now. Come on. Show me the private stuff. There we go. All right. So now I'm, I'm there. I can see the private stuff. If I go back over to the provider and I sign out and then go back to the client and try to see the private stuff again, it's gonna know that I'm signed out and ask me to sign in again.
+
+Why is it taking so long? There we go.
+
+All right. So that's kind of what it looks like in the browser. Here are a bunch of links. The one on the top is just a link to a page on my site that contains all of these other links as well as a link to these slides. There's three repos involved here. One is for a demo provider. One is for the so_auth gem itself, and the other is for the so_auth client demo.
+
+And the so_auth gem itself kind of connects the provider and the consumer. And then there are a couple of demo links there for where these are hosted on Heroku where you can see it live.
+
+So, just doing this all as a provider and then all as a consumer makes it a little hard to follow the code and to understand what code is responsible for what parts of that request sequence that we looked at. So instead of trying to do it all in two big chunks, we're just kind of going to step through the sequence that we looked at and implement or integrate the parts that we need as we need them.
+
+So that means that the first thing we look at is the first request cycle, which is the client tries to get some protected stuff and then needs to be redirected to the provider. So that means we're gonna start with the consumer implementation. And this is part one of the consumer implementation.
+
+And so this is all about entering the OAuth dance. And that's what that huge redirect sequence that we saw earlier is sometimes referred to. So, like I mentioned, we want to do this in a standalone gem that can be incorporated into other projects so that we don't have to reimplement this for every new single that we want to stand up.
+
+So to do that we just start a new Rails plugin. I did a full, because I don't want to have to mess with mounting routes in each of my new services. I just want to be able to assume that routes are gonna be available and are gonna always do what I expect them to do in each one of these services.
+
+If you're building something for, you know, other developers to consume that are outside of your organization, that might not be the right choice. And then I'm telling it where to put the, the dummy app that we can use to test this thing.
+
+So the first bit is update the gem spec for this auth, or this gem to tell it that we need onmiauth and the omniauth-oath2 gem to handle some of this stuff for us.
+
+So then we need to create a strategy for OmniAuth. And that strategy is basically a little bit of code that you write that tells OmniAuth where to find your provider and how to deal with information that it gets back from it. And so for the first part, all we have to do is tell it where the provider lives and how to find it. So we give it the, the name of the strategy that we want to use, and then set some client options. Just tell it the site, which is the url of the provider itself. And then two end points. Where do I go to authorize a user and where do I go to find a token about the user?
+
+And then you have to register that strategy with OmniAuth, and this is done in a initializer. You really probably want to build a generator for this into your gem so that any new project that you stand up, you can just create this initializer and that's it.
+
+You're just basically telling OmniAuth, use a provider called :so, and here's an APP_ID and an APP_SECRET that's used to authenticate that application to the provider. Then we're gonna create a little content in the dummy application that comes with this gem. Rails g controller stuff. Give it a private and a public method. The public stuff anybody can see. The private stuff is what we want to have protected.
+
+And so to protect it, we're gonna wanna do something like this. We're gonna wanna be able to say, before_filter, login is required for the private action.
+
+We don't actually have that before_filter yet, so we're gonna have to build it. But we don't want to build it directly into the dummy app. We want to build it in the, in the gem, so we need to tell the dummy app that its ApplicationController should inherit from the ApplicationController that comes with our gem.
+
+And so then, in the gem, we can define the login_required method, and at this point, we just know, nobody's authorized. So we can just call our not_authorized method, which is gonna redirect to auth slash so. And that is the, the interface to tell OmniAuth that you want to start the OAuth dance with the so provider.
+
+So, once that's done, OmniAuth is gonna handle doing the redirect to where the provider lives based on what we told it in the strategy of, of where that, where that provider lives and what end points it should hit. And so then the provider is gonna, at that point, need to redirect back to the consumer.
+
+So that means we need to step on to the provider implementation. The doorkeeper gem, for this, is really easy to use. You pretty much are just gonna follow the directions that are in the README, which is add the gem to your gemfile, do bundle install, generate the doorkeeper install, which is an initializer for it. Generate a migration so that mi, that doorkeeper has some tables to keep all of the, the bookkeeping that it needs to do. And then you're gonna migrate your database.
+
+So, the doorkeeper configuration, there are really just two parts of it that are really interesting for this talk that we need to look at. One is a block in the configuration called resource_owner_authenticator, and the, the job of this block is to either return a currently logged in user or to redirect to the place where the, the user can log in.
+
+And, for this block, I'm assuming that we're gonna be adding this to a devise application, and devise is built on top of warden, so in this case, we just want to tell warden to authenticate with the user scope. That scope might be different if your user's not called user. You know, if it's admin_user or person or whatever it might be.
+
+So the next bit is that doorkeeper comes with an application authorization screen. This is basically the same thing that you see any time you do sign in with GitHub for the first time on a new application, and you see the, the screen that says, hey, application X would like to have access to your profile, or would like to be able to Tweet for you or any of those things that applications can ask for when you're delegating authentication.
+
+And for the purposes of doing a completely internal provider that's only gonna ever have other internal services, you really don't need that screen. And it's gonna be confusing to your users. They're, they're not gonna understand, and it doesn't really need to be there.
+
+So we can just get rid of that entirely. And the way you do that with doorkeeper is to implement the skip_authorization block, and just return true. Just tell it, always skip authorization because we don't need it. If you're doing something that's gonna be more public, you're trying to be the next Facebook, you probably don't want to skip the authorization screen, and instead are gonna need it. But maybe you want to skip it for admin users or something like that. This is just a block of code that runs within the context of your app.
+
+So you can do anything that you want there. Implement any kind of logic to ultimately return true or false on, should we skip authorization or not? So, all right. Hurray gems. They're getting us most of the way there already.
+
+The, the request for the authorization end points can happen, and doorkeeper is gonna handle doing the redirect back to the consumer app, once it knows that we have a valid user.
+
+Browser's love redirects, so it's gonna follow it. Gonna go back to the consumer. And then OmniAuth is gonna handle for us, POSTing to the provider to try to get a token. Doorkeeper's gonna handle returning that token to the consumer. Again, OmniAuth and so_auth combined, based on the strategy that we saw earlier, is gonna send a GET request to get some more information about the user. And then, at this point, we need to return some information.
+
+But doorkeeper can't do that for you automatically, because this is very application dependent. Doorkeeper doesn't know what your user model is. It doesn't know which attributes from your user model you might want to send. So you have to implement this yourself.
+
+But it's real easy to do. You're just gonna add a route for oauth slash me, and tell it which controller to use. And then in that controller action, it can be just as simple as respond_with the current_resource_owner. And the current, so, I should back a little bit.
+
+So that first line there, doorkeeper_for :all, says that anything within this controller needs to be protected by doorkeeper, and we should only allow access to the actions if that request comes in with a valid token that belongs to a user.
+
+And so what that does is actually set up the doorkeeper_token variable for us that we can use. So then the current_resource_owner, we just do user dot find. Whichever owner, whichever user is the owner of the token that was passed in for this request.
+
+And so then in the me action, we just respond with that user. Let Rails do its thing for serializing the user to JSON and putting it back out over the wire.
+
+So we're getting really close. So at this point we've some JSON payload coming back. From the provider to the consumer. But then what happens? At the consumer, something needs to happen to stand up a session and let it know that we do have a, a valid user logged in at this point. And, again, this is pretty application specific. And so you need to implement this yourself. OmniAuth can't do it for you.
+
+But the good thing is is we can just do this once in the so_auth gem, and then reuse that gem in all of our services. Not have to reimplement it every time.
+
+So, that means we're back to the consumer implementation. Part two.
+
+And this is all about standing up a session and exiting the OAuth dance. So back to the strategy that we looked at earlier, we need a method that allows us to get just raw user information from the provider. To do this, we just use the access_token that is provided for us by OmniAuth, and tell it to get oauth slash me. OmniAuth is gonna handle plugin on the access_token so that doorkeeper knows how to identify the user. And then we tell it how to find the uid for that user. Where in the JSON to find a, a user id.
+
+And then OmniAuth also wants two extra hashes of information to be available. One's called info, and in that, I just pull out all the bits from that JSON payload that we saw earlier. All the bits that I care about that are gonna be used in the service. And then for extra, I just plugin the whole payload from the provider itself, so that if the service needs to do something extra with it, that information will be available and be handled in the service.
+
+So, to, to do the final bit of. What did I do? There we go. The final bit is to implement two callbacks that OmniAuth uses to exit the OAuth dance. If OmniAuth detects that it got valid user information back, it's gonna redirect to auth slash so slash callback. And again if your, if your strategy is called something different, that's gonna be a different route.
+
+And if it can't identify that a user did come back, it's gonna redirect to auth/failure. So we just set up those two routes, tell it what controller to go to.
+
+In the create method, we're gonna grab ahold of some environment variables that OmniAuth sets up for us, and then from there we're gonna find_or_create a user based on the id that OmniAuth pulled out of that JSON payload, which is knows how to do because of the strategy that we set up and registered with OmniAuth.
+
+At that point, we're also gonna update their email address, bio. Any other information that's delivered in that payload, because any time that that information changes at the provider, we want it to filter down to the consumer on each new authorization, so that we don't get stale user info there.
+
+So then we're just gonna stick the user session, or the user id into the session, so that we know we have a valid user. And then redirect to OmniAuth dot origin, which is an environment variable, again, that OmniAuth sets up in order to handle getting back to where the user was trying to go in the first place.
+
+The failure route, what I've implemented is very rough. Basically just pull the notice out of the, the request that OmniAuth sets up, and then redirect back to the root path. This isn't very elegant. You know, you could definitely do better failure handling than this. But this will get the job done and communicate what's happening.
+
+So then, back at the, the application controller in our so_auth gem, we can add a few more convenience methods that make it easy to deal with users that are coming from the provider. So first we just add a current_user method that will look for a user id in the session, and if it finds it, it's gonna look up that user and return it.
+
+A signed_in? convenience method that just checks to see, hey, do we have a, a current_user? And then we're gonna register both of those as helpers. I did this, you know, I chose these names and methods because it's very similar to devise, and so I'm using devise on my provider. I'm using something that acts like devise from a API stand point in my consumers. So that means I have a consistent way of dealing with users from provider and consumer.
+
+And so then we can modify the login required method, just barely. So now we just say, tell them that they're not authorized unless we have a current_user.
+
+So, hooray. Now we are getting out of the, the OAuth dance and are gonna be redirected back to the protected method. The user is gonna see what they wanted to see in the first place.
+
+So there's one last bit that isn't handled automatically by doorkeeper and OmniAuth, and that's single sign off. And you know, this is important. It's something that you definitely want to do, because you don't want somebody to log off of your consumer app and, unbeknownst to them, still be logged in to the provider. Or vise versa. You don't want them to log out of the provider but still have a user session going on the consumer.
+
+It's unexpected behavior and, depending on the nature of your app, could be, you know, a serious security leak. So on the provider, this is really pretty easy. The, the strategy is to set a cookie on the user's machine any time that they log in that contains their user id. And this isn't ever used for looking up the user. This is only used to verify that the consumer and the producer, or, and the consumer and the provider agree on who is the currently signed in user.
+
+And then we want to have a remove_user_cookie method that's gonna be fired any time that the user logs out. And that's gonna handle removing that cookie so that the, the consumer can see that, oh. Somebody's logged out.
+
+So then to hook this up with devise is pretty easy. In your devise_for :users block in the routes, you're gonna tell it that you want to use a custom SessionsController, and then you're gonna implement a new controller that inherits from Devise::SessionsController. And then, in our create and destroy methods, for both, we're just gonna call super and pass it a block.
+
+And, so devise makes it really easy to stick in little bits of extra functionality around what it provides for you. And in the case of the create method, what we're basically saying is, all right, devise, do your thing. Create the user session. Get them logged in. And after you do that, but before you redirect, let me do a little thing. And so after we have the session stood up but before we redirect back to the consumer, we want to set that user cookie.
+
+Same kind of thing with destroy. After devise has destroyed the user session on the provider, but before they'd, before it redirects back to wherever it's gonna try to redirect, we want to remove the user cookie.
+
+So then the next bit is the single sign off for the consumer side. And so there's a before_filter called :check_cookie. And this says, reset the session unless we have a valid cookie. And to determine if we have a valid cookie, there's three things we need to check.
+
+One. Do we have a cookie called so_auth that has a value in it? Do we have a user id in our session? And do those two things match? And if all three of those things are true, then we have a valid user and the cookie is still valid. If any of those three things are not true, it's not a valid cookie and we should reset the session because either somebody's logged out, or they logged out at the provider and then logged back in as a different user.
+
+So this helps you not have that kind of leakage.
+
+And then the last bit on the consumer side is you want to implement a log out route, so that if somebody logs out on your consumer, you can handle getting them logged out on the provider as well. And that just looks like this. When somebody tries to log out, we reset the session and then redirect to the provider sign out route. That's gonna trigger the provider to remove that cookie so that next time they're back at the consumer. The consumer knows, hey, we no longer have a valid session.
+
+And this is important because if you've got multiple consumers and somebody logs out of one consumer, you want them to be logged out of all of those other consumers simultaneously.
+
+So, now that we've got a little gem to use this, we can use it in new Rails apps to stand up new services. So then we're just gonna add it to the, oh. So we're gonna create a new Rails app called so_auth consumer. And then in the gem file we're gonna point to this new so_auth gem that we've just made. For development, you can just point at the path that's on your file system. For development I would recommend using the vendorize gem, and this just basically gives you a rake task that you can tell it, hey, here's an address of a git repo that I want to have vendored. That's gonna be, it's just gonna pull the, the git repo, put it in your vendor path, and then any time that you need to update that gem, you run exactly the same rake command again and you're gonna have the newest version of your custom auth gem.
+
+Then you're gonna generate the, the initializer. This is just exactly the same initializer that we looked at earlier, but you've got it in a nice generator so that you don't actually have to write it.
+
+So then the next bit is on the so_auth provider, you need to go to the oath slash applications route, which is provided by doorkeeper, and register a new consumer application. You're gonna give it a name and tell it what the redirect url that, that that consumer expects to use. And that's, that's done so that other applications can't try to spoof that consumer and get your user information when they're not really allowed to do that.
+
+So once you create your new consumer in the OAuth applications area, you're gonna take down the application, application id and secret that doorkeeper provides, and then set that in some environment variables. If you're using something like foreman or deploying to Heroku. You know, in Heroku you would set this up in environment variables. Locally, for foreman, you'd put it in a dot env file, so that it's there and available to your application whenever it fires up.
+
+And then, in your consumer app, you're gonna create a user model and then protect some content. You're gonna use that before_filter :login required that we created in the gem.
+
+So all right. Implementation is over and everything is awesome. Yeah, I know. Bad. It's bad.
+
+All right. So, to wrap up. Basically gonna stand up a provider, build a convenience gem that allows you to stand up more services, and then you just start standing up services. And the one thing that I'll hope you'll take away from this is that, you can start exactly where you are today, even if it looks like that. You can plug on provider functionality on top of your monolith and then you can start adding services to start inching your way towards SOA.
+
+And that's it. Thanks for watching.
