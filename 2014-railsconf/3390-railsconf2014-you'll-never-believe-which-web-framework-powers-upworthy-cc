@@ -1,0 +1,1249 @@
+RailsConf 2014 - You'll Never Believe Which Web Framework Powers Upworthy - Luigi Montanez & Ryan Resella
+
+LUIGI MONTANEZ: So, thank you everyone for coming.
+
+It's late on Friday and I really appreciate
+
+all of you sticking around. Obviously Tenderlove is next. So-
+
+AUDIENCE: Talk louder!
+
+L.M.: Talk louder? All right. That's be- is that
+
+better? All right. So, before I get started, I
+
+just want to actually do a quick plug, cause
+
+I saw that the session behind me is actually
+
+on the impostor syndrome. And since you folks are
+
+not gonna be there to, to see that, I
+
+just wanted to actually tell you a little bit
+
+about it, cause actually it's a, it's a really
+
+important concept. So, essentially, the impostor syndrome is when
+
+successful people like software developers feel like they might
+
+not deserve all the success they've gotten. And it's
+
+actually very common. When I learned about it a
+
+few years ago, it was actually really helpful for
+
+me and my career. So when you go to
+
+conferences like these and you see members of the
+
+Rails core team or the Ember core team or
+
+all the speakers and you think, wow, I am
+
+not worthy, actually you are. You, you really do
+
+belong here, and, and people who are successful usually
+
+do deserve it. So Google the impostor syndrome when
+
+you get home or, or watch the video when
+
+it gets posted.
+
+So to our talk. So. You will never believe
+
+which web framework powers Upworthy. I, I can't believe
+
+the conference organizers have made everyone wait all week
+
+to figure this out, to find this out. So,
+
+at Upworthy we aim to please. So we're just
+
+gonna spill the beans right away. Obviously the answer
+
+is Java Struts.
+
+AUDIENCE: [applause]
+
+L.M.: Awesome. Now. So. To introduce myself, my name's
+
+Luigi. I'm the founding engineer at Upworthy. I was
+
+the first engineer hired. I've always been a software
+
+developer involved in politics and advocacy. I got really
+
+into this guy who screened Howard Dean. And so
+
+I worked for his political campaign. There was this
+
+political action committee. I worked for other campaigns and
+
+non-profits, and then before coming to Upworthy I worked
+
+for the Sunlight Foundation, which is a great non-profit
+
+in D.C. that focuses on transparency and government, and
+
+open, open government data.
+
+RYAN RESELLA: I'm Ryan Resella. I'm the senior engineer
+
+at Upworthy. Before this in 2011 I was a
+
+Code for America fellow, the first class of fellows.
+
+I came on as technical lead full time staff
+
+there. And then last year I was on the
+
+Obama for America tech team, or, I guess 2012,
+
+working as a software engineer. And I ran out
+
+of for America organizations to work for so I
+
+joined Upworthy.
+
+L.M.: So, at Upworthy, our mission, and we, this
+
+is something we truly really believe at the company
+
+is to drive massive amounts of attention to the
+
+topics that matter most. And that will kind of
+
+inform the engineering decisions we made as the, as
+
+the tech team. So, just to kind of give
+
+people a little peak at what Upworthy does, for
+
+those who aren't too familiar, so this might be
+
+a bit hard to read, but when we say
+
+that topics that matter most, these are kind of
+
+the topics we've covered in the last year, the
+
+topics that have gotten the most attention. So I'll
+
+just read some of them aloud.
+
+There's a lot of women's issues, like body image,
+
+gender inequality, standards of beauty, a lot of economic
+
+issues like income inequality, health policy. We also cover
+
+a lot of stuff about disability, mental health. Also
+
+bullying, bigotry, racial profiling and, and race issues. And
+
+when we say that we want to drive massive
+
+amounts of attention to these things, what we really
+
+mean as web developers, as web engineers is we
+
+want to drive massive amounts of traffic.
+
+So here's a look at our growth for the
+
+last two years. So we launched a little over
+
+two years ago. We started off at, around one
+
+point seven million uniques per month. That was in
+
+our first ever month in April 2012. And then
+
+we went up to, in November of 2013, 190
+
+million page views. So, this has made us probably
+
+around the top forty, a top forty site in
+
+the U.S. We're maybe one of the larger Rails,
+
+more trafficked Rails apps out there.
+
+To give you a sense of what kind of
+
+traffic we actually deal with, here's a twenty-four hour
+
+graph of what our page view data looks like.
+
+So starting at midnight all the way on the
+
+left, and then ending midnight the next day, you
+
+can kind of say how during the, when the
+
+daytime happens, when, when work hours start, we get
+
+these spikes, these peaks of, of, of traffic. This
+
+is essentially viral, the viral cycle being visualized.
+
+So, we have handled, at most, about 130,000 concurrent
+
+visitors. This is a screenshot from Google analytics during
+
+one of the traffic spikes. So, you know, we,
+
+we are handling large amounts of traffic in very
+
+spiky ways.
+
+So here is a example post from Upworthy. This
+
+was really popular about, a few months ago, in
+
+the fall really. Who here remembers this post? Just
+
+curious. Cool. A few of you.
+
+So this is what Upworthy content looks like. So
+
+it's really just static content. So See Why We
+
+Have An Absolutely Ridiculously Standard of Beauty in Just
+
+37 Seconds. It's a video about how a, a
+
+woman, a model gets photoshopped and looks essentially like
+
+something, like the standard of beauty that doesn't really
+
+exist. So that, that's kind of the content, or
+
+angle we were going for. And here you see,
+
+we have the content, which is basically static content
+
+on the left side of the screen. We have
+
+this sidebar with recommended content on the right side
+
+of the screen. And then scrolling down, we have
+
+what we call asks. We, we also do kind
+
+of some testing on different kinds of content, different
+
+kinds of headlines. You see that down there with
+
+that John Stewart video. And then we have asks
+
+around, do you want to subscribe to our email
+
+list? Do you want to like us on Facebook?
+
+We also have kind of pop-ups that happen after
+
+you watch a video, after you share, also asking
+
+you to do stuff.
+
+So those are the things we, we, the technical
+
+things we, the technical concerns we have at Upworthy.
+
+We're pretty much a static site. We're a public
+
+site. And then we have a CMS backing that,
+
+and then we have this system of dynamic pop-ups
+
+and asks around the site that kind of optimize
+
+our subscriber base, get us more subscribers, get, get
+
+folks to share content.
+
+So, the topic of this talk will really be
+
+about managing the growth of our start up's web
+
+app in the face of very high traffic. And
+
+I actually remember maybe five years ago sitting at
+
+a RailsConf, maybe it was in Baltimore, and I
+
+was sitting where you're sitting and it was a
+
+talk, it was a talk by the guys from
+
+YellowPages dot com. And YellowPages dot com was and
+
+still is one of the larger Rails sites in
+
+the world. Obviously YellowPages is such a strong brand.
+
+Everyone goes to the YellowPages, a lot of people
+
+still use YellowPages dot com to find out local
+
+businesses and stuff like that. And they were talking
+
+about how they scaled their app, their Rails app.
+
+And I was thinking, I was sitting there in
+
+the audience, thinking well, this is really interesting, but
+
+I'm not sure this is ever gonna apply to
+
+me. I don't really, I work on these small
+
+things. No one ever really sees them. But fast
+
+forward a few years and, you know, here I
+
+am. I'm, I'm working on this, this app that
+
+millions of people see every day. So it can
+
+really happen to you too.
+
+So, let's start from the beginning. We launched in
+
+early 2012, March 26th, 2012 to be exact. And
+
+at the time there was one engineer, me, and
+
+our CTO who is a programmer, but was not
+
+really a Ruby or Rails developer. And we actually
+
+launched not on Rails but on Padrino. Who here
+
+is familiar with Padrino? Cool. Who here has production
+
+apps in Padrino? No one. OK. That's what I
+
+thought.
+
+So Padrino, this is, it's, it kind of builds
+
+itself as the elegant web framework. It is essentially
+
+just Sinatra with more Rails-like things on top of
+
+it. So he, who here has used Sinatra? More
+
+hands. Of course. And who here actually has Sinatra
+
+in production? A few, a few hands. Yeah.
+
+So, essentially, when you're working with Sinatra, it's a,
+
+it's a more low-level library. More closer to Rack.
+
+And Padrino, essentially, adds the things that you miss
+
+from Rails into Sinatra. It also freely borrowed some
+
+really great ideas from Djando. The first one being
+
+first-class mountable apps. So in Rails we have engines.
+
+But it seems like not, people don't really use
+
+engines that often. Like, you might use it for
+
+Rails admin. It's, you kind of might have a
+
+larger Rails app and then break it up by
+
+putting it into separate engines. But with Padrino, all
+
+code actually lives in a mountable app. So you
+
+have to use this mountable app system to use
+
+it.
+
+It's also middleware centric. So, those of you who
+
+are familiar with Rack, know that there's a lot
+
+of kind of, there's this concept of middleware -
+
+it's also in Rails - where you can kind
+
+of write these small bits of code that are
+
+Rack compatible, that sit on the stack of what
+
+you do, of how requests and responses come into
+
+your Rails app, or your Sinatra app or any
+
+Rack app.
+
+And there's also this built-in Admin area. And that
+
+Admin area is actually an app. That's just another
+
+mountable app. So this is, this is something that
+
+Django has. I know we have Rails Admin here
+
+in, in the Rails world. But with Padrino, this
+
+is a thing that is built into the framework
+
+itself.
+
+So, why Padrino? Why did I use Padrino in
+
+the beginning? Essentially, at the time, I was a
+
+seasoned Rails developer. I was probably developing for about
+
+five years on Rails. And during that time I
+
+started to form my own opinions about Rails. And
+
+some of those opinions were not compatible with what
+
+the, the, the Rails way prescribed. And I saw
+
+Sinatra and Padrino as this way that I could
+
+still write Ruby, still, I still loved writing Ruby,
+
+but I could also make my own choices. And
+
+there's this kind of epiphany that seasoned web developers
+
+kind of ultimately have, which is, I'm writ- I'm
+
+using this web framework, whether it be Rails or
+
+Django or Sinatra or Node, that all it's doing
+
+at the end, is it's just, it's really just
+
+a web server. Cause at the very end, you're
+
+just getting in responses, you're just emitting HTML or
+
+CSS or JSON, if it's an API, or JavaScript.
+
+That's all you're really doing. And all this talk
+
+about TDD and good object-ori- domain, object-driven design, they're,
+
+they're very important. They help us manage complexity. But
+
+in the end, what does the framework physically do
+
+in the air quote physical way is it, it
+
+really just takes in HTTP responses, or, excuse me,
+
+takes in HTTP requests and then responds with HTTP
+
+responses.
+
+So, while Rails will give you the full foundation
+
+of how to build, build a skyscraper, Padrino gives
+
+you a foundation, but it also lets you choose
+
+some of the plumbing and make some choices for
+
+yourself. So the good parts about Padrino are, is,
+
+it really is just Ruby. It's just Rack. And
+
+if you're a fan of thinking in that mindset,
+
+you'll, you'll really enjoy it. There is less magic.
+
+Things are more explicit. It's unopinionated. All the generators,
+
+when you, when you generate a Padrino app, you
+
+specifically say what you want. That you want ActiveRecord
+
+versus DataMapper versus Monoid or you want Sass versus
+
+Lest versus ERB. Whatever, whatever you want, you can
+
+specify it.
+
+I actually enjoy the process of writing middleware. I
+
+like thinking about web apps like that. I think
+
+it's a much more performant way to think about
+
+writing web apps. And Padrino itself, unlike Rails is,
+
+it's light, it's performant. It's really just Sinatra with
+
+a few more libraries on top of it.
+
+So this is what our architecture looked like when
+
+we launched. So the whole big box is a
+
+Padrino, is the Padrino app. And we had two
+
+mounted apps inside it: main, the public site; so
+
+when you visited Upworthy dot com, this is what
+
+the public would see, those, those content pages; and
+
+then we had the admin tool, the built-in Admin
+
+app in Padrino, which essentially functioned as our CMS.
+
+And keep in mind that we, we were hoping
+
+that we're gonna launch this thing and then we're
+
+gonna get lots of traffic. So we needed to
+
+figure out how to scale it right away, right
+
+from the get go.
+
+So, I kind of devised this, this idea called
+
+explicit caching, and I remembered back in the early
+
+2000s, there was this blogging framework called, or blogging
+
+tool called Moveable Type. And Moveable Type was what
+
+all the big, those early blogs used. And Moveable
+
+Type essentially, the way it worked is, it was
+
+a CMS. So when you saved your post to
+
+the database, Moveable Type would actually save, obviously, see
+
+that you saved something to the database. And then
+
+it render the HTML right then, and then write
+
+the HTML to disc. So when your, when people
+
+visited your blog that was hosted on Moveable Type,
+
+they weren't hitting that Perl app and going through
+
+the database. They were actually just hitting these rendered
+
+HTML files and CSS, JavaScript, that were just living
+
+on the file system of your server.
+
+So I, I actually was drawn to that idea.
+
+I liked that idea. So I kind of re,
+
+re-made it a little bit here in Padrino. So
+
+in the Admin app, there was this publisher object.
+
+And the publisher object essentially did that, where once
+
+anything was saved to the CMS, any content was
+
+saved to the CMS, the publisher object would see
+
+that. It would actually make a request to the
+
+Main app, which was actually rendering the public site,
+
+and it would write that rendered response to Redis.
+
+And so RedisCache was a middleware layer - I
+
+talked about middleware earlier - that sat very close
+
+to the front of this Padrino app.
+
+So, when we had a million or so pages
+
+in that first month, they were all really being
+
+served from Redis. Essentially the website was just in
+
+memory in Redis. And so that worked, you know,
+
+it scaled well.
+
+So, around this time, June, 2012, we hired a
+
+second Rails engineer, Josh French. So, he kind of
+
+joined the team, and then a few weeks later
+
+he said guys, I think we should switch to
+
+Rails. And he was, he was probably right. Because
+
+there were pain points that were not related, really,
+
+to the technical performance of Padrino, but actually more
+
+about social aspects of it. The first one being
+
+that the ecosystem for libraries, while, while pretty good,
+
+because, again, Padrino is just Sinatra, just Rack, was
+
+not as strong as Rails. There's just libraries for
+
+everything you want to do in Rails. We, there
+
+were many things we could do in Padrino, but
+
+the, the kind of quality of those libraries was
+
+not as high. A part of that is because
+
+Padrino isn't as popular, it wasn't very frequently maintained.
+
+The actual Admin app was not very pleasant to
+
+look at. It was its own HTML, CSS styling.
+
+I put a star here because, literally, once, the
+
+sec, the day we moved off of Padrino fully,
+
+they released a new, a new release which was,
+
+which had the Admin system in Bootstrap, which was
+
+what we wanted all along. And there was no
+
+community and, as a start up, it's like actually
+
+easier to hire Rails developers, cause we can't really
+
+go hey, we know you're a great Rails developer
+
+but you're gonna have to work on this thing
+
+called Padrino. That wasn't really a, a strong sell.
+
+So we decided to move. We wanted to move
+
+to Rails. But at the same time, we're, we're
+
+a growing start up. We're getting lots of traffic.
+
+So how do we kind of balance this desire
+
+to move to, move our architecture while still, you
+
+know, maintaining a running app, while still having to
+
+maintain a stable, running app that is serving a
+
+growing traffic base. And Ryan's gonna continue.
+
+R.R.: So, we started our Rails migration in October
+
+of 2012, and so this is a timeline. This
+
+is October 2012. And basically the way it started,
+
+we generated a new Rails app, moved all the,
+
+we mounted it inside the routes.rb, so we just
+
+basically mounted, and you can do the same thing
+
+with Sinatra, since it's Rack. And then we slowly
+
+the migrated the models and utilities into the app.
+
+So, when I joined, we were kind of in
+
+this weird hybrid state. I joined in January of
+
+2013, after taking a nice long siesta, re-electing the
+
+president stuff. And so, we had to figure out,
+
+how could we accelerate and just, you know, get
+
+us over the file hurdle and just move us
+
+onto Rails completely and get out of Padrino. So
+
+the first step that I did was migrating assets,
+
+and so we activated the Rails asset pipeline which
+
+had been turned off in our app. Migrated the
+
+frontend assets, the backend assets. That took us about
+
+a week in February, 2013. The next step was
+
+deciding if we wanted to do the admin area
+
+or our frontend area first. So we decided to
+
+do the hard part first and do the frontend.
+
+So we migrated all the frontend code. The views
+
+and controllers, which took another two weeks. And then
+
+lastly we, we did the entire backend CMS system
+
+as a final push, and we added, we changed
+
+it to bootstrap. Moved all the Rails controllers. That
+
+took us another two weeks.
+
+So, here at this point, the entire migration is
+
+eight months. But it's really, it really ends up
+
+getting accelerated in the last few weeks just because
+
+we wanted to get to that, that final push.
+
+And at this point, we're at three Rails developers:
+
+me, myself, Luigi, and, sorry, myself, Josh, and Luigi,
+
+and our CTO goes back to actually doing CTO
+
+work, which is great.
+
+So now here we are. We're in a monolith.
+
+We're in a big huge monorail for the entire
+
+2013, we were able to do things the Rails
+
+way. We were able to increase our velocity and
+
+just able to add lots of features. We were
+
+able to program the way we wanted to and
+
+really get things moving. We didn't have to rebuild
+
+helpers that weren't, weren't existing. So we could just
+
+have this one huge monolithic Rails app. We had
+
+the backend CMS, and then we had our frontend
+
+and we had all our Ajax endpoints.
+
+But one of the things, when you're looking at
+
+this monorail, is how are you scaling for virility?
+
+So on the campaign, there was a lot of
+
+traffic, and it was pretty easy to know that,
+
+you know, in November is gonna be really busy,
+
+or in October there's a voter deadline so it's
+
+gonna be very specific of when traffic's gonna hit.
+
+You could, you could tell. In, in the virile
+
+media world, you don't know if your post is
+
+gonna be a hit or not. You don't know
+
+when it's gonna get traction. And so you can't
+
+have someone sitting there monitoring twenty-four hours a day,
+
+when to scale, when to not scale. So, we
+
+had to think about how we were gonna do
+
+that.
+
+So a lot of it was just pretty simple
+
+basic stuff here. We added action caching. So we
+
+took, we removed the homegrown publisher system, just turned
+
+on action caching in Rails, and it's backed by
+
+memcache. So people would hit the page, you would
+
+hit the memcached instance of the page instead of
+
+going out, hitting our database, pulling in the page.
+
+We were able to just do that.
+
+The second part was just moving our assets on
+
+S3 and Cloudfront, so our app is hosted on
+
+Heroku. There's actually, it's a really easy tutorial on
+
+Heroku on how to do this. You just set
+
+up a Cloudfront instance and then you just point
+
+your config host for the, the CDM for your
+
+assets to that and it magically works. It's great.
+
+And then the third thing is, we have lots
+
+of Heroku dynos. So at the time we were
+
+running up to forty Heroku dynos, and these were
+
+1x dynos at the time.
+
+So mainly these are for our Ajax requests so
+
+that those asks, those popups, and the different things
+
+that ask you around the site, we were able
+
+to scale with those. So we ran this for
+
+awhile, and we, we had some slowness on the
+
+site sometimes, so we tried to figure out what
+
+could we do to make sure that our site
+
+would be stable and not have to worry about
+
+these viral traffic spikes, having to scale up and
+
+down. So we actually implemented a CDN in front
+
+of it. We took some time and tried to
+
+figure out what CDN we wanted. Because we wanted
+
+to do faster posts and just different things, and
+
+at the time we ended up on Fastly. So
+
+Fastly is a reverse proxy. It runs on Varnish.
+
+It's made, you guys could check it out. It's
+
+great.
+
+We, we moved all of that to, all our
+
+HTML, CSS, and images to Fastly, and then we
+
+turned off the Rails action caching. And the way
+
+Fastly works is, is it reads your headers on
+
+your page, so you just set, set expire four
+
+hours from now. So our site could literally be
+
+down for four hours and Fastly would continue to
+
+serve the pages.
+
+From there, we were able to dial down our
+
+Heroku dynos. So we went to, we switched to
+
+the 2x dynos, and we only needed about half
+
+as many dynos, because we were only serving, off
+
+the Heroku dyno for Ajax requests.
+
+Probably the biggest thing that we learned from Fastly
+
+was the mobile performance gain. So Fastly has all
+
+these different locations around the world. If I'm in
+
+California requesting a page from Upworthy dot com, it's
+
+gonna go to the closest point of presence, the
+
+CDN location in California instead of going out to
+
+Heroku in Virginia, pulling from the data center and
+
+bringing it back. So the, the load times went
+
+way down, and we're able to fully cache the
+
+site, and we have, we've had zero downtime since
+
+implementing Fastly. So it's just been a great performance
+
+gain for us.
+
+So, with having a big monorail, there's huge pain
+
+points that come along with it. We have, so
+
+we have one app that deals with our www
+
+service, Upworthy dot com, and then we have a
+
+backend CMS that our, our curators log into and
+
+do their work. So we had to figure out
+
+the concerns with that. So it's, it's really painful
+
+there.
+
+When there's traffic spikes on the public site, it
+
+could basically, it makes our CMS unstable, so the
+
+curator would log into our site, try to do
+
+their work, and they couldn't navigate and we'd just
+
+have to tell them, you know, come back later
+
+or come and do the work later. And when
+
+the traffic spike comes down you'll be able to
+
+use it. And as our team grows, the code
+
+base was becoming very large. So the classes would
+
+get huge and, you know, the frontend didn't care
+
+about some of the stuff the backend did. So
+
+it just got harder and harder to maintain.
+
+So, of course, what did we do? We break
+
+up here. Fun fact. This is actually a film
+
+in Chicago. In December, 2013, our buddy Josh French
+
+has another great idea. He says hey, I think
+
+we should really start splitting up the Rails app.
+
+And so, if you look how this timeline is,
+
+it's pretty evenly spaced. We didn't just jump into
+
+different things and start building them. We like took
+
+some time on each of these sections and really
+
+focused on, on that narrow gap.
+
+So, one of the things, when you're trying to
+
+decide how to break up your Rails app into
+
+services, how do you do it? There's plenty of
+
+different ways you can do it. This is the
+
+way we did it. This is not the perfect
+
+prescription for everybody. I think you have to look
+
+at your app and see, like, where the clear
+
+dividing lines are. So we basically, we just chose
+
+two right now.
+
+So we have our www site and we have
+
+our backend CMS. So there's a clear dividing line
+
+between the two. What we ended up doing is
+
+cloning each repo into its own separate repository, so
+
+we could maintain the git repo history, and then
+
+from there we started breaking everything up, right. So
+
+this is what we need for this side and
+
+this is what we need for this side and
+
+let's start chopping.
+
+Which was, ended up being a lot of deleting
+
+and removing namespaced objects. So, once we did that,
+
+we deployed each of these apps to, to separate
+
+Heroku applications. The nice thing about Heroku is, they
+
+have this function called Heroku fork, so they'll just
+
+take your current app, it'll fork it into another
+
+Heroku app, pull over all your plugins, everything you
+
+need. So we did that. We forked the app,
+
+our main, our main app into two separate applications.
+
+Removed the plugins that we didn't need on each
+
+side, and then we pushed out our applications to
+
+those Heroku sites. Everything's working great. And all we
+
+had to do was switch our Fastly endpoint to
+
+point at the new Heroku app at origin and
+
+we're done. So. Zero downtime really helped there.
+
+And then we continued to de-duplicate the, the two
+
+apps. So we created this core gem that is
+
+holding a lot of the code that shares between
+
+the two apps. So, our CMS runs on about
+
+two, two 2x Heroku dynos, and now our frontend
+
+app runs about twenty-five to thirty 2x dynos.
+
+This is pretty much what this looks like. So
+
+we just have an app called www, and then
+
+we have an app called CMS. And then this
+
+gem shares the code between it. People will hit
+
+the Fastly endpoint between www and, and our app.
+
+So, what are the real benefits of service oriented
+
+architecture? I think there's, there's plenty if you look
+
+and think about it. One of the big things
+
+is, we talked about the instability. You know, if
+
+our curators couldn't do their work, they, you know,
+
+we can't have like articles go out, so it
+
+gets kind of annoying. So if there's a problem
+
+on one app, it's, it's easier to fix and
+
+maintain.
+
+Each of them have different scaling needs. So the
+
+interesting thing is, our CMS, you know, when we
+
+have like twenty users that use our CMS, so
+
+we could you know have is at 2x dynos,
+
+instead of like having thirty dynos serving all these
+
+different pages. So the scaling needs was really beneficial
+
+here.
+
+And that also divides our teamwork more naturally. So,
+
+we can have people, we can have engineers on
+
+a team decide to, you know, work on different
+
+parts or features, and we don't have to wait
+
+for something to ship or something else to finish.
+
+But of course, there's, you know, there's a bunch
+
+of drawbacks running an SOA. If you're on the
+
+full stack and you want to make a feature
+
+on our CMS that needs to carry all the
+
+way through the funnels of our frontend, you have
+
+to have both, all three environments running on our
+
+system to make sure that, you know, your change
+
+goes and it funnels all the way through.
+
+Coordinating deploys is also a huge pain. So if
+
+you need something that's in the core gem plus
+
+the CMS plus the www app, that means you
+
+have to deploy each three, coordinate them and make
+
+sure that all of them are happening at the
+
+same time, or all of them go in a
+
+certain order, which, when you're on the monolith, it's
+
+really easy to just push one big Rails app
+
+out.
+
+And then migrating to a fully DRY set of
+
+codebases, it's really tedious. Trying to figure out what,
+
+what needs to go where and where we put
+
+stuff is, it's just been a really hard thing
+
+to do.
+
+So, some of the future work that we're gonna
+
+continue to do on the SOA. We're gonna continue
+
+to add stuff to our core gem. Remove dupli-
+
+de-duplication, which is, it's kind of a pain sometimes
+
+to figure out where, you know, what things go
+
+where. And then we're considering making, breaking up the
+
+app even more. So, right now we have two
+
+apps. We have this third app that actually uses
+
+up almost all our Heroku dynos. So we're thinking
+
+about making that its own separate app and service,
+
+and we can ping that.
+
+And then, you know, they all communicate with these
+
+different data stores. Should we just use, a lot
+
+of times an SOA has that service layer, and
+
+everything communicates with that service layer. So maybe we
+
+should move to that.
+
+L.M.: Cool. So. Just to wrap up here, some
+
+lessons learned. So, first really, when you're, when you're
+
+working on an app for a company and you're,
+
+you're, there's a feature request and there's all these
+
+other things going on in your company, really do
+
+wait to make these big technical architectural changes until
+
+everything starts to really, really hurt. Until you really
+
+feel the pain. And once you do decide to
+
+make these changes, it's OK to take a really
+
+long time. We're probably gonna take eight months to
+
+do that fully SOA system that we envisioned back
+
+in the beginning of the year. And that's just
+
+because we have other feature requests from the rest
+
+of the company to fulfill. And luckily as, since
+
+we're on Ruby, it kind of makes it easier
+
+to do that. It really made it easier when
+
+we were moving from Padrino to Rails.
+
+Serve everything you possibly can from a CDN. I
+
+don't think people use CDN's enough. They're just hugely
+
+beneficial to the performance of your system. They're great
+
+for end users, particularly mobile users. At Upworthy, we
+
+have well over fifty percent of our traffic comes
+
+from phones and tablets. And CDNs really, really help
+
+there.
+
+So remember that you're just dealing with HTML, CSS,
+
+JavaScript, JSON, maybe, at the end of the day.
+
+Right. That's all you're serving. So think about how
+
+you can most efficiently serve those resources from your
+
+app. And if you are, you're doing your own
+
+start up, if you're working on your own project,
+
+I hope you can also experience this kind of
+
+high traffic growth, because it's been a hugely fun
+
+and rewarding experience for the both of us.
+
+So, with that, I'm Luigi, he's Ryan. Our slides
+
+and our write up is already on our GitHub
+
+engineering blog. And we will be happy to answer
+
+questions.
