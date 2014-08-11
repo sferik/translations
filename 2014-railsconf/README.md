@@ -18,6 +18,8 @@
 
 [*Discovering User Interactions*](https://www.youtube.com/watch?v=Rf0NhjMAVoY&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5&index=49)
 
+[*Engine Yard's New and Improved Cloud Platform*](https://www.youtube.com/watch?v=kNM4cnF4vrw)
+
 [*Using Software Analytics to Help Make Better Business Decisions*](https://www.youtube.com/watch?v=KdmuHgpHJVE)
 
 [*Get More Hands on Your Keyboard*](https://www.youtube.com/watch?v=DndoNihAzv8)
