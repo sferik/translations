@@ -14,6 +14,8 @@
 
 [*Eliminating Inconsistent Test Failure*](https://www.youtube.com/watch?v=Z6Xk5JWVrcA&index=43&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5)
 
+[*Web Applications with Ruby (Not Rails)*](https://www.youtube.com/watch?v=TqiuMn1acV8)
+
 [*Discovering User Interactions*](https://www.youtube.com/watch?v=Rf0NhjMAVoY&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5&index=49)
 
 [*Service Oriented Authentication*](https://www.youtube.com/watch?v=L1B_HpCW8bs)
