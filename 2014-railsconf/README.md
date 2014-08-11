@@ -18,6 +18,8 @@
 
 [*Discovering User Interactions*](https://www.youtube.com/watch?v=Rf0NhjMAVoY&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5&index=49)
 
+[*Using Software Analytics to Help Make Better Business Decisions*](https://www.youtube.com/watch?v=KdmuHgpHJVE)
+
 [*Get More Hands on Your Keyboard*](https://www.youtube.com/watch?v=DndoNihAzv8)
 
 [*You'll Never Believe Which Web Framework Powers Upworthy*](https://www.youtube.com/watch?v=r56wJMk8QCg)
