@@ -1,0 +1,157 @@
+RailsConf 2014 - Using Software Analytics to Help Make Better Business Decisions - Shiv Kumar & Vince Foley
+
+SHIV KUMAR: Thanks so much for, for coming out for this. This is both Vince and I's first time speaking at RailsConf, and actually my first time as a developer speaking at anything. So this is, this is a really cool opportunity for me, so I'm. I think we're both really humbled that you all could come out and, and talk with us about this.
+
+VINCE FOLEY: Yeah.
+
+S.K.: So-
+
+V.F.: Especially since you had to come all the way down to the caves to find us.
+
+S.K.: Yeah. Hope you got your jacket, cause it's cold in here. So yeah, my name's Shiv. I am a software engineer at New Relic. And I work on what is, we call it our business enablement team. It's kind of our internal engineering team that serves all of the various business units within the company. And you'll see throughout the presentation, I'll give a couple of examples of what that means, so we can get into that a little bit more. Definitely.
+
+V.F.: And my name's Vince. I work on the RPM UI that you're all familiar with, hopefully. Tending to work on more infrastructure backend kind of stuff these days. I've been with New Relic for about a year. I remember last year at RailsConf in Portland, I was interviewing with them. So this is a nice little anniversary for me.
+
+S.K.: Cool. So just to get a quick raise of hands, just to sort of understand who's in the audience. So first of all, who here has heard of New Relic before? OK, good. That was kind of planned. Keep your hand in the air, though. I just wanted to get everybody's hand in the air.
+
+Who's, who's currently using New Relic, either as a side project or in a production application? OK. And then keep your hand raised if you're using it specifically in a production application currently. All right. And then keep your hand raised if you have checked New Relic in the last seven days. OK. That's great.
+
+V.F.: That's solid.
+
+S.K.: And. Hands can go down now, sorry.
+
+AUDIENCE: [laughter]
+
+S.K.: And how many of you are, let's say, software engineers? So most of you. How about, software writers? Soft- business people. Business. If you consider yourself more of a business. What about a blend between those two? Probably a lot of you. OK. Cool.
+
+So the purpose of this presentation, what we kind of wanted to do is go through software analytics as an idea, as a concept, and how that can relate to making business decisions. So, regardless of what your choice is for a software analytics tool - it sounds like a lot of you have used New Relic before and are using New Relic. But regardless of the choice of tool, what we want to get across is that you can use software analytics to really inform your business decisions. So, throughout this presentation, what we're gonna do is start with a bit of a product overview that Vince is gonna walk through, and you know, we're at a sponsored event, so we're gonna talk about New Relic. And then what we really want to do is show you about four, three or four specific examples of how Vince and I have used New Relic in our actual jobs to help inform business decisions, kind of what we wa- what we're gonna work on, how we prioritize our work and that kind of stuff. So, some real life examples of how we use New Relic.
+
+And then hopefully have plenty of time for a Q and A if you have questions. I'll let Vince take it away.
+
+V.F.: So, New Relic's been around for about six years now. Started out just as Rails performance monitoring, but it's expanded very greatly since then. We've added a number of extra agents. So we work in lots of environments: Java, dot net, PHP, Python. We have a platform component that lets you build your own agents of sorts, and so you can monitor things like mySQL or memcache. Whatever you can write a plugin for, you can hook into our infrastructure and have that data be reported.
+
+And lately we've started getting into mobile apps. So we have a iOS agent, and we also have been getting further into JavaScript with the Node agent and a new browser JavaScript agent. So that's sort of the history of how we've been spreading throughout the infrastructure that all of our production apps run in.
+
+And so we're expanding this idea of performance monitoring into what we call software analytics. And this is a nice slide that's been put together by people who aren't developers. But it's, it shows the expanse of what it is we're trying to monitor. So it started out as just, how is our app performing? How is this server it's running on performing, how it's using its resources. But there's a lot more information embedded in the software that we're writing. Since the software is about a domain, there's all sorts of information about that domain that we can start using to make better decisions. And, and that's where we're heading as a company with the new work that we're doing. The software analytics.
+
+So the, the extent of what we're trying to do right now is kind of shown here, and what we're moving it further. But the really interesting stuff is happening off to the right here with this inside. That's one of our first steps into something that raises the level of abstraction above the infrastructure, above the technical, and gets into analyzing the thing that you're doing, not just the infrastructure that it's running on.
+
+So APM is what we're calling the site that you are very familiar with. It went from Rails performance monitoring to application performance monitoring. And so this is the infrastructure of what you're familiar with now. We put the agent in whatever component we're talking about, whether it's browser or your mobile app, your server, your application itself. Send it up to the collection tier. We start correlating, doing aggregation, and then we present it to you in our UI.
+
+And traditionally, APM is aggregated information, so we weren't collecting every bit. We were taking averages over time, taking sample traces and, and aggregating that to show it can be aggregated. But what we're moving to with insights is event-level resolution. So we're no longer gonna be aggregating. We're saving up all the information and we can do complex queries on it later. So you don't have to, you're not in the clouds. You're actually looking at, like, exactly what's been happening on every request.
+
+And that's required building a pretty deep and new infrastructure for storing that and creating that. And that's the backing of a few of the features in our APM product, but also the majority of our insights product.
+
+So, what I'm gonna talk about, a couple new features that are in APM, and since we're all Ruby developers, one of the real interesting ones is some of the new stuff that's been revealed with some work in the agent that we've released very recently regarding Ruby 2 point 1 garbage collection. So, this is our staging environment. And you'll see this deploy here is where we turned on Ruby 2 point 1. And it's just stock Ruby 2.1, no out of band GC or anything. And now that we're monitoring a lot of new information about the garbage collection system, you'll see that our memory usage drops significantly. The time spent in GC dropped significantly. And the heap size got, dropped significantly as well.
+
+So, this is a little bit of developer flavor for you. But if you want to gather some business insights, upgrade to Ruby 2 point 1 for sure. Like, it's, it's really a much better garbage collection system.
+
+And then another new feature that's backed by our insights data store is histograms and percentiles. So, like I was saying about average aggregated data, there's been other talks about this too like. Sometimes important details are lost in the muddle of averages, but we actually have histograms available for all the metrics we collect now and transactions. So you'll be able to see things like where are the, the bumps. There's often like a bimodal distribution and a lot of requests.
+
+And you can see percentiles. So what is it like for the, every once in awhile, when there's some weird database contention and that query takes forever, like, how would those response times actually look like?
+
+So, I'm gonna turn it back over for a few more new features. You ready to tell them about it?
+
+S.K.: Yeah. So, so browser was released, let's. At the, I want to say one or two months ago. So it's pretty new. You might have seen it pop up on the left hand side. Some of the features were in APM before, but we found out that there was enough of a need for a frontend specific tool, a frontend developer specific tool, that we could break it out into its own tool. So we called it browser. So you'll see it on the left hand tab within New Relic. It's just called browser. And then your applications will be in there.
+
+And I'm gonna share with you a little story about what happened with my team specifcally. So I mentioned that I work with the marketing team within this kind of business enablement group. And what that, one of the, one of our main purposes is to keep up the NewRelic dot com marketing store front site. So anytime you just go to NewRelic dot come, flashy, Ajax-y, jQuery stuff going on. It's a pretty site and all that stuff. That's kind of the team that I work on with a bunch of frontend developers and stuff like that.
+
+So, when browser monitoring came out, this, this kind of crazy thing happened. So we didn't have access to this data before, and what happens when the guys in Portland come up with these new tools is that, we get to use them first. And usually that's pretty awesome experience, because all of the sudden we have access to all this new data that we just didn't have before.
+
+So I'm gonna share with you a screen shot of what we saw the first time we turned into, we, we, we clicked into browser monitoring. It's pretty small and it's actually gonna look a lot, you know, very similar to what you're very used to seeing in the New Relic APM tool. You've got the charts at the top. You've got through put. You can dig into page views just like you can with transactions. And then there's these two new boxes at the bottom right.
+
+JavaScript errors and Ajax timing. These are brand new features that we pulled out. And I think you'll be able to see pretty quickly if you can see this why it was pretty scary, scary to use when we first opened this up and found out that twenty to thirty percent of our page loads had JavaScript errors. Which is a pretty scary thought to think about, right. That's a lot of JavaScript errors.
+
+We knew about a few of them. And a lot of them were not bringing down the site by any means. They might have been older JavaScript libraries that had some stuff in there that we weren't using and it was throwing up some red errors in the console. So not a big deal. But then we wanted to dig deeper and find out if there was anything in there that was more serious, right.
+
+So, when you click into JavaScript errors, you get, again, another very similar view. And it's a breakdown of all of your JavaScript errors over that time period, and kind of, the amount, the number of times that they happened. So it's ranked by the number of times, in this case, and a lot of them we weren't surprised by. And then we started clicking around. So I wanted to click into one and show you what we found when we clicked into one. And we're not using an actual demo here because we can't really get the internet to work. So sorry about that.
+
+But you'll see down here that it's pretty interesting. So this JavaScript error is very specific. It's happening basically only on Internet Explorer and probably some versions of Firefox. So, yes. You know. Slap on our wrist for not checking Internet Explorer, which we should have done. But, you know, what, what I like to think of, a lot of New Relic tools are as, we as developers can go out and develop a lot of really cool things and we're not gonna catch all of the errors that happen. But thankfully you can use tools like this to catch the stuff that you don't, and then you can go fix it so that people who are hanging out on IE7 and 8 can maybe still see our site a little bit, right.
+
+So I also want to show off the Ajax Timing. I don't have a specific story around this, but it's, it's a pretty cool new feature. So you can finally get level, detailed information into all of your Ajax calls that are happening within your site. So that includes anything that loads on page load. So things like tracking tags. You'll see a lot of like mix panel and Google stuff happening on this slide.
+
+And then you can dig into them and get, get a level of detail including kind of the amount of time spent in JavaScript callbacks. So it's kind of a level of detail into your Ajax calls that you may not have been able to see before, and I'm sure you'll be able to abstract a lot of cool stuff out of that. Anything to add?
+
+V.F.: No, but I really like the JavaScript pairs, cause I helped build it.
+
+S.K.: Are there any questions before we move onto insights? Cause we kind of breezed through APM and browser right there.
+
+Yeah?
+
+AUDIENCE: Could you go back to the 2 point 1 GC slide?
+
+S.K.: Yeah. Vince loves talking about this. This was like, what-
+
+V.F.: Well I've been working on the thing for Ruby 2.1 for like-
+
+S.K.: -maybe two weeks ago?
+
+V.F.: Our test suite, when we first got it, I finally got it booting, and then had half of the tests were failing. Knocked out with like a couple hundred with a few fixes, and then the rest was just like continuously not getting fixed. But anyway. Yeah.
+
+This is, this is available now. We just released it, with, there's an interesting blog post that talks about a lot of the agent features.
+
+S.K.: With the, with the recent version of the gem. So make sure you upgrade your gem.
+
+AUDIENCE: What kind of sucks is that EngineYard, I don't think they're supporting 2.1 yet.
+
+V.F.: We should go bug them.
+
+AUDIENCE: Yeah.
+
+S.K.: Did you have a question back here? Or, no, you're just, just scratching. OK. I'm sorry. Called you out for that one.
+
+And, animations, animations. And. There you go.
+
+V.F.: All right. So, insights is a, is a brand new venture for us. It's a new product that we built from the ground up. Including data collection tier and a brand new UI. And we're calling it, what's this, a real time analytics platform. So what that means is, like I was talking about earlier, we collect every event that happens. We collect page views, transactions, within the currently existing agent that's already in your app. So we've been doing this for awhile, and if you log into insights right now, you'll see a bunch of data, cause we've been collecting this for some time now.
+
+As well as custom events. So you can send interesting things to the API and, and use this interface to query and analyze it. Database is really big, really complicated. Lots of query, workers querying. All kinds of cool stuff. But what it gives us is a really fascinating way of interacting with our data. So each one of these-
+
+S.K.: Jump to the actual one. This one.
+
+V.F.: Oh yeah.
+
+S.K.: And just pull up some records.
+
+V.F.: So, each of these little segments here is backed by a query that is written in query language that we developed. Looks a lot like SQL. And it has a lot of nice little functions, basic stuff like counts and averages and whatnot. But also gives you really easy access into making histograms, percentile charts, time series charts, pie charts - all kinds of interesting stuff. And this is all reflecting life results. So you don't have to re-query. You make one query, build up this chart, and it stays up to date with what's happening in real time in your app.
+
+And there's lots of really interesting stuff that you can do with this. Because any bit of information that you send in to the agent can be used in one of these queries. So, say you want to start doing some performance analysis, and this is something that we've done in a particular view in your app. You could do a query that segments it down to just that controller and action, and then you can do what we call a facet, based on another category of information. So we've done facets on how many hosts does this account use.
+
+So there's some accounts that have one host, you know, or some accounts with a couple, three or four, and you know, that, the performance of that is understood by us. We can simulate that on our local machine. But what if there's an account that uses Amazon and spins up all kinds of dynamic hosts, and they have maybe a thousand or ten thousand in their account?
+
+We can do the same kind of performance analysis that we've done in RPM, but faceted by host count. So we were able to determine that there's a threshold, and when you got over like a thousand, the response time of this particular view really spiked. And so that gave us insight into what we needed to pay attention to when we were doing our performance optimizations. So we needed to look for, like, not just n plus ones, but what are the effects of having a radically larger, like, this variable? Like, host count or another variable.
+
+So, that's a way in which we've really gotten a lot of benefit out of having a way to do more complex and more customized queries, based on the same data that we've been collecting for a long time. And you can make any number of these dashboards and any number of these charts and keep them, you know, put them up on the TV or whatever or keep them on your desk top. I recently launched a new feature on my own new personal site, and I was like watching all the visitors come as like this registration opened for bike polo tournaments that my software hosts.
+
+And like, you know, for me like, a hundred users on that site at the time was a lot. But I was able to see like, people are logging in and like doing these transactions and I was recording them all. Just using the agent, like, cust, add custom params, New Relic agent dot add custom params, give it a key value and then all of the sudden it's available in the system for you to query.
+
+S.K.: You can stay there.
+
+V.F.: Oh yeah. You want to go back to that?
+
+S.K.: Yeah. And, and I think, you know, Vince, Vince brought up host count, but really, for your own usage, you could facet by customer size or how much they spend with you. And then you know, really look at, based on what tier they fall in, how your app preforms for those various tiers. Which can be a useful metric to look at and understand where you need to focus on, focus the majority of your time.
+
+So, I wanted to share one more example, and I have a little, a little bit of a story so bear with me for a minute here. So we were launching insights about a month ago or so. And the marketing team was like, can you build us a dash board that shows us, kind of what Vince was talking about, all the people that are logging into insights, real time. How many of those people? Who's viewed the dashboard? Who's inserted a custom attribute into a transaction event.
+
+So I was like yeah, yeah, totally, like I can build this dashboard. And here's the dashboard that I build, you know like. This is currently showing you how many people are logged in to insights right now. 815 users. And they were like, cool like, this is awesome. Like we have a dashboard now. But Shiv, like, we can't do anything with this dashboard. It's just like a dashboard. What are we supposed to do with it other than look at it? It's nice to see, but we want to do, we want to take some action on this data.
+
+So, what they wanted to do was take all of this data from this dashboard and port it over to Marketo, which we're using to do to facilitate a lot of our marketing on a mission. They wanted to be able to take user logins, so they can understand who's logged in, who's viewed a dashboard, and then, you know, send off different emails based on that kind of information.
+
+Typically what you could do with the Rails application is set up a background job process, right, that's just, when something happens, you fire off the event the Marketo. Marketo collects it and you're all good. Or you do like a daily sync with Marketo with your application. The insights team didn't want to do that. And they specifically didn't want to do that so that they could test this API implementation that they built.
+
+So they built a really, really nice easy way to be able to pull data out of insights and push it anywhere else you want to. So if I switch back to the slides, here's kind of, I mean, it's kind of, you know, a simple curl. It's not anything, something that most of you have probably seen before. But what's really cool is that you can drop any query into there.
+
+So, Vince showed off that NRQL query bar at the top, where you can create a dashboard, literally anything that you put into that NRQL query that creates a dashboard, you can put that into an API call, which will then output JSON to you to use wherever you want to use it.
+
+So, where that can be cool is if you're putting in a bunch of custom attributes about your customer size. You can use insights, for example, as an aggregate store for all that data. We'll take all your data, aggregate it up, and then you can just pull it out with performance data or however you want to view it, slice and dice it and then put it wherever you want to. So this is kind of what the flow looked like for us. Obviously we're taking it out of insights. In our case we're pushing it into our APM app only to use it as a background job processor, which then we can push it over to Marketo from there.
+
+Right, so we were basically just using APM as the server to run the process. But what I think is really interesting is that if you switch Marketo with anything. Be that like a BI dashboard, or really anything that you want to push data into, and then consider using a tool like Zapier, Iron dot io, then you set up a process where you can take data out of insights, process it in Zapier and then put it wherever you want to. And what gets really cool about this is that you don't have to be a developer necessarily.
+
+So if you're CEO or your business partner comes up to you and says, hey I want this data here, you might be able to just tell them, like, use Zapier, take the data out of insights, which I've already put in there for you, and then you can push it wherever you want to. I don't have to set up a new background job, I don't have to submit anymore new code for this. All the data's there and all you have to do is use it.
+
+So we think we're gonna go in this direction, hopefully using some tool. I don't think it'll be one of these two. But I think it's a really cool idea to be able to use this data and integrate it with other tools. So the point here is that you guys can brainstorm and figure out the ways that you want to use it.
+
+So that's really all we have in terms of slides and examples. We were hoping to open up the rest of the talk just for questions to talk about New Relic. So. Yup?
+
+AUDIENCE: What kind of-
+
+[applause]
