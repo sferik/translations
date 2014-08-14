@@ -18,6 +18,8 @@
 
 [*Culture of Continuous Delivery*](https://www.youtube.com/watch?v=cuRyW0FfBiM)
 
+[*Tales from the Crypt*](https://www.youtube.com/watch?v=zZtDOX9kXRU)
+
 [*Eliminating Inconsistent Test Failure*](https://www.youtube.com/watch?v=Z6Xk5JWVrcA&index=43&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5)
 
 [*Web Applications with Ruby (Not Rails)*](https://www.youtube.com/watch?v=TqiuMn1acV8)
