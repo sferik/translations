@@ -1,0 +1,497 @@
+RailsConf 2014 - Ruby Hero Awards
+
+GREGG POLLACK: Hello. Hey. It works. Thank you 
+
+uys for coming out early. I know there were some
+
+parties last night, and you made it here. Congratulations.
+
+I'm Gregg Pollack. This is Carlos Souza, and you're
+
+listening to Ruby 5. No, not really. Thought I'd
+
+put that out there for those of you who listen.
+
+So, we're doing the Ruby Hero Awards. In case
+
+you're not familiar, the Ruby Hero Awards are put
+
+together to give some people some recognition that they
+
+deserve, that they don't otherwise get. We're in our
+
+seventh year. Started in 2008, so like, that was
+
+like the third RailsConf we started doing the Ruby
+
+Hero Awards.
+
+2013 Ruby Heroes, in case you're not familiar. You
+
+might see some recognized names there. Here was the
+
+2012 Ruby Heroes. And then if you go back
+
+in time, the really interesting thing about this is
+
+that a lot of these people were, are well-known
+
+now, but at the time of doing the rewards
+
+they weren't. They were just hacking away, you know,
+
+some of them made it onto the Rails core
+
+team. Some of them made great impacts, I feel
+
+like, on my life, on other peoples' life probably,
+
+in this room.
+
+But, before they were so well-known, they just, you
+
+know, worked really hard and then we recognized them
+
+on stage here with Ruby Hero Awards.
+
+Oh, and a lot of these people, I realized
+
+last night, these are the people, you know, if
+
+Ruby's down here, a lot of these people are
+
+the ones that, you know, created floors up, you
+
+know, on these Ruby Heroes. And then maybe your
+
+software comes up here. All right. To bring it
+
+back to Yehuda's talk.
+
+Now, a lot of them are educators as well.
+
+They're not just coders. So why do we do
+
+this? Well just to briefly give you the background,
+
+we do this podcast called Ruby 5. Twice weekly
+
+Ruby news podcast. It's also a newsletter. You can
+
+subscribe now, if you don't listen to things. And
+
+what we realized, when we feature doing new libraries
+
+for Ruby and Rails on a week basis, is
+
+that there's certain people that go above and beyond.
+
+There are certain people that are producing library after
+
+library, or educational product after educational video, that don't
+
+get the recognition they deserve.
+
+So we realized, well maybe what we should do
+
+is, is give them an awards ceremony, so that
+
+we can get some of these people that work
+
+hard for our benefit up on stage to give
+
+them the round of applause that they deserve. So
+
+this year, we have six hundred and thirty-one nominations.
+
+In case you're not familiar, so what we do
+
+is we have that website I had a second
+
+ago. People can submit their nominations, and then we
+
+go, so it's not a popularity contest, we go
+
+back to the Ruby Heroes of previous years and
+
+ask them to take under consideration the nominations, and
+
+they together vote for who gets these six awards
+
+you see up here on stage.
+
+So there's six Ruby Hero Awards we gotta give
+
+away today, and with any luck, all of them
+
+should be here today. So, oh. The other thing
+
+that I thought was interesting. As I was going
+
+through and collecting information about all these different people,
+
+I thought I would go ahead and give it
+
+away what four of them are. Are you ready?
+
+There's four of them. But I thought this was
+
+pretty impressive. So four of these guys are amazing,
+
+well, really all of them are amazing open source
+
+contributors, contributors. I also, so a couple people I
+
+have to thank of course before we get to
+
+it. I gotta thank Ruby Central for letting us
+
+come up here on stage and, and give these
+
+awards away and support us. Also got to thank
+
+everybody who voted. Was there anybody here who voted
+
+for Ruby Heroes, nominated people? You're awesome. Thank you.
+
+Also gotta thanks to Code School. They paid the
+
+bills. They paid for these awards. In case you're
+
+not familiar, we've got a booth down there, and
+
+we've got three courses that we put out that
+
+Carlos has had a lot to do with. He's
+
+the author of these Rails 4 courses. If you
+
+need to get up to speed, check him out.
+
+Come down to our booth later.
+
+Also, thanks to everybody who voted. And before we
+
+get onto it, I want to make sure, the
+
+best way that we can keep this community strong
+
+and the best way that you can motivate people
+
+to keep on being awesome, is through positive reinforcement,
+
+through compliments. So I challenge you guys, if you
+
+see somebody at this conference, it could be somebody
+
+who gives a conference talk, somebody who created some
+
+open source library that you use, and you see
+
+them here, please, please take a moment to set
+
+them aside and say, I really appreciate you did
+
+that library. It really helped me.
+
+A little of that positive reinforcement can go a
+
+long way. Especially when you're, you know, working by
+
+yourself in a room, coding away, and you don't
+
+really know, you don't really get to be in
+
+front of people that you impact on a daily
+
+basis.
+
+All right. So, if you hear your name called
+
+today, you're gonna want to come up on stage.
+
+We've got awards here. And we're gonna stand over
+
+here until everybody's called, and you gotta do the
+
+traditional group picture, and then we've got boxes for
+
+the awards if, if you're a Ruby Hero.
+
+So, I'm gonna hand it over to Carlos here,
+
+to announce the first Ruby Hero.
+
+CARLOS SOUZA: The first Ruby Hero looks like this
+
+on GitHub, and you might know this hero through
+
+their contribution to education through the Ruby Rogues podcast
+
+every week and also she's a pretty active conference
+
+speaker. She helped teach at gSchool and she also
+
+put out this awesome project called exercism dot io
+
+that helps people practice coding and practice testing, TDD.
+
+Here's what some people had to say about her.
+
+She inspired me to get into open source projects
+
+for the first time, and devotes so much of
+
+her time to teaching others how to write clean,
+
+beautiful code. The hero I'm speaking of is Katrina
+
+Owen.
+
+G.P.: Awesome. Let's move on to hero number two,
+
+who looks something like this on GitHub. Now, this
+
+guy has actually been nominated several years in a
+
+row for Ruby Heroes. And so, just over the
+
+years, he's given back a lot to the Ruby
+
+community. If you've been in the Ruby community for
+
+a couple years, you know his name by now
+
+hopefully, from some of the conference talks that he's
+
+given and some of the really meaningful work that
+
+he's done.
+
+One of the things that I most admire about
+
+him is his work helping kids learn Ruby through
+
+something called KidsRuby. He's also done this sort of
+
+initiative through events, like Kids Code Camp. And also
+
+recently, over the last year or two, he's put
+
+a tremendous amount of work into a Ruby library
+
+called Artoo, which allows you to use Ruby to
+
+program all sorts of robots.
+
+Here's a quote that somebody said about him. He
+
+is a champion for Ruby, using it to teach
+
+programming to children through KidsRuby, and also providing awesome
+
+robotics framework, Artoo. In case you're not familiar with
+
+all those clues, the person I'm talking about here
+
+is Ron Evans.
+
+C.S.: Hero number three. This is what they look
+
+like on GitHub. He's also a contributor and he
+
+helps maintain the Boxen project, which helps you provision
+
+your local development environment, gets you up and running
+
+pretty quick. He also is the maintainer for the
+
+simple_form gem, which I'm sure a lot of you
+
+use. He is a member of the Rails core
+
+team, and he's up there with the top contributors,
+
+top five contributors.
+
+And here's what some people had to say about
+
+him. He has done amazing contributions to Rails, devise,
+
+simple_form, and other open source projects, dedicating lots of
+
+hours of his extra time to improve our lives.
+
+I don't know if people understand how important he
+
+is to Rails. He's basically a second Tenderlove.
+
+The person I'm speaking of is Rafael Mendonca Franca.
+
+G.P.: All right. Hero number four. I think he's
+
+got the most commits. I mean, look at that.
+
+It's solid. You probably know him. He's the, like,
+
+maintainer, main maintainer right now of the Twitter Ruby
+
+gem. He also helps maintain and create the Twitter
+
+client, command line client. Also, Rails admin. If you're
+
+familiar with Rails admin, this is the guy who
+
+created it and helps maintain it now. And as
+
+I was going through and doing my research with
+
+these heroes, I would occasionally go back to like
+
+the very first commit to see, did they start
+
+this library? And with Rails admin, I found something
+
+really interesting.
+
+So I went back to the first commit, and
+
+I was like Rails admin, hmm. Where did the
+
+inspiration for this come from? And all you had
+
+to do was look at the last couple commits.
+
+That's second, third, and fourth commit. What was even
+
+more interesting, is you would scroll up through more
+
+commits, and I found, I found something else there
+
+too that's kind of interesting. And then I scroll
+
+up even more and I find PHP my admin.
+
+No, I'm just kidding. I'm just kidding. Wouldn't that
+
+be funny?
+
+Anyways. So, this person also is a huge contributor
+
+to a bunch of open source projects that we
+
+all use on a daily basis. Things like Bundler,
+
+RubyGems, and Thor, amongst other projects.
+
+Here's a quick quote. He contributes more to open
+
+source than anyone I know, and he's willing to
+
+do the grunt work. It's not always glamorous, but
+
+he's in the trenches: Christmas, birthday, everyday.
+
+The person that we're talking about here, of course,
+
+is Eric Michaels-Ober.
+
+C.S.: Hero number five. Here's them on GitHub. He
+
+is a contributor and the maintainer for the Purugin
+
+library, which is a Ruby Minecraft plugin. And he's
+
+also been co-leading the JRuby project for a long
+
+time. So he's been helping spread the Ruby's on
+
+the JVM.
+
+Here's some quotes of what people had to say
+
+about this hero. He's heroic because he's the number
+
+two contributor to JRuby, and I don't think many
+
+people who know who he is. He solves difficult
+
+problems and always has time to help people out.
+
+The hero we're talking about here is Thomas Enebo.
+
+G.P.: All right. One more to go. This person
+
+has created more gems than probably just about everybody
+
+in this room. About 150 gems over the last
+
+many, many years. He's been in the Ruby community
+
+for a very long time. Just to highlight a
+
+couple of the gems that he's worked on more
+
+recently, you've got the map gem, you've got the
+
+dow gem, you've got the main gem, you've got
+
+the openfor gem, you've got the systemu gem, you've
+
+got the main gem. You guys get the pattern
+
+here. He's done a lot.
+
+Now I found this one primarily interesting. The testy
+
+library. It's a BDD testing framework for Ruby that's
+
+mad at the world and plans to kick its
+
+ass in seventy-eight freaking lines of code by ruthlessly
+
+removing lines of resting framework.
+
+I added the animated gifs. It wasn't in there.
+
+But I thought it was a really interesting point,
+
+because there's certainly a lot of, you know, we
+
+don't need that many lines of testing framework to
+
+be really effective. I thought that was a great
+
+statement to make.
+
+Here's some quotes. He has, easily, been the biggest
+
+influence on my Ruby style. While everyone else was
+
+cargo-culting the style of Rails code, he was doing
+
+his own thing, in his own unique way. He's
+
+a relatively undiscovered treasure chest in the Ruby community.
+
+The work he did with Ruby to mesh, to
+
+mash the satellite together is top notch, and the
+
+body of work out there on GitHub is impressive
+
+to say the least.
+
+The person I'm talking about here, of course, in
+
+case you don't know, is Ara T. Howard.
+
+C.S.: All right.
+
+G.P.: Why don't you guys come up to the
+
+front?
+
+C.S.: So, to finally announce, these are the 2014
+
+Ruby Hero Awards Ruby Heroes.
