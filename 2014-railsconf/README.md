@@ -12,6 +12,8 @@
 
 [*Ultra Light and Maintainable Rails Wizards*](https://www.youtube.com/watch?v=muyfoiKHMMA)
 
+[*Ruby Hero Awards*](https://www.youtube.com/watch?v=qoc21UvC3p4)
+
 [*Eliminating Inconsistent Test Failure*](https://www.youtube.com/watch?v=Z6Xk5JWVrcA&index=43&list=PLE7tQUdRKcyZ5jfnbS_osIoWzK_FrwKz5)
 
 [*Web Applications with Ruby (Not Rails)*](https://www.youtube.com/watch?v=TqiuMn1acV8)
