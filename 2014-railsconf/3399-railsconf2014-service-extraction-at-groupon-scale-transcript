@@ -1,0 +1,231 @@
+RailsConf 2014 - Service Extraction at Groupon Scale - Abhishek Pillai & Jason Sisk
+
+ABHISHEK PILLAI: Thanks for coming. I know there's some other cool talks right now, but you're here so that's awesome. Let's get started. You're here to learn about how to tame COBRAs.
+
+JASON SISK: My name is Jason Sisk. I work at Groupon. I've been here for a couple of years. I work on predominantly Ruby/Rails systems, backend development, et cetera, and I do not like onions.
+
+A.P.: My name is Abi, and I'm at, I've been at Groupon for about two years, too. And Jason and I work on a team that does backend service, basically managing inventory. And I don't like fruits.
+
+J.S.: So part of what we're gonna tell you today is a little bit of a history lesson about the early pain of Groupon having site outages, et cetera, due to Rails scaling. We want to tell you about the story of the developers that actually handled those problems and some of the decisions that they made. So that's that.
+
+But we want to lead off with one important point.
+
+A.P.: Boom! Pause. You don't have to pause for that long. And, yeah.
+
+J.S.: So. Back, back around 2007, we were doing what all the other cool kids were doing. We were using a Rails monolith, and to some degree still are. Rails 2 is a great framework. Who is using Rails 2? Anyone?
+
+AUDIENCE: Yeah!
+
+J.S.: All right.
+
+A.P.: Awesome.
+
+J.S.: You and us. Rails is a great framework. We all love Rails. That's why we're here. We still love Rails and that's why we're here. But what's great about it is that it's great for Agile teams. It's, and for us it was really simple. We could make some really quick decisions. We could iterate product very quickly. We could iterate new features. And we could do it with a small team of five to ten devs.
+
+We had a single repository. We had a single test suite. And we had a single deploy process. Very simple.
+
+A.P.: And, most importantly, you, we had like one shared, conceptual understanding of the code base. When we wanted to make a change, we knew where to put it. And things were simple that way.
+
+J.S.: Also what was great was, and still is, about Rails, that integrating components is really easy. The convention over configuration, model associations - all of that business you can put together things very quickly and very easily. But we didn't come here to talk to you about Rails.
+
+A.P.: We came here to tell you about cobras, and how to tame them. At Groupon, we actually have a mo- monolith, and we call it the primary web app. But Jason had a thought for the purposes of this talk, we'd come up with a more scientifically accurate name for it.
+
+Yeah. So. Centralized Omnipotent Big-ass Rails Application.
+
+J.S.: Big-ass. So we want to take you back to 2009 for just a minute. So Groupon was about two years old, give or take, and we were still kind of kicking into gear. People would come into the office in Chicago we've got, open up New Relic, and they'd see stuff like this.
+
+A.P.: So as you can see, like, in the middle of the night, it's great. Everything's working really well. Soon as people woke up and started using it - damn people - our performance immediately started to drop.
+
+And then eight months later, we had about thirty thousand requests per minute and everything was on fire.
+
+J.S.: We blame Oprah.
+
+A.P.: As you do.
+
+J.S.: It's Oprah's fault. Oprah crashed Groupon. Oprah crashed Groupon not once, but at least twice. And also the Gap crashed Groupon too. Actually, the truth is, Groupon crashed Groupon. We were not scaling properly. Bad. Bad Groupon.
+
+The Cobra was getting fatter and fatter. We were up to-
+
+A.P.: Yeah. So. We were up to, we started, we had, like, five to fifty devs. We started with about three to five hundred commits per month. Slowly, and in a couple of years, as you can see, we were averaging about two thousand commits in a single month. We had a lot of developers developing a lot of things.
+
+J.S.: This is all one cobra.
+
+A.P.: And you know, we started thinking about SOA at that point. It was already becoming really painful. But we looked at the cobra, directly in the eyes, and it scared the shit out of us.
+
+J.S.: We had a lot of scoping problems. And a lot of that had to do with model coupling. So, one of the biggest things that was keeping us from extracting services early was as the, as the code grew, you had a lot of sort of natural convention coupling that was happening in the models.
+
+So a little bit of a over-simplified example here. But you have a, let's say you have, you're on the MyGroupon's page. You want to look at all of the Groupons that you've bought. And you want to see all the titles for all of those. So when we go to render the interface we want to display all these deal titles. In the cobra, you might find a set of dependent relationships that are somewhat like this, where you can see the cyclical dependencies.
+
+But building these types of associations was fairly common place, which was kind of bad in some ways. So in this case, you would instantiate a user, which would require a database lookup to the Users table, select star, and, and you would map over that, that user's orders to get all of the deal titles.
+
+In this, in this case, there is a Demeter violation. Demeter violations are bad.
+
+A.P.: And it looks clean. I mean, it looks good. But, what it does is couples our components.
+
+J.S.: Here is an example of what I was talking about. You, you have a basically unnecessarily- unnecessary table lookup to Users. Now, if you're designing your applications well, you can avoid this right out of the gate. But Rails conventions don't, don't encourage you to avoid this right out of the gate. And ActiveRecord DSL for, for advanced queries aren't something that people just tend to do by default. Or at least they didn't in 2009.
+
+A.P.: Yeah. And, I mean. Things got a lot worse, because our code base and cobra was just getting bigger and bigger. You can see here it's almost two million lines of code at this point. And, oh yeah, we have to stay up 100% of the time. So that's a problem. All right.
+
+J.S.: Also, the database is completely on fire.
+
+A.P.: So yeah. We were in quite a pickle. It was painful. Testing sucked. I mean, we had to wait like forty-five minutes for a build to run. You basically ran your tests and then figure out something else to do, because you had to wait while your tests ran. And a lot of our release engineer devoted a lot of effort to make those tests run faster.
+
+J.S.: Deploys were terrible. Deploy, deploy process was somewhere on the, on the scale of three hours to deploy the, the application. Just a really bad development experience, especially as you start to have teams that, that split, split ownership. They want to iterate on features that matter to their team, and they don't want to be held up by this gigantic monolithic application.
+
+And, and it's, you know, the, the deploy's only happening once a week. That really hurts the team's ability to set, that maybe wants to do continuous deployment. So, it sucked.
+
+A.P.: Yeah. I mean, and development pace was increasing, as you saw, and, I mean, what's the best place to put the next line of code, as I heard in a talk earlier. It's the place that you're changes. Models got bloated, and there's a lot of cruft.
+
+J.S.: So all of these things were terrible. It was very painful. So, we decided to move towards service extraction a little bit more seriously.
+
+If there's a big take away from this first section, we just want you to remember that cobras are great. They are great. Until they aren't.
+
+A.P.: So we needed to alleviate this pain immediately. We needed to get that code out of there. We needed a quick extraction. So we decided to extract a new service and build it on top of our current schema. We decided to start with the order service, because. I mean. It was causing a lot of database contention. We had a lot of people buying a lot of Groupons, and, a good problem to have, but it was bringing our database down.
+
+So we needed to get that code out of it, and also another thing behind the, behind choosing orders to start is that, you know, it's gonna be a long-lived model, a long living model in our domain. We know that for sure.
+
+So, to illustrate, this is what it looks like in the beginning. And this is what we're trying to accomplish. You have an orders, you have the cobra, and then we're trying to have a separate orders codebase, which will have its own database. But it continues to have re- a read-only access to the cobra's database, because we didn't focus on completely making the cobra, the order service, re, stopping, stopping it from reaching back into the cobra's database.
+
+And, I mean, the cobra was really sneaky. It was really tough to find all the ways that, with Rails callbacks and model associations, all the ways that the components were coupled.
+
+So we built some tools to make that easier. This is one of them. The service wall, as call it. We're trying to, the main goal here is separating the concerns of orders within the application. So, you start with having your services in a separate directory. Let's see a closer look of it. You have the order service in its own directory, and you have its own app, its own lib, its own specs. The way that works is that in environment dot rb file, we iterated through these services and added them to the load path. So the application to the application looks like it's just one big application, but for our purposes, the code was separate.
+
+So, this is like, a small example of how service wall works. You have this disable model access method that basically, if, if you specify the models that you want to, if you specify the service that you want to disable or deprecate, and it'll figure out the models of that service and add it to this do-not-touch list. And basically raise these kinds of violations. So if you use the disable model access model, when you run your tests, it will put up this message saying, you don't have access to this method.
+
+When a deal is trying to access an order, we can figure that out just by running our tests. If you use the more friendlier, deprecate service mo- deprecate model access method, then you can be more permissive and it'll just log it to a file. You can see that in development mode or you can have it on staging, and that'll basically, that'll allow you to find all the places where you're having service infractions.
+
+You can't do this in production though, because it causes a serious produ- performance hit.
+
+Oh yeah. So this is how, so this is how you actually use the service wall. Use, you, at the top of your controller, you disable, use the method disable_model_access or deprecate_model_access, depending on what you want to do. You tell it what service, and it even lets you exempt some actions that you don't want to raise violations on yet.
+
+That way you can comment out that action and tackle one action at a time. Which endpoints are actually reaching over and causing the service wall infraction.
+
+J.S.: So, in addition to the service wall, one, one other problem with this approach, this extraction approach is that, because you necessarily fork the code, you get a lot of cruft left over from the old, the old domain. So you find yourself asking, teams find themselves asking, very often, is this endpoint even used? Do we even care about this code anymore?
+
+So, a small team of Groupon developers hacked together something called Route 66 that we use internally to track down cruft in both our old cobra and our new cobra. So it basically answers the question, are these endpoints used? I don't know if you can see this very well, but this is a little bit of a UI.
+
+A.P.: Yeah.
+
+J.S.: But what we do is, we analyze log files, we analyze, spelunk logs to come up with which controller actions are being hit, what's the frequency. Is this a route that is hit once a week, you know. Once a, once a month? And we can very aggressively decruft using this tool as well.
+
+A.P.: All right. So there's definitely pros to this approach. Because you're focusing on just separating the models, I mean, just separating the code, you can quickly and not worry about spinning up a separate database schema, separate naming, all of that. You just worry about separating the code, and that focuses the abstraction.
+
+It makes it easier to spin up endpoints. But the cons are, you're stilled tied to that legac, to that legacy database. Not such a bad thing if you really need to get it out of there. But, because you're forking this code now, and now it's being hit through endpoints, there is still a lot of cruft in the, in the, in the code base. Because a lot of these endpoints are now not being used.
+
+J.S.: So this was the first extraction pattern that we used at Groupon to get out of the original cobra, the original Groupon cobra. But teams sort of own their own tactics, and there are other ways that they're doing it as well. One way that, one way that service extraction is also happening is by using greenfield services that use a message bus. Sometimes you just need to keep that legacy API running, because there are a lot of client dependencies on it. There's a lot of dependencies on the structure of the data.
+
+But who likes doing greenfield work in here? Raise your hand if you like greenfield work. Right. That should be all of you. Whatever.
+
+So, it is possible to do greenfield service extraction, and we're doing this as well. So, again, we have a similar. Whoops. Juggling between power point and preview. Similar type of situation. You have this cobra, and then we get to the scenario that we're, we're trying to reach with the greenfield extraction, where you have, in this case the red, the red box represents all new code. There's a gem, a client gem that interact, that runs in the original cobra, that runs in the green cobra. And when this service writes data to its db, a message is sent that the green cobra consumes and sends over to its own data store, thus satisfying all of the legacy API requirements.
+
+And then what's notable about this is to keep everything in sync for service cut-overs, rollouts, et cetera, there is a background sync worker that runs, that syncs it one way from the old database to the new database.
+
+There are pros and cons to this approach as well. Some of the better parts are that you can get rid of your legacy data quickly, again. Devs like greenfield stuff. You like to design your own systems. You also get to minimize the cut-over risk with your data sync. So you're not splitting the table and you have to have all of these API dependencies written on one hand so that when you break your database you don't have, you don't have failures.
+
+So you can phase the, you can phase out your new, your new endpoints, and you can own the timing of when you build out new endpoint features. Again. Some of the, or some of the cons are that, it is not trivial to build synchronization worker, and it is less trivial to build a validation engine for the data to make sure that you don't get it out of sync when you're pulling from the original source. And then there are race conditions involved in this as well.
+
+A.P.: So Jason and I work on a team that manages inventory, as I said earlier. One of the, looking a little further down the road, one of the things we needed to do was get, now we needed to get vouchers out of the orders service. Another service extraction. And vouchers are actually the things that customers redeem.
+
+So, a simplified example of what a voucher actually like would look like, except that now we have an id, which is stored in our database. We have the price, which is stored in a legacy database, and now, Groupon's grown since orders. We now have an international platform codebase that serves many different countries. We have offices in Berlin, London, Chinai, Korea, and many more places. But yeah. Now we've got to make it, but our service's responsibility is to make it seem like none of that matters. Anyone asking for voucher data needs to know about all voucher data.
+
+Our services need to be global as well. So, this is what our world looks like. And this is how our service needs to be built on top of that. What helped, in managing these different sources of truth, was this manager accessor pattern in our code base. Specifically, oh. Let me check if I need to- yeah. Specifically, next slide please, this is what, this is how it helped our code base. Because in the controller, you could just specify, you could talk, talk to this manager object, and you'd say, find me this voucher.
+
+And the manager, can you jump to that? All right, it's gonna look like a lot of code, but let's go step-by-step. In the manager, that's where all the complexity lies. You have the accessor that accesses local data. You have an accessor, a separate accessor - and accessors are just simply, all they do is persistence and finding, and finding data - so the accessors for the legacy database here, the cobra accessor, you get that price information, and then you have an international accessor that goes, it could be a database call or, in our case, that's a HTTP call across the ocean.
+
+And then you bring all that together, wrap it in a model and have it return that back to your controller. Hang on.
+
+All right. So, definitely pros and cons to this approach. One of the things was, it's easy to incorporate many different data sources. We call that a facade because it kind of hides all of that. But the, behind the backend of it is really more complex.
+
+And, but you hide that complexity. That your accessors are bound to the schema changes. So, our cobra accessor still has to know about the legacy schema. And you're, you, you can't really, making changes there is not trivial.
+
+And, sometimes you can use that as a crutch. So if someone asks you, can you give me this piece of data about a voucher, I really need it, and you want to expose it to the endpoints, you're like, well, I do have access to the database or I could just make a call. And now you, now you're serving the end- that data, and you're tied to serving that data in your API.
+
+But the important thing there is to be diligent, and as soon as you start serving that, they'll put a strategy together to, actually on that data. Otherwise you're, the complexity in the manager, which is both a pro and a con, will always be there. The purpose of the manager is that it hides that complexity, but as you start owning more data, it should become simpler.
+
+J.S.: So, these, these three extraction patterns that we've gone through are just a little bit of, a little bit of what's going on. There are different service extraction patterns going on, both at Groupon and probably in your worlds too. So, again, this is just a example of some of the ways that we've chosen to do things. There are other interesting talks about this this week at RailsConf going on, so be, it'd be neat to check those out, too, if you want to talk to us about them.
+
+But, you should definitely consider letting your teams own their tactics if you're trying to make decisions about doing SOA, because you might find some neat things that you didn't know about.
+
+A.P.: Yeah. So I'm gonna stand over here cause I feel like I'm just talking to these guys. But yeah. So, there's definitely a lot of things that we learned from doing these different service extractions. Like Jason said, there are a lot of other service extractions that happened at Groupon and continue to happen today.
+
+But, taming a cobra is serious business. I mean, like I always say, YPAGNIRN. You probably ain't gonna need it right now. But, but the, but, like, the tipping point on which you need to start going towards service-oriented architecture isn't just black or white. It's, it's more of an art than a science. But as soon as you start talking about service-oriented architecture, once you start feeling the pains, you need to put, put together a strategy to accomplish that.
+
+J.S.: Yeah. You don't want to sit around and wait for Oprah to blow your site up.
+
+A.P. But there's also the importance of allowing your domain to actually evolve. Models that you think are important in the beginning aren't gonna be important later on. And it, that's the big benefit of a cobra, is that it allows you to iterate quickly.
+
+J.S.: Something else that we have also learned is that when you go into service extraction, it's really important that you actually have a strategy. Know what you need to break apart. Know what you need to leave in the monolith. These are important things to consider. Know what the priorities are between those things. It's very, it's very tricky to just go about service extraction very scattershot and not really understanding your business model or what benefits you derive from extracting certain pieces over others.
+
+You should prefer the things that are clearly like their own thing, their own components, or things that are particular maintenance problems or represent some sort of legacy design or, or strange behavior. But the other important part of having a strategy is that you should expect the unexpected. Scope creep will bite you, and you know, as these, as these code bases get bigger, pulling out of them becomes a lot more of a tricky process than you might envision.
+
+Another thing that's important is that you, you think about your entire service stack. And you should know your business, and so you should know, or you should at least conceptualize how all of those parts of your business are gonna fit together.
+
+How does the data flow between them? What are the service agreements between those, those compartments? That's all important to know. You're gonna need to be caching between services for, for load. You're gonna need to be caching services for, for latency requirements. So you have to serve upstream to some kind of complex algorithm. That algorithm is gonna need zero latency return from your service.
+
+You need to be thinking about all of these kinds of things when you're doing service extraction.
+
+A.P.: And the way Jason's saying it is, is definitely makes it seem like, oh, it's one slide on our deck. But each of those topics could be a separate talk. And they are. So, definitely, there's a lot of learn in that, in that domain.
+
+J.S.: Right. Just in terms of actual topics in it, another thing you want to think about is messaging. Inter-service messaging, when you're pulling these services apart, they do need to talk to each other. You should definitely think about what do those messages look like. What are their delivery SOAs? Do you guarantee that they're delivered? Do you guarantee the order that they're delivered in? What are the payloads look like? Think about all of this stuff.
+
+And, you also need to consider your, concern yourself with authentication and authorization. These are, these are important topics. I think like, there was a talk about this yesterday-
+
+A.P.: There were two.
+
+J.S.: Oh, there were two talks about this yesterday. But you should know what you're, know what you're users are doing. Your sites getting bigger. Your users are getting more complicated. Know, know what they need access to. Know how they get into your, how they get into your services, how they get through your services. And know what they can do at each step of the way.
+
+A.P.: And you need to create like a supportive, supporting environment for services. We were lucky, we had entire teams devoted to building tools, to, that make it easier to spin up services easily. And a release engineering team that made it easier to re, deploy these services. All those became really easy for us, but if, in your company, you need to make sure that, or in your application, you need to make sure that you think about these things and devote tools and time to making those things simpler.
+
+Also, now is the time to start considering uuids. As soon as you start talking about service-oriented architecture, go to uuids from the start. This will immediately separate you from your database, and that's gonna be really important, because you're gonna be moving data from one source to another.
+
+And, you need to write code good. You know, like, it's hard to. I mean, it's easy to say, say that, but it's hard to do. Think about the solid principles. Think about where things belong. Ask yourself, am I coupling these two components together for the fu- and is that useful enough that it's gonna cause me a lot of pain later in the future?
+
+J.S.: So when you're writing your code good, you should be thinking about your models. Those models are gonna become your APIs. They're gonna become your service APIs. So consider your public methods. What are you putting in the public space of that model? Is it named well? Does it represent what your service should be doing?
+
+Make sure that, while you're building up your cobras, that your models are reflective of the way you intend for your service APIs to look like, should you ever need to go down that road.
+
+A.P.: And, like I said earlier, avoid tangling those components together. Specifically in Rails, when you introduce associations, you're kind of expanding that API that Jason was talking about. All those, now you're creating ways for developers to reach through these models and get data, and that'll couple them together and make it harder for you to separate them.
+
+J.S.: Test. Who's here, who here tests? Anyone test?
+
+A.P.: Not DHH.
+
+J.S.: Nope. You don't test anymore. You should be testing. You should be testing at high levels. Avoid the unit tests. If you can avoid the unit tests. Especially because once you start doing service extraction, you will break assloads of unit tests.
+
+Make sure you write your high-level tests first. Make sure you've got solid coverage on those high-level end to end tests. Secondly, as you are doing service extraction, it is not trivial to be spinning up other services quickly in order to test end to end, but you should be thinking about how you might be doing that. Because otherwise you're going to be doing a lot of stubbing, and that gets very painful and gets error-prone.
+
+A.P.: I mean, when we talked to the developers who had to do some of the tougher service extractions, they were like, I wish we had more integration specs. Because we're gonna be changing a lot of this stuff, and we need to know if it works. If you've got a good set of integrations, integration tests, you can be a lot more confident about making those changes.
+
+Next, over there?
+
+J.S.: Yup.
+
+A.P.: Yeah. So, you need to communicate. I mean, everyone always says this, but like, when you solve a problem, when you're spinning up a service, you're gonna, and as more teams are spinning up services, a lot of you are gonna be encountering the same problems. So when you solve a problem, share it. Make it a gem, write it down, put it in a wiki, and tell people about it. Give talks. Because it's gonna be hard to, I mean, you don't want people solving the same problems.
+
+At Groupon, we have this, Core Architecture Forum, it's called, and basically it's got a bunch of people who meet, and you can say, I'm gonna spin up a new service, or I'm gonna solve this problem. Have you seen this before? They're gonna help you answer questions like, what's, has someone else solved this already? Is there a similar problem? Is there a particular technology that would help you solve that problem better? All those questions are really important to ask so that you don't reinvent the wheel over and over again.
+
+What else? Oh yeah. One more thing. One more thing. That sounds like Steve Jobs. One more thing. We have the interest, we have interest leagues at Groupon, which are just internal user groups for Clojure, Java. We even have one for onboarding. You know, there's are really cool. And that's another way to help communicate, like, what's happening. Once your company gets big enough, that's really important.
+
+J.S.: So. In conclusion, cobras are great.
+
+A.P.: Yeah. They're awesome.
+
+J.S.: Rails is great. And cobras do serve a useful purpose.
+
+A.P.: Oh. But beware. It's not so simple.
+
+J.S.: Once you decide that you're gonna start raising up a baby cobra, be ready for what comes next.
+
+A.P.: Oh. Yeah. And. OK, so. Got his part. We're hiring. I mean, if you want to come help us solve some of these problems, come talk to us after the talk. There's a booth downstairs. You can go to this website. Tweet at us. I'd like that. But yeah. Join us.
+
+J.S.: And we are standing on other people's shoulders here.
+
+A.P.: Yeah.
+
+J.S.: A lot of these folks are people who helped with the talk or who helped actually do a lot of this service extraction work. This does not comprise the total list, but we definitely wanted to bring attention to these people.
+
+A.P.: Yeah, and I mean. People like these guys, they gave us a lot of feedback when we did the talk at, at Groupon. And having people who will mentor and, like, spend time to help you understand things, I mean, that's the reason I work at Groupon.
+
+J.S.: Thank you all.
+
+A.P.: [drowned out by applause]
