@@ -1,0 +1,1282 @@
+RailsConf 2014 - Culture of Continuous Delivery - Leena S N & Vaidy Bala
+
+VAIDY BALA: HI everyone. Thanks for coming. I'm Vaidy.
+
+This is Leena. We are long-time colleagues and have
+
+built a good amount of software together. I've got a
+
+confession to make. We are process geeks. And the
+
+impact of that has been felt by our own team quite
+
+a few times. Let me give you an example.
+
+We have these daily morning company-wide stand up meetings,
+
+and Leena and I will very excitedly talk about
+
+things like continuous delivery and continuous improvement in these
+
+meetings. And things were going great until a colleague
+
+of ours told us, or asked us whether we
+
+had noticed that the number of folks in the
+
+stand up was kind of steadily coming down. It
+
+turned out that the folks were coming in to
+
+work just after the stand up would get done.
+
+And we wondered why. We were talking about all
+
+these super interesting topics every day.
+
+Then we met a friend of ours, recently, who
+
+told us that our process talk sounded to him
+
+like a trip to the dentist. And I guess
+
+that also answers the mystery of the reducing stand
+
+up count. What we'll do today instead is to
+
+talk about some war stories, and throw in some
+
+thoughts on continuous delivery and culture along the way.
+
+Any brain science, neuroscience geeks over here? Anybody who
+
+is interested in that kind of stuff? Well, thank
+
+you. So, time permitting, we'll talk about some of
+
+that stuff as well at the end of the
+
+presentation.
+
+LEENA S N: Everybody hear me OK? OK. So,
+
+continuous delivery, I think most of you know that
+
+it's a large topic. It's a huge topic. There
+
+are many ways to skin this cat. Today, in
+
+this talk, we are going to talk about majorly
+
+three aspects of continuous delivery. And that is build
+
+quality in, then make your build always ready to
+
+deploy and continuous improvement. And while we'll also talk
+
+about the practices that are required for, for these
+
+aspects, and then connect those into the motivation of
+
+the team, how, how those practices affect the motivation
+
+of the team, impact the motivation of the team.
+
+We are going to talk about motivation 3 point
+
+0, which is, which is three pieces altogether: autonomy,
+
+mastery, and purpose, which are key for a knowledge
+
+worker to sustain their motivation for a long period
+
+of time. And that motivation impact, how does it
+
+create a culture within the organization.
+
+So, before we move forward, we have one more
+
+confession to make. We don't have any Ph.D's in
+
+the subject, but we do have a thesis that
+
+we would like to present in front of you.
+
+That is practice continuous delivery and you will end
+
+up with having a great culture. So, let's start
+
+with the stories.
+
+V.B.: Let's start with the first story. So this
+
+is way back, 2010. We run a software consultancy
+
+out of Bangalore, and we had a customer approach
+
+us to build a, a product in the consumer
+
+space, specifically a utility product. And we suggested that
+
+we kick start the whole thing with a two
+
+day brain storming session. We had our SCRUM kit
+
+ready. Lots of story guides. Multi-colored stickies. Lots of
+
+those wonderful Sharpies. And at the end of the
+
+two day session, we had more than a hundred
+
+cars neatly laid out on the table, and also
+
+an online spreadsheet.
+
+The next logical step would have, of course, been
+
+to start the estimation process. Due to SCRUM principles,
+
+we decided to go with the story points. And
+
+the idea was that we would go ahead and
+
+estimate each and every one of those hundred cards,
+
+hundred plus cards, over the span of the next
+
+few days.
+
+Fast forward another couple of days and we had
+
+our estimates ready. It was going to be a
+
+good, nice long six month project, at the end
+
+of which there would be a beautiful product that
+
+we would have built, and that would scale quickly
+
+to a million plus users. Fantastic, right?
+
+I guess some of you can already see where
+
+this is going. We also ended up injecting a
+
+few more milestones in, into the process. Three milestones
+
+to be exact. And at the end of each
+
+of these milestones, we would have a, a party,
+
+and then get back quickly to working on the
+
+very next milestone.
+
+We would also work in two week iterations, since
+
+this was a SCRUM-based system, and award the team
+
+with the story points as soon as they had
+
+finished coding a story. We just couldn't wait until
+
+they had also tested it.
+
+And then we would finally also have these demos
+
+with the customer every month or so. So things
+
+were going great until after about four months or
+
+so, the customer asked us to schedule a demo
+
+with an investor of his. And there was about
+
+seven days or so to go for the demo.
+
+We asked for just a couple of days to
+
+get everything ready.
+
+And a day before demo day, we had the
+
+entire team camping at the office, feverishly fixing bugs.
+
+Let's just say that weekend isn't the best one
+
+that we've had in the last four years.
+
+L.S.: So, most of you might be familiar with
+
+this kind of set up. We have already spoken
+
+about SCRUM. But there are two more parts to
+
+it. That is called the water and the fall.
+
+So let, let me explain the water SCRUM fall
+
+model that is the HIPPO, the highest-paid person in
+
+the room, has a great idea. And he comes
+
+to the engineering team to build it.
+
+The engineering team has just finished their two-day SCRUM
+
+course. The only difference being that they take all
+
+their instructions standing, instead of sitting, and then we
+
+have a four, four part, that is a ops
+
+team that sits in the corner, and a secluded
+
+corner of the office, typing on their computer. And
+
+they need to pounce on anyone who comes to
+
+meet up.
+
+So this is all funny, but to be very
+
+frank, we had all our most stressful days back
+
+in 2010 when things went wrong. And we really
+
+wanted to fix it. We just want, we wanted
+
+to fix it, not just because we wanted to
+
+gain the credibility, but we also wanted to maintain
+
+the motivation of the team.
+
+So, but the question is, where should we start?
+
+So the simplest answer to do in those case,
+
+in situation is to start with, in those cases,
+
+where, where you have control over them. So the
+
+biggest problem that we had was the quality of
+
+the product that we were shipping. So and, that
+
+is what, that is what what is in our
+
+control, so we wanted to fix that first.
+
+So, let's move on to the next story where
+
+we fixed that.
+
+V.B.: Right. Fast forward another six months. 2011. Another
+
+customer that we worked with, another product. Things have
+
+remained the same, with the water and the fall
+
+bit. Things that we made some changes to was
+
+stuff in the middle. At the end of the
+
+six month period, we noticed some significant improvements, especially
+
+with respect to the confidence of the team. The
+
+number of weekends and late evenings that the team
+
+worked on. The quality of the product itself, which
+
+was much more stable this time around.
+
+We did not need to track defects in a
+
+separate bug list anymore. So that was kind of
+
+good feedback for us. We had a customer who
+
+was much easier to work with as well this
+
+time around. Perhaps because of the fact that we
+
+were making updates to the staging server much more
+
+often than we used to in the earlier episode.
+
+And this allowed the customer to kind of give
+
+us feedback at least once a week or so.
+
+So things were going pretty good, in, in comparison
+
+to what was happening earlier. And, so let's come
+
+back to the stuff in the middle that we
+
+made changes to. Because that was the reason why
+
+all this had happened in the first place.
+
+What we did was we brought in some practices
+
+to build quality in. Now you may have seen
+
+those charts, where you have analysis, design, testing, development,
+
+testing and so on and so forth. What's funny
+
+is that after the testing phase, you don't really
+
+have a fixing bug space.
+
+Building quality in, very simply, is to think about
+
+quality as you're writing your code. So you don't
+
+really think of testing as an, as an afterthought.
+
+It's part and parcel of process. Great concept. But
+
+how do you bring this in on a day
+
+to day basis?
+
+So, extreme programming brings in a lot of good
+
+practices to help us with this. Test-driven development being
+
+a lot of those. I know there's a lot
+
+of activity that's happening on Twitter these days with
+
+respect to the comments which DHH made the other
+
+day. But I think he was talking more about
+
+test-driven design than the stuff that we want to
+
+talk about.
+
+Test-driven development does give you a suite of regression
+
+tests, which gives the team an enormous amount of
+
+confidence to go ahead and make even big changes
+
+to a constantly growing code base. And this is
+
+invaluable. There is really no two ways about that.
+
+The confidence in turn ends in creating much higher
+
+quality software as well. Add to this practices such
+
+as-
+
+L.S.: XP testing.
+
+V.B.: XP testing or continuous refactoring bad programming and
+
+so on, and you have a suite of practices
+
+that are cohesive that kind of make it possible
+
+to kind of ship good quality software.
+
+So we've spoken about the values of build quality
+
+in and, and the result in terms of actually
+
+creating better value for our customers. But there's something
+
+more to this.
+
+L.S.: So, what we've seen is that apart from
+
+the quality of the product, we have also started
+
+seeing the behavior changes within the team. That is,
+
+they, for example, I'll, I'll try to explain with
+
+an example.
+
+When we started development, the team used to check
+
+with the, the customer for each, each and every
+
+small changes that happens for the priority or for
+
+the plan. Later on, when we started shipping working
+
+software, our customers started asking us for the opinion,
+
+ask, started asking the team for their opinions. And
+
+then later on, team started deciding their day to
+
+day work rather than checking with the customer, and
+
+then they will go to the customer and discuss
+
+with him when, when they think it is appropriate.
+
+So what we are seeing is that they, they
+
+became more, they started sensing more autonomy, and then
+
+they started feeling the freedom of that, that any
+
+team would love to have when they are working
+
+with a customer. So, so XP actually allowed them
+
+to be, become more autonomy. That is what we
+
+have started seeing.
+
+And because of that, these kind of values that
+
+XP brings in, we started, we started continuing with
+
+the XP product that we've developed after that. So,
+
+now you might be wondering why we are talking
+
+about extreme programming in a continuous delivery talk. So,
+
+we spoke about the water-SCRUM-fall model, and if any,
+
+any team of, who are working from the water-SCRUM-fall
+
+model, if they want to reach continuous delivery, then
+
+the first step that they should be taking is
+
+start practicing XP practices.
+
+And that is the first step towards continuous delivery.
+
+In our opinion, continuous delivery is the result of
+
+extreme programming practices. So, now coming back to the
+
+story, we spoke about the quality and the team
+
+motivation. So, things were great. We had a great
+
+product, and then which, with high quality. And then
+
+the day came when it had to go to
+
+the market. We had a big launch party when
+
+we open to the public.
+
+But what happened was, even after a month, there
+
+were only a few users in the system. And
+
+we started, we kept on waiting, and even after
+
+a few more months, there was no change in
+
+the result. And then the, the customer had some
+
+funding issues and also they were, he was not
+
+getting enough traction to the product. So he went,
+
+he decided to move into hibernation. And we, even
+
+after three years we are still waiting for him
+
+to come back.
+
+So, even after we delivered a high quality product,
+
+the reality of that, the product didn't become a
+
+success. That had a bad impact on the team.
+
+And that is the next thing that we would
+
+like to fix.
+
+V.B.: So we're a consulting company, right. So we
+
+didn't own this product. But in spite of that,
+
+you know, the disappointment in the team was quite
+
+evident. But let's move on to the next story
+
+and talk a little bit more about this.
+
+Actually, autonomy is great for bringing in short term
+
+happiness into the team. That's something that we've seen.
+
+But to create long-term motivation, you need something, you
+
+need to add something else to the picture. Can
+
+anybody think of what that might be?
+
+So, what we need is, we need to provide
+
+a method or an alignment that actually allows the
+
+team to connect with the bigger picture, so that
+
+they can actually feel that they are a part
+
+of something quite important. Something that matters. And, I'll,
+
+I explain this as part of our next story.
+
+So this is a customer that we worked with
+
+quite recently. And the original vision was to basically
+
+have a network of tabloid devices installed across multiple
+
+cities. And the, and these would be remotely controlled
+
+from a central location using web services. Even though
+
+the original plan was to kind of, you know,
+
+go ahead and build this entire thing, the customer
+
+chose to go ahead and build the smallest piece
+
+possible that would allow them to test the tablet
+
+with real users first.
+
+And as you might expect, we found quite a
+
+few issues very early on. Let's give an example.
+
+So, the USB power cable that actually came with
+
+the device wasn't actually long enough for the length,
+
+for the distance between the tablet, where the tablet
+
+was installed, and the power source. So a new
+
+set of longer cables was ordered, and when those
+
+were installed things seemed to work out well. Problem
+
+solved, right? Well, not exactly.
+
+After about a day of usage, it was quite
+
+apparent that the battery level of the device had
+
+actually come down by about fifty percent. Now, it
+
+turned out that the length of the cable, the
+
+length of the cable was the reason for the
+
+voltage drop across the, the voltage drop which in
+
+turn resulted in the lower battery levels. Simple problem
+
+to solve. We asked our end users to go
+
+ahead and switch off the tablets in the nights,
+
+and, and then added a high priority item to
+
+our back log, which would automatically switch off these
+
+devices in the night from our remote control system.
+
+We also discovered a few usability issues, which we
+
+fixed by tweaking the user interface. Now, none of
+
+these problems would have been discovered if not for
+
+the desire that our company, that our customer had
+
+to go ahead and test a very early alpha
+
+version with, with users. And this, in turn, allowed
+
+us to kind of iterate the product quite rapidly,
+
+very early on. In turn, allowing for a rapid
+
+feedback loop, with everybody across the company, including the
+
+engineering team back in India.
+
+So, this was invaluable. This really helped to kind
+
+of realize the early goals that our customer had,
+
+which was to go ahead and im, implement or
+
+install the tablet across multiple cities. They also got
+
+advertisers on board, and that, very early on, that
+
+allowed them to kind of test their pricing model
+
+as well.
+
+All of this is great from the perspective of
+
+the customer, because you know, if it was not
+
+for the fact that they had good relationships with
+
+their end users, even getting feedback from the end
+
+users would have been difficult. But there was something
+
+the engineering team did as well that was quite
+
+useful.
+
+L.S.: So, so one of the key things that
+
+happened over here is that the customer was able
+
+to iterate through multiple versions of the application, of
+
+the product. And that, that, that is something that
+
+the customer did great. But how did the engineering
+
+practices - there should be a backing up engineering
+
+practices that would allow the customer to do that.
+
+So let's look at some of the practices that
+
+we did for actually achieving that. So one of
+
+the key things in continuous delivery is make your
+
+build always ready for deployment. Any time when, when
+
+someone wants to deploy it, it should be possible
+
+by just clicking of a button. So for achieving
+
+that, we had to make changes in the entire
+
+software delivery process, starting from the estimating and planning.
+
+So we actually reversed our estimating. Instead of asking
+
+how long a story will get, will take, instead,
+
+we started asking, what is the simplest thing that
+
+we can do in couple of days or less,
+
+so that we can get quick feedback on?
+
+And the next thing that we started was having
+
+a real continuous integration system, where the entire team
+
+checks into the mainline branch and then they work
+
+on small chunks so that they can get feedback
+
+on whenever they make changes, and make sure that,
+
+OK, it is aligned with the existing system. Nothing
+
+is breaking in the existing system.
+
+And the third, third, third aspect of it is
+
+the build pipeline, which is a key part of
+
+continuous delivery. Let's talk a little more about the
+
+build pipeline. It was our plan at the start
+
+to achieve three things. One is to make sure
+
+that the deployment process is a very risk-free and
+
+completely automated activity, rather than a mundane, manual, error-prone
+
+activity. Next thing is that it allows you to
+
+identify the bad builds early on so that you
+
+can ignore those by, by not allowing them to
+
+move forward on the pipeline. And then the third
+
+thing is that it is, it is, the sanity
+
+of the build is maintained. The same build. You
+
+can make sure that the same build is moved
+
+from the testing environment to the staging environment and
+
+from the staging environment to production.
+
+So, these are the major practices that I would
+
+like to emphasize on in this talk. There are
+
+many things that we have to do, especially from
+
+the automation perspective to achieve continuous delivery. I'm not
+
+going into the details of those practices. I'll be
+
+available over here, who wants to know more about
+
+it, come and talk to me. We can explain
+
+it.
+
+So, so the thing with all these practices, what
+
+we achieved was deployment is more of a business
+
+decision rather than an engineering decision. The customer can
+
+deploy whatever, whatever version of the product they want
+
+by just clicking on a button. And it's as
+
+simple as that.
+
+So, this story, compared to the last two stories,
+
+had a happy end. The customer was happy, and
+
+the engineering. So let's look at what the, what
+
+the, what are the feelings of the engineering team?
+
+They were also very happy. Extremely happy. Not just
+
+because they were able to deploy it multiple times,
+
+but mainly because of another reason, that is that,
+
+they were able to connect their day to day
+
+work to the big picture. They were able to
+
+see the purpose of what, what they're doing. And
+
+that actually ended up creating a lot of motivation
+
+within the team.
+
+And then they, they became very, they are, they
+
+are also able to connect to the end users.
+
+Not only that, they are able to connect to
+
+the, in the ecosystem that was in, other days,
+
+it was the network, personal, and all the, all
+
+the, all the entities within the entire ecosystem. And
+
+that made them feel very proud of what they're
+
+doing. And then that keeps them motivated for, motivated
+
+for doing better work on a daily basis.
+
+So.
+
+V.B.: So we've spoken about.
+
+L.S.: Two aspects.
+
+V.B.: Two aspects of continuous delivery already. Building quality
+
+and keeping the build always deployable. And we've spoken
+
+about the corresponding motivational aspects to these two as
+
+well. The third thing that we want to talk
+
+about is continuous improvement, and this is actually an
+
+integral part of continuous development. Not only is it
+
+required to have continuous improvement to get to continuous
+
+delivery, but you need to maintain, you need continuous
+
+improvement to kind of maintain continuous delivery as well.
+
+That's, it's key.
+
+To talk about continuous improvement, I am going to
+
+bring in a story from Toyota, because that's, those
+
+guys are the legends in the space. So, Taiichi
+
+Ohno is known as the father of theater production
+
+system. And he was part of Toyota in the
+
+1930s. It was called Toyoda back then. Spelling was
+
+not in car manufacturing, yet.
+
+One morning, one of his assistants actually came running
+
+up to him and told him that the plans
+
+for the newly constructed factory had been stolen. And
+
+there was a obvious look of nervousness on the
+
+assistant's face. Taiichi remained unfazed, though. No. He said,
+
+we don't have to anything about that. You know,
+
+let's just, let's just get back to work.
+
+And he went onto explain that, it doesn't matter
+
+that they actually stolen our plans, because of the
+
+fact that by the time we actually build a
+
+factory based on those plans, we would have refined
+
+and improved our current systems so much so that
+
+the gap between what they would have built by
+
+then and where we would have been by then
+
+would have been significant enough that, you know, we
+
+don't really need to worry about the competition anymore.
+
+That's the power of continuous improvement, right.
+
+From the waterfall days, water-SCRUM-fall days, all the way
+
+up to the continuous delivery days, you know, we've
+
+been taking these baby steps, one day at a
+
+time to actually get to this. We in fact
+
+did not even know that we were actually, that
+
+continuous delivery was what we were kind of targeting.
+
+We were not even aware of the fact like
+
+four, four, five years ago.
+
+But the point I'm trying to make is that,
+
+folks actually come into work these days to, when
+
+they build delightful products, they're doing that because, you
+
+know, they see that work as a way to
+
+express themselves. And when you see your work as
+
+a way to express yourself, you see it as
+
+a craft. And it's a craft, if it's craft
+
+and not a job, then the natural tendency is
+
+to kind of keep honing it, right. You keep
+
+improving it. And it's a journey towards mastery, which
+
+is the third bit of the autonomy, mastery, purpose
+
+circles.
+
+And as Kent Beck says, Perfect is not a
+
+noun, it's a verb. So the question, if at
+
+all the question arises as to when does the
+
+process of actually honing stop? It never stops, right.
+
+It's a continuous journey.
+
+So you want to summarize?
+
+L.S.: Yeah. So let's summarize the, the motivational aspect.
+
+So we spoke about autonomy, mastery, and purpose, and
+
+these are the three pieces of, of motivation. And
+
+what you see on the middle, at the intersection
+
+of all these three, is called engagement. That is
+
+a, a motivated team will have a highly engaged
+
+team, and they are more outcome focused. And they
+
+keep on honing their craft, and then they love
+
+their craft, and then they know why they are
+
+doing, and they will always try to connect on
+
+a day to day basis why they are doing
+
+something and how much of impact that they are
+
+doing will have on the actual, on the end
+
+users.
+
+So the main difference between this team and the
+
+water-SCRUM-fall is that this team is more outcome based,
+
+outcome focused, rather. That is, they focus more on
+
+the impact of the software that they are building
+
+on the end users and on the customer's business
+
+rather than the output, that is the stories or
+
+the velocity or whatever it is.
+
+And, and then oh yeah. So this is our
+
+team picture back in Bangalore. And we, we, we
+
+think the smiles on their faces shows the level
+
+of engagement that they have on their work. And
+
+so, let's move onto the culture we will be
+
+talking about continuous delivery and practices, and the motivation
+
+within the team. But where does culture come into
+
+all these things?
+
+So, culture, as you all, all, all know is
+
+a, is a shared values and principles on a
+
+team, and then, so let's take a, two, two
+
+values that we believe in. That is a delighted
+
+customer and software craftsmanship. These are values that we
+
+believe in, truly believe in. But how do you
+
+identify which practices will help you to achieve or
+
+gain these values?
+
+So the answer to that is that, take, take
+
+those practices which passes this motivation 3 point 0
+
+test, that is those practices which will allow the
+
+team to be autonomous, which will give them room
+
+for improving their skills, honing their craft, and which
+
+will help them to connect their day to day
+
+work to the, to the big picture. Then those
+
+practices, you should continue on, and that will align
+
+to your values.
+
+And as we have seen, continuous delivery helps you
+
+to do that. Continuous delivery helps you to become,
+
+to continually improve your practices, and then it, it
+
+is purpose-oriented, because you know why you are doing
+
+certain things. It gives you feedback. And then it
+
+makes the team more autonomous. So, so practice continuous
+
+delivery and you will have a great culture.
+
+V.B.: K. Looks like we have time for some
+
+neuroscience. So if all of the stuff that we've
+
+spoken about with respect to motivation isn't convincing enough
+
+for you to kind of take the plunge into
+
+continuous delivery, then perhaps some brain science is gonna
+
+do the trick for you.
+
+We will talk about two parts of the brain.
+
+The first part is about the, the prefrontal cortex.
+
+The stuff in the front, the front part of
+
+your brain. And there's something called the limbic system,
+
+which is something that's on the inner side.
+
+The pre, let's talk about the prefrontal cortex. So
+
+when you're driving to work every day, you're probably
+
+be, you'll probably be able to change your radio
+
+station without much trouble. But try doing that when
+
+you're in a foreign country on the opposite side
+
+of the road, and you know what I'm talking
+
+about. It's, you need to kind of consciously think
+
+about it.
+
+Same thing with respect to setting goals, writing code,
+
+analysis. Stuff that you do on a day to
+
+day basis you know, at work. For all of
+
+these things, you need the prefrontal cortex. Let's move
+
+onto the limbic system. The limbic system is actually
+
+responsible for your emotions, positive and negative emotions. And
+
+it's also responsible for accurately telling you whether there's
+
+a threat or a reward in your environment.
+
+Another important or interesting thing about the limbic system
+
+is that you actually have very, that it actually
+
+has a higher level of affinity towards negative emotions.
+
+So you may have heard this saying that you
+
+walk towards rewards, but you actually run away from
+
+threats, right. And that's actually because the way the
+
+brain functions.
+
+So you have a, if the brain is kind
+
+of wired to kind of keep pulling you down
+
+with negativity every day, then how are you gonna
+
+go ahead and maintain positivity in the work force?
+
+And, this is where the see-saw effect actually comes
+
+into usefulness. It turns out that your limbic system
+
+cannot function if your prefrontal cortex if functioning and
+
+vice versa. It's just one of those quirks of
+
+the brain, wherein either you're logical reasoning part of
+
+your brain is working or your emotional part of
+
+your brain is working. Not both of them.
+
+So it kind of pays to create an environment
+
+where your work force is always kind of engaged
+
+in creative activity, because that kind of pulls them
+
+away from emotional, depressing circumstances. There's one more thing
+
+about the brain, about the prefrontal cortex rather, and
+
+it's actually called the Goldilocks of the brain, because
+
+it needs a certain level of stress to actually
+
+function well. So stress is not necessarily a bad
+
+thing by itself.
+
+It gets, it gets bad when it's actually too
+
+much. So if you're not able to think creatively
+
+when you've just gotten out of bed or when
+
+you've just come back from work, when you're tired,
+
+that's because of the fact that when you're, it's
+
+not the right conditions for your prefrontal cortex to
+
+function well. And it pays to create, at the
+
+work place, it kind of pays to create an
+
+environment where your folks are, are doing work that
+
+actually get, keeps them in the middle part of
+
+the inverted U, right, and that's the best part,
+
+that's the best way to kind of create, get
+
+those creative juices flowing.
+
+Leena will talk about how continuous delivery is actually
+
+linked to all these things.
+
+L.S.: So, continuous, like, like we mentioned, like we
+
+were talking about, continuous delivery is always about making
+
+sure that you have a build ready at any
+
+point of time. So you need frequent pushes, and
+
+that gives a sense of urgency to the team.
+
+And that makes sure that they are always on
+
+the, on the right stress level, the inverted U,
+
+and because of that, and then. There is no
+
+fear for the team, as they are doing in
+
+small steps, there is no fear for the team,
+
+OK, will something break? That was never a crisis.
+
+So that keeps the limbic system awake and makes
+
+sure that the PFC is always acting. And because
+
+of that, you create a highly, you, you tend
+
+to create a high creative environment rather than a
+
+stressful environment. So, if you're not convinced with the
+
+motivation, continuous delivery helps you, is tuned to work
+
+well with how the brain works. So this is
+
+one more way to go to, to start to
+
+use continuous delivery.
+
+And, so we have spoken about many things. Now,
+
+coming back to the thesis again. We strongly believe
+
+that, OK, practice continuous delivery and end up with
+
+a great culture. But the question arises, what do
+
+we do to get started?
+
+A journey towards something like continuous delivery takes a
+
+lot of persistence and will power, and you need
+
+evangelists for doing that. And the best way to
+
+get evangelists or to make people think about this,
+
+this is that by asking these two, these two
+
+questions. Which is, why must your business exist? And
+
+if your business doesn't exist, who will miss it?
+
+And if you get an answer for that, then
+
+you'll be able to connect the circles that, then,
+
+then the purpose part will get answered. Why, why
+
+you are, why are you doing what you're doing?
+
+And then that will help you to, the team
+
+to be more autonomous, and they will have to
+
+improve on a daily basis if they want to
+
+reach the goal that they want to reach.
+
+So.
+
+V.B.: So we'll leave you with a quote from
+
+Jesse Robins. Jesse is one of the co-founders of
+
+Ops Corp, the guys behind Chef, the popular configuration
+
+management tool. And he's also a part-time firefighter, a
+
+true achiever, a super achiever in his own right.
+
+Don't fight stupid, make more awesome.
+
+Thank you very much. These are four books that
+
+we have been using on, on our journey. I
+
+think you might find it useful as well. You
+
+can find our contacts on the site as well,
+
+so we're ready for questions if you have them.
+
+Thank you.
+
