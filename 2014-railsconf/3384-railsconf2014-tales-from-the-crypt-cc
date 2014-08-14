@@ -1,0 +1,1677 @@
+RailsConf 2014 - Tales from the Crypt - Aaron Bedra, Justin Collins, & Matt Konda
+
+MATT KONDA: Hello. Can you hear me?
+
+AUDIENCE: Yes.
+
+M.K.: No? Now?
+
+AUDIENCE: Yes.
+
+M.K.: Welcome to Tales from the Crypt. Today's tale
+
+features Rubazzle dot com, a growing start up that
+
+sells awesomely rubazzled Macbook cases, like the one you're
+
+looking at. Business has been brisk, locally sourced, fresh
+
+coffee is flowing. But last Monday brought more than
+
+just blinged out Macbooks. Little did our poor developers
+
+know how terrifying the day was going to be.
+
+It was the Monday before RailsConf, at the Rubazzle,
+
+Chicago headquarters.
+
+JUSTIN COLLINS: Hey man. How was your weekend?
+
+AARON BEDRA: It was OK. We had a little
+
+outage. But, you know, we survived. We got a
+
+couple of things we've got to talk about at
+
+stand up today, though.
+
+J.C.: Oh. Cool.
+
+M.K.: Hey. I just got off the phone with
+
+a couple of customers, and they're telling me that
+
+they're, they're getting laptops ordered that they never ordered,
+
+or, they're getting emails that they never ordered laptops.
+
+A.B.: Man. People can be so stupid sometimes. They
+
+probably just ordered something and forgot about it.
+
+J.C.: Wait. When did they say this happened?
+
+M.K.: They said the orders started coming in last
+
+night.
+
+J.C.: Oh. Well, like, we just updated the order
+
+UI. But you know, we tested it pretty well,
+
+and I think it was reviewed by a lot
+
+of people. So I bet it's not a bug.
+
+I bet the problem exists between the keyboard and
+
+the chair.
+
+M.K.: People have said that about me before. But
+
+I'm gonna say that maybe it's not. Why don't
+
+you take a look, please?
+
+A.B.: Oh, OK. Sure. We'll, we'll get right on
+
+that.
+
+M.K.: Hey, wait a minute. I'm getting more emails.
+
+There, there, there's lots of people having this issue.
+
+It looks like, it looks like maybe it's more
+
+widespread than we initially thought. Can you take a
+
+look? I mean-
+
+A.B.: I've got a lot on my plate right
+
+now. I mean, we've got a release heading out.
+
+I don't think it's that urgent. I mean, what,
+
+probably like two people got affected? It's probably not
+
+a big deal.
+
+M.K.: Well, based on the email I'm looking at,
+
+it's up to like twenty, and I think this
+
+is a significant issue. Plus, all those orders have
+
+lots of stuff on them. It's not like they're
+
+ordering one case. Like five, ten, twenty. So, I
+
+want you to get on it.
+
+A.B.: I mean, OK. Fine. We'll take a look.
+
+J.C.: All the tests are passing. And, I'm clicking
+
+through, looks like everything is working as expected. I
+
+don't, I don't know what's going on.
+
+A.B.: Hey, can you give me the user names
+
+of the people that were affected? Maybe I can
+
+take a look at their accounts.
+
+M.K.: Sure. Let me just check my email here.
+
+It's Abedra at Rubazzle dot com, PresidentBeef at Rubazzle
+
+dot com, and Emconda at Rubazzle dot com.
+
+A.B.: Huh. Wait a minute. That's strange. All the
+
+user requests, they're coming from the same place. What's,
+
+what is this wowsodogememe dot com? I guess that
+
+like, it must be they come through a referrer
+
+here. I wonder what this is.
+
+J.C.: Looks like there's some credit card numbers in
+
+there, too.
+
+A.B.: I mean. Look at that. That's kind of
+
+funny. It's Doge Ross!
+
+M.K.: Oh, come on. Let's not get distracted by
+
+some silly dogs.
+
+A.B.: Wait. Hold on. What's going on here? I
+
+didn't place an order.
+
+J.C.: What?
+
+A.B.: OK. Wait a minute. Something really strange is
+
+going on. Everything looked fine, and then I visited
+
+this dojememe site. I clicked through some images and
+
+all of the sudden I got an order confirmation.
+
+OK. OK. This is strange. All these complaining users
+
+had this in common. And. OK. I don't know.
+
+J.C.: Well, go back to the site and let's
+
+look at the page source. Let's see what they're
+
+doing.
+
+A.B.: OK. Let's pull, let's pull the site up
+
+real quick and we'll, we'll take a look. Hey.
+
+Wait. Why is our domain in the JavaScript in
+
+the page?
+
+J.C.: Weird. That request, it's going to the order
+
+endpoint. But someone would have to be logged in
+
+to even complete that request.
+
+A.B.: Yeah. That's strange. I'll tell you what. Let's
+
+go over the last changes from the release. Let's
+
+see if we missed something. We'll take a look.
+
+J.C.: All right.
+
+A.B.: Wait. Wait. Who the hell? What, who did
+
+this?
+
+J.C.: Yeah. That was me. I was having trouble
+
+setting up the new JavaScript UI, and every time
+
+I tried to process an order, I got some
+
+weird error about authenticity tokens or something. So, I
+
+just looked on Stack Overflow, and they said just
+
+comment out this method. So I tried it, it
+
+worked, and I went with it.
+
+M.K.: Wait, what? So did you figure it out?
+
+A.B.: I mean, you could say we figured it
+
+out. That comment above the comment that he made.
+
+Yeah, that's the thing that says don't comment this
+
+out. So, I mean, that little protect_from_forgery method is
+
+the thing that actually prevents what's happening right now.
+
+It looks like that site also had a cross-site
+
+scripting vulnerability and somebody just pasted this in here.
+
+That launches the attack every time somebody views the
+
+page.
+
+J.C.: Wait. So every time someone goes to that
+
+page, it tries to submit an order on our
+
+site?
+
+A.B.: Yeah. So let's say somebody's logged into Rubazzle
+
+dot com, and they go to, wowsodogememe dot com.
+
+All of the sudden, it's gonna make a request,
+
+and they're logged in. Which means the browser has
+
+the right cookies and it's gonna make that request
+
+on behalf of that user.
+
+J.C.: Oh. All right.
+
+M.K.: OK, OK. This sounds crazy.
+
+A.B.: How do we fix it? We just- we
+
+uncomment the comment.
+
+J.C.: OK. But if we do that, it's gonna
+
+break all my changes.
+
+A.B.: Yeah. We're gonna have to roll back the
+
+UI. And then we're gonna have to fix the
+
+JavaScript, right. It should send that csrf token along
+
+with the request. It's probably good, instead of having
+
+our entire site effected by this.
+
+J.C.: OK. I'll start the rollback, but our release
+
+team isn't gonna be too happy with us.
+
+M.K.: Neither am I.
+
+J.C.: Man, our boss is a dick.
+
+All right. That was a pain, but I got
+
+the release rolled back, and I made sure that
+
+you can't make those requests without the authenticity token
+
+anymore.
+
+M.K.: That, that's awesome. That's good news. But here
+
+I've got an email from our counsel. Sounds like
+
+they've been contacted by the authorities, and credit cards
+
+that were used to buy Rubazzle cases are now
+
+being used fraudulently on other, in other places. So,
+
+I, I've never really been through this before, but
+
+I need you guys to start looking at this.
+
+A.B.: Dude. We got a release going out. Like,
+
+I, I mean. I, it's been one of those
+
+days I guess. Wait a minute, though. We encrypt
+
+all our credit card data. There's no way. This,
+
+this, this is not possible.
+
+J.C.: I'm gonna pull up the logs again.
+
+A.B.: OK. I'll take a look and see who's
+
+been on the server. Hey, can you check and
+
+email the team and see if we've had one
+
+of our regular vulnerability scans and see if there's
+
+anything that came up?
+
+M.K.: Yeah, I'll get in touch with team CISSP
+
+right away. But, you know, I don't know, I
+
+need you guys to keep working on this.
+
+A.B.: OK. I mean. I'm looking here. I don't
+
+see any weird access. There's nothing, I mean. I'm
+
+the only one who's even logged into this machine.
+
+It's patched. This is, this is strange.
+
+J.C.: Yeah. That's weird. This is kind of strange
+
+too. I'm looking at the logs, and I see
+
+a lot of requests coming from, like, one specific
+
+IP, and it seems like they're looking at sequential
+
+order numbers.
+
+A.B.: OK. Well, what do we show with an
+
+order?
+
+J.C.: We don't show the credit card number.
+
+A.B.: Well, of course. Wait a minute, though. I,
+
+it looks like I can actually look at other
+
+peoples' orders. That shouldn't work, should it?
+
+M.K.: You mean like, if I'm Ronica, I can
+
+see my order, and then I can see someone
+
+else's order by changing the id in the url.
+
+J.C.: So, they're just-
+
+A.B.: What?
+
+J.C.: -incrementing the id?
+
+M.K.: Yeah.
+
+A.B.: Well, we probably should fix that.
+
+M.K.: Wait. Wait, wait, wait. So you mean that
+
+a user can see another user's orders?
+
+A.B.: Yeah, that's kind of what's going on. Maybe
+
+we should fix it so that people should only
+
+see their own orders. How do, how do we
+
+do that?
+
+J.C.: I don't know. I heard something about a
+
+library called CanCan and something called Pundit. Maybe we
+
+should try one of those?
+
+A.B.: Sure. I mean, I guess we should probably
+
+make sure that we scope those queries, too. Maybe
+
+it's just like the current user that's only allowed
+
+to see their own orders, right.
+
+J.C.: Yeah.
+
+A.B.: Probably do that.
+
+M.K.: OK. Hey, hey guys. I heard back from
+
+team CISSP. Our PCI scan's passing, green checkmark. Everything's
+
+cool. So they don't know anything.
+
+A.B.: Well, we found out that we're not restricting
+
+our orders the right way. But, we don't show
+
+credit card details on the order. So I still
+
+don't think it's us.
+
+M.K.: Well, maybe we can refocus on the issue
+
+at hand, and stop worrying about orders, if it's
+
+not related to orders.
+
+A.B.: I don't know. Maybe look at the logs
+
+again?
+
+J.C.: Yeah, sure. So this is interesting. Seems like
+
+our endpoints that get hit the most are the
+
+ones with dot JSON after them. Maybe we should
+
+look at that order controller.
+
+A.B.: I'll take a look, yeah.
+
+M.K.: Wait, what's a controller?
+
+J.C.: Yeah. Look. We don't restrict what parts of
+
+the model get sent when they ask for JSON.
+
+So, if I put this in the browser, it
+
+just shows me everything.
+
+A.B.: Oh. Oh wait, awesome. That's it. We found
+
+it.
+
+M.K.: Awesome? That's not exactly how I'd describe it.
+
+A.B.: Well, I mean now we can fix it,
+
+right? I mean, now we just restrict the output
+
+of the JSON when, when people request it.
+
+J.C.: Yeah. And if we get CanCan in there,
+
+then we'll make sure people can't see orders that
+
+aren't theirs.
+
+M.K.: But, wait a minute. I thought this data
+
+was encrypted.
+
+A.B.: Well, technically it is. When we save it,
+
+it's encrypted. But the application still needs to decrypt
+
+it to use it. So it looks like maybe,
+
+you know, people are just using the application to
+
+decrypt the data, cause that's what it's supposed to
+
+do.
+
+M.K.: Uh, OK.
+
+J.C.: Man. This has been a rough day.
+
+A.B.: Yeah.
+
+J.C.: I think I'm gonna go home and rest
+
+up for RailsConf.
+
+A.B.: Yeah.
+
+M.K.: Before you go, can you check out this,
+
+this thing from our social media guru.
+
+A.B.: Wait. We have a social media guru?
+
+M.K.: Yeah. I guess someone mentioned at rubazzle in
+
+a Tweet with pastebin and it says it has
+
+a, a bunch of our users' information up there.
+
+We also got an email from somebody that said
+
+that our server had been hacked, and that's how
+
+the passwords got out. Seems like kind of a
+
+big deal to me.
+
+J.C.: I don't know. I'm looking at it. It's
+
+just a pastebin with emails and md5 sums. I
+
+mean, it's probably bogus, cause we don't use md5
+
+to hash our passwords, right?
+
+A.B.: Actually-
+
+J.C.: Ah. No. You're kidding, right?
+
+A.B.: Well, so last summer I tried to get
+
+the team to upgrade to bcrypt, but we ended
+
+up having to deprioritize it for like this Ajax-y
+
+rubazzling feature. So it kind of got dropped from
+
+the floor.
+
+M.K.: Well that, that, that Ajax-y radazzling preview feature
+
+was like, the cornerstone of that release. It was
+
+a big deal.
+
+J.C.: So, wait. Are you saying that these might
+
+be legit? I guess I'll start talk- checking them
+
+against our Users table. And I don't think I'm
+
+gonna have time to make it to RailsConf.
+
+A.B.: Wait. Do you have access to production?
+
+J.C.: Yeah. Well, the credentials are in database dot
+
+yml, so I've just been using those.
+
+A.B.: Seriously? I mean, well, what happens if, like,
+
+maybe somebody had access to our source code and
+
+logged into the database?
+
+M.K.: Wait. Are you saying that there are hackers
+
+in our network? Do we need to call the
+
+FBI? Let's lock this place down.
+
+A.B.: Wait. Hold on, hold on. Let's not get
+
+crazy.
+
+M.K.: Let's get crazy.
+
+A.B.: I'll IM the network people. We'll figure out
+
+and see if there's any weird access. Let's just
+
+double-check this.
+
+M.K.: I want you to take care of this.
+
+A.B.: OK.
+
+J.C.: All right. While you're doing that, I'm gonna
+
+look at the credentials. I mean, it looks like
+
+they're straight from our database. They're even in the
+
+same order as our table.
+
+A.B.: Well, that's not good.
+
+J.C.: Do the network people know what was going
+
+on?
+
+A.B.: I'm looking here. It looks, I mean. Everything
+
+seems fine, actually. No database access from outside our
+
+firewall.
+
+J.C.: Hmm. Maybe we should check the logs from
+
+the website again?
+
+A.B.: Yeah. I mean, I'll take a look. Yeah.
+
+I mean, let me pull it up right now
+
+and. Wait. This is weird.
+
+M.K.: What, did you find the hackers?
+
+A.B.: No. I'm seeing a lot of 500s in
+
+the order update page, though.
+
+J.C.: K. I'm looking at the controller. There is
+
+a database query for, right here, for looking at
+
+the qualifying orders for our frequent rubazzler rewards program.
+
+A.B.: I see that, too. It looks like something
+
+strange there.
+
+J.C.: I don't know. What about it? It looks
+
+fine to me.
+
+A.B.: Well, I'm usually suspicious when there's string interpolation
+
+in a query. I mean, look, I mean, look
+
+at. We're just dropping that user's reward code straight
+
+in. I mean, remember when I showed you that
+
+Rails dot- Rails sqlite dot org site last week?
+
+J.C.: Yeah. I remember you showing me that. But
+
+I still think it's safe. I mean, that value,
+
+we don't even get it from the user. We
+
+set that in our admin panel.
+
+A.B.: It still seems pretty shady to me.
+
+J.C.: Well. I'm looking at the User model, and
+
+we even have a validator for that field. So
+
+I'm pretty sure we're safe.
+
+A.B.: Well. I mean. Technically, yes. But if somebody
+
+just put a new line in there, it actually
+
+completely bypasses that validation.
+
+J.C.: Really? I mean, I didn't realize that when
+
+I wrote it, you know. Sometimes I think Ruby's
+
+regular expressions are kind of weird. But still, we
+
+don't get that value from the user anywhere. I'll
+
+fix it, but I don't think that's our issue.
+
+A.B.: Well, if we had moved to Rails 4
+
+like I said we should have, you know, this
+
+actually would have never been a problem. We wouldn't
+
+have been able to start the app. I mean,
+
+I'm still worried though. I'm gonna check out the
+
+User update action and make sure there's nothing weird.
+
+I don't see any reference to that attribute here
+
+but I'm gonna take a look anyways.
+
+J.C.: Yeah. I really don't think that's the problem.
+
+So let's just keep looking.
+
+A.B.: OK. Wait a minute. Why are we calling
+
+permit in the update method?
+
+J.C.: In the update method? Oh, oh, oh right.
+
+Yeah, remember we started using strong params last month?
+
+A.B.: Yeah.
+
+J.C.: Yeah. I was seeing some weird issues, so
+
+I went on Stack Overflow and I read the
+
+answers. They said just use permit. I tried it.
+
+It totally worked so, I mean, what's the problem?
+
+A.B.: Oh man.
+
+J.C.: The tests pass.
+
+A.B.: Of course the tests pass. So, basically, we're
+
+saying anybody can set any attribute on the user
+
+model, including the one that we're using in that
+
+SQL query.
+
+J.C.: Oh, all right. Man, I screwed this up
+
+again. I'll get the query cleaned up. It, it
+
+should just take a minute.
+
+A.B.: OK. So, I just went to look through
+
+some of these logs, and I actually see some
+
+of these exceptions from the attacker, and I found
+
+some interesting stuff. I put something together. Check out
+
+this request.
+
+J.C.: OK. What the heck is that? It just
+
+looks like a big huge mess to me.
+
+A.B.: Well, I put this curl request together based
+
+on some stuff I saw on the logs.
+
+J.C.: OK? But, I mean, what is it doing?
+
+A.B.: Well, so what we're doing is actually setting
+
+that rewards code, via the mass assignment that I
+
+talked to you about. Which shouldn't be possible, but
+
+it is. But instead of setting a normal rewards
+
+code, I just went ahead and put my own
+
+query in there.
+
+J.C.: OK. I don't, I'm still not quite sure
+
+how you're doing that, but, I mean, after you
+
+do that, what's it matter?
+
+A.B.: OK. So, so here's what we look, here's
+
+what it looks like. We're actually not escaping that
+
+rewards code. So.
+
+J.C.: Oh. OK. I think I see. What's, what's
+
+this, OK. So we, we take the value and
+
+we interpolate it, and then they're breaking out of
+
+the quotes and adding their own query?
+
+A.B.: Yeah. Absolutely. I mean, basically the results is
+
+that when the query for orders with the reward
+
+codes actually is doing a union with the Users
+
+table. And it pulls that user and email, user
+
+email and password right out of the database and
+
+into the form. It's actually pretty clever.
+
+J.C.: OK. So you're saying we had a SQL
+
+injection where we were putting the model attribute into
+
+our query? But I thought that was safe because,
+
+you know, the user couldn't set it anywhere. But
+
+then we had a mass assignment issue which allowed
+
+them to set it. But the only way they
+
+were able to get the actual SQL past our
+
+validator was by using a new line?
+
+A.B.: Yes. This is exactly what happened. Basically it
+
+was a giant, you know, set of, of cards
+
+that collapsed on top of each other.
+
+J.C.: Man. That's like, that's a bunch of things.
+
+I can't believe someone figured that out. Hey, I
+
+guess we should call the, the lawyers and get
+
+everyone's password reset.
+
+A.B.: Yeah.
+
+J.C.: Just as. Man. This is really a bad
+
+way to start RailsConf week.
+
+A.B.: You're definitely not going to RailsConf.
+
+J.C.: Ah, come on!
+
+M.K.: Fellas, yesterday was awful. Really bad day. We
+
+need to figure out how to not let that
+
+happen again.
+
+A.B.: Yeah.
+
+M.K.: What can we do better?
+
+J.C.: Well, I mean, at least our Rails version
+
+is up-to-date, right?
+
+A.B.: Yeah. I mean, remember that crazy bug in
+
+the XML serialization that let anybody just do whatever
+
+they wanted on peoples' Rails apps?
+
+J.C.: Yeah. The bug got announced, and within a
+
+day there was a metasploit mount, module for it.
+
+M.K.: What on planet Earth does that even mean?
+
+A.B.: Well, what it means is anybody who has
+
+that little module is gonna push a button and
+
+do whatever they want on anybody's server.
+
+M.K.: Oh, I'm not feeling well. Ah.
+
+A.B.: Man.
+
+A.B. & J.C.: I guess it's time for a
+
+post-mortem.
+
+A.B.: What, what did we do wrong?
+
+J.C.: Man, it was like, a ton of stuff.
+
+We didn't protect that model update with strong parameters.
+
+A.B.: That's right. And when we did, we shared
+
+the whole table via JSON.
+
+J.C.: Right. And then we, well, I turned off
+
+the CSRF protection, so that I could get that
+
+JavaScript to work.
+
+A.B.: Yeah. That was pretty bad. Well, we also
+
+messed up the anchors in the model validation, which
+
+in turn allowed the app to build queries that
+
+resulted in SQL injection.
+
+J.C.: Right. And we were using md5 for our
+
+passwords, and we knew that was wrong.
+
+A.B.: Yes. Oh, yeah. Don't forget about the fact
+
+that anyone can see or edit anyone else's order.
+
+J.C.: Right. And we were storing the card information
+
+in that same table, but we were pretty sure
+
+it was safe because it was encrypted.
+
+A.B.: Yeah.
+
+M.K.: Ha!
+
+A.B.: Whoa!
+
+J.C.: Whoa!
+
+M.K.: Back from the dead! So now, how can
+
+we change our processes so that this doesn't happen
+
+again?
+
+J.C.: Personally, I think we need a little more
+
+training. I mean. I wasn't aware of a lot
+
+of these issues, but last night I started reading
+
+the Rails security guide. And the OAuth's Rails security
+
+cheat sheet. There's a lot of good info there.
+
+A.B.: Yeah. I mean, we should probably start reviewing
+
+our code before we ship it out, too.
+
+M.K.: Won't that slow us down? I mean, we
+
+gotta hit our dates.
+
+A.B.: I mean, probably worth it. I mean, this
+
+was a pretty bad day yesterday.
+
+M.K.: I guess I take your point.
+
+J.C.: You know, I was also looking into some
+
+security tools. There's this one tool called BreakMan. I
+
+was reading about it, and it looks like it
+
+will check out our code and help us find
+
+these security issues, like the ones we saw.
+
+A.B.: Oh, so like, we can just run it
+
+against our code? With just a command?
+
+J.C.: Yeah.
+
+A.B.: So, we could probably drop it in CI
+
+then, right?
+
+J.C.: Oh, yeah, that would probably be a good
+
+idea.
+
+A.B.: I heard this, something about this thing called
+
+Bundler Audit, too. It helps you keep track track
+
+of security issues in your dependencies.
+
+J.C.: Yeah. We should try that out.
+
+M.K.: OK. It sounds like we need to be
+
+more up-to-date with Rails security issues, best practices for
+
+Rails apps. Definitely sounds like we need to do
+
+code review.
+
+J.C.: Yeah.
+
+M.K.: Training.
+
+A.B.: Yeah.
+
+M.K.: Maybe get some automated tools in place so
+
+that, you know, we can catch ourselves if we
+
+make mistakes. And maybe we even need to get
+
+some partners to help us review code, do an
+
+audit, kind of make sure everything is OK.
+
+A.B.: That's probably a good idea.
+
+J.C.: Yeah, I guess so.
+
+M.K.: Wow. Rubazzle dot com.
+
+J.C.: Yeah.
+
+M.K.: So, this is back to you. Heed our
+
+sad story, otherwise your app may suffer the same
+
+way that Rubazzle dot com did.
+
+AUDIENCE: [applause]
+
+A.B.: So, thanks so much. Obviously these were, these
+
+were jokes. But, they weren't too far off from
+
+the truth. The stuff that we talked about, the
+
+three of us have all seen throughout our time
+
+securing, auditing, changing Rails apps. So, we just kind
+
+of modified the stories we had to fit our
+
+lovely Rubazzle company.
+
+So, my name's Aaron Bedra. I work at Groupon.
+
+And I have been working in Rails security for
+
+a long time. And I've really seen some, some
+
+fun stuff, including, you know, almost everything we talked
+
+about here today.
+
+J.C.: My name's Justin Collins. I work for Twitter
+
+on the application security team. I'm also the primary
+
+author of the BreakMan tool, which I so sneakily
+
+promoted in our skit.
+
+AUDIENCE: [applause]
+
+J.C.: Oh. Thank you. And if you're interested, I
+
+have a very small stack of the BreakMan stickers
+
+like this, after we're done. Grab one. Before they
+
+run out.
+
+M.K.: I'm Matt Konda. I do a lot of
+
+code review and training. Don't work on any prominent
+
+security open source projects yet. Other than Rubazzle dot
+
+com, which is in BitBucket. You can go look
+
+at it and see the vulnerabilities. These are all
+
+real. We tested them all in sequence. The, the
+
+?? is actually kind of cool. You should go
+
+look at it. (00:23:36)
+
+And, yeah, that's kind of.
+
+A.B.: Yeah. So. We wanted to give a little
+
+bit of ta- some room at the end of
+
+the talk for questions. Obviously we had some pretty
+
+contrived examples. But, there might be something like this
+
+that affected you guys. Obviously don't speak too far
+
+out of school if you can't. But if you
+
+have questions, feel free to ask. Now's a great
+
+time to start a discussion.
+
+Third party security recommendations. I do, actually.
+
+J.C.: Maybe we should mention them afterwards.
+
+A.B.: Yeah. So yeah. There are, there are some
+
+really great firms that do your security review and
+
+actually do Rails-focused security review.
+
+Oh yeah. So, database credentials ends the source code,
+
+right. Don't check in your database.yml file. Also don't
+
+check in your secret for your sessions. You need
+
+to store those somewhere else, right. So, there's lots
+
+of different ways to do it. You can go
+
+all the way, you can get really hard core
+
+and go HSM. Store everything encrypted and, and use
+
+the HSM to, you know, decrypt and retrieve it.
+
+It's expensive and has a lot of infrastructure overhead.
+
+So I, you know, I mean, putting a separate
+
+repo, a private repo that only production has access
+
+to, automation of course. Chef Puppet, those kind of
+
+things, are super important there.
+
+J.C.: Yeah. I mean, at Twitter we have some
+
+system that someone very smart built. And basically those
+
+all go into a separate repo. Only a few
+
+people have access to that. And then they're copied
+
+to the server when the app is deployed.
+
+A.P.: Yeah. There are actually quite a few tools
+
+out there. You know. You could get the bigger
+
+commercial tools, app scans, those kind of tools to,
+
+to run against your code. Actually, one of the
+
+things I like to do is if the build
+
+passes, have the build deploy to a staging environment,
+
+and kick off a dynamic scan against the app
+
+as part of the build pipeline. You can't do
+
+it every release, it gets a little backed up.
+
+But for, for, for actual builds when you go
+
+to production, you can have that build pipeline. Make
+
+sure ?? doesn't find any high vulnerability (00:25:28) issues.
+
+It's a pretty nice way to do it. BurbSweep
+
+is kind of a, it's kind of a, it's
+
+a collection of tools. But actually it can run
+
+head lists. So you can run some, or build
+
+some extensions to make BurbSweep run head lists and
+
+do basically a spider, will take all the results
+
+and send them to a scanner and then scan
+
+the site.
+
+It's not a hundred percent gonna find everything, but
+
+it's gonna kick off, you know, some of the
+
+most common attacks against your site. And automating that
+
+as much as you can, making it part of
+
+your build process is a really good thing to
+
+do.
+
+M.K.: Can I add something here?
+
+A.B.: Yeah, yeah.
+
+M.K.: So, I mean. I would recommend taking the,
+
+the BreakMan sort of code analysis-
+
+A.B.: Yeah.
+
+M.K.: -plus the dynamic analysis-
+
+A.B.: Yeah.
+
+M.K.: Plus, like a human level of interaction. Frequently
+
+dynamic scanners won't find, like, important issues. Anything related
+
+to business logic they won't ever find.
+
+A.B.: Yup.
+
+M.K.: They can find, like, brute SQL injection or
+
+cross-site scripting, a lot of the times, but they
+
+don't find more complicated kinds of vulnerabilities. They can
+
+be really important, and even easy to exploit.
+
+A.B.: And they're noisy. There's a lot false false
+
+positives.
+
+M.K.: Right.
+
+A.B.: So.
+
+Yeah. Monitoring. It's, it's an interesting question. I mean,
+
+definitely, any time you see an exception, make sure
+
+somebody sees that. Don't let exceptions fall out of
+
+the, out of the wayside, right. Don't ignore them.
+
+Don't let your exception be, or, or your application
+
+be so noisy that you stop looking.
+
+So exceptions usually are, are the sign. I mean,
+
+maybe you screwed up, but every now and again
+
+that could be, you know, some, some real issues.
+
+And if you see SQL errors in your 500s,
+
+take a, take a really close look. Cause there
+
+could be some bad stuff going on.
+
+J.C.: Yeah. If you want, you should look at
+
+the guys from Etsy.
+
+A.P.: Yeah.
+
+J.C.: They've given a bunch of talks about doing
+
+really neat monitoring, looking at requests and basically, basically
+
+flagging anomalies.
+
+A.B.: Yeah.
+
+J.C.: And the way they have it set up,
+
+it's like, those anomalies are usually cross-site scripting.
+
+A.B.: Yeah. The behavior of users is really important.
+
+Find out the normal behavior of a user, and
+
+when someone doesn't act like they should, they you
+
+start to trail and do some interesting stuff. You
+
+know, any time the log aggregation is a big
+
+deal, right, if you have logs, make sure they're
+
+all in one place. What is like Splunk and
+
+LogStash and ??Logic and all those (00:27:36) different providers.
+
+You know, get your logs in one place and
+
+start doing queries.
+
+Like, look for patterns. Look for behavior that doesn't,
+
+that doesn't fit, and then you'll, you'll find some
+
+interesting stuff that way. I guarantee it.
+
+Lists for vulnerabilities. I mean, the Ruby on Rails
+
+mailing list is super important to be on. But
+
+also there's kind of a catch-all, OSS dash security.
+
+That list has basically all the open source projects
+
+will aggregate inside of that project. It's run by
+
+Red Hat ??, and they're basically collecting every (00:28:03)
+
+thing. Anything in CBE that has that project label
+
+is gonna get blasted on that list. So I
+
+mean there's other, other ones to look at.
+
+I mean, if you're using a framework, a big
+
+one, there's probably a list for it. Your OS's
+
+as well. But that OSS dash security, it's probably
+
+one of my favorites for kind of a catch-all.
+
+J.C.: I really like Bundler Audit.
+
+A.B.: Yeah.
+
+J.C.: ??, (00:28:26). What is it, OS VDB?
+
+A.B.: Oh yeah. Yeah.
+
+J.C.: Yeah. So it, you know, cause a lot
+
+of times like, if you're just looking at vulnerabilities
+
+that get reported, like, they're not necessarily relevant to
+
+you. Like, oh, some gem that's like, you know,
+
+no one uses and someone found something in it.
+
+Or may, maybe some people use it but it's
+
+just not relevant to you. But if you're running
+
+Bundler Audit-
+
+A.B.: Yeah.
+
+J.C.: -and you have it, it will, you can
+
+set it up to automatically pull in the latest.
+
+And then it's gonna be looking at your dependencies
+
+and telling you, hey, one of your dependencies has
+
+a problem that's been reported.
+
+A.B.: Yeah. So the question was, how do you
+
+prioritize CDEs, issues, all that kind of thing? That's
+
+a really, really hard thing. I mean, so, at
+
+the end of the day you have a business
+
+to run, and the business has to function. So,
+
+you know, if you have a release pending, it's
+
+about risk. What's the risk that somebody's gonna exploit
+
+this thing before you can get a patch out?
+
+You know, if the feature you're about to release
+
+is gonna, is gonna drive up revenue by 10x,
+
+and the CBE is not a stop-the-world thing, release.
+
+Right, it's about being pragmatic. It's not about stopping
+
+the world for security. The point is security should
+
+help you move forward faster, not slow you, slow
+
+you down or stop you.
+
+J.C.: And I think usually what I've seen anyway,
+
+is generally you can determine pretty quickly if it,
+
+if it potentially effects you or if it definitely
+
+doesn't effect you, right. So I mean, there are
+
+CVs that come out, and you're like OK, but,
+
+we're not using that.
+
+A.B.: That's right.
+
+J.C.: We're not using that feature. We're not using
+
+that. You still want to like keep up with
+
+the releases. But maybe you don't stop everything and
+
+patch it. Maybe you patch it as you get
+
+to it.
+
+A.B.: And also, it's good to have somebody on
+
+the horn, right. If there's, if there's somebody that
+
+you can work with on security issues, give them,
+
+give them a ring and say, hey. How bad
+
+is this? It was really hard last week, before
+
+last with Heart Bleed. Nobody really understood how serious
+
+it was until everybody said how serious it was,
+
+right. It was like, oh this thing's bad. And,
+
+and, and the world kind of stopped for a
+
+minute, and then all of the sudden it went,
+
+oh wait, this is really, really bad. And then
+
+everybody started patching.
+
+So it's good to have somebody you can call
+
+and ask, right. It's that same company you work
+
+with to do the third party audit-
+
+J.C.: Are you volunteering?
+
+A.B.: What's it? Am I volunteering?
+
+J.C.: Give them, give them your number. They'll call
+
+you.
+
+A.B.: That's right.
+
+M.K.: The, the thing I would just add to
+
+that, is I always recommend that you have a
+
+process for responding-
+
+A.B.: Yeah.
+
+M.K.: -not just, like, like, it's not about only
+
+how severe is it, but like, certain categories are
+
+gonna, or a certain set of features are gonna
+
+make you push your app today. Other sets of
+
+problems are gonna make you push your app this
+
+week. Another set are gonna make you push your
+
+app this quarter, right. And maybe if you collect
+
+a bunch of those, then you push sooner, right.
+
+And then you'd get to decide as an organization,
+
+like, which of the things that push you into
+
+which bucket, because practically, like, it's pretty obvious that
+
+the XML deserialization one we referenced with it was
+
+like a remote oday??, I can get remote code
+
+execution on your (00:31:24) server was pretty serious-
+
+A.B.: Yeah.
+
+M.K.: -right when it came out, right. So everybody
+
+should have patched that as fast as they humanly
+
+could, right. But, a lot of them are a
+
+lot muddier. I think that's probably why you asked
+
+the question, right.
+
+A.B.: Yeah.
+
+M.K.: I want to say one other thing. I've
+
+gotten a lot, like, two questions from almost everybody
+
+I talk to, who said, oh, you're doing a
+
+security talk. What, and the first thing they ask
+
+is, well, doesn't Rails basically handle security for you?
+
+And the other thing is like, oh, you know,
+
+what's the worst thing in Rails? Right, like, what's
+
+the worst, single worst security thing I need too
+
+worry about in Rails?
+
+J.C.: Or the most common.
+
+M.K.: Right, or the most common.
+
+A.B.: Yeah.
+
+M.K.: And, like, my response is like, every single
+
+time I've looked at a real, practical, real-world application,
+
+there have been tons of vulnerabilities in it.
+
+A.B.: Yeah.
+
+M.K.: Right. Like it's not practically, I can't tell
+
+you, like, go fix the CSRF thing and you'll
+
+be good, right. And a lot of times they're
+
+chained, like we did, like we tried to demonstrate.
+
+So the one thing may not seem like a
+
+big deal, but when they, in concert they become
+
+a big deal. And so this is, I mean,
+
+I'm hoping that you take this home that like,
+
+this is real. Even though Rails does a great
+
+job of doing encoding-
+
+A.B.: Absolutely. A lot of really good defaults.?? (00:32:28)
+
+M.K.: -and. We ran into something fun while we
+
+were putting the presentation together with the regex, right.
+
+Like, the Rails 4, it won't allow you to
+
+do a multi-line regex by default.
+
+A.B.: Yeah. ?? (00:32:28)
+
+M.K.: And so it's getting better. It's always improving,
+
+and that is one cool thing about Rails. But
+
+you can't, like, depend on it to do security
+
+for you.
+
+A.B.: Upgrade, though. I mean.
+
+M.K.: Yeah.
+
+A.B.: Those of you that are still on Rails
+
+2-3, OK, it's time to have a talk. I
+
+mean, I know it's tough. It's gonna take you
+
+a long time. It's gonna take you months to
+
+figure it out. It's, but, you've got to upgrade.
+
+One of the things that's, it's so important is
+
+keeping up to date, because if something goes wrong,
+
+if it's a big deal and there's no patch
+
+for it, there's nothing you can do, right. I
+
+mean, you've got to stay up to date. The
+
+Rails core team is doing a really wonderful job.
+
+When you find them, thank them for doing such
+
+a good job. And ?? security for (00:33:13) for
+
+real, right. When issues come in, they patch them,
+
+they announce them. There's a great response from the
+
+Rails core team on security issues. But you've got
+
+to keep up-to-date. They can, they can only fix
+
+the problems. They can't fix your app, right.
+
+J.C.: And don't just update when you feel like
+
+you're vulnerable to the issue-
+
+A.B.: Yeah.
+
+J.C.: -because we had a situation where there was
+
+an update that came out, and we're like yeah,
+
+you should apply this update to this app. It
+
+definitely applies. And they're like, oh wait, but we
+
+didn't apply the other updates, and this update relies
+
+on that update. So it's always easier if you're
+
+just up-to-date. And you should be aware, anything before
+
+Rails 3.2 is not supported anymore.
+
+A.B.: Yeah. I mean, it's about keeping patched. Put
+
+a, put a card in your sprints or iterations,
+
+whatever you, however you do it. Once a quarter,
+
+or, or sooner if you can right, just update
+
+the current version of Rails. Right, just keep it
+
+as a thing you do every so often. As
+
+part of your process. And make sure it's in
+
+your back log. Make sure it gets pulled. Make
+
+sure that, that, that is done all the time.
+
+J.C.: It's easier to do small increments than go
+
+from Rails 2.3 to 3 point 2.
+
+A.B.: Yeah. All right.
+
+A.B. & J.C. & M.K.: Thank you.
