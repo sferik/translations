@@ -18,6 +18,8 @@
 
 [*Designing APIs for an Internal Set of Services*](https://www.youtube.com/watch?v=LuyAuXwA4rY)
 
+[*Service Extraction at Groupon Scale*](https://www.youtube.com/watch?v=13SV7MjJugo)
+
 [*Culture of Continuous Delivery*](https://www.youtube.com/watch?v=cuRyW0FfBiM)
 
 [*Tales from the Crypt*](https://www.youtube.com/watch?v=zZtDOX9kXRU)
