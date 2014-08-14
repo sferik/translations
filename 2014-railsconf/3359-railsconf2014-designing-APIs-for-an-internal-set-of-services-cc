@@ -1,0 +1,721 @@
+RailsConf 2014 - Designing APIs for an Internal Set of Services - Alberto Leal
+
+ALBERTO LEAL: Thanks for coming. I'm super excited
+
+to be here to talk to you about designing APIs for
+
+an internal set of services. Oh boy. My name is Albert.
+
+That's my Twitter and my GitHub account and my email address.
+
+If you want to follow me on those. And if you can have
+
+any questions, you can write to me on that email.
+
+I work at the Globo dot com. Globo dot
+
+com is the internet branch of the Globo Organizations,
+
+which is the largest media conglomerate in Latin America.
+
+And we aggregate the greatest work of portals in
+
+Brazil for new superfluous entertainment videos and so on.
+
+And we release a lot of open source projects
+
+as well. Sorry. And one of them is called
+
+tsuru, which is our cloud application platform. And if
+
+you want to check this project out, and some
+
+others, you can see it on, all of them
+
+in our GitHub page slash globocom.
+
+During this talk, I'd like to cover two main
+
+topics. The first one is about designing the APIs,
+
+and the second one is about the micro-services environment.
+
+So, starting with the API itself, what is an
+
+API?
+
+The acronym stands for Application Program Interface. But here,
+
+I'm more interested in the interface part, because when
+
+we are developing an application or a library so
+
+that other developers can integrate to that, it's through
+
+the API that it may be feasible, right? So,
+
+what about the micro-services environment?
+
+Here is a little definition of what that is.
+
+It's a concept where an application is decomposed into
+
+small and loosely coupled services, where each service has
+
+a single responsibility, running in its own process.
+
+So let's see an example so it may become
+
+clearer. Let's imagine a simple page where we have
+
+a few lines of text, and there is some
+
+videos and some ads as well. And all of
+
+this together produces our content page, right. If we
+
+start thinking of micro-service architecture, we can observe that
+
+we can construct some services here.
+
+And decomposing our services this way, we can involve
+
+them independently, independently of the others. And maybe we
+
+can have different things work on each of them.
+
+For instance, I can have one thing working on
+
+the tasks related to the video, such as compression
+
+in coding, and so on. And the other one,
+
+taking care of just the images. Caching, whatever.
+
+And decoupling an application into those small services offers,
+
+offers us another great opportunity, which is we can
+
+use the right, the right tool for the job.
+
+Now, it's possible to use the Node.js to write
+
+a simple API. I can use Java for the
+
+backend. I'm not stuck on a simple stack or
+
+platform.
+
+And this architecture leads to a more maintainable and
+
+stable application. How it happens. For instance, it's pretty
+
+easy to replace any service to another one, due
+
+to performance issues or any other problem that you
+
+may have with that. Just replacing that piece of
+
+code, the entire service, you don't need to replace
+
+the entire application, right. You just need to replace
+
+that piece that is not working pretty well. But
+
+you just need to keep in mind that interface
+
+should be the same, so other service can continue
+
+using your new service, right.
+
+And the, the concept behind the micro-service environment is
+
+not particularly difficult, but it raises a lot of
+
+questions such as how to define services contract, so
+
+that those services can communicate to each other. How
+
+do we manage the deployment? And how can I
+
+test this best?
+
+So, we are go- let's go back up for
+
+a moment to our first topic which is API,
+
+and how do we get started building our API?
+
+Everything starts during the API modeling phase, right, where
+
+we need to gather all the stakeholders, the software
+
+engineers, the designers, everyone involved in the development of
+
+the API, in the same room, trying to create
+
+the conceptual model. Try to understand the purpose of
+
+the API. What is the main goal of the
+
+API that you're building? Is it to save you
+
+money? Or is it to make money? Right. Maybe
+
+neither. Just is, the main goal is just to
+
+help other developers to save time and effort.
+
+And then we need to understand our audience. Who
+
+is going to use my API? Is it going
+
+to be used by Ruby developers? Java developers? The
+
+main audience of the API is the developers. So
+
+we need to keep in mind that the developer
+
+experience means a lot. We need to make sure
+
+to put in extra effort so that our API
+
+is enjoyable to use.
+
+So when we are building a product or application,
+
+we always keep in mind that it should, it
+
+should be pleas, enjoyable to the final user to
+
+use that, right. So we need to think the
+
+same thing when we are creating an API, we
+
+need to see our developer as our customer, the
+
+same way we need to see the API as
+
+our product. Because, in fact, it is.
+
+And, it's pretty much important to create a common
+
+language, and ubiquitous language. We need to create a
+
+vocabulary of terms that we'll be using during all
+
+the API cycle time, cycle life. We need to,
+
+when we are going to talk to business people,
+
+they must understand the same thing that the software
+
+engineers, when you are talking about API, application, services.
+
+And we need to make sure that all of
+
+those terms are being used all over the place
+
+in their resource names, the vocab- the documentation, data
+
+fields and so on.
+
+And, we can, after that, we can start modeling
+
+our resource, trying to identify the data fields, the
+
+relationship between, between them, and check if all the
+
+resources available through the API is going to be
+
+public or some of them must require authentication. And
+
+maybe, this time here is a good moment to
+
+define the format, the data format.
+
+I'm not going to talk about data format right
+
+now. Let's move on. I'm going to talk about
+
+data format in a few minutes. And probably, you're
+
+going to create hyper-media APIs, and if so, there
+
+is no need to reinvent the wheel trying to
+
+create another awesome way to describe our data format
+
+and describing the links. There are some libraries, great
+
+libraries out there that may help you a lot,
+
+such as HAL, JSON API, and JSON Schema.
+
+The examples that I'm gonna show you here is
+
+JSON Schema, which is the, which is the tool
+
+that we are using at work.
+
+So, what makes a great API? Let's see some
+
+examples. A great API is flexible and simple to
+
+use. Every developer has its own preference regarding the
+
+data format. Some love JSON, some others love XML,
+
+and when we are designing the API, we know
+
+that. But we need to, but we need to
+
+decide which format we are gonna support.
+
+If you decide to support both formats, we need
+
+to have in mind that it's gonna take time
+
+and effort to test is everything works on both
+
+formats. And an API should be simple to use.
+
+So it should be intuitive so the developer doesn't
+
+have to spend much time trying to figure out
+
+how the API works.
+
+For example, sometimes it's useful to retrieve all the
+
+fields related to the resource cars. But sometimes it
+
+isn't. So adding support for partial response by adding
+
+additional attributes, it's a good idea. It helps the
+
+developer to retrieve only the data that they need
+
+to, to use.
+
+And the API urls matter a lot. Prefer to
+
+use nouns instead of verbs. And put them in
+
+logical groups whenever possible. For example, here I have
+
+my collection followed by my resource, and after that
+
+I have filters. Those filters there can be partial
+
+response, pagination, you can use those filters for whatever
+
+you want to do.
+
+Let's check this url's, those refs that we have
+
+here. All of those, all of them do the
+
+same thing - getAllars, getAllNewCars, or get just one
+
+specific car. And which one of these do you
+
+think is more intuitive? The left side, right?
+
+If we start mixing up verbs with nouns, maybe
+
+we can end up with a big ball of
+
+mud in our hands. The maintenance becomes hard. So
+
+let's leave the HTTP verbs to perform operations in
+
+the elements.
+
+Search POST to create, GET to read, PUT to
+
+replace, PATCH to update, and DELETE, if you want
+
+to delete.
+
+And a great API returns meaningful errors. And we
+
+need to make sure that the errors should, and
+
+the error are, errors are clear enough to help
+
+the developers. Errors are so important to developers because
+
+when they are starting using that, they don't know
+
+what happens on the other side. Everything on the
+
+other side becomes a black box. It does, they
+
+only know the interface part. So the error messages
+
+should provide visibility. What happens when something goes wrong
+
+on the other side? No matter if the error
+
+has, is from the developer request or if the
+
+error is from a server-side error.
+
+And developers learn a lot how to integrate APIs
+
+through errors. I have seen some providers who return
+
+only 200 if it's good, and for everything, no
+
+matter what happens, if it's a success or if
+
+there is an error. And using the HTTP pay
+
+loads to indicate what is wrong. But there are
+
+other providers aligning the HTTP status code, which the
+
+pay load. Particularly, I prefer this approach. But we
+
+know that there are more than fifty such codes
+
+out there. And it's not a good idea, it's
+
+not so easy to memorize all of them and
+
+force our customers to do so.
+
+So basically what we have been using is all
+
+of those five stats codes for a hundred, for
+
+a bad request, indicating when the server-side could not
+
+fulfill the request. 401 for unauthorized, 403 forbidden. 404
+
+not found, and 500 for internal server error.
+
+And a great API provides great support. Here, when
+
+I talk about support, API support, I like to
+
+talk about three items. The first one is about
+
+documentation. Designing and developing an API takes us a
+
+lot of time and effort to do that. So
+
+we need to put the same effort in when
+
+we are writing the documentation. Because here's, I have
+
+an example.
+
+When we buy an iPhone or an iPad, we
+
+don't- where is the manual, where's the documentation, right?
+
+We just unbox it and start playing, touching. But
+
+in the API, it doesn't happen like that. We
+
+need to indicate to the developer how to use
+
+the API. So let's make sure to create guide
+
+lines, quick starts, and some samples, so the developers
+
+can see how easy it is to integrate the
+
+API.
+
+And the other. And the other element here is
+
+the communication. We need to keep an open communication
+
+channel to our customers, so they can send questions
+
+and feedback. It can be IRC channel, mail list
+
+or GitHub. Whatever works for us. And the last
+
+one is community.
+
+When the API starts getting more users, it's not
+
+so difficult to see great things emerging around that.
+
+So we need to keep those developers close to
+
+the API team, creating a community around that.
+
+And another element is security. A great API is
+
+secure. A great, a key point here is to
+
+use SSL to encrypt the communication between your API
+
+and your clients, your customers. And besides that, make
+
+sure that only the resource, only protected resource is
+
+accessible with proper permissions.
+
+What about versioning? An API is never completed, right.
+
+It's al, there's always a new version, there is
+
+always an improvement there, and changes may occur. But
+
+that's not the problem. The problem is how we
+
+deal with those changes. How many versions should the
+
+API support, right?
+
+I would say that an API, sorry, I would
+
+say that an API should support at least one
+
+version back, because when we start dealing with multiple
+
+versions, things may get complicated. And whenever we plan
+
+to release a new version of the API, let's
+
+communicate to the existing users, and. Sorry.
+
+And let's give, let's give the existing users at
+
+least one cycle to migrate to the new one
+
+before deprecating. And a good practice is to user
+
+the header to indicate which version you are trying
+
+to use. If, here I have two examples, both
+
+for HTTP accept. Or I can, I can put
+
+the version as a new parameter there, or I
+
+can just append that in my vendor file.
+
+OK. So, now that we have talked about our
+
+APIs, how can they communicate to each other? How
+
+to define services contract so one service can understand
+
+which operations can be performed on the other side?
+
+And for this, let's go back for a moment
+
+to our previous example, where we had that web
+
+content page with those three components and see how
+
+they communicate.
+
+And, a serve, everything starts with a contract. A
+
+service must expose its, its functionality through a contract,
+
+and it should be done through a schema document.
+
+And that's the way other services, in this case,
+
+all our customers, made, may discover which operations or
+
+which functionalities they can consume for the other side.
+
+And which data they need to send to, on
+
+that operation.
+
+And counteract, and I said that previously, that services
+
+can be involved independently, right. And the contracts enable
+
+that. But previously I said, as well, that loosely
+
+coupled, and here, we are seeing that contracts can
+
+also couple service provider and customers.
+
+How is it happening? Let's see. I have one
+
+service exposing the functionality to the contract, and there
+
+are already two other services consuming them. Another, there
+
+is another service, who wants to use the same,
+
+the same, the same contract, the same service, right.
+
+But it has special needs. He asks if it
+
+provides, oh, can you please add the one more
+
+required field for me? Oh, OK. I'm going to
+
+add it. No matter.
+
+And even, and even a simple change like that
+
+may have implications on the existing, existing customers. For
+
+example, here, by adding a new required field, we
+
+are breaking the other two clients.
+
+And there are, I'm going to cover two approach
+
+to solve this. The first one is, we can
+
+still build the cost of the change between the
+
+provider and the customers. From the provider perspective, the
+
+provider just needs to apply the change requests, and
+
+by the, the new customer, and communicate to the,
+
+and change the contract. And from the customer perspective,
+
+they just need to update the contract.
+
+So here it's, when we are start getting our,
+
+when we are on the initial phase of our
+
+API, it's pretty common to use this approach, because
+
+it's, we don't have many existing customers. So it's
+
+pretty formal. Can you change it here?
+
+And the other way is to leave the cost
+
+of the change just for the provider. The provider
+
+must create another contract with the change requested by
+
+the new customer, and leave the older one as
+
+it is. So the existing customers don't need to
+
+do anything, don't need to do anything.
+
+Here's an example of, of it on JSON Schema,
+
+where I can inscribe my App with two properties
+
+name, as a string, and the uris as an
+
+array of the strings. And I can indicate which
+
+fields are required. In that case, just the name.
+
+And I can say, as well, which operations can
+
+be performant. Here, I have an operation called create,
+
+and to create an item, you must use the
+
+method POST, and the, the schema which represents this
+
+data is this one, apps slash new_app.
+
+It's this, this guy here. So when I'm going
+
+to post new application, I need to agree with
+
+this contract. In this case, it's pretty simple.
+
+A contract is about commitment, right. It's, we can
+
+evolve our services, but we need to make sure
+
+that I'm not breaking any contract that I have
+
+made to other parties. And it's not a new
+
+thing. It's a pattern called customer-driven contracts, a service
+
+evolution partner. Pattern.
+
+OK. So, now moving to the next question, how
+
+to manage deployment. Speaking general, the deployment in the
+
+micro-service environment is easier, because we don't have to
+
+move all the parts. All, the entire application. We
+
+just need to move the services that have been
+
+changed, right. But things may get complicated, and when
+
+there is a dependency between two or more services.
+
+So in this case, I need to make sure
+
+to move those services in a specific order, otherwise
+
+I'm moving a service which relies on another contract,
+
+but they're, on another service, sorry, and the other
+
+service has not been moved into production already.
+
+It's quite common to see, as well, that each
+
+service, each service has its own server. So each
+
+service doesn't impact on another one. For example, if
+
+the server responsible to deal with video tasks goes
+
+down, there other, the service regarding the images, for
+
+example continue leaving without any issues.
+
+And, what about tests? How can I test those
+
+services? I have seen that a service exposes its
+
+functionality through a contract, right, indicating which operations can
+
+be performed, using which HTTP verb. So we can
+
+take advantage of that and use contract tests, where
+
+we can, where the customer can get the contract
+
+and mock it to write some tests.
+
+Or we can use an integration test. Sorry. And
+
+we can do integration tests, where there is no
+
+mock here, and we are hitting the services. And,
+
+but here, the test is a little slow, because
+
+there is an HTTP connection happening, and there is
+
+more room for failure, because the internet may not
+
+working pretty well, or the service is out for
+
+maintenance.
+
+And, there are a lot of things to do.
+
+And sometimes things don't go as planned. But don't
+
+worry. You can always release a new version of
+
+your API. Thank you very much.
