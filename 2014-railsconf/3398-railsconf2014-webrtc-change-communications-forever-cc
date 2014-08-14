@@ -1,0 +1,1458 @@
+RailsConf 2014 - WebRTC Change Communications Forever - Greg Baugues
+
+GREG BAUGUES: It's, my name's Greg. I'm a developer
+
+evangelist for Twilio, and just out of curiosity,
+
+how many of you have heard of Twilio before or
+
+know of Twilio? That's awesome. So cool.
+
+How many of you have used Twilio before? That
+
+is also so cool. All right. So, so yeah.
+
+So I'm a developer evangelist for them. And like
+
+I said, I live here in Chicago. I am
+
+so incredibly happy to be here. This is, to
+
+be able to speak at RailsConf. I, I've been
+
+programming for a good chunk of my life, but
+
+I just picked up Rails about three years ago.
+
+And I just started working for Twilio about two
+
+months ago. And it's just been absolutely incredible. And
+
+so, to be able to speak at RailsConf, in
+
+the city I love, you know, for this company,
+
+it's like. I don't know, it kind of feels
+
+like a big accomplishment for me. So, so if
+
+you were to like come up to me afterwards
+
+and you were to say, hey Greg, you just
+
+spoke at RailsConf in the city that you love,
+
+what are you gonna do next? What do you
+
+think I would say?
+
+AUDIENCE: Go to Disneyworld.
+
+G.B.: Damn right I'm going to Disneyworld. I'm going
+
+on Saturday.
+
+AUDIENCE: Nice.
+
+G.B.: So, I wish I could say I actually
+
+planned it that way. My wife and I just
+
+happened to plan a vacation in Disneyworld, and it
+
+happened to be that we're flying out the exact
+
+day after RailsConf. So that worked out nice.
+
+And, I don't know, like, when I was growing
+
+up, I absolutely loved Disneyworld. It was an amazing
+
+place for me. It probably was actually the, the
+
+happiest place on earth for me. So much so
+
+that when I was in college, I took a
+
+semester off and I went and I picked up
+
+trash in the Magic Kingdom. And I got paid
+
+$5.45 an hour to like, literally clean up puke.
+
+And it was awesome.
+
+And, but I was actually, when I was younger,
+
+EPCOT was my favorite. And I didn't have much
+
+use for castles and stuff, but EPCOT was, you
+
+know, it stands for Experimental Prototype Community of Tomorrow.
+
+It is a, it is a vision of the
+
+future. EPCOT was built to inspire us about what
+
+is possible with technology, and the ways in which
+
+technology can change our life, and come up with
+
+new ideas and new ways to communicate.
+
+And it, you know, the, the big golf ball
+
+here is actually a ride. It's called Spaceshipper, if
+
+you've never been there before. And when you go
+
+inside of it, you get in one of these
+
+cars that looks like this, and it's not a
+
+fast ride. It's not a particularly exciting ride. What
+
+it is is about a twenty minute tribute to
+
+the history of communication.
+
+And you go through and you see these different
+
+scenes, and so you see like the, the monks
+
+who were copying manuscripts by hand. And all these
+
+guys are animatronics. They're all robots, right. So he
+
+might not be moving. He might be snoring or
+
+something.
+
+And then you see the printing press during the
+
+industrial revolution. And then you see the advent of
+
+the telegraph. The first time that we had real-time
+
+communications over great distance. And then we see the
+
+advent of the telephone system. The first time that
+
+we had real time voice communication over distance.
+
+And back when I was a kid in the
+
+mid '80s and the, the, you know, the late
+
+late '80s or so, this was the last scene
+
+in the history. It was the vision of the
+
+future. It was, it was a boy in America
+
+talking on a video screen to a girl in
+
+Japan. And that was, that was the vision of
+
+the future from the, from the mid to late
+
+'80s.
+
+And the thing about EPCOT is that, you know,
+
+it's this vision of the future, and the thing
+
+about the future is that it comes, you know.
+
+And so, and so every ten years or so,
+
+they shut down Spaceshipper for, for a few weeks
+
+and they update it. And I just found this
+
+out. I didn't know this was the case, I
+
+haven't been there in like ten years but I'm
+
+gonna see this next week, but they added a
+
+new scene depicting what Disney considers to be a,
+
+you know, a, what is as an important contribution
+
+to human communication as the telephone and the telegraph.
+
+And that movement is represented by a guy sitting
+
+in this garage, tinkering on the first Apple. Disney
+
+believes that the advent of the virtual computer and,
+
+and the proliferation of software has had as big
+
+an effect on human communication as has the telephone.
+
+And we at Twilio would agree with that.
+
+Our mission statement is to change communications forever. Or
+
+at least, that's the short version of it. The,
+
+the longer version is, to change communications forever by
+
+migration this industry from its legacy in hardware to
+
+its future in software. That's kind of a mouthful,
+
+so let me, let me help to explain that
+
+a little bit better.
+
+It's a little bit easier to explain that by
+
+talking about other industries, because we're seeing this trend
+
+everywhere. You know, Mark Andreesen said software is eating
+
+the world. And what we're seeing in all these
+
+industries, that used to be dependent upon hardware are
+
+now becoming a playground for people who write software.
+
+People like you.
+
+So what if I said, change hosting forever by
+
+migrating this industry from its legacy in hardware to
+
+its future in software. Who might I be talking
+
+about there?
+
+Anyone?
+
+AUDIENCE: Heroku.
+
+G.B.: Heroku. Yeah. Amazong, with AWS. You know. It
+
+used to be that if you wanted to host
+
+a website, you needed to know how to do
+
+this. And now, when I want to host a
+
+new website or create a new server, I click
+
+that blue button up there. I don't know anything
+
+about hardware.
+
+These guys are DigitalOcean. They have a, I'm guessing
+
+you've all probably heard of them. They're awesome. I
+
+just started using them a few months ago. They
+
+have a booth downstairs.
+
+What about this, change payments forever? Who might this
+
+be?
+
+AUDIENCE: PayPal or Stripe.
+
+G.B.: Stripe. You know, yeah, exactly. Who else?
+
+AUDIENCE: BrainPal.
+
+G.B.: Yeah. BrainPal, BrainTree. Yeah. It used to be
+
+that if you wanted to process a bunch of
+
+credit cards, you had to buy one of these
+
+things. And five years later, that was gonna be
+
+the exact same device as the day it rolled
+
+off the line.
+
+And today, we've spent so little money on the
+
+actual hardware, they give it away. You know, they're
+
+not hardware people. They're software people. It's software people
+
+who are changing the payments industry.
+
+What about this change transportation forever? Who's doing that?
+
+AUDIENCE: Uber.
+
+G.B.: Uber. How would you like to be the
+
+guy who owns the company that makes these things
+
+right here? It was like five years ago, life
+
+looked pretty good. You know, you didn't have to
+
+change things. You could sell pretty much the same
+
+product for the last ten years.
+
+And then these guys come along. Uber doesn't make
+
+any hardware. They're software people. Again. They're software people
+
+who have totally disrupted this transportation industry. We have,
+
+as software people, I don't think that there is
+
+any other skill set that you could have that
+
+gives you more power to impact the world right
+
+now than the skill set that you all have
+
+in here today.
+
+And so that's what we're passionate about. We're passionate
+
+about changing communications forever by migrating this industry from
+
+its legacy in hardware to its future in software.
+
+How do we use software, how do we empower
+
+all of you here to change communications? And there's
+
+a technology that's new, it's just in the past
+
+three years its come around. It was not invented
+
+by us but we love it, and it's called
+
+webRTC. And we believe that it's gonna change the
+
+way that the world communicates.
+
+It, just, who here has heard of webRTC or,
+
+I guess you all showed up in the room,
+
+so. It wasn't, like, totally undisinteresting for you. I
+
+wonder where I put my water? Oh, here it
+
+is.
+
+OK. So what it webRTC? So, webRTC enables realtime
+
+communication in the browser via open peer-to-peer protocols. That's
+
+more of a mouthful than the migration this industry
+
+from its legacy in hardware. So let's break this
+
+down a little bit.
+
+So real, realtime communication in the browser. We've had
+
+realtime communication on the internet for awhile. This is
+
+not necessarily a new thing. Skype came out about
+
+ten years ago, and it provided realtime voice communication
+
+over the internet. You know, now we have Google
+
+Hangouts, which happens in the browser but it requires
+
+a plugin in order to install. We've had realtime
+
+communication in the browser before, but it's always required
+
+plugins. Especially Fash.
+
+And then you have Facetime which, again, it's a
+
+stand-alone app. It's not happening in the browser. And
+
+I don't know if, and, everyone here is a
+
+web developer I'm guessing. I have never tried to
+
+screw around with media before. I don't know if
+
+any of you have. But it's a pain in
+
+the ass.
+
+You have to first figure out how to get
+
+access to the camera, how to get access to
+
+the microphone. You have to be able to pull
+
+in that data. You have to be able to
+
+encode it in some way and you have to
+
+figure out how to transfer it, which is a
+
+little bit more complicated than making a HTTP request.
+
+And once it gets there you have to figure
+
+out how to decode it. There's all this information
+
+out there for it. It's way more difficult than
+
+building CRUD apps in Rails.
+
+WebRTC gives us all of that for free. K,
+
+so webRTC is this open set of protocols, it's
+
+this tool set, that lives in the browser, and
+
+it allows you to have access to the video
+
+camera and to the microphone, and it will capture
+
+that information for you. And then it will, it
+
+will wrap it up for you and, and allow
+
+you to ship it off. So, that's amazing. Like,
+
+it's, it's absolutely incredible the, the tools we have,
+
+and it's happening in the browser.
+
+Which is, you know, we used to have, you
+
+know, in Skype, we're used to installing these third-party
+
+apps, right. Which means that if the other person
+
+doesn't have Skype and doesn't want to install it,
+
+you can't communicate with them. And that also means
+
+that if you wanted to build something that took
+
+advantage of realtime communications, you had to know how
+
+to build a stand-alone app. So that wasn't necessarily
+
+something that was open to web developers out there.
+
+Now, if you know how to build apps for
+
+the browser, especially, as I'll get into in a
+
+second, it's all JavaScript, you could build realtime, build
+
+apps that use realtime communication. So, webRTC is JavaScript
+
+APIs. It's actually three APIs that are in JavaScript.
+
+One is called getUserMedia(), that's the one that actually
+
+captures the media for us. That's the one that
+
+will open up the camera, it'll open up the
+
+microphone, start recording that information. Then you have this
+
+other one called RTCPeerConnection(), which we'll talk about in
+
+a second, but it's the one that establishes the
+
+connection, lets you communicate and send that information off.
+
+And then we have RTCDataChannel(), which is actually super
+
+interesting.
+
+This is, whenever we talk about webRTC, the first
+
+thing that comes up is video communication, or voice
+
+communication. But the people who are really into this
+
+stuff are actually most into this RTCDataChannel() one, or,
+
+it's kind of the biggest unknown. Cause the use
+
+cases for the media stuff is pretty obvious. Although
+
+I'm sure we're thinking of things that we've never
+
+thought of before. But this DataChannel one opens up
+
+a lot of opportunities that not a whole lot
+
+of people have thought through yet.
+
+And I'll talk about that, again, in just a
+
+second. Well, I'll talk about it here I guess.
+
+Cause that's where the slide is. So, so the
+
+thing with, with the RTCPeerConnection() is that we're not
+
+bouncing these messages to a server. The, the way
+
+in which this is gonna work is that, we're
+
+gonna open up a direct connection between two browsers.
+
+And so these guys have thought of using that
+
+DataChannel, that gotta require, they wrote something called PeerCDN.
+
+So this idea that, as visitors came to your
+
+website, they could download those assets and then open
+
+up direct connections to other visitors who came to
+
+your website, and serve that.
+
+You know, this, the data channel allows us to
+
+start doing things, thinking about things like bitTorrent in
+
+the browser. Let me talk a little bit more
+
+about that peer-to-peer connection.
+
+So, it's open peer-to-peer protocols. So this is the
+
+standard web model, right. We have data going to
+
+a server and coming back. What webRTC allows us
+
+to do is to establish a peer-to-peer secure, encrypted,
+
+peer-to-peer connection between two browsers. So this means that
+
+a, it's really fast, because the data's not going
+
+through a server, you know. Like, if you, right
+
+now, if you have a situation where you have
+
+two people sitting in Japan and their messages are
+
+bouncing off a server in New York before they
+
+get to each other. WebRTC can help figure out
+
+that, hey, you're on the same network. You can
+
+just open up a connection right here and you
+
+can communicate.
+
+It's also secure. Your messages are not going through
+
+a third party and all webRTC connections are, transfers
+
+are encrypted. So it solves a lot of security
+
+issues that people are concerned about these days.
+
+And it's also interoperable. If you have Skype, you
+
+can't talk to somebody on Facetime, you know. And
+
+you can't talk to somebody on Google Hangouts versus
+
+Facetime. WebRTC is open protocol. So this means that
+
+a, you don't have to get people to install
+
+special software. If they have a browser and they
+
+can use your app, and these protocols mean that
+
+you could set it up, we're all using the
+
+same protocols for this, so that your app can
+
+talk to another app, which is super cool.
+
+All right. So webRTC's gonna change the world. It's
+
+to easy. It's amazing. It's actually unfortunately a little
+
+bit more complicated. That's the, the pretty picture.
+
+So, is webRTC ready yet dot com. This is
+
+a site that's put up by the people at
+
+AndYet. And if you want to learn more about
+
+webRTC, they're kind of leaders in the space, they're
+
+a consulting shop out in Seattle. They've done some
+
+great tools. I'll show you. That, actually, the talky
+
+dot io, the video conference thing, I showed you
+
+a little bit of that earlier, that's by those
+
+guys. And you have two people. They go to
+
+the same url, and it pops up, starts a
+
+video chat amongst you.
+
+So they're keeping a score card here of, who
+
+is, what browsers are webRTC ready yet, and you
+
+have those big black lines going through anything that's
+
+owned by Microsoft and Apple. Because they pretty much
+
+don't do anything unless you twist their arm to
+
+do it.
+
+Which also, unfortunately, means that webRTC is not currently
+
+enable on iOS devices. On Google, on Chrome for
+
+Android, you can do webRTC. So it means you
+
+could build an app someone could visit on their
+
+Android phone and communicate, video chat with somebody else
+
+who is on desktop.
+
+You can't do that on iOS unfortunately, yet. And,
+
+you know, one of the things that we really
+
+need are for more people, more developers to start
+
+building apps, cause Apple, Microsoft have proven, they're only
+
+gonna do something if you twist their arm. Do
+
+it.
+
+And we need webRTC to reach a critical mass.
+
+We need like, that controller app that everybody's complaining
+
+about, that their iOS device doesn't do it. And
+
+so the best way to get them to make
+
+webRTC more open standard, or, you know, just more-widely
+
+adopted, it we need developers to start building shit
+
+with it.
+
+But, Chrome and Firefox are fully supported. So this
+
+means that you can build an app in Firefox,
+
+you know, use webRTC in Firefox, and, and someone
+
+in Chrome can use it. And hopefully we'll get
+
+to the point where pretty much every browser, I,
+
+I don't really have a lot of hope for
+
+IE, but, you know.
+
+And webRTC does not do signaling. So, if I'm,
+
+I'm a Rails guy, and I don't really know
+
+a whole lot about network protocols and stuff, and
+
+I don't really get, like TCP, like, I don't
+
+know what it is, and I don't know how
+
+it works, I don't know if you are like
+
+that. But, this diagram that I had up here
+
+earlier might surprise you. It actually came as a
+
+little bit of a, well, simple picture of how
+
+things actually work. It's not actually quite like this.
+
+So, if I want these two machines to actually
+
+talk to each other, then I need them to
+
+open up a signal between each other. There's a
+
+whole lot of information that they need to communicate
+
+back and forth before they actually can start talking.
+
+And to use that to, to set up a
+
+connection, we'll use STP or set some description protocol.
+
+And STP is gonna answer questions like, are you
+
+there? You know, who are you? What is it
+
+you're sending me? Are you sending me video, are
+
+you sending me audio? How is it encoded? What
+
+am I gonna do with it when I come
+
+back?
+
+And then this question of, which is a pretty
+
+important question to have, first off, is where are
+
+you, actually? Because, you know, the slightly more complicated
+
+view of how the world actually works is that
+
+you're computer is actually sitting behind a router. It's
+
+not connected directly to the internet. And we use
+
+that in order to give that computer that's on
+
+the local network a local IP address, and then
+
+it's hiding behind a router that has the, the,
+
+the available IP address.
+
+So there's this set of protocols in order to
+
+figure out where these computers are, so that one
+
+computer can figure out, hey, where am I on
+
+the internet? It's called ICE - Interactive Connectivity Establishment.
+
+One of them is called STUN, which is, how
+
+do we traverse the net? So the idea here
+
+is that you have a server sitting out in
+
+the world somewhere, and this one computer is trying
+
+to figure out, hey, where am I? So it
+
+pings the STUN server, the STUN server relays back
+
+that computer's IP address, and then this computer can
+
+send that IP address to the other computer, and
+
+now they've found each other. They can set up
+
+a direct connection.
+
+Sometimes it doesn't work, so you get this thing
+
+called TURN, which is like, hey that didn't work.
+
+And so then we just end up balancing messages
+
+through the TURN. The TURN takes care of it
+
+for us. I don't have much interest in any
+
+of this stuff. Like it's, it's kind of a
+
+pain in the ass. And, and webRTC does not
+
+include it, and that's actually a good thing.
+
+The reason for it is that there are also,
+
+there are flame wars about what signaling protocol is
+
+best. Which, you know, the whole network connectivity thing
+
+is this whole other minefield. And for webRTC to
+
+have bundled that in, they would have had to
+
+come down on a harder stance. Instead, what they're
+
+saying is, depending on your app, you can implement
+
+this in whatever way you think is is correct.
+
+And so it doesn't build in that link for
+
+us.
+
+WebRTC does not, also doesn't really scale well between
+
+multiple people. So you can do multiple connections, but
+
+it happens through what's called a mesh network. So,
+
+for each additional person who is added to the
+
+network, everybody else has to open up, you know,
+
+a connection to them. So you run into these
+
+problems where, once you start adding four or five
+
+people, like, the number of connections grows exponentially and
+
+everything slows down.
+
+So, on that Talky.io, you can get three or
+
+four people on there for video chat, but anything
+
+more than that, it really starts to, to slow
+
+down and doesn't really work that well.
+
+And webRTC doesn't do telephones. You know, no matter
+
+what apps we're building, it's super cool that we
+
+can do this stuff in the browser, the fact
+
+is that for most business applications, most communication is
+
+happening over the telephone network. And so, at some
+
+point, you're probably, if you're building a business application,
+
+you're probably gonna need some sort of way to
+
+get into telephones.
+
+But, let's say you're not, you're not deterred by
+
+those downsides there. And you want to get started.
+
+How would you go about doing that? There is
+
+a library called simpleWebRTC. It is built by the
+
+people at AndYet. And what he has done is
+
+it's this guy named Henrick, who also gave this
+
+awesome talk at Cascadia.js last year, talked about this
+
+stuff. He does a great job of communication.
+
+This simpleWebRTC, this is a set of JavaScript tools
+
+that takes care of a lot of this stuff.
+
+So there is a simple signaling server that's build
+
+in Node, that you can set up and, and
+
+take care of some of these problems. He also
+
+standardized - even though they're open protocols, the way
+
+in which you implement something in Firefox is a
+
+little bit different than the way that you would
+
+implement it in Chrome, and you kind of have
+
+to, the, they're just not entirely standardized. And his
+
+library serves as a, a wrapper for that, to
+
+standardize those protocols, or, you know, the JavaScript actions
+
+for you.
+
+And then, of course, you know, I happen to
+
+work for Twilio, so it might surprise you to
+
+know that we have a way that you can
+
+take advantage of some of this stuff. So, we
+
+have what's called Twilio Client. And Twilio Client is
+
+a way to enable communication in the browser. And
+
+we've leveraged webRTC for some of it. It's not
+
+a fully, it's, I'm gonna say, it's not a
+
+webRTC solution, in that you can't just use Twilio
+
+and solve all of your webRTC problems for you.
+
+But it is a webRTC-enabled solution, in that we're
+
+using webRTC to solve a lot of problems that
+
+we were doing before, and they've become much easier
+
+for us now that we've been doing webRTC. Or
+
+at least they will be, you know, more so
+
+in the future. And a lot of the things
+
+that you want to do with webRTC, you can
+
+actually do with Twilio Client. And we will handle
+
+the signaling for you. We will handle the issues
+
+such as what happens if the, the person who
+
+comes to your website is using Internet Explorer, if
+
+they're using Safari. You know, what do you do
+
+then? You know, and the answer is that you
+
+fall back to a Flash plugin.
+
+And that's kind of a pain in the ass
+
+to write and so we take care of that
+
+for you. And so, with that, I want to
+
+show you just a quick demo of what it
+
+looks like, and do a little bit of coding
+
+here, and just show you what it looks like
+
+to build an app that uses Twilio Client that
+
+uses browser, browser communications, or enable browser to telephone
+
+communication.
+
+Let me do this. Cause it's hard as heck
+
+with one hand. All right, can you still hear
+
+me? All right.
+
+All right. So, the first thing I want to
+
+do. I don't know if I need to speak
+
+into this for the, the app or what. For
+
+the recording. But I'm gonna come to my Twilio
+
+dashboard here, and I'm gonna create a new app.
+
+And I'll just call this my RailsConf phone. And
+
+I need to provide a url for where I
+
+want Twilio to get the instructions from for what
+
+to do once I actually try to make an
+
+out, out call. And once I've actually created my
+
+application here, then I'm provided with a unique identifier
+
+for that app.
+
+So I'm gonna build this thing in Sinatra. Is
+
+everyone familiar with Sinatra? So, OK. So Sinatra for
+
+those of you who aren't - Sinatra's just super
+
+stripped down web framework. So it's like, in Rails,
+
+if you could just define your routes on the
+
+fly and then just kind of like stick your
+
+controllers in there are the same time. It just
+
+lets you really build things really fast.
+
+So I'm gonna build a Sinatra app. So I'll
+
+require Sinatra. I want to require the twilio-ruby library.
+
+I'm assuming everyone here is a Ruby programmer, since
+
+you're here at RailsConf. If you're not, or if
+
+you're into other things, we also have libraries for
+
+Python, we have libraries for Node , we have
+
+- if you're a dot net person, which. Oh
+
+my god, does anyone here do dot net?
+
+Wow. That's awesome. I would, didn't imagine. That is
+
+so cool. Like do you, does your company also
+
+do Rails as well, or is that something you
+
+do-
+
+AUDIENCE: I don't do it very much anymore.
+
+G.B.: You don't. OK. Cool. Well, if you decide
+
+you want to build something, we can tool into
+
+dot net, we got you.
+
+So, and then I, I'm gonna require some credentials
+
+that I have, because I do not feel like
+
+sharing my auth token and whatnot with you. So,
+
+I'm going to just set up this, is basically
+
+like, think of it from a Rails perspective as
+
+my, my root, my index. And what I need
+
+to do is send a capability token, is what
+
+we call it, to Twiliio, to let it know
+
+that this client is able to interact with Twilio
+
+on behalf of my account.
+
+So, let's set up, called capability. And I'll use
+
+the Twilio library. And this is one of those
+
+words I misspell all the time. Capability. And I'm
+
+just gonna pass that my authentication information. And then
+
+once I have my capability token, I need to
+
+tell it, what are the capabilities that I'm actually
+
+offering to the client. What am I letting the
+
+client do?
+
+And in this case, I'm going to let the
+
+client have outgoing connections, and I'm going to paste
+
+in my application id that I just got. And
+
+I'm going to allow it to have, allow the
+
+client to have incoming applications. And I just need
+
+to give this client a name, just so Twilio
+
+knows how to uniquely identify this particular client.
+
+And once I've done that, then I can generate
+
+my token. And then I can use erb to
+
+pass that token into. So, the html and some
+
+JavaScript that I wrote ahead of time. Actually, I
+
+say I wrote it ahead of time. I didn't
+
+actually write it ahead of time. What I'm doing
+
+here is just following along with the, the quickstart
+
+guide. So you can actually go through the same
+
+thing, and you can have this, if you are
+
+interested in what I'm doing here afterwards, you can
+
+recreate this whole thing in probably fifteen, twenty minutes,
+
+going through the quickstart guides on Twilio's docs.
+
+So I'll say this. I just want to show
+
+you what this looks like. All right. So, this
+
+is all the, the, I. Well. Not many of
+
+you know me, but if you did know me,
+
+my wife would tell you that I'm not much
+
+of a designer. So I can tell you I
+
+definitely did not do this part. But, but yeah.
+
+So it's probably about fifteen lines of html and
+
+fifteen lines of JavaScript is happening. And you can
+
+see that form the docs when you go through
+
+this.
+
+So what's gonna happen here is I'm gonna punch
+
+in a phone number, anI'm gonna hit the call
+
+button, and when I hit the call button, Twilio's
+
+gonna send that phone number, it's gonna send the
+
+capability token, or, my client's gonna send that to
+
+Twilio. And then Twilio's gonna check, see if I
+
+have the, you know, the permissions actually to interact
+
+with that application, and if I do, then Twilio
+
+is gonna go looking for instructions. Say, OK, what
+
+do you want me to do with this information?
+
+And that's what I set up over here, is
+
+I set up the url. I said, this is
+
+where you go to find that information. And so
+
+I'm just gonna write a set of instructions for
+
+Twilio that will tell it what I want to
+
+do once I try to place a call here.
+
+And, the way it works is that Twilio makes
+
+an HTTP request to my server, and so then
+
+my server is gonna send back a respond, and
+
+that response is gonna be in XML.
+
+And so my response is going to tell Twilio
+
+to dial my number. Like such.
+
+Now, I need two numbers to make a phone
+
+call. I need a from number, and Twilio won't
+
+let you just put any number on your caller
+
+id for, you know, obvious reasons. But, so this
+
+has to be a number that either you bought
+
+through Twilio - you can buy numbers on Twilio
+
+for about a dollar. No, actually, for exactly a
+
+dollar. Or you can register say, like your own
+
+phone - you verify, like, you know how they
+
+do like, two factor up. And they'll say hey,
+
+verify that you actually do own that number, and
+
+then you can send calls from that.
+
+So, I'll do that. I'm gonna use my mobile
+
+number as the from here. I'm gonna drop some.
+
+All right. And then the two number, I'm going
+
+to, I have my form set up. So Twilio's
+
+going to, or my client's gonna take that, that
+
+number that I punched in the form. It's gonna
+
+send it to Twilio. And then Twilio's going to
+
+send that number back to this endpoint here when
+
+it makes that HTTP request.
+
+So that number's gonna come through in the params,
+
+like that. And, I need Ruby to actually interpret
+
+that. All right. So there we go. So that's
+
+my instructions. I have five lines of instructions to
+
+Twilio, or how to actually make a call. So,
+
+they send me an HTTP request. I send a
+
+response, it says hey, dial from this number to
+
+this other number.
+
+Al right. So , reload that. We'll pull from
+
+the soft phone. And I am going to call,
+
+once my loading page is here. Strange. There we
+
+go. I'm actually calling my wife's phone, because she
+
+was kind enough to let me borrow it for
+
+the length of this presentation. So, watch what happens
+
+when I call here. I get a little, a
+
+little wording from Chrome up here, just a permission
+
+thing.
+
+So Chrome is asking me, do you want to
+
+let this application use your microphone? This is a
+
+native Chrome dialogue. So, prior to webRTC, this would
+
+be a Flash app asking to do this. So,
+
+can you all hear me? Sorry. So this would
+
+be a Flash app asking me to do this.
+
+Now, like I said earlier. If somebody were to
+
+come to this app that I buildt on a
+
+non-webRTC enabled browser, Twilio would figure that out and
+
+then we would serve up the, the Flash app.
+
+So you can just build it once here and
+
+we'll take care of the interopability, I think that's
+
+the way you pronounce that word.
+
+But yes, I do want Twilio to, or I
+
+do want Chrome to use this. So, there we
+
+go. And we're dialing the phone. And I'm gonna
+
+answer, and now I can speak from over here.
+
+And I got this whole device working, except for
+
+the lagging issue. So, but yeah that's how you,
+
+you can.
+
+AUDIENCE: [laughter]
+
+G.B.: I wonder what. Can we cause feedback? I
+
+was doing this earlier and it was destroying. All
+
+right. All right. So, so you can make a
+
+browser, call a phone, and-
+
+AUDIENCE: [applause]
+
+G.B.: Like I said. That's super simple. And thank
+
+you for the applause. I love when that goes
+
+well. Like I said, I've only been doing this
+
+for two months, so live coding is still a
+
+little bit scary for me. but it's pretty awesome
+
+that it's that easy to do.
+
+So, that was super small app built in Sinatra.
+
+There's a whole lot of cool stuff you can
+
+do with Twilio, so, besides just making that first
+
+call. So, you can do things like transcribing the
+
+call. You can do things like dropping forty people
+
+or a hundred people into a conference call. We've
+
+been doing things like recording the call.
+
+You can build an entire call center, using numbers
+
+that you bought for a dollar on Twilio.
+
+And this is an app called Zest, ZestPhone, which
+
+was built by a company out in California. They
+
+are ZestFinance. It uses big data in order to,
+
+in order to, I don't know, make better loans,
+
+I guess. And they built this whole call center,
+
+they're doing tons of phone calls, and they open
+
+sourced the entire thing and it's all on Rails.
+
+So if you want to study a really cool
+
+code base in Rails, about how you do some
+
+more advanced functionality on Twilio, doing things like placing
+
+people on hold or, like, you know, the supervisor
+
+might be listening in on mute sort of stuff,
+
+you can do all that using this package.
+
+So go Google that. ZestPhone. it's super, super cool.
+
+And, and you can drop this functionality into just
+
+about any app that you would be working on.
+
+So it's just add-on functionality. So if you ever
+
+have an app and you needed to call people
+
+or you needed to receive calls, or you need
+
+that, you wanted to build soft phones so that
+
+you can have two browsers communicating with each other.
+
+So let's saw that you've built a, a multiplayer
+
+game, and you wanted everybody who was in there
+
+to talk to one another. You could do that
+
+using the, the Twilio client as well.
+
+So that's it. You know the, like I said,
+
+we're super, super excited about htis. We're super excited
+
+about webRTC amd, but more broadly speaking, we're so
+
+excited about hte way in which software is not
+
+enabling people like us, like, people who know absolutely
+
+nothing about telephony equipment. It used to be that
+
+if you wanted to build a call center, then
+
+you had to spend $100,000, minimum.
+
+Well, actually, the first thing you would probably need
+
+to do is hire a lawyer, and you'd need
+
+to negotiate contracts with major carriers so that you
+
+could use their, their equipment and their lines, and
+
+you'd be locked in for a long time. Then
+
+you'd spend $100,000 on equipment and fill up a
+
+closet full of that.
+
+And now, like, you need a free Twilio account.
+
+It's, it's pretty crazy. And for, for literally, like,
+
+instead of hundreds of thousands of dollars, for dollars,
+
+you could build a call center. You can take
+
+this Twilio client, and you can buy a two
+
+hundred dollar Chrome book and, and put a mic
+
+on it and give it to a person in
+
+acall center instead of having to buy all the,
+
+the expensive telephony equipment. we've always needed before, so.
+
+Yeah. We are so excited at Twilio about hte
+
+way in which, the way in which software is
+
+allowing us to make a huge impact on the
+
+world by just making it easier to communicate. And
+
+we fundamentally believe that the more we communicate as
+
+a society, the better our society will get.
+
+So, I definitely encourage you to go play around
+
+with this, whether it's webRTC or the Twilio Client.
+
+Use the tools, use the skill set that you
+
+have to go change the world. Thank you very
+
+much.
+
