@@ -16,6 +16,8 @@
 
 [*WebRTC Change Communications Forever*](https://www.youtube.com/watch?v=ImCJxCb3RFg)
 
+[*The Humor in the Code*](https://www.youtube.com/watch?v=Oax1R1S6LI4)
+
 [*Designing APIs for an Internal Set of Services*](https://www.youtube.com/watch?v=LuyAuXwA4rY)
 
 [*Service Extraction at Groupon Scale*](https://www.youtube.com/watch?v=13SV7MjJugo)
