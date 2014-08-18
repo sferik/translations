@@ -14,6 +14,8 @@
 
 [*Ruby Hero Awards*](https://www.youtube.com/watch?v=qoc21UvC3p4)
 
+[*Improve Performance Quick and Cheap: Optimize Memory and Upgrade to Ruby 2.1*](https://www.youtube.com/watch?v=pZ_BcEcFGj0)
+
 [*WebRTC Change Communications Forever*](https://www.youtube.com/watch?v=ImCJxCb3RFg)
 
 [*The Humor in the Code*](https://www.youtube.com/watch?v=Oax1R1S6LI4)
