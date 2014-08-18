@@ -1,0 +1,808 @@
+RailsConf 2014 - Improve Performance Quick and Cheap: Optimize Memory and Upgrade to Ruby 2.1 - Alexander Dymo
+
+ALEXANDER DYMO: Welcome. It's time to talk about performance.
+
+Who here thinks that Ruby is fast? Raise your hand.
+
+Come on. Like, a few people think that Ruby is fast.
+
+Like, everyone here is thinking it's slow? Right.
+
+No, wait. I disagree with you guys. Ruby was slow,
+
+but it's not slow anymore, unless you allocate a
+
+lot of memory, which pretty much every application
+
+out there does. And this is because, this is why your
+
+applications are slow. It's not because Ruby's slow.
+
+2.1 is extremely fast. But it's because you allocate memory.
+
+Why am I talking so much about memory? The
+
+reason is simple. I do believe that memory optimization
+
+is the number one thing that you should do
+
+to make your application fast. Why? That's because Ruby
+
+has a huge memory overhead, because every object allocates
+
+forty bytes in memory, and this, these get combined
+
+with a slow garbage collection algorithm, and what you
+
+get, in result, high memory consumption. And what does
+
+high memory consumption mean? It means that garbage collection
+
+needs to spend more and more time, and the
+
+size of average Rails application is about hundred megs,
+
+not less. And this means that garbage collection actually
+
+needs to spend a lot of time doing its
+
+work.
+
+So, if you optimize your memory usage, what you
+
+get is you get less time spent in garbage
+
+collection. Like, I've seen applications spend as much as
+
+seventy percent, seventy percent of time doing just garbage
+
+collection. That's nothing. And that's why, again, that's why
+
+you need to optimize your memory. You can get
+
+this seventy percent of time off. And that is
+
+why Ruby 2.1 is important. It does not optimize
+
+memory, but it improves the performance of garbage collector
+
+itself, and the garbage collector get about forty percent
+
+faster.
+
+Here are some examples to prove my statements that
+
+memory optimization is important. This is the good old
+
+application that is still run in Ruby 1.8, and
+
+it's been there for five years. And the number
+
+of requests its serving is increasing every year, but
+
+it still runs the same hardware that we bought
+
+back in 2010. It doesn't need new hardware. Why?
+
+We optimize memory.
+
+And here is another example. This time showing how
+
+2.1 helps. This is the Rails app, upgraded Rails
+
+app running on Heroku and 2.1 upgrade gave about
+
+forty percent of improvement as I expect it to
+
+be. But what if you cannot upgrade? Or do
+
+not want to upgrade? Or you upgrade and nothing
+
+helps to improve your performance? And the answer is
+
+simple. Just optimize memory.
+
+Let me show you a syntactically still pretty good
+
+example of how memory optimization works. And why it
+
+helps. This is the simple program that reads CSV.
+
+It's pretty large CSV actually. It reads it line-by-line.
+
+It converts strings from uppercase to titlecase, and then
+
+outputs it. It's not memory optimized, as you can
+
+see, it needs a lot of memory to load
+
+the dataset. It needs memory to parse it. It
+
+needs memory to do string operations. It needs memory
+
+to collect the output.
+
+So what you get with different Ruby version. One
+
+line in 2.0 is about twenty something seconds to
+
+finish. 2 point 1 gives you that forty percent
+
+improvement, and forty percent is, I see it everywhere,
+
+for like every application that got upgraded, every my
+
+application of course, that got upgraded to 2.1 get
+
+forty percent improvement, simply because garbage collection runs faster
+
+or less often. In this case it will run
+
+faster.
+
+So, you can actually improve performance to about fifteen
+
+seconds. Slightly more. But you can do even better
+
+than this. If, and only if you optimize memory.
+
+And here's the simplest possible way to optimize memory
+
+for this application. And the number one thing I
+
+optimized as, I output my CSV data line by
+
+line, so that I don't need to store it
+
+in the memory. And, of course I use the
+
+bang operators, like downcase, gsub bang and capitalize bang,
+
+then do in-place string replacements. It's not totally optimized.
+
+Like, it still loads the whole CSV into memory
+
+and parses it there. But it is already a
+
+great improvement. It performs even better than non-optimized program
+
+running Ruby 2.1. So remember 2.1 make the program
+
+run in fifteen seconds. This one runs in thirteen
+
+seconds.
+
+And the amazing thing is that, all major Ruby
+
+versions perform the same. And the thing is that,
+
+if you optimize your memory, it doesn't matter which
+
+Ruby you run. You'll probably still get some good
+
+improvement by running 2.1, but if you optimize memory,
+
+your application will perform the same in all Ruby
+
+versions. And if you cannot upgrade, this is some
+
+great news for you.
+
+And even 1.8, the good old 1.8 that some
+
+people do use still, can perform the same or
+
+almost the same. So, Ruby 2.1 is not a
+
+performance bullet, and you should optimize memory.
+
+And now the interesting part. How? How do we
+
+optimize memory? I want to talk about five strategies
+
+to do this. And the first one is to,
+
+well, tune your garbage collector. If garbage collector is
+
+the thing that makes your application slow, you can
+
+probably change settings. What do you want to check?
+
+You want to, you want to change the settings
+
+to achieve balance between number of times the GC
+
+runs and peak memory usage. By default, Ruby sacri-
+
+Ruby wants you to have low peak memory usage
+
+and high number of GC calls. So if you
+
+want to reduce the number of GC calls, you
+
+need to sacrifice the peak memory usage.
+
+You need to check this. You need to measure,
+
+to see how well it works for your application.
+
+But let's step back for a second and talk
+
+briefly about how GC, in Ruby 2.1, in this,
+
+this case, 2.1, works. Ruby 2.1 has two types
+
+of garbage collection. One is minor, which is, which
+
+works on the new objects that are allocated after
+
+the previous garbage collection call, and the major GC
+
+which operates on all objects.
+
+So minor GC happens when you don't have enough
+
+space in the heap to allocate new objects. Or
+
+you allocate every other sixteen to thirty-two megs of
+
+data. Major GC happens when too many objects become
+
+old or shady, but I'm not going to dive
+
+into details of this. And when they grow sixteen
+
+to one twenty-eight megs.
+
+What do we see from this? How do we
+
+decrease the number of GC calls? Another thing is,
+
+of course, is to increase the memory limits. If
+
+you increase the memory limits, GC will run less
+
+often. And another thing is that, you can actually
+
+grow your heap space for Ruby objects a little
+
+bit faster, so that Ruby will not have to
+
+run GC that often to let you allocate new
+
+objects.
+
+There are five environment variables in 2 point 1
+
+that you can use. Of course you can set
+
+memory allocation limits for new generation, for old generation,
+
+and old generation means that these are the objects
+
+that survived at least one garbage collection, so they
+
+become old and they need to be collected less
+
+often. And you can increase the growth factor.
+
+You might notice that I greyed out other variables,
+
+and my advice is to never touch them, unless
+
+you really understand what happens. Like, you can find
+
+advice on internet to touch any slots, heap free
+
+slots. Do not. They usually make things worse if
+
+you do not understand what's happening. But you can
+
+increase growth factor a little bit. Don't increase it
+
+into five x or something like this. Like, two
+
+something would be good for you. Also you can
+
+increase memory limits.
+
+So every time you allocate sixteen megs of memory,
+
+it will run garbage collection. You might think that,
+
+OK, sixteen is too low. Make it thirty-two. Make
+
+it sixty-four at maximum. If you make it more,
+
+again, you will have big memory consumption increase. You
+
+don't really want to have your big memory consumption
+
+to, to increase into gigabytes of memory. So be
+
+careful about this.
+
+There are two excellent blog posts that I want
+
+to point you to. If you want to learn
+
+more about how GC works and how to tune
+
+it. I'm also working on a Ruby performance book,
+
+which explains in detail what this all means and
+
+how to tune it. It's still not released, so
+
+if you go to Ruby Performance book, you can
+
+simply sign up for updates. I will be happy
+
+to share how far beta version of the book
+
+with you, once it's done.
+
+So that was GC tuning. Now, next strategy would
+
+be to limit the growth of your Ruby processes.
+
+And the interesting thing here is that Ruby processes
+
+grow over time. Have you seen this before? Like,
+
+Rails application is growing, growing, growing and never shrinking
+
+back? I've seen it, I see it all the
+
+time. And the reason of, for that is simple.
+
+Ruby allocates space for new objects. If you allocate
+
+space for a mailing object, Ruby will let you
+
+do this. But Ruby will never give this space
+
+back to the operating system. It will still be
+
+able to use the space inside the Ruby process.
+
+But once it grew, it will never shrink. That's
+
+why you need to do something to prevent your
+
+processes, especially long-running processes like web workers from growing,
+
+and I would advise you to have some internal
+
+control. For example, every time you process the request,
+
+you can check your memory usage. Be sure to
+
+check RSS. Not another metric. And quit if you
+
+exceed certain limit.
+
+Another would be the software layer. For example, Heroku
+
+does it for you, actually. It will kill the
+
+application if it grow over 500 megs. If you
+
+deploy you can use Monit or God or whatever
+
+else monitoring solution that you like. But that's not
+
+enough. Because you can still run out of memory.
+
+If you run out of memory pretty fast, no
+
+monitoring solution will help you. Like you need to
+
+tell your operating system kernel to actually set the
+
+limit. The memory limit for your application.
+
+I find that setting a limit extremely well works.
+
+It works very well. Unfortunately, if you deploy on
+
+Mac, like, not many people do this, it will
+
+not work for you. But on Linux it works.
+
+Make sure you use it. Use outer limit.
+
+Background jobs do not really need this level of
+
+control. What you need to do for a background
+
+job is to fork. What fork does is that
+
+it lets your child process allocate as much memory
+
+as it wants to, and then you quit the
+
+child process and then you release all this memory
+
+back. So if you have a long-running worker doing
+
+some memory operations, that would be a good idea
+
+to do.
+
+Third strategy. Control manually. Now. I'm not talking about
+
+doing GC disable. You might find advice to disable
+
+GC, then do something really heavy and then enable
+
+it. Just don't do it. Especially if you deploy
+
+on Heroku or any other system like that.
+
+Why? Because you will run out of memory pretty
+
+fast. It's not a good idea to disable GC.
+
+What I mean by manual control is this. Is
+
+the thing that you should use. You should run,
+
+force run GC between requests in your web application.
+
+It works pretty well. And Unicorn has built-in way
+
+of doing this. And for Ruby 2.1 there is
+
+even better way of doing this with the gctools
+
+gem.
+
+The only thing you need to keep in mind
+
+is that you need to have more workers to
+
+compensate for the time that your workers spent doing
+
+garbage collection. It, it is extra work, and you
+
+need to make sure that you have enough resources
+
+to serve request while your worker's doing garbage collection.
+
+So this is the stuff you need to think
+
+about.
+
+Now it's my favorite. The best Ruby code out
+
+there is the one that does not exist. Sometimes,
+
+you do not want to write Ruby at all.
+
+What? It's simple. Many tools there can solve your
+
+problems better. For example, let's take a look at
+
+this table. This is the table which, with employees
+
+and their departments and their salaries. And say you
+
+need to calculate a group rank inside the departments
+
+by salary. And imagine that you have no seven
+
+employees, but seven thousand or seventy thousand employees. What
+
+do you do? What do you do in Ruby?
+
+You load the whole dataset into memory. You pay
+
+your overhead to ActiveRecord, to instantiate the ActiveRecord objects.
+
+And then you sort. For that, you also need
+
+some memory. And then you rank. And it's just
+
+not a good thing to do in Ruby. Like,
+
+imagine loading seventy thousand objects into memory. How much
+
+memory will you use? I think gigabytes. I do
+
+see that you use gigabytes of memory just for
+
+this. How well your Ruby application will perform? It
+
+will run in twenty seconds, thirty seconds. Something like
+
+this.
+
+The best way to do it is SQL. If
+
+you have a good database, like PostGres, Oracle, it
+
+can just do a SQL. This thing will finish
+
+in milliseconds or seconds depending on your dataset size.
+
+And PostGres has this beautiful feature called Window Functions,
+
+which do exactly this task and they do it
+
+well.
+
+I know there is a sentiment in the Ruby
+
+community and Ruby on Rails community that SQL is
+
+to be avoided. I disagree with this. SQL is
+
+a great tool. It's been there for forty years,
+
+and web frameworks come and go and come and
+
+go and SQL is here to stay. So, sometimes
+
+it is a good idea to use SQL instead
+
+of Ruby. And data crunching any operations on the
+
+data, any calculations, is exactly this example of doing
+
+things in SQL.
+
+So finally, learn some SQL. It's a good investment.
+
+And you will use less memory because of this.
+
+You will find yourself writing your application in SQL,
+
+like I did.
+
+So, what do we do if we still have
+
+to write Ruby code? And we cannot write SQL.
+
+You just need to avoid memory hogs. There are
+
+a lot of memory hogs out there. A memory
+
+hog is everything that copies your data in memory.
+
+Everything that increases your memory consumption. Just a few
+
+examples.
+
+Of course you want to use in-place string modifications.
+
+So every time you see something bang, you should
+
+be sure that are doing a good thing. Just,
+
+every time, bang is good. My favorite is shift
+
+operation, which must be used instead of plus equals.
+
+Just because plus equals creates a new object and
+
+compresses two previous ones into this new one. And
+
+shift will make in-place modification and save you memory.
+
+When you're working with files, of course, make sure
+
+you're reading the file line-by-line and not wholesale. Same
+
+for a CSV parse or any other parsing that
+
+you do.
+
+ActiveRecord is also a huge memory hog. But I'm
+
+not telling you that you should avoid ActiveRecord. Not
+
+at all. You do use ActiveRecord. But sometimes it's
+
+OK to not use it. For example, update_all will
+
+actually execute just a simple SQL query. It will
+
+not instantiate ActiveRecord object. That's the good thing here
+
+if you just want to update one attribute and
+
+do some proper quote in to avoid security problems.
+
+That's a good thing to do. Just update_all and
+
+that's it.
+
+Sometimes you want to read result into memory and
+
+do something with it. And if it's result, if
+
+this result is big enough, and I will say,
+
+if this result is 1000 objects or more, just
+
+iterate over it without creating ActiveRecord objects. So select
+
+and iterate. That would save you up to four
+
+times of memory.
+
+Another thing that I recently discovered and still do
+
+not quite understand is that JSON serializer takes too
+
+much memory. If someone, if someone here knows what's
+
+happening and why it's happening, I would be happy
+
+to learn from you. But what I know is
+
+that, the example above and the example below are
+
+not the same thing. Example above usually takes twice
+
+as much memory. It sometimes, it somehow copies your
+
+JSON one more time than necessary. And in some
+
+cases I, you can see the memory leak out
+
+of this. So if you're using serializers, make sure
+
+you're not having what I have in my Rails
+
+4 application. I have a memory leak because of
+
+this.
+
+Again, this is a new thing and I don't
+
+know why, at least until now.
+
+Oh, we have some time to talk about tools.
+
+So those are our strategies. And which tools do
+
+you use for memory optimization? Of course you use
+
+GC.stat, which is a great tool which will tell
+
+you how often you called garbage collection, what is
+
+the memory usage, what are your memory allocation limits,
+
+and judging from these numbers you can predict when
+
+the next mem- next garbage collection will happen. So
+
+this one is useful.
+
+Another thing is less known, and it's known objspace
+
+dot so. You might know ObjectSpace module which has
+
+this count_objects function. But there is another way, another
+
+extension of this, which has some functions to check
+
+the memory size of the objects. For example, the
+
+class object in Ruby actually uses more than forty
+
+bytes of memory. It uses forty bytes plus one
+
+kilobyte. Or more than one kilobyte.
+
+ObjectSpace also has functions to trace reachable objects from
+
+your object. Say, if you're unsure what you reference
+
+and what you allocate, just use reachable_objects_from. And then
+
+it also has some trace built in. If you
+
+want to learn more, here are some links for
+
+you, and I will Tweet link to this presentation
+
+so you can find it online later.
+
+At some point, before you could use RubyProf to
+
+profile your memory to see what exactly allocates the
+
+memory and how much. Not anymore, unfortunately. I did
+
+the support for memory profiling in 1.8. Somebody else
+
+did for 1.9. But there is still need for
+
+somebody to do the same for 2.0 and 2.1.
+
+And Ruby 2.1 actually has all, everything built-in in
+
+Ruby. It's just a matter of doing support in
+
+RubyProf.
+
+So what to use instead of RubyProf? I would
+
+recommend to you Valgrind. Who here knows what Valgrind
+
+is? All right, a few people. So for those
+
+of you who don't know what Valgrind is, it
+
+basically, it emulates your computer, like, it emulates your
+
+CPU. It's not a full-blown emulator like VMware or
+
+whatever, but it emulates your CPU and it can
+
+trace what the application does.
+
+And there are some tools inside Valgrind. And one
+
+of the tools is called massif which is a
+
+heap profiler. It traces object allocations and it traces
+
+how much memory you allocate. To, to, to use
+
+it, you just run Valgrind --tool-massif and your Ruby
+
+code. It will do something. It will print the
+
+output, to see what happens you need some visualizer.
+
+Valgrind has a ms_print visualize. It doesn't have, it
+
+has nothing to do with Microsoft. It's just called
+
+ms_print.
+
+But I would recommend to use some GUI tool
+
+for that, which is called massif-visualizer, which looks like
+
+this. So once you run your program, you can
+
+see how much memory allocated at any point at
+
+the time. For example here we can see the
+
+memory allocation peak. I allocated ten megabytes more. And
+
+in some cases you can understand what allocated this
+
+memory.
+
+For example, here you can probably see the string
+
+construct is being called, which is str, string yield
+
+or whatever it's called. So yes, I, I did
+
+allocate ten megs of memory in one string. Like,
+
+like in this example. This x variable is ten,
+
+ten megs.
+
+So that's pretty good tool to understand how much
+
+memory you use over time, and if there is
+
+a memory leak, you should be able to figure
+
+out where it happened.
+
+All right. So. That's about it. Thank you for
+
+listening. And any questions?
+
