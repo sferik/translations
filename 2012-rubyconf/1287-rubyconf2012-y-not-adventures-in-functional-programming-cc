@@ -3690,11 +3690,11 @@ applicative languages.
 804
 00:48:25,569 --> 00:48:29,473
 Examples of language that are
-not applicative would be Pascal.
+not applicative would be Haskell.
 
 805
 00:48:29,573 --> 00:48:31,609
-Pascal is lazy, it will
+Haskell is lazy, it will
 evaluate its arguments
 
 806
@@ -3708,7 +3708,7 @@ combinator for normal order
 
 808
 00:48:37,648 --> 00:48:41,452
-languages like Pascal, and the
+languages like Haskell, and the
 difference is that you don't
 
 809
