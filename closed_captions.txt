@@ -1,0 +1,1292 @@
+LoneStarRuby Conf 2014 - Elixir- Power of Erlang, Joy of Ruby by Dave Thomas
+
+DAVE THOMAS: How are you all doing? Good?
+
+AUDIENCE: Cold!
+
+D.T.: Fata- cold?
+
+AUDIENCE: Yeah.
+
+D.T.: Then come up here and move your arms
+
+around a bit. It's great.
+
+Let me start off by explaining something, right. I
+
+love Ruby. I've been doing Ruby since 1998. I
+
+have read the Pick Axe book four times. And,
+
+in fact, the latest revision went into print, well,
+
+came off the presses on Friday, last week, a
+
+week ago. And there's actually four copies to be
+
+won lying around somewhere.
+
+OK, so, I have a commitment to Ruby. Don't
+
+get me wrong, right. So, I'm not here to
+
+say, all you Ruby programmers are, you know, shouldn't
+
+be here, it's crap. That's not the case.
+
+However, I also think that we owe it to
+
+ourselves, all of us, to keep an eye on
+
+what's going on. Because if we don't, as Sandi
+
+and I were discussing over lunch, if you don't
+
+keep an eye on what's going on, then eventually
+
+you will be out of date.
+
+I, how many people here used to go to
+
+the No Fluff, Just Stuff Conference things? A few.
+
+Not many. I'm actually kind of proud of the
+
+fact that I've actually been banned from speaking at
+
+those. Because I used to go to a Java,
+
+Java Conferences to talk about Ruby. And they said,
+
+oh, you can't do that anymore. Go talk about
+
+Java. And I said, no, I'm not gonna talk
+
+about Java anymore.
+
+So here I am in a Ruby conference. I
+
+am gonna talk about Elixir. So, why, why I'm
+
+gonna talk about Elixir. Elixir, to me, is kind
+
+of the gateway to what I used to do
+
+to what I will be doing. And I've been
+
+looking for this for ten years and I've finally
+
+found it.
+
+So, the reality, I think, is that the future
+
+is functional and the future is concurrent. Those two
+
+technologies combined are pretty much the only way we
+
+can continue to develop in, say, develop in terms
+
+of like, carry on, get things better, in software.
+
+We're kind of running into all sorts of obstacles.
+
+I'm sure you've all heard of. That's not gonna
+
+work. All right. Don't play. You've all heard of
+
+Moore's Law. For the longest time I couldn't work
+
+out what he had to do with it. But,
+
+you know. Something like, you know, every year you
+
+get twice as ugly or something. I don't know
+
+what it is.
+
+But, does he or does he not look like
+
+- this, this is Gordon Moore, right. He looks,
+
+to me, like Wendy's Dave Thomas guy, don't you
+
+think? But, and he's cheery. The reason he's cheery
+
+is he's worth four billion dollars. But, he's cheery.
+
+And he came up with the famous Moore's Law.
+
+Now, Moore's Law is not actually what most people
+
+say it is.
+
+Moore's Law says that the most cost-effective density for
+
+putting transistors onto a certain chip doubles every two
+
+years. You know? It's nothing to do with performance
+
+or anything else. It just says that, Moore's Law
+
+says I can pack twice as many transistors onto
+
+a chip and hit the most optimal point for
+
+cost-effectiveness.
+
+And it is pretty well born out. I, so
+
+I'll show in a moment - I copied the
+
+slide - what the first micro-persistor I used was.
+
+And it was definitely, I've definitely used 8008. And
+
+I've used the 6502, which is the, the last
+
+one on the bottom there. So both of them
+
+down there have maybe three thousand transistors on them,
+
+right.
+
+The axis on the y-axis here is exponential, just
+
+as it was on Sandi's graph in her books.
+
+So, nowadays, my laptop has a core 07 in
+
+it, so it's up there. Unbelievably, I just like,
+
+last night when I actually got these numbers, I
+
+couldn't believe it. My laptop has roughly a billion
+
+transistors in its processor. A billion transistors.
+
+And so I've actually measured the size of the
+
+processor chip, cause Intel don't actually release the specs.
+
+And worked out that it's 121 square millimeters, right.
+
+Which means that I have eight and a quarter
+
+million transistors per square millimeter in my processor. That's
+
+almost unimaginable. To learn how big a square millimeter
+
+is, well, I finally found a use for this
+
+guy, because if you take the cross-section of a
+
+typical paperclip, it is about a square millimeter. So,
+
+eight point six, or sorry, eight point two-five million
+
+transistors in that little space there.
+
+But what that really means in practice is that
+
+you can't use, you know, a hundred, sorry, a
+
+billion transistors, like you would use ten thousand. If
+
+you have ten thousand transistors, you basically have them
+
+all sitting as, you know, here's addition, no go
+
+do this, no go do that. When you have
+
+that many, then you cannot coordinate them and have
+
+them all working on the same problem at the
+
+same time in any kind of meaningful way, right.
+
+If nothing else, the speed of light gets in
+
+your way.
+
+So, as a result, we're moving more and more
+
+towards multi-core and then hyper-threading inside the cores to
+
+give us parallelism in our processors. We've all heard
+
+this, right. And we've all kind of like hoped
+
+the problem will go away, because this doesn't really
+
+effect us right now. We can sort of get
+
+away with writing our Rails code on our servers,
+
+and we'll run n-processors and it kind of works.
+
+Except it kind of doesn't. You all know the
+
+issues that we face when we try and run
+
+that way.
+
+So, for those reasons, I think that we're looking
+
+at a C-change, now. In order to continue to
+
+exploit this growing curve that's Moore's Law, we are
+
+going to have to find new ways of writing
+
+software, and I believe that functional programming is one
+
+of those new ways.
+
+So, Elixir, I think, is functional, concurrent, pragmatic and
+
+fun. Let's spend a bit of time looking at
+
+the functional aspects. Now, initially I had, like, I
+
+don't know, a hundred slides or something. I thought,
+
+screw that, let me just code instead. So I'm
+
+just gonna try and code some stuff up. You'll
+
+get to see how bad a typist I am,
+
+and between us, we may learn something.
+
+So, the first thing I'm gonna do is I'm
+
+actually gonna go into the shell, and Elixir has
+
+a shell just like IRB, that's called IEX. I
+
+say it's just like IRB. It's nothing like IRB.
+
+Let me just do something quickly here. OK. So,
+
+first of all, right now, I am orchestrating roughly
+
+twenty-five independent processors in my Elixir shell here.
+
+So, the compiler is running in a separate process.
+
+The Elixir command line, so the IEX command line
+
+is running in a separate shell, a separate process.
+
+And they're all communicating back and forth. Which is
+
+kind of cool, and it's totally transparent. Just like
+
+with IRB, I can do things like, you know,
+
+type an expression and it works. I can assign
+
+to a variable, right. So now a has the
+
+value one.
+
+Except I'm not assigning to a variable because this
+
+is a functional programming language, right. All I'm doing
+
+when I say a equals one is asserting that
+
+a and one both have the same value. So,
+
+because of that, I can also say one equals
+
+a. And it says yup, no problem at all.
+
+Now what happens if I was to say two
+
+equals a. Well that now gets you something called
+
+a NoMatchError. And the reason for that is that
+
+Elixir will only bind new values to variables if
+
+they're on the left-hand side of an equal sign.
+
+So here, a already has a value one. So
+
+Elixir says, I'm sorry, but whatever is over here
+
+has to be a one as well. You know.
+
+Now, I told you about pattern matching. This is
+
+an absolutely critical thing in any functional programming language.
+
+So let's have a quick look at pattern matching.
+
+We've already seen a equals one. Well, here, we
+
+have a pattern which is some variable and a
+
+scalar. And that's gonna make, the variable has the
+
+same value as the scalar. I could use Elixir
+
+list instead, OK. So now my variable a has
+
+been associated with that list one, two, three. But
+
+pattern matching goes pretty deep. So I can actually
+
+say, [d,e,f] equals a. And what this is gonna
+
+do is say, OK, on both sides I'm expecting
+
+to see a list of three elements. Well, it
+
+just so happens that a is a list of
+
+three elements. So this is gonna match, and it's
+
+gonna assign one to d, two to e, and
+
+three to f. Yeah?
+
+All right. We can take it a bit further
+
+than that. I can, for example, take a list
+
+like a, and split it into its head and
+
+its tail. So I can say, head followed by
+
+tail in a list equals a. And if I
+
+do that, then a, so the head is one.
+
+The first element. And the tail is the rest
+
+of the list. Yeah? So pattern matching allows me
+
+to construct and deconstruct my data. And as you'll
+
+see a bit later on, it also allows me
+
+to write really large programs without any conditional logic.
+
+Typically also without any loops.
+
+All I'm doing is declaring stuff in my code.
+
+So let's start off and actually write some Elixir
+
+code, like, outside this thing. Let's go into an
+
+editor here. So I'll just use Sublime. And let's
+
+just write a really quick bit of Elixir. Let's
+
+do defmodule, let's call it Sequence because eventually it
+
+will be. Oops.
+
+All right. So, all Elixir code goes into a
+
+module. So, that's not quite true. When you want
+
+to compile Elixir code, you have to put it
+
+into a module. And the reason for that is
+
+that Elixir runs on the Erlang virtual machine, and
+
+that's how the Erlang virtual machine manages its code.
+
+You may have heard the Erlang/Elixir do a hot-swapping
+
+of code. Well, I can hot swap?? Elixir code
+
+as well. So when you're running an application, I
+
+can replace it. I replace things at the module
+
+level. So that's why I have to put my
+
+code in a module.
+
+So I can write a method, let's say hello,
+
+and we'll just say IO. All right. And then
+
+down here I can call it by saying Sequence
+
+dot hello. Yeah? If I run that code, wow.
+
+So, if you are squinting, you will think that,
+
+that was Ruby, right. Very, very similar. And, in
+
+fact, Elixir takes a whole bunch of things from
+
+Ruby and runs with them.
+
+For example, here, you think that is a function
+
+definition. Which it kind of is. But actually, it's
+
+alo a function call. Because, in Elixir, def is
+
+a function call. So is defmodule. And this function
+
+takes two parameters. The name of the method and
+
+the body of the method. And it just so
+
+happens, in Elixir, there's a bit of syntactic sugar
+
+that lets me write the body as do end.
+
+Underneath the covers, that actually gets translated into, oops,
+
+that.
+
+That do colon there is actually just like a
+
+Ruby hash. It's just a named parameter that I'm
+
+passing in. So, for example, an if statement in
+
+Elixir, if I have an if statement like if
+
+a equals b, sorry, do something, else something else.
+
+Yeah? Actually, again, it's just syntactic sugar. Because if
+
+is also just a method. Actually it's a macro,
+
+effectively. It's a method. It takes three parameters. It
+
+takes the expression, it takes the do block, and
+
+it takes the else block.
+
+And that means that I can rewrite the entire
+
+language if I want to, right. Everything is soft.
+
+We always talk about metaprogramming. This is serious metaprogramming.
+
+And unlike other languages you might name, it's actually
+
+done in a very controlled style. First of all,
+
+metaprogramming in Elixir is done by manipulating the parse
+
+tree, which actually happens to be an Elixir data
+
+structure. It is done in a hygienic way, so
+
+it will not overwrite any of your local values
+
+accidentally. And it is done in a scoped way.
+
+In Elixir, every change you make to the environment,
+
+whether it's defining macros or including a module, whatever
+
+it might be, is lexically scoped. So, for example,
+
+I can say apply this differentiation of a particular
+
+operator only to the parameters of this method call,
+
+which can come in very, very useful.
+
+However, that's not why we're here. So let's have
+
+a look at something slightly different. Let's have a
+
+look at lists. So what I want to be
+
+able to do is say something like IO dot
+
+puts Sequence, oops, dot length of some list. Yeah?
+
+So, how am I about, how am I gonna
+
+go about doing that? Well, obviously there are built-in
+
+ways of doing this, but let's do it the
+
+hard way.
+
+So I need to find a method called length
+
+that's gonna give me the length of the list.
+
+In a functional programming language, I'm gonna use pattern
+
+matching to do most of the work for me.
+
+So I'm gonna say, the length of an empty
+
+list, k, I'm pattern matching here, an empty list.
+
+And what's the length of an empty list? Zero.
+
+So, that's taken care of one case. The other
+
+case is a non-empty list. So let's have a
+
+look at a list which has a head or
+
+a tail. And tail is potentially empty. So what's
+
+the list of that?
+
+Well, we know the head contributes one. And then
+
+the length of the tail is simply length(tail). That
+
+make sense? Nice little recursive definition. If I run
+
+that, it blows up.
+
+AUDIENCE: [laughter]
+
+D.T.: But that's OK. Oh. Kernel dot length conflicts
+
+with local function. Look at that. I actually have,
+
+although it's untyped, it actually does a fair amount
+
+of work to make sure that, for example, I
+
+haven't mispelt function names, that I haven't accidentally overwritten
+
+function names. So let's call that len rather than
+
+length. There we go. So the problem is here.
+
+First of all, there's my result, five. Also notice,
+
+variable head is unused, because here, when I did
+
+the pattern match, I said head to be the
+
+head of the list, tail to be the tail
+
+of the list, but then my code, I only
+
+ever use tail. So, Elixir has a convention that
+
+if I've got an underscore in front of a
+
+variable name, it says, I don't plan to use
+
+this variable.
+
+So by doing that, my warning goes away. I
+
+could, in fact, just say underscore here, and again,
+
+that just works. But I personally prefer to leave
+
+the variable name there because it documents what I'm
+
+doing. That's a typical recursive definition. You don't find
+
+yourself doing those too often. K, but one of
+
+the things I like about this, from a, an
+
+aesthetic point of view, is that my definitions here
+
+are pretty much the specification of what I want
+
+to write. So the length of an empty list
+
+is zero. That's, you know, someone could tell you
+
+that. Right. The length of any other list is
+
+one plus the length of the rest of the
+
+list. OK, it's a specification.
+
+Let me show you another specification. This one is
+
+like, it's almost like you'll groan when you see
+
+it, right, but it's actually useful for my purposes.
+
+Fibonacci numbers, right. One, one, two, three, five, eight,
+
+whatever. Each number is the sum of the previous
+
+two numbers. If you go to a math book
+
+or Wikipedia or whatever else, they will tell you,
+
+the definition of a function of fibonacci is the
+
+fibonacci of zero is one. The fibonacci of one,
+
+oops, is also one. And then the fibonacci of
+
+some number n is the fibonacci of n minus
+
+one, woops, plus the fibonacci of n minus two.
+
+That is the mathematical definition of fibonacci, yeah.
+
+But, if we were to convert that into running
+
+Elixir code, all I have to do is say,
+
+right, and now I have code. So now I
+
+have to say Sequence dot fib(20). There it is.
+
+Is that cool? Yeah. Now, at this point, you're
+
+probably saying, but, Dave, that's all very well, but
+
+how many times a day to you actually calculate
+
+the fibonacci sequence, right? Eh, OK. No more than
+
+five or six, I have to tell you.
+
+But that's OK, because the reality is that this
+
+form of expressing code I do all the time,
+
+in fact, when I'm writing Ruby code, I will
+
+sit there and I'll typically work out the various
+
+definitions, and I'll write them down, not as tidy
+
+as this, but I'll write, you know, zero is
+
+one. And I'll write, you know, empty request means
+
+I send back a form or whatever. You know,
+
+all those kind of things I would write down.
+
+I do the same when I'm writing Elixir, but
+
+it just turns out, coincidentally, I'm writing code, right.
+
+That's really cool.
+
+So let's look at a few more things in
+
+here. First of all, let's define a map function.
+
+It's the same as the Ruby map function in
+
+that I want to take a collection and apply
+
+a function to each element in that collection and
+
+return the resulting set of values. So, I'm gonna
+
+say, let's start with a use because that's always
+
+a good way of doing things. So in this
+
+case, I will do IO dot puts Sequence dot
+
+map(). OK, so I'm gonna map, in this case,
+
+a list. So let's go four, five, six, seven,
+
+and I'm gonna map it through my fibonacci function,
+
+all right. So my fibonacci sequence is gonna be.
+
+Oh, actually I'll do it this way.
+
+OK. So I want to say, Sequence dot fib
+
+of some number n for each successive element. So
+
+how do I do that? Well, the long-winded way
+
+is to say, I'm gonna write an anonymous function,
+
+that's just like a lambda in Ruby, that takes
+
+a parameter n and its body is, will calculate
+
+the sequence dot fib of n, yeah. So my
+
+map function takes the collection and it takes the
+
+function. So let's start off with that.
+
+So the map function takes a collection and it
+
+takes a function. So what are my special cases
+
+here? Well I think it's the same as the,
+
+the counting one, the length one we did, and
+
+that is, if I want to map over an
+
+empty collection, then what's gonna come back is also
+
+an empty collection, yeah. That's all I need to
+
+do. So now I'm dealing with the case of
+
+mapping over a non-empty collection. So we're gonna do
+
+that head-tail thing again. And we get the function.
+
+So now, what are we gonna do here?
+
+Well I have to apply the function to the
+
+head of the list, because that's part of what
+
+I have to do. And then I have to
+
+generate the rest of the list, which is being
+
+mapped. So I can express that by saying, OK,
+
+fun dot head, so, let's clone the function on
+
+the head, and then I'm gonna build the rest
+
+of the list by mapping on the tail. And
+
+that map function is the same map function here.
+
+So what's gonna happen? Let me shrink the font,
+
+if I shrink the font down, can you see
+
+it in the back? Is that OK? OK, thank
+
+you. All right. So, what's gonna happen here is,
+
+each time around this recursion, it's gonna take one
+
+extra element of the list. It's gonna convert that
+
+by running it through the function and build a
+
+new list where that element's there. Then at the
+
+very end, I'm gonna run out of list. So
+
+tail will be empty, so then it comes with
+
+this clause and it's gonna terminate the recursion.
+
+So now in theory, if I run this code,
+
+oh. Ah! OK. Let me change this to be
+
+an inspect. All right. I've just run afoul of
+
+some Erlang disgustingness. All right. But anyway. So there
+
+is me mapping my list. Yeah. That's not bad
+
+is it. It's really quite straight-forward. It's really understandable
+
+code. It is recursive.
+
+But so what? So here I've written a map
+
+function and a fibonacci function, and in both cases,
+
+I have no explicit loops, I have no explicit
+
+conditional logic, which is absolutely fantastic. OK.
+
+So, you say to me, but Dave you're doing,
+
+you know, testing by inspection. Can we do better
+
+than that? You bet we can. So let's do
+
+something like class TestIt. No, not class. Oh, dear,
+
+dear, so that's the problem. You switch back and
+
+forth between the two and you are totally lost.
+
+It's horrible. All right. So.
+
+So there's my test module. I need to use
+
+ExUnit, which is a testing framework, and in fact,
+
+I actually have to start the testing framework. Cause
+
+Erlang's about lots of processes. It actually runs in
+
+its own separate process. So I'm gonna run its
+
+own process. So now I can write some tests.
+
+Test "Basic fib function works" do. All right. So
+
+now assert Sequence dot fib(10) equals one oh nine
+
+four six, end. Test "Basic Map works" do. So
+
+now I'm just gonna cut and paste over here,
+
+so I have. OK, so. Five, eight, thirteen, oops.
+
+I made a typo. Bad me.
+
+Okee dokes. So, folks, that's a basic unit test
+
+written using the ExUnit framework. So let's see what
+
+happens when I run that. Function test two undefined.
+
+I'm sorry, where?
+
+AUDIENCE: [indecipherable]
+
+D.T.: To get the fun thing done. Yeah. I
+
+think that's, that's not the error I'm actually seeing
+
+here. I'm seeing a problem that test two is
+
+undefined, which means that this test method here, which
+
+probably means that I've forgotten something. Give me a
+
+quick second. I had a cheat sheet just to
+
+make sure I don't do this. Oh, I'm sorry,
+
+it's not use ExUnit, it's use ExUnit dot case.
+
+That's right. Oh, there you go. There worked loads,
+
+a whole lot better.
+
+Cannot invoke remote function Sequence dot fib/1.
+
+AUDIENCE: [indecipherable]
+
+D.T.: Cause it is.
+
+AUDIENCE: [indecipherable]
+
+D.T.: Is that what it is? Oh, sorry. It'll
+
+be eighty-nine in that case, isn't it? All right.
+
+I'm having a really bad time here. What's wrong
+
+with that?
+
+What on earth is wrong with that?
+
+It is not the most efficient way of doing
+
+that, I have to tell you. Oh, oh, oh.
+
+OK. Here we go. Here we go. Thank you.
+
+Thank you.
+
+All right. So, my test failed. Notice the error.
+
+Expected five, eight, thirteen, twenty-one, but got five, eight,
+
+thirteen, twenty-two. In most of the testing frameworks, I'd
+
+have to say assert_equals that comma result. Right. Remember
+
+I said that metaprogramming is wonderful in Elixir. Here
+
+my test function actually intercepts calls to equals equals
+
+inside that block. It runs the original equals equals,
+
+but it still has access to the two operands,
+
+as a code fragment. So it can take that
+
+code fragment, convert it back into text, and then
+
+use it here to show me the two values.
+
+That is pretty damn cool. Just think of the
+
+cool stuff you could do with that. All right.
+
+So, let's push the boat out. I talked about
+
+it being a parallel, a concurrent language, so let's
+
+go back to our map sequence here, and let's
+
+see if we can make this parallel. And I
+
+have, five minutes? Is that right? Somebody? God help
+
+me. All right.
+
+So, I'm gonna write a parallel version of map.
+
+So let's call it pmap, all right. it's gonna
+
+take a collection and a function, yeah. And what
+
+it's gonna do is this is what I'm gonna
+
+show you how I think about functional programming. It's
+
+gonna take the collection, it's going to run each
+
+of the elements of this collection in a separate
+
+sub-process. So we're gonna call it spawn_children(), let's call
+
+it fun rather than function just to save myself
+
+a little bit here. And then after we've done
+
+that we're gonna collect the results.
+
+So what's this pipe operator here? It's actually a
+
+pipe line. Just as if we're in the Unix
+
+shell and I can pipe the output of one
+
+thing into the next. Here, I've taken my collection.
+
+I am piping it to spawn children, and then
+
+the results will come back. I'm gonna pipe it
+
+to collect the results. The reason this is significant
+
+is not that it saves me a little bit
+
+of typing. The reason it's significant is it changes
+
+the way I think about programming. Because now I
+
+think about programming as mapping from a to b,
+
+and not from doing something. So here I have
+
+a collection. I'm gonna map it into a set
+
+of processes. And then I'm gonna map those processes
+
+into some results. So it's a transformation. It's not
+
+a explicit imperative way of coding.
+
+So how do we code those things up? Well,
+
+I know I'm running out of time so I'm
+
+gonna do this pretty quickly. So, I have my
+
+spawn_children function, and it's gonna take a collection and
+
+a function, and it's gonna take the collection and
+
+it's gonna map it, so again I'm gonna transform
+
+the collection by mapping it through, that's spawn_child- yeah.
+
+A function called spawn_child. So it's going to spawn
+
+one independent child, K.
+
+And clearly I need to pass it the element
+
+from the collection and the function. So what I
+
+could do is to say something like this, elem
+
+comma fun, and then wrap this in an anonymous
+
+function, just as you would in Ruby. So I'd
+
+say function, so I'm gonna receive an element. And
+
+I'm gonna do that. But because that's such a
+
+common pattern, Elixir has a short cut for this.
+
+I could say map it through spawn_children, where the
+
+first element is the first parameter passed in, and
+
+Elixir automatically is gonna wrap that into an anonymous
+
+function. It's then gonna say, but wait a minute,
+
+this anonymous function is nothing more than a call
+
+to a named function, so it's gonna rewrite that
+
+again into a direct function call to that named
+
+function, once for each element in the collection. That's
+
+pretty sweet. Right.
+
+So what does my spawn_child look like? It's gonna
+
+look like something like it receives a value and
+
+it receives a function, and this is where it
+
+gets a little bit tricky, because what we're gonna
+
+do is we're gonna spawn ourselves and make ourselves
+
+run in a separate process. To run in a
+
+separate process in Elixir, I'm gonna call spawn, and
+
+there are many different ways of calling spawn. The
+
+one I'm gonna choose is actually slightly verbose, but
+
+it's actually easiest to explain. I'm gonna spanw a
+
+function in my current module that's gonna be called
+
+:child, and I'm gonna pass it three parameters. So
+
+the parameters I'm gonna pass it are the value,
+
+I'm gonna pass it the function and I'm gonna
+
+pass it myself. Self is a, a current process.
+
+And the reason I want to do that is
+
+that my child is gonna send me a message
+
+back to say here's the value.
+
+So now I'm gonna run my child function. Do
+
+I really write all these one-line functions when I'm
+
+writing Elixir? Actually I do. And typically I write
+
+them on the same line just because it's like
+
+easier to do that. I find this kind of
+
+decomposition. Step at a time, just decomposing it to
+
+single-line functions. It's really a powerful way to think
+
+about it.
+
+So my child method, what that's gonna do is
+
+actually send - so, OK, so the child method
+
+receives a value, a function, and a pointer to
+
+self, which is actually the parent of the child,
+
+yeah. SO what it's gonna do is send a
+
+message back to the parent. And I'm using Elixir,
+
+oops, arrow thing here, which means send a message.
+
+And what message am I gonna send? I am
+
+gonna respond with my own process id, and the
+
+value. And the value is fun dot. So I'm
+
+calling the, the function on the current value. OK.
+
+So here, what I've done is come back to
+
+my original pmap up top there. I've done the
+
+first part. I've spawned a separate process for each
+
+value in my incoming collection, and it's now running
+
+independently somewhere. So what you do now is collect
+
+your results back. And to collect your results back,
+
+I'm just gonna go down some lines so you
+
+can see it, it's gonna look like this. Collect_results.
+
+Now, the result of running all of this mapping
+
+is that I'm gonna take a set of values
+
+and convert it to a set of processes. So
+
+my collect_results is gonna get passed a set of
+
+process ids. And what I need to do is
+
+to get the results from those processes in order.
+
+So, I'm gonna use a, a receive block, and
+
+that means go and receive a message, and pattern
+
+matching allows me to control what message I receive,
+
+when.
+
+In this case, what I want to do is
+
+to receive the message from a particular pid. OK.
+
+So, I haven't got that yet. I'll get it
+
+in a sec. And it's gonna come back with
+
+a pid and a value, and out of all,
+
+the only part of that I'm interested in is
+
+the value. So, my problem here is that my
+
+collect_results has got a whole list of pids. I
+
+want the result to be a particular pid, so
+
+I'm gonna break that into two methods here. So
+
+I'm gonna say pids transform them by mapping them
+
+through the function collect_result_for_pid. And, again, it takes the
+
+pid as a parameter, and now I'm gonna have
+
+a method called def collect_results_for_pid, it takes a pid,
+
+and away we go.
+
+AUDIENCE: You have a naming, naming problem on line
+
+twenty-six.
+
+D.T.: Line twenty-six. That. Oh, look at that. Collect.
+
+Yes. Thank you. I mean, the chances of it
+
+actually running the first time are about zero. But
+
+we'll, we'll give it a go. All right. I
+
+mean, given my luck this afternoon, it's gonna be
+
+like, it'll blow my machine up or something.
+
+So, what I've done here is actually a fair
+
+amount of typing. I don't have to make it
+
+so big. but what I'm doing, what I'm doing
+
+instead is spelling it out so I can show
+
+you my thought process. So if we run this,
+
+and it blows up. What a surprise. Function collection_results
+
+does not exist. So somewhere I've used collection_results.
+
+AuDIENCE: [indecipherable]
+
+D.T.: Should be collect_results, right. And it fails again.
+
+You see, it's very. Oh, that's my test failing.
+
+All right. Fix that up. Yay! All right.
+
+So I changed that form being map to pmap.
+
+Still works. Cool. Just to make sure that we
+
+can actually see that, and I know I'm about
+
+to get bum rushed, right. OK, I'm just gonna
+
+show you just one cool thing. And that is,
+
+if I take that file, which is called what?
+
+T. My god I'm imaginative. OK.
+
+Oh, that's the wrong t. Hmm. Oh, there it
+
+is. If there are any Brits you'll know why
+
+I called this directory BluePeter, because here's some examples
+
+I prepared for earlier. All right. So now I've
+
+loaded that file into my Elixir, so I can
+
+call Sequence. Actually I can't call Sequence. Actually I
+
+can't call Sequence. Import Sequence. All right, so now
+
+I can say fib(30), say, and there's the result.
+
+So, if I now run fib, if I run
+
+regular map. So map, say, thir- oh, let's make
+
+it thirty-five. Five, thirty-six, thirty-seven, thirty-eight, thirty-nine, and forty.
+
+And I map it through the fibonacci thing. Hey,
+
+everybody's picky. All right. And it blows up. Why
+
+did it blow up? Oh. Thank you. OK. So,
+
+if, while it's doing this, I call up my
+
+activity monitor, you'll see that I'm running on one
+
+CPU, you know. And there's the results. If I
+
+change this to use pmap, I'm running on all
+
+four.
+
+That cool? All right. I've got, I could go
+
+on for days, but then you won't let me
+
+come back. So, I want to come back. So.
+
+V.O.: Thank you Dave.
+
+D.T.: I'm done. Thank you.
+
